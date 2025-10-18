@@ -10,7 +10,7 @@ import time
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
-from typing import Any, Optional
+from typing import Any
 
 import structlog
 
@@ -180,7 +180,7 @@ class WebSocketMonitor:
             else:
                 self.logger.error(f"Failed to update collectors: {e}", exc_info=True)
 
-    def _create_collector(self, server: MediaServer) -> Optional["BaseCollector"]:
+    def _create_collector(self, server: MediaServer) -> BaseCollector | None:
         """Create appropriate collector for server type."""
         try:
             self.logger.info(

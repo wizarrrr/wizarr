@@ -19,7 +19,7 @@ class StandardizedPermissions:
         self.allow_camera_upload = False
 
     @classmethod
-    def for_plex(cls, plex_user) -> "StandardizedPermissions":
+    def for_plex(cls, plex_user) -> StandardizedPermissions:
         """Extract standardized permissions from Plex user."""
         perms = cls("plex")
         perms.is_admin = getattr(plex_user, "admin", False)
@@ -29,7 +29,7 @@ class StandardizedPermissions:
         return perms
 
     @classmethod
-    def for_jellyfin(cls, policy: dict) -> "StandardizedPermissions":
+    def for_jellyfin(cls, policy: dict) -> StandardizedPermissions:
         """Extract standardized permissions from Jellyfin/Emby policy."""
         perms = cls("jellyfin")
         perms.is_admin = policy.get("IsAdministrator", False)
@@ -41,7 +41,7 @@ class StandardizedPermissions:
     @classmethod
     def for_audiobookshelf(
         cls, permissions: dict, user_type: str = "user"
-    ) -> "StandardizedPermissions":
+    ) -> StandardizedPermissions:
         """Extract standardized permissions from AudiobookShelf.
 
         Args:
@@ -57,7 +57,7 @@ class StandardizedPermissions:
         return perms
 
     @classmethod
-    def for_navidrome(cls, raw_user: dict) -> "StandardizedPermissions":
+    def for_navidrome(cls, raw_user: dict) -> StandardizedPermissions:
         """Extract standardized permissions from Navidrome user."""
         perms = cls("navidrome")
         perms.is_admin = raw_user.get("adminRole", False)
@@ -69,7 +69,7 @@ class StandardizedPermissions:
     @classmethod
     def for_basic_server(
         cls, server_type: str, is_admin: bool = False, allow_downloads: bool = True
-    ) -> "StandardizedPermissions":
+    ) -> StandardizedPermissions:
         """Create basic permissions for servers without complex permission systems."""
         perms = cls(server_type)
         perms.is_admin = is_admin
