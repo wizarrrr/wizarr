@@ -48,6 +48,13 @@ __pycache__/
 # C extensions
 *.so
 
+# Plus template compilation artifacts
+plus/compiled_templates.py
+plus/template_loader.py
+
+# Plus compilation backup
+plus_backup/
+
 # Distribution / packaging
 .Python
 build/
@@ -415,3 +422,5 @@ tests/test-media/**/*.mkv
 tests/test-media/**/*.avi
 tests/test-media/**/*.m4a
 tests/test-media/**/*.mp3
+.playwright-mcp/page-2025-09-22T18-14-07-333Z.png
+.playwright-mcp/page-2025-09-22T18-15-22-951Z.png

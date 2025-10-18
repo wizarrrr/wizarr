@@ -1,0 +1,98 @@
+<!-- History Tab Content -->
+<div>
+    {% if error %}
+        <div class="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+            <div class="flex">
+                <svg class="flex-shrink-0 w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800 dark:text-red-200">{{ error }}</h3>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Activity Table -->
+    <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5 rounded-lg">
+        <div class="mx-auto max-w-screen-xl">
+            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+                <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 p-4 gap-4">
+                    <div class="w-full md:w-2/5">
+                        <form class="flex items-center">
+                            <label for="simple-search" class="sr-only">{{ _("Search") }}</label>
+                            <div class="relative w-full">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="text" id="user-search" name="user_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 h-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="{{ _("Search by username...") }}" onkeyup="filterActivities()">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="w-full md:w-3/5 flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end gap-4">
+
+                        <!-- Server Filter -->
+                        <select name="server_id" id="server-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full md:w-48 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" onchange="filterActivities()">
+                            <option value="">{{ _("All Servers") }}</option>
+                            {% for server in servers %}
+                                <option value="{{ server.id }}">{{ server.name }}</option>
+                            {% endfor %}
+                        </select>
+
+                        <!-- Media Type Filter -->
+                        <select name="media_type" id="media-type-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full md:w-48 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" onchange="filterActivities()">
+                            <option value="">{{ _("All Media Types") }}</option>
+                            <option value="movie">{{ _("Movies") }}</option>
+                            <option value="episode">{{ _("TV Episodes") }}</option>
+                            <option value="track">{{ _("Music") }}</option>
+                            <option value="audiobook">{{ _("Audiobooks") }}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Table Container -->
+                <div class="overflow-x-auto">
+                    <div id="activity-table-container"
+                         hx-get="{{ url_for('activity.activity_grid') }}"
+                         hx-trigger="load"
+                         hx-swap="innerHTML">
+                        <!-- Loading placeholder -->
+                        <div class="text-center py-12">
+                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                            <p class="text-gray-500 dark:text-gray-400">{{ _("Loading activity data...") }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+function filterActivities() {
+    // Build query parameters
+    const params = new URLSearchParams();
+
+    // Get filter values
+    const userSearch = document.getElementById('user-search')?.value;
+    const serverFilter = document.getElementById('server-filter')?.value;
+    const mediaTypeFilter = document.getElementById('media-type-filter')?.value;
+
+    // Add parameters (no days constraint - show all history)
+    if (userSearch) params.append('user_name', userSearch);
+    if (serverFilter) params.append('server_id', serverFilter);
+    if (mediaTypeFilter) params.append('media_type', mediaTypeFilter);
+
+    // Refresh the table with filters
+    htmx.ajax('GET', '{{ url_for("activity.activity_grid") }}?' + params.toString(), {
+        target: '#activity-table-container'
+    });
+}
+
+// Auto-refresh every 30 seconds for active sessions
+setInterval(() => {
+    filterActivities();
+}, 30000);
+</script>

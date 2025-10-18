@@ -45,12 +45,33 @@ def create_app(config_object=DevelopmentConfig):
     for bp in all_blueprints:
         app.register_blueprint(bp)
 
+    # Initialise activity monitoring (blueprint already registered above)
+    from app.activity import init_app as init_activity
+
+    init_activity(app)
+
+    # Register activity scheduler tasks if the scheduler is available
+    try:
+        from .extensions import scheduler as activity_scheduler
+
+        if (
+            activity_scheduler
+            and hasattr(activity_scheduler, "scheduler")
+            and activity_scheduler.scheduler
+        ):
+            from app.tasks.activity import register_activity_tasks
+
+            register_activity_tasks(app, activity_scheduler)
+    except Exception as exc:
+        app.logger.warning(f"Failed to register activity tasks: {exc}")
+
     # Step 5: Setup context processors and filters
     if show_startup:
         logger.step("Configuring request processing", "⚙️")
-    from .context_processors import inject_server_name
+    from .context_processors import inject_plus_features, inject_server_name
 
     app.context_processor(inject_server_name)
+    app.context_processor(inject_plus_features)
     register_error_handlers(app)
 
     # Register custom Jinja filters
@@ -89,7 +110,39 @@ def create_app(config_object=DevelopmentConfig):
             # Non-fatal – log and continue startup to avoid blocking the app
             logger.warning(f"Wizard step migration failed: {exc}")
 
-    # Step 8: Show scheduler status and complete startup
+    # Step 8: Initialize Plus features if enabled
+    if show_startup:
+        logger.step("Checking for Plus features", "⭐")
+
+    # Check if plus features should be enabled
+    plus_enabled = os.getenv("WIZARR_PLUS_ENABLED", "false").lower() in (
+        "true",
+        "1",
+        "yes",
+    )
+
+    if plus_enabled:
+        try:
+            import plus
+
+            plus.enable_plus_features()
+
+            with app.app_context():
+                plus.initialize_plus_features(app)
+
+            if show_startup:
+                logger.success("Plus features enabled")
+        except ImportError:
+            if show_startup:
+                logger.warning("Plus features requested but plus module not found")
+        except Exception as exc:
+            if show_startup:
+                logger.warning(f"Plus features initialization failed: {exc}")
+    else:
+        if show_startup:
+            logger.info("Plus features disabled")
+
+    # Step 9: Show scheduler status and complete startup
     if show_startup:
         logger.step("Finalizing application setup", "✨")
 

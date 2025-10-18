@@ -16,40 +16,8 @@ Requirements tested:
 - 15.2: Integration tests for post-wizard flow
 """
 
-import pytest
-
-from app.extensions import db
-from app.models import AdminAccount, Invitation, MediaServer, WizardStep
+from app.models import Invitation, MediaServer, WizardStep
 from app.services.invite_code_manager import InviteCodeManager
-
-
-@pytest.fixture
-def session(app):
-    """Return a clean database session inside an app context."""
-    with app.app_context():
-        # Clean up before the test to ensure fresh state
-        db.session.rollback()
-        # Delete all test data in correct order (respecting foreign keys)
-        db.session.execute(db.text("DELETE FROM invitation_server"))
-        db.session.execute(db.text("DELETE FROM invitation_user"))
-        db.session.query(WizardStep).delete()
-        db.session.query(Invitation).delete()
-        db.session.query(MediaServer).delete()
-        db.session.query(AdminAccount).delete()
-        db.session.commit()
-
-        yield db.session
-
-        # Clean up after the test
-        db.session.rollback()
-        # Delete all test data in correct order (respecting foreign keys)
-        db.session.execute(db.text("DELETE FROM invitation_server"))
-        db.session.execute(db.text("DELETE FROM invitation_user"))
-        db.session.query(WizardStep).delete()
-        db.session.query(Invitation).delete()
-        db.session.query(MediaServer).delete()
-        db.session.query(AdminAccount).delete()
-        db.session.commit()
 
 
 class TestPostWizardAuthentication:

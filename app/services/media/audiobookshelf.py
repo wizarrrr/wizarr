@@ -929,30 +929,25 @@ class AudiobookshelfClient(RestApiMixin):
             logging.error("ABS: failed to fetch sessions – %s", exc)
             return []
 
-        # ------------------------------------------------------------------
-        # Build user-id → username mapping so dashboard shows names instead of
-        # raw UUIDs.  One request is sufficient and relatively cheap.
-        # ------------------------------------------------------------------
-        user_name_by_id: dict[str, str] = {}
-        try:
-            users_response = self.get(f"{self.API_PREFIX}/users")
-            users_response.raise_for_status()
-            users_json = users_response.json()
-
-            # Handle both direct array and wrapped response formats
-            if isinstance(users_json, list):
-                users_list = users_json
-            else:
-                users_list = users_json.get("users", [])
-
-            for u in users_list:
-                if isinstance(u, dict) and u.get("id"):
-                    user_name_by_id[str(u["id"])] = u.get("username", "user")
-        except Exception as exc:
-            # If the call fails we fall back to raw IDs – no fatal error.
-            logging.debug("ABS: failed to fetch user names for sessions – %s", exc)
-
+        # Collect user IDs present in the active sessions so downstream services
+        # can resolve friendly names from the local cache without hammering the
+        # Audiobookshelf `/users` endpoint on every poll.
         now_ms = int(time.time() * 1000)  # current time in ms (ABS uses ms)
+
+        local_usernames: dict[str, str] = {}
+        if db is not None and getattr(self, "server_id", None):
+            try:
+                users = (
+                    User.query.with_entities(User.token, User.username)
+                    .filter(User.server_id == self.server_id)
+                    .all()
+                )
+                local_usernames = {
+                    str(token): username for token, username in users if username
+                }
+            except Exception as exc:
+                logging.debug("ABS: failed to resolve user names locally – %s", exc)
+
         active: list[dict] = []
 
         for raw in sessions:
@@ -966,7 +961,25 @@ class AudiobookshelfClient(RestApiMixin):
             # --- basic metadata ------------------------------------------------
             session_id = str(raw.get("id", ""))
             user_id = str(raw.get("userId", ""))
-            user_display = user_name_by_id.get(user_id, user_id)
+
+            user_info = raw.get("user") or {}
+            if not isinstance(user_info, dict):
+                user_info = {}
+
+            abs_username = (
+                user_info.get("username")
+                or user_info.get("displayName")
+                or user_info.get("name")
+            )
+
+            user_display = (
+                local_usernames.get(user_id)
+                or raw.get("userDisplayName")
+                or raw.get("username")
+                or abs_username
+                or user_id
+                or "Unknown"
+            )
             media_type = raw.get("mediaType", "book")
             title = raw.get("displayTitle", "Unknown")
 
@@ -1025,6 +1038,7 @@ class AudiobookshelfClient(RestApiMixin):
             play_state = "playing"
 
             session_data = {
+                "user_id": user_id,
                 "user_name": user_display,
                 "media_title": title,
                 "media_type": media_type,

@@ -1,0 +1,227 @@
+<!-- Dashboard Tab Content -->
+<div class="space-y-6">
+    {% if error %}
+        <div class="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 rounded-lg p-4">
+            <div class="flex">
+                <svg class="flex-shrink-0 w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800 dark:text-red-200">{{ error }}</h3>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+    <!-- Summary Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+        <!-- Total Sessions -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ _("Total Sessions") }}</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.total_sessions|default(0) }}</p>
+                </div>
+                <div class="p-3 bg-blue-100 dark:bg-blue-900 rounded-full">
+                    <svg class="w-6 h-6 text-blue-600 dark:text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Users -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ _("Active Users") }}</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.unique_users|default(0) }}</p>
+                </div>
+                <div class="p-3 bg-green-100 dark:bg-green-900 rounded-full">
+                    <svg class="w-6 h-6 text-green-600 dark:text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Total Watch Time -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ _("Total Watch Time") }}</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.total_watch_time|format_duration }}</p>
+                </div>
+                <div class="p-3 bg-purple-100 dark:bg-purple-900 rounded-full">
+                    <svg class="w-6 h-6 text-purple-600 dark:text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Average Session -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600 dark:text-gray-400">{{ _("Avg Session Length") }}</p>
+                    <p class="text-2xl font-bold text-gray-900 dark:text-white">{{ stats.avg_session_length|format_duration }}</p>
+                </div>
+                <div class="p-3 bg-yellow-100 dark:bg-yellow-900 rounded-full">
+                    <svg class="w-6 h-6 text-yellow-600 dark:text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Activity Over Time Chart -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ _("Activity Over Time") }}</h3>
+            <div id="activity-chart" class="h-64">
+                <!-- Chart will be rendered here -->
+                <canvas id="activity-time-chart"></canvas>
+            </div>
+        </div>
+
+        <!-- Media Type Distribution -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ _("Media Type Distribution") }}</h3>
+            <div id="media-type-chart" class="h-64">
+                <!-- Chart will be rendered here -->
+                <canvas id="media-distribution-chart"></canvas>
+            </div>
+        </div>
+
+        <!-- Viewing Time Distribution -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ _("Viewing Time Distribution (24h)") }}</h3>
+            <div id="viewing-time-chart" class="h-64">
+                <!-- Chart will be rendered here -->
+                <canvas id="viewing-distribution-chart"></canvas>
+            </div>
+        </div>
+
+        <!-- Day of Week Activity -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ _("Activity by Day of Week") }}</h3>
+            <div id="day-of-week-chart" class="h-64">
+                <!-- Chart will be rendered here -->
+                <canvas id="weekday-distribution-chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Content & Users -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- Top Content -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ _("Most Watched Content") }}</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-3">
+                    {% for item in stats.top_content[:5] %}
+                        <div class="flex items-center justify-between">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 dark:text-white truncate">
+                                    {{ item.title }}
+                                </p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">
+                                    {{ item.media_type|title }}
+                                </p>
+                            </div>
+                            <div class="ml-4 flex items-center space-x-2">
+                                <span class="text-sm text-gray-600 dark:text-gray-300">{{ item.play_count }}</span>
+                                <span class="text-xs text-gray-400">{{ _("plays") }}</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ _("No content data available") }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Users -->
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
+            <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ _("Most Active Users") }}</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-3">
+                    {% for user in stats.top_users[:5] %}
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="w-8 h-8 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
+                                    <span class="text-xs font-medium text-gray-600 dark:text-gray-300">
+                                        {{ user.username[:2]|upper }}
+                                    </span>
+                                </div>
+                                <p class="ml-3 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ user.username }}
+                                </p>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="text-right">
+                                    <p class="text-sm text-gray-900 dark:text-white">{{ user.session_count }}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ _("sessions") }}</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm text-gray-900 dark:text-white">{{ user.total_time|format_duration }}</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ _("watch time") }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="text-sm text-gray-500 dark:text-gray-400">{{ _("No user data available") }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Server Activity -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
+        <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+            <h3 class="text-lg font-medium text-gray-900 dark:text-white">{{ _("Server Activity") }}</h3>
+        </div>
+        <div class="p-6">
+            <div class="space-y-4">
+                {% for server in stats.server_stats %}
+                    <div class="flex items-center justify-between p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                        <div>
+                            <p class="text-sm font-medium text-gray-900 dark:text-white">{{ server.name }}</p>
+                            <p class="text-xs text-gray-500 dark:text-gray-400">{{ server.type|title }}</p>
+                        </div>
+                        <div class="flex items-center space-x-6">
+                            <div class="text-center">
+                                <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ server.session_count }}</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">{{ _("Sessions") }}</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ server.unique_users }}</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">{{ _("Users") }}</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ server.total_time|format_duration }}</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">{{ _("Watch Time") }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ _("No server data available") }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="dashboard-chart-data" type="application/json">
+    {{ stats|tojson }}
+</script>

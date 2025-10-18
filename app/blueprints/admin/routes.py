@@ -1079,3 +1079,23 @@ def sync_users():
             500,
             {"Content-Type": "application/json"},
         )
+
+
+@admin_bp.route("/activity")
+@login_required
+def activity():
+    return redirect(url_for("activity.activity_dashboard"))
+
+
+@admin_bp.route("/plus/audit")
+@login_required
+def plus_audit():
+    """Backwards compatibility redirect for Plus audit feature."""
+    try:
+        import plus
+
+        if plus.is_plus_enabled():
+            return redirect(url_for("plus_audit.audit_tab"))
+    except ImportError:
+        pass
+    return redirect(url_for("admin.dashboard"))

@@ -1,6 +1,16 @@
+import contextlib
+import os
+import time
 from datetime import datetime
 
 from markupsafe import Markup, escape
+
+try:
+    from zoneinfo import ZoneInfo
+except (
+    ImportError
+):  # pragma: no cover - Python <3.9 not officially supported but handle gracefully
+    ZoneInfo = None  # type: ignore[assignment]
 
 # Mapping of server types to their desired pastel background colours
 _SERVER_TAG_COLOURS = {
@@ -13,6 +23,40 @@ _SERVER_TAG_COLOURS = {
 }
 
 _DEFAULT_COLOUR = "#E0E0E0"  # neutral grey fallback
+
+
+def _resolve_local_timezone():
+    """Determine the timezone to use for rendering timestamps."""
+    tz_name = os.environ.get("TZ")
+
+    if tz_name and hasattr(time, "tzset"):
+        with contextlib.suppress(Exception):
+            time.tzset()
+
+    if ZoneInfo is not None:
+        # First try explicit TZ environment variable
+        if tz_name:
+            try:
+                return ZoneInfo(tz_name)
+            except Exception:
+                pass
+
+        # Fall back to system tzname if available
+        try:
+            local_name = time.tzname[0] if time.tzname else None
+            if local_name:
+                return ZoneInfo(local_name)
+        except Exception:
+            pass
+
+    # Fallback: use the system local timezone as determined by datetime
+    try:
+        return datetime.now().astimezone().tzinfo
+    except Exception:
+        return None
+
+
+_LOCAL_TIMEZONE = _resolve_local_timezone()
 
 
 def _server_colour(server_type: str) -> str:
@@ -56,11 +100,7 @@ def server_name_tag(server_type: str, server_name: str) -> Markup:
 
 
 def human_date(date_value) -> str:
-    """Format a date/datetime to be more human-readable.
-
-    Converts datetime objects or ISO strings to a format like:
-    "Jan 15, 2024 at 2:30 PM"
-    """
+    """Format date to 'Jan 15, 2024 at 2:30 PM'."""
     if not date_value:
         return "—"
 
@@ -93,12 +133,35 @@ def human_date(date_value) -> str:
     return str(date_value)[:16]
 
 
-def nl2br(text: str) -> Markup:
-    """Convert newlines in text to HTML <br> tags.
+def local_date(date_value, format_str="%m/%d %H:%M") -> str:
+    """Convert UTC datetime to local timezone."""
+    if not date_value:
+        return "—"
 
-    This filter is useful for displaying multiline text in templates
-    while preserving line breaks.
-    """
+    # Parse string to datetime if needed
+    if isinstance(date_value, str):
+        for fmt in ["%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S"]:
+            with contextlib.suppress(ValueError):
+                date_value = datetime.strptime(date_value.rstrip("Z"), fmt)
+                break
+        else:
+            return str(date_value)[:16]
+
+    # Format datetime object
+    if hasattr(date_value, "strftime"):
+        if date_value.tzinfo is None:
+            from datetime import UTC
+
+            date_value = date_value.replace(tzinfo=UTC)
+
+        local_time = date_value.astimezone(_LOCAL_TIMEZONE or None)
+        return local_time.strftime(format_str)
+
+    return str(date_value)
+
+
+def nl2br(text: str) -> Markup:
+    """Convert newlines to HTML <br> tags."""
     if not text:
         return Markup("")
 
@@ -133,5 +196,10 @@ def register_filters(app):
     app.jinja_env.filters.setdefault("server_name_tag", server_name_tag)
     app.jinja_env.filters.setdefault("server_colour", _server_colour)
     app.jinja_env.filters.setdefault("human_date", human_date)
+    app.jinja_env.filters.setdefault("local_date", local_date)
     app.jinja_env.filters.setdefault("nl2br", nl2br)
     app.jinja_env.filters.setdefault("render_jinja", render_jinja)
+
+    # Add Python built-in functions to Jinja globals
+    app.jinja_env.globals.setdefault("max", max)
+    app.jinja_env.globals.setdefault("min", min)
