@@ -1,4 +1,11 @@
-from flask import Blueprint, make_response, redirect, render_template, request, url_for
+from flask import (
+    Blueprint,
+    make_response,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_login import login_required
 
 from app.extensions import db
@@ -102,7 +109,7 @@ def create():
 @notify_bp.route("/edit/<int:agent_id>", methods=["GET", "POST"])
 @login_required
 def edit(agent_id):
-    agent = Notification.query.get_or_404(agent_id)
+    agent = db.get_or_404(Notification, agent_id)
 
     if request.method == "POST":
         # Collect selected events from checkboxes

@@ -32,8 +32,24 @@ class InvitationFlowManager:
         Process invitation display (GET /j/<code>).
 
         Drop-in replacement for existing invitation display logic.
+
+        This method implements join page access control (Requirements 7.1-7.6):
+        - Stores invite code in session
+        - Checks for pre-invite wizard steps
+        - Redirects to /pre-wizard if pre-invite steps exist and not completed
+        - Allows access to join page if pre-wizard complete or no pre-invite steps
         """
         try:
+            # Store invite code in session (Requirement 7.1)
+            # Only store if we're in a request context
+            import contextlib
+
+            from app.services.invite_code_manager import InviteCodeManager
+
+            with contextlib.suppress(RuntimeError):
+                # Not in request context (e.g., during testing without app context)
+                InviteCodeManager.store_invite_code(code)
+
             # Validate invitation (reuse existing logic)
             valid, message = is_invite_valid(code)
             if not valid:
@@ -53,9 +69,43 @@ class InvitationFlowManager:
                 func.lower(Invitation.code) == code.lower()
             ).first()
 
+            if not invitation:
+                return InvitationResult(
+                    status=ProcessingStatus.INVALID_INVITATION,
+                    message="Invitation not found",
+                    successful_servers=[],
+                    failed_servers=[],
+                    template_data={
+                        "template_name": "invalid-invite.html",
+                        "error": "Invitation not found",
+                    },
+                )
+
             servers = self._get_invitation_servers(invitation)
 
+            # Check for pre-invite wizard steps (Requirements 7.2-7.6)
+            pre_steps_exist = self._check_pre_invite_steps_exist(servers)
+
+            # Check if pre-wizard is complete (only if in request context)
+            try:
+                pre_wizard_complete = InviteCodeManager.is_pre_wizard_complete()
+            except RuntimeError:
+                # Not in request context - assume not complete
+                pre_wizard_complete = False
+
+            # If pre-invite steps exist and not completed, redirect to pre-wizard
+            if pre_steps_exist and not pre_wizard_complete:
+                return InvitationResult(
+                    status=ProcessingStatus.REDIRECT_REQUIRED,
+                    message="Pre-wizard steps required",
+                    successful_servers=[],
+                    failed_servers=[],
+                    redirect_url="/wizard/pre-wizard",
+                    session_data={"invitation_in_progress": True},
+                )
+
             # Create appropriate workflow and show initial template
+            # (Requirements 7.4, 7.5: Allow access if pre-wizard complete or no pre-invite steps)
             workflow = WorkflowFactory.create_workflow(servers)
             return workflow.show_initial_form(invitation, servers)
 
@@ -85,6 +135,9 @@ class InvitationFlowManager:
             invitation = Invitation.query.filter(
                 func.lower(Invitation.code) == code.lower()
             ).first()
+
+            if not invitation:
+                return self._create_error_result("Invitation not found")
 
             servers = self._get_invitation_servers(invitation)
 
@@ -127,6 +180,36 @@ class InvitationFlowManager:
         other_servers = [s for s in servers if s.server_type != "plex"]
 
         return plex_servers + other_servers
+
+    def _check_pre_invite_steps_exist(self, servers: list[MediaServer]) -> bool:
+        """Check if any pre-invite wizard steps exist for the given servers.
+
+        Args:
+            servers: List of media servers associated with the invitation
+
+        Returns:
+            True if pre-invite steps exist for any server, False otherwise
+        """
+        if not servers:
+            return False
+
+        # Import here to avoid circular dependency
+        from app.blueprints.wizard.routes import _settings, _steps
+
+        # Check each server for pre-invite steps
+        for server in servers:
+            try:
+                cfg = _settings()
+                pre_steps = _steps(server.server_type, cfg, category="pre_invite")
+                if pre_steps:
+                    return True
+            except Exception as e:
+                self.logger.error(
+                    f"Error checking pre-invite steps for {server.server_type}: {e}"
+                )
+                continue
+
+        return False
 
     def _create_error_result(self, message: str) -> InvitationResult:
         """Create generic error result."""

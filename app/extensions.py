@@ -154,7 +154,7 @@ def load_user(user_id):
 
     # ── new multi-admin accounts ───────────────────────────────────────────
     if user_id.isdigit():
-        return AdminAccount.query.get(int(user_id))
+        return db.session.get(AdminAccount, int(user_id))
 
     return None
 

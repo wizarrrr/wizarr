@@ -20,6 +20,7 @@ class ProcessingStatus(Enum):
     INVALID_INVITATION = "invalid_invitation"
     AUTHENTICATION_REQUIRED = "authentication_required"
     OAUTH_PENDING = "oauth_pending"
+    REDIRECT_REQUIRED = "redirect_required"  # For pre-wizard redirects
 
 
 @dataclass

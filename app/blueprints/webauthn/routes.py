@@ -86,14 +86,12 @@ def _validate_secure_origin(origin, rp_id):
     # Parse the origin
     parsed_origin = urlparse(origin)
 
-    # Requirement 1: Must use HTTPS
     if parsed_origin.scheme != "https":
         raise ValueError(
             "Passkeys require HTTPS. Current origin uses HTTP. "
             "Please configure your application to use HTTPS or set WEBAUTHN_ORIGIN environment variable."
         )
 
-    # Requirement 2: Must use a proper domain name (not IP address)
     hostname = parsed_origin.hostname or rp_id
 
     # Check if it's an IP address (IPv4 or IPv6) using Python's built-in validation
