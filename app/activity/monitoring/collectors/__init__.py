@@ -1,11 +1,11 @@
 """
 Activity collectors for different media server types.
 
-Provides specialized collectors for real-time activity monitoring:
+Provides specialized collectors for activity monitoring:
 - PlexCollector: Uses PlexAPI AlertListener for real-time events
 - JellyfinCollector: Uses WebSocket API for real-time events
 - EmbyCollector: Uses WebSocket API for real-time events
-- AudiobookshelfCollector: Uses Socket.IO for real-time events
+- AudiobookshelfCollector: Uses REST API polling for activity monitoring
 - PollingCollector: Fallback polling for other server types
 """
 
