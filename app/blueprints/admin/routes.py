@@ -1096,6 +1096,6 @@ def plus_audit():
 
         if plus.is_plus_enabled():
             return redirect(url_for("plus_audit.audit_tab"))
-    except ImportError:
+    except (ImportError, AttributeError):
         pass
     return redirect(url_for("admin.dashboard"))
