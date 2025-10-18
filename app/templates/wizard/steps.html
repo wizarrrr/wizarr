@@ -25,7 +25,8 @@
   <!-- FLOATING PROGRESS BAR (mobile - floating at top) -->
   <div id="wizard-progress-mobile" class="wizard-progress-mobile md:hidden">
     <div class="wizard-glass-container">
-      <!-- Phase Indicator -->
+      <!-- Phase Indicator (only shown in preview mode) -->
+      {% if phase == 'preview' %}
       <div id="wizard-phase-container-mobile"
            class="flex justify-center mb-2"
            {% if not current_step_phase %}style="display:none"{% endif %}>
@@ -44,6 +45,7 @@
           {% endif %}
         </span>
       </div>
+      {% endif %}
       <!-- Progress bar (only shown when there are multiple steps) -->
       {% if max_idx > 0 %}
         <div class="flex justify-between items-center mb-2 text-xs text-gray-600 dark:text-gray-400">
@@ -63,7 +65,8 @@
   <!-- DESKTOP PROGRESS BAR (centered) -->
   <div id="wizard-progress-desktop"
        class="hidden md:block w-full max-w-md mb-6">
-    <!-- Phase Indicator -->
+    <!-- Phase Indicator (only shown in preview mode) -->
+    {% if phase == 'preview' %}
     <div id="wizard-phase-container-desktop"
          class="flex justify-center mb-3"
          {% if not current_step_phase %}style="display:none"{% endif %}>
@@ -82,6 +85,7 @@
         {% endif %}
       </span>
     </div>
+    {% endif %}
     <!-- Progress bar (only shown when there are multiple steps) -->
     {% if max_idx > 0 %}
       <div class="flex justify-between items-center mb-2 text-sm text-gray-600 dark:text-gray-400">
