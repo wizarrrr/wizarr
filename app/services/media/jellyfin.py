@@ -105,7 +105,7 @@ class JellyfinClient(RestApiMixin):
             else {},
         }
 
-    def get_user_details(self, jf_id: str) -> "MediaUserDetails":
+    def get_user_details(self, jf_id: str) -> MediaUserDetails:
         """Get detailed user information in standardized format."""
         # Get raw user data from Jellyfin API
         raw_user = self.get(f"/Users/{jf_id}").json()

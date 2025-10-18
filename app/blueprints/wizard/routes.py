@@ -226,7 +226,7 @@ def _steps(server: str, cfg: dict, category: str = "post_invite"):
 
             __slots__ = ("content", "_require")
 
-            def __init__(self, row: "WizardStep"):
+            def __init__(self, row: WizardStep):
                 self.content = row.markdown
                 # Mirror frontmatter key `require` from DB boolean
                 self._require = bool(getattr(row, "require_interaction", False))
