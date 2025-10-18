@@ -62,7 +62,8 @@ def restrict_wizard():
             if not is_valid:
                 flash(
                     _(
-                        "Your invitation has expired or is no longer valid. Please request a new invitation."
+                        "Your invitation has expired or is no longer valid. "
+                        "Please request a new invitation."
                     ),
                     "error",
                 )
@@ -189,7 +190,8 @@ def _steps(server: str, cfg: dict, category: str = "post_invite"):
     Args:
         server: Server type (plex, jellyfin, etc.)
         cfg: Configuration dictionary
-        category: Step category ('pre_invite' or 'post_invite'), defaults to 'post_invite'
+        category: Step category ('pre_invite' or 'post_invite'),
+            defaults to 'post_invite'
 
     Preference order:
         1. Rows from the new *wizard_step* table (if any exist for the given
@@ -290,9 +292,10 @@ def _render(post, ctx: dict, server_type: str | None = None) -> str:
     )
 
     try:
-        # Jinja templates inside the markdown files expect a top-level `settings` variable.
-        # Build a context copy that exposes the current config dictionary via this key
-        # while still passing through all existing entries and utilities (e.g. the _() gettext).
+        # Jinja templates inside the markdown files expect a top-level
+        # `settings` variable. Build a context copy that exposes the current
+        # config dictionary via this key while still passing through all
+        # existing entries and utilities (e.g. the _() gettext function).
         render_ctx = ctx.copy()
         render_ctx["settings"] = ctx
 
@@ -328,7 +331,12 @@ def _render(post, ctx: dict, server_type: str | None = None) -> str:
         return f"""
         <div class="alert alert-error">
             <h3>{_("Error Loading Step")}</h3>
-            <p>{_("This step could not be loaded. Please contact the administrator or skip to the next step.")}</p>
+            <p>{
+            _(
+                "This step could not be loaded. Please contact the "
+                "administrator or skip to the next step."
+            )
+        }</p>
         </div>
         """
 
@@ -368,7 +376,8 @@ def _serve_wizard(
     server_ctx = _get_server_context(server)
     html = _render(post, cfg | server_ctx | {"_": _}, server_type=server)
 
-    # Determine if this step requires interaction (front matter `require: true` or DB flag)
+    # Determine if this step requires interaction
+    # (front matter `require: true` or DB flag)
     require_interaction = False
     try:
         require_interaction = bool(
@@ -543,7 +552,8 @@ def pre_wizard(idx: int = 0):
     if not server_type:
         flash(
             _(
-                "No media servers are configured. Please contact the administrator to set up a media server."
+                "No media servers are configured. Please contact the "
+                "administrator to set up a media server."
             ),
             "error",
         )
@@ -603,7 +613,8 @@ def pre_wizard_complete():
     redirect_url = url_for("public.invite", code=invite_code)
 
     if request.headers.get("HX-Request"):
-        # Return an empty HTMX response that instructs the client to perform a full redirect.
+        # Return an empty HTMX response that instructs the client to
+        # perform a full redirect.
         response = make_response("", 204)
         response.headers["HX-Redirect"] = redirect_url
         return response
@@ -703,7 +714,8 @@ def post_wizard(idx: int = 0):
         if not server_type:
             flash(
                 _(
-                    "No media servers are configured. Please contact the administrator to set up a media server."
+                    "No media servers are configured. Please contact the "
+                    "administrator to set up a media server."
                 ),
                 "error",
             )
@@ -742,7 +754,8 @@ def post_wizard(idx: int = 0):
         # Gracefully complete the wizard
         flash(
             _(
-                "Unable to load wizard steps. Setup complete! Welcome to your media server."
+                "Unable to load wizard steps. Setup complete! "
+                "Welcome to your media server."
             ),
             "success",
         )
@@ -962,7 +975,8 @@ def combo(category: str, idx: int = 0):
         require_interaction=require_interaction,
         phase=phase,  # Pass phase based on category
         step_phase=phase,  # Pass step_phase to enable phase badge display
-        current_server_type=current_server_type,  # NEW: Pass current server type for display
+        # Pass current server type for display
+        current_server_type=current_server_type,
         completion_url=completion_url,
         completion_label=completion_label,
     )
@@ -1061,7 +1075,8 @@ def bundle_view(idx: int):
     )
 
     # Determine phase based on current step's category
-    # Bundles can contain mixed pre/post-invite steps, so we use the current step's category
+    # Bundles can contain mixed pre/post-invite steps, so we use
+    # the current step's category
     phase = "pre" if current_category == "pre_invite" else "post"
 
     post = steps[idx]
@@ -1075,11 +1090,17 @@ def bundle_view(idx: int):
             f"Error rendering bundle step {idx} for bundle {bundle_id}: {e}",
             exc_info=True,
         )
-        # Return error message HTML (already handled by _render, but catch any other errors)
+        # Return error message HTML
+        # (already handled by _render, but catch any other errors)
         html = f"""
         <div class="alert alert-error">
             <h3>{_("Error Loading Step")}</h3>
-            <p>{_("This step could not be loaded. Please contact the administrator or skip to the next step.")}</p>
+            <p>{
+            _(
+                "This step could not be loaded. Please contact the "
+                "administrator or skip to the next step."
+            )
+        }</p>
         </div>
         """
 

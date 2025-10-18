@@ -293,9 +293,7 @@ def create_preset():
 @wizard_admin_bp.route("/<int:step_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_step(step_id: int):
-    step = db.session.get(WizardStep, step_id)
-    if not step:
-        abort(404)
+    step = db.get_or_404(WizardStep, step_id)
 
     simple = step.server_type == "custom"
     FormCls = SimpleWizardStepForm if simple else WizardStepForm
@@ -350,9 +348,7 @@ def edit_step(step_id: int):
 @wizard_admin_bp.route("/<int:step_id>/delete", methods=["POST"])
 @login_required
 def delete_step(step_id: int):
-    step = db.session.get(WizardStep, step_id)
-    if not step:
-        abort(404)
+    step = db.get_or_404(WizardStep, step_id)
 
     # Check if this is a custom step (from bundle context)
     is_custom_step = step.server_type == "custom"
@@ -500,9 +496,7 @@ def create_bundle():
 @wizard_admin_bp.route("/bundle/<int:bundle_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_bundle(bundle_id: int):
-    bundle = db.session.get(WizardBundle, bundle_id)
-    if not bundle:
-        abort(404)
+    bundle = db.get_or_404(WizardBundle, bundle_id)
     form = WizardBundleForm(
         request.form if request.method == "POST" else None, obj=bundle
     )
@@ -532,9 +526,7 @@ def edit_bundle(bundle_id: int):
 @wizard_admin_bp.route("/bundle/<int:bundle_id>/delete", methods=["POST"])
 @login_required
 def delete_bundle(bundle_id: int):
-    bundle = db.session.get(WizardBundle, bundle_id)
-    if not bundle:
-        abort(404)
+    bundle = db.get_or_404(WizardBundle, bundle_id)
     db.session.delete(bundle)
     db.session.commit()
     flash(_("Bundle deleted"), "success")
@@ -580,9 +572,7 @@ def reorder_bundle(bundle_id: int):
 @wizard_admin_bp.route("/bundle/<int:bundle_id>/add-steps-modal", methods=["GET"])
 @login_required
 def add_steps_modal(bundle_id: int):
-    bundle = db.session.get(WizardBundle, bundle_id)
-    if not bundle:
-        abort(404)
+    bundle = db.get_or_404(WizardBundle, bundle_id)
     # steps not yet in bundle
     existing_ids = {bs.step_id for bs in bundle.steps}
     available = (
@@ -598,9 +588,7 @@ def add_steps_modal(bundle_id: int):
 @wizard_admin_bp.route("/bundle/<int:bundle_id>/add-steps", methods=["POST"])
 @login_required
 def add_steps(bundle_id: int):
-    bundle = db.session.get(WizardBundle, bundle_id)
-    if not bundle:
-        abort(404)
+    bundle = db.get_or_404(WizardBundle, bundle_id)
     ids = request.form.getlist("step_ids")
     if not ids:
         abort(400)
@@ -628,9 +616,7 @@ def add_steps(bundle_id: int):
 @wizard_admin_bp.route("/bundle-step/<int:bundle_step_id>/delete", methods=["POST"])
 @login_required
 def delete_bundle_step(bundle_step_id: int):
-    bundle_step = db.session.get(WizardBundleStep, bundle_step_id)
-    if not bundle_step:
-        abort(404)
+    bundle_step = db.get_or_404(WizardBundleStep, bundle_step_id)
     db.session.delete(bundle_step)
     db.session.commit()
     flash(_("Orphaned step removed"), "success")
@@ -665,7 +651,8 @@ def export_server_steps(server_type: str):
             temp_file_path = temp_file.name
 
         # Generate filename with server type and current date
-        filename = f"wizard_steps_{server_type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"wizard_steps_{server_type}_{timestamp}.json"
 
         return send_file(
             temp_file_path,
@@ -702,7 +689,8 @@ def export_bundle(bundle_id: int):
             if export_data.bundle
             else "unknown_bundle"
         )
-        filename = f"wizard_bundle_{bundle_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        filename = f"wizard_bundle_{bundle_name}_{timestamp}.json"
 
         return send_file(
             temp_file_path,
