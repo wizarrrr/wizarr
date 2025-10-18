@@ -1,11 +1,12 @@
-"""Add activity monitoring and audit logging features
+"""Add Plus features: activity monitoring, audit logging, and historical imports
 
-This migration adds two feature sets:
-- Activity monitoring (CORE feature): tracks media playback sessions in real-time
-  * Note: Historical data import for activity is a Plus feature
-- Audit logging (PLUS feature): tracks admin actions and system events
+This migration combines the Plus feature additions:
+- Activity monitoring: tracks media playback sessions in real-time
+- Audit logging: tracks admin actions and system events
+- Historical import: background jobs for importing past playback data
+- Identity linking: connects activity sessions to Wizarr users/identities
 
-Revision ID: 20250921_plus_features
+Revision ID: 20250921_add_plus
 Revises: 08a6c8fb44db
 Create Date: 2025-09-21 15:22:00.164026
 
@@ -15,7 +16,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = "20250921_plus_features"
+revision = "20251018_add_activity_audit_plus"
 down_revision = "08a6c8fb44db"
 branch_labels = None
 depends_on = None
@@ -81,15 +82,28 @@ def upgrade():
         sa.Column("artwork_url", sa.String(), nullable=True),
         sa.Column("thumbnail_url", sa.String(), nullable=True),
         sa.Column("reference_id", sa.Integer(), nullable=True),
+        sa.Column("wizarr_user_id", sa.Integer(), nullable=True),
+        sa.Column("wizarr_identity_id", sa.Integer(), nullable=True),
         sa.Column("created_at", sa.DateTime(), nullable=False),
         sa.Column("updated_at", sa.DateTime(), nullable=False),
         sa.ForeignKeyConstraint(
             ["server_id"],
             ["media_server.id"],
         ),
+        sa.ForeignKeyConstraint(
+            ["wizarr_user_id"],
+            ["user.id"],
+            ondelete="SET NULL",
+        ),
+        sa.ForeignKeyConstraint(
+            ["wizarr_identity_id"],
+            ["identity.id"],
+            ondelete="SET NULL",
+        ),
         sa.PrimaryKeyConstraint("id"),
     )
 
+    # Create indexes for activity_session
     op.create_index(
         "ix_activity_session_server_id", "activity_session", ["server_id"], unique=False
     )
@@ -123,7 +137,20 @@ def upgrade():
         ["reference_id"],
         unique=False,
     )
+    op.create_index(
+        "ix_activity_session_wizarr_user_id",
+        "activity_session",
+        ["wizarr_user_id"],
+        unique=False,
+    )
+    op.create_index(
+        "ix_activity_session_wizarr_identity_id",
+        "activity_session",
+        ["wizarr_identity_id"],
+        unique=False,
+    )
 
+    # Composite indexes
     op.create_index(
         "ix_activity_session_server_started",
         "activity_session",
@@ -137,6 +164,7 @@ def upgrade():
         unique=False,
     )
 
+    # Activity snapshot table
     op.create_table(
         "activity_snapshot",
         sa.Column("id", sa.Integer(), nullable=False),
@@ -171,7 +199,6 @@ def upgrade():
     op.create_index(
         "ix_activity_snapshot_state", "activity_snapshot", ["state"], unique=False
     )
-
     op.create_index(
         "ix_activity_snapshot_session_timestamp",
         "activity_snapshot",
@@ -179,17 +206,82 @@ def upgrade():
         unique=False,
     )
 
+    # ─────────────────────────────────────────────────────────────
+    # Historical Import Jobs (Plus Feature)
+    # ─────────────────────────────────────────────────────────────
+    op.create_table(
+        "historical_import_job",
+        sa.Column("id", sa.Integer(), nullable=False),
+        sa.Column("server_id", sa.Integer(), nullable=False),
+        sa.Column("days_back", sa.Integer(), nullable=False),
+        sa.Column("max_results", sa.Integer(), nullable=True),
+        sa.Column(
+            "status", sa.String(length=32), nullable=False, server_default="queued"
+        ),
+        sa.Column("total_fetched", sa.Integer(), nullable=False, server_default="0"),
+        sa.Column("total_processed", sa.Integer(), nullable=False, server_default="0"),
+        sa.Column("total_stored", sa.Integer(), nullable=False, server_default="0"),
+        sa.Column("error_message", sa.Text(), nullable=True),
+        sa.Column("created_at", sa.DateTime(), nullable=False),
+        sa.Column("started_at", sa.DateTime(), nullable=True),
+        sa.Column("finished_at", sa.DateTime(), nullable=True),
+        sa.Column("updated_at", sa.DateTime(), nullable=False),
+        sa.ForeignKeyConstraint(
+            ["server_id"],
+            ["media_server.id"],
+            ondelete="CASCADE",
+        ),
+        sa.PrimaryKeyConstraint("id"),
+    )
+    op.create_index(
+        "ix_historical_import_job_server_id",
+        "historical_import_job",
+        ["server_id"],
+        unique=False,
+    )
+    op.create_index(
+        "ix_historical_import_job_status",
+        "historical_import_job",
+        ["status"],
+        unique=False,
+    )
+    op.create_index(
+        "ix_historical_import_job_server_status",
+        "historical_import_job",
+        ["server_id", "status"],
+        unique=False,
+    )
+
 
 def downgrade():
+    # Drop historical import job table and indexes
+    op.drop_index(
+        "ix_historical_import_job_server_status",
+        table_name="historical_import_job",
+    )
+    op.drop_index("ix_historical_import_job_status", table_name="historical_import_job")
+    op.drop_index(
+        "ix_historical_import_job_server_id",
+        table_name="historical_import_job",
+    )
+    op.drop_table("historical_import_job")
+
+    # Drop activity snapshot table and indexes
     op.drop_index(
         "ix_activity_snapshot_session_timestamp", table_name="activity_snapshot"
     )
     op.drop_index("ix_activity_snapshot_state", table_name="activity_snapshot")
     op.drop_index("ix_activity_snapshot_timestamp", table_name="activity_snapshot")
     op.drop_index("ix_activity_snapshot_session_id", table_name="activity_snapshot")
+    op.drop_table("activity_snapshot")
 
+    # Drop activity session table and indexes
     op.drop_index("ix_activity_session_user_started", table_name="activity_session")
     op.drop_index("ix_activity_session_server_started", table_name="activity_session")
+    op.drop_index(
+        "ix_activity_session_wizarr_identity_id", table_name="activity_session"
+    )
+    op.drop_index("ix_activity_session_wizarr_user_id", table_name="activity_session")
     op.drop_index("ix_activity_session_reference_id", table_name="activity_session")
     op.drop_index("ix_activity_session_session_id", table_name="activity_session")
     op.drop_index("ix_activity_session_media_type", table_name="activity_session")
@@ -197,7 +289,7 @@ def downgrade():
     op.drop_index("ix_activity_session_started_at", table_name="activity_session")
     op.drop_index("ix_activity_session_user_name", table_name="activity_session")
     op.drop_index("ix_activity_session_server_id", table_name="activity_session")
-
-    op.drop_table("activity_snapshot")
     op.drop_table("activity_session")
+
+    # Drop audit log table
     op.drop_table("audit_log")
