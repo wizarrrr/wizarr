@@ -1,3 +1,5 @@
+import contextlib
+import multiprocessing
 import os
 import tempfile
 
@@ -12,6 +14,13 @@ from app.extensions import db
 # https://github.com/python/cpython/issues/112509
 os.environ["NO_PROXY"] = "*"
 os.environ["no_proxy"] = "*"
+
+# Python 3.14 changed the default multiprocessing start method from 'fork' to 'forkserver'
+# This causes PicklingError with pytest-flask's live_server fixture
+# Set it back to 'fork' for compatibility with pytest-flask
+with contextlib.suppress(RuntimeError):
+    # RuntimeError raised if start method already set, safe to ignore
+    multiprocessing.set_start_method("fork", force=True)
 
 
 class TestConfig(BaseConfig):
