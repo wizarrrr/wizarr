@@ -202,44 +202,51 @@ def _configure_sqlite_for_concurrency(app):
     fall back to DELETE journal mode if the filesystem doesn't support it.
     """
     from sqlalchemy import event
+    from sqlalchemy.engine import Engine
 
-    @event.listens_for(db.engine, "connect")
+    @event.listens_for(Engine, "connect")
     def set_sqlite_pragma(dbapi_conn, connection_record):  # noqa: ARG001
         """Set SQLite pragmas on each new connection."""
-        # Only apply to SQLite databases
-        if "sqlite" in str(db.engine.url):
+        # Only apply to SQLite databases - check the connection itself
+        try:
             cursor = dbapi_conn.cursor()
+            # Quick check if this is SQLite
+            cursor.execute("SELECT sqlite_version()")
+            cursor.fetchone()  # If this works, it's SQLite
+        except Exception:
+            # Not SQLite, skip configuration
+            return
 
-            # Try to enable WAL mode - SQLite will refuse if filesystem doesn't support it
-            result = cursor.execute("PRAGMA journal_mode=WAL").fetchone()
-            journal_mode = result[0] if result else "unknown"
+        # Try to enable WAL mode - SQLite will refuse if filesystem doesn't support it
+        result = cursor.execute("PRAGMA journal_mode=WAL").fetchone()
+        journal_mode = result[0] if result else "unknown"
 
-            if journal_mode.lower() != "wal":
-                # WAL mode couldn't be enabled (likely network filesystem)
-                app.logger.warning(
-                    "⚠️  SQLite WAL mode not available (journal_mode=%s). "
-                    "This may indicate a network filesystem (NFS/SMB) which can cause corruption. "
-                    "For best results, use a local volume mount. "
-                    "Falling back to safer DELETE mode with reduced concurrency.",
-                    journal_mode,
-                )
-                # Ensure we're in DELETE mode for safety
-                cursor.execute("PRAGMA journal_mode=DELETE")
-            else:
-                app.logger.info("✅ SQLite WAL mode enabled for concurrent writes")
+        if journal_mode.lower() != "wal":
+            # WAL mode couldn't be enabled (likely network filesystem)
+            app.logger.warning(
+                "⚠️  SQLite WAL mode not available (journal_mode=%s). "
+                "This may indicate a network filesystem (NFS/SMB) which can cause corruption. "
+                "For best results, use a local volume mount. "
+                "Falling back to safer DELETE mode with reduced concurrency.",
+                journal_mode,
+            )
+            # Ensure we're in DELETE mode for safety
+            cursor.execute("PRAGMA journal_mode=DELETE")
+        else:
+            app.logger.info("✅ SQLite WAL mode enabled for concurrent writes")
 
-            # Set busy timeout to 30 seconds (works with all journal modes)
-            cursor.execute("PRAGMA busy_timeout=30000")
-            # Enable foreign key constraints
-            cursor.execute("PRAGMA foreign_keys=ON")
-            # Synchronous=NORMAL is safe with WAL, but use FULL for non-WAL
-            if journal_mode.lower() == "wal":
-                cursor.execute("PRAGMA synchronous=NORMAL")
-            else:
-                cursor.execute("PRAGMA synchronous=FULL")
-            # Larger cache size for better performance (10MB)
-            cursor.execute("PRAGMA cache_size=-10000")
-            # Auto-checkpoint only applies to WAL mode
-            if journal_mode.lower() == "wal":
-                cursor.execute("PRAGMA wal_autocheckpoint=1000")
-            cursor.close()
+        # Set busy timeout to 30 seconds (works with all journal modes)
+        cursor.execute("PRAGMA busy_timeout=30000")
+        # Enable foreign key constraints
+        cursor.execute("PRAGMA foreign_keys=ON")
+        # Synchronous=NORMAL is safe with WAL, but use FULL for non-WAL
+        if journal_mode.lower() == "wal":
+            cursor.execute("PRAGMA synchronous=NORMAL")
+        else:
+            cursor.execute("PRAGMA synchronous=FULL")
+        # Larger cache size for better performance (10MB)
+        cursor.execute("PRAGMA cache_size=-10000")
+        # Auto-checkpoint only applies to WAL mode
+        if journal_mode.lower() == "wal":
+            cursor.execute("PRAGMA wal_autocheckpoint=1000")
+        cursor.close()
