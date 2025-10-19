@@ -79,7 +79,10 @@ def init_extensions(app):
         scheduler.init_app(app)
 
         # Register tasks with the scheduler
-        from app.tasks.maintenance import _get_expiry_check_interval, check_expiring
+        from app.tasks.maintenance import (
+            _get_expiry_check_interval,
+            check_expiring,
+        )
         from app.tasks.update_check import fetch_and_cache_manifest
 
         # Add the expiry check task to the scheduler, passing the app instance
@@ -100,6 +103,17 @@ def init_extensions(app):
             replace_existing=True,
         )
 
+        # Note: WAL auto-checkpoints every 1000 pages (~4MB) automatically
+        # Manual daily checkpoint is optional - only needed if WAL grows large
+        # Uncomment if you notice large .db-wal files:
+        # scheduler.add_job(
+        #     id="checkpoint_wal",
+        #     func=lambda: checkpoint_wal_database(app),
+        #     trigger="interval",
+        #     hours=24,
+        #     replace_existing=True,
+        # )
+
         # Start the scheduler - Flask-APScheduler handles Gunicorn coordination
         try:
             if not scheduler.running:
@@ -117,6 +131,10 @@ def init_extensions(app):
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"  # type: ignore[assignment]
     db.init_app(app)
+
+    # Enable SQLite WAL mode for concurrent writes
+    _configure_sqlite_for_concurrency(app)
+
     migrate.init_app(app, db)
     limiter.init_app(app)
     # Flask-RESTX API will be initialized with the blueprint
@@ -169,3 +187,59 @@ def _select_locale():
         "lang",
         request.accept_languages.best_match(current_app.config["LANGUAGES"].keys()),
     )
+
+
+def _configure_sqlite_for_concurrency(app):
+    """Configure SQLite for optimal concurrent write performance.
+
+    Enables WAL (Write-Ahead Logging) mode which allows:
+    - Multiple readers can access the database simultaneously
+    - Writers don't block readers
+    - One writer can proceed while readers are active
+    - Much better performance for concurrent workloads (4 workers + background threads)
+
+    SAFETY: WAL mode requires local filesystem access. It will automatically
+    fall back to DELETE journal mode if the filesystem doesn't support it.
+    """
+    from sqlalchemy import event
+
+    @event.listens_for(db.engine, "connect")
+    def set_sqlite_pragma(dbapi_conn, connection_record):  # noqa: ARG001
+        """Set SQLite pragmas on each new connection."""
+        # Only apply to SQLite databases
+        if "sqlite" in str(db.engine.url):
+            cursor = dbapi_conn.cursor()
+
+            # Try to enable WAL mode - SQLite will refuse if filesystem doesn't support it
+            result = cursor.execute("PRAGMA journal_mode=WAL").fetchone()
+            journal_mode = result[0] if result else "unknown"
+
+            if journal_mode.lower() != "wal":
+                # WAL mode couldn't be enabled (likely network filesystem)
+                app.logger.warning(
+                    "⚠️  SQLite WAL mode not available (journal_mode=%s). "
+                    "This may indicate a network filesystem (NFS/SMB) which can cause corruption. "
+                    "For best results, use a local volume mount. "
+                    "Falling back to safer DELETE mode with reduced concurrency.",
+                    journal_mode,
+                )
+                # Ensure we're in DELETE mode for safety
+                cursor.execute("PRAGMA journal_mode=DELETE")
+            else:
+                app.logger.info("✅ SQLite WAL mode enabled for concurrent writes")
+
+            # Set busy timeout to 30 seconds (works with all journal modes)
+            cursor.execute("PRAGMA busy_timeout=30000")
+            # Enable foreign key constraints
+            cursor.execute("PRAGMA foreign_keys=ON")
+            # Synchronous=NORMAL is safe with WAL, but use FULL for non-WAL
+            if journal_mode.lower() == "wal":
+                cursor.execute("PRAGMA synchronous=NORMAL")
+            else:
+                cursor.execute("PRAGMA synchronous=FULL")
+            # Larger cache size for better performance (10MB)
+            cursor.execute("PRAGMA cache_size=-10000")
+            # Auto-checkpoint only applies to WAL mode
+            if journal_mode.lower() == "wal":
+                cursor.execute("PRAGMA wal_autocheckpoint=1000")
+            cursor.close()

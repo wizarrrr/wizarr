@@ -100,6 +100,15 @@ class BaseConfig:
     # SQLAlchemy
     SQLALCHEMY_DATABASE_URI = f"sqlite:///{DATABASE_DIR / 'database.db'}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    # SQLite engine options for concurrent write support
+    SQLALCHEMY_ENGINE_OPTIONS = {
+        "connect_args": {
+            "timeout": 30,  # 30 second timeout for lock waits
+            "check_same_thread": False,  # Allow multi-threaded access
+        },
+        "pool_pre_ping": True,  # Verify connections before using
+        "pool_recycle": 3600,  # Recycle connections after 1 hour
+    }
 
 
 class DevelopmentConfig(BaseConfig):

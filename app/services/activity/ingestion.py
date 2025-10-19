@@ -7,9 +7,11 @@ keeping session grouping and identity resolution concerns encapsulated.
 
 from __future__ import annotations
 
+import time
 from datetime import UTC, datetime
 
 import structlog
+from sqlalchemy.exc import OperationalError
 
 try:
     from app.extensions import db  # type: ignore
@@ -26,6 +28,61 @@ class ActivityIngestionService:
 
     def __init__(self):
         self.logger = structlog.get_logger(__name__)
+
+    def _commit_with_retry(self, max_retries: int = 3, base_delay: float = 0.1) -> bool:
+        """
+        Commit database changes with exponential backoff retry logic.
+
+        This is critical for SQLite which only allows one writer at a time.
+        Background threads competing with request handlers can cause lock timeouts.
+
+        Args:
+            max_retries: Maximum number of retry attempts
+            base_delay: Initial delay in seconds (doubles each retry)
+
+        Returns:
+            True if commit succeeded, False otherwise
+        """
+        if db is None:
+            return False
+
+        for attempt in range(max_retries):
+            try:
+                db.session.commit()  # type: ignore[union-attr]
+                return True
+            except OperationalError as exc:
+                # Check if it's a database lock error
+                if (
+                    "database is locked" in str(exc).lower()
+                    or "locked" in str(exc).lower()
+                ):
+                    if attempt < max_retries - 1:
+                        delay = base_delay * (2**attempt)
+                        self.logger.warning(
+                            "Database locked, retrying in %.2fs (attempt %d/%d)",
+                            delay,
+                            attempt + 1,
+                            max_retries,
+                        )
+                        time.sleep(delay)
+                        db.session.rollback()  # type: ignore[union-attr]
+                        continue
+                    self.logger.error(
+                        "Database commit failed after %d attempts: %s",
+                        max_retries,
+                        exc,
+                        exc_info=True,
+                    )
+                    db.session.rollback()  # type: ignore[union-attr]
+                    return False
+                # Not a lock error, re-raise
+                raise
+            except Exception as exc:
+                self.logger.error("Unexpected commit error: %s", exc, exc_info=True)
+                db.session.rollback()  # type: ignore[union-attr]
+                return False
+
+        return False
 
     # ------------------------------------------------------------------
     # Public API
@@ -115,7 +172,7 @@ class ActivityIngestionService:
         if event.position_ms is not None and event.state:
             self._create_snapshot(session.id, event)
 
-        db.session.commit()  # type: ignore[union-attr]
+        self._commit_with_retry()
         self.logger.info(
             "Started tracking session %s for user %s",
             event.session_id,
@@ -153,7 +210,7 @@ class ActivityIngestionService:
             self._create_snapshot(session.id, event)
 
         self._assign_session_identity(updated_session)
-        db.session.commit()  # type: ignore[union-attr]
+        self._commit_with_retry()
         return updated_session
 
     def _handle_session_end(self, event: ActivityEvent) -> ActivitySession | None:
@@ -183,7 +240,7 @@ class ActivityIngestionService:
             self._create_snapshot(session.id, event)
 
         self._assign_session_identity(session)
-        db.session.commit()  # type: ignore[union-attr]
+        self._commit_with_retry()
 
         self.logger.info(
             "Closed session %s for user %s", event.session_id, event.user_name
