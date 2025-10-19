@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-18 03:38+0000\n"
+"POT-Creation-Date: 2025-10-19 03:52+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,156 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/admin/routes.py:308
+#: app/activity/api/blueprint.py:117 app/activity/api/helpers.py:87
+msgid "Failed to load settings"
+msgstr ""
+
+#: app/activity/api/blueprint.py:255
+msgid "Failed to load dashboard data"
+msgstr ""
+
+#: app/activity/api/blueprint.py:278
+msgid "Failed to load history data"
+msgstr ""
+
+#: app/activity/api/blueprint.py:345
+msgid "Failed to load activity data"
+msgstr ""
+
+#: app/activity/api/blueprint.py:363
+msgid "Failed to get activity statistics"
+msgstr ""
+
+#: app/activity/api/blueprint.py:372
+msgid "Database not available"
+msgstr ""
+
+#: app/activity/api/blueprint.py:386
+msgid "Failed to get session details"
+msgstr ""
+
+#: app/activity/api/blueprint.py:468
+msgid "Failed to export activity data"
+msgstr ""
+
+#: app/activity/api/blueprint.py:487
+msgid "Monitoring restarted"
+msgstr ""
+
+#: app/activity/api/blueprint.py:490
+msgid "Monitor not available"
+msgstr ""
+
+#: app/activity/api/blueprint.py:500
+#, python-brace-format
+msgid "Cleaned up {} old activity records"
+msgstr ""
+
+#: app/activity/api/blueprint.py:513
+#, python-brace-format
+msgid "Ended {} stale sessions"
+msgstr ""
+
+#: app/activity/api/blueprint.py:517
+msgid "Unknown action"
+msgstr ""
+
+#: app/activity/api/blueprint.py:523
+msgid "Failed to update settings"
+msgstr ""
+
+#: app/activity/api/blueprint.py:538
+#, python-brace-format
+msgid "Activity data has been successfully deleted ({} records)."
+msgstr ""
+
+#: app/activity/api/blueprint.py:543
+#, python-brace-format
+msgid "Failed to delete activity data: {}"
+msgstr ""
+
+#: app/activity/api/blueprint.py:563 app/activity/api/blueprint.py:622
+msgid "Please select a media server."
+msgstr ""
+
+#: app/activity/api/blueprint.py:574
+msgid "Media server not found."
+msgstr ""
+
+#: app/activity/api/blueprint.py:585
+msgid ""
+"Historical data import is currently only supported for Plex, Jellyfin, "
+"Emby, and AudiobookShelf servers."
+msgstr ""
+
+#: app/activity/api/blueprint.py:596
+#, python-brace-format
+msgid "Historical import job #{job_id} started for {server} (last {days} days)."
+msgstr ""
+
+#: app/activity/api/blueprint.py:606
+#, python-brace-format
+msgid "Failed to import historical data: {}"
+msgstr ""
+
+#: app/activity/api/blueprint.py:629
+#, python-brace-format
+msgid "Successfully cleared {} historical entries."
+msgstr ""
+
+#: app/activity/api/blueprint.py:636 app/activity/api/blueprint.py:645
+#, python-brace-format
+msgid "Failed to clear historical data: {}"
+msgstr ""
+
+#: app/activity/api/blueprint.py:637
+msgid "Unknown error"
+msgstr ""
+
+#: app/activity/api/blueprint.py:675
+msgid "Cannot remove a job that is still queued or running."
+msgstr ""
+
+#: app/activity/api/blueprint.py:703
+msgid "An internal error has occurred."
+msgstr ""
+
+#: app/blueprints/admin/routes.py:315
 #: app/templates/admin/user_details_modal.html:60
 msgid "Unknown"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:311 app/templates/modals/invite.html:69
+#: app/blueprints/admin/routes.py:318 app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:39
 #: app/templates/tables/invite_card.html:137
 #: app/templates/tables/user_card.html:90
 msgid "Never"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:382 app/templates/tables/invite_card.html:28
+#: app/blueprints/admin/routes.py:389 app/templates/tables/invite_card.html:28
 msgid "Expired"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:390
+#: app/blueprints/admin/routes.py:397
 #, python-format
 msgid "in %(n)d d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:392
+#: app/blueprints/admin/routes.py:399
 msgid "in 1 d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:394
+#: app/blueprints/admin/routes.py:401
 #, python-format
 msgid "in %(n)d h"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:396
+#: app/blueprints/admin/routes.py:403
 #, python-format
 msgid "in %(n)d m"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:397
+#: app/blueprints/admin/routes.py:404
 msgid "soon"
 msgstr ""
 
@@ -171,82 +285,156 @@ msgstr ""
 msgid "Admin account created – welcome!"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:120
+#: app/blueprints/wizard/routes.py:65
+msgid ""
+"Your invitation has expired or is no longer valid. Please request a new "
+"invitation."
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:333 app/blueprints/wizard/routes.py:1097
+msgid "Error Loading Step"
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:336 app/blueprints/wizard/routes.py:1100
+msgid ""
+"This step could not be loaded. Please contact the administrator or skip "
+"to the next step."
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:500 app/blueprints/wizard/routes.py:507
+#: app/blueprints/wizard/routes.py:606
+msgid "Invalid or expired invitation"
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:555 app/blueprints/wizard/routes.py:717
+msgid ""
+"No media servers are configured. Please contact the administrator to set "
+"up a media server."
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:572
+msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:596 app/blueprints/wizard/routes.py:901
+#: app/templates/wizard/steps.html:20
+msgid "Continue to Invite"
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:649
+msgid "Please log in to continue"
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:757
+msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:790
+msgid "Setup complete! Welcome to your media server."
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:886
+msgid "Unable to load wizard configuration. Please try again."
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:1028
+msgid "Unable to load wizard bundle. Please try again."
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:1047
+msgid "Unable to load wizard steps. Please try again."
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:1066
+msgid "This wizard bundle has no steps configured."
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:126
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:189
+#: app/blueprints/wizard_admin/routes.py:199
 msgid "Step created"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:262
+#: app/blueprints/wizard_admin/routes.py:276
 msgid "Preset step created successfully"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:270
+#: app/blueprints/wizard_admin/routes.py:284
 #, python-brace-format
 msgid "Error creating preset: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:302
+#: app/blueprints/wizard_admin/routes.py:320
 msgid "Step updated"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:340
+#: app/blueprints/wizard_admin/routes.py:358
 msgid "Step deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:410
+#: app/blueprints/wizard_admin/routes.py:478
 msgid "Bundle created"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:440
+#: app/blueprints/wizard_admin/routes.py:508
 msgid "Bundle updated"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:464
+#: app/blueprints/wizard_admin/routes.py:532
 msgid "Bundle deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:542
+#: app/blueprints/wizard_admin/routes.py:610
 msgid "Steps added"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:554
+#: app/blueprints/wizard_admin/routes.py:622
 msgid "Orphaned step removed"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:572
+#: app/blueprints/wizard_admin/routes.py:640
 #, python-brace-format
 msgid "No steps found for server type: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:596
-#: app/blueprints/wizard_admin/routes.py:633
-#: app/blueprints/wizard_admin/routes.py:638
+#: app/blueprints/wizard_admin/routes.py:665
+#: app/blueprints/wizard_admin/routes.py:703
+#: app/blueprints/wizard_admin/routes.py:708
 #, python-brace-format
 msgid "Export failed: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:683
+#: app/blueprints/wizard_admin/routes.py:753
 #, python-brace-format
 msgid "Successfully imported {} items"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:687
+#: app/blueprints/wizard_admin/routes.py:757
 #, python-brace-format
 msgid " and updated {} existing items"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:692
-#: app/blueprints/wizard_admin/routes.py:699
+#: app/blueprints/wizard_admin/routes.py:762
+#: app/blueprints/wizard_admin/routes.py:769
 #, python-brace-format
 msgid "Import failed: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:697
+#: app/blueprints/wizard_admin/routes.py:767
 msgid "Invalid JSON file"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:832 app/services/wizard_reset.py:119
+#, python-brace-format
+msgid "Reset {} steps for {} (deleted {}, imported {})"
+msgstr ""
+
+#: app/blueprints/wizard_admin/routes.py:842 app/services/wizard_reset.py:134
+#, python-brace-format
+msgid "Failed to reset steps: {}"
 msgstr ""
 
 #: app/forms/admin.py:8
@@ -440,30 +628,20 @@ msgstr ""
 msgid "Drop"
 msgstr ""
 
-#: app/services/wizard_reset.py:81
+#: app/services/wizard_reset.py:99
 #, python-brace-format
 msgid "No default steps found for server type: {}"
-msgstr ""
-
-#: app/services/wizard_reset.py:100
-#, python-brace-format
-msgid "Reset {} steps for {} (deleted {}, imported {})"
-msgstr ""
-
-#: app/services/wizard_reset.py:115
-#, python-brace-format
-msgid "Failed to reset steps: {}"
 msgstr ""
 
 #: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:104
 msgid "Admin"
 msgstr ""
 
-#: app/templates/admin.html:118
+#: app/templates/admin.html:133
 msgid "Profile"
 msgstr ""
 
-#: app/templates/admin.html:129
+#: app/templates/admin.html:144
 msgid "Logout"
 msgstr ""
 
@@ -782,7 +960,7 @@ msgstr ""
 
 #: app/templates/admin/accepted_invites_card.html:51
 #: app/templates/admin/server_health_card.html:118
-#: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:32
+#: app/templates/wizard/steps.html:52 app/templates/wizard/steps.html:92
 msgid "of"
 msgstr ""
 
@@ -795,7 +973,8 @@ msgid "Page"
 msgstr ""
 
 #: app/templates/admin/accepted_invites_card.html:65
-#: app/templates/wizard/steps.html:85 app/templates/wizard/steps.html:111
+#: app/templates/wizard/steps.html:15 app/templates/wizard/steps.html:21
+#: app/templates/wizard/steps.html:226 app/templates/wizard/steps.html:236
 msgid "Next"
 msgstr ""
 
@@ -1062,8 +1241,8 @@ msgstr ""
 #: app/templates/modals/edit-identity.html:44
 #: app/templates/modals/edit-server.html:173
 #: app/templates/modals/wizard-bundle-form.html:36
-#: app/templates/modals/wizard-simple-step-form.html:45
-#: app/templates/modals/wizard-step-form.html:136
+#: app/templates/modals/wizard-simple-step-form.html:50
+#: app/templates/modals/wizard-step-form.html:141
 #: app/templates/settings/wizard/bundle_form.html:16
 #: app/templates/settings/wizard/form.html:30
 #: app/templates/settings/wizard/simple_form.html:26
@@ -1086,9 +1265,9 @@ msgstr ""
 #: app/templates/modals/invite.html:345
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
-#: app/templates/modals/wizard-preset-form.html:54
-#: app/templates/modals/wizard-simple-step-form.html:43
-#: app/templates/modals/wizard-step-form.html:134
+#: app/templates/modals/wizard-preset-form.html:59
+#: app/templates/modals/wizard-simple-step-form.html:48
+#: app/templates/modals/wizard-step-form.html:139
 #: app/templates/settings/connections/form.html:183
 #: app/templates/settings/wizard/bundle_form.html:18
 #: app/templates/settings/wizard/form.html:38
@@ -1288,8 +1467,9 @@ msgid "Add steps to bundle"
 msgstr ""
 
 #: app/templates/modals/bundle-add-steps.html:26
-#: app/templates/settings/wizard/bundles.html:74
-#: app/templates/settings/wizard/steps.html:72
+#: app/templates/settings/wizard/bundles.html:75
+#: app/templates/settings/wizard/steps.html:86
+#: app/templates/settings/wizard/steps.html:166
 msgid "Untitled"
 msgstr ""
 
@@ -1662,55 +1842,61 @@ msgstr ""
 msgid "Add Preset Wizard Step"
 msgstr ""
 
-#: app/templates/modals/wizard-preset-form.html:34
+#: app/templates/modals/wizard-preset-form.html:29
+#: app/templates/modals/wizard-simple-step-form.html:24
+#: app/templates/modals/wizard-step-form.html:29
+msgid "Choose when this step should be shown to users"
+msgstr ""
+
+#: app/templates/modals/wizard-preset-form.html:39
 #: app/templates/settings/wizard/preset_form.html:17
 msgid "Your Discord server ID"
 msgstr ""
 
-#: app/templates/modals/wizard-preset-form.html:39
+#: app/templates/modals/wizard-preset-form.html:44
 #: app/templates/settings/wizard/preset_form.html:22
 msgid "URL to your Overseerr/Ombi instance"
 msgstr ""
 
-#: app/templates/modals/wizard-preset-form.html:56
+#: app/templates/modals/wizard-preset-form.html:61
 #: app/templates/settings/wizard/_sub_nav.html:128
 #: app/templates/settings/wizard/preset_form.html:36
 msgid "Create Step"
 msgstr ""
 
-#: app/templates/modals/wizard-step-form.html:41
+#: app/templates/modals/wizard-step-form.html:46
 msgid "Add..."
 msgstr ""
 
-#: app/templates/modals/wizard-step-form.html:61
+#: app/templates/modals/wizard-step-form.html:66
 msgid "Widgets"
 msgstr ""
 
-#: app/templates/modals/wizard-step-form.html:73
+#: app/templates/modals/wizard-step-form.html:78
 msgid "Recently Added Media"
 msgstr ""
 
-#: app/templates/modals/wizard-step-form.html:74
+#: app/templates/modals/wizard-step-form.html:79
 msgid "Show recent content"
 msgstr ""
 
-#: app/templates/modals/wizard-step-form.html:90
+#: app/templates/modals/wizard-step-form.html:95
 msgid "Button"
 msgstr ""
 
-#: app/templates/modals/wizard-step-form.html:91
+#: app/templates/modals/wizard-step-form.html:96
 msgid "Add a clickable link button"
 msgstr ""
 
-#: app/templates/modals/wizard-step-form.html:96
+#: app/templates/modals/wizard-step-form.html:101
 msgid "Elements"
 msgstr ""
 
-#: app/templates/modals/wizard-step-form.html:110
+#: app/templates/modals/wizard-step-form.html:115
 msgid "Card"
 msgstr ""
 
-#: app/templates/modals/wizard-step-form.html:111
+#: app/templates/modals/wizard-step-form.html:116
 msgid "Add a styled content card"
 msgstr ""
 
@@ -1784,7 +1970,7 @@ msgstr ""
 
 #: app/templates/settings/connections.html:7
 #: app/templates/settings/connections/form.html:37
-#: app/templates/settings/index.html:77
+#: app/templates/settings/index.html:93
 msgid "Connections"
 msgstr ""
 
@@ -1946,12 +2132,24 @@ msgstr ""
 msgid "Servers"
 msgstr ""
 
-#: app/templates/settings/index.html:92
-msgid "Admins"
+#: app/templates/settings/index.html:75
+msgid "Activity"
 msgstr ""
 
 #: app/templates/settings/index.html:108
+msgid "Admins"
+msgstr ""
+
+#: app/templates/settings/index.html:124
 msgid "Wizard"
+msgstr ""
+
+#: app/templates/settings/index.html:140
+msgid "Plus"
+msgstr ""
+
+#: app/templates/settings/index.html:157
+msgid "Audit"
 msgstr ""
 
 #: app/templates/settings/notifications.html:8
@@ -2106,25 +2304,34 @@ msgstr ""
 msgid "Are you sure you want to delete this bundle?"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:94
+#: app/templates/settings/wizard/bundles.html:79
+msgid "Pre-Invite"
+msgstr ""
+
+#: app/templates/settings/wizard/bundles.html:83
+msgid "Post-Invite"
+msgstr ""
+
+#: app/templates/settings/wizard/bundles.html:110
 #: app/templates/settings/wizard/index.html:104
-#: app/templates/settings/wizard/steps.html:92
+#: app/templates/settings/wizard/steps.html:106
+#: app/templates/settings/wizard/steps.html:186
 msgid "Are you sure you want to delete this step?"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:118
+#: app/templates/settings/wizard/bundles.html:134
 msgid "Step deleted (orphaned)"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:126
+#: app/templates/settings/wizard/bundles.html:142
 msgid "Are you sure you want to remove this orphaned step?"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:129
+#: app/templates/settings/wizard/bundles.html:145
 msgid "Remove orphaned step"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:147
+#: app/templates/settings/wizard/bundles.html:163
 msgid "Add step"
 msgstr ""
 
@@ -2247,7 +2454,7 @@ msgid "steps configured"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:60
-#: app/templates/settings/wizard/steps.html:49
+#: app/templates/settings/wizard/steps.html:50
 msgid "Preview Wizard"
 msgstr ""
 
@@ -2256,7 +2463,7 @@ msgid "Untitled Step"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:87
-#: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:32
+#: app/templates/wizard/steps.html:52 app/templates/wizard/steps.html:92
 msgid "Step"
 msgstr ""
 
@@ -2272,21 +2479,45 @@ msgstr ""
 msgid "No steps found."
 msgstr ""
 
-#: app/templates/settings/wizard/steps.html:22
+#: app/templates/settings/wizard/steps.html:23
 #, python-format
 msgid ""
 "Are you sure you want to reset all steps for %(server)s to defaults? This"
 " will delete all custom steps and reimport the default ones."
 msgstr ""
 
-#: app/templates/settings/wizard/steps.html:25
+#: app/templates/settings/wizard/steps.html:26
 #, python-format
 msgid "Reset %(server)s Steps to Defaults"
 msgstr ""
 
-#: app/templates/settings/wizard/steps.html:37
+#: app/templates/settings/wizard/steps.html:38
 #, python-format
 msgid "Export %(server)s Steps"
+msgstr ""
+
+#: app/templates/settings/wizard/steps.html:65
+msgid "Before Invite Acceptance"
+msgstr ""
+
+#: app/templates/settings/wizard/steps.html:67
+msgid "Steps shown to users before they accept the invitation"
+msgstr ""
+
+#: app/templates/settings/wizard/steps.html:138
+msgid "No pre-invite steps configured"
+msgstr ""
+
+#: app/templates/settings/wizard/steps.html:145
+msgid "After Invite Acceptance"
+msgstr ""
+
+#: app/templates/settings/wizard/steps.html:147
+msgid "Steps shown to users after they accept the invitation"
+msgstr ""
+
+#: app/templates/settings/wizard/steps.html:218
+msgid "No post-invite steps configured"
 msgstr ""
 
 #: app/templates/setup/admin_account.html:12
@@ -2380,11 +2611,21 @@ msgstr ""
 msgid "Remove user"
 msgstr ""
 
-#: app/templates/wizard/steps.html:69 app/templates/wizard/steps.html:100
+#: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:42
+#: app/templates/wizard/steps.html:82
+msgid "Before Invitation"
+msgstr ""
+
+#: app/templates/wizard/steps.html:17 app/templates/wizard/steps.html:44
+#: app/templates/wizard/steps.html:84
+msgid "After Invitation"
+msgstr ""
+
+#: app/templates/wizard/steps.html:141 app/templates/wizard/steps.html:201
 msgid "Previous"
 msgstr ""
 
-#: app/templates/wizard/steps.html:83 app/templates/wizard/steps.html:110
+#: app/templates/wizard/steps.html:173 app/templates/wizard/steps.html:231
 msgid "Click the link in this step to be able to continue"
 msgstr ""
 
