@@ -2,7 +2,6 @@ import logging.config
 import os
 import sys
 from pathlib import Path
-from typing import Any, cast
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "WARNING").upper()
 
@@ -77,9 +76,8 @@ LOGGING_CONFIG = {
 
 def configure_logging() -> None:
     """Call this once at start-up."""
-    handlers = cast(dict[str, Any], LOGGING_CONFIG.get("handlers", {}))
-    if "file" in handlers:
-        log_path = Path(handlers["file"]["filename"])
+    if "file" in LOGGING_CONFIG.get("handlers", {}):
+        log_path = Path(LOGGING_CONFIG["handlers"]["file"]["filename"])
         log_path.parent.mkdir(parents=True, exist_ok=True)
 
     logging.config.dictConfig(LOGGING_CONFIG)

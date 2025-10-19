@@ -158,7 +158,7 @@ class KomgaClient(RestApiMixin):
             else None,
         }
 
-    def get_user_details(self, user_id: str) -> MediaUserDetails:
+    def get_user_details(self, user_id: str) -> "MediaUserDetails":
         """Get detailed user information in standardized format."""
         from app.services.media.utils import (
             DateHelper,

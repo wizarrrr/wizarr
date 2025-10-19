@@ -3,7 +3,7 @@ name = "wizarr"
 version = "2025.10.3"
 description = "Add your description here"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.13"
 dependencies = [
     "apprise>=1.9.3",
     "cachetools>=5.5.2",
@@ -46,7 +46,7 @@ dev = [
     "playwright>=1.54.0",
     "commitizen>=3.0.0",
     "ruff>=0.13.0",
-    "ty>=0.0.1a23",
+    "ty>=0.0.1a20",
     "djlint>=1.36.4",
 ]
 
@@ -55,7 +55,7 @@ dev = [
 default-groups = []
 
 [tool.ruff]
-target-version = "py314"
+target-version = "py313"
 line-length = 88
 lint.select = [
     "E",   # pycodestyle errors
@@ -83,7 +83,7 @@ include = ["app", "tests"]
 exclude = ["migrations"]
 venvPath = "."
 venv = ".venv"
-pythonVersion = "3.14"
+pythonVersion = "3.13"
 typeCheckingMode = "basic"
 reportMissingImports = true
 reportMissingTypeStubs = false

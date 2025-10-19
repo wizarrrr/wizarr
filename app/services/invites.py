@@ -190,7 +190,9 @@ def create_invite(form: Any) -> Invitation:
 # ─── Multi-server helpers ───────────────────────────────────────────────────
 
 
-def mark_server_used(inv: Invitation, server_id: int, user: User | None = None) -> None:
+def mark_server_used(
+    inv: Invitation, server_id: int, user: "User | None" = None
+) -> None:
     """Mark the invitation as used for a specific server.
 
     When all attached servers are used we also flip the legacy `inv.used` flag

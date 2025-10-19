@@ -1,5 +1,5 @@
 # ─── Stage 1: Dependencies ───────────────────────────────────────────────
-FROM ghcr.io/astral-sh/uv:python3.14-alpine AS deps
+FROM ghcr.io/astral-sh/uv:python3.13-alpine AS deps
 
 # Install system dependencies
 RUN apk add --no-cache nodejs npm
@@ -44,7 +44,7 @@ RUN uv run --frozen --no-dev pybabel compile -d app/translations
 RUN mkdir -p app/static/js app/static/css && npm --prefix app/static/ run build
 
 # ─── Stage 3: Runtime ─────────────────────────────────────────────────────
-FROM ghcr.io/astral-sh/uv:python3.14-alpine
+FROM ghcr.io/astral-sh/uv:python3.13-alpine
 
 # Set default environment variables for user/group IDs
 ENV PUID=1000

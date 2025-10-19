@@ -390,7 +390,7 @@ class KavitaClient(RestApiMixin):
         except ValueError:
             return None
 
-    def get_user_details(self, username: str) -> MediaUserDetails:
+    def get_user_details(self, username: str) -> "MediaUserDetails":
         """Get detailed user information in standardized format."""
 
         # Get raw user data from Kavita API

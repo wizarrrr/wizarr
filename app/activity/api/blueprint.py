@@ -6,7 +6,6 @@ for managing and viewing media playback activity data.
 """
 
 from datetime import UTC, datetime, timedelta
-from typing import Any
 
 import structlog
 from flask import (
@@ -159,7 +158,7 @@ def _settings_action_response(
     if error:
         flash(error, "error")
 
-    extra_params: dict[str, Any] = {}
+    extra_params: dict[str, object] = {}
     if selected_days_back is not None:
         extra_params["days_back"] = selected_days_back
     return redirect(url_for("activity.activity_settings", **extra_params))

@@ -10,7 +10,7 @@ from datetime import UTC, datetime
 from typing import Any
 
 import structlog
-from flask import Flask, current_app
+from flask import current_app
 
 from app.models import ActivitySession, HistoricalImportJob, MediaServer, db
 from app.services.historical.importers import (
@@ -42,7 +42,7 @@ class HistoricalDataService:
         db.session.add(job)
         db.session.commit()
 
-        app: Flask = current_app._get_current_object()  # type: ignore[attr-defined]
+        app = current_app._get_current_object()
 
         worker = threading.Thread(
             target=self._run_import_job,
