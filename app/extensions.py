@@ -200,6 +200,9 @@ def _configure_sqlite_for_concurrency(app):
 
     SAFETY: WAL mode requires local filesystem access. It will automatically
     fall back to DELETE journal mode if the filesystem doesn't support it.
+
+    NOTE: WAL mode is automatically disabled during testing since tests run
+    sequentially and don't benefit from concurrent access.
     """
     from sqlalchemy import event
     from sqlalchemy.engine import Engine
@@ -217,36 +220,43 @@ def _configure_sqlite_for_concurrency(app):
             # Not SQLite, skip configuration
             return
 
-        # Try to enable WAL mode - SQLite will refuse if filesystem doesn't support it
-        result = cursor.execute("PRAGMA journal_mode=WAL").fetchone()
-        journal_mode = result[0] if result else "unknown"
+        # Skip WAL mode in testing - tests are sequential and don't need concurrency
+        is_testing = app.config.get("TESTING", False)
 
-        if journal_mode.lower() != "wal":
-            # WAL mode couldn't be enabled (likely network filesystem)
-            app.logger.warning(
-                "⚠️  SQLite WAL mode not available (journal_mode=%s). "
-                "This may indicate a network filesystem (NFS/SMB) which can cause corruption. "
-                "For best results, use a local volume mount. "
-                "Falling back to safer DELETE mode with reduced concurrency.",
-                journal_mode,
-            )
-            # Ensure we're in DELETE mode for safety
+        if is_testing:
+            # Use DELETE mode for tests - simpler and no WAL file issues
             cursor.execute("PRAGMA journal_mode=DELETE")
+            cursor.execute("PRAGMA synchronous=FULL")
+            app.logger.info(
+                "🧪 SQLite testing mode: DELETE journal, FK constraints enabled"
+            )
         else:
-            app.logger.info("✅ SQLite WAL mode enabled for concurrent writes")
+            # Try to enable WAL mode - SQLite will refuse if filesystem doesn't support it
+            result = cursor.execute("PRAGMA journal_mode=WAL").fetchone()
+            journal_mode = result[0] if result else "unknown"
+
+            if journal_mode.lower() != "wal":
+                # WAL mode couldn't be enabled (likely network filesystem)
+                app.logger.warning(
+                    "⚠️  SQLite WAL mode not available (journal_mode=%s). "
+                    "This may indicate a network filesystem (NFS/SMB) which can cause corruption. "
+                    "For best results, use a local volume mount. "
+                    "Falling back to safer DELETE mode with reduced concurrency.",
+                    journal_mode,
+                )
+                # Ensure we're in DELETE mode for safety
+                cursor.execute("PRAGMA journal_mode=DELETE")
+                cursor.execute("PRAGMA synchronous=FULL")
+            else:
+                app.logger.info("✅ SQLite WAL mode enabled for concurrent writes")
+                cursor.execute("PRAGMA synchronous=NORMAL")
+                # Auto-checkpoint only applies to WAL mode
+                cursor.execute("PRAGMA wal_autocheckpoint=1000")
 
         # Set busy timeout to 30 seconds (works with all journal modes)
         cursor.execute("PRAGMA busy_timeout=30000")
-        # Enable foreign key constraints
+        # Enable foreign key constraints (CRITICAL - always enabled)
         cursor.execute("PRAGMA foreign_keys=ON")
-        # Synchronous=NORMAL is safe with WAL, but use FULL for non-WAL
-        if journal_mode.lower() == "wal":
-            cursor.execute("PRAGMA synchronous=NORMAL")
-        else:
-            cursor.execute("PRAGMA synchronous=FULL")
         # Larger cache size for better performance (10MB)
         cursor.execute("PRAGMA cache_size=-10000")
-        # Auto-checkpoint only applies to WAL mode
-        if journal_mode.lower() == "wal":
-            cursor.execute("PRAGMA wal_autocheckpoint=1000")
         cursor.close()

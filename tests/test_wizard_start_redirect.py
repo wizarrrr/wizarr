@@ -10,7 +10,7 @@ The start() function should intelligently redirect users based on their context:
 import pytest
 
 from app.extensions import db
-from app.models import AdminAccount, Invitation, MediaServer, WizardStep
+from app.models import AdminAccount, Invitation, Library, MediaServer, User, WizardStep
 
 
 @pytest.fixture
@@ -22,8 +22,10 @@ def session(app):
         # Delete all test data in correct order (respecting foreign keys)
         db.session.execute(db.text("DELETE FROM invitation_server"))
         db.session.execute(db.text("DELETE FROM invitation_user"))
+        db.session.query(User).delete()
         db.session.query(WizardStep).delete()
         db.session.query(Invitation).delete()
+        db.session.query(Library).delete()
         db.session.query(MediaServer).delete()
         db.session.query(AdminAccount).delete()
         db.session.commit()
@@ -35,8 +37,10 @@ def session(app):
         # Delete all test data in correct order (respecting foreign keys)
         db.session.execute(db.text("DELETE FROM invitation_server"))
         db.session.execute(db.text("DELETE FROM invitation_user"))
+        db.session.query(User).delete()
         db.session.query(WizardStep).delete()
         db.session.query(Invitation).delete()
+        db.session.query(Library).delete()
         db.session.query(MediaServer).delete()
         db.session.query(AdminAccount).delete()
         db.session.commit()

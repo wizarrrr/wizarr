@@ -14,15 +14,21 @@ import pytest
 from sqlalchemy.exc import IntegrityError
 
 from app.extensions import db
-from app.models import AdminAccount, WizardStep
+from app.models import AdminAccount, Library, MediaServer, User, WizardStep
 
 
 @pytest.fixture
 def session(app):
     """Return a clean database session inside an app context."""
     with app.app_context():
-        # Clean up any existing data before each test
+        # Clean up any existing data before each test - delete in correct order for FKs
+        db.session.rollback()
+        db.session.execute(db.text("DELETE FROM invitation_server"))
+        db.session.execute(db.text("DELETE FROM invitation_user"))
+        db.session.query(User).delete()
         db.session.query(WizardStep).delete()
+        db.session.query(Library).delete()
+        db.session.query(MediaServer).delete()
         db.session.query(AdminAccount).delete()
         db.session.commit()
 
@@ -31,7 +37,12 @@ def session(app):
         # Clean up after the test - rollback first in case of errors
         try:
             db.session.rollback()
+            db.session.execute(db.text("DELETE FROM invitation_server"))
+            db.session.execute(db.text("DELETE FROM invitation_user"))
+            db.session.query(User).delete()
             db.session.query(WizardStep).delete()
+            db.session.query(Library).delete()
+            db.session.query(MediaServer).delete()
             db.session.query(AdminAccount).delete()
             db.session.commit()
         except Exception:

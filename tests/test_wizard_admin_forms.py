@@ -4,25 +4,33 @@ import pytest
 from flask import url_for
 
 from app.extensions import db
-from app.models import AdminAccount, MediaServer, WizardStep
+from app.models import AdminAccount, Library, MediaServer, User, WizardStep
 
 
 @pytest.fixture(autouse=True)
 def session(app):
     """Return a clean database session inside an app context."""
     with app.app_context():
-        # Clean up any existing data before each test
+        # Clean up any existing data before each test - delete in correct order for FKs
+        db.session.execute(db.text("DELETE FROM invitation_server"))
+        db.session.execute(db.text("DELETE FROM invitation_user"))
+        db.session.query(User).delete()
         db.session.query(WizardStep).delete()
-        db.session.query(AdminAccount).delete()
+        db.session.query(Library).delete()
         db.session.query(MediaServer).delete()
+        db.session.query(AdminAccount).delete()
         db.session.commit()
 
         yield db.session
 
         # Clean up after the test
+        db.session.execute(db.text("DELETE FROM invitation_server"))
+        db.session.execute(db.text("DELETE FROM invitation_user"))
+        db.session.query(User).delete()
         db.session.query(WizardStep).delete()
-        db.session.query(AdminAccount).delete()
+        db.session.query(Library).delete()
         db.session.query(MediaServer).delete()
+        db.session.query(AdminAccount).delete()
         db.session.commit()
         db.session.rollback()
 

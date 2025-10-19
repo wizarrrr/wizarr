@@ -1,3 +1,4 @@
+import contextlib
 import os
 import tempfile
 
@@ -31,9 +32,12 @@ class E2ETestConfig(BaseConfig):
 
 @pytest.fixture(scope="session")
 def app():
-    # Clean up any existing test database
-    if os.path.exists(TestConfig._temp_db_path):
-        os.unlink(TestConfig._temp_db_path)
+    # Clean up any existing test database files (including WAL files)
+    for ext in ["", "-wal", "-shm"]:
+        db_file = TestConfig._temp_db_path + ext
+        if os.path.exists(db_file):
+            with contextlib.suppress(Exception):
+                os.unlink(db_file)
 
     app = create_app(TestConfig)  # type: ignore[arg-type]
     with app.app_context():
@@ -44,9 +48,12 @@ def app():
     with app.app_context():
         db.drop_all()
 
-    # Clean up test database file after session
-    if os.path.exists(TestConfig._temp_db_path):
-        os.unlink(TestConfig._temp_db_path)
+    # Clean up test database files after session (including WAL files)
+    for ext in ["", "-wal", "-shm"]:
+        db_file = TestConfig._temp_db_path + ext
+        if os.path.exists(db_file):
+            with contextlib.suppress(Exception):
+                os.unlink(db_file)
 
 
 @pytest.fixture
@@ -67,10 +74,14 @@ def session(app):
     before and after the test runs.
     """
     from app.models import (
+        ActivitySession,
         AdminAccount,
+        ExpiredUser,
         Invitation,
+        Library,
         MediaServer,
         Settings,
+        User,
         WizardStep,
     )
 
@@ -78,12 +89,21 @@ def session(app):
         # Clean up before the test to ensure fresh state
         db.session.rollback()
         # Delete all test data in correct order (respecting foreign keys)
+        # Plus tables first
+        db.session.execute(db.text("DELETE FROM activity_snapshot"))
+        db.session.execute(db.text("DELETE FROM historical_import_job"))
+        db.session.query(ActivitySession).delete()
+        db.session.query(ExpiredUser).delete()
+        # Junction tables
         db.session.execute(db.text("DELETE FROM wizard_bundle_step"))
         db.session.execute(db.text("DELETE FROM wizard_bundle"))
         db.session.execute(db.text("DELETE FROM invitation_server"))
         db.session.execute(db.text("DELETE FROM invitation_user"))
+        # Main tables
+        db.session.query(User).delete()
         db.session.query(WizardStep).delete()
         db.session.query(Invitation).delete()
+        db.session.query(Library).delete()
         db.session.query(MediaServer).delete()
         db.session.query(AdminAccount).delete()
         db.session.query(Settings).delete()
@@ -94,12 +114,21 @@ def session(app):
         # Clean up after the test
         db.session.rollback()
         # Delete all test data in correct order (respecting foreign keys)
+        # Plus tables first
+        db.session.execute(db.text("DELETE FROM activity_snapshot"))
+        db.session.execute(db.text("DELETE FROM historical_import_job"))
+        db.session.query(ActivitySession).delete()
+        db.session.query(ExpiredUser).delete()
+        # Junction tables
         db.session.execute(db.text("DELETE FROM wizard_bundle_step"))
         db.session.execute(db.text("DELETE FROM wizard_bundle"))
         db.session.execute(db.text("DELETE FROM invitation_server"))
         db.session.execute(db.text("DELETE FROM invitation_user"))
+        # Main tables
+        db.session.query(User).delete()
         db.session.query(WizardStep).delete()
         db.session.query(Invitation).delete()
+        db.session.query(Library).delete()
         db.session.query(MediaServer).delete()
         db.session.query(AdminAccount).delete()
         db.session.query(Settings).delete()

@@ -76,11 +76,11 @@ def api_key(app):
 def sample_data(app):
     """Create sample data for testing."""
     with app.app_context():
-        # Clean up any existing data first
-        MediaServer.query.delete()
-        Library.query.delete()
+        # Clean up any existing data first - delete in correct order to respect foreign keys
         User.query.delete()
         Invitation.query.delete()
+        Library.query.delete()
+        MediaServer.query.delete()
         db.session.commit()
 
         # Create media server

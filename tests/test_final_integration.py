@@ -14,7 +14,9 @@ from app.extensions import db
 from app.models import (
     AdminAccount,
     Invitation,
+    Library,
     MediaServer,
+    User,
     WizardBundle,
     WizardBundleStep,
     WizardStep,
@@ -28,12 +30,15 @@ def session(app):
         # Clean up before the test to ensure fresh state
         db.session.rollback()
         # Delete all test data in correct order (respecting foreign keys)
-        db.session.execute(db.text("DELETE FROM wizard_bundle_step"))
+        # Must delete User, Invitation before WizardBundle and MediaServer due to FKs
         db.session.execute(db.text("DELETE FROM invitation_server"))
         db.session.execute(db.text("DELETE FROM invitation_user"))
+        db.session.query(User).delete()
+        db.session.query(Invitation).delete()
+        db.session.execute(db.text("DELETE FROM wizard_bundle_step"))
         db.session.query(WizardBundle).delete()
         db.session.query(WizardStep).delete()
-        db.session.query(Invitation).delete()
+        db.session.query(Library).delete()
         db.session.query(MediaServer).delete()
         db.session.query(AdminAccount).delete()
         db.session.commit()
