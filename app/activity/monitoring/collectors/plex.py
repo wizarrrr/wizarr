@@ -80,8 +80,11 @@ class PlexCollector(BaseCollector):
             try:
                 self.logger.debug("Testing Plex server connection...")
                 account = self.plex_server.account()
+                account_name = (
+                    getattr(account, "username", "Unknown") if account else "Unknown"
+                )
                 self.logger.info(
-                    f"Connected to Plex server: {self.plex_server.friendlyName} (account: {account.title if account else 'Unknown'})"
+                    f"Connected to Plex server: {self.plex_server.friendlyName} (account: {account_name})"
                 )
             except Exception as e:
                 self.logger.warning(f"Could not verify Plex server connection: {e}")
