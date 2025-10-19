@@ -235,7 +235,7 @@ class PlexClient(MediaClient):
 
     def _build_library_access_from_names(
         self, names: list[str]
-    ) -> list["UserLibraryAccess"]:
+    ) -> list[UserLibraryAccess]:
         """Create UserLibraryAccess entries from a list of library names."""
         from app.services.media.user_details import UserLibraryAccess
 
@@ -318,7 +318,7 @@ class PlexClient(MediaClient):
         plex_user,
         db_user: User | None,
         server_library_names: list[str],
-    ) -> tuple[list["UserLibraryAccess"] | None, bool]:
+    ) -> tuple[list[UserLibraryAccess] | None, bool]:
         """Determine library access information for a Plex user."""
         total_library_count = len(server_library_names)
 
@@ -632,7 +632,7 @@ class PlexClient(MediaClient):
             "Policy": {},
         }
 
-    def get_user_details(self, db_id: int) -> "MediaUserDetails":
+    def get_user_details(self, db_id: int) -> MediaUserDetails:
         """Get detailed user information in standardized format."""
         from app.services.media.user_details import MediaUserDetails
 
