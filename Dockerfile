@@ -1,14 +1,8 @@
 # ─── Stage 1: Dependencies ───────────────────────────────────────────────
 FROM ghcr.io/astral-sh/uv:python3.14-alpine AS deps
 
-# Install system dependencies including build tools for compiling Python packages
-RUN apk add --no-cache \
-    nodejs \
-    npm \
-    gcc \
-    musl-dev \
-    libffi-dev \
-    python3-dev
+# Install system dependencies
+RUN apk add --no-cache nodejs npm
 
 # Set working directory
 WORKDIR /app
