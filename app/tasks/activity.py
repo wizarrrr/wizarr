@@ -86,7 +86,7 @@ def monitor_health_check_task(app: Flask):
     try:
         with app.app_context():
             # Get activity monitor from app extensions
-            monitor = getattr(app.extensions, "activity_monitor", None)
+            monitor = app.extensions.get("activity_monitor")
 
             if not monitor:
                 logger.warning("Activity monitor not found in app extensions")
@@ -152,7 +152,7 @@ def activity_monitoring_heartbeat_task(app: Flask):
 
     try:
         with app.app_context():
-            monitor = getattr(app.extensions, "activity_monitor", None)
+            monitor = app.extensions.get("activity_monitor")
 
             if not monitor:
                 logger.warning("Activity monitor not available for heartbeat check")

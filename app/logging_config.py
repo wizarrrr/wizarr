@@ -88,15 +88,18 @@ def configure_logging() -> None:
 
     structlog.configure(
         processors=[
+            structlog.contextvars.merge_contextvars,
             structlog.stdlib.filter_by_level,  # Filter by log level first
             structlog.stdlib.add_logger_name,  # Add logger name
             structlog.stdlib.add_log_level,  # Add log level
             structlog.stdlib.PositionalArgumentsFormatter(),
-            structlog.processors.TimeStamper(fmt="iso"),
             structlog.processors.StackInfoRenderer(),
             structlog.processors.format_exc_info,
             structlog.processors.UnicodeDecoder(),
-            structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
+            # Render to plain text, not JSON dict
+            structlog.dev.ConsoleRenderer()
+            if sys.stdout.isatty()
+            else structlog.processors.JSONRenderer(),
         ],
         logger_factory=structlog.stdlib.LoggerFactory(),
         wrapper_class=structlog.stdlib.BoundLogger,
