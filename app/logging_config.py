@@ -81,3 +81,24 @@ def configure_logging() -> None:
         log_path.parent.mkdir(parents=True, exist_ok=True)
 
     logging.config.dictConfig(LOGGING_CONFIG)
+
+    # Configure structlog to use standard library logging
+    # This ensures structlog respects our logging level configuration
+    import structlog
+
+    structlog.configure(
+        processors=[
+            structlog.stdlib.filter_by_level,  # Filter by log level first
+            structlog.stdlib.add_logger_name,  # Add logger name
+            structlog.stdlib.add_log_level,  # Add log level
+            structlog.stdlib.PositionalArgumentsFormatter(),
+            structlog.processors.TimeStamper(fmt="iso"),
+            structlog.processors.StackInfoRenderer(),
+            structlog.processors.format_exc_info,
+            structlog.processors.UnicodeDecoder(),
+            structlog.stdlib.ProcessorFormatter.wrap_for_formatter,
+        ],
+        logger_factory=structlog.stdlib.LoggerFactory(),
+        wrapper_class=structlog.stdlib.BoundLogger,
+        cache_logger_on_first_use=True,
+    )
