@@ -295,7 +295,27 @@ class PlexCollector(BaseCollector):
         except Exception as e:
             self.logger.error(f"Failed to process Plex session: {e}", exc_info=True)
 
-    def _extract_session_data(self, session) -> dict[str, Any] | None:
+    def _refetch_session_by_id(self, session_id: str):
+        """Re-fetch a specific session from Plex server by session ID."""
+        try:
+            if not self.plex_server:
+                return None
+
+            sessions = self.plex_server.sessions()
+            for session in sessions:
+                if hasattr(session, "sessionKey") and str(session.sessionKey) == str(
+                    session_id
+                ):
+                    return session
+
+            return None
+        except Exception as e:
+            self.logger.debug(f"Failed to re-fetch session {session_id}: {e}")
+            return None
+
+    def _extract_session_data(
+        self, session, refetch_attempted: bool = False
+    ) -> dict[str, Any] | None:
         """Extract relevant data from Plex session object."""
         try:
             # Basic session info
@@ -387,6 +407,27 @@ class PlexCollector(BaseCollector):
                 thumbnail_url = self.plex_server.url(media.thumb, includeToken=True)
             if hasattr(media, "art") and self.plex_server:
                 artwork_url = self.plex_server.url(media.art, includeToken=True)
+
+            # Check if data is incomplete and attempt re-fetch if needed
+            has_incomplete_data = media_title == "Unknown" or device_name == "Unknown"
+
+            if has_incomplete_data and not refetch_attempted:
+                self.logger.debug(
+                    f"Incomplete session data detected (media: {media_title}, device: {device_name}). "
+                    f"Re-fetching session {session_id} from Plex server..."
+                )
+                fresh_session = self._refetch_session_by_id(session_id)
+                if fresh_session:
+                    self.logger.debug(
+                        f"Successfully re-fetched session {session_id}, extracting fresh data"
+                    )
+                    # Recursively call with fresh session, but mark refetch_attempted to prevent loops
+                    return self._extract_session_data(
+                        fresh_session, refetch_attempted=True
+                    )
+                self.logger.debug(
+                    f"Could not re-fetch session {session_id}, using incomplete data"
+                )
 
             return {
                 "session_id": session_id,
