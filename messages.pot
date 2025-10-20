@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-19 03:52+0000\n"
+"POT-Creation-Date: 2025-10-20 03:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -137,13 +137,12 @@ msgid "Unknown"
 msgstr ""
 
 #: app/blueprints/admin/routes.py:318 app/templates/modals/invite.html:69
-#: app/templates/tables/invite_card.html:39
-#: app/templates/tables/invite_card.html:137
+#: app/templates/tables/invite_card.html:104
 #: app/templates/tables/user_card.html:90
 msgid "Never"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:389 app/templates/tables/invite_card.html:28
+#: app/blueprints/admin/routes.py:389 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr ""
 
@@ -502,8 +501,7 @@ msgid "RomM Password"
 msgstr ""
 
 #: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:74
-#: app/templates/tables/invite_card.html:168
-#: app/templates/tables/invite_card.html:173
+#: app/templates/tables/invite_card.html:126
 msgid "Libraries"
 msgstr ""
 
@@ -1082,6 +1080,7 @@ msgstr ""
 #: app/templates/admin/server_health_card.html:60
 #: app/templates/admin/server_stats_card.html:29
 #: app/templates/settings/notifications.html:75
+#: app/templates/tables/invite_card.html:13
 msgid "Active"
 msgstr ""
 
@@ -1286,12 +1285,12 @@ msgstr ""
 
 #: app/templates/admin/user_modal.html:139 app/templates/modals/invite.html:114
 #: app/templates/modals/invite.html:136
-#: app/templates/tables/invite_card.html:141
+#: app/templates/tables/invite_card.html:115
 msgid "Duration"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:139
-#: app/templates/tables/invite_card.html:142
+#: app/templates/tables/invite_card.html:115
 msgid "days"
 msgstr ""
 
@@ -1318,7 +1317,7 @@ msgid "Passkeys for {}"
 msgstr ""
 
 #: app/templates/components/admin_passkeys.html:30
-#: app/templates/tables/invite_card.html:130
+#: app/templates/tables/invite_card.html:92
 msgid "Created"
 msgstr ""
 
@@ -2528,47 +2527,43 @@ msgstr ""
 msgid "Create an account"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:32
-#: app/templates/tables/invite_card.html:146
+#: app/templates/tables/invite_card.html:9
 msgid "Unlimited"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:52
+#: app/templates/tables/invite_card.html:20
 msgid "There are currently no invitations."
 msgstr ""
 
-#: app/templates/tables/invite_card.html:79
-msgid "Copy invite link"
-msgstr ""
-
-#: app/templates/tables/invite_card.html:95
-msgid "Delete invite"
-msgstr ""
-
-#: app/templates/tables/invite_card.html:116
+#: app/templates/tables/invite_card.html:58
 msgid "Used by"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:120
+#: app/templates/tables/invite_card.html:60
 msgid "Used"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:132
+#: app/templates/tables/invite_card.html:63
+msgid "Not used yet"
+msgstr ""
+
+#: app/templates/tables/invite_card.html:102
+#: app/templates/tables/invite_card.html:104
 #: app/templates/tables/user_card.html:88
 #: app/templates/tables/user_card.html:90
 msgid "Expires"
 msgstr ""
 
-#: app/templates/tables/invite_card.html:145
-msgid "Limit"
-msgstr ""
-
-#: app/templates/tables/invite_card.html:157
-msgid "libs"
-msgstr ""
-
-#: app/templates/tables/invite_card.html:174
+#: app/templates/tables/invite_card.html:134
 msgid "Default"
+msgstr ""
+
+#: app/templates/tables/invite_card.html:154
+msgid "Copy invite link"
+msgstr ""
+
+#: app/templates/tables/invite_card.html:167
+msgid "Delete invite"
 msgstr ""
 
 #: app/templates/tables/user_card.html:4
