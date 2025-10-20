@@ -226,10 +226,11 @@ class SessionManager:
                 session_key, server_id
             )
 
-            # Check if we got valid session data
+            # Check if we got valid session data (all critical fields populated)
             if (
                 session_data.get("username") != "Unknown"
                 and session_data.get("full_title") != "Unknown"
+                and session_data.get("device") != "Unknown"
             ):
                 break
 
@@ -244,14 +245,20 @@ class SessionManager:
 
         user_name = session_data.get("username", "Unknown")
         media_title = session_data.get("full_title", "Unknown")
+        device_name = session_data.get("device", "Unknown")
         rating_key = (
             transition.metadata.get("rating_key") if transition.metadata else None
         )
 
         # If we still have Unknown data after retries, log a warning but continue
-        if user_name == "Unknown" or media_title == "Unknown":
+        if (
+            user_name == "Unknown"
+            or media_title == "Unknown"
+            or device_name == "Unknown"
+        ):
             self.logger.warning(
-                f"⚠️  Session {session_key} still has unknown data after {max_retries} retries - creating session anyway"
+                f"⚠️  Session {session_key} still has incomplete data after {max_retries} retries "
+                f"(user={user_name}, title={media_title}, device={device_name}) - creating session anyway"
             )
 
         self.logger.info(
@@ -768,8 +775,11 @@ class SessionManager:
                 # Extract player/device info properly
                 player_obj = getattr(target_session, "player", None)
                 if player_obj:
-                    session_data["player"] = getattr(player_obj, "title", "Unknown")
-                    session_data["device"] = getattr(player_obj, "device", "Unknown")
+                    # player.product = client software (e.g., "Plex for iOS")
+                    # player.title = device name (e.g., "iPhone", "Chrome")
+                    # player.platform = platform (e.g., "iOS", "Chrome")
+                    session_data["player"] = getattr(player_obj, "product", "Unknown")
+                    session_data["device"] = getattr(player_obj, "title", "Unknown")
                     session_data["platform"] = getattr(
                         player_obj, "platform", "Unknown"
                     )
