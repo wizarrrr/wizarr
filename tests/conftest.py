@@ -76,12 +76,14 @@ def session(app):
     from app.models import (
         ActivitySession,
         AdminAccount,
+        ApiKey,
         ExpiredUser,
         Invitation,
         Library,
         MediaServer,
         Settings,
         User,
+        WebAuthnCredential,
         WizardStep,
     )
 
@@ -105,6 +107,10 @@ def session(app):
         db.session.query(Invitation).delete()
         db.session.query(Library).delete()
         db.session.query(MediaServer).delete()
+        # Tables with FK to AdminAccount - delete before AdminAccount
+        db.session.query(WebAuthnCredential).delete()
+        db.session.query(ApiKey).delete()
+        # Now safe to delete AdminAccount
         db.session.query(AdminAccount).delete()
         db.session.query(Settings).delete()
         db.session.commit()
@@ -130,6 +136,10 @@ def session(app):
         db.session.query(Invitation).delete()
         db.session.query(Library).delete()
         db.session.query(MediaServer).delete()
+        # Tables with FK to AdminAccount - delete before AdminAccount
+        db.session.query(WebAuthnCredential).delete()
+        db.session.query(ApiKey).delete()
+        # Now safe to delete AdminAccount
         db.session.query(AdminAccount).delete()
         db.session.query(Settings).delete()
         db.session.commit()
