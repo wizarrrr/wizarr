@@ -14,10 +14,12 @@
     </span>
   {% endif %}
 {%- endmacro %}
-
-<div id="invite_table" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 animate__animated">
+<div id="invite_table"
+     class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 animate__animated">
   {% if not invitations %}
-    <p id="error_message" class="text-center col-span-full dark:text-white">{{ _("There are currently no invitations.") }}</p>
+    <p id="error_message" class="text-center col-span-full dark:text-white">
+      {{ _("There are currently no invitations.") }}
+    </p>
   {% else %}
     {% for invite in invitations %}
       <!-- Hidden checkbox used for selection -->
@@ -26,7 +28,6 @@
              class="sr-only invite-check"
              name="invite_ids"
              value="{{ invite.id }}">
-
       <label class="cursor-pointer block group transition-all duration-200 hover:shadow-md hover:-translate-y-1 animate__animated bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 relative invite-card"
              for="inv{{ invite.id }}"
              data-invite-id="{{ invite.id }}">
@@ -38,13 +39,15 @@
               <div class="flex items-center space-x-3" style="max-width: 80%">
                 <!-- Status indicator circle -->
                 <div class="h-12 w-12 rounded-full flex items-center justify-center
-                  {% if invite.expired %}
-                    bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400
-                  {% else %}
-                    bg-primary/10 text-primary
-                  {% endif %}
-                ">
-                  <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            {% if invite.expired %}
+                              bg-red-100 text-red-600 dark:bg-red-900/20 dark:text-red-400
+                            {% else %}
+                              bg-primary/10 text-primary
+                            {% endif %}">
+                  <svg class="w-6 h-6"
+                       fill="currentColor"
+                       viewBox="0 0 20 20"
+                       xmlns="http://www.w3.org/2000/svg">
                     <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z"></path>
                   </svg>
                 </div>
@@ -55,7 +58,7 @@
                       {% set all_users = invite.get_all_users() %}
                       {% set user_count = all_users|length %}
                       {% if user_count > 0 %}
-                        {{ _("Used by") }}: {{ all_users|map(attribute='username')|join(', ') }}
+                        {{ _("Used by") }}: {{ all_users|map(attribute='username') |join(', ') }}
                       {% else %}
                         {{ _("Used") }}
                       {% endif %}
@@ -65,37 +68,40 @@
                   </p>
                 </div>
               </div>
-
               <!-- Status Badges -->
               <div class="flex flex-col items-end gap-1">
-                {% for srv in invite.servers %}
-                  {{ srv.type|server_name_tag(srv.name) }}
-                {% endfor %}
+                {% for srv in invite.servers %}{{ srv.type|server_name_tag(srv.name) }}{% endfor %}
               </div>
-
               <!-- Checkmark icon shown when selected -->
               <svg class="absolute top-2 right-2 w-5 h-5 text-primary opacity-0 peer-checked:opacity-100"
                    xmlns="http://www.w3.org/2000/svg"
                    fill="currentColor"
                    viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.12a1 1 0 011.414-1.415L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.12a1 1 0 011.414-1.415L8.414 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd">
+                </path>
               </svg>
             </div>
-
             <!-- Invitation Info -->
             <div class="space-y-2 flex-1 mt-4">
               <!-- Created date -->
               <div class="flex items-center text-sm text-muted-foreground dark:text-gray-400">
-                <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path>
+                <svg class="h-4 w-4 mr-2"
+                     fill="currentColor"
+                     viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd">
+                  </path>
                 </svg>
                 <span>{{ _("Created") }}: {{ invite.created|human_date }}</span>
               </div>
-
               <!-- Expiration information -->
               <div class="flex items-center text-sm text-muted-foreground dark:text-gray-400">
-                <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"></path>
+                <svg class="h-4 w-4 mr-2"
+                     fill="currentColor"
+                     viewBox="0 0 20 20"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd">
+                  </path>
                 </svg>
                 <span>
                   {% if invite.expires %}
@@ -105,22 +111,28 @@
                   {% endif %}
                 </span>
               </div>
-
               <!-- Duration if set -->
               {% if invite.duration %}
                 <div class="flex items-center text-sm text-muted-foreground dark:text-gray-400">
-                  <svg class="h-4 w-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd"></path>
+                  <svg class="h-4 w-4 mr-2"
+                       fill="currentColor"
+                       viewBox="0 0 20 20"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z" clip-rule="evenodd">
+                    </path>
                   </svg>
                   <span>{{ _("Duration") }}: {{ invite.duration }} {{ _("days") }}</span>
                 </div>
               {% endif %}
-
               <!-- Libraries -->
               {% if invite.servers %}
                 <div class="flex items-start text-sm text-muted-foreground dark:text-gray-400">
-                  <svg class="h-4 w-4 mr-2 mt-0.5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"></path>
+                  <svg class="h-4 w-4 mr-2 mt-0.5"
+                       fill="currentColor"
+                       viewBox="0 0 20 20"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z">
+                    </path>
                   </svg>
                   <div class="flex-1">
                     <span>{{ _("Libraries") }}:</span>
@@ -140,23 +152,27 @@
                 </div>
               {% endif %}
             </div>
-
             <!-- Status & Actions -->
-            <div class="flex items-center justify-between mt-auto pt-4" onclick="event.stopPropagation()">
-              <div class="flex items-center space-x-2">
-                {{ relative_expiry_badge(invite) }}
-              </div>
-
+            <div class="flex items-center justify-between mt-auto pt-4"
+                 onclick="event.stopPropagation()">
+              <div class="flex items-center space-x-2">{{ relative_expiry_badge(invite) }}</div>
               <div class="flex items-center space-x-2">
                 <!-- Copy link button -->
                 <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-colors"
                         onclick="tableCopyLink('{{ invite.code }}')"
                         title="{{ _('Copy invite link') }}">
-                  <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-6 5h6m-6 4h6M10 3v4h4V3h-4Z"></path>
+                  <svg class="h-4 w-4"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       viewBox="0 0 24 24"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-6 5h6m-6 4h6M10 3v4h4V3h-4Z">
+                    </path>
                   </svg>
                 </button>
-
                 <!-- Delete invitation button -->
                 <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 rounded-md transition-colors"
                         hx-post="/invite/table?delete={{ invite.code }}"
@@ -165,7 +181,14 @@
                         hx-swap="outerHTML swap:0.5s"
                         onclick="event.stopPropagation()"
                         title="{{ _('Delete invite') }}">
-                  <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <svg class="h-4 w-4"
+                       fill="none"
+                       stroke="currentColor"
+                       stroke-width="2"
+                       stroke-linecap="round"
+                       stroke-linejoin="round"
+                       viewBox="0 0 24 24"
+                       xmlns="http://www.w3.org/2000/svg">
                     <path d="M10 11v6"></path>
                     <path d="M14 11v6"></path>
                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
@@ -181,7 +204,6 @@
     {% endfor %}
   {% endif %}
 </div>
-
 <script>
     function tableCopyLink(invite_code) {
         const url = window.location.origin + "/j/" + invite_code;
