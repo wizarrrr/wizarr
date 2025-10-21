@@ -33,8 +33,8 @@
       {% set progress_percent = (session.progress * 100) | round(1) %}
       {% set duration = session.duration_ms %}
       {% set position = session.position_ms %}
-      {% set is_transcoding = session.transcoding.is_transcoding %}
-      {% set direct_play = session.transcoding.direct_play %}
+      {% set is_transcoding = session.transcoding_info.is_transcoding %}
+      {% set direct_play = session.transcoding_info.direct_play %}
       <!-- ──────────────── Wide rectangle card ──────────────── -->
       <div class="now-playing-card relative flex bg-white dark:bg-gray-800/70 rounded-lg overflow-hidden shadow-lg h-44 md:h-48"
            data-session-state="{{ session.state }}"
@@ -254,19 +254,19 @@
                   <div class="space-y-2">
                     <div class="flex justify-between">
                       <span class="text-gray-600 dark:text-gray-400">Video Codec:</span>
-                      <span class="text-gray-900 dark:text-white">{{ session.transcoding.video_codec or '-' }}</span>
+                      <span class="text-gray-900 dark:text-white">{{ session.transcoding_info.video_codec or '-' }}</span>
                     </div>
                     <div class="flex justify-between">
                       <span class="text-gray-600 dark:text-gray-400">Audio Codec:</span>
-                      <span class="text-gray-900 dark:text-white">{{ session.transcoding.audio_codec or '-' }}</span>
+                      <span class="text-gray-900 dark:text-white">{{ session.transcoding_info.audio_codec or '-' }}</span>
                     </div>
                     <div class="flex justify-between">
                       <span class="text-gray-600 dark:text-gray-400">Resolution:</span>
-                      <span class="text-gray-900 dark:text-white">{{ session.transcoding.video_resolution or '-' }}</span>
+                      <span class="text-gray-900 dark:text-white">{{ session.transcoding_info.video_resolution or '-' }}</span>
                     </div>
                     <div class="flex justify-between">
                       <span class="text-gray-600 dark:text-gray-400">Container:</span>
-                      <span class="text-gray-900 dark:text-white">{{ session.transcoding.container or '-' }}</span>
+                      <span class="text-gray-900 dark:text-white">{{ session.transcoding_info.container or '-' }}</span>
                     </div>
                     <div class="flex justify-between">
                       <span class="text-gray-600 dark:text-gray-400">Stream Type:</span>
@@ -280,10 +280,10 @@
                         {% endif %}
                       </span>
                     </div>
-                    {% if session.transcoding.is_transcoding and session.transcoding.transcoding_speed %}
+                    {% if session.transcoding_info.is_transcoding and session.transcoding_info.transcoding_speed %}
                       <div class="flex justify-between">
                         <span class="text-gray-600 dark:text-gray-400">Transcoding Speed:</span>
-                        <span class="text-gray-900 dark:text-white">{{ "%.1f"|format(session.transcoding.transcoding_speed) }}x</span>
+                        <span class="text-gray-900 dark:text-white">{{ "%.1f"|format(session.transcoding_info.transcoding_speed) }}x</span>
                       </div>
                     {% endif %}
                   </div>

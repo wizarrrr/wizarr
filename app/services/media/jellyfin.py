@@ -635,11 +635,18 @@ class JellyfinClient(RestApiMixin):
 
                 media_type = now_playing_item.get("Type", "unknown").lower()
 
+                # Extract series info for episodes (both for formatting and separate fields)
+                series_name = None
+                season_num = None
+                episode_num = None
                 media_title = now_playing_item.get("Name", "Unknown")
+
                 if media_type == "episode":
-                    series_name = now_playing_item.get("SeriesName", "")
-                    season_num = now_playing_item.get("ParentIndexNumber", "")
-                    episode_num = now_playing_item.get("IndexNumber", "")
+                    series_name = now_playing_item.get("SeriesName")
+                    season_num = now_playing_item.get("ParentIndexNumber")
+                    episode_num = now_playing_item.get("IndexNumber")
+
+                    # Format title for display
                     if series_name:
                         media_title = f"{series_name}"
                         if season_num and episode_num:
@@ -652,8 +659,15 @@ class JellyfinClient(RestApiMixin):
                 elif play_state.get("PositionTicks") is not None:
                     state = "playing"
 
+                # Extract user and session info
                 user_info = session.get("UserName", "Unknown User")
+                user_id = session.get("UserId")
                 session_id = session.get("Id", "")
+
+                # Extract device and platform info
+                ip_address = session.get("RemoteEndPoint")
+                platform = session.get("DeviceType")
+                player_version = session.get("ApplicationVersion")
 
                 item_id = now_playing_item.get("Id")
                 series_id = now_playing_item.get("SeriesId")
@@ -711,20 +725,42 @@ class JellyfinClient(RestApiMixin):
                     transcoding_info["container"] = now_playing_item.get("Container")
 
                 session_info = {
+                    # Required fields
                     "user_name": user_info,
                     "media_title": media_title,
+                    "session_id": session_id,
+                    # User info
+                    "user_id": user_id,
+                    # Media info
                     "media_type": media_type,
+                    "media_id": item_id,
+                    "series_name": series_name,
+                    "season_number": season_num,
+                    "episode_number": episode_num,
+                    # Playback info
                     "progress": progress,
                     "state": state,
-                    "session_id": session_id,
-                    "client": session.get("Client", ""),
-                    "device_name": session.get("DeviceName", ""),
                     "position_ms": play_state.get("PositionTicks", 0) // 10000,
                     "duration_ms": now_playing_item.get("RunTimeTicks", 0) // 10000,
+                    # Device info
+                    "client": session.get("Client", ""),
+                    "device_name": session.get("DeviceName", ""),
+                    "ip_address": ip_address,
+                    "platform": platform,
+                    "player_version": player_version,
+                    # Artwork
                     "artwork_url": artwork_info["artwork_url"],
                     "fallback_artwork_url": artwork_info["fallback_artwork_url"],
                     "thumbnail_url": artwork_info["thumbnail_url"],
-                    "transcoding": transcoding_info,
+                    # Transcoding
+                    "transcoding_info": transcoding_info,
+                    # Metadata
+                    "metadata": {
+                        "jellyfin_session_id": session_id,
+                        "jellyfin_item_id": item_id,
+                        "jellyfin_series_id": series_id,
+                        "play_method": session.get("PlayMethod"),
+                    },
                 }
 
                 now_playing_sessions.append(session_info)

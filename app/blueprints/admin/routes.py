@@ -955,7 +955,7 @@ def server_health_card():
                     continue
                 key = str(server_key)
                 active_counts[key] += 1
-                transcoding_info = session.get("transcoding") or {}
+                transcoding_info = session.get("transcoding_info") or {}
                 if isinstance(transcoding_info, dict) and transcoding_info.get(
                     "is_transcoding"
                 ):
