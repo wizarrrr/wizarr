@@ -36,7 +36,7 @@ def _discord(
         "description": msg,
         "author": {
             "name": "Wizarr",
-            "icon_url": "https://raw.githubusercontent.com/wizarrrr/wizarr/refs/heads/main/app/static/img/pwa-icons/icon-128x128.png",
+            "icon_url": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/wizarr.png",
         },
     }
 
