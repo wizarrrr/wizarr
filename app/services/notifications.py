@@ -24,8 +24,30 @@ def _send(url: str, data, headers: dict) -> bool:
         return False
 
 
-def _discord(msg: str, webhook_url: str) -> bool:
-    data = json.dumps({"content": msg})
+def _discord(
+    msg: str,
+    webhook_url: str,
+    title: str = "Wizarr Notification",
+    previous_version: str | None = None,
+    new_version: str | None = None,
+) -> bool:
+    embed = {
+        "title": title,
+        "description": msg,
+        "author": {
+            "name": "Wizarr",
+            "icon_url": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/wizarr.png",
+        },
+    }
+
+    # Add version fields for update notifications
+    if previous_version and new_version:
+        embed["fields"] = [
+            {"name": "Previous Version", "value": previous_version, "inline": True},
+            {"name": "New Version", "value": new_version, "inline": True},
+        ]
+
+    data = json.dumps({"embeds": [embed]})
     headers = {"Content-Type": "application/json"}
     return _send(webhook_url, data, headers)
 
@@ -89,7 +111,14 @@ def _notifiarr(
     return _send(url, data, headers)
 
 
-def notify(title: str, message: str, tags: str, event_type: str = "user_joined"):
+def notify(
+    title: str,
+    message: str,
+    tags: str,
+    event_type: str = "user_joined",
+    previous_version: str | None = None,
+    new_version: str | None = None,
+):
     """Broadcast to every configured agent that is subscribed to the event type."""
     for agent in Notification.query.all():
         # Check if agent is subscribed to this event type
@@ -100,7 +129,7 @@ def notify(title: str, message: str, tags: str, event_type: str = "user_joined")
             continue
 
         if agent.type == "discord":
-            _discord(message, agent.url)
+            _discord(message, agent.url, title, previous_version, new_version)
         elif agent.type == "ntfy":
             _ntfy(message, title, tags, agent.url, agent.username, agent.password)
         elif agent.type == "apprise":

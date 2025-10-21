@@ -56,7 +56,7 @@ def create():
         if form["type"] == "discord":
             url = form.get("url")
             if url:
-                ok = _discord("Wizarr test message", url)
+                ok = _discord("Wizarr test message", url, "Test Notification")
         elif form["type"] == "ntfy":
             url = form.get("url")
             if url:
@@ -136,7 +136,7 @@ def edit(agent_id):
         if form["type"] == "discord":
             url = form.get("url")
             if url:
-                ok = _discord("Wizarr test message", url)
+                ok = _discord("Wizarr test message", url, "Test Notification")
         elif form["type"] == "ntfy":
             url = form.get("url")
             if url:
