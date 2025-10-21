@@ -100,9 +100,11 @@ def fetch_and_cache_manifest(app=None):
                             try:
                                 notify(
                                     title="Wizarr Update Available",
-                                    message=f"A new version of Wizarr is available: {raw_version} → {latest_version}",
+                                    message="A new version of Wizarr is available!",
                                     tags="update,wizarr",
                                     event_type="update_available",
+                                    previous_version=raw_version,
+                                    new_version=latest_version,
                                 )
 
                                 # Record that we've notified about this version
