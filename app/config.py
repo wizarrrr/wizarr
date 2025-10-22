@@ -81,20 +81,36 @@ class BaseConfig:
 
     # Babel / i18n
     LANGUAGES = {
-        "en": "english",
-        "de": "german",
-        "zh": "chinese",
-        "fr": "french",
-        "sv": "swedish",
-        "pt": "portuguese",
-        "pt_BR": "portuguese",
-        "lt": "lithuanian",
-        "es": "spanish",
-        "ca": "catalan",
-        "pl": "polish",
+        "en": "English",
+        "ca": "Catalan",
+        "cs": "Czech",
+        "da": "Danish",
+        "de": "German",
+        "es": "Spanish",
+        "fa": "Persian",
+        "fr": "French",
+        "gsw": "Swiss German",
+        "he": "Hebrew",
+        "hr": "Croatian",
+        "hu": "Hungarian",
+        "is": "Icelandic",
+        "it": "Italian",
+        "lt": "Lithuanian",
+        "nb_NO": "Norwegian Bokmål",
+        "nl": "Dutch",
+        "pl": "Polish",
+        "pt": "Portuguese",
+        "pt_BR": "Portuguese (Brazil)",
+        "ro": "Romanian",
+        "ru": "Russian",
+        "sv": "Swedish",
+        "zh_Hans": "Chinese (Simplified)",
+        "zh_Hant": "Chinese (Traditional)",
     }
     BABEL_DEFAULT_LOCALE = "en"
     BABEL_TRANSLATION_DIRECTORIES = str(BASE_DIR / "app" / "translations")
+    # Allow forcing a specific language via environment variable
+    FORCE_LANGUAGE = os.getenv("FORCE_LANGUAGE")
     # Scheduler
     SCHEDULER_API_ENABLED = True
     # SQLAlchemy
