@@ -103,6 +103,9 @@ def delete_user_if_expired() -> list[int]:
 
     deleted: list[int] = []
     for user in expired_rows:
+        # Use a nested transaction (savepoint) so if deletion fails,
+        # we can rollback the ExpiredUser creation too
+        savepoint = db.session.begin_nested()
         try:
             # Log the user to expired_users table before deletion
             expired_user = ExpiredUser(
@@ -128,8 +131,16 @@ def delete_user_if_expired() -> list[int]:
             logging.info(
                 "🗑️ Expired user %s (%s) logged and deleted", user.id, user.username
             )
+            savepoint.commit()  # Commit the savepoint on success
         except Exception as exc:
-            logging.error("Failed to delete expired user %s – %s", user.id, exc)
+            # Rollback the savepoint - this removes the ExpiredUser record
+            # and keeps the User record for retry on next scheduler run
+            savepoint.rollback()
+            logging.error(
+                "Failed to delete expired user %s – %s. Will retry on next run.",
+                user.id,
+                exc,
+            )
 
     db.session.commit()
     return deleted
@@ -176,6 +187,9 @@ def disable_or_delete_user_if_expired() -> list[int]:
 
     processed: list[int] = []
     for user in expired_rows:
+        # Use a nested transaction (savepoint) so if deletion/disabling fails,
+        # we can rollback the ExpiredUser creation too
+        savepoint = db.session.begin_nested()
         try:
             # Log the user to expired_users table before processing
             expired_user = ExpiredUser(
@@ -211,6 +225,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
                             user.username,
                             user.server.server_type if user.server else "unknown",
                         )
+                        savepoint.commit()  # Commit the savepoint on success
                     else:
                         # Disable failed, fallback to deletion
                         raise Exception("Disable operation failed")
@@ -231,6 +246,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
                         user.id,
                         user.username,
                     )
+                    savepoint.commit()  # Commit the savepoint on success
             else:
                 # Delete the user (either by setting or server doesn't support disable)
                 # Use the service functions for deletion
@@ -248,8 +264,16 @@ def disable_or_delete_user_if_expired() -> list[int]:
                     user.username,
                     action_reason,
                 )
+                savepoint.commit()  # Commit the savepoint on success
         except Exception as exc:
-            logging.error("Failed to process expired user %s – %s", user.id, exc)
+            # Rollback the savepoint - this removes the ExpiredUser record
+            # and keeps the User record for retry on next scheduler run
+            savepoint.rollback()
+            logging.error(
+                "Failed to process expired user %s – %s. Will retry on next run.",
+                user.id,
+                exc,
+            )
 
     db.session.commit()
     return processed
