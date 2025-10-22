@@ -100,7 +100,7 @@ Plus features include:
     static_dir = project_root / "app" / "static"
 
     print("Compiling translations...")
-    run_command(["uv", "run", "pybabel", "compile", "-d", "app/translations"])
+    run_command(["uv", "run", "pybabel", "compile", "-d", "app/translations", "-f"])
 
     print("Running database setup...")
 
