@@ -140,8 +140,8 @@
                       {% for srv in invite.servers %}
                         <div class="text-gray-700 dark:text-gray-300">
                           <span class="font-medium">{{ srv.name }}</span>:
-                          {% if srv.library_names %}
-                            {{ srv.library_names|join(", ") }}
+                          {% if invite.server_library_map.get(srv.id) %}
+                            {{ invite.server_library_map[srv.id]|join(", ") }}
                           {% else %}
                             {{ _("Default") }}
                           {% endif %}

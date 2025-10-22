@@ -317,17 +317,18 @@ def invite_table():
             inv.expired = False
             inv.rel_expiry = _("Never")
 
-        # ---- group libraries by server ----
-        server_libs: dict[str, list[str]] = {}
+        # ---- group libraries by server ID (not name, to handle unique lookups) ----
+        server_libs: dict[int, list[str]] = {}
         for lib in inv.libraries:
             if not lib.server:  # orphan guard
                 continue
-            server_libs.setdefault(lib.server.name, []).append(lib.name)
+            server_libs.setdefault(lib.server.id, []).append(lib.name)
         # Sort names inside each group
         for lst in server_libs.values():
             lst.sort()
 
-        inv.display_libraries_by_server = server_libs
+        # Store library mapping on invitation (not on shared server objects!)
+        inv.server_library_map = server_libs
         inv.display_libraries = sorted(
             {lib.name for lib in inv.libraries if lib.server}
         )
@@ -344,10 +345,11 @@ def invite_table():
             else:
                 all_used = False
 
-            # library list for this server (by *server name* key)
-            libs = server_libs.get(srv.name, [])
-            srv.library_names = libs  # Use a non-conflicting attribute name
-            # If libs is empty (default libraries), count all enabled libraries on this server
+            # Don't modify the shared server object - store on invitation instead
+            # The template will use inv.server_library_map[srv.id]
+            libs = server_libs.get(srv.id, [])
+
+            # Count libraries for display
             if libs:
                 srv.library_count = len(libs)
             else:
