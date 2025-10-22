@@ -25,30 +25,54 @@ class ActivityAnalyticsService:
     def __init__(self):
         self.logger = structlog.get_logger(__name__)
 
+    @staticmethod
+    def _valid_for_statistics_filter():
+        """
+        Return SQLAlchemy filter to exclude sessions with Unknown values.
+
+        Follows Tautulli's approach: capture all sessions immediately,
+        but filter out incomplete ones from statistics and dashboards.
+        """
+        unknown_values = [
+            "Unknown",
+            "unknown",
+            "Unknown User",
+            "unknown user",
+            "Unknown Device",
+            "unknown device",
+        ]
+        return db.and_(
+            ActivitySession.user_name.not_in(unknown_values),
+            ActivitySession.media_title.not_in(unknown_values),
+            ActivitySession.device_name.not_in(unknown_values),
+        )
+
     def get_activity_stats(self, days: int = 30) -> dict[str, Any]:
-        """Return high-level statistics for the given window."""
+        """Return high-level statistics for the given window (excludes Unknown sessions)."""
         if db is None:
             return {}
 
         try:
             start_date = datetime.now(UTC) - timedelta(days=days)
+            valid_filter = self._valid_for_statistics_filter()
 
+            # Filter out sessions with Unknown values for accurate statistics
             total_sessions = (
                 db.session.query(ActivitySession)
-                .filter(ActivitySession.started_at >= start_date)
+                .filter(ActivitySession.started_at >= start_date, valid_filter)
                 .count()
             )
 
             unique_users = (
                 db.session.query(ActivitySession.user_name)
-                .filter(ActivitySession.started_at >= start_date)
+                .filter(ActivitySession.started_at >= start_date, valid_filter)
                 .distinct()
                 .count()
             )
 
             active_sessions = (
                 db.session.query(ActivitySession)
-                .filter(ActivitySession.active.is_(True))
+                .filter(ActivitySession.active.is_(True), valid_filter)
                 .count()
             )
 
@@ -60,6 +84,7 @@ class ActivityAnalyticsService:
                 .filter(
                     ActivitySession.started_at >= start_date,
                     ActivitySession.media_type.is_not(None),
+                    valid_filter,
                 )
                 .group_by(ActivitySession.media_type)
                 .order_by(db.func.count(ActivitySession.id).desc())
@@ -72,7 +97,7 @@ class ActivityAnalyticsService:
                     ActivitySession.user_name,
                     db.func.count(ActivitySession.id).label("session_count"),
                 )
-                .filter(ActivitySession.started_at >= start_date)
+                .filter(ActivitySession.started_at >= start_date, valid_filter)
                 .group_by(ActivitySession.user_name)
                 .order_by(db.func.count(ActivitySession.id).desc())
                 .limit(10)
@@ -99,7 +124,7 @@ class ActivityAnalyticsService:
             return {}
 
     def get_dashboard_stats(self, days: int = 7) -> dict[str, Any]:
-        """Return the rich dataset used by the activity dashboard."""
+        """Return the rich dataset used by the activity dashboard (excludes Unknown sessions)."""
         if db is None:
             return self._get_empty_dashboard_stats()
 
@@ -113,6 +138,9 @@ class ActivityAnalyticsService:
             if days != 0:
                 start_date = datetime.now(UTC) - timedelta(days=days)
                 filters.append(ActivitySession.started_at >= start_date)
+
+            # Always filter out sessions with Unknown values for accurate dashboard stats
+            filters.append(self._valid_for_statistics_filter())
 
             watch_time_expr = case(
                 (

@@ -196,13 +196,63 @@ class ActivityIngestionService:
             event.event_type = "session_start"
             return self._handle_session_start(event)
 
-        if event.user_name and event.user_name.lower() not in {
-            "unknown",
-            "unknown user",
-        }:
+        # Tautulli approach: Allow enrichment by overwriting "Unknown" values
+        # Update fields if: (1) current value is Unknown OR (2) new value is not Unknown
+        def should_update(current_value: str | None, new_value: str | None) -> bool:
+            """Check if field should be updated based on enrichment rules."""
+            if not new_value:
+                return False
+            new_is_unknown = new_value.lower() in {"unknown", "unknown user"}
+            if not current_value or current_value.lower() in {
+                "unknown",
+                "unknown user",
+            }:
+                # Current is Unknown, update if new is not Unknown
+                return not new_is_unknown
+            # Current has value, only update if new is also not Unknown
+            return not new_is_unknown
+
+        if should_update(session.user_name, event.user_name):
+            self.logger.debug(
+                "Enriching session %s user_name: %s -> %s",
+                event.session_id,
+                session.user_name,
+                event.user_name,
+            )
             session.user_name = event.user_name
+
         if event.user_id:
             session.user_id = event.user_id
+
+        if should_update(session.media_title, event.media_title):
+            self.logger.debug(
+                "Enriching session %s media_title: %s -> %s",
+                event.session_id,
+                session.media_title,
+                event.media_title,
+            )
+            session.media_title = event.media_title
+
+        if should_update(session.device_name, event.device_name):
+            self.logger.debug(
+                "Enriching session %s device_name: %s -> %s",
+                event.session_id,
+                session.device_name,
+                event.device_name,
+            )
+            session.device_name = event.device_name
+
+        if should_update(session.client_name, event.client_name):
+            session.client_name = event.client_name
+
+        if should_update(session.platform, event.platform):
+            session.platform = event.platform
+
+        if event.media_type and event.media_type.lower() != "unknown":
+            session.media_type = event.media_type
+
+        if event.media_id:
+            session.media_id = event.media_id
 
         updated_session = self._update_session_from_event(session, event)
 

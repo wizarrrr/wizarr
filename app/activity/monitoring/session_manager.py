@@ -206,7 +206,7 @@ class SessionManager:
             self._record_progress(transition)
 
     def _on_session_start(self, transition: SessionTransition):
-        """Handle session start with rich logging and validation."""
+        """Handle session start with immediate write (Tautulli-inspired approach)."""
         session_key = transition.session_key
         server_id = (
             transition.metadata.get("server_id") if transition.metadata else None
@@ -216,73 +216,48 @@ class SessionManager:
             f"🎬 Session start handler called for {session_key}, server_id={server_id}"
         )
 
-        # Retry logic for session data lookup
-        session_data = {}
-        max_retries = 3
-        retry_delay = 0.5  # 0.5 seconds between retries
-
-        for attempt in range(max_retries):
-            session_data = self._get_session_from_current_activity(
-                session_key, server_id
-            )
-
-            # Check if we got valid session data (all critical fields populated)
-            if (
-                session_data.get("username") != "Unknown"
-                and session_data.get("full_title") != "Unknown"
-                and session_data.get("device") != "Unknown"
-            ):
-                break
-
-            if attempt < max_retries - 1:  # Don't sleep after last attempt
-                self.logger.debug(
-                    f"Session data not ready for {session_key}, retrying in {retry_delay}s (attempt {attempt + 1}/{max_retries})"
-                )
-                import time
-
-                time.sleep(retry_delay)
-                retry_delay *= 2  # Exponential backoff
-
-        user_name = session_data.get("username", "Unknown")
-        media_title = session_data.get("full_title", "Unknown")
-        device_name = session_data.get("device", "Unknown")
+        # Tautulli approach: Write immediately with whatever data we have from the WebSocket alert
+        # Don't query API or retry - enrichment happens later during progress updates
         rating_key = (
             transition.metadata.get("rating_key") if transition.metadata else None
         )
 
-        # If we still have Unknown data after retries, log a warning but continue
-        if (
-            user_name == "Unknown"
-            or media_title == "Unknown"
-            or device_name == "Unknown"
-        ):
-            self.logger.warning(
-                f"⚠️  Session {session_key} still has incomplete data after {max_retries} retries "
-                f"(user={user_name}, title={media_title}, device={device_name}) - creating session anyway"
-            )
+        # Use minimal data from WebSocket alert - may contain "Unknown" values
+        # This is intentional and will be enriched during progress updates
+        session_data = {
+            "username": "Unknown",
+            "full_title": "Unknown",
+            "device": "Unknown",
+            "player": "Unknown",
+            "platform": "Unknown",
+            "media_type": "unknown",
+            "rating_key": rating_key,
+            "session_key": session_key,
+        }
 
         self.logger.info(
-            f"🎬 Session {session_key} started for user {user_name}, title: {media_title} (rating_key: {rating_key})"
+            f"🎬 Session {session_key} started - will enrich on next progress update (rating_key: {rating_key})"
         )
 
-        # Cache the session data including timestamp for duration calculation
+        # Cache the minimal session data - will be enriched during progress updates
         with self._lock:
             self.active_sessions[session_key] = {
                 **session_data,
                 "started_at": transition.timestamp,
                 "last_update": transition.timestamp,
+                "needs_enrichment": True,  # Flag to indicate this needs enrichment
             }
 
-        # Create activity event with rich data from session
+        # Create activity event with minimal data (will be enriched later)
         event = ActivityEvent(
             event_type="session_start",
             server_id=int(transition.metadata.get("server_id", 0))
             if transition.metadata
             else 0,
             session_id=session_key,
-            user_name=user_name,
+            user_name=str(session_data.get("username", "Unknown")),
             user_id=session_data.get("user_id"),
-            media_title=media_title,
+            media_title=str(session_data.get("full_title", "Unknown")),
             media_type=session_data.get("media_type", "unknown"),
             media_id=session_data.get("rating_key", rating_key),
             device_name=session_data.get("device", "Unknown"),
@@ -508,32 +483,75 @@ class SessionManager:
             self.event_callback(event)
 
     def _record_progress(self, transition: SessionTransition):
-        """Record periodic progress snapshots."""
+        """Record periodic progress snapshots with enrichment (Tautulli-inspired)."""
         # Only record progress snapshots every 30 seconds to avoid spam
         session_key = transition.session_key
         with self._lock:
-            session_data = self.active_sessions.get(session_key, {})
-            last_progress = session_data.get(
+            cached_session = self.active_sessions.get(session_key, {})
+            last_progress = cached_session.get(
                 "last_progress_recorded", datetime.min.replace(tzinfo=UTC)
             )
 
         if (transition.timestamp - last_progress).total_seconds() >= 30:
-            # Get complete session data for progress event
             server_id = (
                 int(transition.metadata.get("server_id", 0))
                 if transition.metadata
                 else 0
             )
-            session_data = self._get_session_from_current_activity(
+
+            # Tautulli approach: Always query current activity to enrich session data
+            # This self-heals sessions that started with "Unknown" values
+            fresh_session_data = self._get_session_from_current_activity(
                 session_key, server_id
             )
 
+            # Check if we got better data than what's cached
+            if fresh_session_data:
+                has_improvements = (
+                    fresh_session_data.get("username", "Unknown") != "Unknown"
+                    or fresh_session_data.get("full_title", "Unknown") != "Unknown"
+                    or fresh_session_data.get("device", "Unknown") != "Unknown"
+                )
+
+                if has_improvements:
+                    self.logger.info(
+                        f"✨ Enriching session {session_key} with fresh data: "
+                        f"user={fresh_session_data.get('username')}, "
+                        f"title={fresh_session_data.get('full_title')}"
+                    )
+
+                    # Update cached session with enriched data
+                    with self._lock:
+                        if session_key in self.active_sessions:
+                            self.active_sessions[session_key].update(fresh_session_data)
+                            self.active_sessions[session_key]["needs_enrichment"] = (
+                                False
+                            )
+                            self.active_sessions[session_key]["enriched_at"] = (
+                                transition.timestamp
+                            )
+
+                    session_data = fresh_session_data
+                else:
+                    # Use cached data if fresh lookup didn't help
+                    session_data = cached_session
+            else:
+                # API lookup failed, use cached data
+                session_data = cached_session
+
+            # Create progress event with enriched data
             event = ActivityEvent(
                 event_type="session_progress",
                 server_id=server_id,
                 session_id=session_key,
                 user_name=session_data.get("username", "Unknown"),
+                user_id=session_data.get("user_id"),
                 media_title=session_data.get("full_title", "Unknown"),
+                media_type=session_data.get("media_type", "unknown"),
+                media_id=session_data.get("rating_key"),
+                device_name=session_data.get("device", "Unknown"),
+                client_name=session_data.get("player", "Unknown"),
+                platform=session_data.get("platform", "Unknown"),
                 timestamp=transition.timestamp,
                 position_ms=transition.view_offset,
                 state=transition.to_state.value,

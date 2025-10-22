@@ -856,6 +856,28 @@ class ActivitySession(db.Model):
 
         return self.user_name
 
+    def is_valid_for_statistics(self) -> bool:
+        """
+        Check if session has complete data for statistics (Tautulli-inspired).
+
+        Returns False if critical fields contain "Unknown" values, allowing
+        queries to filter out incomplete sessions from statistics and dashboards.
+
+        This follows Tautulli's approach of dual persistence: all sessions are
+        captured immediately, but only validated sessions are used for analytics.
+        """
+        # Check if critical fields are Unknown
+        unknown_values = {"unknown", "unknown user", "unknown device"}
+
+        if not self.user_name or self.user_name.lower() in unknown_values:
+            return False
+
+        if not self.media_title or self.media_title.lower() in unknown_values:
+            return False
+
+        # Device name is less critical but should be checked for quality
+        return bool(self.device_name and self.device_name.lower() not in unknown_values)
+
 
 class HistoricalImportJob(db.Model):
     __tablename__ = "historical_import_job"
