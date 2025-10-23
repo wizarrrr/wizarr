@@ -11,12 +11,6 @@ from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid
 
 from .client_base import RestApiMixin, register_media_client
-from .utils import (
-    DateHelper,
-    LibraryAccessHelper,
-    StandardizedPermissions,
-    create_standardized_user_details,
-)
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
@@ -97,76 +91,56 @@ class JellyfinClient(RestApiMixin):
             "Name": details.username,
             "Id": details.user_id,
             "Email": details.email,
-            "Policy": details.raw_policies.get("Policy", {})
-            if details.raw_policies
-            else {},
-            "Configuration": details.raw_policies.get("Configuration", {})
-            if details.raw_policies
-            else {},
+            "Policy": {
+                "IsAdministrator": details.is_admin,
+                "EnableContentDownloading": details.allow_downloads,
+                "EnableLiveTvAccess": details.allow_live_tv,
+                "AllowCameraUpload": details.allow_camera_upload,
+            },
+            "Configuration": {},
         }
 
     def get_user_details(self, jf_id: str) -> "MediaUserDetails":
-        """Get detailed user information in standardized format."""
-        # Get raw user data from Jellyfin API
-        raw_user = self.get(f"/Users/{jf_id}").json()
-        policy = raw_user.get("Policy", {}) or {}
+        """Get detailed user information from database (no API calls)."""
+        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
 
-        # Extract standardized permissions using shared utility
-        permissions = StandardizedPermissions.for_jellyfin(policy)
+        if not (
+            user := User.query.filter_by(token=jf_id, server_id=self.server_id).first()
+        ):
+            raise ValueError(f"No user found with id {jf_id}")
 
-        # Extract library access using shared utility
-        enable_all = policy.get("EnableAllFolders", False)
-        enabled_folders = policy.get("EnabledFolders", []) or []
+        # Build library access from stored names
+        library_access = None
+        if library_names := user.get_accessible_libraries():
+            libs_by_name = {
+                lib.name: lib
+                for lib in Library.query.filter(
+                    Library.server_id == self.server_id, Library.name.in_(library_names)
+                ).all()
+            }
+            library_access = [
+                UserLibraryAccess(
+                    library_id=lib.external_id
+                    if (lib := libs_by_name.get(name))
+                    else f"jf_{name}",
+                    library_name=name,
+                    has_access=True,
+                )
+                for name in library_names
+            ]
 
-        if enable_all or not enabled_folders:
-            library_access = LibraryAccessHelper.create_full_access()
-        else:
-            library_access = LibraryAccessHelper.create_restricted_access(
-                enabled_folders, self.server_id
-            )
-
-        # Parse dates using shared utility
-        created_at = DateHelper.parse_iso_date(raw_user.get("DateCreated"))
-        last_active = DateHelper.parse_iso_date(raw_user.get("DateLastActivity"))
-
-        # Filter raw_policies to only include admin-relevant information
-        filtered_policies = {
-            # User status
-            "IsAdministrator": permissions.is_admin,
-            "IsDisabled": policy.get("IsDisabled", False),
-            "IsHidden": policy.get("IsHidden", False),
-            # Access permissions
-            "EnableRemoteAccess": policy.get("EnableRemoteAccess", True),
-            "EnableLiveTvAccess": permissions.allow_live_tv,
-            "EnableMediaPlayback": policy.get("EnableMediaPlayback", True),
-            "EnableContentDownloading": permissions.allow_downloads,
-            "EnableSyncTranscoding": policy.get("EnableSyncTranscoding", True),
-            # Management permissions
-            "EnableCollectionManagement": policy.get(
-                "EnableCollectionManagement", False
-            ),
-            "EnableSubtitleManagement": policy.get("EnableSubtitleManagement", False),
-            "EnableLiveTvManagement": policy.get("EnableLiveTvManagement", False),
-            "EnableContentDeletion": policy.get("EnableContentDeletion", False),
-            # Session limits
-            "MaxActiveSessions": policy.get("MaxActiveSessions", 0),
-            "InvalidLoginAttemptCount": policy.get("InvalidLoginAttemptCount", 0),
-            # Last activity
-            "LastLoginDate": raw_user.get("LastLoginDate"),
-            "LastActivityDate": raw_user.get("LastActivityDate"),
-        }
-
-        # Create standardized user details using factory function
-        return create_standardized_user_details(
-            user_id=jf_id,
-            username=raw_user.get("Name", "Unknown"),
-            email=raw_user.get("Email"),
-            permissions=permissions,
+        return MediaUserDetails(
+            user_id=user.token,
+            username=user.username,
+            email=user.email,
+            is_admin=user.is_admin or False,
+            is_enabled=True,
+            created_at=None,
+            last_active=None,
+            allow_downloads=user.allow_downloads or False,
+            allow_live_tv=user.allow_live_tv or False,
+            allow_camera_upload=user.allow_camera_upload or False,
             library_access=library_access,
-            raw_policies=filtered_policies,
-            created_at=created_at,
-            last_active=last_active,
-            is_enabled=not policy.get("IsDisabled", False),
         )
 
     def update_user(self, jf_id: str, form: dict) -> dict | None:
@@ -236,157 +210,100 @@ class JellyfinClient(RestApiMixin):
             structlog.get_logger().error(f"Failed to disable Jellyfin user: {e}")
             return False
 
-    def list_users(self) -> list[User]:
-        server_id = getattr(self, "server_id", None)
-        raw_users = self.get("/Users").json()
-        jf_users = {u["Id"]: u for u in raw_users}
+    def _get_server_users(self) -> list[User]:
+        """Get all users for this server from database."""
+        return User.query.filter(User.server_id == self.server_id).all()
 
-        for jf in jf_users.values():
-            existing = User.query.filter_by(token=jf["Id"]).first()
-            if not existing:
-                new = User(
-                    token=jf["Id"],
-                    username=jf["Name"],
-                    email="empty",
-                    code="empty",
-                    server_id=server_id,
-                )
-                db.session.add(new)
+    def _extract_jellyfin_permissions(self, jf_user: dict) -> dict[str, bool]:
+        """Extract all permissions from a Jellyfin user object."""
+        policy = jf_user.get("Policy", {}) or {}
 
-        to_check = User.query.filter(User.server_id == server_id).all()
-        for dbu in to_check:
-            if dbu.token not in jf_users:
-                db.session.delete(dbu)
+        return {
+            "is_admin": policy.get("IsAdministrator", False),
+            "allow_downloads": policy.get("EnableContentDownloading", True),
+            "allow_live_tv": policy.get("EnableLiveTvAccess", False),
+            "allow_camera_upload": policy.get("AllowCameraUpload", False),
+        }
 
-        db.session.commit()
+    def _get_user_library_access(self, jf_user: dict) -> tuple[list[str] | None, bool]:
+        """Extract library access: (library_names | None, has_full_access)."""
+        if (policy := jf_user.get("Policy", {}) or {}).get("EnableAllFolders", False):
+            return None, True
 
-        # Get users with policy information
-        users = User.query.filter(User.server_id == server_id).all()
+        if not (enabled_folders := policy.get("EnabledFolders", []) or []):
+            return None, True  # No restrictions = full access
 
-        # Enhance users with policy data and update database
-        for user in users:
-            if user.token in jf_users:
-                jf_user = jf_users[user.token]
-                policy = jf_user.get("Policy", {}) or {}
-
-                # Extract standardized permissions using shared utility
-                permissions = StandardizedPermissions.for_jellyfin(policy)
-
-                # Store Jellyfin permissions in raw_policies_json using the proper method
-                jellyfin_policies = {
-                    "EnableContentDownloading": permissions.allow_downloads,
-                    "EnableLiveTvAccess": permissions.allow_live_tv,
-                    "EnableSyncTranscoding": policy.get("EnableSyncTranscoding", True),
-                    # Map Jellyfin permissions to common permission names for display
-                    "allow_downloads": permissions.allow_downloads,
-                    "allow_live_tv": permissions.allow_live_tv,
-                }
-                user.set_raw_policies(jellyfin_policies)
-            else:
-                # Default values if user data not found - store in metadata too
-                default_policies = {
-                    "EnableContentDownloading": False,
-                    "EnableLiveTvAccess": False,
-                    "EnableSyncTranscoding": False,
-                    "allow_downloads": False,
-                    "allow_live_tv": False,
-                }
-                user.set_raw_policies(default_policies)
-
-        # Single commit for all metadata updates
-        try:
-            db.session.commit()
-        except Exception as e:
-            logging.error(f"Failed to update Jellyfin user metadata: {e}")
-            db.session.rollback()
-            # Continue without metadata updates rather than failing completely
-
-        # Cache detailed metadata for all users from bulk response (no individual API calls)
-        self._cache_user_metadata_from_bulk_response(users, jf_users)
-
-        # Commit the standardized metadata updates
-        try:
-            db.session.commit()
-        except Exception as e:
-            logging.error(
-                f"JELLYFIN: Failed to commit standardized metadata updates: {e}"
+        # Map library IDs to names
+        library_names = [
+            lib.name
+            for lib_id in enabled_folders
+            if (
+                lib := Library.query.filter_by(
+                    external_id=lib_id, server_id=self.server_id
+                ).first()
             )
+        ]
+        return library_names, False
+
+    def _sync_user_permissions(self, user: User, jf_user: dict) -> None:
+        """Sync permissions and library access from Jellyfin to database user."""
+        user.username = jf_user.get("Name", user.username)
+        user.email = jf_user.get("Email", user.email)
+
+        # Store permissions in SQL columns
+        perms = self._extract_jellyfin_permissions(jf_user)
+        user.is_admin = perms["is_admin"]
+        user.allow_downloads = perms["allow_downloads"]
+        user.allow_live_tv = perms["allow_live_tv"]
+        user.allow_camera_upload = perms["allow_camera_upload"]
+
+        # Store library access
+        library_names, has_full_access = self._get_user_library_access(jf_user)
+        user.set_accessible_libraries(library_names if not has_full_access else None)
+
+    def list_users(self) -> list[User]:
+        """Sync users from Jellyfin to database with all permissions and library access."""
+        if not self.server_id:
+            return []
+
+        try:
+            raw_users = self.get("/Users").json()
+        except Exception as exc:
+            logging.warning("Jellyfin: failed to list users – %s", exc)
+            return self._get_server_users()
+
+        jf_users_by_id = {u["Id"]: u for u in raw_users}
+
+        # Remove users no longer in Jellyfin, add new users
+        for db_user in self._get_server_users():
+            if db_user.token not in jf_users_by_id:
+                db.session.delete(db_user)
+
+        for jf_id, jf_user in jf_users_by_id.items():
+            if not User.query.filter_by(token=jf_id, server_id=self.server_id).first():
+                db.session.add(
+                    User(
+                        token=jf_id,
+                        username=jf_user.get("Name", "jf-user"),
+                        email="empty",
+                        code="empty",
+                        server_id=self.server_id,
+                    )
+                )
+
+        # Sync all permissions and library access
+        for user in self._get_server_users():
+            if jf_user := jf_users_by_id.get(user.token):
+                self._sync_user_permissions(user, jf_user)
+
+        try:
+            db.session.commit()
+            logging.info(f"Synced {len(jf_users_by_id)} Jellyfin users to database")
+        except Exception as e:
+            logging.error(f"Failed to sync Jellyfin user metadata: {e}")
             db.session.rollback()
 
-        return users
-
-    def _cache_user_metadata_from_bulk_response(
-        self, users: list[User], jf_users: dict
-    ) -> None:
-        """Cache user metadata from bulk API response without individual API calls.
-
-        Args:
-            users: List of User objects to cache metadata for
-            jf_users: Dictionary of raw user data from bulk /Users response
-        """
-        if not users or not jf_users:
-            return
-
-        cached_count = 0
-        for user in users:
-            try:
-                # Get the raw user data from bulk response
-                raw_user = jf_users.get(user.token)
-                if not raw_user:
-                    continue
-
-                policy = raw_user.get("Policy", {}) or {}
-
-                # Extract standardized permissions using shared utility
-                permissions = StandardizedPermissions.for_jellyfin(policy)
-
-                # Extract library access using shared utility
-                enable_all = policy.get("EnableAllFolders", False)
-                enabled_folders = policy.get("EnabledFolders", []) or []
-
-                if enable_all or not enabled_folders:
-                    library_access = LibraryAccessHelper.create_full_access()
-                else:
-                    library_access = LibraryAccessHelper.create_restricted_access(
-                        enabled_folders, self.server_id
-                    )
-
-                # Parse dates using shared utility
-                created_at = DateHelper.parse_iso_date(raw_user.get("DateCreated"))
-                last_active = DateHelper.parse_iso_date(
-                    raw_user.get("LastActivityDate")
-                )
-
-                # Extract configuration and policy information
-                configuration = raw_user.get("Configuration", {}) or {}
-                raw_policies = {
-                    "Policy": policy,
-                    "Configuration": configuration,
-                }
-
-                # Create standardized user details using factory function
-                details = create_standardized_user_details(
-                    user_id=user.token,
-                    username=raw_user.get("Name", "Unknown"),
-                    email=raw_user.get("Email"),
-                    permissions=permissions,
-                    library_access=library_access,
-                    raw_policies=raw_policies,
-                    created_at=created_at,
-                    last_active=last_active,
-                    is_enabled=not policy.get("IsDisabled", False),
-                )
-
-                # Update the standardized metadata columns in the User record
-                user.update_standardized_metadata(details)
-                cached_count += 1
-
-            except Exception as e:
-                logging.warning(f"Failed to cache metadata for user {user.token}: {e}")
-                continue
-
-        if cached_count > 0:
-            logging.info(f"Cached metadata for {cached_count} users")
+        return self._get_server_users()
 
     def _password_for_db(self, password: str) -> str:
         return password

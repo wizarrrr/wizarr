@@ -38,7 +38,7 @@ class AdminUpdateForm(FlaskForm):
 
     # New password can be left blank (unchanged)
     password = PasswordField(
-        str(_l("New Password")), validators=[Optional()] + _password_validators[1:]
+        str(_l("New Password")), validators=[Optional(), *_password_validators[1:]]
     )
     confirm = PasswordField(
         str(_l("Confirm password")),

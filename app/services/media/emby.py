@@ -181,7 +181,7 @@ class EmbyClient(JellyfinClient):
 
         return user_id
 
-    def _password_for_db(self, password: str) -> str:
+    def _password_for_db(self, _password: str) -> str:
         """Return placeholder password for local DB."""
         return "emby-user"
 
@@ -271,7 +271,7 @@ class EmbyClient(JellyfinClient):
             self.set_policy(user.token, current_policy)
         except Exception as e:
             logging.error(
-                f"Failed to set Emby download/live TV/mobile uploads permissions for user {username}: {str(e)}"
+                f"Failed to set Emby download/live TV/mobile uploads permissions for user {username}: {e!s}"
             )
             # Don't fail the join process for this
 

@@ -50,7 +50,7 @@ class PlexHistoricalImporter:
                 raise ValueError("Plex client not properly configured")
 
             # Calculate date range
-            min_date = datetime.now() - timedelta(days=days_back)
+            min_date = datetime.now(UTC) - timedelta(days=days_back)
 
             logger.info(
                 "plex_import_started",
@@ -107,7 +107,7 @@ class PlexHistoricalImporter:
                 "total_processed": len(imported_sessions),
                 "date_range": {
                     "from": min_date.isoformat(),
-                    "to": datetime.now().isoformat(),
+                    "to": datetime.now(UTC).isoformat(),
                 },
             }
 

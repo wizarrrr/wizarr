@@ -16,7 +16,7 @@ from app.services.notifications import notify
 from .client_base import MediaClient, register_media_client
 
 if TYPE_CHECKING:
-    from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
+    from app.services.media.user_details import MediaUserDetails
 
 
 def _accept_invite_v2(self: MyPlexAccount, user):
@@ -146,7 +146,7 @@ class PlexClient(MediaClient):
         if "url_key" not in kwargs:
             kwargs["url_key"] = "server_url"
         if "token_key" not in kwargs:
-            kwargs["token_key"] = "api_key"
+            kwargs["token_key"] = "api_key"  # noqa: S105  # Parameter name, not actual password
 
         super().__init__(*args, **kwargs)
         self._server = None
@@ -172,256 +172,109 @@ class PlexClient(MediaClient):
     def libraries(self) -> dict[str, str]:
         return {lib.title: lib.title for lib in self.server.library.sections()}
 
-    @staticmethod
-    def _is_user_restricted(plex_user) -> bool:
-        """Infer whether a Plex user has restricted library access."""
-        restricted_attr = getattr(plex_user, "restricted", None)
-        if restricted_attr is None:
-            return False
+    # ─── Helper Methods ────────────────────────────────────────────────────────
 
-        value = str(restricted_attr).strip().lower()
-        return value not in ("", "0", "false", "no", "none")
+    def _get_server_users(self) -> list[User]:
+        """Get all users for this server from database."""
+        return db.session.query(User).filter(User.server_id == self.server_id).all()
 
-    def _extract_shared_section_titles(self, server_share) -> list[str]:
-        """Safely extract shared library titles from a Plex server share."""
+    def _extract_plex_permissions(self, plex_user) -> dict[str, bool]:
+        """Extract all permissions from a Plex user object."""
+        return {
+            "is_admin": getattr(plex_user, "admin", False),
+            "allow_downloads": getattr(plex_user, "allowSync", False),
+            "allow_live_tv": getattr(plex_user, "allowChannels", False),
+            "allow_camera_upload": getattr(plex_user, "allowCameraUpload", False),
+        }
+
+    def _filter_users_for_server(self, admin_users, server_id: str) -> dict[str, any]:
+        """Filter Plex users who have access to this specific server."""
+        users_by_email = {}
+        for plex_user in admin_users:
+            email = getattr(plex_user, "email", None)
+            servers = getattr(plex_user, "servers", []) or []
+
+            if email and any(s.machineIdentifier == server_id for s in servers):
+                users_by_email[email] = plex_user
+
+        return users_by_email
+
+    def _sync_user_permissions(self, user: User, plex_user) -> None:
+        """Sync permissions and library access from Plex to database user."""
+        # Update basic info
+        user.username = getattr(plex_user, "title", user.username)
+        user.photo = getattr(plex_user, "thumb", None)
+
+        # Update permissions
+        permissions = self._extract_plex_permissions(plex_user)
+        user.is_admin = permissions["is_admin"]
+        user.allow_downloads = permissions["allow_downloads"]
+        user.allow_live_tv = permissions["allow_live_tv"]
+        user.allow_camera_upload = permissions["allow_camera_upload"]
+
+        # Update library access
+        library_names, has_full_access = self._get_user_library_access(plex_user)
+        if has_full_access:
+            user.set_accessible_libraries(None)
+        else:
+            user.set_accessible_libraries(library_names or [])
+
+    # ─── Library Access Methods ────────────────────────────────────────────────
+
+    def _get_user_library_access(self, plex_user) -> tuple[list[str] | None, bool]:
+        """Extract library access: (library_names | None, has_full_access)."""
+        # Find this server's share
+        matching_share = next(
+            (
+                s
+                for s in getattr(plex_user, "servers", []) or []
+                if getattr(s, "machineIdentifier", None)
+                == self.server.machineIdentifier
+            ),
+            None,
+        )
+
+        if not matching_share:
+            logging.warning(
+                f"PLEX: No server share found for user {getattr(plex_user, 'email', 'unknown')}"
+            )
+            return [], False
+
+        # Check if user has full access
+        if getattr(matching_share, "allLibraries", False):
+            return None, True
+
+        return self._extract_library_names_from_share(matching_share), False
+
+    def _extract_library_names_from_share(self, server_share) -> list[str]:
+        """Extract library names from Plex server share object."""
         if not server_share:
             return []
 
-        sections_data = None
+        # Get sections (API varies by plexapi version)
         try:
             sections_data = server_share.sections()
-        except TypeError:
-            # Some plexapi versions expose ``sections`` as an iterable attribute
+        except (TypeError, AttributeError):
             sections_data = getattr(server_share, "sections", None)
-        except Exception as exc:  # pragma: no cover - defensive logging
-            logging.warning(
-                "PLEX: Failed to fetch shared sections for '%s': %s",
-                getattr(server_share, "name", "unknown"),
-                exc,
-            )
+
+        if not sections_data:
             return []
 
-        if sections_data is None:
-            return []
-
+        # Handle callable sections
         if callable(sections_data):
             try:
                 sections_data = sections_data()
-            except Exception as exc:  # pragma: no cover - defensive logging
-                logging.warning(
-                    "PLEX: Failed to call sections() for '%s': %s",
-                    getattr(server_share, "name", "unknown"),
-                    exc,
-                )
+            except Exception as exc:
+                logging.warning(f"PLEX: Failed to call sections(): {exc}")
                 return []
 
-        titles: list[str] = []
-        try:
-            for section in sections_data or []:
-                if hasattr(section, "shared") and section.shared is False:
-                    continue
-                title = getattr(section, "title", None) or str(section)
-                if title:
-                    titles.append(title)
-        except Exception as exc:  # pragma: no cover - defensive logging
-            logging.warning(
-                "PLEX: Failed to parse shared section titles for '%s': %s",
-                getattr(server_share, "name", "unknown"),
-                exc,
-            )
-            return []
-
-        return titles
-
-    def _build_library_access_from_names(
-        self, names: list[str]
-    ) -> list["UserLibraryAccess"]:
-        """Create UserLibraryAccess entries from a list of library names."""
-        from app.services.media.user_details import UserLibraryAccess
-
-        cleaned = [name for name in names if name]
-        if not cleaned:
-            return []
-
-        libs_q = (
-            Library.query.filter(
-                Library.server_id == self.server_id,
-                Library.name.in_(cleaned),
-            )
-            .order_by(Library.name)
-            .all()
-        )
-        libs_by_name = {lib.name: lib for lib in libs_q}
-
-        access_list: list[UserLibraryAccess] = []
-        fallback_index = 0
-        seen: set[str] = set()
-
-        for name in cleaned:
-            if name in seen:
-                continue
-            seen.add(name)
-
-            lib = libs_by_name.get(name)
-            if lib:
-                access_list.append(
-                    UserLibraryAccess(
-                        library_id=lib.external_id,
-                        library_name=lib.name,
-                        has_access=True,
-                    )
-                )
-            else:
-                access_list.append(
-                    UserLibraryAccess(
-                        library_id=f"plex_{fallback_index}",
-                        library_name=name,
-                        has_access=True,
-                    )
-                )
-                fallback_index += 1
-
-        return access_list
-
-    def _fetch_user_sections_via_token(self, plex_user) -> list[str]:
-        """Fetch library section titles by impersonating the user with their token."""
-        try:
-            user_token = plex_user.get_token(self.server.machineIdentifier)
-        except Exception as exc:  # pragma: no cover - defensive logging
-            logging.warning(
-                "PLEX: Failed to retrieve token for user %s: %s",
-                getattr(plex_user, "email", getattr(plex_user, "username", "unknown")),
-                exc,
-            )
-            return []
-
-        if not user_token:
-            return []
-
-        try:
-            user_server = PlexServer(self.url, user_token)
-            return [
-                section.title
-                for section in user_server.library.sections()
-                if getattr(section, "title", None)
-            ]
-        except Exception as exc:  # pragma: no cover - defensive logging
-            logging.warning(
-                "PLEX: Failed to fetch sections via user token for %s: %s",
-                getattr(plex_user, "email", getattr(plex_user, "username", "unknown")),
-                exc,
-            )
-            return []
-
-    def _resolve_library_access(
-        self,
-        plex_user,
-        db_user: User | None,
-        server_library_names: list[str],
-    ) -> tuple[list["UserLibraryAccess"] | None, bool]:
-        """Determine library access information for a Plex user."""
-        total_library_count = len(server_library_names)
-
-        matching_share = None
-        for server_share in getattr(plex_user, "servers", []) or []:
-            machine_id = getattr(server_share, "machineIdentifier", None)
-            if machine_id == self.server.machineIdentifier:
-                matching_share = server_share
-                break
-
-        section_titles: list[str] = []
-        if matching_share:
-            section_titles = self._extract_shared_section_titles(matching_share)
-
-        if not section_titles:
-            token_titles = self._fetch_user_sections_via_token(plex_user)
-            if token_titles:
-                section_titles = token_titles
-
-        share_all_libraries = bool(
-            matching_share and getattr(matching_share, "allLibraries", False)
-        )
-        shared_library_count = (
-            getattr(matching_share, "numLibraries", 0) if matching_share else 0
-        )
-        is_restricted = self._is_user_restricted(plex_user)
-
-        if share_all_libraries and section_titles:
-            unique_count = len({name for name in section_titles if name})
-            if (
-                unique_count
-                and total_library_count
-                and unique_count < total_library_count
-                or (
-                    unique_count
-                    and shared_library_count
-                    and unique_count < shared_library_count
-                )
-            ):
-                share_all_libraries = False
-
-        if (
-            share_all_libraries
-            and is_restricted
-            or (
-                share_all_libraries
-                and shared_library_count
-                and total_library_count
-                and shared_library_count < total_library_count
-            )
-        ):
-            share_all_libraries = False
-
-        accessible_names: list[str] = [name for name in section_titles if name]
-
-        if not accessible_names and db_user:
-            cached_names = db_user.get_accessible_libraries()
-            if cached_names:
-                accessible_names = list(cached_names)
-            else:
-                cached_access = db_user.get_library_access() or []
-                for entry in cached_access:
-                    if isinstance(entry, dict):
-                        if entry.get("has_access"):
-                            name = entry.get("library_name")
-                            if name:
-                                accessible_names.append(name)
-                    else:
-                        has_access = getattr(entry, "has_access", False)
-                        if has_access:
-                            name = getattr(entry, "library_name", None)
-                            if name:
-                                accessible_names.append(name)
-
-        deduped_names: list[str] = []
-        seen_names: set[str] = set()
-        for name in accessible_names:
-            if not name or name in seen_names:
-                continue
-            seen_names.add(name)
-            deduped_names.append(name)
-        accessible_names = deduped_names
-
-        if not accessible_names:
-            if share_all_libraries and not is_restricted:
-                return None, False
-            logging.debug(
-                "PLEX: Restricted access unresolved for user %s",
-                getattr(plex_user, "email", getattr(plex_user, "username", "unknown")),
-            )
-            return None, True
-
-        if (
-            share_all_libraries
-            and server_library_names
-            and len(accessible_names) == len(server_library_names)
-        ):
-            return None, False
-
-        return (
-            self._build_library_access_from_names(accessible_names),
-            False,
-        )
+        # Extract library names (skip non-shared sections)
+        return [
+            section.title
+            for section in sections_data or []
+            if getattr(section, "title", None)
+            and not (hasattr(section, "shared") and section.shared is False)
+        ]
 
     def get_movie_posters(self, limit: int = 10) -> list[str]:
         """Get movie poster URLs for background display."""
@@ -540,7 +393,8 @@ class PlexClient(MediaClient):
                                 }
                             )
 
-                except Exception:
+                except Exception as exc:
+                    logging.debug(f"Failed to process Plex media item: {exc}")
                     continue
 
             return items
@@ -569,8 +423,9 @@ class PlexClient(MediaClient):
         )
 
     def _do_join(
-        self, username: str, password: str, confirm: str, email: str, code: str
+        self, _username: str, _password: str, _confirm: str, _email: str, _code: str
     ) -> tuple[bool, str]:
+        """Interface method - not implemented for Plex (uses OAuth instead)."""
         return (
             False,
             "Plex does not support direct user creation. Users must be invited via email.",
@@ -625,61 +480,63 @@ class PlexClient(MediaClient):
     def get_user(self, db_id: int) -> dict:
         """Get user info in legacy format for backward compatibility."""
         details = self.get_user_details(db_id)
+
+        # Convert to legacy Plex format
         return {
             "Name": details.username,
             "Id": details.user_id,
-            "Configuration": details.raw_policies,
+            "Configuration": {
+                "admin": details.is_admin,
+                "allowSync": details.allow_downloads,
+                "allowChannels": details.allow_live_tv,
+                "allowCameraUpload": details.allow_camera_upload,
+            },
             "Policy": {},
         }
 
     def get_user_details(self, db_id: int) -> "MediaUserDetails":
-        """Get detailed user information in standardized format."""
-        from app.services.media.user_details import MediaUserDetails
+        """Get detailed user information from database (no API calls)."""
+        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
 
-        user_record = db.session.get(User, db_id)
-        if not user_record:
+        user = db.session.get(User, db_id)
+        if not user:
             raise ValueError(f"No user found with id {db_id}")
 
-        plex_user = self.admin.user(user_record.email)
-        if not plex_user:
-            raise ValueError(f"Plex user not found for email {user_record.email}")
+        # Build library access from stored names
+        library_names = user.get_accessible_libraries()
+        library_access = None
 
-        server_libraries = (
-            Library.query.filter_by(server_id=self.server_id, enabled=True)
-            .order_by(Library.name)
-            .all()
-        )
-        server_library_names = [lib.name for lib in server_libraries]
-
-        library_access, library_access_unknown = self._resolve_library_access(
-            plex_user, user_record, server_library_names
-        )
-
-        # Extract standardized permissions from Plex user
-        is_admin = getattr(plex_user, "admin", False)
-        allow_downloads = getattr(plex_user, "allowSync", True)
-        allow_live_tv = getattr(plex_user, "allowChannels", True)
-        allow_camera_upload = getattr(plex_user, "allowCameraUpload", False)
+        if library_names:
+            libs_by_name = {
+                lib.name: lib
+                for lib in Library.query.filter(
+                    Library.server_id == self.server_id,
+                    Library.name.in_(library_names),
+                ).all()
+            }
+            library_access = [
+                UserLibraryAccess(
+                    library_id=lib.external_id
+                    if (lib := libs_by_name.get(name))
+                    else f"plex_{name}",
+                    library_name=name,
+                    has_access=True,
+                )
+                for name in library_names
+            ]
 
         return MediaUserDetails(
-            user_id=str(plex_user.id),
-            username=plex_user.title,
-            email=plex_user.email,
-            is_admin=is_admin,
-            is_enabled=True,  # Plex doesn't have a disabled state for shared users
-            created_at=None,  # Plex API doesn't provide creation date for shared users
-            last_active=None,  # Plex API doesn't provide last active for shared users
-            allow_downloads=allow_downloads,
-            allow_live_tv=allow_live_tv,
-            allow_camera_upload=allow_camera_upload,
+            user_id=str(user.id),
+            username=user.username,
+            email=user.email,
+            is_admin=user.is_admin or False,
+            is_enabled=True,
+            created_at=None,
+            last_active=None,
+            allow_downloads=user.allow_downloads or False,
+            allow_live_tv=user.allow_live_tv or False,
+            allow_camera_upload=user.allow_camera_upload or False,
             library_access=library_access,
-            raw_policies={
-                "admin": is_admin,
-                "allowCameraUpload": allow_camera_upload,
-                "allowChannels": allow_live_tv,
-                "allowSync": allow_downloads,
-            },
-            library_access_unknown=library_access_unknown,
         )
 
     def update_user(self, info: dict, form: dict) -> None:
@@ -691,11 +548,11 @@ class PlexClient(MediaClient):
             allowCameraUpload=bool(form.get("allowCameraUpload")),
         )
 
-    def enable_user(self, user_id: str) -> bool:
+    def enable_user(self, _user_id: str) -> bool:
         """Enable a user account on Plex.
 
         Args:
-            user_id: The user's Plex ID
+            _user_id: The user's Plex ID (unused - Plex doesn't support enable/disable)
 
         Returns:
             bool: True if the user was successfully enabled, False otherwise
@@ -725,7 +582,7 @@ class PlexClient(MediaClient):
         """
         try:
             # For Plex, we remove all library access to effectively disable the user
-            user = self.my_account.user(user_id)
+            user = self.admin.user(user_id)
             if user:
                 user.removeFriend()
                 return True
@@ -746,196 +603,48 @@ class PlexClient(MediaClient):
 
     @cached(cache=TTLCache(maxsize=1024, ttl=600))
     def list_users(self) -> list[User]:
-        """Sync users from Plex into the local DB and return the list of User records."""
-        server_id = self.server.machineIdentifier
-
+        """Sync users from Plex to database with all permissions and library access."""
         try:
             admin_users = self.admin.users()
         except (ConnectionError, Exception) as e:
             logging.error(f"Failed to connect to Plex admin API: {e}")
-            # Return existing DB users if we can't connect to Plex
-            return (
-                db.session.query(User)
-                .filter(User.server_id == getattr(self, "server_id", None))
-                .all()
-            )
+            return self._get_server_users()
 
-        plex_users = {}
-        for u in admin_users:
-            user_email = getattr(u, "email", None)
-            user_servers = getattr(u, "servers", None) or []
-            if user_email and any(
-                s.machineIdentifier == server_id for s in user_servers
-            ):
-                plex_users[user_email] = u
-
-        db_users = (
-            db.session.query(User)
-            .filter(
-                db.or_(
-                    User.server_id.is_(None),
-                    User.server_id == getattr(self, "server_id", None),
-                )
-            )
-            .all()
+        plex_users_by_email = self._filter_users_for_server(
+            admin_users, self.server.machineIdentifier
         )
 
-        known_emails = set(plex_users.keys())
-        for db_user in db_users:
+        # Remove users no longer in Plex, add new users
+        known_emails = set(plex_users_by_email.keys())
+        for db_user in self._get_server_users():
             if db_user.email not in known_emails:
                 db.session.delete(db_user)
-        db.session.commit()
 
-        for plex_user in plex_users.values():
-            user_email = getattr(plex_user, "email", None) or "None"
-            user_title = getattr(plex_user, "title", None) or "Unknown"
-            existing = (
-                db.session.query(User)
-                .filter_by(email=user_email, server_id=getattr(self, "server_id", None))
-                .first()
-            )
-            if not existing:
-                new_user = User(
-                    email=user_email,
-                    username=user_title,
-                    token="None",
-                    code="None",
-                    server_id=getattr(self, "server_id", None),
+        for email, plex_user in plex_users_by_email.items():
+            if not User.query.filter_by(email=email, server_id=self.server_id).first():
+                db.session.add(
+                    User(
+                        email=email,
+                        username=getattr(plex_user, "title", "Unknown"),
+                        token="None",  # noqa: S106  # Placeholder string, not actual password
+                        code="None",
+                        server_id=self.server_id,
+                    )
                 )
-                db.session.add(new_user)
-        db.session.commit()
 
-        users = (
-            db.session.query(User)
-            .filter(User.server_id == getattr(self, "server_id", None))
-            .all()
-        )
+        # Sync all permissions and library access
+        for user in self._get_server_users():
+            if plex_user := plex_users_by_email.get(user.email):
+                self._sync_user_permissions(user, plex_user)
 
-        # Update user metadata using the metadata caching system
-        for u in users:
-            p = plex_users.get(u.email)
-            if p:
-                # Use Plex avatar URL directly - these are public plex.tv URLs
-                # that don't expose server credentials, so no proxy needed
-                u.photo = p.thumb if p.thumb else None
-
-                # Store Plex permissions in raw_policies_json using the proper method
-                plex_policies = {
-                    "admin": getattr(p, "admin", False),
-                    "allowCameraUpload": getattr(p, "allowCameraUpload", False),
-                    "allowChannels": getattr(p, "allowChannels", True),
-                    "allowSync": getattr(p, "allowSync", True),
-                    # Map Plex permissions to common permission names for display
-                    "allow_downloads": getattr(
-                        p, "allowSync", True
-                    ),  # Sync permission in Plex
-                    "allow_live_tv": getattr(
-                        p, "allowChannels", True
-                    ),  # Channel/Live TV access
-                }
-                u.set_raw_policies(plex_policies)
-            else:
-                # Default values if Plex user data not found - store in metadata too
-                default_policies = {
-                    "admin": False,
-                    "allowCameraUpload": False,
-                    "allowChannels": False,
-                    "allowSync": False,
-                    "allow_downloads": False,
-                    "allow_live_tv": False,
-                }
-                u.set_raw_policies(default_policies)
-
-        # Single commit for all permission changes to reduce lock time
         try:
             db.session.commit()
+            logging.info(f"Synced {len(plex_users_by_email)} Plex users to database")
         except Exception as e:
-            logging.error(f"Failed to update Plex user metadata: {e}")
+            logging.error(f"Failed to sync Plex user metadata: {e}")
             db.session.rollback()
-            # Continue without metadata updates rather than failing completely
 
-        # Cache detailed metadata for all users from bulk response (no individual API calls)
-        self._cache_user_metadata_from_bulk_response(users, plex_users)
-
-        return users
-
-    def _cache_user_metadata_from_bulk_response(
-        self, users: list[User], plex_users: dict
-    ) -> None:
-        """Cache user metadata from bulk API response without individual API calls.
-
-        Args:
-            users: List of User objects to cache metadata for
-            plex_users: Dictionary of plex user objects from bulk admin.users() call
-        """
-        if not users or not plex_users:
-            return
-
-        server_libraries = (
-            Library.query.filter_by(server_id=self.server_id, enabled=True)
-            .order_by(Library.name)
-            .all()
-        )
-        server_library_names = [lib.name for lib in server_libraries]
-        cached_count = 0
-        for user in users:
-            try:
-                # Get the plex user object from bulk response
-                plex_user = plex_users.get(user.email)
-                if not plex_user:
-                    continue
-
-                from app.services.media.user_details import MediaUserDetails
-
-                # Extract standardized permissions from Plex user
-                is_admin = getattr(plex_user, "admin", False)
-                allow_downloads = getattr(plex_user, "allowSync", True)
-                allow_live_tv = getattr(plex_user, "allowChannels", True)
-                allow_camera_upload = getattr(plex_user, "allowCameraUpload", False)
-
-                library_access, library_access_unknown = self._resolve_library_access(
-                    plex_user, user, server_library_names
-                )
-
-                # Create MediaUserDetails object with standardized data
-                details = MediaUserDetails(
-                    user_id=str(user.id),  # Plex uses database ID for details
-                    username=getattr(plex_user, "title", user.username),
-                    email=getattr(plex_user, "email", user.email),
-                    is_admin=is_admin,
-                    is_enabled=True,  # Plex users are enabled if they exist
-                    created_at=None,  # Plex doesn't provide creation date in bulk response
-                    last_active=None,  # Plex doesn't provide last active in bulk response
-                    allow_downloads=allow_downloads,
-                    allow_live_tv=allow_live_tv,
-                    allow_camera_upload=allow_camera_upload,
-                    library_access=library_access,
-                    raw_policies={
-                        "admin": is_admin,
-                        "allowCameraUpload": allow_camera_upload,
-                        "allowChannels": allow_live_tv,
-                        "allowSync": allow_downloads,
-                    },
-                    library_access_unknown=library_access_unknown,
-                )
-
-                # Update user with standardized metadata columns
-                user.update_standardized_metadata(details)
-                cached_count += 1
-
-            except Exception as e:
-                logging.warning(f"Failed to cache metadata for user {user.email}: {e}")
-                continue
-
-        if cached_count > 0:
-            logging.info(f"Updated standardized metadata for {cached_count} users")
-
-        # Commit the standardized metadata updates
-        try:
-            db.session.commit()
-        except Exception as e:
-            logging.error(f"Failed to commit standardized metadata: {e}")
-            db.session.rollback()
+        return self._get_server_users()
 
     def _get_user_identifier_for_details(self, user: User) -> str | int | None:
         """Plex uses database ID for get_user_details."""
@@ -1326,7 +1035,7 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         ).start()
 
 
-def _invite_user(email: str, code: str, user_id: int, server: MediaServer) -> None:
+def _invite_user(email: str, code: str, _user_id: int, server: MediaServer) -> None:
     inv = Invitation.query.filter_by(code=code).first()
     if not inv:
         raise ValueError(f"No invitation found with code {code}")

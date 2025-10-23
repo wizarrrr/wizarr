@@ -58,7 +58,7 @@ def restrict_wizard():
     if request.endpoint and "pre_wizard" in request.endpoint:
         invite_code = InviteCodeManager.get_invite_code()
         if invite_code:
-            is_valid, invitation = InviteCodeManager.validate_invite_code(invite_code)
+            is_valid, _invitation = InviteCodeManager.validate_invite_code(invite_code)
             if not is_valid:
                 flash(
                     _(
@@ -73,10 +73,8 @@ def restrict_wizard():
     if not session.get("wizard_access"):
         # Check if this is coming from an invitation process
         # Allow access if they have recently used an invitation
-        if (
-            session.get("invitation_in_progress")
-            or request.referrer
-            and "/j/" in request.referrer
+        if session.get("invitation_in_progress") or (
+            request.referrer and "/j/" in request.referrer
         ):
             return None
         return redirect("/")
@@ -184,7 +182,7 @@ def _settings() -> dict[str, str | None]:
 # Removed _eligible function as part of requires system overhaul
 
 
-def _steps(server: str, cfg: dict, category: str = "post_invite"):
+def _steps(server: str, _cfg: dict, category: str = "post_invite"):
     """Return ordered wizard steps for *server* and *category* filtered by eligibility.
 
     Args:
@@ -224,14 +222,13 @@ def _steps(server: str, cfg: dict, category: str = "post_invite"):
             used by helper functions: `.content` property and `.get()`.
             """
 
-            __slots__ = ("content", "_require")
+            __slots__ = ("_require", "content")
 
             def __init__(self, row: "WizardStep"):
                 self.content = row.markdown
                 # Mirror frontmatter key `require` from DB boolean
                 self._require = bool(getattr(row, "require_interaction", False))
 
-            # frontmatter.Post.get(key, default)
             def get(self, key, default=None):
                 if key == "require":
                     return self._require
@@ -381,7 +378,7 @@ def _serve_wizard(
     require_interaction = False
     try:
         require_interaction = bool(
-            getattr(post, "get", lambda k, d=None: None)("require", False)
+            getattr(post, "get", lambda _k, _d=None: None)("require", False)
         )
     except Exception:
         require_interaction = False
@@ -952,7 +949,7 @@ def combo(category: str, idx: int = 0):
     require_interaction = False
     try:
         require_interaction = bool(
-            getattr(post, "get", lambda k, d=None: None)("require", False)
+            getattr(post, "get", lambda _k, _d=None: None)("require", False)
         )
     except Exception:
         require_interaction = False
@@ -1049,7 +1046,7 @@ def bundle_view(idx: int):
 
     # adapt to frontmatter-like interface
     class _RowAdapter:
-        __slots__ = ("content", "_require")
+        __slots__ = ("_require", "content")
 
         def __init__(self, row: WizardStep):
             self.content = row.markdown
@@ -1107,7 +1104,7 @@ def bundle_view(idx: int):
     require_interaction = False
     try:
         require_interaction = bool(
-            getattr(post, "get", lambda k, d=None: None)("require", False)
+            getattr(post, "get", lambda _k, _d=None: None)("require", False)
         )
     except Exception:
         require_interaction = False

@@ -626,7 +626,7 @@ class SessionManager:
         return state_mapping.get(plex_state.lower(), SessionState.UNKNOWN)
 
     def _process_timeline_alert(
-        self, alert_data: dict[str, Any], server_id: int
+        self, alert_data: dict[str, Any], _server_id: int
     ) -> bool:
         """Process timeline alerts (library changes, etc.)."""
         # For now, just log these - could be enhanced for library monitoring
@@ -636,7 +636,7 @@ class SessionManager:
         return True
 
     def _process_transcode_start(
-        self, alert_data: dict[str, Any], server_id: int
+        self, alert_data: dict[str, Any], _server_id: int
     ) -> bool:
         """Process transcoding session start."""
         transcode_sessions = alert_data.get("TranscodeSession", [])
@@ -651,7 +651,7 @@ class SessionManager:
         return True
 
     def _process_transcode_end(
-        self, alert_data: dict[str, Any], server_id: int
+        self, alert_data: dict[str, Any], _server_id: int
     ) -> bool:
         """Process transcoding session end."""
         transcode_sessions = alert_data.get("TranscodeSession", [])

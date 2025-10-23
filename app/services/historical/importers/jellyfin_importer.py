@@ -203,7 +203,7 @@ class JellyfinHistoricalImporter:
         user_name: str,
         user_id: str,
         cutoff: datetime,
-        exhausted: bool,
+        _exhausted: bool,
     ) -> Any:
         """Process a single Jellyfin/Emby item into ActivitySession."""
         user_data = item.get("UserData") or {}

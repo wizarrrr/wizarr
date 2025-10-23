@@ -2,7 +2,6 @@
 
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any
 
 
 @dataclass(frozen=True)
@@ -33,11 +32,6 @@ class MediaUserDetails:
 
     # Library access - None means "all libraries"
     library_access: list[UserLibraryAccess] | None = None
-
-    # Server-specific policy/configuration data (legacy)
-    raw_policies: dict[str, Any] | None = None
-    # True when the backend could not determine restricted libraries
-    library_access_unknown: bool = False
 
     @property
     def has_library_restrictions(self) -> bool:

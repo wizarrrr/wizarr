@@ -27,7 +27,6 @@ class InvitationWorkflow(ABC):
         self, invitation: Invitation, servers: list[MediaServer]
     ) -> InvitationResult:
         """Show the initial form for this workflow type."""
-        pass
 
     @abstractmethod
     def process_submission(
@@ -37,7 +36,6 @@ class InvitationWorkflow(ABC):
         form_data: dict[str, Any],
     ) -> InvitationResult:
         """Process form submission for this workflow type."""
-        pass
 
     def _process_servers(
         self,
@@ -142,7 +140,7 @@ class InvitationWorkflow(ABC):
                     ServerResult(
                         server=server,
                         success=False,
-                        message=f"Error: {str(e)}",
+                        message=f"Error: {e!s}",
                         user_created=False,
                     )
                 )
@@ -222,7 +220,7 @@ class FormBasedWorkflow(InvitationWorkflow):
         """Process form submission."""
         # Authenticate
         strategy = StrategyFactory.create_strategy(servers)
-        auth_success, auth_message, user_data = strategy.authenticate(
+        auth_success, auth_message, _user_data = strategy.authenticate(
             servers, form_data
         )
 
@@ -491,7 +489,7 @@ class MixedWorkflow(InvitationWorkflow):
         )
 
     def _create_mixed_error_result(
-        self, invitation: Invitation, error_message: str
+        self, _invitation: Invitation, error_message: str
     ) -> InvitationResult:
         """Create result for mixed workflow errors."""
         return InvitationResult(

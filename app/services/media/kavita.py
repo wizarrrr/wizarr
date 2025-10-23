@@ -38,7 +38,7 @@ class KavitaClient(RestApiMixin):
         if "url_key" not in kwargs:
             kwargs["url_key"] = "server_url"
         if "token_key" not in kwargs:
-            kwargs["token_key"] = "api_key"
+            kwargs["token_key"] = "api_key"  # noqa: S105  # Parameter name, not actual password
 
         super().__init__(*args, **kwargs)
         # Create a unique cache key for this server instance
@@ -51,7 +51,7 @@ class KavitaClient(RestApiMixin):
 
         # Create a hash of the URL and API key for the cache key
         cache_string = f"{self.url}:{self.token}"
-        return hashlib.md5(cache_string.encode()).hexdigest()
+        return hashlib.md5(cache_string.encode()).hexdigest()  # noqa: S324  # Used for cache key generation, not security
 
     def _get_cached_token(self) -> str | None:
         """Get cached JWT token if it's still valid."""
@@ -460,11 +460,11 @@ class KavitaClient(RestApiMixin):
             logging.error(f"Failed to update Kavita user {username}: {e}")
             return None
 
-    def enable_user(self, user_id: str) -> bool:
+    def enable_user(self, _user_id: str) -> bool:
         """Enable a user account on Kavita.
 
         Args:
-            user_id: The user's Kavita ID
+            _user_id: The user's Kavita ID (unused - Kavita doesn't support enable/disable)
 
         Returns:
             bool: True if the user was successfully enabled, False otherwise

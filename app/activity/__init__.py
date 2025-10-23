@@ -67,4 +67,4 @@ def init_app(app: Flask) -> None:
     logger.info("Activity monitoring initialized")
 
 
-__all__ = ["ActivitySession", "ActivitySnapshot", "ActivityService", "init_app"]
+__all__ = ["ActivityService", "ActivitySession", "ActivitySnapshot", "init_app"]

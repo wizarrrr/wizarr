@@ -265,8 +265,8 @@ class User(db.Model, UserMixin):
         except (json.JSONDecodeError, TypeError):
             return []
 
-    def set_accessible_libraries(self, libraries: list[str]):
-        """Set list of accessible library names."""
+    def set_accessible_libraries(self, libraries: list[str] | None):
+        """Set list of accessible library names. None means full access."""
         import json
 
         if libraries is None or not libraries:

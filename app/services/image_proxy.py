@@ -13,7 +13,7 @@ import threading
 import time
 from collections import OrderedDict
 from collections.abc import Hashable
-from typing import Any
+from typing import Any, ClassVar
 from urllib.parse import urlparse
 
 import requests
@@ -25,22 +25,20 @@ class ImageProxyService:
     """Service for generating and validating opaque image proxy tokens."""
 
     # In-memory cache for URL -> token mappings
-    # Structure: {token: {"url": str, "timestamp": float, "server_id": int}}
-    _token_cache: dict[str, dict] = {}
+    _token_cache: ClassVar[dict[str, dict]] = {}
 
     # Cache for image data (in-memory LRU with byte and count limits)
-    # Structure: OrderedDict[token] = {"data": bytes, "content_type": str, "timestamp": float, "size": int}
-    _image_cache: OrderedDict[str, dict[str, Any]] = OrderedDict()
-    _image_cache_lock = threading.Lock()
-    _total_image_bytes = 0
+    _image_cache: ClassVar[OrderedDict[str, dict[str, Any]]] = OrderedDict()
+    _image_cache_lock: ClassVar[threading.Lock] = threading.Lock()
+    _total_image_bytes: ClassVar[int] = 0
 
     # Cache for auth headers per media server
-    _server_header_cache: dict[int, dict[str, Any]] = {}
-    _server_header_cache_lock = threading.Lock()
+    _server_header_cache: ClassVar[dict[int, dict[str, Any]]] = {}
+    _server_header_cache_lock: ClassVar[threading.Lock] = threading.Lock()
 
     # Connection pool per server/host
-    _session_cache: OrderedDict[Hashable, dict[str, Any]] = OrderedDict()
-    _session_cache_lock = threading.Lock()
+    _session_cache: ClassVar[OrderedDict[Hashable, dict[str, Any]]] = OrderedDict()
+    _session_cache_lock: ClassVar[threading.Lock] = threading.Lock()
 
     TOKEN_EXPIRY = 24 * 3600  # Tokens remain valid for 24 hours
     TOKEN_BUCKET_SECONDS = 3600  # Bucket tokens hourly to keep payload compact
@@ -309,7 +307,7 @@ class ImageProxyService:
     def _trim_session_cache_locked(cls) -> None:
         """Ensure we do not keep more sessions than required."""
         while len(cls._session_cache) > cls.SESSION_CACHE_MAX_ENTRIES:
-            key, entry = cls._session_cache.popitem(last=False)
+            _key, entry = cls._session_cache.popitem(last=False)
             session = entry.get("session")
             if session:
                 session.close()

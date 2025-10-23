@@ -3,7 +3,6 @@ Robust session cache wrapper that handles stale file handle errors gracefully.
 """
 
 import logging
-import os
 from pathlib import Path
 
 from cachelib.file import FileSystemCache
@@ -32,8 +31,8 @@ class RobustFileSystemCache(FileSystemCache):
             )
             try:
                 # Try to remove the problematic file
-                if os.path.exists(filename):
-                    os.unlink(filename)
+                if Path(filename).exists():
+                    Path(filename).unlink()
                     logging.info(f"Removed stale session file: {filename}")
             except OSError as cleanup_error:
                 logging.warning(

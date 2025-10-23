@@ -9,7 +9,7 @@ from app.services.historical.importers.jellyfin_importer import (
 from app.services.historical.importers.plex_importer import PlexHistoricalImporter
 
 __all__ = [
-    "PlexHistoricalImporter",
-    "JellyfinHistoricalImporter",
     "AudiobookShelfHistoricalImporter",
+    "JellyfinHistoricalImporter",
+    "PlexHistoricalImporter",
 ]

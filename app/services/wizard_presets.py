@@ -6,7 +6,7 @@ allowing users to quickly add wizard steps through the Multi-Action create butto
 
 from dataclasses import dataclass
 
-__all__ = ["WizardPreset", "get_available_presets", "create_step_from_preset"]
+__all__ = ["WizardPreset", "create_step_from_preset", "get_available_presets"]
 
 
 @dataclass

@@ -343,9 +343,11 @@ class ActivityAnalyticsService:
                         )
                     elif isinstance(raw_date, str):
                         try:
-                            normalized_date = datetime.strptime(
-                                raw_date, "%Y-%m-%d"
-                            ).date()
+                            normalized_date = (
+                                datetime.strptime(raw_date, "%Y-%m-%d")
+                                .replace(tzinfo=UTC)
+                                .date()
+                            )
                         except (ValueError, TypeError):
                             continue
                     else:
@@ -362,7 +364,9 @@ class ActivityAnalyticsService:
 
                 for row in time_series:
                     try:
-                        date_obj = dt.strptime(row.date, "%Y-%m-%d").date()
+                        date_obj = (
+                            dt.strptime(row.date, "%Y-%m-%d").replace(tzinfo=UTC).date()
+                        )
                         dates.append(date_obj.strftime("%m/%d"))
                         counts.append(row.count)
                     except (ValueError, AttributeError):

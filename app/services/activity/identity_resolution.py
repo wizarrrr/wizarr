@@ -36,7 +36,7 @@ def _identity_display_name(
 
 def resolve_user_identity(
     server_id: int,
-    external_user_id: str | None,
+    _external_user_id: str | None,
     external_user_name: str | None,
 ) -> tuple[int | None, int | None, str | None]:
     """

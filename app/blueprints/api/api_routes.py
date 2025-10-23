@@ -249,18 +249,17 @@ class AdminListResource(Resource):
             results = query.all()
 
             # Format response
-            admins_list = []
-            for result in results:
-                admins_list.append(
-                    {
-                        "id": result.id,
-                        "username": result.username,
-                        "passkeys": result.passkey_count,
-                        "created": result.created_at.isoformat()
-                        if result.created_at
-                        else None,
-                    }
-                )
+            admins_list = [
+                {
+                    "id": result.id,
+                    "username": result.username,
+                    "passkeys": result.passkey_count,
+                    "created": result.created_at.isoformat()
+                    if result.created_at
+                    else None,
+                }
+                for result in results
+            ]
 
             return {"admins": admins_list, "count": len(admins_list)}
 
@@ -544,7 +543,7 @@ class UserUpdateExpiryResource(Resource):
                         new_expiry = new_expiry.replace(tzinfo=datetime.UTC)
                 except ValueError as e:
                     return {
-                        "error": f"Invalid datetime format. Expected ISO format: {str(e)}"
+                        "error": f"Invalid datetime format. Expected ISO format: {e!s}"
                     }, 400
 
             # Update the user's expiry
@@ -847,7 +846,7 @@ class LibrariesResource(Resource):
 
                     except Exception as e:
                         logger.error(
-                            f"Failed to scan libraries for server {server.name}: {str(e)}"
+                            f"Failed to scan libraries for server {server.name}: {e!s}"
                         )
                         # Continue with other servers even if one fails
                         continue

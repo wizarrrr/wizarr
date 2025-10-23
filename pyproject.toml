@@ -58,20 +58,46 @@ default-groups = []
 target-version = "py313"
 line-length = 88
 lint.select = [
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings  
-    "F",   # pyflakes
-    "I",   # isort
-    "B",   # flake8-bugbear
-    "C4",  # flake8-comprehensions
-    "UP",  # pyupgrade
-    "T20", # flake8-print (debug statements)
-    "RET", # flake8-return
-    "SIM", # flake8-simplify
+    # Original rules
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "B",    # flake8-bugbear
+    "C4",   # flake8-comprehensions
+    "UP",   # pyupgrade
+    "T20",  # flake8-print (debug statements)
+    "RET",  # flake8-return
+    "SIM",  # flake8-simplify
+    # Phase 1 additions - Security & Safety
+    "S",    # flake8-bandit - security issues
+    "A",    # flake8-builtins - shadowing builtins
+    "T10",  # flake8-debugger - no debugger statements
+    # Phase 1 additions - Code Quality
+    "ARG",  # flake8-unused-arguments
+    "ERA",  # eradicate - commented-out code
+    "PIE",  # flake8-pie - misc improvements
+    "PTH",  # flake8-use-pathlib
+    "RUF",  # Ruff-specific rules
+    # Phase 1 additions - Best Practices
+    "DTZ",  # flake8-datetimez - timezone awareness
+    "ASYNC", # flake8-async
+    "INP",  # flake8-no-pep420 - require __init__.py
+    "PERF", # perflint - performance
 ]
 lint.ignore = [
-    "E501", # line too long, handled by formatter
-    "T201", # print statements allowed
+    "E501",   # line too long, handled by formatter
+    "T201",   # print statements allowed
+    # Security exceptions for development context
+    "S101",   # assert allowed in tests
+    "S104",   # binding to all interfaces ok in dev
+    "S311",   # pseudo-random ok for non-crypto use
+    # Unicode in translations (false positives)
+    "RUF001", # ambiguous unicode in strings
+    "RUF002", # ambiguous unicode in docstrings
+    "RUF003", # ambiguous unicode in comments
+    # Fix separately - don't block on this
+    "INP001", # implicit namespace packages - will create __init__.py files separately
 ]
 
 [tool.ruff.lint.isort]

@@ -4,6 +4,7 @@ Simple server integration registry for easy extensibility.
 
 import logging
 from abc import ABC, abstractmethod
+from typing import ClassVar
 
 from app.models import MediaServer
 from app.services.media.service import get_client_for_media_server
@@ -21,7 +22,6 @@ class ServerAccountManager(ABC):
         self, username: str, password: str, email: str, **kwargs
     ) -> tuple[bool, str]:
         """Create user account on the server."""
-        pass
 
     def get_client(self):
         """Get media client for this server."""
@@ -32,7 +32,7 @@ class PlexAccountManager(ServerAccountManager):
     """Account manager for Plex servers."""
 
     def create_account(
-        self, username: str, password: str, email: str, **kwargs
+        self, username: str, _password: str, email: str, **kwargs
     ) -> tuple[bool, str]:
         """Create Plex account using OAuth token."""
         try:
@@ -53,7 +53,7 @@ class PlexAccountManager(ServerAccountManager):
             return success, message
 
         except Exception as e:
-            error_msg = f"Failed to create Plex account: {str(e)}"
+            error_msg = f"Failed to create Plex account: {e!s}"
             self.logger.error(error_msg)
             return False, error_msg
 
@@ -79,7 +79,7 @@ class FormBasedAccountManager(ServerAccountManager):
             return success, message
 
         except Exception as e:
-            error_msg = f"Failed to create {self.server.server_type} account: {str(e)}"
+            error_msg = f"Failed to create {self.server.server_type} account: {e!s}"
             self.logger.error(error_msg)
             return False, error_msg
 
@@ -88,7 +88,7 @@ class ServerIntegrationRegistry:
     """Simple registry for server integrations."""
 
     # Map server types to account manager classes
-    _account_managers: dict[str, type[ServerAccountManager]] = {
+    _account_managers: ClassVar[dict[str, type[ServerAccountManager]]] = {
         "plex": PlexAccountManager,
         "jellyfin": FormBasedAccountManager,
         "emby": FormBasedAccountManager,

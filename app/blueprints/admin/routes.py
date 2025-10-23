@@ -286,10 +286,9 @@ def invite_table():
     # ------------------------------------------------------------------
     # 4. Time context (timezone aware strongly recommended)
     # ------------------------------------------------------------------
-    # If you want local Europe/Paris time, set tzinfo; falling back to naive now.
-    # from zoneinfo import ZoneInfo
-    # now = datetime.datetime.now(tz=ZoneInfo("Europe/Paris"))
-    now = datetime.datetime.now()
+    # Note: Currently using naive datetime. For timezone-aware implementation,
+    # consider using zoneinfo.ZoneInfo with appropriate timezone.
+    now = datetime.datetime.now(datetime.UTC)
 
     # ------------------------------------------------------------------
     # 5. Annotate invitations for the template (view-model enrichment)
@@ -302,7 +301,9 @@ def invite_table():
                 expires_str = inv.expires  # Store as string for type safety
                 for fmt in ("%Y-%m-%d %H:%M", "%Y-%m-%dT%H:%M:%S"):
                     try:
-                        inv.expires = datetime.datetime.strptime(expires_str, fmt)
+                        inv.expires = datetime.datetime.strptime(
+                            expires_str, fmt
+                        ).replace(tzinfo=datetime.UTC)
                         break
                     except ValueError:
                         continue
@@ -1020,7 +1021,7 @@ def server_health_card():
 
     except Exception as e:
         return render_template(
-            "admin/server_health_card.html", success=False, error=f"Error: {str(e)}"
+            "admin/server_health_card.html", success=False, error=f"Error: {e!s}"
         )
 
 

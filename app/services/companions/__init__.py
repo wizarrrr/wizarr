@@ -14,8 +14,8 @@ from .overseerr import OverseerrClient
 __all__ = [
     "CompanionClient",
     "get_companion_client",
-    "register_companion_client",
     "list_companion_types",
+    "register_companion_client",
 ]
 
 # Registry of companion client implementations

@@ -39,8 +39,9 @@ def create_api_key():
         # Check if name already exists
         existing = ApiKey.query.filter_by(name=form.name.data, is_active=True).first()
         if existing:
-            form.name.errors = list(form.name.errors) + [
-                "API key with this name already exists."
+            form.name.errors = [
+                *list(form.name.errors),
+                "API key with this name already exists.",
             ]
         else:
             # Generate a secure random API key

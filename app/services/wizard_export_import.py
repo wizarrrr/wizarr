@@ -275,11 +275,11 @@ class WizardExportImportService:
 
         # Check required fields
         required_fields = ["server_type", "position", "markdown"]
-        for required_field in required_fields:
-            if required_field not in step:
-                errors.append(
-                    f"Step {index}: missing required field '{required_field}'"
-                )
+        errors.extend(
+            f"Step {index}: missing required field '{required_field}'"
+            for required_field in required_fields
+            if required_field not in step
+        )
 
         # Validate field types
         if "server_type" in step and not isinstance(step["server_type"], str):
@@ -456,7 +456,7 @@ class WizardExportImportService:
                         imported_count += 1
 
                     except Exception as e:
-                        error_msg = f"Failed to import step for {server_type} at position {step_data['position']}: {str(e)}"
+                        error_msg = f"Failed to import step for {server_type} at position {step_data['position']}: {e!s}"
                         errors.append(error_msg)
                         self.logger.error(error_msg)
                         skipped_count += 1
@@ -480,7 +480,7 @@ class WizardExportImportService:
 
         except Exception as e:
             self.session.rollback()
-            error_msg = f"Steps import failed: {str(e)}"
+            error_msg = f"Steps import failed: {e!s}"
             self.logger.error(error_msg)
             return WizardImportResult(
                 success=False,
@@ -572,7 +572,7 @@ class WizardExportImportService:
                     next_position += 1
 
                 except Exception as e:
-                    error_msg = f"Failed to import bundle step at position {bundle_position}: {str(e)}"
+                    error_msg = f"Failed to import bundle step at position {bundle_position}: {e!s}"
                     errors.append(error_msg)
                     self.logger.error(error_msg)
 
@@ -594,7 +594,7 @@ class WizardExportImportService:
 
         except Exception as e:
             self.session.rollback()
-            error_msg = f"Bundle import failed: {str(e)}"
+            error_msg = f"Bundle import failed: {e!s}"
             self.logger.error(error_msg)
             return WizardImportResult(
                 success=False,

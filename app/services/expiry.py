@@ -3,7 +3,7 @@ import logging
 
 from app.extensions import db
 from app.models import ExpiredUser, Invitation, User, invitation_servers
-from app.services.media.service import delete_user, delete_user_for_server, disable_user
+from app.services.media.service import delete_user, disable_user
 
 
 def calculate_user_expiry(
@@ -34,7 +34,7 @@ def calculate_user_expiry(
 
     try:
         days = int(invitation.duration)
-        return datetime.datetime.now() + datetime.timedelta(days=days)
+        return datetime.datetime.now(datetime.UTC) + datetime.timedelta(days=days)
     except (ValueError, TypeError):
         logging.warning(
             f"Invalid duration '{invitation.duration}' for invitation {invitation.id}"
@@ -95,7 +95,7 @@ def delete_user_if_expired() -> list[int]:
     This function is multi-server aware and will delete users from their specific
     servers rather than assuming a single global server.
     """
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(datetime.UTC)
     expired_rows = User.query.filter(
         User.expires.is_not(None),  # not null
         User.expires < now,
@@ -115,17 +115,13 @@ def delete_user_if_expired() -> list[int]:
                 invitation_code=user.code,
                 server_id=user.server_id,
                 expired_at=user.expires,
-                deleted_at=datetime.datetime.now(),
+                deleted_at=datetime.datetime.now(datetime.UTC),
             )
             db.session.add(expired_user)
             db.session.flush()  # Ensure it's saved before we delete the user
 
-            # Use server-specific deletion if user has a server_id
-            if user.server_id and user.server:
-                delete_user_for_server(user.server, user.id)
-            else:
-                # Fallback to the legacy delete_user function
-                delete_user(user.id)
+            # Delete the user (handles server-specific deletion internally)
+            delete_user(user.id)
 
             deleted.append(user.id)
             logging.info(
@@ -179,7 +175,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
     expiry_action_setting = Settings.query.filter_by(key="expiry_action").first()
     expiry_action = expiry_action_setting.value if expiry_action_setting else "delete"
 
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(datetime.UTC)
     expired_rows = User.query.filter(
         User.expires.is_not(None),  # not null
         User.expires < now,
@@ -199,7 +195,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
                 invitation_code=user.code,
                 server_id=user.server_id,
                 expired_at=user.expires,
-                deleted_at=datetime.datetime.now(),
+                deleted_at=datetime.datetime.now(datetime.UTC),
             )
             db.session.add(expired_user)
             db.session.flush()  # Ensure it's saved before we process the user
@@ -235,11 +231,8 @@ def disable_or_delete_user_if_expired() -> list[int]:
                         user.id,
                         disable_exc,
                     )
-                    # Fallback to deletion using service functions
-                    if user.server_id and user.server:
-                        delete_user_for_server(user.server, user.id)
-                    else:
-                        delete_user(user.id)
+                    # Fallback to deletion using service function
+                    delete_user(user.id)
                     processed.append(user.id)
                     logging.info(
                         "🗑️ Expired user %s (%s) deleted (disable fallback)",
@@ -249,11 +242,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
                     savepoint.commit()  # Commit the savepoint on success
             else:
                 # Delete the user (either by setting or server doesn't support disable)
-                # Use the service functions for deletion
-                if user.server_id and user.server:
-                    delete_user_for_server(user.server, user.id)
-                else:
-                    delete_user(user.id)
+                delete_user(user.id)
                 processed.append(user.id)
                 action_reason = (
                     "setting" if expiry_action == "delete" else "unsupported"
@@ -323,7 +312,7 @@ def get_expiring_this_week_users() -> list[dict]:
     Returns:
         List of dictionaries with user data and calculated days left
     """
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(datetime.UTC)
     one_week_from_now = now + datetime.timedelta(days=7)
 
     users = (
@@ -341,9 +330,7 @@ def get_expiring_this_week_users() -> list[dict]:
     result = []
     for user in users:
         days_left = (user.expires - now).total_seconds() / 86400
-        days_left_int = max(
-            1, int(round(days_left))
-        )  # Ensure it's an integer, minimum 1
+        days_left_int = max(1, round(days_left))  # Ensure it's an integer, minimum 1
         result.append(
             {
                 "user": user,

@@ -143,7 +143,7 @@ class RommClient(RestApiMixin):
                 if len(batch) < take:
                     break  # reached final page
                 skip += take
-        except Exception as exc:  # noqa: BLE001
+        except Exception as exc:
             logging.warning("ROMM: failed to list users – %s", exc, exc_info=True)
             return []
 
@@ -160,7 +160,7 @@ class RommClient(RestApiMixin):
                     username=ru.get("username", "romm-user"),
                     email=ru.get("email", ""),
                     code="romm",  # placeholder – no invite code
-                    password="romm",  # placeholder
+                    password="romm",  # noqa: S106  # Placeholder string, not actual password
                     server_id=getattr(self, "server_id", None),
                 )
                 db.session.add(db_row)
@@ -261,8 +261,8 @@ class RommClient(RestApiMixin):
         try:
             if r is not None:
                 data = r.json()
-        except Exception:
-            pass
+        except Exception as exc:
+            logging.debug(f"Failed to parse RomM user creation response: {exc}")
 
         return data.get("id") or data.get("user", {}).get("id")  # type: ignore[return-value]
 
@@ -502,7 +502,7 @@ class RommClient(RestApiMixin):
 
             return True, ""
 
-        except Exception:  # noqa: BLE001
+        except Exception:
             logging.error("ROMM join error", exc_info=True)
             db.session.rollback()
             return False, "An unexpected error occurred."

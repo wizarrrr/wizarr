@@ -16,9 +16,9 @@ from .plex import PlexCollector
 from .polling import PollingCollector
 
 __all__ = [
-    "PlexCollector",
-    "JellyfinCollector",
-    "EmbyCollector",
     "AudiobookshelfCollector",
+    "EmbyCollector",
+    "JellyfinCollector",
+    "PlexCollector",
     "PollingCollector",
 ]

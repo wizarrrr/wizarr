@@ -40,7 +40,7 @@ def is_invite_valid(code: str) -> tuple[bool, str]:
     ).first()
     if not invitation:
         return False, "Invalid code"
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(datetime.UTC)
     if invitation.expires and invitation.expires <= now:
         return False, "Invitation has expired."
     if invitation.used is True and invitation.unlimited is not True:
@@ -73,7 +73,7 @@ def create_invite(form: Any) -> Invitation:
     ):
         raise ValueError("Invalid or duplicate code")
 
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(datetime.UTC)
     expires_lookup = {
         "day": now + datetime.timedelta(days=1),
         "week": now + datetime.timedelta(days=7),
@@ -96,10 +96,6 @@ def create_invite(form: Any) -> Invitation:
     other_servers = [s for s in servers if s.server_type != "plex"]
     servers = plex_servers + other_servers
 
-    # Keep legacy `server` column for the FIRST selected server (or None)
-    # primary_server = servers[0] if servers else None  # TODO: Re-enable when UNIQUE constraint issue is fixed
-
-    # Fix duplicate assignment of allow_downloads and syntax error (missing parenthesis)
     invite = Invitation(
         code=code,
         used=False,
@@ -113,7 +109,6 @@ def create_invite(form: Any) -> Invitation:
         plex_allow_channels=bool(
             form.get("plex_allow_channels") or form.get("allow_live_tv")
         ),
-        # server=primary_server,  # TODO: Figure out why this causes UNIQUE constraint violation
         wizard_bundle_id=(
             int(form.get("wizard_bundle_id")) if form.get("wizard_bundle_id") else None
         ),
@@ -212,7 +207,7 @@ def mark_server_used(
                 invitation_servers.c.server_id == server_id,
             )
         )
-        .values(used=True, used_at=datetime.datetime.now())
+        .values(used=True, used_at=datetime.datetime.now(datetime.UTC))
     )
 
     # Check if *all* servers are now used (only for limited invitations)
@@ -223,7 +218,7 @@ def mark_server_used(
         # For limited invitations, mark as fully used when all servers are used
         # For unlimited invitations, this should already be True from the first usage
         inv.used = True
-        inv.used_at = datetime.datetime.now()
+        inv.used_at = datetime.datetime.now(datetime.UTC)
 
     # Find or use the provided user who used this invitation on this server
     from app.models import User
@@ -266,7 +261,7 @@ def mark_server_used(
                 invitation_users.insert().values(
                     invite_id=inv.id,
                     user_id=user.id,
-                    used_at=datetime.datetime.now(),
+                    used_at=datetime.datetime.now(datetime.UTC),
                     server_id=server_id,
                 )
             )
@@ -290,6 +285,6 @@ def mark_server_used(
     # This allows the invitation to show up correctly in the admin interface
     if inv.unlimited and not inv.used:
         inv.used = True
-        inv.used_at = datetime.datetime.now()
+        inv.used_at = datetime.datetime.now(datetime.UTC)
 
     db.session.commit()

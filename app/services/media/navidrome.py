@@ -50,7 +50,7 @@ class NavidromeClient(RestApiMixin):
         salt = "".join(random.choices(string.ascii_letters + string.digits, k=6))
 
         # Create MD5 hash of password + salt
-        token_hash = hashlib.md5((self.token + salt).encode()).hexdigest()
+        token_hash = hashlib.md5((self.token + salt).encode()).hexdigest()  # noqa: S324  # Required by Subsonic API specification
 
         return {
             "u": "admin",  # Default username for API access
@@ -92,7 +92,7 @@ class NavidromeClient(RestApiMixin):
             return False, "Server did not respond properly"
         except Exception as exc:
             logging.error("Navidrome: connection validation failed – %s", exc)
-            return False, f"Connection failed: {str(exc)}"
+            return False, f"Connection failed: {exc!s}"
 
     def libraries(self) -> dict[str, str]:
         """Return mapping of library_id → display_name."""
@@ -293,11 +293,11 @@ class NavidromeClient(RestApiMixin):
             logging.error("Navidrome: failed to update user %s – %s", username, exc)
             raise
 
-    def enable_user(self, user_id: str) -> bool:
+    def enable_user(self, _user_id: str) -> bool:
         """Enable a user account on Navidrome.
 
         Args:
-            user_id: The user's Navidrome ID
+            _user_id: The user's Navidrome ID (unused - Navidrome doesn't support enable/disable)
 
         Returns:
             bool: True if the user was successfully enabled, False otherwise
@@ -313,7 +313,7 @@ class NavidromeClient(RestApiMixin):
             structlog.get_logger().error(f"Failed to enable Navidrome user: {e}")
             return False
 
-    def disable_user(self, user_id: str) -> bool:
+    def disable_user(self, _user_id: str) -> bool:
         """Disable a user account on Navidrome.
 
         Args:

@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 import tempfile
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import cast
 
 from flask import (
@@ -171,7 +171,7 @@ def create_step():
             server_type=stype,
             category=category,
             position=next_pos,
-            title=getattr(form, "title", None) and form.title.data or None,
+            title=(getattr(form, "title", None) and form.title.data) or None,
             markdown=cleaned_md,
             require_interaction=(
                 getattr(form, "require_interaction", None) is not None
@@ -308,7 +308,7 @@ def edit_step(step_id: int):
         if hasattr(form, "category") and form.category.data:
             step.category = form.category.data
 
-        step.title = getattr(form, "title", None) and form.title.data or None
+        step.title = (getattr(form, "title", None) and form.title.data) or None
         cleaned_md = _strip_localization(form.markdown.data or "")
         step.markdown = cleaned_md
 
@@ -651,7 +651,7 @@ def export_server_steps(server_type: str):
             temp_file_path = temp_file.name
 
         # Generate filename with server type and current date
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
         filename = f"wizard_steps_{server_type}_{timestamp}.json"
 
         return send_file(
@@ -689,7 +689,7 @@ def export_bundle(bundle_id: int):
             if export_data.bundle
             else "unknown_bundle"
         )
-        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
         filename = f"wizard_bundle_{bundle_name}_{timestamp}.json"
 
         return send_file(
@@ -800,7 +800,7 @@ def reset_server_steps(server_type: str):
         total_deleted += pre_deleted
         db.session.flush()
     except Exception as e:
-        errors.append(f"Failed to delete pre_invite steps: {str(e)}")
+        errors.append(f"Failed to delete pre_invite steps: {e!s}")
         db.session.rollback()
 
     # 2. Reset post_invite steps (delete and reimport from YAML defaults)
@@ -821,7 +821,7 @@ def reset_server_steps(server_type: str):
         else:
             errors.append(message)
     except Exception as e:
-        errors.append(f"Failed to reset post_invite steps: {str(e)}")
+        errors.append(f"Failed to reset post_invite steps: {e!s}")
         db.session.rollback()
 
     # Commit all changes if no errors

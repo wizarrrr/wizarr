@@ -248,9 +248,9 @@ def register_complete():
         # Log the full error for debugging
         import traceback
 
-        current_app.logger.error(f"WebAuthn registration error: {str(e)}")
+        current_app.logger.error(f"WebAuthn registration error: {e!s}")
         current_app.logger.debug(f"Traceback: {traceback.format_exc()}")
-        return jsonify({"error": f"Registration failed: {str(e)}"}), 400
+        return jsonify({"error": f"Registration failed: {e!s}"}), 400
 
 
 @webauthn_bp.route("/webauthn/authenticate/begin", methods=["POST"])

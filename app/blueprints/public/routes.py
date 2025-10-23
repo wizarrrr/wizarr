@@ -1,4 +1,4 @@
-import os
+from pathlib import Path
 
 import requests
 from flask import (
@@ -269,7 +269,7 @@ def cinema_posters():
 def manifest():
     """Serve the PWA manifest file with correct content type"""
     return send_from_directory(
-        os.path.join(current_app.root_path, "static"),
+        Path(current_app.root_path) / "static",
         "manifest.json",
         mimetype="application/manifest+json",
     )

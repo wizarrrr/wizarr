@@ -6,6 +6,7 @@ and invitation management through a System token with appropriate scopes.
 
 import logging
 import re
+from datetime import UTC
 from typing import TYPE_CHECKING, Any
 
 import structlog
@@ -61,13 +62,13 @@ class DropClient(RestApiMixin):
             return {}
 
     def scan_libraries(
-        self, url: str | None = None, token: str | None = None
+        self, _url: str | None = None, _token: str | None = None
     ) -> dict[str, str]:
         """Scan available libraries on this Drop server.
 
         Args:
-            url: Optional server URL override
-            token: Optional API token override
+            _url: Optional server URL override (unused - Drop doesn't have libraries)
+            _token: Optional API token override (unused - Drop doesn't have libraries)
 
         Returns:
             dict: Empty dict since Drop doesn't have traditional libraries
@@ -188,7 +189,7 @@ class DropClient(RestApiMixin):
             # Step 1: Create invitation
             from datetime import datetime, timedelta
 
-            expires = datetime.now() + timedelta(hours=1)
+            expires = datetime.now(UTC) + timedelta(hours=1)
             invitation_payload = {
                 "expires": expires.isoformat() + "Z",
                 "username": username,
@@ -232,7 +233,7 @@ class DropClient(RestApiMixin):
             logging.error("Drop: failed to create user – %s", exc)
             raise
 
-    def update_user(self, user_id: str, patch: dict[str, Any]):
+    def update_user(self, _user_id: str, _patch: dict[str, Any]):
         """Update a Drop user.
 
         Note: Update functionality may not be available in Drop API.
@@ -246,11 +247,11 @@ class DropClient(RestApiMixin):
             logging.error("Drop: failed to update user – %s", exc)
             raise
 
-    def enable_user(self, user_id: str) -> bool:
+    def enable_user(self, _user_id: str) -> bool:
         """Enable a user account on Drop.
 
         Args:
-            user_id: The user's Drop ID
+            _user_id: The user's Drop ID (unused - Drop doesn't support enable/disable)
 
         Returns:
             bool: True if the user was successfully enabled, False otherwise
@@ -266,11 +267,11 @@ class DropClient(RestApiMixin):
             structlog.get_logger().error(f"Failed to enable Drop user: {e}")
             return False
 
-    def disable_user(self, user_id: str) -> bool:
+    def disable_user(self, _user_id: str) -> bool:
         """Disable a user account on Drop.
 
         Args:
-            user_id: The user's Drop ID
+            _user_id: The user's Drop ID (unused - Drop doesn't support enable/disable)
 
         Returns:
             bool: True if the user was successfully disabled, False otherwise

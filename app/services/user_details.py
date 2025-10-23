@@ -147,7 +147,7 @@ class UserDetailsService:
         )
 
     def _extract_libraries_from_cached_data(
-        self, server: MediaServer, account: User
+        self, _server: MediaServer, account: User
     ) -> list[str]:
         """Extract library names from cached user data."""
         library_access_data = account.get_library_access()
@@ -155,10 +155,11 @@ class UserDetailsService:
             return []
 
         # Extract library names from cached JSON data
-        accessible_libraries = []
-        for lib in library_access_data:
-            if isinstance(lib, dict) and lib.get("has_access", False):
-                accessible_libraries.append(lib.get("library_name", ""))
+        accessible_libraries = [
+            lib.get("library_name", "")
+            for lib in library_access_data
+            if isinstance(lib, dict) and lib.get("has_access", False)
+        ]
 
         return [name for name in accessible_libraries if name]
 

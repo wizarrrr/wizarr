@@ -67,7 +67,7 @@ def _ntfy(
     return _send(url, msg, headers)
 
 
-def _apprise(msg: str, title: str, tags: str, url: str) -> bool:
+def _apprise(msg: str, title: str, _tags: str, url: str) -> bool:
     try:
         apprise_client = apprise.Apprise()
         apprise_client.add(url)

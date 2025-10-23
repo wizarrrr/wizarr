@@ -14,12 +14,7 @@ from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid
 
 from .client_base import RestApiMixin, register_media_client
-from .utils import (
-    DateHelper,
-    LibraryAccessHelper,
-    StandardizedPermissions,
-    create_standardized_user_details,
-)
+from .utils import StandardizedPermissions
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
@@ -75,7 +70,7 @@ class AudiobookshelfClient(RestApiMixin):
 
         except Exception as exc:
             logging.error("ABS: connection validation failed – %s", exc)
-            return False, f"Connection failed: {str(exc)}"
+            return False, f"Connection failed: {exc!s}"
 
     def get_server_status(self) -> dict[str, Any]:
         """Get server status information.
@@ -290,7 +285,8 @@ class AudiobookshelfClient(RestApiMixin):
                             if items:
                                 break
 
-                except Exception:
+                except Exception as exc:
+                    logging.debug(f"Failed to get recent items for library: {exc}")
                     continue
 
             return items
@@ -300,229 +296,111 @@ class AudiobookshelfClient(RestApiMixin):
 
     # --- users ---------------------------------------------------------
 
+    def _get_server_users(self) -> list[User]:
+        """Get all users for this server from database."""
+        return User.query.filter(User.server_id == self.server_id).all()
+
+    def _extract_abs_permissions(self, abs_user: dict) -> dict[str, bool]:
+        """Extract all permissions from an Audiobookshelf user object."""
+        permissions = abs_user.get("permissions", {}) or {}
+        user_type = abs_user.get("type", "user")
+
+        # Admin or guest type
+        is_admin = user_type == "admin"
+        allow_downloads = (
+            permissions.get("download", True) if user_type != "guest" else False
+        )
+
+        return {
+            "is_admin": is_admin,
+            "allow_downloads": allow_downloads,
+            "allow_live_tv": False,  # ABS doesn't have live TV
+            "allow_camera_upload": False,  # ABS doesn't have camera upload
+        }
+
+    def _get_user_library_access(self, abs_user: dict) -> tuple[list[str] | None, bool]:
+        """Extract library access: (library_names | None, has_full_access)."""
+        if (abs_user.get("permissions", {}) or {}).get("accessAllLibraries", False):
+            return None, True
+
+        if not (accessible_libs := abs_user.get("librariesAccessible", []) or []):
+            return [], False
+
+        library_names = [
+            lib.name
+            for lib_id in accessible_libs
+            if (
+                lib := Library.query.filter_by(
+                    external_id=lib_id, server_id=self.server_id
+                ).first()
+            )
+        ]
+        return library_names, False
+
+    def _sync_user_permissions(self, user: User, abs_user: dict) -> None:
+        """Sync permissions and library access from Audiobookshelf to database user."""
+        user.username = abs_user.get("username", user.username)
+        user.email = abs_user.get("email", user.email)
+
+        # Store permissions in SQL columns
+        perms = self._extract_abs_permissions(abs_user)
+        user.is_admin = perms["is_admin"]
+        user.allow_downloads = perms["allow_downloads"]
+        user.allow_live_tv = perms["allow_live_tv"]
+        user.allow_camera_upload = perms["allow_camera_upload"]
+
+        # Store library access
+        library_names, has_full_access = self._get_user_library_access(abs_user)
+        user.set_accessible_libraries(library_names if not has_full_access else None)
+
     def list_users(self) -> list[User]:
-        """Read users from Audiobookshelf and reflect them locally."""
-        server_id = getattr(self, "server_id", None)
-        if server_id is None:
+        """Sync users from Audiobookshelf to database with all permissions and library access."""
+        if not self.server_id:
             return []
 
         try:
             response = self.get(f"{self.API_PREFIX}/users")
             response.raise_for_status()
             data = response.json()
-
-            # Handle both direct array and wrapped response formats
             raw_users = data if isinstance(data, list) else data.get("users", [])
         except Exception as exc:
             logging.warning("ABS: failed to list users – %s", exc)
-            return []
+            return self._get_server_users()
 
-        raw_by_id = {u["id"]: u for u in raw_users}
+        abs_users_by_id = {u["id"]: u for u in raw_users}
 
-        try:
-            # Add new users or update existing ones
-            for uid, remote in raw_by_id.items():
-                db_row = User.query.filter_by(token=uid, server_id=server_id).first()
-                if not db_row:
-                    db_row = User(
+        # Remove users no longer in Audiobookshelf, add new users
+        for db_user in self._get_server_users():
+            if db_user.token not in abs_users_by_id:
+                db.session.delete(db_user)
+
+        for uid, abs_user in abs_users_by_id.items():
+            if not User.query.filter_by(token=uid, server_id=self.server_id).first():
+                db.session.add(
+                    User(
                         token=uid,
-                        username=remote.get("username", "abs-user"),
-                        email=remote.get("email", ""),
+                        username=abs_user.get("username", "abs-user"),
+                        email=abs_user.get("email", ""),
                         code="empty",
-                        server_id=server_id,
+                        server_id=self.server_id,
                     )
-                    db.session.add(db_row)
-                else:
-                    db_row.username = remote.get("username", db_row.username)
-                    db_row.email = remote.get("email", db_row.email)
-
-            # Remove users that no longer exist upstream
-            to_check = User.query.filter(User.server_id == server_id).all()
-            for local in to_check:
-                if local.token not in raw_by_id:
-                    db.session.delete(local)
-
-            db.session.commit()
-
-        except Exception as exc:
-            logging.error("ABS: failed to sync users – %s", exc)
-            db.session.rollback()
-            return []
-
-        # Get users with policy information
-        users = User.query.filter(User.server_id == server_id).all()
-
-        # Enhance users with policy data from AudiobookShelf
-        for user in users:
-            if user.token in raw_by_id:
-                abs_user = raw_by_id[user.token]
-                permissions = abs_user.get("permissions", {}) or {}
-
-                # Extract standardized permissions
-                user_type = abs_user.get("type", "user")
-                std_permissions = StandardizedPermissions.for_audiobookshelf(
-                    permissions, user_type
                 )
 
-                # Store both server-specific and standardized keys in policies dict
-                audiobookshelf_policies = {
-                    # User info
-                    "isActive": abs_user.get("isActive", True),
-                    "type": abs_user.get("type", "user"),
-                    # Server-specific permission keys
-                    "admin": std_permissions.is_admin,
-                    "download": permissions.get("download", True),
-                    "update": permissions.get("update", False),
-                    "delete": permissions.get("delete", False),
-                    "upload": permissions.get("upload", False),
-                    "accessAllLibraries": permissions.get("accessAllLibraries", False),
-                    "accessAllTags": permissions.get("accessAllTags", True),
-                    "accessExplicitContent": permissions.get(
-                        "accessExplicitContent", True
-                    ),
-                    # Standardized permission keys for UI display
-                    "allow_downloads": std_permissions.allow_downloads,
-                    "allow_live_tv": std_permissions.allow_live_tv,
-                }
-                user.set_raw_policies(audiobookshelf_policies)
-            else:
-                # Default values if user data not found - store in metadata too
-                default_policies = {
-                    "isActive": False,
-                    "type": "user",
-                    "admin": False,
-                    "download": False,
-                    "update": False,
-                    "delete": False,
-                    "upload": False,
-                    "accessAllLibraries": False,
-                    "accessAllTags": False,
-                    "accessExplicitContent": False,
-                    "allow_downloads": False,
-                    "allow_live_tv": False,
-                }
-                user.set_raw_policies(default_policies)
+        # Sync all permissions and library access
+        for user in self._get_server_users():
+            if abs_user := abs_users_by_id.get(user.token):
+                self._sync_user_permissions(user, abs_user)
 
-        # Single commit for all metadata updates
         try:
             db.session.commit()
+            logging.info(
+                f"Synced {len(abs_users_by_id)} Audiobookshelf users to database"
+            )
         except Exception as e:
-            logging.error("ABS: failed to update user metadata – %s", e)
+            logging.error(f"Failed to sync Audiobookshelf user metadata: {e}")
             db.session.rollback()
-            return []
 
-        # Cache detailed metadata for all users from bulk response (no individual API calls)
-        self._cache_user_metadata_from_bulk_response(users, raw_by_id)
-
-        return users
-
-    def _cache_user_metadata_from_bulk_response(
-        self, users: list[User], raw_by_id: dict
-    ) -> None:
-        """Cache user metadata from bulk API response without individual API calls.
-
-        Args:
-            users: List of User objects to cache metadata for
-            raw_by_id: Dictionary of raw user data from bulk /api/users response
-        """
-        if not users or not raw_by_id:
-            return
-
-        cached_count = 0
-        for user in users:
-            try:
-                # Get the raw user data from bulk response
-                raw_user = raw_by_id.get(user.token)
-                if not raw_user:
-                    continue
-
-                permissions = raw_user.get("permissions", {}) or {}
-
-                # Extract standardized permissions
-                user_type = raw_user.get("type", "user")
-                std_permissions = StandardizedPermissions.for_audiobookshelf(
-                    permissions, user_type
-                )
-
-                # Extract library access
-                access_all = permissions.get("accessAllLibraries", False)
-                accessible_libs = raw_user.get("librariesAccessible", []) or []
-
-                if access_all:
-                    # User has access to all libraries - get all enabled libraries for this server
-                    from app.models import Library
-
-                    libs_q = (
-                        Library.query.filter_by(server_id=self.server_id, enabled=True)
-                        .order_by(Library.name)
-                        .all()
-                    )
-                    from app.services.media.user_details import UserLibraryAccess
-
-                    library_access = [
-                        UserLibraryAccess(
-                            library_id=lib.external_id,
-                            library_name=lib.name,
-                            has_access=True,
-                        )
-                        for lib in libs_q
-                    ]
-                elif accessible_libs:
-                    # User has access to specific libraries
-                    library_access = LibraryAccessHelper.create_restricted_access(
-                        accessible_libs, self.server_id
-                    )
-                else:
-                    # User has no library access
-                    library_access = []
-
-                # Extract admin-relevant policies information
-                filtered_policies = {
-                    "isActive": raw_user.get("isActive", True),
-                    "type": raw_user.get("type", "user"),
-                    "admin": std_permissions.is_admin,
-                    "download": std_permissions.allow_downloads,
-                    "update": permissions.get("update", False),
-                    "delete": permissions.get("delete", False),
-                    "upload": permissions.get("upload", False),
-                    "accessAllLibraries": permissions.get("accessAllLibraries", False),
-                    "accessAllTags": permissions.get("accessAllTags", True),
-                    "accessExplicitContent": permissions.get(
-                        "accessExplicitContent", False
-                    ),
-                }
-
-                # Create MediaUserDetails object using factory function
-                details = create_standardized_user_details(
-                    user_id=user.token,
-                    username=raw_user.get("username", "Unknown"),
-                    email=raw_user.get("email"),
-                    permissions=std_permissions,
-                    library_access=library_access,
-                    raw_policies=filtered_policies,
-                    created_at=DateHelper.parse_timestamp(raw_user.get("createdAt")),
-                    last_active=DateHelper.parse_timestamp(raw_user.get("lastSeen")),
-                    is_enabled=raw_user.get("isActive", True),
-                )
-
-                # Update the standardized metadata columns in the User record
-                user.update_standardized_metadata(details)
-                cached_count += 1
-
-            except Exception as e:
-                logging.warning(f"Failed to cache metadata for user {user.token}: {e}")
-                continue
-
-        if cached_count > 0:
-            # Commit the standardized metadata updates
-            try:
-                db.session.commit()
-                logging.info(
-                    f"Cached metadata for {cached_count} users and committed to database"
-                )
-            except Exception as e:
-                logging.error(f"Failed to commit AudiobookShelf metadata updates: {e}")
-                db.session.rollback()
+        return self._get_server_users()
 
     # --- user management ------------------------------------------------
 
@@ -645,86 +523,55 @@ class AudiobookshelfClient(RestApiMixin):
             "username": details.username,
             "email": details.email,
             "isActive": details.is_enabled,
-            "createdAt": int(details.created_at.timestamp() * 1000)
-            if details.created_at
-            else None,
-            "lastSeen": int(details.last_active.timestamp() * 1000)
-            if details.last_active
-            else None,
-            "permissions": {"admin": details.is_admin},
+            "permissions": {
+                "admin": details.is_admin,
+                "download": details.allow_downloads,
+            },
         }
 
     def get_user_details(self, user_id: str) -> MediaUserDetails:
-        """Get detailed user information in standardized format."""
-        # Get raw user data from AudiobookShelf API
-        response = self.get(f"{self.API_PREFIX}/users/{user_id}")
-        response.raise_for_status()
-        raw_user = response.json()
-        permissions = raw_user.get("permissions", {}) or {}
+        """Get detailed user information from database (no API calls)."""
+        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
 
-        # Extract standardized permissions
-        user_type = raw_user.get("type", "user")
-        std_permissions = StandardizedPermissions.for_audiobookshelf(
-            permissions, user_type
-        )
+        if not (
+            user := User.query.filter_by(
+                token=user_id, server_id=self.server_id
+            ).first()
+        ):
+            raise ValueError(f"No user found with id {user_id}")
 
-        # Extract library access
-        access_all = permissions.get("accessAllLibraries", False)
-        accessible_libs = raw_user.get("librariesAccessible", []) or []
-
-        if access_all:
-            # User has access to all libraries - get all enabled libraries for this server
-            from app.models import Library
-            from app.services.media.user_details import UserLibraryAccess
-
-            libs_q = (
-                Library.query.filter_by(server_id=self.server_id, enabled=True)
-                .order_by(Library.name)
-                .all()
-            )
-
+        # Build library access from stored names
+        library_access = None
+        if library_names := user.get_accessible_libraries():
+            libs_by_name = {
+                lib.name: lib
+                for lib in Library.query.filter(
+                    Library.server_id == self.server_id, Library.name.in_(library_names)
+                ).all()
+            }
             library_access = [
                 UserLibraryAccess(
-                    library_id=lib.external_id,
-                    library_name=lib.name,
+                    library_id=lib.external_id
+                    if (lib := libs_by_name.get(name))
+                    else f"abs_{name}",
+                    library_name=name,
                     has_access=True,
                 )
-                for lib in libs_q
+                for name in library_names
             ]
-        elif accessible_libs:
-            # User has access to specific libraries
-            library_access = LibraryAccessHelper.create_restricted_access(
-                accessible_libs, self.server_id
-            )
-        else:
-            # User has no library access
-            library_access = []
 
-        # Extract admin-relevant policies information
-        filtered_policies = {
-            "isActive": raw_user.get("isActive", True),
-            "type": raw_user.get("type", "user"),
-            "admin": std_permissions.is_admin,
-            "hasOpenIDLink": raw_user.get("hasOpenIDLink", False),
-            "download": std_permissions.allow_downloads,
-            "update": permissions.get("update", False),
-            "delete": permissions.get("delete", False),
-            "upload": permissions.get("upload", False),
-            "accessAllLibraries": permissions.get("accessAllLibraries", False),
-            "accessAllTags": permissions.get("accessAllTags", True),
-            "accessExplicitContent": permissions.get("accessExplicitContent", False),
-        }
-
-        return create_standardized_user_details(
-            user_id=user_id,
-            username=raw_user.get("username", "Unknown"),
-            email=raw_user.get("email"),
-            permissions=std_permissions,
+        return MediaUserDetails(
+            user_id=user.token,
+            username=user.username,
+            email=user.email,
+            is_admin=user.is_admin or False,
+            is_enabled=True,
+            created_at=None,
+            last_active=None,
+            allow_downloads=user.allow_downloads or False,
+            allow_live_tv=user.allow_live_tv or False,
+            allow_camera_upload=user.allow_camera_upload or False,
             library_access=library_access,
-            raw_policies=filtered_policies,
-            created_at=DateHelper.parse_timestamp(raw_user.get("createdAt")),
-            last_active=DateHelper.parse_timestamp(raw_user.get("lastSeen")),
-            is_enabled=raw_user.get("isActive", True),
         )
 
     # ------------------------------------------------------------------

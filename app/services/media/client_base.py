@@ -75,7 +75,7 @@ class MediaClient(ABC):
         media_server: MediaServer | None = None,
         *,
         url_key: str = "server_url",
-        token_key: str = "api_key",
+        token_key: str = "api_key",  # noqa: S107  # Parameter name, not actual password
     ) -> None:
         # ------------------------------------------------------------------
         # 1. Direct MediaServer row supplied
@@ -343,13 +343,13 @@ class MediaClient(ABC):
         raise NotImplementedError
 
     def get_recent_items(
-        self, library_id: str | None = None, limit: int = 10
+        self, _library_id: str | None = None, _limit: int = 10
     ) -> list[dict]:
         """Get recently added items from the media server.
 
         Args:
-            library_id: Optional library ID to filter by
-            limit: Maximum number of items to return
+            _library_id: Optional library ID to filter by (unused in base implementation)
+            _limit: Maximum number of items to return (unused in base implementation)
 
         Returns:
             list: A list of recently added items with standardized keys:
@@ -555,7 +555,7 @@ class RestApiMixin(MediaClient):
     # Customisation hooks
     # ------------------------------------------------------------------
 
-    def _headers(self) -> dict[str, str]:  # noqa: D401
+    def _headers(self) -> dict[str, str]:
         """Return default headers for every request (override as needed)."""
         return {
             "Accept": "application/json",

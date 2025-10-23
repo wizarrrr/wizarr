@@ -20,15 +20,7 @@ LOGGING_CONFIG = {
             "formatter": "default",
             "level": LOG_LEVEL,
         },
-        # ○ add a rotating-file handler if you fancy
-        # "file": {
-        #     "class": "logging.handlers.RotatingFileHandler",
-        #     "filename": str(Path(__file__).resolve().parent.parent / "logs" / "wizarr.log"),
-        #     "maxBytes": 5_000_000,
-        #     "backupCount": 3,
-        #     "formatter": "default",
-        #     "level": LOG_LEVEL,
-        # },
+        # Note: Rotating file handler can be added if persistent logging is needed.
     },
     "root": {
         "handlers": ["console"],

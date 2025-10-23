@@ -307,7 +307,7 @@ def get_server_statistics(server_id):
     except Exception as e:
         return jsonify(
             {
-                "error": f"Failed to get statistics: {str(e)}",
+                "error": f"Failed to get statistics: {e!s}",
                 "server_name": server.name,
                 "server_type": server.server_type,
                 "server_id": server.id,
@@ -342,7 +342,7 @@ def get_server_health(server_id):
     except Exception as e:
         return jsonify(
             {
-                "error": f"Failed to get health statistics: {str(e)}",
+                "error": f"Failed to get health statistics: {e!s}",
                 "server_name": server.name,
                 "server_type": server.server_type,
                 "server_id": server.id,
@@ -388,7 +388,7 @@ def get_all_statistics():
                 }
         except Exception as e:
             all_stats[server_data["id"]] = {
-                "error": f"Failed to get statistics: {str(e)}",
+                "error": f"Failed to get statistics: {e!s}",
                 "server_name": server_data["name"],
                 "server_type": server_data["server_type"],
                 "server_id": server_data["id"],
@@ -435,7 +435,7 @@ def get_statistics_by_type(server_type):
                 }
         except Exception as e:
             type_stats[server_data["id"]] = {
-                "error": f"Failed to get statistics: {str(e)}",
+                "error": f"Failed to get statistics: {e!s}",
                 "server_name": server_data["name"],
                 "server_type": server_data["server_type"],
                 "server_id": server_data["id"],
@@ -483,7 +483,7 @@ def get_all_health():
                 }
         except Exception as e:
             all_health[server_data["id"]] = {
-                "error": f"Failed to get health: {str(e)}",
+                "error": f"Failed to get health: {e!s}",
                 "server_name": server_data["name"],
                 "server_type": server_data["server_type"],
                 "server_id": server_data["id"],

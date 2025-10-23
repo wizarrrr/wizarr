@@ -50,12 +50,10 @@ def status():
             request.remote_addr,
         )
 
-        now = datetime.datetime.now()
+        now = datetime.datetime.now(datetime.UTC)
         # Total users
         users = User.query.count()
-        # Total invites
         invites = Invitation.query.count()
-        # Pending = not used and not expired
         pending = Invitation.query.filter(
             Invitation.used.is_(False),
             (Invitation.expires.is_(None)) | (Invitation.expires >= now),

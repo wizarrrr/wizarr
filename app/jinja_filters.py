@@ -1,7 +1,8 @@
 import contextlib
+import logging
 import os
 import time
-from datetime import datetime
+from datetime import UTC, datetime
 
 from markupsafe import Markup, escape
 
@@ -38,16 +39,16 @@ def _resolve_local_timezone():
         if tz_name:
             try:
                 return ZoneInfo(tz_name)
-            except Exception:
-                pass
+            except Exception as exc:
+                logging.debug(f"Failed to load timezone {tz_name}: {exc}")
 
         # Fall back to system tzname if available
         try:
             local_name = time.tzname[0] if time.tzname else None
             if local_name:
                 return ZoneInfo(local_name)
-        except Exception:
-            pass
+        except Exception as exc:
+            logging.debug(f"Failed to load system timezone {local_name}: {exc}")
 
     # Fallback: use the system local timezone as determined by datetime
     try:
@@ -80,7 +81,7 @@ def server_type_tag(server_type: str) -> Markup:
         f'<span class="text-xs inline-block font-medium px-2 py-0.5 rounded-lg" '
         f'style="background-color: {colour}; color: #000;">{text}</span>'
     )
-    return Markup(html)
+    return Markup(html)  # noqa: S704  # User input is escaped, colour from safe dict
 
 
 def server_name_tag(server_type: str, server_name: str) -> Markup:
@@ -96,7 +97,7 @@ def server_name_tag(server_type: str, server_name: str) -> Markup:
         f'<span class="text-xs inline-block font-medium px-2 py-0.5 rounded-lg" '
         f'style="background-color: {colour}; color: #000;">{text}</span>'
     )
-    return Markup(html)
+    return Markup(html)  # noqa: S704  # User input is escaped, colour from safe dict
 
 
 def human_date(date_value) -> str:
@@ -115,7 +116,7 @@ def human_date(date_value) -> str:
                 "%Y-%m-%dT%H:%M:%S.%f",
             ]:
                 try:
-                    date_value = datetime.strptime(date_value, fmt)
+                    date_value = datetime.strptime(date_value, fmt).replace(tzinfo=UTC)
                     break
                 except ValueError:
                     continue
@@ -142,7 +143,9 @@ def local_date(date_value, format_str="%m/%d %H:%M") -> str:
     if isinstance(date_value, str):
         for fmt in ["%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S"]:
             with contextlib.suppress(ValueError):
-                date_value = datetime.strptime(date_value.rstrip("Z"), fmt)
+                date_value = datetime.strptime(date_value.rstrip("Z"), fmt).replace(
+                    tzinfo=UTC
+                )
                 break
         else:
             return str(date_value)[:16]
@@ -150,8 +153,6 @@ def local_date(date_value, format_str="%m/%d %H:%M") -> str:
     # Format datetime object
     if hasattr(date_value, "strftime"):
         if date_value.tzinfo is None:
-            from datetime import UTC
-
             date_value = date_value.replace(tzinfo=UTC)
 
         local_time = date_value.astimezone(_LOCAL_TIMEZONE or None)
@@ -168,7 +169,7 @@ def nl2br(text: str) -> Markup:
     # Escape HTML to prevent XSS, then replace newlines with <br> tags
     escaped_text = escape(text)
     html = str(escaped_text).replace("\n", "<br>")
-    return Markup(html)
+    return Markup(html)  # noqa: S704  # Text is escaped before markup conversion
 
 
 def render_jinja(text: str) -> Markup:
@@ -184,10 +185,10 @@ def render_jinja(text: str) -> Markup:
 
     try:
         rendered = render_template_string(text)
-        return Markup(rendered)
+        return Markup(rendered)  # noqa: S704  # render_template_string auto-escapes
     except Exception:
         # If rendering fails, return the original text escaped
-        return Markup(escape(text))
+        return Markup(escape(text))  # noqa: S704  # Text is explicitly escaped
 
 
 def register_filters(app):

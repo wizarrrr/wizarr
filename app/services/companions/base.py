@@ -28,7 +28,6 @@ class CompanionClient(ABC):
         Returns:
             Dict with 'status' and 'message' keys
         """
-        pass
 
     @abstractmethod
     def delete_user(self, username: str, connection: Connection) -> dict[str, str]:
@@ -42,19 +41,16 @@ class CompanionClient(ABC):
         Returns:
             Dict with 'status' and 'message' keys
         """
-        pass
 
     @property
     @abstractmethod
     def requires_api_call(self) -> bool:
         """Whether this companion type requires actual API calls or is info-only."""
-        pass
 
     @property
     @abstractmethod
     def display_name(self) -> str:
         """Human-readable name for this companion type."""
-        pass
 
     @abstractmethod
     def test_connection(self, connection: Connection) -> dict[str, str]:
@@ -67,4 +63,3 @@ class CompanionClient(ABC):
         Returns:
             Dict with 'status' and 'message' keys
         """
-        pass

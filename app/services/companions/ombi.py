@@ -24,7 +24,7 @@ class OmbiClient(CompanionClient):
         return "Ombi"
 
     def invite_user(
-        self, username: str, email: str, connection: Connection, password: str = ""
+        self, username: str, email: str, connection: Connection, _password: str = ""
     ) -> dict[str, str]:
         """
         Invite a user to Ombi.
@@ -33,7 +33,7 @@ class OmbiClient(CompanionClient):
             username: Username to invite
             email: Email address
             connection: Connection object with URL and API key
-            password: Password for the user (optional, defaults to empty string)
+            _password: Password for the user (unused - Ombi generates passwords)
 
         Returns:
             Dict with 'status' and 'message' keys
@@ -86,7 +86,7 @@ class OmbiClient(CompanionClient):
             logging.error("Ombi user creation error for %s: %s", username, exc)
             return {
                 "status": "error",
-                "message": f"Error inviting user to {connection.name}: {str(exc)}",
+                "message": f"Error inviting user to {connection.name}: {exc!s}",
             }
 
     def delete_user(self, username: str, connection: Connection) -> dict[str, str]:
@@ -158,7 +158,7 @@ class OmbiClient(CompanionClient):
             )
             return {
                 "status": "error",
-                "message": f"Error deleting user from {connection.name}: {str(exc)}",
+                "message": f"Error deleting user from {connection.name}: {exc!s}",
             }
 
     def test_connection(self, connection: Connection) -> dict[str, str]:
@@ -209,5 +209,5 @@ class OmbiClient(CompanionClient):
         except Exception as exc:
             return {
                 "status": "error",
-                "message": f"Connection test failed: {str(exc)}",
+                "message": f"Connection test failed: {exc!s}",
             }

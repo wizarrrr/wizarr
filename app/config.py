@@ -3,6 +3,7 @@ import json
 import os
 import secrets
 from pathlib import Path
+from typing import ClassVar
 
 from dotenv import load_dotenv
 
@@ -17,7 +18,7 @@ load_dotenv(BASE_DIR / ".env")
 # Use /data/database for container deployments, fall back to local for development
 
 
-if os.path.exists("/data"):
+if Path("/data").exists():
     DATABASE_DIR = Path("/data/database")
 else:
     DATABASE_DIR = BASE_DIR / "database"
@@ -45,7 +46,7 @@ def load_secrets():
         return {}
 
     try:
-        with open(SECRETS_FILE) as f:
+        with SECRETS_FILE.open() as f:
             return json.load(f)
     except (json.JSONDecodeError, FileNotFoundError):
         return {}
@@ -56,7 +57,7 @@ def save_secrets(secrets_dict):
     # Ensure database directory exists
     DATABASE_DIR.mkdir(exist_ok=True)
 
-    with open(SECRETS_FILE, "w") as f:
+    with SECRETS_FILE.open("w") as f:
         json.dump(secrets_dict, f, indent=2)
 
 
@@ -80,7 +81,7 @@ class BaseConfig:
     SESSION_CACHELIB = SESSION_CACHELIB  # Reference the module-level cache
 
     # Babel / i18n
-    LANGUAGES = {
+    LANGUAGES: ClassVar[dict[str, str]] = {
         "en": "English",
         "ca": "Catalan",
         "cs": "Czech",
@@ -117,7 +118,7 @@ class BaseConfig:
     SQLALCHEMY_DATABASE_URI = f"sqlite:///{DATABASE_DIR / 'database.db'}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     # SQLite engine options for concurrent write support
-    SQLALCHEMY_ENGINE_OPTIONS = {
+    SQLALCHEMY_ENGINE_OPTIONS: ClassVar[dict] = {
         "connect_args": {
             "timeout": 30,  # 30 second timeout for lock waits
             "check_same_thread": False,  # Allow multi-threaded access

@@ -21,15 +21,74 @@ _NOW_PLAYING_CACHE_TTL = 5.0  # seconds
 _now_playing_cache: dict[str, Any] = {"timestamp": 0.0, "sessions": []}
 
 
-def _clear_user_cache(client) -> None:
-    """Helper to clear user cache if available."""
-    if hasattr(client, "list_users") and hasattr(client.list_users, "cache_clear"):
-        client.list_users.cache_clear()
+def _get_user_identifier(user: User, server: MediaServer) -> str:
+    """Get user identifier for API calls (email for Plex, token for others)."""
+    if server.server_type == "plex":
+        if user.email and user.email != "None":
+            return user.email
+        raise ValueError(f"Plex user {user.id} has no valid email")
+    return user.token
+
+
+def _delete_from_companion_apps(user: User) -> None:
+    """Delete user from connected companion apps (Ombi, Overseerr, etc.)."""
+    try:
+        from app.services.ombi_client import delete_user_from_connections
+
+        connection_results = delete_user_from_connections(user.token)
+
+        for result in connection_results:
+            if result["status"] == "success":
+                logging.info(
+                    f"User {user.username} deleted from {result.get('connection_name')}"
+                )
+            elif result["status"] == "error":
+                logging.warning(
+                    f"Failed to delete from {result.get('connection_name')}: {result.get('message')}"  # noqa: S608  # Logging f-string, not SQL query
+                )
+    except Exception as exc:
+        logging.error(f"Error deleting from companion apps: {exc}")
+
+
+def _set_user_enabled_state(db_id: int, enabled: bool) -> bool:
+    """Enable or disable a user on their media server."""
+    if not (user := db.session.get(User, db_id)):
+        logging.error(f"User with id {db_id} not found")
+        return False
+
+    if not user.server:
+        logging.warning(f"User {db_id} has no associated server")
+        return False
+
+    try:
+        client = get_client_for_media_server(user.server)
+        user_identifier = _get_user_identifier(user, user.server)
+        method = client.enable_user if enabled else client.disable_user
+        result = method(user_identifier)
+
+        action = "enabled" if enabled else "disabled"
+        if result:
+            logging.info(
+                f"Successfully {action} user {user.username} (ID: {db_id}) on {user.server.server_type}"
+            )
+        else:
+            logging.warning(
+                f"Failed to {action} user {user.username} (ID: {db_id}) on {user.server.server_type}"
+            )
+
+        return result
+    except Exception as exc:
+        logging.error(
+            f"Error {'enabling' if enabled else 'disabling'} user {db_id}: {exc}"
+        )
+        return False
 
 
 def _mode() -> str | None:
     """Read the 'server_type' setting from the database."""
-    return db.session.query(Settings.value).filter_by(key="server_type").scalar()
+    return (
+        db.session.query(Settings.value).filter_by(key="server_type").scalar()
+    )  # SQLAlchemy filter_by uses parameterized queries
 
 
 def get_client(
@@ -71,243 +130,49 @@ def get_media_client(server_type: str, media_server: MediaServer | None = None):
     return get_client(server_type)
 
 
-def list_users(clear_cache: bool = False):
+def list_users():
     """Return current users from the configured media server, syncing local DB as needed."""
-    client = get_client(_mode())
-    if clear_cache:
-        _clear_user_cache(client)
-    return client.list_users()
+    return get_client(_mode()).list_users()
 
 
-def list_users_for_server(server: MediaServer, *, clear_cache: bool = False):
-    """List users for a specific MediaServer instance and ensure server_id set."""
-    client = get_client_for_media_server(server)
-    if clear_cache:
-        _clear_user_cache(client)
-
-    users = client.list_users()
-
-    # Ensure server linkage
-    changed = False
-    for user in users:
-        if user.server_id != server.id:
-            user.server_id = server.id
-            changed = True
-
-    if changed:
-        db.session.commit()
-
-    return users
+def list_users_for_server(server: MediaServer):
+    """List users for a specific MediaServer instance."""
+    return get_client_for_media_server(server).list_users()
 
 
 def delete_user(db_id: int) -> None:
     """Delete a user from its associated MediaServer and local DB."""
-    user = db.session.get(User, db_id)
-    if not user:
+    if not (user := db.session.get(User, db_id)):
         return
 
-    server = user.server
-    if server is None:
-        # fallback: derive from token? Skip remote deletion
+    if not user.server:
         db.session.delete(user)
         db.session.commit()
         return
 
-    # server is guaranteed to be not None at this point
-    assert server is not None
-    # Cast to MediaServer to satisfy type checker
-    from typing import cast
-
-    server = cast(MediaServer, server)
-    client = get_client_for_media_server(server)
-
-    # clear cache pre‐removal if supported
-    _clear_user_cache(client)
-
+    # Delete from remote media server
     try:
-        if server.server_type == "plex":
-            if user.email and user.email != "None":
-                client.delete_user(user.email)
-        else:
-            client.delete_user(user.token)
+        client = get_client_for_media_server(user.server)
+        user_identifier = _get_user_identifier(user, user.server)
+        client.delete_user(user_identifier)
     except Exception as exc:
-        # log but still remove locally so UI stays consistent
         logging.error("Remote deletion failed: %s", exc)
 
-    # Delete user from connected companion apps (Ombi, Overseerr, Audiobookrequest, etc.)
-    try:
-        from app.services.ombi_client import delete_user_from_connections
-
-        connection_results = delete_user_from_connections(user.token)
-
-        # Log companion app deletion results
-        for result in connection_results:
-            if result["status"] == "success":
-                logging.info(
-                    f"User {user.username} deleted from companion app {result.get('connection_name')}"
-                )
-            elif result["status"] == "error":
-                logging.warning(
-                    f"Failed to delete user from {result.get('connection_name')}: {result.get('message')}"
-                )
-    except Exception as exc:
-        logging.error(f"Error deleting user from companion apps: {exc}")
+    # Delete from companion apps
+    _delete_from_companion_apps(user)
 
     db.session.delete(user)
     db.session.commit()
 
-    _clear_user_cache(client)
-
 
 def enable_user(db_id: int) -> bool:
-    """Enable a user on its associated MediaServer.
-
-    Returns True if successful, False otherwise.
-    """
-    user = db.session.get(User, db_id)
-    if not user:
-        logging.error(f"User with id {db_id} not found")
-        return False
-
-    server = user.server
-    if server is None:
-        # No server associated, can't enable remotely
-        logging.warning(f"User {db_id} has no associated server")
-        return False
-
-    # Cast to MediaServer to satisfy type checker
-    from typing import cast
-
-    server = cast(MediaServer, server)
-    client = get_client_for_media_server(server)
-
-    try:
-        # Get the appropriate user identifier based on server type
-        if server.server_type == "plex":
-            # Plex uses email for user operations
-            if user.email and user.email != "None":
-                user_identifier = user.email
-            else:
-                logging.error(f"Plex user {db_id} has no valid email")
-                return False
-        else:
-            # Other servers use token/user_id
-            user_identifier = user.token
-
-        # Call the enable_user method on the client
-        result = client.enable_user(user_identifier)
-
-        if result:
-            logging.info(
-                f"Successfully enabled user {user.username} (ID: {db_id}) on {server.server_type}"
-            )
-            # Clear cache after successful enable
-            _clear_user_cache(client)
-        else:
-            logging.warning(
-                f"Failed to enable user {user.username} (ID: {db_id}) on {server.server_type}"
-            )
-
-        return result
-
-    except Exception as exc:
-        logging.error(f"Error enabling user {db_id}: {exc}")
-        return False
+    """Enable a user on its associated MediaServer."""
+    return _set_user_enabled_state(db_id, enabled=True)
 
 
 def disable_user(db_id: int) -> bool:
-    """Disable a user on its associated MediaServer.
-
-    Returns True if successful, False otherwise.
-    """
-    user = db.session.get(User, db_id)
-    if not user:
-        logging.error(f"User with id {db_id} not found")
-        return False
-
-    server = user.server
-    if server is None:
-        # No server associated, can't disable remotely
-        logging.warning(f"User {db_id} has no associated server")
-        return False
-
-    # Cast to MediaServer to satisfy type checker
-    from typing import cast
-
-    server = cast(MediaServer, server)
-    client = get_client_for_media_server(server)
-
-    try:
-        # Get the appropriate user identifier based on server type
-        if server.server_type == "plex":
-            # Plex uses email for user operations
-            if user.email and user.email != "None":
-                user_identifier = user.email
-            else:
-                logging.error(f"Plex user {db_id} has no valid email")
-                return False
-        else:
-            # Other servers use token/user_id
-            user_identifier = user.token
-
-        # Call the disable_user method on the client
-        result = client.disable_user(user_identifier)
-
-        if result:
-            logging.info(
-                f"Successfully disabled user {user.username} (ID: {db_id}) on {server.server_type}"
-            )
-            # Clear cache after successful disable
-            _clear_user_cache(client)
-        else:
-            logging.warning(
-                f"Failed to disable user {user.username} (ID: {db_id}) on {server.server_type}"
-            )
-
-        return result
-
-    except Exception as exc:
-        logging.error(f"Error disabling user {db_id}: {exc}")
-        return False
-
-
-def delete_user_for_server(server: MediaServer, db_id: int) -> None:
-    """Delete a user from the given MediaServer and local DB."""
-    client = get_client_for_media_server(server)
-    _clear_user_cache(client)
-
-    user = db.session.get(User, db_id)
-    if user:
-        if server.server_type == "plex":
-            email = user.email
-            if email and email != "None":
-                client.delete_user(email)
-        else:
-            client.delete_user(user.token)
-
-        # Delete user from connected companion apps (Ombi, Overseerr, Audiobookrequest, etc.)
-        try:
-            from app.services.ombi_client import delete_user_from_connections
-
-            connection_results = delete_user_from_connections(user.token)
-
-            # Log companion app deletion results
-            for result in connection_results:
-                if result["status"] == "success":
-                    logging.info(
-                        f"User {user.username} deleted from companion app {result.get('connection_name')}"
-                    )
-                elif result["status"] == "error":
-                    logging.warning(
-                        f"Failed to delete user from {result.get('connection_name')}: {result.get('message')}"
-                    )
-        except Exception as exc:
-            logging.error(f"Error deleting user from companion apps: {exc}")
-
-        db.session.delete(user)
-        db.session.commit()
-
-    _clear_user_cache(client)
+    """Disable a user on its associated MediaServer."""
+    return _set_user_enabled_state(db_id, enabled=False)
 
 
 def remove_user_from_server(user_id: int, server_id: int) -> bool:
@@ -323,104 +188,56 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
     user = db.session.get(User, user_id)
     server = db.session.get(MediaServer, server_id)
 
-    if not user or not server:
+    if not user or not server or user.server_id != server_id:
         return False
 
-    # Verify this user actually belongs to this server
-    if user.server_id != server_id:
-        return False
-
-    client = get_client_for_media_server(server)
-    _clear_user_cache(client)
-
+    # Remove from remote media server
     try:
-        # Remove user from the remote media server
-        if server.server_type == "plex":
-            if user.email and user.email != "None":
-                client.delete_user(user.email)
-        else:
-            client.delete_user(user.token)
+        client = get_client_for_media_server(server)
+        user_identifier = _get_user_identifier(user, server)
+        client.delete_user(user_identifier)
     except Exception as exc:
-        # Log but continue - we still want to remove locally for consistency
         logging.error(
             f"Remote deletion failed for user {user.username} from {server.name}: {exc}"
         )
 
-    # Check if user has accounts on other servers (via identity)
-    if user.identity_id:
-        # Count other accounts for this identity on different servers
-        other_accounts = User.query.filter(
+    # Check if user has other accounts
+    has_other_accounts = (
+        user.identity_id
+        and User.query.filter(
             User.identity_id == user.identity_id,
             User.server_id != server_id,
             User.id != user_id,
         ).count()
+        > 0
+    )
 
-        if other_accounts > 0:
-            # User has accounts on other servers, only delete this account
-            db.session.delete(user)
-            db.session.commit()
-            logging.info(
-                f"Removed user {user.username} from server {server.name}, preserving other server accounts"
-            )
-        else:
-            # This is the user's only account, delete completely including companion apps
-            try:
-                from app.services.ombi_client import delete_user_from_connections
+    # Delete from companion apps only if this is the user's only account
+    if not has_other_accounts:
+        _delete_from_companion_apps(user)
 
-                connection_results = delete_user_from_connections(user.token)
+    db.session.delete(user)
+    db.session.commit()
 
-                for result in connection_results:
-                    if result["status"] == "success":
-                        logging.info(
-                            f"User {user.username} deleted from companion app {result.get('connection_name')}"
-                        )
-                    elif result["status"] == "error":
-                        logging.warning(
-                            f"Failed to delete user from {result.get('connection_name')}: {result.get('message')}"
-                        )
-            except Exception as exc:
-                logging.error(f"Error deleting user from companion apps: {exc}")
-
-            db.session.delete(user)
-            db.session.commit()
-            logging.info(
-                f"Removed user {user.username}'s only account from server {server.name}"
-            )
-    else:
-        # No identity link, this is a standalone account - delete it
-        try:
-            from app.services.ombi_client import delete_user_from_connections
-
-            connection_results = delete_user_from_connections(user.token)
-
-            for result in connection_results:
-                if result["status"] == "success":
-                    logging.info(
-                        f"User {user.username} deleted from companion app {result.get('connection_name')}"
-                    )
-                elif result["status"] == "error":
-                    logging.warning(
-                        f"Failed to delete user from {result.get('connection_name')}: {result.get('message')}"
-                    )
-        except Exception as exc:
-            logging.error(f"Error deleting user from companion apps: {exc}")
-
-        db.session.delete(user)
-        db.session.commit()
+    if has_other_accounts:
         logging.info(
-            f"Removed standalone user {user.username} from server {server.name}"
+            f"Removed user {user.username} from server {server.name}, preserving other accounts"
+        )
+    else:
+        logging.info(
+            f"Removed user {user.username}'s only account from server {server.name}"
         )
 
-    _clear_user_cache(client)
     return True
 
 
 def scan_libraries(
     url: str | None = None, token: str | None = None, server_type: str | None = None
 ):
-    """
-    Fetch available libraries from the media server, given optional credentials or using Settings.
-    Returns a mapping of external_id -> display_name.
+    """Fetch available libraries from the media server using optional credentials.
+
+    This is used for scanning libraries before a server is saved to the database.
+    For saved servers, use scan_libraries_for_server() instead.
     """
     client = get_client(server_type, url, token)
     return client.libraries()
@@ -553,13 +370,13 @@ def _auto_link_identities():
     db.session.commit()
 
 
-def list_users_all_servers(clear_cache: bool = False):
+def list_users_all_servers():
     """Return users for all servers (mapping server -> list)."""
     _auto_link_identities()
     res = {}
     for server in db.session.query(MediaServer).all():
         try:
-            res[server.id] = list_users_for_server(server, clear_cache=clear_cache)
+            res[server.id] = list_users_for_server(server)
         except Exception:
             res[server.id] = []
     return res

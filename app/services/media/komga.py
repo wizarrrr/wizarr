@@ -73,12 +73,12 @@ class KomgaClient(RestApiMixin):
             return {}
 
     def create_user(
-        self, username: str, password: str, email: str, allow_downloads: bool = False
+        self, _username: str, password: str, email: str, allow_downloads: bool = False
     ) -> str:
         """Create a new Komga user and return the user ID.
 
         Args:
-            username: Username for the new user (not used by Komga, only email)
+            _username: Username for the new user (unused - Komga uses email as username)
             password: Password for the new user
             email: Email address for the new user
             allow_downloads: Whether to grant FILE_DOWNLOAD role
@@ -99,11 +99,11 @@ class KomgaClient(RestApiMixin):
         response = self.patch(f"/api/v2/users/{user_id}", json=updates)
         return response.json()
 
-    def enable_user(self, user_id: str) -> bool:
+    def enable_user(self, _user_id: str) -> bool:
         """Enable a user account on Komga.
 
         Args:
-            user_id: The user's Komga ID
+            _user_id: The user's Komga ID (unused - Komga doesn't support enable/disable)
 
         Returns:
             bool: True if the user was successfully enabled, False otherwise

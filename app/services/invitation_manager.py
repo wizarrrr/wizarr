@@ -183,7 +183,7 @@ class InvitationManager:
                     errors.append(f"{server.name} ({server.server_type}): {msg}")
 
             except Exception as e:
-                errors.append(f"{server.name} ({server.server_type}): {str(e)}")
+                errors.append(f"{server.name} ({server.server_type}): {e!s}")
 
         # Return results
         if success_count > 0:

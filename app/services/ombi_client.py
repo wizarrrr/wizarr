@@ -6,11 +6,11 @@ from app.models import Connection, Settings, User
 from app.services.companions import get_companion_client
 
 __all__ = [
-    "run_user_importer",
     "delete_user",
-    "invite_user_to_connections",
     "delete_user_from_connections",
     "get_connection_for_server",
+    "invite_user_to_connections",
+    "run_user_importer",
 ]
 
 

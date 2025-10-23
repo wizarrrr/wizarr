@@ -103,16 +103,8 @@ def init_extensions(app):
             replace_existing=True,
         )
 
-        # Note: WAL auto-checkpoints every 1000 pages (~4MB) automatically
-        # Manual daily checkpoint is optional - only needed if WAL grows large
-        # Uncomment if you notice large .db-wal files:
-        # scheduler.add_job(
-        #     id="checkpoint_wal",
-        #     func=lambda: checkpoint_wal_database(app),
-        #     trigger="interval",
-        #     hours=24,
-        #     replace_existing=True,
-        # )
+        # Note: WAL auto-checkpoints every 1000 pages (~4MB) automatically.
+        # Manual checkpoint jobs can be added here if needed for large .db-wal files.
 
         # Start the scheduler - Flask-APScheduler handles Gunicorn coordination
         try:
@@ -208,7 +200,7 @@ def _configure_sqlite_for_concurrency(app):
     from sqlalchemy.engine import Engine
 
     @event.listens_for(Engine, "connect")
-    def set_sqlite_pragma(dbapi_conn, connection_record):  # noqa: ARG001
+    def set_sqlite_pragma(dbapi_conn, _connection_record):
         """Set SQLite pragmas on each new connection."""
         # Only apply to SQLite databases - check the connection itself
         try:

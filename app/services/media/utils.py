@@ -183,7 +183,7 @@ class DateHelper:
             if timestamp > 1e10:  # Likely milliseconds
                 timestamp = timestamp / 1000
 
-            return datetime.datetime.fromtimestamp(timestamp)
+            return datetime.datetime.fromtimestamp(timestamp, tz=datetime.UTC)
         except (ValueError, OSError) as e:
             logging.warning(f"Failed to parse timestamp '{timestamp}': {e}")
             return None

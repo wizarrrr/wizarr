@@ -13,6 +13,7 @@ This is the card content with **markdown** support.
 |||
 """
 
+import logging
 import re
 from typing import Any
 
@@ -29,7 +30,7 @@ class WizardWidget:
         self.name = name
         self.template = template
 
-    def render(self, server_type: str, context: dict | None = None, **kwargs) -> str:
+    def render(self, server_type: str, _context: dict | None = None, **kwargs) -> str:
         """Render the widget with given parameters."""
         try:
             data = self.get_data(server_type, **kwargs)
@@ -40,7 +41,7 @@ class WizardWidget:
             # Fail gracefully in wizard context
             return f'\n\n<div class="text-sm text-gray-500 italic">Widget "{self.name}" temporarily unavailable</div>\n\n'
 
-    def get_data(self, server_type: str, **kwargs) -> dict[str, Any]:
+    def get_data(self, _server_type: str, **_kwargs) -> dict[str, Any]:
         """Override this method to provide data for the widget."""
         return {}
 
@@ -168,7 +169,10 @@ class RecentlyAddedMediaWidget(WizardWidget):
                     if hasattr(client, "get_recent_items"):
                         items = client.get_recent_items(library.get("id"), limit=2)
                         recent_items.extend(items)
-                except Exception:
+                except Exception as exc:
+                    logging.debug(
+                        f"Failed to get recent items for library {library.get('id')}: {exc}"
+                    )
                     continue
 
             return recent_items[:limit]
@@ -184,7 +188,7 @@ class CardWidget(WizardWidget):
         # Placeholder - cards are handled by process_card_delimiters
         super().__init__("card", "")
 
-    def render(self, server_type: str, **kwargs) -> str:
+    def render(self, _server_type: str, **_kwargs) -> str:
         """Cards should use delimiter syntax instead."""
         return '\n\n<div class="text-sm text-yellow-500 italic">Use ||| delimiter syntax for cards instead</div>\n\n'
 
@@ -196,7 +200,7 @@ class ButtonWidget(WizardWidget):
         # Empty template since we'll override render
         super().__init__("button", "")
 
-    def render(self, server_type: str, context: dict | None = None, **kwargs) -> str:
+    def render(self, _server_type: str, context: dict | None = None, **kwargs) -> str:
         """Render the button widget with direct HTML generation."""
         try:
             import html
@@ -222,9 +226,9 @@ class ButtonWidget(WizardWidget):
                         render_ctx = context.copy()
                         render_ctx["_"] = _translate
                         url = render_template_string(f"{{{{ {url} }}}}", **render_ctx)
-                    except Exception:
+                    except Exception as exc:
                         # If rendering fails, keep original value
-                        pass
+                        logging.debug(f"Failed to render URL template '{url}': {exc}")
 
             # If text contains translation function call, render it first
             text_str = str(text)
@@ -237,18 +241,20 @@ class ButtonWidget(WizardWidget):
                     # Wrap _("...") in {{ }} to make it a Jinja expression
                     template_str = f"{{{{ {text_str} }}}}"
                     text = render_template_string(template_str, _=_translate)
-                except Exception:
+                except Exception as exc:
                     # If rendering fails, use the text as-is
-                    pass
+                    logging.debug(
+                        f"Failed to render text translation '{text_str}': {exc}"
+                    )
             elif "{{" in text_str:
                 # Already has Jinja syntax, render as-is
                 try:
                     from flask_babel import gettext as _translate
 
                     text = render_template_string(text_str, _=_translate)
-                except Exception:
+                except Exception as exc:
                     # If rendering fails, use the text as-is
-                    pass
+                    logging.debug(f"Failed to render text template '{text_str}': {exc}")
 
             # Ensure URL has proper protocol if missing
             if url and not url.startswith(("http://", "https://", "//")) and "." in url:
