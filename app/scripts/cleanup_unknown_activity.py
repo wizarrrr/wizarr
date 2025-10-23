@@ -15,7 +15,7 @@ Usage:
 from __future__ import annotations
 
 from datetime import UTC, datetime, timedelta
-from typing import Any
+from typing import Any, cast
 
 import structlog
 
@@ -129,23 +129,18 @@ def cleanup_unknown_activity(
                 stats["by_status"]["inactive"] += 1  # type: ignore
 
             # Track date range
+            date_range = cast(dict[str, Any], stats["date_range"])
             if (
-                stats["date_range"]["oldest"] is None
-                or session.started_at
-                < stats[  # type: ignore
-                    "date_range"
-                ]["oldest"]
+                date_range["oldest"] is None
+                or session.started_at < date_range["oldest"]
             ):
-                stats["date_range"]["oldest"] = session.started_at  # type: ignore
+                date_range["oldest"] = session.started_at
 
             if (
-                stats["date_range"]["newest"] is None
-                or session.started_at
-                > stats[  # type: ignore
-                    "date_range"
-                ]["newest"]
+                date_range["newest"] is None
+                or session.started_at > date_range["newest"]
             ):
-                stats["date_range"]["newest"] = session.started_at  # type: ignore
+                date_range["newest"] = session.started_at
 
         # Log report
         logger.info("=" * 70)
@@ -154,30 +149,35 @@ def cleanup_unknown_activity(
         logger.info(f"Total sessions with Unknown values: {stats['total_unknown']}")
         logger.info("")
         logger.info("Breakdown by field:")
-        logger.info(f"  - Unknown user:   {stats['by_field']['unknown_user']}")
-        logger.info(f"  - Unknown title:  {stats['by_field']['unknown_title']}")
-        logger.info(f"  - Unknown device: {stats['by_field']['unknown_device']}")
+        by_field = cast(dict[str, int], stats["by_field"])
+        logger.info(f"  - Unknown user:   {by_field['unknown_user']}")
+        logger.info(f"  - Unknown title:  {by_field['unknown_title']}")
+        logger.info(f"  - Unknown device: {by_field['unknown_device']}")
         logger.info("")
         logger.info("Breakdown by duration:")
-        logger.info(f"  - Very short (<30s):    {stats['by_duration']['very_short']}")
-        logger.info(f"  - Short (30s-5min):     {stats['by_duration']['short']}")
-        logger.info(f"  - Medium (5min-30min):  {stats['by_duration']['medium']}")
-        logger.info(f"  - Long (>30min):        {stats['by_duration']['long']}")
+        by_duration = cast(dict[str, int], stats["by_duration"])
+        logger.info(f"  - Very short (<30s):    {by_duration['very_short']}")
+        logger.info(f"  - Short (30s-5min):     {by_duration['short']}")
+        logger.info(f"  - Medium (5min-30min):  {by_duration['medium']}")
+        logger.info(f"  - Long (>30min):        {by_duration['long']}")
         logger.info("")
         logger.info("Breakdown by status:")
-        logger.info(f"  - Active:   {stats['by_status']['active']}")
-        logger.info(f"  - Inactive: {stats['by_status']['inactive']}")
+        by_status = cast(dict[str, int], stats["by_status"])
+        logger.info(f"  - Active:   {by_status['active']}")
+        logger.info(f"  - Inactive: {by_status['inactive']}")
         logger.info("")
 
-        if stats["date_range"]["oldest"]:
+        date_range = cast(dict[str, Any], stats["date_range"])
+        if date_range["oldest"]:
             logger.info("Date range:")
-            logger.info(f"  - Oldest: {stats['date_range']['oldest']}")
-            logger.info(f"  - Newest: {stats['date_range']['newest']}")
+            logger.info(f"  - Oldest: {date_range['oldest']}")
+            logger.info(f"  - Newest: {date_range['newest']}")
             logger.info("")
 
         # Perform deletion if requested
         if mode == "delete":
-            if stats["total_unknown"] > 0:
+            total_unknown = cast(int, stats["total_unknown"])
+            if total_unknown > 0:
                 logger.warning(
                     f"🗑️  DELETING {stats['total_unknown']} sessions with Unknown values..."
                 )

@@ -2,7 +2,6 @@
 
 import datetime
 import logging
-from typing import Any
 
 from app.models import Library
 from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
@@ -195,7 +194,6 @@ def create_standardized_user_details(
     email: str | None,
     permissions: StandardizedPermissions,
     library_access: list[UserLibraryAccess] | None,
-    raw_policies: dict[str, Any],
     created_at: datetime.datetime | None = None,
     last_active: datetime.datetime | None = None,
     is_enabled: bool = True,
@@ -213,5 +211,4 @@ def create_standardized_user_details(
         allow_live_tv=permissions.allow_live_tv,
         allow_camera_upload=permissions.allow_camera_upload,
         library_access=library_access,
-        raw_policies=raw_policies,
     )

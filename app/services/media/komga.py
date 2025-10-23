@@ -133,7 +133,7 @@ class KomgaClient(RestApiMixin):
             # We can remove all library access to effectively disable the user
             user_data = {"sharedLibrariesIds": []}
             response = self.patch(f"/api/v2/users/{user_id}", json=user_data)
-            return response.status_code == 204 or response.status_code == 200
+            return response.status_code in {204, 200}
         except Exception as e:
             structlog.get_logger().error(f"Failed to disable Komga user: {e}")
             return False
@@ -207,7 +207,6 @@ class KomgaClient(RestApiMixin):
             email=raw_user.get("email"),
             permissions=permissions,
             library_access=library_access,
-            raw_policies=raw_user,
             created_at=created_at,
             last_active=last_active,
             is_enabled=True,  # Komga doesn't have a disabled state in API
@@ -253,22 +252,6 @@ class KomgaClient(RestApiMixin):
 
                 # Check for FILE_DOWNLOAD role to determine download permission
                 allow_downloads = "FILE_DOWNLOAD" in roles
-
-                # Store both server-specific and standardized keys in policies dict
-                komga_policies = {
-                    # Server-specific data (Komga user info)
-                    "enabled": True,  # Komga users are enabled by default
-                    "sharedAllLibraries": komga_user_data.get(
-                        "sharedAllLibraries", False
-                    ),
-                    "sharedLibrariesIds": komga_user_data.get("sharedLibrariesIds", []),
-                    "roles": roles,
-                    # Standardized permission keys for UI display
-                    "allow_downloads": allow_downloads,
-                    "allow_live_tv": False,  # Komga doesn't have Live TV
-                    "allow_sync": True,  # Default to True for reading apps
-                }
-                user.set_raw_policies(komga_policies)
 
                 # Update standardized User model columns
                 user.allow_downloads = allow_downloads
@@ -366,7 +349,6 @@ class KomgaClient(RestApiMixin):
                     email=raw_user.get("email"),
                     permissions=permissions,
                     library_access=library_access,
-                    raw_policies=raw_user,
                     created_at=created_at,
                     last_active=last_active,
                     is_enabled=True,  # Komga doesn't have a disabled state

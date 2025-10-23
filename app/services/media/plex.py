@@ -1,7 +1,7 @@
 import logging
 import re
 import threading
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import structlog
 from cachetools import TTLCache, cached
@@ -187,7 +187,7 @@ class PlexClient(MediaClient):
             "allow_camera_upload": getattr(plex_user, "allowCameraUpload", False),
         }
 
-    def _filter_users_for_server(self, admin_users, server_id: str) -> dict[str, any]:
+    def _filter_users_for_server(self, admin_users, server_id: str) -> dict[str, Any]:
         """Filter Plex users who have access to this specific server."""
         users_by_email = {}
         for plex_user in admin_users:

@@ -108,7 +108,7 @@ class ImageProxyService:
         return token
 
     @classmethod
-    def validate_token(cls, token: str) -> dict | None:  # noqa: PLR0911
+    def validate_token(cls, token: str) -> dict | None:
         """
         Validate a stateless signed token and return the URL mapping.
 

@@ -72,10 +72,12 @@ class InviteCodeManager:
         # Check if invitation is expired
         import datetime
 
-        if invitation.expires and invitation.expires <= datetime.datetime.now(
-            datetime.UTC
-        ):
-            return False, None
+        if invitation.expires:
+            # Make database datetime timezone-aware (assumes UTC) for comparison
+            expires_aware = invitation.expires.replace(tzinfo=datetime.UTC)
+            now = datetime.datetime.now(datetime.UTC)
+            if expires_aware <= now:
+                return False, None
 
         # Check if invitation is fully used (limited invitations only)
         if not invitation.unlimited and invitation.used:

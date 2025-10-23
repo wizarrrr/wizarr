@@ -593,10 +593,11 @@ class TestInvitationExpiry:
             assert db_user.expires is not None
 
             # Should expire in approximately 7 days
-            expected_expiry = datetime.now() + timedelta(
-                days=7
-            )  # Use naive datetime like the database
-            time_diff = abs((db_user.expires - expected_expiry).total_seconds())
+            # Database stores naive UTC, so compare with UTC time
+            expected_expiry = datetime.now(UTC) + timedelta(days=7)
+            time_diff = abs(
+                (db_user.expires - expected_expiry.replace(tzinfo=None)).total_seconds()
+            )
             assert time_diff < 60  # Within 1 minute of expected
 
 

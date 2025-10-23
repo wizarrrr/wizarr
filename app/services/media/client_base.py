@@ -254,7 +254,6 @@ class MediaClient(ABC):
             user_id=str(user_identifier),
             username=raw_details.get("username", "Unknown"),
             email=raw_details.get("email"),
-            raw_policies=raw_details,
         )
 
     def _cache_user_metadata_batch(self, users: list[User]) -> None:

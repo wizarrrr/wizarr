@@ -182,7 +182,7 @@ class JellyfinClient(RestApiMixin):
             policy["IsDisabled"] = False
 
             response = self.post(f"/Users/{user_id}/Policy", json=policy)
-            return response.status_code == 204 or response.status_code == 200
+            return response.status_code in {204, 200}
         except Exception as e:
             structlog.get_logger().error(f"Failed to enable Jellyfin user: {e}")
             return False
@@ -205,7 +205,7 @@ class JellyfinClient(RestApiMixin):
             policy["IsDisabled"] = True
 
             response = self.post(f"/Users/{user_id}/Policy", json=policy)
-            return response.status_code == 204 or response.status_code == 200
+            return response.status_code in {204, 200}
         except Exception as e:
             structlog.get_logger().error(f"Failed to disable Jellyfin user: {e}")
             return False

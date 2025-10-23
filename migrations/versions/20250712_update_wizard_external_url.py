@@ -79,7 +79,6 @@ def upgrade():
     except Exception as e:
         print(f"Error updating wizard_step table: {e}")
         # Don't fail the migration for this, as it's not critical
-        pass
 
 
 def downgrade():
@@ -118,4 +117,3 @@ def downgrade():
 
     except Exception as e:
         print(f"Error reverting wizard_step table: {e}")
-        pass

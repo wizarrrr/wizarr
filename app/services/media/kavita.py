@@ -438,7 +438,6 @@ class KavitaClient(RestApiMixin):
             email=raw_user.get("email"),
             permissions=permissions,
             library_access=library_access,
-            raw_policies=raw_user,
             created_at=created_at,
             last_active=last_active,
             is_enabled=True,  # Kavita doesn't seem to have disabled users concept
@@ -578,17 +577,6 @@ class KavitaClient(RestApiMixin):
                     is_admin=False,  # Admin status would need API call to determine
                     allow_downloads=True,  # Reading app allows downloads by default
                 )
-
-                # Store both server-specific and standardized keys in policies dict
-                kavita_policies = {
-                    # Server-specific data (Kavita user info would go here)
-                    "enabled": True,  # Kavita users are enabled by default
-                    # Standardized permission keys for UI display
-                    "allow_downloads": permissions.allow_downloads,
-                    "allow_live_tv": permissions.allow_live_tv,
-                    "allow_sync": permissions.allow_downloads,  # Use downloads setting for sync
-                }
-                user.set_raw_policies(kavita_policies)
 
                 # Update standardized User model columns
                 user.allow_downloads = permissions.allow_downloads

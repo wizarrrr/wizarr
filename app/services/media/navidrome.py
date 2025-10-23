@@ -189,20 +189,6 @@ class NavidromeClient(RestApiMixin):
                 # Use standardized permissions helper for consistency
                 permissions = StandardizedPermissions.for_navidrome(navidrome_user)
 
-                # Store both server-specific and standardized keys in policies dict
-                navidrome_policies = {
-                    # Server-specific data (navidrome user info)
-                    "name": navidrome_user.get("name", ""),
-                    "userName": navidrome_user.get("userName", ""),
-                    "isAdmin": navidrome_user.get("isAdmin", False),
-                    "lastFMApiKey": navidrome_user.get("lastFMApiKey", ""),
-                    "listenBrainzToken": navidrome_user.get("listenBrainzToken", ""),
-                    # Standardized permission keys for UI display
-                    "allow_downloads": permissions.allow_downloads,
-                    "allow_live_tv": permissions.allow_live_tv,
-                }
-                user.set_raw_policies(navidrome_policies)
-
                 # Update standardized User model columns
                 user.allow_downloads = permissions.allow_downloads
                 user.allow_live_tv = permissions.allow_live_tv
@@ -212,17 +198,6 @@ class NavidromeClient(RestApiMixin):
                 default_permissions = StandardizedPermissions.for_basic_server(
                     "navidrome"
                 )
-
-                default_policies = {
-                    "name": "",
-                    "userName": "",
-                    "isAdmin": False,
-                    "lastFMApiKey": "",
-                    "listenBrainzToken": "",
-                    "allow_downloads": default_permissions.allow_downloads,
-                    "allow_live_tv": default_permissions.allow_live_tv,
-                }
-                user.set_raw_policies(default_policies)
 
                 # Update standardized User model columns with defaults
                 user.allow_downloads = default_permissions.allow_downloads
@@ -375,22 +350,12 @@ class NavidromeClient(RestApiMixin):
         # Navidrome gives full access to all libraries
         library_access = LibraryAccessHelper.create_full_access()
 
-        # Extract policies information
-        filtered_policies = {
-            "adminRole": permissions.is_admin,
-            "downloadRole": permissions.allow_downloads,
-            "uploadRole": raw_user.get("uploadRole", False),
-            "playlistRole": raw_user.get("playlistRole", True),
-            "streamRole": raw_user.get("streamRole", True),
-        }
-
         return create_standardized_user_details(
             user_id=username,
             username=raw_user.get("username", username),
             email=raw_user.get("email"),
             permissions=permissions,
             library_access=library_access,
-            raw_policies=filtered_policies,
             created_at=None,  # Navidrome doesn't expose creation date
             last_active=None,  # Navidrome doesn't expose last seen
             is_enabled=True,  # Navidrome doesn't have disabled users concept

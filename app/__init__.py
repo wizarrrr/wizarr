@@ -9,7 +9,7 @@ from .logging_config import configure_logging
 from .middleware import require_onboarding
 
 
-def create_app(config_object=DevelopmentConfig):  # noqa: C901, PLR0912, PLR0915
+def create_app(config_object=DevelopmentConfig):
     """Create and configure Flask application with clean startup sequence."""
     from .logging_helpers import AppLogger, should_show_startup
 

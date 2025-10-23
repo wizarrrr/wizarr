@@ -337,7 +337,7 @@ def password_prompt(code):
             try:
                 if srv.server_type in ("jellyfin", "emby"):
                     uid = client.create_user(username, pw)
-                elif srv.server_type == "audiobookshelf" or srv.server_type == "romm":
+                elif srv.server_type in ("audiobookshelf", "romm"):
                     uid = client.create_user(username, pw, email=email)
                 else:
                     continue  # unknown server type

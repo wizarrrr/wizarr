@@ -42,7 +42,7 @@ class HistoricalDataService:
         db.session.add(job)
         db.session.commit()
 
-        app = current_app._get_current_object()
+        app = current_app._get_current_object()  # type: ignore[attr-defined]
 
         worker = threading.Thread(
             target=self._run_import_job,

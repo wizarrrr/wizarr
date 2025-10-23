@@ -41,8 +41,11 @@ def is_invite_valid(code: str) -> tuple[bool, str]:
     if not invitation:
         return False, "Invalid code"
     now = datetime.datetime.now(datetime.UTC)
-    if invitation.expires and invitation.expires <= now:
-        return False, "Invitation has expired."
+    # Make database datetime timezone-aware (assumes UTC) for comparison
+    if invitation.expires:
+        expires_aware = invitation.expires.replace(tzinfo=datetime.UTC)
+        if expires_aware <= now:
+            return False, "Invitation has expired."
     if invitation.used is True and invitation.unlimited is not True:
         return False, "Invitation has already been used."
     return True, "okay"

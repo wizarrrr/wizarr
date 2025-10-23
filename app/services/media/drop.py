@@ -143,19 +143,6 @@ class DropClient(RestApiMixin):
                 # Get the corresponding Drop user data
                 drop_user = remote_by_id.get(user.token, {})
 
-                drop_policies = {
-                    # Server-specific data
-                    "enabled": drop_user.get("enabled", True),
-                    "admin": drop_user.get("admin", False),
-                    "displayName": drop_user.get("displayName", user.username),
-                    "profilePictureObjectId": drop_user.get("profilePictureObjectId"),
-                    # Standardized permission keys for UI display
-                    "allow_downloads": True,  # Drop supports downloads by default
-                    "allow_live_tv": False,  # Drop doesn't support live TV
-                    "allow_camera_upload": False,  # Drop doesn't support camera upload
-                }
-                user.set_raw_policies(drop_policies)
-
                 # Update standardized User model columns
                 user.allow_downloads = True  # Drop supports downloads by default
                 user.allow_live_tv = False  # Drop doesn't support live TV
@@ -326,7 +313,6 @@ class DropClient(RestApiMixin):
                 created_at=None,  # Would need to parse if available
                 last_active=None,  # Not available in API
                 library_access=None,  # Drop doesn't have traditional libraries - indicates full access
-                raw_policies=raw_user,
             )
         except Exception as exc:
             logging.error("Drop: failed to get user details – %s", exc)

@@ -184,16 +184,6 @@ class RommClient(RestApiMixin):
 
         # Add default policy attributes (RomM doesn't have specific download/live TV policies)
         for user in users:
-            # Store both server-specific and standardized keys in policies dict
-            romm_policies = {
-                # Server-specific data (RomM user info would go here)
-                "enabled": True,  # RomM users are enabled by default
-                # Standardized permission keys for UI display
-                "allow_downloads": True,  # Default to True for gaming apps
-                "allow_live_tv": False,  # RomM doesn't have Live TV
-            }
-            user.set_raw_policies(romm_policies)
-
             # Update standardized User model columns
             user.allow_downloads = True  # Default for gaming apps
             user.allow_live_tv = False  # RomM doesn't have Live TV
@@ -357,7 +347,6 @@ class RommClient(RestApiMixin):
             email=raw_user.get("email"),
             permissions=permissions,
             library_access=library_access,
-            raw_policies=raw_user,
             created_at=created_at,
             last_active=None,  # RomM doesn't track last active time
             is_enabled=raw_user.get("enabled", True),

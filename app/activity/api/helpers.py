@@ -1,5 +1,7 @@
 """Helper utilities for activity blueprint routes."""
 
+from typing import Any
+
 import structlog
 from flask import current_app, flash, redirect, render_template, request, url_for
 from sqlalchemy.orm import joinedload
@@ -127,7 +129,7 @@ def settings_action_response(
     if error:
         flash(error, "error")
 
-    extra_params: dict[str, object] = {}
+    extra_params: dict[str, Any] = {}
     if selected_days_back is not None:
         extra_params["days_back"] = selected_days_back
     return redirect(url_for("activity.activity_settings", **extra_params))

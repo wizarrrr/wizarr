@@ -213,7 +213,7 @@ def invites():
 
 @admin_bp.route("/invite/table", methods=["POST"])
 @login_required
-def invite_table():  # noqa: C901, PLR0912, PLR0915
+def invite_table():
     """
     HTMX partial that renders the invitation cards grid.
 

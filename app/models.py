@@ -188,7 +188,6 @@ class User(db.Model, UserMixin):
 
     # Legacy metadata caching fields (will be phased out)
     library_access_json = db.Column(db.Text, nullable=True)
-    raw_policies_json = db.Column(db.Text, nullable=True)
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -228,31 +227,9 @@ class User(db.Model, UserMixin):
                 ]
             self.library_access_json = json.dumps(library_access)
 
-    def get_raw_policies(self):
-        """Get deserialized raw policies data."""
-        import json
-
-        if not self.raw_policies_json:
-            return {}
-        try:
-            return json.loads(self.raw_policies_json)
-        except (json.JSONDecodeError, TypeError):
-            return {}
-
-    def set_raw_policies(self, policies):
-        """Set raw policies data, serializing to JSON."""
-        import json
-
-        if policies is None:
-            self.raw_policies_json = None
-        else:
-            self.raw_policies_json = json.dumps(policies)
-
     def has_cached_metadata(self):
         """Check if user has cached metadata available."""
-        return (
-            self.library_access_json is not None or self.raw_policies_json is not None
-        )
+        return self.library_access_json is not None
 
     def get_accessible_libraries(self):
         """Get list of accessible library names."""
