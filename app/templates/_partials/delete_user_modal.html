@@ -3,109 +3,109 @@
      role="dialog"
      aria-modal="true"
      aria-labelledby="modal-title">
-        <!-- Modal header -->
-        <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Remove User") }}: {{ display_name }}</h3>
-          <button type="button"
-                  onclick="closeModal()"
-                  class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
-            <svg class="w-3 h-3"
-                 aria-hidden="true"
-                 xmlns="http://www.w3.org/2000/svg"
-                 fill="none"
-                 viewBox="0 0 14 14">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
-            </svg>
-          </button>
+  <!-- Modal header -->
+  <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Remove User") }}: {{ display_name }}</h3>
+    <button type="button"
+            onclick="closeModal()"
+            class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+      <svg class="w-3 h-3"
+           aria-hidden="true"
+           xmlns="http://www.w3.org/2000/svg"
+           fill="none"
+           viewBox="0 0 14 14">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+      </svg>
+    </button>
+  </div>
+  <!-- Modal body -->
+  <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 dark:bg-gray-800">
+    <form hx-post="{{ url_for('admin.process_user_deletion') }}"
+          hx-include="this">
+      <!-- User info -->
+      <div class="mb-4 p-3 bg-gray-50 rounded-lg dark:bg-gray-600">
+        <div class="flex items-center space-x-3">
+          <div class="flex-shrink-0 w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
+            <span class="text-sm font-medium text-gray-600 dark:text-gray-300">{{ display_name[0]|upper }}</span>
+          </div>
+          <div>
+            <div class="font-medium text-gray-900 dark:text-white">{{ display_name }}</div>
+            <div class="text-sm text-gray-500 dark:text-gray-400">{{ user_email or _("Home User") }}</div>
+          </div>
         </div>
-        <!-- Modal body -->
-        <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 dark:bg-gray-800">
-          <form hx-post="{{ url_for('admin.process_user_deletion') }}"
-                hx-include="this">
-            <!-- User info -->
-            <div class="mb-4 p-3 bg-gray-50 rounded-lg dark:bg-gray-600">
-              <div class="flex items-center space-x-3">
-                <div class="flex-shrink-0 w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center">
-                  <span class="text-sm font-medium text-gray-600 dark:text-gray-300">{{ display_name[0]|upper }}</span>
+      </div>
+      <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">{{ _("Select which servers to remove the user from:") }}</p>
+      <!-- Server list -->
+      <div class="space-y-2 mb-6">
+        {% for account in accounts %}
+          <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-700 cursor-pointer">
+            <input type="checkbox"
+                   name="server_accounts"
+                   value="{{ account.id }}"
+                   class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+            <div class="ml-3 flex-1">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <span class="text-sm font-medium text-gray-900 dark:text-white">
+                    {% if account.server %}
+                      {{ account.server.server_type|title }}
+                    {% else %}
+                      {{ _("Local") }}
+                    {% endif %}
+                  </span>
+                  {% if account.server %}
+                    <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded dark:bg-gray-600 dark:text-gray-300">
+                      {{ account.server.name }}
+                    </span>
+                  {% endif %}
                 </div>
-                <div>
-                  <div class="font-medium text-gray-900 dark:text-white">{{ display_name }}</div>
-                  <div class="text-sm text-gray-500 dark:text-gray-400">{{ user_email or _("Home User") }}</div>
-                </div>
+                <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("User ID") }}: {{ account.id }}</div>
               </div>
             </div>
-            <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">{{ _("Select which servers to remove the user from:") }}</p>
-            <!-- Server list -->
-            <div class="space-y-2 mb-6">
-              {% for account in accounts %}
-                <label class="flex items-center p-3 border border-gray-200 rounded-lg hover:bg-gray-50 dark:border-gray-600 dark:hover:bg-gray-700 cursor-pointer">
-                  <input type="checkbox"
-                         name="server_accounts"
-                         value="{{ account.id }}"
-                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
-                  <div class="ml-3 flex-1">
-                    <div class="flex items-center justify-between">
-                      <div class="flex items-center space-x-2">
-                        <span class="text-sm font-medium text-gray-900 dark:text-white">
-                          {% if account.server %}
-                            {{ account.server.server_type|title }}
-                          {% else %}
-                            {{ _("Local") }}
-                          {% endif %}
-                        </span>
-                        {% if account.server %}
-                          <span class="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded dark:bg-gray-600 dark:text-gray-300">
-                            {{ account.server.name }}
-                          </span>
-                        {% endif %}
-                      </div>
-                      <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("User ID") }}: {{ account.id }}</div>
-                    </div>
-                  </div>
-                </label>
-              {% endfor %}
+          </label>
+        {% endfor %}
+      </div>
+      <!-- Select all checkbox -->
+      <div class="mb-6 p-3 bg-red-50 border border-red-200 rounded-lg dark:bg-red-900 dark:border-red-700">
+        <label class="flex items-center cursor-pointer">
+          <input type="checkbox"
+                 id="select_all_servers"
+                 class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+          <div class="ml-3">
+            <div class="text-sm font-medium text-red-800 dark:text-red-300">{{ _("Delete from ALL servers") }}</div>
+            <div class="text-xs text-red-700 dark:text-red-400">
+              {{ _("This will remove the user completely and cannot be undone") }}
             </div>
-            <!-- Select all checkbox -->
-            <div class="mb-6 p-3 bg-red-50 border border-red-200 rounded-lg dark:bg-red-900 dark:border-red-700">
-              <label class="flex items-center cursor-pointer">
-                <input type="checkbox"
-                       id="select_all_servers"
-                       class="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
-                <div class="ml-3">
-                  <div class="text-sm font-medium text-red-800 dark:text-red-300">{{ _("Delete from ALL servers") }}</div>
-                  <div class="text-xs text-red-700 dark:text-red-400">
-                    {{ _("This will remove the user completely and cannot be undone") }}
-                  </div>
-                </div>
-              </label>
-            </div>
-            <!-- Action buttons -->
-            <div class="flex items-center justify-end space-x-3">
-              <button type="button"
-                      onclick="closeModal()"
-                      class="px-4 py-2 text-sm font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">
-                {{ _("Cancel") }}
-              </button>
-              <button type="submit"
-                      id="delete_submit_btn"
-                      disabled
-                      class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg">
-                <span id="delete-btn-text">{{ _("Remove Selected") }}</span>
-                <span id="delete-btn-loading" class="hidden">
-                  <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline"
-                       xmlns="http://www.w3.org/2000/svg"
-                       fill="none"
-                       viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
-                    </path>
-                  </svg>
-                  {{ _("Deleting user...") }}
-                </span>
-              </button>
-            </div>
-          </form>
-        </div>
+          </div>
+        </label>
+      </div>
+      <!-- Action buttons -->
+      <div class="flex items-center justify-end space-x-3">
+        <button type="button"
+                onclick="closeModal()"
+                class="px-4 py-2 text-sm font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">
+          {{ _("Cancel") }}
+        </button>
+        <button type="submit"
+                id="delete_submit_btn"
+                disabled
+                class="px-4 py-2 text-sm font-medium text-white bg-red-600 hover:bg-red-700 disabled:bg-gray-400 disabled:cursor-not-allowed rounded-lg">
+          <span id="delete-btn-text">{{ _("Remove Selected") }}</span>
+          <span id="delete-btn-loading" class="hidden">
+            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline"
+                 xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+              </path>
+            </svg>
+            {{ _("Deleting user...") }}
+          </span>
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 <script>
     // Initialize modal functionality immediately when content loads
