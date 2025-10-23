@@ -309,8 +309,14 @@ def invite_table():
                         continue
             # ensure we have a datetime before comparing
             if isinstance(inv.expires, datetime.datetime):
-                inv.expired = inv.expires < now
-                inv.rel_expiry = _rel_string(inv.expires, now)  # NEW
+                # Ensure timezone-aware comparison
+                expires_aware = (
+                    inv.expires
+                    if inv.expires.tzinfo
+                    else inv.expires.replace(tzinfo=datetime.UTC)
+                )
+                inv.expired = expires_aware < now
+                inv.rel_expiry = _rel_string(expires_aware, now)  # NEW
             else:
                 inv.expired = False
                 inv.rel_expiry = _("Unknown")
@@ -490,9 +496,16 @@ def user_detail(db_id: int):
 
         # Update expiry for the user's specific server
         raw_expires = request.form.get("expires")
-        user.expires = (
-            datetime.datetime.fromisoformat(raw_expires) if raw_expires else None
-        )
+        if raw_expires:
+            user_expires = datetime.datetime.fromisoformat(raw_expires)
+            # Ensure timezone-aware datetime
+            user.expires = (
+                user_expires
+                if user_expires.tzinfo
+                else user_expires.replace(tzinfo=datetime.UTC)
+            )
+        else:
+            user.expires = None
 
         # Update notes
         user.notes = request.form.get("notes", "")
