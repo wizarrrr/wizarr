@@ -120,7 +120,7 @@ class PollingCollector(BaseCollector):
                 platform=session_data.get("platform"),
                 player_version=session_data.get("player_version"),
                 state=session_data.get("state", "playing"),
-                transcoding_info=session_data.get("transcoding", {}),
+                transcoding_info=session_data.get("transcoding_info", {}),
                 metadata=session_data.get("metadata", {}),
                 artwork_url=session_data.get("artwork_url"),
                 thumbnail_url=session_data.get("thumbnail_url"),

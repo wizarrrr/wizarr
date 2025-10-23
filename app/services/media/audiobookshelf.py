@@ -898,7 +898,7 @@ class AudiobookshelfClient(RestApiMixin):
                 "duration_ms": int(duration * 1000),
                 "artwork_url": artwork_url,
                 "thumbnail_url": thumb_url,
-                "transcoding": transcoding_info,
+                "transcoding_info": transcoding_info,
             }
 
             # Add audio metadata if available

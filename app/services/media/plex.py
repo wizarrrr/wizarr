@@ -807,7 +807,7 @@ class PlexClient(MediaClient):
                     "position_ms": getattr(session, "viewOffset", 0),
                     "duration_ms": getattr(session, "duration", 0),
                     "artwork_url": artwork_url,
-                    "transcoding": transcoding_info,
+                    "transcoding_info": transcoding_info,
                     "thumbnail_url": getattr(session, "thumbUrl", None),
                 }
 

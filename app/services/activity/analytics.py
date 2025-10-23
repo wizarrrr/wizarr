@@ -32,6 +32,9 @@ class ActivityAnalyticsService:
 
         Follows Tautulli's approach: capture all sessions immediately,
         but filter out incomplete ones from statistics and dashboards.
+
+        Note: device_name can be NULL for historical imports, so we allow
+        NULL values but exclude "Unknown" string values.
         """
         unknown_values = [
             "Unknown",
@@ -44,7 +47,10 @@ class ActivityAnalyticsService:
         return db.and_(
             ActivitySession.user_name.not_in(unknown_values),
             ActivitySession.media_title.not_in(unknown_values),
-            ActivitySession.device_name.not_in(unknown_values),
+            db.or_(
+                ActivitySession.device_name.is_(None),
+                ActivitySession.device_name.not_in(unknown_values),
+            ),
         )
 
     def get_activity_stats(self, days: int = 30) -> dict[str, Any]:

@@ -842,6 +842,9 @@ class ActivitySession(db.Model):
 
         This follows Tautulli's approach of dual persistence: all sessions are
         captured immediately, but only validated sessions are used for analytics.
+
+        Note: device_name can be NULL for historical imports, so we allow NULL
+        but exclude "Unknown" string values.
         """
         # Check if critical fields are Unknown
         unknown_values = {"unknown", "unknown user", "unknown device"}
@@ -852,8 +855,10 @@ class ActivitySession(db.Model):
         if not self.media_title or self.media_title.lower() in unknown_values:
             return False
 
-        # Device name is less critical but should be checked for quality
-        return bool(self.device_name and self.device_name.lower() not in unknown_values)
+        # Device name can be NULL for historical imports
+        if self.device_name:
+            return self.device_name.lower() not in unknown_values
+        return True
 
 
 class HistoricalImportJob(db.Model):
