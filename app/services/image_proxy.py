@@ -108,7 +108,7 @@ class ImageProxyService:
         return token
 
     @classmethod
-    def validate_token(cls, token: str) -> dict | None:
+    def validate_token(cls, token: str) -> dict | None:  # noqa: PLR0911
         """
         Validate a stateless signed token and return the URL mapping.
 
@@ -218,8 +218,7 @@ class ImageProxyService:
             existing = cls._image_cache.pop(token, None)
             if existing:
                 cls._total_image_bytes -= existing.get("size", 0)
-                if cls._total_image_bytes < 0:
-                    cls._total_image_bytes = 0
+                cls._total_image_bytes = max(cls._total_image_bytes, 0)
 
             cls._image_cache[token] = {
                 "data": data,
@@ -330,8 +329,7 @@ class ImageProxyService:
         cached = cls._image_cache.pop(token, None)
         if cached:
             cls._total_image_bytes -= cached.get("size", 0)
-            if cls._total_image_bytes < 0:
-                cls._total_image_bytes = 0
+            cls._total_image_bytes = max(cls._total_image_bytes, 0)
 
     @classmethod
     def _enforce_image_cache_limits_locked(cls) -> None:

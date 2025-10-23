@@ -171,15 +171,12 @@ class MediaClient(ABC):
                     existing_user = User.query.filter_by(code=code).first()
                     if existing_user and existing_user.identity_id:
                         user_kwargs["identity_id"] = existing_user.identity_id
-                else:
-                    # UNLIMITED invites: Only link if same email (same person across servers)
-                    # Different emails = different people, should remain separate
-                    if email and EMAIL_RE.fullmatch(email):
-                        existing_user = User.query.filter_by(
-                            code=code, email=email
-                        ).first()
-                        if existing_user and existing_user.identity_id:
-                            user_kwargs["identity_id"] = existing_user.identity_id
+                # UNLIMITED invites: Only link if same email (same person across servers)
+                # Different emails = different people, should remain separate
+                elif email and EMAIL_RE.fullmatch(email):
+                    existing_user = User.query.filter_by(code=code, email=email).first()
+                    if existing_user and existing_user.identity_id:
+                        user_kwargs["identity_id"] = existing_user.identity_id
 
         # Clean up any expired user records for this email address
         if email:

@@ -84,6 +84,15 @@ lint.select = [
     "ASYNC", # flake8-async
     "INP",  # flake8-no-pep420 - require __init__.py
     "PERF", # perflint - performance
+    # Phase 2 cherry-picks - Code complexity & design
+    "C901",   # mccabe - function complexity
+    "PLR0911", # too-many-return-statements
+    "PLR0912", # too-many-branches
+    "PLR0913", # too-many-arguments
+    "PLR0915", # too-many-statements
+    "PLR1714", # repeated-equality-comparison
+    "PLR1730", # if-stmt-min-max
+    "PLR5501", # collapsible-else-if
 ]
 lint.ignore = [
     "E501",   # line too long, handled by formatter
@@ -98,7 +107,12 @@ lint.ignore = [
     "RUF003", # ambiguous unicode in comments
     # Fix separately - don't block on this
     "INP001", # implicit namespace packages - will create __init__.py files separately
+    # Phase 2 ignores - Too noisy or opinionated
+    "PLR2004", # magic-value-comparison - too noisy
 ]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 15  # Aligns with CLAUDE.md "15 logical lines" guideline
 
 [tool.ruff.lint.isort]
 known-first-party = ["app"]

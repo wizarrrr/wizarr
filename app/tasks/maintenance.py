@@ -88,7 +88,6 @@ def check_expiring(app=None):
             logging.info(
                 "🧹 Expiry cleanup: Processed %s expired users.", len(processed)
             )
-        else:
-            # Only log in development mode to avoid spam in production logs
-            if os.getenv("WIZARR_ENABLE_SCHEDULER") == "true":
-                logging.info("🕒 Expiry cleanup: No expired users found.")
+        # Only log in development mode to avoid spam in production logs
+        elif os.getenv("WIZARR_ENABLE_SCHEDULER") == "true":
+            logging.info("🕒 Expiry cleanup: No expired users found.")

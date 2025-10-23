@@ -213,7 +213,7 @@ def invites():
 
 @admin_bp.route("/invite/table", methods=["POST"])
 @login_required
-def invite_table():
+def invite_table():  # noqa: C901, PLR0912, PLR0915
     """
     HTMX partial that renders the invitation cards grid.
 
@@ -842,8 +842,7 @@ def accepted_invites_card():
     """Return a paginated card with the most recent accepted invitations."""
 
     page = request.args.get("page", default=1, type=int) or 1
-    if page < 1:
-        page = 1
+    page = max(page, 1)
 
     server_count = MediaServer.query.count()
     per_page = max(server_count * 3, 3)
@@ -891,8 +890,7 @@ def accepted_invites_card():
         recent_users = []
     else:
         total_pages = max(math.ceil(total / per_page), 1)
-        if page > total_pages:
-            page = total_pages
+        page = min(page, total_pages)
         offset = (page - 1) * per_page
         paginated_pairs = user_invite_pairs[offset : offset + per_page]
 

@@ -9,7 +9,7 @@ from .logging_config import configure_logging
 from .middleware import require_onboarding
 
 
-def create_app(config_object=DevelopmentConfig):
+def create_app(config_object=DevelopmentConfig):  # noqa: C901, PLR0912, PLR0915
     """Create and configure Flask application with clean startup sequence."""
     from .logging_helpers import AppLogger, should_show_startup
 
@@ -138,9 +138,8 @@ def create_app(config_object=DevelopmentConfig):
         except Exception as exc:
             if show_startup:
                 logger.warning(f"Plus features initialization failed: {exc}")
-    else:
-        if show_startup:
-            logger.info("Plus features disabled")
+    elif show_startup:
+        logger.info("Plus features disabled")
 
     # Step 9: Show scheduler status and complete startup
     if show_startup:
