@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-22 03:49+0000\n"
+"POT-Creation-Date: 2025-10-23 03:44+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: lt\n"
@@ -152,30 +152,30 @@ msgstr ""
 msgid "Never"
 msgstr "Niekada"
 
-#: app/blueprints/admin/routes.py:389 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:391 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr "Pasibaigęs galiojimo laikas"
 
-#: app/blueprints/admin/routes.py:397
+#: app/blueprints/admin/routes.py:399
 #, python-format
 msgid "in %(n)d d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:399
-msgid "in 1 d"
-msgstr ""
-
 #: app/blueprints/admin/routes.py:401
-#, python-format
-msgid "in %(n)d h"
+msgid "in 1 d"
 msgstr ""
 
 #: app/blueprints/admin/routes.py:403
 #, python-format
+msgid "in %(n)d h"
+msgstr ""
+
+#: app/blueprints/admin/routes.py:405
+#, python-format
 msgid "in %(n)d m"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:404
+#: app/blueprints/admin/routes.py:406
 msgid "soon"
 msgstr ""
 
