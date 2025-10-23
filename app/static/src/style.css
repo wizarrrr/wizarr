@@ -35,6 +35,24 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
   }
+
+  /* PWA Safe Area Insets - prevent content from overlapping with notches/status bars */
+  body {
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-left: env(safe-area-inset-left);
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Apply safe area to fixed mobile header */
+  header.md\:hidden {
+    padding-top: calc(0.625rem + env(safe-area-inset-top));
+  }
+
+  /* Apply safe area to fixed mobile bottom navigation */
+  nav.fixed.bottom-0 {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
 }
 
 /*

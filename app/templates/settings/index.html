@@ -11,17 +11,17 @@
         <p class="mt-2 text-gray-600 dark:text-gray-400">{{ _("Manage your application settings and preferences") }}</p>
       </div>
       <!-- Tabs with Icons -->
-      <div class="border-b border-gray-200 dark:border-gray-700 mb-6">
-        <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400"
+      <div class="mb-6 md:border-b md:border-gray-200 md:dark:border-gray-700">
+        <ul class="grid grid-cols-2 md:flex md:flex-wrap gap-2 md:gap-0 md:-mb-px text-sm font-medium text-center"
             hx-ext="preload">
-          <li class="me-2">
-            <button class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+          <li class="md:me-2">
+            <button class="tab-btn w-full inline-flex items-center justify-center px-4 py-3 rounded-lg md:rounded-t-lg md:rounded-b-none bg-primary md:bg-transparent border-0 md:border-b-2 border-primary text-white hover:bg-gray-600 md:hover:bg-transparent hover:text-gray-100 md:hover:text-gray-600 md:hover:border-gray-300 md:dark:hover:text-gray-300 dark:bg-primary md:dark:bg-transparent dark:hover:bg-gray-700 md:dark:hover:bg-transparent group transition-colors"
                     hx-get="{{ url_for('settings.general_settings') }}"
                     hx-target="#tab-body"
                     hx-swap="innerHTML"
                     hx-trigger="load,click"
                     preload="mouseover">
-              <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
+              <svg class="w-4 h-4 me-2 text-white transition-colors"
                    fill="currentColor"
                    viewBox="0 0 24 24">
                 <path fill-rule="evenodd" d="M5 5a2 2 0 0 0-2 2v3a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V7a2 2 0 0 0-2-2H5Zm9 2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H14Zm3 0a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17ZM3 17v-3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm11-2a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H14Zm3 0a1 1 0 1 0 0 2h.01a1 1 0 1 0 0-2H17Z" clip-rule="evenodd" />
@@ -29,14 +29,14 @@
               {{ _("General") }}
             </button>
           </li>
-          <li class="me-2">
-            <button class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+          <li class="md:me-2">
+            <button class="tab-btn w-full inline-flex items-center justify-center px-4 py-3 rounded-lg md:rounded-t-lg md:rounded-b-none bg-gray-700 md:bg-transparent border-0 md:border-b-2 border-transparent text-gray-300 hover:bg-gray-600 md:hover:bg-transparent hover:text-gray-100 md:hover:text-gray-600 md:hover:border-gray-300 md:dark:hover:text-gray-300 dark:bg-gray-800 md:dark:bg-transparent dark:hover:bg-gray-700 md:dark:hover:bg-transparent group transition-colors"
                     hx-get="{{ url_for('notify.list_agents') }}"
                     hx-target="#tab-body"
                     hx-swap="innerHTML"
                     hx-trigger="click"
                     preload="mouseover">
-              <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
+              <svg class="w-4 h-4 me-2 text-gray-400 transition-colors"
                    fill="currentColor"
                    viewBox="0 0 24 24">
                 <path d="M17.133 12.632v-1.8a5.407 5.407 0 0 0-4.154-5.262.955.955 0 0 0 .021-.106V3.1a1 1 0 0 0-2 0v2.364a.933.933 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C6.867 15.018 5 15.614 5 16.807 5 17.4 5 18 5.538 18h12.924C19 18 19 17.4 19 16.807c0-1.193-1.867-1.789-1.867-4.175Zm-13.267-.8a1 1 0 0 1-1-1 9.424 9.424 0 0 1 2.517-6.391A1.001 1.001 0 1 1 6.854 5.8a7.43 7.43 0 0 0-1.988 5.037 1 1 0 0 1-1 .995Zm16.268 0a1 1 0 0 1-1-1A7.431 7.431 0 0 0 17.146 5.8a1 1 0 0 1 1.471-1.354 9.424 9.424 0 0 1 2.517 6.391 1 1 0 0 1-1 .995ZM8.823 19a3.453 3.453 0 0 0 6.354 0H8.823Z" />
@@ -44,14 +44,14 @@
               {{ _("Alerts") }}
             </button>
           </li>
-          <li class="me-2">
-            <button class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+          <li class="md:me-2">
+            <button class="tab-btn w-full inline-flex items-center justify-center px-4 py-3 rounded-lg md:rounded-t-lg md:rounded-b-none bg-gray-700 md:bg-transparent border-0 md:border-b-2 border-transparent text-gray-300 hover:bg-gray-600 md:hover:bg-transparent hover:text-gray-100 md:hover:text-gray-600 md:hover:border-gray-300 md:dark:hover:text-gray-300 dark:bg-gray-800 md:dark:bg-transparent dark:hover:bg-gray-700 md:dark:hover:bg-transparent group transition-colors"
                     hx-get="{{ url_for('media_servers.list_servers') }}"
                     hx-target="#tab-body"
                     hx-swap="innerHTML"
                     hx-trigger="click"
                     preload="mouseover">
-              <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
+              <svg class="w-4 h-4 me-2 text-gray-400 transition-colors"
                    fill="currentColor"
                    viewBox="0 0 24 24">
                 <path d="M5 3h14a2 2 0 0 1 2 2v4H3V5a2 2 0 0 1 2-2ZM3 11h18v4H3v-4Zm0 6h18v2a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2Z" />
@@ -59,14 +59,14 @@
               {{ _("Servers") }}
             </button>
           </li>
-          <li class="me-2">
-            <button class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+          <li class="md:me-2">
+            <button class="tab-btn w-full inline-flex items-center justify-center px-4 py-3 rounded-lg md:rounded-t-lg md:rounded-b-none bg-gray-700 md:bg-transparent border-0 md:border-b-2 border-transparent text-gray-300 hover:bg-gray-600 md:hover:bg-transparent hover:text-gray-100 md:hover:text-gray-600 md:hover:border-gray-300 md:dark:hover:text-gray-300 dark:bg-gray-800 md:dark:bg-transparent dark:hover:bg-gray-700 md:dark:hover:bg-transparent group transition-colors"
                     hx-get="{{ url_for('activity.activity_settings') }}"
                     hx-target="#tab-body"
                     hx-swap="innerHTML"
                     hx-trigger="click"
                     preload="mouseover">
-              <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
+              <svg class="w-4 h-4 me-2 text-gray-400 transition-colors"
                    fill="none"
                    stroke="currentColor"
                    viewBox="0 0 24 24">
@@ -75,8 +75,8 @@
               {{ _("Activity") }}
             </button>
           </li>
-          <li class="me-2">
-            <button class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+          <li class="md:me-2">
+            <button class="tab-btn w-full inline-flex items-center justify-center px-4 py-3 rounded-lg md:rounded-t-lg md:rounded-b-none bg-gray-700 md:bg-transparent border-0 md:border-b-2 border-transparent text-gray-300 hover:bg-gray-600 md:hover:bg-transparent hover:text-gray-100 md:hover:text-gray-600 md:hover:border-gray-300 md:dark:hover:text-gray-300 dark:bg-gray-800 md:dark:bg-transparent dark:hover:bg-gray-700 md:dark:hover:bg-transparent group transition-colors"
                     hx-get="{{ url_for('connections.list_connections') }}"
                     hx-target="#tab-body"
                     hx-swap="innerHTML"
@@ -87,20 +87,20 @@
                    viewBox="0 0 24 24"
                    stroke-width="1.5"
                    stroke="currentColor"
-                   class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300">
+                   class="w-4 h-4 me-2 text-gray-400 transition-colors">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 0 1 1.242 7.244l-4.5 4.5a4.5 4.5 0 0 1-6.364-6.364l1.757-1.757m13.35-.622 1.757-1.757a4.5 4.5 0 0 0-6.364-6.364l-4.5 4.5a4.5 4.5 0 0 0 1.242 7.244" />
               </svg>
               {{ _("Connections") }}
             </button>
           </li>
-          <li class="me-2">
-            <button class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+          <li class="md:me-2">
+            <button class="tab-btn w-full inline-flex items-center justify-center px-4 py-3 rounded-lg md:rounded-t-lg md:rounded-b-none bg-gray-700 md:bg-transparent border-0 md:border-b-2 border-transparent text-gray-300 hover:bg-gray-600 md:hover:bg-transparent hover:text-gray-100 md:hover:text-gray-600 md:hover:border-gray-300 md:dark:hover:text-gray-300 dark:bg-gray-800 md:dark:bg-transparent dark:hover:bg-gray-700 md:dark:hover:bg-transparent group transition-colors"
                     hx-get="{{ url_for('admin_accounts.list_admins') }}"
                     hx-target="#tab-body"
                     hx-swap="innerHTML"
                     hx-trigger="click"
                     preload="mouseover">
-              <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
+              <svg class="w-4 h-4 me-2 text-gray-400 transition-colors"
                    fill="currentColor"
                    viewBox="0 0 24 24">
                 <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
@@ -108,14 +108,14 @@
               {{ _("Admins") }}
             </button>
           </li>
-          <li class="me-2">
-            <button class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+          <li class="md:me-2">
+            <button class="tab-btn w-full inline-flex items-center justify-center px-4 py-3 rounded-lg md:rounded-t-lg md:rounded-b-none bg-gray-700 md:bg-transparent border-0 md:border-b-2 border-transparent text-gray-300 hover:bg-gray-600 md:hover:bg-transparent hover:text-gray-100 md:hover:text-gray-600 md:hover:border-gray-300 md:dark:hover:text-gray-300 dark:bg-gray-800 md:dark:bg-transparent dark:hover:bg-gray-700 md:dark:hover:bg-transparent group transition-colors"
                     hx-get="{{ url_for('wizard_admin.list_steps') }}"
                     hx-target="#tab-body"
                     hx-swap="innerHTML"
                     hx-trigger="click"
                     preload="mouseover">
-              <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
+              <svg class="w-4 h-4 me-2 text-gray-400 transition-colors"
                    fill="currentColor"
                    viewBox="0 0 24 24">
                 <path fill-rule="evenodd" d="M8 5a1 1 0 0 1 1-1h11a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-1a1 1 0 1 1 0-2h1V6H9a1 1 0 0 1-1-1Z" clip-rule="evenodd" />
@@ -125,14 +125,14 @@
             </button>
           </li>
           {% if is_plus_enabled %}
-            <li class="me-2">
-              <button class="tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+            <li class="md:me-2">
+              <button class="tab-btn w-full inline-flex items-center justify-center px-4 py-3 rounded-lg md:rounded-t-lg md:rounded-b-none bg-gray-700 md:bg-transparent border-0 md:border-b-2 border-transparent text-gray-300 hover:bg-gray-600 md:hover:bg-transparent hover:text-gray-100 md:hover:text-gray-600 md:hover:border-gray-300 md:dark:hover:text-gray-300 dark:bg-gray-800 md:dark:bg-transparent dark:hover:bg-gray-700 md:dark:hover:bg-transparent group transition-colors"
                       hx-get="/plus/audit/"
                       hx-target="#tab-body"
                       hx-swap="innerHTML"
                       hx-trigger="click"
                       preload="mouseover">
-                <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300"
+                <svg class="w-4 h-4 me-2 text-gray-400 transition-colors"
                      fill="none"
                      stroke="currentColor"
                      viewBox="0 0 24 24">
@@ -152,33 +152,52 @@
   </section>
   {# ───────────────── Tab highlighting for horizontal tabs ───────────────── #}
   <script>
-      // Active tab highlighting for horizontal tabs with icons
+      function setActiveTab(btn) {
+          if (!btn || !btn.classList.contains("tab-btn")) return;
+
+          // Reset all tabs to inactive state
+          document.querySelectorAll(".tab-btn").forEach((b) => {
+              // Reset mobile styles (pill buttons)
+              b.classList.remove("bg-primary", "text-white");
+              b.classList.add("bg-gray-700", "dark:bg-gray-800", "text-gray-300");
+
+              // Reset desktop styles (underline tabs)
+              b.classList.remove("text-primary", "border-primary");
+              b.classList.add("border-transparent");
+
+              // Reset icon colors
+              const icon = b.querySelector("svg");
+              if (icon) {
+                  icon.classList.remove("text-white", "text-primary");
+                  icon.classList.add("text-gray-400");
+              }
+          });
+
+          // Set active tab - Mobile (pill button with primary background)
+          btn.classList.remove("bg-gray-700", "dark:bg-gray-800", "text-gray-300", "border-transparent");
+          btn.classList.add("bg-primary", "text-white", "border-primary");
+
+          // Set active icon
+          const activeIcon = btn.querySelector("svg");
+          if (activeIcon) {
+              activeIcon.classList.remove("text-gray-400");
+              activeIcon.classList.add("text-white");
+          }
+      }
+
+      // Active tab highlighting - fires before HTMX request
+      document.body.addEventListener("htmx:beforeRequest", (evt) => {
+          const btn = evt.detail.elt;
+          if (btn && btn.classList.contains("tab-btn")) {
+              setActiveTab(btn);
+          }
+      });
+
+      // Active tab highlighting - fires after HTMX request completes
       document.body.addEventListener("htmx:afterRequest", (evt) => {
           const btn = evt.detail.elt;
-          if (btn.classList.contains("tab-btn")) {
-              // Reset all tabs to inactive state
-              document.querySelectorAll(".tab-btn").forEach((b) => {
-                  b.classList.remove("text-primary", "border-primary");
-                  b.classList.add("text-gray-500", "dark:text-gray-400", "border-transparent");
-
-                  // Reset icon colors
-                  const icon = b.querySelector("svg");
-                  if (icon) {
-                      icon.classList.remove("text-primary");
-                      icon.classList.add("text-gray-400", "group-hover:text-gray-500", "dark:text-gray-500", "dark:group-hover:text-gray-300");
-                  }
-              });
-
-              // Set active tab
-              btn.classList.remove("text-gray-500", "dark:text-gray-400", "border-transparent");
-              btn.classList.add("text-primary", "border-primary");
-
-              // Set active icon
-              const activeIcon = btn.querySelector("svg");
-              if (activeIcon) {
-                  activeIcon.classList.remove("text-gray-400", "group-hover:text-gray-500", "dark:text-gray-500", "dark:group-hover:text-gray-300");
-                  activeIcon.classList.add("text-primary");
-              }
+          if (btn && btn.classList.contains("tab-btn")) {
+              setActiveTab(btn);
           }
       });
   </script>

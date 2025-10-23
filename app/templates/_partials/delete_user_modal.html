@@ -1,12 +1,8 @@
 <!-- Delete User Confirmation Modal -->
-<div class="relative modal-container"
-     aria-labelledby="modal-title"
+<div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-md dark:bg-gray-800"
      role="dialog"
-     aria-modal="true">
-  <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
-  <div class="fixed inset-0 z-10 overflow-y-auto">
-    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-      <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md dark:bg-gray-800">
+     aria-modal="true"
+     aria-labelledby="modal-title">
         <!-- Modal header -->
         <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
           <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Remove User") }}: {{ display_name }}</h3>
@@ -110,9 +106,6 @@
             </div>
           </form>
         </div>
-      </div>
-    </div>
-  </div>
 </div>
 <script>
     // Initialize modal functionality immediately when content loads

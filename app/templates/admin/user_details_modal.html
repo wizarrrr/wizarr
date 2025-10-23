@@ -1,11 +1,7 @@
-<div class="relative modal-container"
-     aria-labelledby="modal-title"
+<div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all w-full max-w-md dark:bg-gray-800"
      role="dialog"
-     aria-modal="true">
-  <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
-  <div class="fixed inset-0 z-10 overflow-y-auto">
-    <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-      <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-md dark:bg-gray-800">
+     aria-modal="true"
+     aria-labelledby="modal-title">
         <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4 dark:bg-gray-800">
           <div class="flex justify-between items-center pb-3">
             <h2 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -148,7 +144,4 @@
                     onclick="document.getElementById('modal').classList.add('hidden')">{{ _("Close") }}</button>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 </div>
