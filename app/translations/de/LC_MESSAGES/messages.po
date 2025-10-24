@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-23 03:44+0000\n"
+"POT-Creation-Date: 2025-10-24 03:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -19,190 +19,190 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/activity/api/blueprint.py:117 app/activity/api/helpers.py:87
+#: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 #, fuzzy
 msgid "Failed to load settings"
 msgstr "Statistik konnte nicht geladen werden"
 
-#: app/activity/api/blueprint.py:255
+#: app/activity/api/blueprint.py:256
 #, fuzzy
 msgid "Failed to load dashboard data"
 msgstr "Fehler beim Laden des Serverstatus"
 
-#: app/activity/api/blueprint.py:278
+#: app/activity/api/blueprint.py:279
 #, fuzzy
 msgid "Failed to load history data"
 msgstr "Fehler beim Laden des Serverstatus"
 
-#: app/activity/api/blueprint.py:345
+#: app/activity/api/blueprint.py:346
 #, fuzzy
 msgid "Failed to load activity data"
 msgstr "Fehler beim Laden des Serverstatus"
 
-#: app/activity/api/blueprint.py:363
+#: app/activity/api/blueprint.py:364
 #, fuzzy
 msgid "Failed to get activity statistics"
 msgstr "Statistik konnte nicht geladen werden"
 
-#: app/activity/api/blueprint.py:372
+#: app/activity/api/blueprint.py:373
 msgid "Database not available"
 msgstr ""
 
-#: app/activity/api/blueprint.py:386
+#: app/activity/api/blueprint.py:387
 #, fuzzy
 msgid "Failed to get session details"
 msgstr "Zurücksetzen der Passkeys fehlgeschlagen"
 
-#: app/activity/api/blueprint.py:468
+#: app/activity/api/blueprint.py:469
 msgid "Failed to export activity data"
 msgstr ""
 
-#: app/activity/api/blueprint.py:487
+#: app/activity/api/blueprint.py:488
 #, fuzzy
 msgid "Monitoring restarted"
 msgstr "Admin erstellt"
 
-#: app/activity/api/blueprint.py:490
+#: app/activity/api/blueprint.py:491
 msgid "Monitor not available"
 msgstr ""
 
-#: app/activity/api/blueprint.py:500
+#: app/activity/api/blueprint.py:501
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
 msgstr ""
 
-#: app/activity/api/blueprint.py:513
+#: app/activity/api/blueprint.py:514
 #, python-brace-format
 msgid "Ended {} stale sessions"
 msgstr ""
 
-#: app/activity/api/blueprint.py:517
+#: app/activity/api/blueprint.py:518
 #, fuzzy
 msgid "Unknown action"
 msgstr "Unbekannter Verbindungstyp"
 
-#: app/activity/api/blueprint.py:523
+#: app/activity/api/blueprint.py:524
 #, fuzzy
 msgid "Failed to update settings"
 msgstr "Statistik konnte nicht geladen werden"
 
-#: app/activity/api/blueprint.py:538
+#: app/activity/api/blueprint.py:539
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
 msgstr ""
 
-#: app/activity/api/blueprint.py:543
+#: app/activity/api/blueprint.py:544
 #, fuzzy, python-brace-format
 msgid "Failed to delete activity data: {}"
 msgstr "Passkey konnte nicht gelöscht werden"
 
-#: app/activity/api/blueprint.py:563 app/activity/api/blueprint.py:622
+#: app/activity/api/blueprint.py:564 app/activity/api/blueprint.py:623
 #, fuzzy
 msgid "Please select a media server."
 msgstr "Bitte wähle mindestens einen Server für die Einladung aus."
 
-#: app/activity/api/blueprint.py:574
+#: app/activity/api/blueprint.py:575
 #, fuzzy
 msgid "Media server not found."
 msgstr "Medienserver"
 
-#: app/activity/api/blueprint.py:585
+#: app/activity/api/blueprint.py:586
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, "
 "Emby, and AudiobookShelf servers."
 msgstr ""
 
-#: app/activity/api/blueprint.py:596
+#: app/activity/api/blueprint.py:597
 #, python-brace-format
 msgid "Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
 
-#: app/activity/api/blueprint.py:606
+#: app/activity/api/blueprint.py:607
 #, python-brace-format
 msgid "Failed to import historical data: {}"
 msgstr ""
 
-#: app/activity/api/blueprint.py:629
+#: app/activity/api/blueprint.py:630
 #, fuzzy, python-brace-format
 msgid "Successfully cleared {} historical entries."
 msgstr "{} Elemente erfolgreich importiert"
 
-#: app/activity/api/blueprint.py:636 app/activity/api/blueprint.py:645
+#: app/activity/api/blueprint.py:637 app/activity/api/blueprint.py:646
 #, fuzzy, python-brace-format
 msgid "Failed to clear historical data: {}"
 msgstr "Statistik konnte nicht geladen werden"
 
-#: app/activity/api/blueprint.py:637
+#: app/activity/api/blueprint.py:638
 #, fuzzy
 msgid "Unknown error"
 msgstr "Unbekannter Fehler aufgetreten"
 
-#: app/activity/api/blueprint.py:675
+#: app/activity/api/blueprint.py:676
 msgid "Cannot remove a job that is still queued or running."
 msgstr ""
 
-#: app/activity/api/blueprint.py:703
+#: app/activity/api/blueprint.py:704
 #, fuzzy
 msgid "An internal error has occurred."
 msgstr "Unbekannter Fehler aufgetreten"
 
-#: app/blueprints/admin/routes.py:315
-#: app/templates/admin/user_details_modal.html:60
+#: app/blueprints/admin/routes.py:322
+#: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: app/blueprints/admin/routes.py:318 app/templates/modals/invite.html:69
+#: app/blueprints/admin/routes.py:325 app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:110
 #: app/templates/tables/user_card.html:90
 msgid "Never"
 msgstr "Niemals"
 
-#: app/blueprints/admin/routes.py:391 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:398 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr "Abgelaufen"
 
-#: app/blueprints/admin/routes.py:399
+#: app/blueprints/admin/routes.py:406
 #, python-format
 msgid "in %(n)d d"
 msgstr "in %(n)d d"
 
-#: app/blueprints/admin/routes.py:401
+#: app/blueprints/admin/routes.py:408
 msgid "in 1 d"
 msgstr "in 1 d"
 
-#: app/blueprints/admin/routes.py:403
+#: app/blueprints/admin/routes.py:410
 #, python-format
 msgid "in %(n)d h"
 msgstr "in %(n)d h"
 
-#: app/blueprints/admin/routes.py:405
+#: app/blueprints/admin/routes.py:412
 #, python-format
 msgid "in %(n)d m"
 msgstr "in %(n)d m"
 
-#: app/blueprints/admin/routes.py:406
+#: app/blueprints/admin/routes.py:413
 msgid "soon"
 msgstr "bald"
 
-#: app/blueprints/admin_accounts/routes.py:40
+#: app/blueprints/admin_accounts/routes.py:41
 msgid "Admin created"
 msgstr "Admin erstellt"
 
-#: app/blueprints/admin_accounts/routes.py:66
+#: app/blueprints/admin_accounts/routes.py:68
 msgid "Admin updated"
 msgstr "Admin aktualisiert"
 
-#: app/blueprints/admin_accounts/routes.py:166
+#: app/blueprints/admin_accounts/routes.py:168
 #, python-brace-format
 msgid "All passkeys for {} have been reset"
 msgstr "Alle Passkeys für {} wurden zurückgesetzt"
 
-#: app/blueprints/admin_accounts/routes.py:170
+#: app/blueprints/admin_accounts/routes.py:172
 #, python-brace-format
 msgid "Failed to reset passkeys for {}"
 msgstr "Zurücksetzen der Passkeys für {} ist fehlgeschlagen"
 
-#: app/blueprints/api_keys/routes.py:68
+#: app/blueprints/api_keys/routes.py:69
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
@@ -210,7 +210,7 @@ msgstr ""
 "API-Schlüssel wurde erfolgreich erstellt. Bitte kopiere ihn jetzt, er "
 "wird nicht noch mal angezeigt."
 
-#: app/blueprints/api_keys/routes.py:110
+#: app/blueprints/api_keys/routes.py:111
 msgid "API key deleted successfully"
 msgstr "API-Schlüssel erfolgreich gelöscht"
 
@@ -309,66 +309,66 @@ msgid ""
 "invitation."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:333 app/blueprints/wizard/routes.py:1097
+#: app/blueprints/wizard/routes.py:330 app/blueprints/wizard/routes.py:1094
 msgid "Error Loading Step"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:336 app/blueprints/wizard/routes.py:1100
+#: app/blueprints/wizard/routes.py:333 app/blueprints/wizard/routes.py:1097
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:500 app/blueprints/wizard/routes.py:507
-#: app/blueprints/wizard/routes.py:606
+#: app/blueprints/wizard/routes.py:497 app/blueprints/wizard/routes.py:504
+#: app/blueprints/wizard/routes.py:603
 #, fuzzy
 msgid "Invalid or expired invitation"
 msgstr "Ungültige Einladung"
 
-#: app/blueprints/wizard/routes.py:555 app/blueprints/wizard/routes.py:717
+#: app/blueprints/wizard/routes.py:552 app/blueprints/wizard/routes.py:714
 msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:572
+#: app/blueprints/wizard/routes.py:569
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:596 app/blueprints/wizard/routes.py:901
+#: app/blueprints/wizard/routes.py:593 app/blueprints/wizard/routes.py:898
 #: app/templates/wizard/steps.html:20
 #, fuzzy
 msgid "Continue to Invite"
 msgstr "Neue Einladung"
 
-#: app/blueprints/wizard/routes.py:649
+#: app/blueprints/wizard/routes.py:646
 msgid "Please log in to continue"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:757
+#: app/blueprints/wizard/routes.py:754
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:790
+#: app/blueprints/wizard/routes.py:787
 msgid "Setup complete! Welcome to your media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:886
+#: app/blueprints/wizard/routes.py:883
 #, fuzzy
 msgid "Unable to load wizard configuration. Please try again."
 msgstr "Aktuelle Wiedergabe kann nicht geladen werden"
 
-#: app/blueprints/wizard/routes.py:1028
+#: app/blueprints/wizard/routes.py:1025
 #, fuzzy
 msgid "Unable to load wizard bundle. Please try again."
 msgstr "Aktuelle Wiedergabe kann nicht geladen werden"
 
-#: app/blueprints/wizard/routes.py:1047
+#: app/blueprints/wizard/routes.py:1044
 #, fuzzy
 msgid "Unable to load wizard steps. Please try again."
 msgstr "Aktuelle Wiedergabe kann nicht geladen werden"
 
-#: app/blueprints/wizard/routes.py:1066
+#: app/blueprints/wizard/routes.py:1063
 msgid "This wizard bundle has no steps configured."
 msgstr ""
 
@@ -475,7 +475,7 @@ msgid ""
 msgstr ""
 
 #: app/forms/admin.py:25 app/forms/admin.py:37
-#: app/templates/admin/user_details_modal.html:70
+#: app/templates/admin/user_details_modal.html:66
 #: app/templates/hybrid-password-form.html:102 app/templates/login.html:48
 #: app/templates/modals/create-admin.html:22
 #: app/templates/modals/edit-admin.html:22
@@ -530,7 +530,7 @@ msgstr "Dein Benutzername"
 msgid "RomM Password"
 msgstr "Dein Passwort"
 
-#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:74
+#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:70
 #: app/templates/tables/invite_card.html:138
 msgid "Libraries"
 msgstr "Bibliotheken"
@@ -639,31 +639,31 @@ msgstr "Komga"
 msgid "Kavita"
 msgstr "Kavita"
 
-#: app/services/servers.py:277
+#: app/services/servers.py:275
 msgid "Navidrome"
 msgstr "Navidrome"
 
-#: app/services/servers.py:299
+#: app/services/servers.py:297
 msgid "Invalid API token or insufficient permissions."
 msgstr "Ungültiger API-Token oder unzureichende Berechtigungen."
 
-#: app/services/servers.py:301
+#: app/services/servers.py:299
 msgid "API token lacks required permissions."
 msgstr "API-Token verfügt nicht über die erforderlichen Berechtigungen."
 
-#: app/services/servers.py:306
+#: app/services/servers.py:304
 msgid "Could not connect to Drop server."
 msgstr "Verbindung zum Drop-Server konnte nicht hergestellt werden."
 
-#: app/services/servers.py:308
+#: app/services/servers.py:306
 msgid "Connection to Drop server timed out."
 msgstr "Verbindung zum Drop Server abgelaufen."
 
-#: app/services/servers.py:311
+#: app/services/servers.py:309
 msgid "Drop API not found. Check the server URL."
 msgstr "Drop API nicht gefunden. Überprüfen Sie die Server URL."
 
-#: app/services/servers.py:314
+#: app/services/servers.py:312
 msgid "Drop"
 msgstr "Drop"
 
@@ -672,7 +672,7 @@ msgstr "Drop"
 msgid "No default steps found for server type: {}"
 msgstr "Keine Schritte für Servertyp gefunden: {}"
 
-#: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:104
+#: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:100
 msgid "Admin"
 msgstr "Admin"
 
@@ -1194,43 +1194,43 @@ msgstr "Keine aktiven Server gefunden"
 msgid "Failed to load statistics"
 msgstr "Statistik konnte nicht geladen werden"
 
-#: app/templates/admin/user_details_modal.html:12
+#: app/templates/admin/user_details_modal.html:8
 msgid "User Details"
 msgstr "Benutzerdetails"
 
-#: app/templates/admin/user_details_modal.html:59
+#: app/templates/admin/user_details_modal.html:55
 msgid "Joined"
 msgstr "Beigetreten"
 
-#: app/templates/admin/user_details_modal.html:66
+#: app/templates/admin/user_details_modal.html:62
 msgid "Account Details"
 msgstr "Konto Details"
 
-#: app/templates/admin/user_details_modal.html:91
+#: app/templates/admin/user_details_modal.html:87
 msgid "All libraries"
 msgstr "Alle Bibliotheken"
 
-#: app/templates/admin/user_details_modal.html:97
+#: app/templates/admin/user_details_modal.html:93
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: app/templates/admin/user_details_modal.html:112
+#: app/templates/admin/user_details_modal.html:108
 msgid "Downloads"
 msgstr "Downloads"
 
-#: app/templates/admin/user_details_modal.html:120
+#: app/templates/admin/user_details_modal.html:116
 msgid "Live TV"
 msgstr "Live TV"
 
-#: app/templates/admin/user_details_modal.html:128
+#: app/templates/admin/user_details_modal.html:124
 msgid "Camera Upload"
 msgstr "Kamera Upload"
 
-#: app/templates/admin/user_details_modal.html:136
+#: app/templates/admin/user_details_modal.html:132
 msgid "Basic Access"
 msgstr "Standardzugang"
 
-#: app/templates/admin/user_details_modal.html:148
+#: app/templates/admin/user_details_modal.html:144
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
@@ -1238,15 +1238,15 @@ msgstr "Standardzugang"
 msgid "Close"
 msgstr "Schließen"
 
-#: app/templates/admin/user_modal.html:12
+#: app/templates/admin/user_modal.html:8
 msgid "Edit expiry"
 msgstr "Ablaufdatum bearbeiten"
 
-#: app/templates/admin/user_modal.html:30
+#: app/templates/admin/user_modal.html:26
 msgid "Server-specific Expiry Management"
 msgstr "Serverspezifisches Verfallsmanagement"
 
-#: app/templates/admin/user_modal.html:32
+#: app/templates/admin/user_modal.html:28
 msgid ""
 "This user exists on multiple servers. You can set different expiry dates "
 "for each server."
@@ -1254,42 +1254,42 @@ msgstr ""
 "Dieser Benutzer ist auf mehreren Servern vorhanden. Du kannst für jeden "
 "Server unterschiedliche Ablaufdaten festlegen."
 
-#: app/templates/admin/user_modal.html:52
+#: app/templates/admin/user_modal.html:48
 msgid "Expiry date"
 msgstr "Ablaufdatum"
 
-#: app/templates/admin/user_modal.html:62
+#: app/templates/admin/user_modal.html:58
 msgid "Update"
 msgstr "Aktualisieren"
 
-#: app/templates/admin/user_modal.html:67
+#: app/templates/admin/user_modal.html:63
 msgid "Current expiry"
 msgstr "Aktuelles Ablaufdatum"
 
-#: app/templates/admin/user_modal.html:69
+#: app/templates/admin/user_modal.html:65
 msgid "No expiry set"
 msgstr "Kein Ablaufdatum festgelegt"
 
-#: app/templates/admin/user_modal.html:77
-#: app/templates/admin/user_modal.html:113
+#: app/templates/admin/user_modal.html:73
+#: app/templates/admin/user_modal.html:109
 #: app/templates/tables/user_card.html:130
 msgid "Notes"
 msgstr "Notizen"
 
-#: app/templates/admin/user_modal.html:84
-#: app/templates/admin/user_modal.html:117
+#: app/templates/admin/user_modal.html:80
+#: app/templates/admin/user_modal.html:113
 msgid "Add notes about this user..."
 msgstr "Notizen über diesen Benutzer hinzufügen..."
 
-#: app/templates/admin/user_modal.html:90
+#: app/templates/admin/user_modal.html:86
 msgid "Update Notes"
 msgstr "Notizen aktualisieren"
 
-#: app/templates/admin/user_modal.html:103
+#: app/templates/admin/user_modal.html:99
 msgid "Expiry date (leave blank for never)"
 msgstr "Ablaufdatum (leer lassen für unbegrenzt)"
 
-#: app/templates/admin/user_modal.html:123
+#: app/templates/admin/user_modal.html:119
 #: app/templates/modals/edit-admin.html:45
 #: app/templates/modals/edit-identity.html:44
 #: app/templates/modals/edit-server.html:173
@@ -1302,7 +1302,7 @@ msgstr "Ablaufdatum (leer lassen für unbegrenzt)"
 msgid "Save"
 msgstr "Speichern"
 
-#: app/templates/admin/user_modal.html:127
+#: app/templates/admin/user_modal.html:123
 #: app/templates/components/passkey_add_form.html:24
 #: app/templates/components/passkey_register.html:19
 #: app/templates/modals/bundle-add-steps.html:35
@@ -1329,26 +1329,26 @@ msgstr "Speichern"
 msgid "Cancel"
 msgstr "Abbrechen"
 
-#: app/templates/admin/user_modal.html:134
+#: app/templates/admin/user_modal.html:130
 msgid "Invitation Details"
 msgstr "Einladungsdetails"
 
-#: app/templates/admin/user_modal.html:137
+#: app/templates/admin/user_modal.html:133
 msgid "Code"
 msgstr "Code"
 
-#: app/templates/admin/user_modal.html:139 app/templates/modals/invite.html:114
+#: app/templates/admin/user_modal.html:135 app/templates/modals/invite.html:114
 #: app/templates/modals/invite.html:136
 #: app/templates/tables/invite_card.html:124
 msgid "Duration"
 msgstr "Dauer"
 
-#: app/templates/admin/user_modal.html:139
+#: app/templates/admin/user_modal.html:135
 #: app/templates/tables/invite_card.html:124
 msgid "days"
 msgstr "Tage"
 
-#: app/templates/admin/user_modal.html:140
+#: app/templates/admin/user_modal.html:136
 msgid "Invitation expires"
 msgstr "Einladung läuft ab"
 
