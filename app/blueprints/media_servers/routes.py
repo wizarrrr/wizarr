@@ -14,7 +14,15 @@ from flask import (
 from flask_login import login_required
 
 from app.extensions import db
-from app.models import Library, MediaServer, User
+from app.models import (
+    ActivitySession,
+    ExpiredUser,
+    HistoricalImportJob,
+    Invitation,
+    Library,
+    MediaServer,
+    User,
+)
 from app.services.media.service import list_users_for_server, scan_libraries_for_server
 from app.services.servers import (
     check_audiobookshelf,
@@ -221,17 +229,51 @@ def delete_server():
     server_id = request.args.get("delete")
     if server_id:
         server_id = int(server_id)
-        # 1) Delete local DB users that belong to this server so no ghost
-        #    accounts linger once the server entry is gone.
-        (
-            User.query.filter(User.server_id == server_id).delete(
-                synchronize_session=False
-            )
+        
+        # Delete all related entities to avoid foreign key constraint failures
+        
+        # 1) Delete libraries associated with this server
+        Library.query.filter(Library.server_id == server_id).delete(
+            synchronize_session=False
+        )
+        
+        # 2) Delete expired users associated with this server
+        ExpiredUser.query.filter(ExpiredUser.server_id == server_id).delete(
+            synchronize_session=False
+        )
+        
+        # 3) Delete activity sessions associated with this server
+        ActivitySession.query.filter(ActivitySession.server_id == server_id).delete(
+            synchronize_session=False
+        )
+        
+        # 4) Delete historical import jobs associated with this server
+        HistoricalImportJob.query.filter(HistoricalImportJob.server_id == server_id).delete(
+            synchronize_session=False
+        )
+        
+        # 5) Clean up invitation_users association table entries that reference this server
+        db.session.execute(
+            db.text("DELETE FROM invitation_user WHERE server_id = :server_id"),
+            {"server_id": server_id}
+        )
+        
+        # 6) Set server_id to NULL for invitations that reference this server
+        #    (preserve invitations but remove the server reference)
+        Invitation.query.filter(Invitation.server_id == server_id).update(
+            {"server_id": None}, synchronize_session=False
+        )
+        
+        # 7) Delete users that belong to this server
+        User.query.filter(User.server_id == server_id).delete(
+            synchronize_session=False
         )
 
-        # 2) Finally remove the MediaServer itself.
+        # 8) Finally remove the MediaServer itself
         MediaServer.query.filter_by(id=server_id).delete(synchronize_session=False)
+        
         db.session.commit()
+        
     if request.headers.get("HX-Request"):
         servers = MediaServer.query.order_by(MediaServer.name).all()
         return render_template("settings/servers.html", servers=servers)
