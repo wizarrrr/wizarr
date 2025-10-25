@@ -1,5 +1,9 @@
 """Test media server deletion with foreign key constraints."""
 
+from datetime import UTC, datetime
+
+from sqlalchemy import text
+
 from app.models import (
     ActivitySession,
     ExpiredUser,
@@ -46,7 +50,6 @@ def test_delete_media_server_with_related_entities(session):
     session.add(user)
 
     # 3. ExpiredUser
-    from datetime import UTC, datetime
     expired_user = ExpiredUser(
         original_user_id=123,
         username="expired_user",
@@ -113,7 +116,6 @@ def test_delete_media_server_with_related_entities(session):
     )
     
     # 5) Clean up invitation_users association table
-    from sqlalchemy import text
     session.execute(
         text("DELETE FROM invitation_user WHERE server_id = :server_id"),
         {"server_id": server_id}
