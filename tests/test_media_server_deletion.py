@@ -46,11 +46,12 @@ def test_delete_media_server_with_related_entities(session):
     session.add(user)
 
     # 3. ExpiredUser
+    from datetime import UTC, datetime
     expired_user = ExpiredUser(
         original_user_id=123,
         username="expired_user",
         server_id=server_id,
-        expired_at=session.query(MediaServer).first().created_at,
+        expired_at=datetime.now(UTC),
     )
     session.add(expired_user)
 
@@ -112,8 +113,10 @@ def test_delete_media_server_with_related_entities(session):
     )
     
     # 5) Clean up invitation_users association table
+    from sqlalchemy import text
     session.execute(
-        session.query(Invitation).filter(Invitation.server_id == server_id).statement.whereclause
+        text("DELETE FROM invitation_user WHERE server_id = :server_id"),
+        {"server_id": server_id}
     )
     
     # 6) Set server_id to NULL for invitations
