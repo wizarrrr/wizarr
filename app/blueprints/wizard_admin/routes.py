@@ -539,10 +539,45 @@ def delete_bundle(bundle_id: int):
 @wizard_admin_bp.route("/bundle/<int:bundle_id>/reorder", methods=["POST"])
 @login_required
 def reorder_bundle(bundle_id: int):
-    order_raw = request.json  # expects list of step IDs in new order
-    if not isinstance(order_raw, list):
+    payload = request.json  # accepts list of IDs or dict with detailed order
+    category_map: dict[int, str | None] = {}
+
+    if isinstance(payload, list):
+        order = []
+        for entry in payload:
+            try:
+                order.append(int(entry))
+            except (TypeError, ValueError):
+                continue
+    elif isinstance(payload, dict):
+        order_raw = payload.get("order")
+        if not isinstance(order_raw, list):
+            abort(400)
+
+        order = []
+        for entry in order_raw:
+            if isinstance(entry, dict):
+                step_id = entry.get("id")
+                if step_id is None:
+                    continue
+                try:
+                    step_id_int = int(step_id)
+                except (TypeError, ValueError):
+                    continue
+                order.append(step_id_int)
+                category_value = entry.get("category")
+                # Normalise falsy to None to indicate no change
+                if category_value in (None, ""):
+                    category_map[step_id_int] = None
+                else:
+                    category_map[step_id_int] = str(category_value)
+            else:
+                try:
+                    order.append(int(entry))
+                except (TypeError, ValueError):
+                    continue
+    else:
         abort(400)
-    order = cast(list[int], order_raw)
 
     rows = WizardBundleStep.query.filter(
         WizardBundleStep.bundle_id == bundle_id,
@@ -556,7 +591,45 @@ def reorder_bundle(bundle_id: int):
         if row is None:
             continue
         row.position = -tmp_pos
+
     db.session.flush()
+
+    # Update categories for custom steps when requested
+    moved_steps: list[tuple[WizardStep, str]] = []
+    for step_id, desired_category in category_map.items():
+        if desired_category is None:
+            continue
+        row = id_to_row.get(step_id)
+        if row is None or row.step is None:
+            continue
+        step = row.step
+        if step.category == desired_category:
+            continue
+        moved_steps.append((step, desired_category))
+
+    if moved_steps:
+        next_positions: dict[tuple[str, str], int] = {}
+
+        def get_next_position(server_type: str, category: str) -> int:
+            key = (server_type, category)
+            if key not in next_positions:
+                max_pos = (
+                    db.session.query(func.max(WizardStep.position))
+                    .filter(
+                        WizardStep.server_type == server_type,
+                        WizardStep.category == category,
+                    )
+                    .scalar()
+                )
+                next_positions[key] = (max_pos or -1) + 1
+            else:
+                next_positions[key] += 1
+            return next_positions[key]
+
+        with db.session.no_autoflush:
+            for step, desired_category in moved_steps:
+                step.category = desired_category
+                step.position = get_next_position(step.server_type, desired_category)
 
     # Phase 2 – final 0-based positions
     for final_pos, step_id in enumerate(order):
@@ -564,6 +637,7 @@ def reorder_bundle(bundle_id: int):
         if row is None:
             continue
         row.position = final_pos
+
     db.session.commit()
     return jsonify({"status": "ok"})
 

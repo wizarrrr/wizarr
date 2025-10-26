@@ -87,7 +87,10 @@ class InvitationResult:
         # Apply session data if provided
         if self.session_data:
             for key, value in self.session_data.items():
-                session[key] = value
+                if value is None:
+                    session.pop(key, None)
+                else:
+                    session[key] = value
 
         # Handle redirects
         if self.redirect_url:

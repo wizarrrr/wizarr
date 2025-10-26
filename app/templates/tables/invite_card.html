@@ -66,6 +66,11 @@
                       {{ _("Not used yet") }}
                     {% endif %}
                   </p>
+                  {% if invite.wizard_bundle %}
+                    <span class="inline-flex items-center px-2 py-0.5 mt-1 rounded-full text-xs font-medium bg-purple-50 text-purple-700 border border-purple-200 dark:bg-purple-400/15 dark:text-purple-100 dark:border-purple-500/40">
+                      {{ _("Bundle") }}: {{ invite.wizard_bundle.name }}
+                    </span>
+                  {% endif %}
                 </div>
               </div>
               <!-- Status Badges -->

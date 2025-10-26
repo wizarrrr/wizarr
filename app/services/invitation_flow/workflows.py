@@ -6,7 +6,7 @@ import logging
 from abc import ABC, abstractmethod
 from typing import Any
 
-from flask import session
+from flask import session, url_for
 
 from app.models import Invitation, MediaServer
 from app.services.media.service import get_client_for_media_server
@@ -149,12 +149,17 @@ class InvitationWorkflow(ABC):
 
     def _create_success_result(
         self,
-        invitation_code: str,
+        invitation: Invitation,
         successful: list[ServerResult],
         failed: list[ServerResult],
     ) -> InvitationResult:
         """Create success result with wizard redirect."""
+        invitation_code = invitation.code
         session["wizard_access"] = invitation_code
+        if invitation.wizard_bundle_id:
+            session["wizard_bundle_id"] = invitation.wizard_bundle_id
+        else:
+            session.pop("wizard_bundle_id", None)
 
         if not failed:
             status = ProcessingStatus.SUCCESS
@@ -163,15 +168,20 @@ class InvitationWorkflow(ABC):
             status = ProcessingStatus.PARTIAL_SUCCESS
             message = f"Accounts created on {len(successful)} of {len(successful) + len(failed)} servers"
 
+        redirect_url = "/wizard/"
+        if invitation.wizard_bundle_id:
+            redirect_url = url_for("wizard.bundle_view", idx=0)
+
         return InvitationResult(
             status=status,
             message=message,
             successful_servers=successful,
             failed_servers=failed,
-            redirect_url="/wizard/",
+            redirect_url=redirect_url,
             session_data={
                 "wizard_access": invitation_code,
                 "invitation_in_progress": True,
+                "wizard_bundle_id": invitation.wizard_bundle_id,
             },
         )
 
@@ -231,7 +241,7 @@ class FormBasedWorkflow(InvitationWorkflow):
         successful, failed = self._process_servers(servers, form_data, invitation.code)
 
         if successful:
-            return self._create_success_result(invitation.code, successful, failed)
+            return self._create_success_result(invitation, successful, failed)
         return self._create_server_error_result(invitation, servers, failed)
 
     def _create_auth_error_result(
@@ -353,7 +363,7 @@ class PlexOAuthWorkflow(InvitationWorkflow):
         successful, failed = self._process_servers(servers, form_data, invitation.code)
 
         if successful:
-            return self._create_success_result(invitation.code, successful, failed)
+            return self._create_success_result(invitation, successful, failed)
         return self._create_oauth_error_result(
             invitation, "Failed to create Plex account"
         )
@@ -481,9 +491,7 @@ class MixedWorkflow(InvitationWorkflow):
             all_failed.extend(other_failed)
 
         if all_successful:
-            return self._create_success_result(
-                invitation.code, all_successful, all_failed
-            )
+            return self._create_success_result(invitation, all_successful, all_failed)
         return self._create_mixed_error_result(
             invitation, "Failed to create accounts on any server"
         )

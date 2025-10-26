@@ -32,6 +32,7 @@ function attachSortableLists(root = document) {
 
     // Check if this is a category-aware wizard steps list
     const isCategoryAware = container.classList.contains('wizard-steps') && container.dataset.category;
+    const isBundleList = container.classList.contains('bundle-steps');
 
     const sortableConfig = {
       animation: 150,
@@ -44,7 +45,7 @@ function attachSortableLists(root = document) {
       // Add visual feedback for valid/invalid drop zones
       onStart(evt) {
         // Remove empty state placeholder from all containers when drag starts
-        document.querySelectorAll('.wizard-steps .empty-state-item').forEach(placeholder => {
+        document.querySelectorAll('.wizard-steps .empty-state-item, .bundle-steps .empty-state-item').forEach(placeholder => {
           placeholder.style.display = 'none';
         });
       },
@@ -65,9 +66,26 @@ function attachSortableLists(root = document) {
 
           return isValid;
         }
+        if (isBundleList) {
+          const fromBundle = evt.from.dataset.bundle;
+          const toBundle = evt.to.dataset.bundle;
+          const sameBundle = fromBundle === toBundle;
+          const isValid = sameBundle;
+
+          if (isValid) {
+            evt.to.classList.add('bg-green-50', 'dark:bg-green-900/20', 'border-green-300', 'dark:border-green-700');
+            evt.to.classList.remove('bg-red-50', 'dark:bg-red-900/20', 'border-red-300', 'dark:border-red-700');
+          } else {
+            evt.to.classList.add('bg-red-50', 'dark:bg-red-900/20', 'border-red-300', 'dark:border-red-700');
+            evt.to.classList.remove('bg-green-50', 'dark:bg-green-900/20', 'border-green-300', 'dark:border-green-700');
+          }
+
+          return isValid;
+        }
         return true;
       },
-      onEnd({ to, from }) {
+      onEnd(evt) {
+        const { to, from, item } = evt;
         // Remove visual feedback classes
         to.classList.remove('bg-green-50', 'dark:bg-green-900/20', 'border-green-300', 'dark:border-green-700');
         to.classList.remove('bg-red-50', 'dark:bg-red-900/20', 'border-red-300', 'dark:border-red-700');
@@ -90,11 +108,18 @@ function attachSortableLists(root = document) {
           // Create and add empty state placeholder
           const emptyState = document.createElement('li');
           emptyState.className = 'empty-state-item flex flex-col items-center justify-center text-center py-8 text-gray-400 dark:text-gray-500 w-full list-none';
+          const category = from.dataset.category || '';
+          let emptyMessage = 'No steps configured';
+          if (category === 'pre_invite') {
+            emptyMessage = 'No pre-invite steps configured';
+          } else if (category === 'post_invite') {
+            emptyMessage = 'No post-invite steps configured';
+          }
           emptyState.innerHTML = `
             <svg class="w-12 h-12 mb-2 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
             </svg>
-            <p class="text-sm">${from.dataset.category === 'pre_invite' ? 'No pre-invite steps configured' : 'No post-invite steps configured'}</p>
+            <p class="text-sm">${emptyMessage}</p>
           `;
           from.appendChild(emptyState);
           from.classList.add('min-h-[120px]', 'flex', 'items-center', 'justify-center');
@@ -140,9 +165,69 @@ function attachSortableLists(root = document) {
             // Reload page to revert UI on error
             setTimeout(() => location.reload(), 2000);
           });
+        } else if (isBundleList) {
+          const bundleId = to.dataset.bundle || from.dataset.bundle;
+          const reorderUrl = to.dataset.reorderUrl || from.dataset.reorderUrl;
+
+          if (!bundleId || !reorderUrl) {
+            return;
+          }
+
+          const relatedLists = [...document.querySelectorAll(`.bundle-steps[data-bundle="${bundleId}"]`)]
+            .sort((a, b) => {
+              const aIndex = Number(a.dataset.bundleColumn || 0);
+              const bIndex = Number(b.dataset.bundleColumn || 0);
+              return aIndex - bIndex;
+            });
+
+          const orderedItems = [];
+          relatedLists.forEach(list => {
+            const targetCategory = list.dataset.category || '';
+            [...list.children]
+              .filter(li => !li.classList.contains('empty-state-item'))
+              .forEach(li => {
+                const id = Number(li.dataset.id);
+                if (!Number.isFinite(id)) {
+                  return;
+                }
+
+                let category = targetCategory;
+                if (!category || category === 'other') {
+                  category = li.dataset.category || null;
+                }
+
+                if (list === to && item === li && targetCategory && targetCategory !== 'other') {
+                  category = targetCategory;
+                }
+
+                const normalisedCategory = category || null;
+                const originalCategory = li.dataset.originalCategory || null;
+                const categoryPayload =
+                  !normalisedCategory || (originalCategory && normalisedCategory === originalCategory)
+                    ? null
+                    : normalisedCategory;
+
+                li.dataset.category = normalisedCategory || '';
+                li.dataset.originalCategory = li.dataset.category;
+
+                orderedItems.push({
+                  id,
+                  category: categoryPayload
+                });
+              });
+          });
+
+          fetch(reorderUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ order: orderedItems })
+          })
+          .catch(error => {
+            console.error('Failed to reorder bundle steps:', error);
+            showToast('Failed to reorder steps', 'error');
+          });
         } else {
-          // Legacy reordering (for bundle steps)
-          // Filter out empty state placeholder when collecting step IDs
+          // Legacy reordering for single bundle list instances
           const ids = [...to.children]
             .filter(li => !li.classList.contains('empty-state-item'))
             .map(li => Number(li.dataset.id));
@@ -167,6 +252,16 @@ function attachSortableLists(root = document) {
         put: function(to, from, dragEl) {
           // Only allow drops within the same server type
           return to.el.dataset.server === from.el.dataset.server;
+        }
+      };
+    }
+
+    if (isBundleList) {
+      sortableConfig.group = {
+        name: 'bundle-steps-' + (container.dataset.bundle || ''),
+        pull: true,
+        put: function(to, from) {
+          return to.el.dataset.bundle === from.el.dataset.bundle;
         }
       };
     }

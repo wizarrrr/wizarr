@@ -16,6 +16,7 @@ from flask import (
 )
 from flask_babel import _
 from flask_login import current_user
+from sqlalchemy.orm import joinedload
 
 from app.extensions import db
 from app.models import (
@@ -508,6 +509,11 @@ def pre_wizard(idx: int = 0):
         InviteCodeManager.clear_invite_data()
         return redirect(url_for("public.index"))
 
+    # Bundle override: redirect to bundle wizard if invitation has a bundle
+    if invitation.wizard_bundle_id:
+        session["wizard_bundle_id"] = invitation.wizard_bundle_id
+        return redirect(url_for("wizard.bundle_view", idx=idx))
+
     # Check if this is a multi-server invitation
     # Priority 1: Check new many-to-many relationship
     servers = []
@@ -662,6 +668,10 @@ def post_wizard(idx: int = 0):
             invitation = None
 
         if invitation:
+            if invitation.wizard_bundle_id:
+                session["wizard_bundle_id"] = invitation.wizard_bundle_id
+                return redirect(url_for("wizard.bundle_view", idx=idx))
+
             # Check if this is a multi-server invitation
             servers = []
             try:
@@ -806,6 +816,8 @@ def start():
     # Priority 1: Check if user is authenticated or has wizard_access session
     # These users should see post-wizard steps
     if current_user.is_authenticated or session.get("wizard_access"):
+        if session.get("wizard_bundle_id"):
+            return redirect(url_for("wizard.bundle_view", idx=0))
         return redirect(url_for("wizard.post_wizard"))
 
     # Priority 2: Check for invite code in session (from InviteCodeManager)
@@ -1029,20 +1041,73 @@ def bundle_view(idx: int):
         current_app.logger.warning(f"Wizard bundle {bundle_id} not found")
         abort(404)
 
+    # Determine current phase based on session context
+    wizard_access = session.get("wizard_access")
+    invite_code = InviteCodeManager.get_invite_code()
+
+    if wizard_access:
+        phase_context = "post"
+    elif invite_code:
+        phase_context = "pre"
+    else:
+        phase_context = "post" if current_user.is_authenticated else "pre"
+        if phase_context == "post":
+            invite_code = None
+
+    if phase_context == "pre":
+        if not invite_code:
+            flash(_("Invalid or expired invitation"), "error")
+            current_app.logger.warning(
+                "Bundle pre-wizard accessed without invite code in session"
+            )
+            return redirect(url_for("public.index"))
+
+        is_valid, invitation = InviteCodeManager.validate_invite_code(invite_code)
+        if not is_valid or not invitation:
+            flash(_("Invalid or expired invitation"), "error")
+            current_app.logger.warning(
+                f"Bundle pre-wizard accessed with invalid invite code: {invite_code}"
+            )
+            InviteCodeManager.clear_invite_data()
+            return redirect(url_for("public.index"))
+    else:
+        invite_code = None
+
     # ordered steps via association table
     try:
         ordered = (
             WizardBundleStep.query.filter_by(bundle_id=bundle_id)
+            .options(joinedload(WizardBundleStep.step))
             .order_by(WizardBundleStep.position)
             .all()
         )
-        steps_raw = [r.step for r in ordered]
     except Exception as e:
         current_app.logger.error(
             f"Error loading steps for bundle {bundle_id}: {e}", exc_info=True
         )
         flash(_("Unable to load wizard steps. Please try again."), "error")
         return redirect(url_for("wizard.start"))
+
+    if phase_context == "pre":
+        steps_raw = [
+            assoc.step
+            for assoc in ordered
+            if assoc.step and assoc.step.category == "pre_invite"
+        ]
+    else:
+        steps_raw = [
+            assoc.step
+            for assoc in ordered
+            if assoc.step and assoc.step.category == "post_invite"
+        ]
+
+    if not steps_raw:
+        if phase_context == "pre":
+            InviteCodeManager.mark_pre_wizard_complete()
+            if invite_code:
+                return redirect(url_for("public.invite", code=invite_code))
+            return redirect(url_for("wizard.start"))
+        return redirect(url_for("wizard.complete"))
 
     # adapt to frontmatter-like interface
     class _RowAdapter:
@@ -1058,11 +1123,6 @@ def bundle_view(idx: int):
             return default
 
     steps = [_RowAdapter(s) for s in steps_raw]
-    if not steps:
-        current_app.logger.warning(f"Wizard bundle {bundle_id} has no steps")
-        flash(_("This wizard bundle has no steps configured."), "warning")
-        return redirect(url_for("wizard.start"))
-
     idx = max(0, min(idx, len(steps) - 1))
 
     # Get the server type and category for the current step from the WizardStep
@@ -1081,7 +1141,11 @@ def bundle_view(idx: int):
     # Render with error handling
     try:
         settings = _settings()
-        html = _render(post, settings | {"_": _}, server_type=current_server_type)
+        html = _render(
+            post,
+            settings | {"_": _} | _get_server_context(current_server_type or ""),
+            server_type=current_server_type,
+        )
     except Exception as e:
         current_app.logger.error(
             f"Error rendering bundle step {idx} for bundle {bundle_id}: {e}",
@@ -1109,6 +1173,12 @@ def bundle_view(idx: int):
     except Exception:
         require_interaction = False
 
+    completion_url = None
+    completion_label = None
+    if phase_context == "pre":
+        completion_url = url_for("wizard.pre_wizard_complete")
+        completion_label = _("Continue to Invite")
+
     # Determine which template to use based on request type
     if not request.headers.get("HX-Request"):
         # Initial page load - full wrapper with UI chrome
@@ -1126,6 +1196,9 @@ def bundle_view(idx: int):
         direction=request.values.get("dir", ""),
         require_interaction=require_interaction,
         phase=phase,  # Phase determined by current step's category
+        step_phase=phase,
+        completion_url=completion_url,
+        completion_label=completion_label,
     )
 
     # Add custom headers for client-side updates (HTMX requests only)
@@ -1137,6 +1210,7 @@ def bundle_view(idx: int):
         resp.headers["X-Require-Interaction"] = (
             "true" if require_interaction else "false"
         )
+        resp.headers["X-Wizard-Step-Phase"] = phase
         return resp
 
     return response

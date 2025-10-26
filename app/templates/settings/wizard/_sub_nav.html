@@ -110,25 +110,53 @@
            x-transition:leave-end="transform opacity-0 scale-95"
            class="absolute right-0 mt-2 w-56 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-10">
         <div class="p-1">
-          <button hx-get="{% if is_default %}
-                            {{ url_for("wizard_admin.create_step") }}
-                          {% else %}
-                            {{ url_for('wizard_admin.create_step', simple=1) }}
-                          {% endif %}"
-                  hx-target="#step-modal"
-                  hx-trigger="click"
-                  @click="open = false"
-                  class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
-            <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-              <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
-              </svg>
+          {% if is_default %}
+            <button hx-get="{{ url_for('wizard_admin.create_step') }}"
+                    hx-target="#step-modal"
+                    hx-trigger="click"
+                    @click="open = false"
+                    class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
+              <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                </svg>
+              </div>
+              <div class="text-left">
+                <div class="font-medium">{{ _("Create Step") }}</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Add a new wizard step") }}</div>
+              </div>
+            </button>
+          {% else %}
+            <div class="px-3 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+              {{ _("Add Step to Bundle") }}
             </div>
-            <div class="text-left">
-              <div class="font-medium">{{ _("Create Step") }}</div>
-              <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Add a new wizard step") }}</div>
-            </div>
-          </button>
+            {% if bundles %}
+              {% for bundle in bundles %}
+                <button hx-get="{{ url_for('wizard_admin.create_step', simple=1, bundle_id=bundle.id) }}"
+                        hx-target="#step-modal"
+                        hx-trigger="click"
+                        @click="open = false"
+                        class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
+                  <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+                    </svg>
+                  </div>
+                  <div class="text-left">
+                    <div class="font-medium">{{ bundle.name }}</div>
+                    {% if bundle.description %}
+                      <div class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ bundle.description }}</div>
+                    {% endif %}
+                  </div>
+                </button>
+              {% endfor %}
+            {% else %}
+              <div class="px-3 py-2 text-xs text-gray-500 dark:text-gray-400">
+                {{ _("No bundles available yet") }}
+              </div>
+            {% endif %}
+            <div class="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+          {% endif %}
           <button hx-get="{{ url_for('wizard_admin.create_preset') }}"
                   hx-target="#step-modal"
                   hx-trigger="click"

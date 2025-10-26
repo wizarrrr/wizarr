@@ -516,6 +516,8 @@
                     // Combo wizard uses path-based category routing
                     const category = phase === 'pre' ? 'pre_invite' : 'post_invite';
                     newUrl = `/wizard/combo/${category}/${targetIdx}`;
+                } else if (serverType === 'bundle') {
+                    newUrl = `/wizard/bundle/${targetIdx}`;
                 } else if (phase === 'pre') {
                     newUrl = `/wizard/pre-wizard/${targetIdx}`;
                 } else if (phase === 'post') {

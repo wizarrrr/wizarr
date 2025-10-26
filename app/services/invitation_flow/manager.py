@@ -5,9 +5,11 @@ Simple invitation flow manager that integrates with existing routes.
 import logging
 from typing import Any
 
+from flask import session, url_for
 from sqlalchemy import func
+from sqlalchemy.orm import joinedload
 
-from app.models import Invitation, MediaServer
+from app.models import Invitation, MediaServer, WizardBundleStep
 from app.services.invites import is_invite_valid
 
 from .results import InvitationResult, ProcessingStatus
@@ -81,10 +83,18 @@ class InvitationFlowManager:
                     },
                 )
 
+            # Track bundle selection in session for downstream routes
+            if invitation.wizard_bundle_id:
+                session["wizard_bundle_id"] = invitation.wizard_bundle_id
+            else:
+                session.pop("wizard_bundle_id", None)
+
             servers = self._get_invitation_servers(invitation)
 
             # Check for pre-invite wizard steps (Requirements 7.2-7.6)
-            pre_steps_exist = self._check_pre_invite_steps_exist(servers)
+            pre_steps_exist, bundle_redirect = self._check_pre_invite_steps_exist(
+                invitation, servers
+            )
 
             # Check if pre-wizard is complete (only if in request context)
             try:
@@ -95,19 +105,38 @@ class InvitationFlowManager:
 
             # If pre-invite steps exist and not completed, redirect to pre-wizard
             if pre_steps_exist and not pre_wizard_complete:
+                redirect_url = (
+                    bundle_redirect
+                    if bundle_redirect is not None
+                    else url_for("wizard.pre_wizard")
+                )
                 return InvitationResult(
                     status=ProcessingStatus.REDIRECT_REQUIRED,
                     message="Pre-wizard steps required",
                     successful_servers=[],
                     failed_servers=[],
-                    redirect_url="/wizard/pre-wizard",
-                    session_data={"invitation_in_progress": True},
+                    redirect_url=redirect_url,
+                    session_data={
+                        "invitation_in_progress": True,
+                        "wizard_bundle_id": invitation.wizard_bundle_id
+                        if invitation.wizard_bundle_id
+                        else None,
+                    },
                 )
 
             # Create appropriate workflow and show initial template
             # (Requirements 7.4, 7.5: Allow access if pre-wizard complete or no pre-invite steps)
             workflow = WorkflowFactory.create_workflow(servers)
-            return workflow.show_initial_form(invitation, servers)
+            result = workflow.show_initial_form(invitation, servers)
+            if invitation.wizard_bundle_id:
+                session_data = result.session_data or {}
+                session_data["wizard_bundle_id"] = invitation.wizard_bundle_id
+                result.session_data = session_data
+            else:
+                session_data = result.session_data or {}
+                session_data["wizard_bundle_id"] = None
+                result.session_data = session_data
+            return result
 
         except Exception as e:
             self.logger.error(f"Error displaying invitation {code}: {e}")
@@ -181,17 +210,37 @@ class InvitationFlowManager:
 
         return plex_servers + other_servers
 
-    def _check_pre_invite_steps_exist(self, servers: list[MediaServer]) -> bool:
+    def _check_pre_invite_steps_exist(
+        self, invitation: Invitation, servers: list[MediaServer]
+    ) -> tuple[bool, str | None]:
         """Check if any pre-invite wizard steps exist for the given servers.
 
         Args:
+            invitation: Invitation object (used for bundle override)
             servers: List of media servers associated with the invitation
 
         Returns:
-            True if pre-invite steps exist for any server, False otherwise
+            Tuple:
+                - bool indicating if pre-invite steps exist
+                - optional redirect URL (used for bundle overrides)
         """
+        if invitation.wizard_bundle_id:
+            bundle_steps = (
+                WizardBundleStep.query.options(joinedload(WizardBundleStep.step))
+                .filter(WizardBundleStep.bundle_id == invitation.wizard_bundle_id)
+                .order_by(WizardBundleStep.position)
+                .all()
+            )
+            has_pre_phase = any(
+                assoc.step and assoc.step.category == "pre_invite"
+                for assoc in bundle_steps
+            )
+            if has_pre_phase:
+                return True, url_for("wizard.bundle_view", idx=0)
+            return False, None
+
         if not servers:
-            return False
+            return False, None
 
         # Import here to avoid circular dependency
         from app.blueprints.wizard.routes import _settings, _steps
@@ -202,14 +251,14 @@ class InvitationFlowManager:
                 cfg = _settings()
                 pre_steps = _steps(server.server_type, cfg, category="pre_invite")
                 if pre_steps:
-                    return True
+                    return True, None
             except Exception as e:
                 self.logger.error(
                     f"Error checking pre-invite steps for {server.server_type}: {e}"
                 )
                 continue
 
-        return False
+        return False, None
 
     def _create_error_result(self, message: str) -> InvitationResult:
         """Create generic error result."""

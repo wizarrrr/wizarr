@@ -39,10 +39,10 @@ def check_uv_installation():
         sys.exit(1)
 
 
-def run_command(command, cwd=None):
+def run_command(command, cwd=None, env=None):
     print(f"Running: {' '.join(command)}")
     try:
-        process = subprocess.Popen(command, cwd=cwd)
+        process = subprocess.Popen(command, cwd=cwd, env=env)
         process.wait()
         if process.returncode != 0:
             print(f"Error running command: {' '.join(command)}")
@@ -60,6 +60,8 @@ def run_command(command, cwd=None):
 
 
 def main():
+    import os
+
     parser = argparse.ArgumentParser(
         description="Wizarr development server",
         epilog="""
@@ -99,6 +101,10 @@ Plus features include:
     project_root = Path(__file__).parent
     static_dir = project_root / "app" / "static"
 
+    # Create dev environment with NODE_ENV=development to ensure devDependencies are installed
+    npm_env = os.environ.copy()
+    npm_env["NODE_ENV"] = "development"
+
     print("Compiling translations...")
     run_command(["uv", "run", "pybabel", "compile", "-d", "app/translations", "-f"])
 
@@ -108,21 +114,21 @@ Plus features include:
     run_command(["uv", "run", "flask", "db", "upgrade"])
 
     print("Installing/updating npm dependencies...")
-    run_command(["npm", "install"], cwd=static_dir)
+    run_command(["npm", "install"], cwd=static_dir, env=npm_env)
 
     print("Building static assets (CSS & JS)...")
-    run_command(["npm", "run", "build"], cwd=static_dir)
+    run_command(["npm", "run", "build"], cwd=static_dir, env=npm_env)
 
     # Start the Tailwind watcher in the background
     print("Starting Tailwind watcher...")
-    tailwind_process = subprocess.Popen(["npm", "run", "watch:css"], cwd=static_dir)
+    tailwind_process = subprocess.Popen(
+        ["npm", "run", "watch:css"], cwd=static_dir, env=npm_env
+    )
 
     try:
         flask_command = ["uv", "run", "flask", "run", "--debug"]
 
         # Set environment variables based on flags
-        import os
-
         if args.scheduler:
             print(
                 "🕒 Scheduler enabled - background tasks will run (expiry cleanup every 1 minute)"

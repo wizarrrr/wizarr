@@ -9,8 +9,16 @@
   {% include 'settings/wizard/_sub_nav.html' with context %}
   {% if not bundles %}<p class="text-gray-600 dark:text-gray-300">{{ _("No bundles found.") }}</p>{% endif %}
   {% for b in bundles %}
+    {% set real_steps = b.steps | selectattr('step') | list %}
+    {% set pre_steps = real_steps | selectattr('step.category', 'equalto', 'pre_invite') | list %}
+    {% set post_steps = real_steps | selectattr('step.category', 'equalto', 'post_invite') | list %}
+    {% set other_steps = real_steps
+      | rejectattr('step.category', 'equalto', 'pre_invite')
+      | rejectattr('step.category', 'equalto', 'post_invite')
+      | list %}
+    {% set orphaned_steps = b.steps | rejectattr('step') | list %}
     <div class="border rounded-md p-4 dark:border-gray-700">
-      <div class="flex items-center justify-between mb-2">
+      <div class="flex items-center justify-between mb-4">
         <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">{{ b.name }}</h2>
         <span class="flex items-center gap-2">
           <a href="{{ url_for('wizard_admin.export_bundle', bundle_id=b.id) }}"
@@ -56,83 +64,250 @@
           </form>
         </span>
       </div>
-      {% if b.description %}<p class="text-sm text-gray-600 dark:text-gray-300 mb-3">{{ b.description }}</p>{% endif %}
-      <ol class="bundle-steps bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700"
-          data-bundle="{{ b.id }}"
-          data-reorder-url="{{ url_for('wizard_admin.reorder_bundle', bundle_id=b.id) }}">
-        {% for bs in b.steps %}
-          {% if bs.step %}
-            <li class="flex items-center justify-between px-4 py-3"
-                data-id="{{ bs.step.id }}">
-              <!-- drag handle -->
-              <svg class="drag w-4 h-4 cursor-grab text-gray-400 mr-3"
-                   xmlns="http://www.w3.org/2000/svg"
-                   viewBox="0 0 20 20"
-                   fill="currentColor">
-                <path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" />
-              </svg>
-              <div class="flex-1 flex items-center gap-2">
-                <span class="text-sm font-medium text-gray-900 dark:text-white">{{ bs.step.title or _("Untitled") }}</span>
-                <!-- Category badge -->
-                {% if bs.step.category == 'pre_invite' %}
-                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
-                    {{ _("Pre-Invite") }}
-                  </span>
-                {% else %}
-                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300">
-                    {{ _("Post-Invite") }}
-                  </span>
-                {% endif %}
-                <!-- Server type badge -->
-                <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
-                  {{ bs.step.server_type | title }}
-                </span>
-              </div>
-              <span class="flex items-center gap-2">
-                <button hx-get="{{ url_for('wizard_admin.edit_step', step_id=bs.step.id) }}"
-                        hx-target="#step-modal"
-                        hx-trigger="click"
-                        class="inline-flex items-center justify-center p-2 text-gray-800 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-600">
-                  <svg class="w-5 h-5"
-                       fill="currentColor"
+      {% if b.description %}<p class="text-sm text-gray-600 dark:text-gray-300 mb-6">{{ b.description }}</p>{% endif %}
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <div class="wizard-category-section border rounded-lg p-4 bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
+          <h3 class="text-base font-semibold text-gray-800 dark:text-gray-100 mb-2">{{ _("Before Invite Acceptance") }}</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
+            {{ _("Steps shown to users before they accept the invitation") }}
+          </p>
+          <ol class="bundle-steps bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700 {% if not pre_steps %}min-h-[120px] flex items-center justify-center{% endif %}"
+              data-bundle="{{ b.id }}"
+              data-category="pre_invite"
+              data-bundle-column="0"
+              data-reorder-url="{{ url_for('wizard_admin.reorder_bundle', bundle_id=b.id) }}">
+            {% if pre_steps %}
+              {% for bs in pre_steps %}
+                {% set phase_value = bs.step.category %}
+                <li class="flex items-center justify-between px-4 py-3"
+                    data-id="{{ bs.step.id }}"
+                    data-category="{{ phase_value or '' }}"
+                    data-original-category="{{ bs.step.category if bs.step else '' }}">
+                  <svg class="drag w-4 h-4 cursor-grab text-gray-400 mr-3"
+                       xmlns="http://www.w3.org/2000/svg"
                        viewBox="0 0 20 20"
-                       xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
-                    </path>
+                       fill="currentColor">
+                    <path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" />
                   </svg>
-                </button>
-                <form method="post"
-                      action="{{ url_for('wizard_admin.delete_step', step_id=bs.step.id) }}"
-                      class="inline"
-                      hx-post="{{ url_for('wizard_admin.delete_step', step_id=bs.step.id) }}"
-                      hx-target="#tab-body"
-                      hx-swap="innerHTML"
-                      hx-confirm="{{ _('Are you sure you want to delete this step?') }}">
-                  <button type="submit"
-                          class="inline-flex items-center justify-center p-2 text-red-500 rounded-lg hover:text-white hover:bg-red-500 dark:text-red-400 dark:hover:text-white dark:hover:bg-red-600">
-                    <svg class="w-5 h-5"
-                         fill="currentColor"
-                         viewBox="0 0 20 20"
-                         xmlns="http://www.w3.org/2000/svg">
-                      <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd">
-                      </path>
-                    </svg>
-                  </button>
-                </form>
-              </span>
-              <!-- grip icon on far right -->
-              <svg class="drag w-4 h-4 cursor-grab text-gray-400 ml-3"
-                   xmlns="http://www.w3.org/2000/svg"
-                   viewBox="0 0 20 20"
-                   fill="currentColor">
-                <path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" />
-              </svg>
-            </li>
-          {% else %}
-            {# Handle orphaned bundle steps where the step was deleted #}
-            <li class="flex items-center justify-between px-4 py-3 opacity-50">
-              <span class="flex-1 text-sm font-medium text-red-600 dark:text-red-400">{{ _("Step deleted (orphaned)") }}</span>
-              <span class="flex items-center gap-2">
+                  <div class="flex-1 flex items-center gap-2">
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">{{ bs.step.title or _("Untitled") }}</span>
+                  </div>
+                  <span class="flex items-center gap-2">
+                    <button hx-get="{{ url_for('wizard_admin.edit_step', step_id=bs.step.id) }}"
+                            hx-target="#step-modal"
+                            hx-trigger="click"
+                            class="inline-flex items-center justify-center p-2 text-gray-800 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-600">
+                      <svg class="w-5 h-5"
+                           fill="currentColor"
+                           viewBox="0 0 20 20"
+                           xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                        </path>
+                      </svg>
+                    </button>
+                    <form method="post"
+                          action="{{ url_for('wizard_admin.delete_step', step_id=bs.step.id) }}"
+                          class="inline"
+                          hx-post="{{ url_for('wizard_admin.delete_step', step_id=bs.step.id) }}"
+                          hx-target="#tab-body"
+                          hx-swap="innerHTML"
+                          hx-confirm="{{ _('Are you sure you want to delete this step?') }}">
+                      <button type="submit"
+                              class="inline-flex items-center justify-center p-2 text-red-500 rounded-lg hover:text-white hover:bg-red-500 dark:text-red-400 dark:hover:text-white dark:hover:bg-red-600">
+                        <svg class="w-5 h-5"
+                             fill="currentColor"
+                             viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd">
+                          </path>
+                        </svg>
+                      </button>
+                    </form>
+                  </span>
+                  <svg class="drag w-4 h-4 cursor-grab text-gray-400 ml-3"
+                       xmlns="http://www.w3.org/2000/svg"
+                       viewBox="0 0 20 20"
+                       fill="currentColor">
+                    <path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" />
+                  </svg>
+                </li>
+              {% endfor %}
+            {% else %}
+              <li class="empty-state-item flex flex-col items-center justify-center text-center py-8 text-gray-400 dark:text-gray-500 w-full list-none">
+                <svg class="w-12 h-12 mb-2 opacity-50"
+                     fill="none"
+                     stroke="currentColor"
+                     viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                  </path>
+                </svg>
+                <p class="text-sm">{{ _("No pre-invite steps configured") }}</p>
+              </li>
+            {% endif %}
+          </ol>
+        </div>
+        <div class="wizard-category-section border rounded-lg p-4 bg-gray-50 dark:bg-gray-900 dark:border-gray-600">
+          <h3 class="text-base font-semibold text-gray-800 dark:text-gray-100 mb-2">{{ _("After Invite Acceptance") }}</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
+            {{ _("Steps shown to users after they accept the invitation") }}
+          </p>
+          <ol class="bundle-steps bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700 {% if not post_steps %}min-h-[120px] flex items-center justify-center{% endif %}"
+              data-bundle="{{ b.id }}"
+              data-category="post_invite"
+              data-bundle-column="1"
+              data-reorder-url="{{ url_for('wizard_admin.reorder_bundle', bundle_id=b.id) }}">
+            {% if post_steps %}
+              {% for bs in post_steps %}
+                {% set phase_value = bs.step.category %}
+                <li class="flex items-center justify-between px-4 py-3"
+                    data-id="{{ bs.step.id }}"
+                    data-category="{{ phase_value or '' }}"
+                    data-original-category="{{ bs.step.category if bs.step else '' }}">
+                  <svg class="drag w-4 h-4 cursor-grab text-gray-400 mr-3"
+                       xmlns="http://www.w3.org/2000/svg"
+                       viewBox="0 0 20 20"
+                       fill="currentColor">
+                    <path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" />
+                  </svg>
+                  <div class="flex-1 flex items-center gap-2">
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">{{ bs.step.title or _("Untitled") }}</span>
+                  </div>
+                  <span class="flex items-center gap-2">
+                    <button hx-get="{{ url_for('wizard_admin.edit_step', step_id=bs.step.id) }}"
+                            hx-target="#step-modal"
+                            hx-trigger="click"
+                            class="inline-flex items-center justify-center p-2 text-gray-800 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-600">
+                      <svg class="w-5 h-5"
+                           fill="currentColor"
+                           viewBox="0 0 20 20"
+                           xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                        </path>
+                      </svg>
+                    </button>
+                    <form method="post"
+                          action="{{ url_for('wizard_admin.delete_step', step_id=bs.step.id) }}"
+                          class="inline"
+                          hx-post="{{ url_for('wizard_admin.delete_step', step_id=bs.step.id) }}"
+                          hx-target="#tab-body"
+                          hx-swap="innerHTML"
+                          hx-confirm="{{ _('Are you sure you want to delete this step?') }}">
+                      <button type="submit"
+                              class="inline-flex items-center justify-center p-2 text-red-500 rounded-lg hover:text-white hover:bg-red-500 dark:text-red-400 dark:hover:text-white dark:hover:bg-red-600">
+                        <svg class="w-5 h-5"
+                             fill="currentColor"
+                             viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd">
+                          </path>
+                        </svg>
+                      </button>
+                    </form>
+                  </span>
+                  <svg class="drag w-4 h-4 cursor-grab text-gray-400 ml-3"
+                       xmlns="http://www.w3.org/2000/svg"
+                       viewBox="0 0 20 20"
+                       fill="currentColor">
+                    <path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" />
+                  </svg>
+                </li>
+              {% endfor %}
+            {% else %}
+              <li class="empty-state-item flex flex-col items-center justify-center text-center py-8 text-gray-400 dark:text-gray-500 w-full list-none">
+                <svg class="w-12 h-12 mb-2 opacity-50"
+                     fill="none"
+                     stroke="currentColor"
+                     viewBox="0 0 24 24"
+                     xmlns="http://www.w3.org/2000/svg">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                  </path>
+                </svg>
+                <p class="text-sm">{{ _("No post-invite steps configured") }}</p>
+              </li>
+            {% endif %}
+          </ol>
+        </div>
+        {% if other_steps %}
+          <div class="wizard-category-section border rounded-lg p-4 bg-gray-50 dark:bg-gray-900 dark:border-gray-600 lg:col-span-2">
+            <h3 class="text-base font-semibold text-gray-800 dark:text-gray-100 mb-2">{{ _("Additional Categories") }}</h3>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">
+              {{ _("Steps that use custom categories keep their order here.") }}
+            </p>
+            <ol class="bundle-steps bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 divide-y divide-gray-200 dark:divide-gray-700"
+                data-bundle="{{ b.id }}"
+                data-category="other"
+                data-bundle-column="2"
+                data-reorder-url="{{ url_for('wizard_admin.reorder_bundle', bundle_id=b.id) }}">
+              {% for bs in other_steps %}
+                {% set phase_value = bs.step.category %}
+                <li class="flex items-center justify-between px-4 py-3"
+                    data-id="{{ bs.step.id }}"
+                    data-category="{{ phase_value or '' }}"
+                    data-original-category="{{ bs.step.category if bs.step else '' }}">
+                  <svg class="drag w-4 h-4 cursor-grab text-gray-400 mr-3"
+                       xmlns="http://www.w3.org/2000/svg"
+                       viewBox="0 0 20 20"
+                       fill="currentColor">
+                    <path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" />
+                  </svg>
+                  <div class="flex-1 flex items-center gap-2">
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">{{ bs.step.title or _("Untitled") }}</span>
+                  </div>
+                  <span class="flex items-center gap-2">
+                    <button hx-get="{{ url_for('wizard_admin.edit_step', step_id=bs.step.id) }}"
+                            hx-target="#step-modal"
+                            hx-trigger="click"
+                            class="inline-flex items-center justify-center p-2 text-gray-800 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-600">
+                      <svg class="w-5 h-5"
+                           fill="currentColor"
+                           viewBox="0 0 20 20"
+                           xmlns="http://www.w3.org/2000/svg">
+                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z">
+                        </path>
+                      </svg>
+                    </button>
+                    <form method="post"
+                          action="{{ url_for('wizard_admin.delete_step', step_id=bs.step.id) }}"
+                          class="inline"
+                          hx-post="{{ url_for('wizard_admin.delete_step', step_id=bs.step.id) }}"
+                          hx-target="#tab-body"
+                          hx-swap="innerHTML"
+                          hx-confirm="{{ _('Are you sure you want to delete this step?') }}">
+                      <button type="submit"
+                              class="inline-flex items-center justify-center p-2 text-red-500 rounded-lg hover:text-white hover:bg-red-500 dark:text-red-400 dark:hover:text-white dark:hover:bg-red-600">
+                        <svg class="w-5 h-5"
+                             fill="currentColor"
+                             viewBox="0 0 20 20"
+                             xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd">
+                          </path>
+                        </svg>
+                      </button>
+                    </form>
+                  </span>
+                  <svg class="drag w-4 h-4 cursor-grab text-gray-400 ml-3"
+                       xmlns="http://www.w3.org/2000/svg"
+                       viewBox="0 0 20 20"
+                       fill="currentColor">
+                    <path fill-rule="evenodd" d="M7 4a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 9a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0zM7 14a1 1 0 112 0 1 1 0 01-2 0zm4 0a1 1 0 112 0 1 1 0 01-2 0z" clip-rule="evenodd" />
+                  </svg>
+                </li>
+              {% endfor %}
+            </ol>
+          </div>
+        {% endif %}
+      </div>
+
+      {% if orphaned_steps %}
+        <div class="mt-4 border border-dashed border-red-500/50 dark:border-red-400/40 rounded-lg p-4 bg-red-50/40 dark:bg-red-900/10">
+          <h4 class="text-sm font-semibold text-red-600 dark:text-red-400 mb-2">{{ _("Orphaned Steps") }}</h4>
+          <p class="text-xs text-red-500 dark:text-red-300 mb-3">{{ _("These entries no longer have an associated step. Remove them to keep the bundle tidy.") }}</p>
+          <ol class="space-y-2">
+            {% for bs in orphaned_steps %}
+              <li class="flex items-center justify-between bg-white/80 dark:bg-gray-800/70 rounded-md px-3 py-2">
+                <span class="text-sm text-red-600 dark:text-red-400">{{ _("Step deleted (orphaned)") }}</span>
                 <form method="post"
                       action="{{ url_for('wizard_admin.delete_bundle_step', bundle_step_id=bs.id) }}"
                       class="inline"
@@ -141,7 +316,7 @@
                       hx-swap="innerHTML"
                       hx-confirm="{{ _('Are you sure you want to remove this orphaned step?') }}">
                   <button type="submit"
-                          class="inline-flex items-center justify-center p-2 text-red-500 rounded-lg hover:text-white hover:bg-red-500 dark:text-red-400 dark:hover:text-white dark:hover:bg-red-600"
+                          class="inline-flex items-center justify-center p-2 text-red-500 rounded-lg hover:text-white hover:bg-red-500 dark:text-red-300 dark:hover:text-white dark:hover:bg-red-600"
                           title="{{ _('Remove orphaned step') }}">
                     <svg class="w-5 h-5"
                          fill="currentColor"
@@ -152,15 +327,11 @@
                     </svg>
                   </button>
                 </form>
-              </span>
-            </li>
-          {% endif %}
-        {% endfor %}
-      </ol>
-      <button hx-get="{{ url_for('wizard_admin.create_step', bundle_id=b.id, simple=1) }}"
-              hx-target="#step-modal"
-              hx-trigger="click"
-              class="mt-3 px-2 py-1 text-xs rounded bg-secondary text-white">{{ _("Add step") }}</button>
+              </li>
+            {% endfor %}
+          </ol>
+        </div>
+      {% endif %}
     </div>
   {% endfor %}
 </section>
