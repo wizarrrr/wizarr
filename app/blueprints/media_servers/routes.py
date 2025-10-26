@@ -14,7 +14,16 @@ from flask import (
 from flask_login import login_required
 
 from app.extensions import db
-from app.models import Library, MediaServer, User
+from app.models import (
+    ActivitySession,
+    ExpiredUser,
+    HistoricalImportJob,
+    Invitation,
+    Library,
+    MediaServer,
+    User,
+    invitation_users,
+)
 from app.services.media.service import list_users_for_server, scan_libraries_for_server
 from app.services.servers import (
     check_audiobookshelf,
@@ -218,20 +227,37 @@ def edit_server(server_id):
 @media_servers_bp.route("/", methods=["DELETE"])
 @login_required
 def delete_server():
-    server_id = request.args.get("delete")
-    if server_id:
-        server_id = int(server_id)
-        # 1) Delete local DB users that belong to this server so no ghost
-        #    accounts linger once the server entry is gone.
-        (
+    server_id = request.args.get("delete", type=int)
+    if server_id is not None:
+        server = MediaServer.query.get(server_id)
+        if server:
+            # Remove dependent rows that do not cascade automatically.
             User.query.filter(User.server_id == server_id).delete(
                 synchronize_session=False
             )
-        )
+            Library.query.filter(Library.server_id == server_id).delete(
+                synchronize_session=False
+            )
+            ExpiredUser.query.filter(ExpiredUser.server_id == server_id).delete(
+                synchronize_session=False
+            )
+            ActivitySession.query.filter(ActivitySession.server_id == server_id).delete(
+                synchronize_session=False
+            )
+            HistoricalImportJob.query.filter(
+                HistoricalImportJob.server_id == server_id
+            ).delete(synchronize_session=False)
+            Invitation.query.filter(Invitation.server_id == server_id).update(
+                {"server_id": None}, synchronize_session=False
+            )
+            db.session.execute(
+                invitation_users.update()
+                .where(invitation_users.c.server_id == server_id)
+                .values(server_id=None)
+            )
 
-        # 2) Finally remove the MediaServer itself.
-        MediaServer.query.filter_by(id=server_id).delete(synchronize_session=False)
-        db.session.commit()
+            db.session.delete(server)
+            db.session.commit()
     if request.headers.get("HX-Request"):
         servers = MediaServer.query.order_by(MediaServer.name).all()
         return render_template("settings/servers.html", servers=servers)
