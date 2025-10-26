@@ -18,6 +18,7 @@ def admin_user(app):
     """Create an admin account for authenticated requests."""
     with app.app_context():
         created = False
+        previous_hash = None
         admin = AdminAccount.query.filter_by(username="testadmin").first()
         if not admin:
             admin = AdminAccount(username="testadmin")
@@ -25,10 +26,20 @@ def admin_user(app):
             db.session.add(admin)
             db.session.commit()
             created = True
+        else:
+            previous_hash = admin.password_hash
+            admin.set_password("TestPass123")
+            db.session.commit()
         yield admin
         if created:
             db.session.delete(admin)
             db.session.commit()
+        elif previous_hash is not None:
+            # Restore the original password hash so other tests keep their expectations
+            admin = AdminAccount.query.filter_by(username="testadmin").first()
+            if admin:
+                admin.password_hash = previous_hash
+                db.session.commit()
 
 
 @pytest.fixture

@@ -8,7 +8,7 @@ from app.models import AdminAccount, ApiKey, Library, MediaServer, Settings
 
 
 @pytest.fixture
-def api_key(app):
+def api_key(app, session):
     """Create a test API key."""
     with app.app_context():
         # Create admin account if it doesn't exist
@@ -45,7 +45,7 @@ def api_key(app):
 
 
 @pytest.fixture
-def test_server(app):
+def test_server(app, session):
     """Create a test media server."""
     with app.app_context():
         # Create admin account if it doesn't exist
