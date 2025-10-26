@@ -17,14 +17,18 @@ from app.models import AdminAccount, Invitation, Library, MediaServer
 def admin_user(app):
     """Create an admin account for authenticated requests."""
     with app.app_context():
-        admin = AdminAccount(username="testadmin")
-        admin.set_password("TestPass123")
-        db.session.add(admin)
-        db.session.commit()
+        created = False
+        admin = AdminAccount.query.filter_by(username="testadmin").first()
+        if not admin:
+            admin = AdminAccount(username="testadmin")
+            admin.set_password("TestPass123")
+            db.session.add(admin)
+            db.session.commit()
+            created = True
         yield admin
-        # Cleanup
-        db.session.delete(admin)
-        db.session.commit()
+        if created:
+            db.session.delete(admin)
+            db.session.commit()
 
 
 @pytest.fixture

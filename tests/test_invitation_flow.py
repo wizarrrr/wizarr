@@ -62,6 +62,7 @@ class TestInvitationFlowManager:
         mock_invitation.code = "TEST123"
         mock_invitation.servers = []
         mock_invitation.server = None
+        mock_invitation.wizard_bundle_id = None
 
         mock_query = Mock()
         mock_query.filter.return_value.first.return_value = mock_invitation
@@ -82,6 +83,7 @@ class TestInvitationFlowManager:
                 assert result.status in [
                     ProcessingStatus.AUTHENTICATION_REQUIRED,
                     ProcessingStatus.OAUTH_PENDING,
+                    ProcessingStatus.REDIRECT_REQUIRED,
                 ]
 
     def test_get_invitation_servers_no_servers(self):
@@ -369,6 +371,7 @@ class TestFormBasedWorkflow:
         # Mock invitation
         mock_invitation = Mock()
         mock_invitation.code = "TEST123"
+        mock_invitation.wizard_bundle_id = None
 
         # Mock server processing
         with patch.object(workflow, "_process_servers") as mock_process:

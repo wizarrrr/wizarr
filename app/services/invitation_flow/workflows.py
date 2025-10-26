@@ -156,8 +156,9 @@ class InvitationWorkflow(ABC):
         """Create success result with wizard redirect."""
         invitation_code = invitation.code
         session["wizard_access"] = invitation_code
-        if invitation.wizard_bundle_id:
-            session["wizard_bundle_id"] = invitation.wizard_bundle_id
+        bundle_id = getattr(invitation, "wizard_bundle_id", None)
+        if bundle_id:
+            session["wizard_bundle_id"] = bundle_id
         else:
             session.pop("wizard_bundle_id", None)
 
@@ -169,7 +170,7 @@ class InvitationWorkflow(ABC):
             message = f"Accounts created on {len(successful)} of {len(successful) + len(failed)} servers"
 
         redirect_url = "/wizard/"
-        if invitation.wizard_bundle_id:
+        if bundle_id:
             redirect_url = url_for("wizard.bundle_view", idx=0)
 
         return InvitationResult(
@@ -181,7 +182,7 @@ class InvitationWorkflow(ABC):
             session_data={
                 "wizard_access": invitation_code,
                 "invitation_in_progress": True,
-                "wizard_bundle_id": invitation.wizard_bundle_id,
+                "wizard_bundle_id": bundle_id,
             },
         )
 

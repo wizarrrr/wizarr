@@ -102,9 +102,9 @@ def session(app):
         db.session.execute(db.text("DELETE FROM invitation_server"))
         db.session.execute(db.text("DELETE FROM invitation_user"))
         # Main tables
-        db.session.query(User).delete()
         db.session.query(WizardStep).delete()
         db.session.query(Invitation).delete()
+        db.session.query(User).delete()
         db.session.query(Library).delete()
         db.session.query(MediaServer).delete()
         # Tables with FK to AdminAccount - delete before AdminAccount
@@ -131,9 +131,9 @@ def session(app):
         db.session.execute(db.text("DELETE FROM invitation_server"))
         db.session.execute(db.text("DELETE FROM invitation_user"))
         # Main tables
-        db.session.query(User).delete()
         db.session.query(WizardStep).delete()
         db.session.query(Invitation).delete()
+        db.session.query(User).delete()
         db.session.query(Library).delete()
         db.session.query(MediaServer).delete()
         # Tables with FK to AdminAccount - delete before AdminAccount

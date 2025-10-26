@@ -84,8 +84,9 @@ class InvitationFlowManager:
                 )
 
             # Track bundle selection in session for downstream routes
-            if invitation.wizard_bundle_id:
-                session["wizard_bundle_id"] = invitation.wizard_bundle_id
+            bundle_id = getattr(invitation, "wizard_bundle_id", None)
+            if bundle_id:
+                session["wizard_bundle_id"] = bundle_id
             else:
                 session.pop("wizard_bundle_id", None)
 
@@ -118,9 +119,7 @@ class InvitationFlowManager:
                     redirect_url=redirect_url,
                     session_data={
                         "invitation_in_progress": True,
-                        "wizard_bundle_id": invitation.wizard_bundle_id
-                        if invitation.wizard_bundle_id
-                        else None,
+                        "wizard_bundle_id": bundle_id if bundle_id else None,
                     },
                 )
 
@@ -128,9 +127,9 @@ class InvitationFlowManager:
             # (Requirements 7.4, 7.5: Allow access if pre-wizard complete or no pre-invite steps)
             workflow = WorkflowFactory.create_workflow(servers)
             result = workflow.show_initial_form(invitation, servers)
-            if invitation.wizard_bundle_id:
+            if bundle_id:
                 session_data = result.session_data or {}
-                session_data["wizard_bundle_id"] = invitation.wizard_bundle_id
+                session_data["wizard_bundle_id"] = bundle_id
                 result.session_data = session_data
             else:
                 session_data = result.session_data or {}
@@ -224,10 +223,11 @@ class InvitationFlowManager:
                 - bool indicating if pre-invite steps exist
                 - optional redirect URL (used for bundle overrides)
         """
-        if invitation.wizard_bundle_id:
+        bundle_id = getattr(invitation, "wizard_bundle_id", None)
+        if bundle_id:
             bundle_steps = (
                 WizardBundleStep.query.options(joinedload(WizardBundleStep.step))
-                .filter(WizardBundleStep.bundle_id == invitation.wizard_bundle_id)
+                .filter(WizardBundleStep.bundle_id == bundle_id)
                 .order_by(WizardBundleStep.position)
                 .all()
             )
