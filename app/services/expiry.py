@@ -334,7 +334,7 @@ def get_expiring_this_week_users() -> list[dict]:
         user_expires = user.expires
         if user_expires.tzinfo is None:
             user_expires = user_expires.replace(tzinfo=datetime.UTC)
-        
+
         days_left = (user_expires - now).total_seconds() / 86400
         days_left_int = max(1, round(days_left))  # Ensure it's an integer, minimum 1
         result.append(
