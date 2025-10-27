@@ -89,7 +89,7 @@
               <div class="flex-1 min-w-0">
                 <p class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ user.username }}</p>
                 <p class="text-xs text-gray-500 dark:text-gray-400 truncate">
-                  {{ inv.used_at.strftime("%Y-%m-%d %H:%M") if inv.used_at else inv.created.strftime('%Y-%m-%d %H:%M') }}
+                  {{ (inv.used_at or inv.created)|local_date("%Y-%m-%d %H:%M") }}
                 </p>
               </div>
               <div class="ml-1.5 flex items-center gap-1 flex-shrink-0">
