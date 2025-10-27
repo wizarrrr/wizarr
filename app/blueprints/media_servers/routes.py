@@ -14,16 +14,7 @@ from flask import (
 from flask_login import login_required
 
 from app.extensions import db
-from app.models import (
-    ActivitySession,
-    ExpiredUser,
-    HistoricalImportJob,
-    Invitation,
-    Library,
-    MediaServer,
-    User,
-    invitation_users,
-)
+from app.models import Library, MediaServer
 from app.services.media.service import list_users_for_server, scan_libraries_for_server
 from app.services.servers import (
     check_audiobookshelf,
@@ -227,35 +218,23 @@ def edit_server(server_id):
 @media_servers_bp.route("/", methods=["DELETE"])
 @login_required
 def delete_server():
+    """Delete a media server and all its dependent records.
+
+    Cascade deletes (via foreign key constraints) will automatically remove:
+    - Users (User.server_id)
+    - Libraries (Library.server_id)
+    - ExpiredUsers (ExpiredUser.server_id)
+    - ActivitySessions (ActivitySession.server_id)
+    - HistoricalImportJobs (HistoricalImportJob.server_id)
+
+    SET NULL (via foreign key constraints) will preserve:
+    - Invitations (Invitation.server_id will be set to NULL)
+    """
     server_id = request.args.get("delete", type=int)
     if server_id is not None:
         server = MediaServer.query.get(server_id)
         if server:
-            # Remove dependent rows that do not cascade automatically.
-            User.query.filter(User.server_id == server_id).delete(
-                synchronize_session=False
-            )
-            Library.query.filter(Library.server_id == server_id).delete(
-                synchronize_session=False
-            )
-            ExpiredUser.query.filter(ExpiredUser.server_id == server_id).delete(
-                synchronize_session=False
-            )
-            ActivitySession.query.filter(ActivitySession.server_id == server_id).delete(
-                synchronize_session=False
-            )
-            HistoricalImportJob.query.filter(
-                HistoricalImportJob.server_id == server_id
-            ).delete(synchronize_session=False)
-            Invitation.query.filter(Invitation.server_id == server_id).update(
-                {"server_id": None}, synchronize_session=False
-            )
-            db.session.execute(
-                invitation_users.update()
-                .where(invitation_users.c.server_id == server_id)
-                .values(server_id=None)
-            )
-
+            # Database CASCADE constraints handle all dependent records automatically
             db.session.delete(server)
             db.session.commit()
     if request.headers.get("HX-Request"):

@@ -81,7 +81,9 @@ class Invitation(db.Model):
 
     # DEPRECATED: Legacy single-user relationship for backward compatibility
     # Will be removed in a future version - use 'users' relationship instead
-    used_by_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=True)
+    used_by_id = db.Column(
+        db.Integer, db.ForeignKey("user.id", ondelete="SET NULL"), nullable=True
+    )
     used_by = db.relationship("User", foreign_keys=[used_by_id])
 
     # NEW: Many-to-many relationship to track all users who used this invitation
@@ -98,7 +100,9 @@ class Invitation(db.Model):
     plex_allow_sync = db.Column(db.Boolean, default=False, nullable=True)
     plex_home = db.Column(db.Boolean, default=False, nullable=True)
     plex_allow_channels = db.Column(db.Boolean, default=False, nullable=True)
-    server_id = db.Column(db.Integer, db.ForeignKey("media_server.id"), nullable=True)
+    server_id = db.Column(
+        db.Integer, db.ForeignKey("media_server.id", ondelete="SET NULL"), nullable=True
+    )
     server = db.relationship(
         "MediaServer", backref=db.backref("primary_invites", lazy=True)
     )
@@ -170,7 +174,9 @@ class User(db.Model, UserMixin):
     code = db.Column(db.String, nullable=False)
     photo = db.Column(db.String, nullable=True)
     expires = db.Column(db.DateTime, nullable=True)
-    server_id = db.Column(db.Integer, db.ForeignKey("media_server.id"), nullable=True)
+    server_id = db.Column(
+        db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=True
+    )
     server = db.relationship("MediaServer", backref=db.backref("users", lazy=True))
     identity_id = db.Column(db.Integer, db.ForeignKey("identity.id"), nullable=True)
     identity = db.relationship("Identity", backref=db.backref("accounts", lazy=True))
@@ -434,7 +440,9 @@ class Library(db.Model):
     external_id = db.Column(db.String, nullable=False)  # e.g. Plex folder ID
     name = db.Column(db.String, nullable=False)
     enabled = db.Column(db.Boolean, default=True, nullable=False)
-    server_id = db.Column(db.Integer, db.ForeignKey("media_server.id"), nullable=True)
+    server_id = db.Column(
+        db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=True
+    )
     server = db.relationship("MediaServer", backref=db.backref("libraries", lazy=True))
 
     # backref gives Invitation.libraries automatically
@@ -660,7 +668,9 @@ class ExpiredUser(db.Model):
     username = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=True)
     invitation_code = db.Column(db.String, nullable=True)
-    server_id = db.Column(db.Integer, db.ForeignKey("media_server.id"), nullable=True)
+    server_id = db.Column(
+        db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=True
+    )
     server = db.relationship(
         "MediaServer", backref=db.backref("expired_users", lazy=True)
     )
@@ -679,7 +689,9 @@ class ActivitySession(db.Model):
     __tablename__ = "activity_session"
 
     id = db.Column(db.Integer, primary_key=True)
-    server_id = db.Column(db.Integer, db.ForeignKey("media_server.id"), nullable=False)
+    server_id = db.Column(
+        db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=False
+    )
     session_id = db.Column(db.String, nullable=False, index=True)
     reference_id = db.Column(db.Integer, nullable=True, index=True)
     user_name = db.Column(db.String, nullable=False, index=True)
@@ -705,7 +717,10 @@ class ActivitySession(db.Model):
     artwork_url = db.Column(db.String, nullable=True)
     thumbnail_url = db.Column(db.String, nullable=True)
     wizarr_user_id = db.Column(
-        db.Integer, db.ForeignKey("user.id"), nullable=True, index=True
+        db.Integer,
+        db.ForeignKey("user.id", ondelete="CASCADE"),
+        nullable=True,
+        index=True,
     )
     wizarr_identity_id = db.Column(
         db.Integer, db.ForeignKey("identity.id"), nullable=True, index=True
@@ -866,7 +881,10 @@ class HistoricalImportJob(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     server_id = db.Column(
-        db.Integer, db.ForeignKey("media_server.id"), nullable=False, index=True
+        db.Integer,
+        db.ForeignKey("media_server.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
     )
     days_back = db.Column(db.Integer, nullable=False)
     max_results = db.Column(db.Integer, nullable=True)
