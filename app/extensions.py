@@ -1,3 +1,5 @@
+import os
+
 from flask import current_app, request, session
 from flask_apscheduler import APScheduler
 from flask_babel import Babel
@@ -50,8 +52,6 @@ api.authorizations = {
 # Initialize with app
 def init_extensions(app):
     """Initialize Flask extensions with clean separation of concerns."""
-    import os
-
     # Core extensions initialization
     sess.init_app(app)
     babel.init_app(app, locale_selector=_select_locale)
@@ -169,16 +169,54 @@ def load_user(user_id):
     return None
 
 
+def _normalize_locale(code: str | None) -> str | None:
+    """Normalise locale codes to the internal form, handling case and separators."""
+    if not code:
+        return None
+
+    supported = current_app.config["LANGUAGES"]
+    candidate = code.strip()
+    if not candidate:
+        return None
+
+    candidate = candidate.replace("-", "_")
+    lowered_map = {key.lower(): key for key in supported}
+
+    if candidate.lower() in lowered_map:
+        return lowered_map[candidate.lower()]
+
+    base = candidate.split("_", 1)[0]
+    return lowered_map.get(base.lower())
+
+
 def _select_locale():
-    if forced := current_app.config.get("FORCE_LANGUAGE"):
-        return forced
+    supported_keys = current_app.config["LANGUAGES"].keys()
+    forced = current_app.config.get("FORCE_LANGUAGE") or os.getenv("FORCE_LANGUAGE")
+    if forced:
+        normalised = _normalize_locale(forced)
+        if normalised:
+            return normalised
+        current_app.logger.warning(
+            "FORCE_LANGUAGE=%s ignored - unsupported locale", forced
+        )
+
     if arg := request.args.get("lang"):
-        session["lang"] = arg
-        return arg
-    return session.get(
-        "lang",
-        request.accept_languages.best_match(current_app.config["LANGUAGES"].keys()),
-    )
+        normalised = _normalize_locale(arg)
+        if normalised:
+            session["lang"] = normalised
+            return normalised
+
+    if stored := session.get("lang"):
+        if normalised := _normalize_locale(stored):
+            if normalised != stored:
+                session["lang"] = normalised
+            return normalised
+        session.pop("lang", None)
+
+    if best := request.accept_languages.best_match(supported_keys):
+        return best
+
+    return current_app.config.get("BABEL_DEFAULT_LOCALE", "en")
 
 
 def _configure_sqlite_for_concurrency(app):
