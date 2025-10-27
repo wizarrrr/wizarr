@@ -59,9 +59,11 @@ WORKDIR /app
 # Copy Python environment from builder stage (includes project)
 COPY --chown=1000:1000 --from=builder /app/.venv /app/.venv
 
-# Copy application code and built assets
-COPY --chown=1000:1000 --from=builder /app/app /app/app
+# Copy source files first (run.py, gunicorn.conf.py, migrations/, etc.)
 COPY --chown=1000:1000 . /app
+
+# Then overwrite app/ with built version (has compiled translations)
+COPY --chown=1000:1000 --from=builder /app/app /app/app
 
 # Create data directory for database (backward compatibility)
 RUN mkdir -p /data/database
