@@ -41,6 +41,9 @@ unraid.xml
 # Node modules (handled separately in multi-stage build)
 node_modules/
 
+# App directory (copied from builder with compiled translations)
+app/
+
 # Built assets (external dependencies will be built in container)
 app/static/css/main.css
 app/static/js/sortable.min.js
