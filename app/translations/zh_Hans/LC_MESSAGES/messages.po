@@ -3,148 +3,136 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-10-28 03:47+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2025-10-28 12:56+0000\n"
+"Last-Translator: wolfling45 <tdwangfei@gmail.com>\n"
+"Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
+"projects/wizarr/wizarr-universal/zh_Hans/>\n"
 "Language: zh_Hans\n"
-"Language-Team: zh_Hans <LL@li.org>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
-#, fuzzy
 msgid "Failed to load settings"
-msgstr "加载统计数据失败"
+msgstr "加载设置失败"
 
 #: app/activity/api/blueprint.py:256
-#, fuzzy
 msgid "Failed to load dashboard data"
-msgstr "加载服务器健康状况失败"
+msgstr "加载仪表盘数据失败"
 
 #: app/activity/api/blueprint.py:279
-#, fuzzy
 msgid "Failed to load history data"
-msgstr "加载服务器健康状况失败"
+msgstr "加载历史数据失败"
 
 #: app/activity/api/blueprint.py:346
-#, fuzzy
 msgid "Failed to load activity data"
-msgstr "加载服务器健康状况失败"
+msgstr "加载活动数据失败"
 
 #: app/activity/api/blueprint.py:364
-#, fuzzy
 msgid "Failed to get activity statistics"
-msgstr "加载统计数据失败"
+msgstr "获取活动统计数据失败"
 
 #: app/activity/api/blueprint.py:373
 msgid "Database not available"
-msgstr ""
+msgstr "数据库不可用"
 
 #: app/activity/api/blueprint.py:387
-#, fuzzy
 msgid "Failed to get session details"
-msgstr "重置通行密钥失败"
+msgstr "获取会话详情失败"
 
 #: app/activity/api/blueprint.py:469
 msgid "Failed to export activity data"
-msgstr ""
+msgstr "导出活动数据失败"
 
 #: app/activity/api/blueprint.py:488
-#, fuzzy
 msgid "Monitoring restarted"
-msgstr "管理员创建"
+msgstr "监控已重新启动"
 
 #: app/activity/api/blueprint.py:491
 msgid "Monitor not available"
-msgstr ""
+msgstr "监控不可用"
 
 #: app/activity/api/blueprint.py:501
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
-msgstr ""
+msgstr "已清理 {} 条旧活动记录"
 
 #: app/activity/api/blueprint.py:514
 #, python-brace-format
 msgid "Ended {} stale sessions"
-msgstr ""
+msgstr "已终止 {} 个过期的会话"
 
 #: app/activity/api/blueprint.py:518
-#, fuzzy
 msgid "Unknown action"
-msgstr "未知连接类型"
+msgstr "未知操作"
 
 #: app/activity/api/blueprint.py:524
-#, fuzzy
 msgid "Failed to update settings"
-msgstr "加载统计数据失败"
+msgstr "更新设置失败"
 
 #: app/activity/api/blueprint.py:539
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
-msgstr ""
+msgstr "活动数据已成功删除（{} 条记录）。"
 
 #: app/activity/api/blueprint.py:544
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to delete activity data: {}"
-msgstr "删除通行密钥失败"
+msgstr "删除活动数据失败：{}"
 
 #: app/activity/api/blueprint.py:564 app/activity/api/blueprint.py:623
-#, fuzzy
 msgid "Please select a media server."
-msgstr "请至少选择一个服务器进行邀请。"
+msgstr "请选择一个媒体服务器。"
 
 #: app/activity/api/blueprint.py:575
-#, fuzzy
 msgid "Media server not found."
-msgstr "媒体服务器"
+msgstr "未找到媒体服务器。"
 
 #: app/activity/api/blueprint.py:586
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, "
 "Emby, and AudiobookShelf servers."
-msgstr ""
+msgstr "目前仅支持 Plex、Jellyfin、Emby 和 AudiobookShelf 服务器的历史数据导入。"
 
 #: app/activity/api/blueprint.py:597
 #, python-brace-format
 msgid "Historical import job #{job_id} started for {server} (last {days} days)."
-msgstr ""
+msgstr "历史导入任务 #{job_id} 已为 {server} 启动（最近 {days} 天）。"
 
 #: app/activity/api/blueprint.py:607
 #, python-brace-format
 msgid "Failed to import historical data: {}"
-msgstr ""
+msgstr "导入历史数据失败：{}"
 
 #: app/activity/api/blueprint.py:630
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully cleared {} historical entries."
-msgstr "成功导入 {} 个项目"
+msgstr "成功清除 {} 条历史记录。"
 
 #: app/activity/api/blueprint.py:637 app/activity/api/blueprint.py:646
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to clear historical data: {}"
-msgstr "加载统计数据失败"
+msgstr "清除历史数据失败：{}"
 
 #: app/activity/api/blueprint.py:638
-#, fuzzy
 msgid "Unknown error"
-msgstr "发生未知错误"
+msgstr "未知错误"
 
 #: app/activity/api/blueprint.py:676
 msgid "Cannot remove a job that is still queued or running."
-msgstr ""
+msgstr "无法删除仍在队列中或正在运行的任务。"
 
 #: app/activity/api/blueprint.py:704
-#, fuzzy
 msgid "An internal error has occurred."
-msgstr "发生未知错误"
+msgstr "发生了一个内部错误。"
 
 #: app/blueprints/admin/routes.py:322
 #: app/templates/admin/user_details_modal.html:56
@@ -303,67 +291,62 @@ msgstr "管理员账户创建成功 – 欢迎！"
 msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
-msgstr ""
+msgstr "您的邀请已过期或不再有效。请请求一个新的邀请。"
 
 #: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1158
 msgid "Error Loading Step"
-msgstr ""
+msgstr "加载步骤时出错"
 
 #: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1161
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
-msgstr ""
+msgstr "无法加载此步骤。请联系管理员或跳到下一步。"
 
 #: app/blueprints/wizard/routes.py:498 app/blueprints/wizard/routes.py:505
 #: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:1059
 #: app/blueprints/wizard/routes.py:1067
-#, fuzzy
 msgid "Invalid or expired invitation"
-msgstr "无效的邀请"
+msgstr "邀请无效或已过期"
 
 #: app/blueprints/wizard/routes.py:558 app/blueprints/wizard/routes.py:724
 msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
-msgstr ""
+msgstr "未配置媒体服务器。请联系管理员设置媒体服务器。"
 
 #: app/blueprints/wizard/routes.py:575
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
-msgstr ""
+msgstr "无法加载向导步骤。正在继续进行邀请接受。"
 
 #: app/blueprints/wizard/routes.py:599 app/blueprints/wizard/routes.py:910
 #: app/blueprints/wizard/routes.py:1180 app/templates/wizard/steps.html:20
-#, fuzzy
 msgid "Continue to Invite"
-msgstr "新建邀请"
+msgstr "继续邀请"
 
 #: app/blueprints/wizard/routes.py:652
 msgid "Please log in to continue"
-msgstr ""
+msgstr "请登录以继续操作"
 
 #: app/blueprints/wizard/routes.py:764
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
-msgstr ""
+msgstr "无法加载向导步骤。设置已完成！欢迎使用您的媒体服务器。"
 
 #: app/blueprints/wizard/routes.py:797
 msgid "Setup complete! Welcome to your media server."
-msgstr ""
+msgstr "设置已完成！欢迎使用您的媒体服务器。"
 
 #: app/blueprints/wizard/routes.py:895
-#, fuzzy
 msgid "Unable to load wizard configuration. Please try again."
-msgstr "无法加载当前播放内容"
+msgstr "无法加载向导配置。请重试。"
 
 #: app/blueprints/wizard/routes.py:1037
-#, fuzzy
 msgid "Unable to load wizard bundle. Please try again."
-msgstr "无法加载当前播放内容"
+msgstr "无法加载向导组合包。请重试。"
 
 #: app/blueprints/wizard/routes.py:1088
-#, fuzzy
 msgid "Unable to load wizard steps. Please try again."
-msgstr "无法加载当前播放内容"
+msgstr "无法加载向导步骤。请重试。"
 
 #: app/blueprints/wizard_admin/routes.py:126
 #, python-brace-format
@@ -393,15 +376,15 @@ msgstr "步骤已删除"
 
 #: app/blueprints/wizard_admin/routes.py:478
 msgid "Bundle created"
-msgstr "合集已创建"
+msgstr "组合包已创建"
 
 #: app/blueprints/wizard_admin/routes.py:508
 msgid "Bundle updated"
-msgstr "合集已更新"
+msgstr "组合包已更新"
 
 #: app/blueprints/wizard_admin/routes.py:532
 msgid "Bundle deleted"
-msgstr "合集已删除"
+msgstr "组合包已删除"
 
 #: app/blueprints/wizard_admin/routes.py:684
 msgid "Steps added"
@@ -446,26 +429,26 @@ msgstr "无效的 JSON 文件"
 #: app/blueprints/wizard_admin/routes.py:906 app/services/wizard_reset.py:119
 #, python-brace-format
 msgid "Reset {} steps for {} (deleted {}, imported {})"
-msgstr ""
+msgstr "为 {} 重置 {} 个步骤（已删除 {}，已导入 {}）"
 
 #: app/blueprints/wizard_admin/routes.py:916 app/services/wizard_reset.py:134
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to reset steps: {}"
-msgstr "{} 的密钥重置失败"
+msgstr "重置步骤失败：{}"
 
 #: app/forms/admin.py:8
 msgid "Username must be 3 to 15 characters."
-msgstr ""
+msgstr "用户名必须为3到15个字符。"
 
 #: app/forms/admin.py:12
 msgid "Password must be at least 8 characters."
-msgstr ""
+msgstr "密码必须至少为8个字符。"
 
 #: app/forms/admin.py:17
 msgid ""
 "Password must contain at least one uppercase letter, one lowercase "
 "letter, and one number."
-msgstr ""
+msgstr "密码必须至少包含一个大写字母、一个小写字母和一个数字。"
 
 #: app/forms/admin.py:25 app/forms/admin.py:37
 #: app/templates/admin/user_details_modal.html:66
@@ -490,38 +473,32 @@ msgid "Confirm password"
 msgstr "确认密码"
 
 #: app/forms/admin.py:31 app/forms/admin.py:47
-#, fuzzy
 msgid "Passwords must match."
-msgstr "密码不匹配"
+msgstr "密码必须一致。"
 
 #: app/forms/admin.py:41 app/templates/profile.html:53
 msgid "New Password"
 msgstr "新密码"
 
 #: app/forms/admin.py:58
-#, fuzzy
 msgid "Please confirm the new password."
-msgstr "确认新密码"
+msgstr "请确认新密码。"
 
 #: app/forms/settings.py:10
-#, fuzzy
 msgid "Server Type"
-msgstr "服务器"
+msgstr "服务器类型"
 
 #: app/forms/settings.py:23
-#, fuzzy
 msgid "Server Name"
-msgstr "用户名"
+msgstr "服务器名称"
 
 #: app/forms/settings.py:26
-#, fuzzy
 msgid "RomM Username"
-msgstr "您的用户名"
+msgstr "RomM 用户名"
 
 #: app/forms/settings.py:27
-#, fuzzy
 msgid "RomM Password"
-msgstr "您的密码"
+msgstr "RomM 密码"
 
 #: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:70
 #: app/templates/tables/invite_card.html:143
@@ -536,27 +513,24 @@ msgid "Allow Downloads"
 msgstr "允许下载"
 
 #: app/forms/settings.py:33
-#, fuzzy
 msgid "Allow Live TV"
 msgstr "允许访问直播电视"
 
 #: app/forms/settings.py:36
 msgid "Overseerr/Ombi URL"
-msgstr ""
+msgstr "Overseerr/Ombi 网址"
 
 #: app/forms/settings.py:38
-#, fuzzy
 msgid "Ombi API Key"
-msgstr "没有API密钥"
+msgstr "Ombi API 密钥"
 
 #: app/forms/settings.py:39
-#, fuzzy
 msgid "Discord ID"
-msgstr "您的Discord服务器ID"
+msgstr "Discord 账号ID"
 
 #: app/forms/settings.py:40
 msgid "External URL"
-msgstr ""
+msgstr "外部链接地址"
 
 #: app/services/servers.py:16
 #, python-format
@@ -573,7 +547,8 @@ msgstr "%(server_type)s 服务器返回错误：%(error)s"
 msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
-msgstr "无法连接到 %(server_type)s 服务器。请检查服务器是否正在运行以及 URL 是否正确。"
+msgstr "无法连接到 %(server_type)s 服务器。请检查服务器是否正在运行以及 URL 是否正确"
+"。"
 
 #: app/services/servers.py:40
 #, python-format
@@ -653,9 +628,9 @@ msgid "Drop"
 msgstr "Drop"
 
 #: app/services/wizard_reset.py:99
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "No default steps found for server type: {}"
-msgstr "未找到服务器类型 {} 的步骤"
+msgstr "没有找到服务器类型 {} 的默认步骤"
 
 #: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:100
 msgid "Admin"
@@ -797,9 +772,8 @@ msgid "Passwords do not match"
 msgstr "密码不匹配"
 
 #: app/templates/invalid-invite.html:10
-#, fuzzy
 msgid "Wizarr"
-msgstr "向导设置"
+msgstr "Wizarr"
 
 #: app/templates/invalid-invite.html:15
 msgid "Invalid Invitation"
@@ -807,7 +781,7 @@ msgstr "无效的邀请"
 
 #: app/templates/invalid-invite.html:19
 msgid "This invitation link is no longer valid. Please request a new invitation."
-msgstr ""
+msgstr "此邀请链接已失效。请申请一个新的邀请。"
 
 #: app/templates/login.html:14
 msgid "Two-Factor Authentication"
@@ -981,7 +955,7 @@ msgstr "最近加入的"
 
 #: app/templates/admin/accepted_invites_card.html:51
 msgid "Showing"
-msgstr ""
+msgstr "正在显示"
 
 #: app/templates/admin/accepted_invites_card.html:51
 #: app/templates/admin/server_health_card.html:118
@@ -990,14 +964,12 @@ msgid "of"
 msgstr "台服务器中有"
 
 #: app/templates/admin/accepted_invites_card.html:59
-#, fuzzy
 msgid "Prev"
-msgstr "预览"
+msgstr "上一页"
 
 #: app/templates/admin/accepted_invites_card.html:60
-#, fuzzy
 msgid "Page"
-msgstr "更新"
+msgstr "页"
 
 #: app/templates/admin/accepted_invites_card.html:65
 #: app/templates/wizard/steps.html:15 app/templates/wizard/steps.html:21
@@ -1492,7 +1464,7 @@ msgstr " 出了点问题。请稍后再试。"
 
 #: app/templates/modals/bundle-add-steps.html:13
 msgid "Add steps to bundle"
-msgstr "将步骤添加到捆绑包中"
+msgstr "将步骤添加到组合包中"
 
 #: app/templates/modals/bundle-add-steps.html:26
 #: app/templates/settings/wizard/bundles.html:94
@@ -1550,7 +1522,8 @@ msgstr "要启用自动导入："
 msgid ""
 "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
 "new users' and 'Import Jellyfin/Plex users'"
-msgstr "前往您的 Overseerr/Jellyseerr 设置 → 用户 → 启用“自动批准新用户”和“导入 Jellyfin/Plex 用户”"
+msgstr "前往您的 Overseerr/Jellyseerr 设置 → 用户 → 启用“自动批准新用户”和“导入 "
+"Jellyfin/Plex 用户”"
 
 #: app/templates/modals/connection-form.html:139
 msgid "Testing connection..."
@@ -1640,22 +1613,20 @@ msgstr "代理URL"
 
 #: app/templates/modals/create-notification-agent.html:110
 #: app/templates/modals/edit-notification-agent.html:105
-#, fuzzy
 msgid "Notification Events"
-msgstr "通知代理设置"
+msgstr "通知事件"
 
 #: app/templates/modals/create-notification-agent.html:121
 #: app/templates/modals/edit-notification-agent.html:117
 #: app/templates/settings/notifications.html:84
-#, fuzzy
 msgid "User Joined"
-msgstr "加入时间"
+msgstr "用户加入"
 
 #: app/templates/modals/create-notification-agent.html:133
 #: app/templates/modals/edit-notification-agent.html:129
 #: app/templates/settings/notifications.html:89
 msgid "Update Available"
-msgstr ""
+msgstr "有更新可用"
 
 #: app/templates/modals/create-notification-agent.html:141
 msgid "Test & Create Agent"
@@ -1687,9 +1658,8 @@ msgid "Nickname"
 msgstr "昵称"
 
 #: app/templates/modals/edit-notification-agent.html:12
-#, fuzzy
 msgid "Edit Agent"
-msgstr "新代理"
+msgstr "编辑代理"
 
 #: app/templates/modals/edit-notification-agent.html:24
 #: app/templates/servers/index.html:10
@@ -1697,14 +1667,12 @@ msgid "Name"
 msgstr "名称"
 
 #: app/templates/modals/edit-notification-agent.html:36
-#, fuzzy
 msgid "Notification Service"
-msgstr "通知代理设置"
+msgstr "通知服务"
 
 #: app/templates/modals/edit-notification-agent.html:137
-#, fuzzy
 msgid "Test & Save Changes"
-msgstr "测试并创建代理"
+msgstr "测试并保存更改"
 
 #: app/templates/modals/edit-server.html:12
 msgid "Edit Server"
@@ -1748,7 +1716,7 @@ msgstr "1个月"
 
 #: app/templates/modals/invite.html:77
 msgid "Wizard bundle"
-msgstr "向导页面合集"
+msgstr "向导组合包"
 
 #: app/templates/modals/invite.html:82
 msgid "Automatic"
@@ -1881,7 +1849,7 @@ msgstr "添加预设向导步骤"
 #: app/templates/modals/wizard-simple-step-form.html:24
 #: app/templates/modals/wizard-step-form.html:29
 msgid "Choose when this step should be shown to users"
-msgstr ""
+msgstr "选择此步骤应在何时显示给用户"
 
 #: app/templates/modals/wizard-preset-form.html:39
 #: app/templates/settings/wizard/preset_form.html:17
@@ -1900,45 +1868,40 @@ msgid "Create Step"
 msgstr "创建步骤"
 
 #: app/templates/modals/wizard-step-form.html:46
-#, fuzzy
 msgid "Add..."
-msgstr "添加"
+msgstr "添加..."
 
 #: app/templates/modals/wizard-step-form.html:66
 msgid "Widgets"
-msgstr ""
+msgstr "小部件"
 
 #: app/templates/modals/wizard-step-form.html:78
-#, fuzzy
 msgid "Recently Added Media"
-msgstr "最近添加的"
+msgstr "最近添加的媒体"
 
 #: app/templates/modals/wizard-step-form.html:79
-#, fuzzy
 msgid "Show recent content"
-msgstr "未找到最近的内容"
+msgstr "显示最近的内容"
 
 #: app/templates/modals/wizard-step-form.html:95
 msgid "Button"
-msgstr ""
+msgstr "按钮"
 
 #: app/templates/modals/wizard-step-form.html:96
 msgid "Add a clickable link button"
-msgstr ""
+msgstr "添加一个可点击的链接按钮"
 
 #: app/templates/modals/wizard-step-form.html:101
-#, fuzzy
 msgid "Elements"
-msgstr "删除代理"
+msgstr "元素"
 
 #: app/templates/modals/wizard-step-form.html:115
-#, fuzzy
 msgid "Card"
-msgstr "向导设置"
+msgstr "卡片"
 
 #: app/templates/modals/wizard-step-form.html:116
 msgid "Add a styled content card"
-msgstr ""
+msgstr "添加一个带有样式的卡片内容"
 
 #: app/templates/partials/api_keys_grid.html:36
 msgid "Delete API Key"
@@ -2074,9 +2037,8 @@ msgid "Configure your application's basic settings and preferences"
 msgstr "配置您的应用程序的基本设置和偏好"
 
 #: app/templates/settings/general.html:14
-#, fuzzy
 msgid "Version"
-msgstr "权限"
+msgstr "版本"
 
 #: app/templates/settings/general.html:42
 msgid "Display"
@@ -2099,37 +2061,34 @@ msgid "Control access to the wizard setup process"
 msgstr "控制对向导设置过程的访问权限"
 
 #: app/templates/settings/general.html:96
-#, fuzzy
 msgid "User Management"
-msgstr "API密钥管理"
+msgstr "用户管理"
 
 #: app/templates/settings/general.html:98
 msgid "Configure how users are managed when invitations expire"
-msgstr ""
+msgstr "配置邀请过期时如何管理用户"
 
 #: app/templates/settings/general.html:125
-#, fuzzy
 msgid "Server Capabilities"
-msgstr "台在线"
+msgstr "服务器功能"
 
 #: app/templates/settings/general.html:129
 msgid "Supports Disable:"
-msgstr ""
+msgstr "支持禁用："
 
 #: app/templates/settings/general.html:140
-#, fuzzy
 msgid "Delete Only:"
-msgstr "删除代理"
+msgstr "仅删除："
 
 #: app/templates/settings/general.html:150
 msgid ""
 "If 'Disable User' is selected but the server does not support it, the "
 "user will be deleted instead."
-msgstr ""
+msgstr "如果选择了“禁用用户”但服务器不支持此功能，则用户将被删除。"
 
 #: app/templates/settings/general.html:159
 msgid "Choose what happens to users when their invitation expires"
-msgstr ""
+msgstr "选择用户邀请过期时的处理方式"
 
 #: app/templates/settings/general.html:183
 msgid "API Key Management"
@@ -2177,9 +2136,8 @@ msgid "Servers"
 msgstr "服务器设置"
 
 #: app/templates/settings/index.html:75
-#, fuzzy
 msgid "Activity"
-msgstr "活动中的"
+msgstr "活动"
 
 #: app/templates/settings/index.html:108
 msgid "Admins"
@@ -2190,9 +2148,8 @@ msgid "Wizard"
 msgstr "向导设置"
 
 #: app/templates/settings/index.html:142
-#, fuzzy
 msgid "Audit"
-msgstr "编辑"
+msgstr "审计"
 
 #: app/templates/settings/notifications.html:8
 msgid "Notification Agents"
@@ -2208,9 +2165,8 @@ msgid "Add Agent"
 msgstr "添加代理"
 
 #: app/templates/settings/notifications.html:51
-#, fuzzy
 msgid "Edit agent"
-msgstr "新代理"
+msgstr "编辑代理"
 
 #: app/templates/settings/notifications.html:60
 msgid "Are you sure you want to delete"
@@ -2225,9 +2181,8 @@ msgid "Status"
 msgstr "状态"
 
 #: app/templates/settings/notifications.html:79
-#, fuzzy
 msgid "Events"
-msgstr "服务器设置"
+msgstr "事件"
 
 #: app/templates/settings/notifications.html:112
 msgid "No notification agents"
@@ -2295,7 +2250,7 @@ msgstr "默认步骤"
 
 #: app/templates/settings/wizard/_sub_nav.html:26
 msgid "Custom Bundles"
-msgstr "自定义合集"
+msgstr "自定义组合包"
 
 #: app/templates/settings/wizard/_sub_nav.html:42
 #: app/templates/settings/wizard/_sub_nav.html:62
@@ -2309,7 +2264,7 @@ msgstr "导入配置"
 
 #: app/templates/settings/wizard/_sub_nav.html:80
 msgid "Import steps or bundles from JSON file"
-msgstr "从JSON文件导入步骤或合集"
+msgstr "从JSON文件导入步骤或组合包"
 
 #: app/templates/settings/wizard/_sub_nav.html:95
 msgid "Create"
@@ -2338,7 +2293,7 @@ msgstr "从模板创建步骤"
 
 #: app/templates/settings/wizard/_sub_nav.html:190
 msgid "Create Bundle"
-msgstr "创建合集"
+msgstr "创建组合包"
 
 #: app/templates/settings/wizard/_sub_nav.html:191
 msgid "Create a collection of steps"
@@ -2346,27 +2301,26 @@ msgstr "创建一组步骤集合"
 
 #: app/templates/settings/wizard/bundles.html:10
 msgid "No bundles found."
-msgstr "未找到任何合集。"
+msgstr "未找到任何组合包。"
 
 #: app/templates/settings/wizard/bundles.html:26
 #, python-format
 msgid "Export %(bundle_name)s Bundle"
-msgstr "导出 %(bundle_name)s 合集"
+msgstr "导出 %(bundle_name)s 组合包"
 
 #: app/templates/settings/wizard/bundles.html:53
 msgid "Are you sure you want to delete this bundle?"
-msgstr "你确定要删除这个捆绑包吗？"
+msgstr "你确定要删除这个组合包吗？"
 
 #: app/templates/settings/wizard/bundles.html:71
 #: app/templates/settings/wizard/steps.html:65
-#, fuzzy
 msgid "Before Invite Acceptance"
-msgstr "暂无最近接受的邀请"
+msgstr "在接受邀请之前"
 
 #: app/templates/settings/wizard/bundles.html:73
 #: app/templates/settings/wizard/steps.html:67
 msgid "Steps shown to users before they accept the invitation"
-msgstr ""
+msgstr "在用户接受邀请之前向他们展示的步骤"
 
 #: app/templates/settings/wizard/bundles.html:115
 #: app/templates/settings/wizard/bundles.html:196
@@ -2379,26 +2333,23 @@ msgstr "你确定要删除这个步骤吗？"
 
 #: app/templates/settings/wizard/bundles.html:146
 #: app/templates/settings/wizard/steps.html:138
-#, fuzzy
 msgid "No pre-invite steps configured"
-msgstr "已配置的步骤"
+msgstr "未配置邀请前的步骤"
 
 #: app/templates/settings/wizard/bundles.html:152
 #: app/templates/settings/wizard/steps.html:145
-#, fuzzy
 msgid "After Invite Acceptance"
-msgstr "输入邀请代码"
+msgstr "接受邀请后"
 
 #: app/templates/settings/wizard/bundles.html:154
 #: app/templates/settings/wizard/steps.html:147
 msgid "Steps shown to users after they accept the invitation"
-msgstr ""
+msgstr "用户接受邀请后显示的步骤"
 
 #: app/templates/settings/wizard/bundles.html:227
 #: app/templates/settings/wizard/steps.html:218
-#, fuzzy
 msgid "No post-invite steps configured"
-msgstr "没有配置服务器"
+msgstr "未配置邀请后的步骤"
 
 #: app/templates/settings/wizard/bundles.html:234
 msgid "Additional Categories"
@@ -2444,7 +2395,7 @@ msgstr "导入向导配置"
 msgid ""
 "Import wizard steps or bundles from a JSON file to quickly set up or "
 "restore your wizard configuration."
-msgstr "从 JSON 文件导入向导步骤或合集，以快速设置或恢复您的向导配置。"
+msgstr "从 JSON 文件导入向导步骤或组合包，以快速设置或恢复您的向导配置。"
 
 #: app/templates/settings/wizard/import_form.html:13
 msgid "Select JSON File"
@@ -2452,14 +2403,15 @@ msgstr "选择 JSON 文件"
 
 #: app/templates/settings/wizard/import_form.html:30
 msgid "Steps or Bundle JSON files only (MAX. 10MB)"
-msgstr "仅限步骤或合集 JSON 文件（最大 10MB）"
+msgstr "仅限步骤或组合包 JSON 文件（最大 10MB）"
 
 #: app/templates/settings/wizard/import_form.html:61
 msgid ""
 "When checked, all existing wizard steps and bundles will be removed and "
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
-msgstr "选中时，所有现有的向导步骤和合集将被移除，并替换为导入的配置。不选中时，导入的项目将与现有项目一起添加。"
+msgstr "选中时，所有现有的向导步骤和组合包将被移除，并替换为导入的配置。不选中时，导"
+"入的项目将与现有项目一起添加。"
 
 #: app/templates/settings/wizard/import_form.html:82
 msgid "Important: Backup Recommended"
@@ -2471,7 +2423,7 @@ msgstr "此操作将修改您的向导配置。请考虑以下事项："
 
 #: app/templates/settings/wizard/import_form.html:86
 msgid "Export your current steps and bundles first as a backup"
-msgstr "首先导出您当前的步骤和合集作为备份"
+msgstr "首先导出您当前的步骤和组合包作为备份"
 
 #: app/templates/settings/wizard/import_form.html:87
 msgid "Imported steps will use the file's step ordering and server types"
@@ -2479,13 +2431,13 @@ msgstr "导入的步骤将使用文件的步骤顺序和服务器类型"
 
 #: app/templates/settings/wizard/import_form.html:88
 msgid "Imported bundles will preserve their step associations and ordering"
-msgstr "导入的合集将保留其步骤关联和顺序"
+msgstr "导入的组合包将保留其步骤关联和顺序"
 
 #: app/templates/settings/wizard/import_form.html:89
 msgid ""
 "If replacing existing configuration, all current steps and bundles will "
 "be permanently removed"
-msgstr "如果替换现有配置，所有当前步骤和合集将被永久删除"
+msgstr "如果替换现有配置，所有当前步骤和组合包将被永久删除"
 
 #: app/templates/settings/wizard/import_form.html:90
 msgid "Invalid or malformed JSON files will be rejected"
@@ -2497,7 +2449,7 @@ msgstr "期望的 JSON 格式"
 
 #: app/templates/settings/wizard/import_form.html:108
 msgid "The JSON file can contain steps or bundles:"
-msgstr "JSON 文件可以包含步骤或合集："
+msgstr "JSON 文件可以包含步骤或组合包："
 
 #: app/templates/settings/wizard/import_form.html:111
 msgid "For steps export:"
@@ -2505,7 +2457,7 @@ msgstr "对于步骤导出："
 
 #: app/templates/settings/wizard/import_form.html:123
 msgid "For bundle export:"
-msgstr "对于合集导出："
+msgstr "对于组合包导出："
 
 #: app/templates/settings/wizard/import_form.html:152
 msgid "Back to Steps"
@@ -2523,7 +2475,7 @@ msgstr "请选择一个有效的 JSON 文件。"
 msgid ""
 "This will permanently replace all existing wizard configuration (steps "
 "and bundles). Are you sure you want to continue?"
-msgstr "这将永久替换所有现有的向导配置（步骤和合集）。您确定要继续吗？"
+msgstr "这将永久替换所有现有的向导配置（步骤和组合包）。您确定要继续吗？"
 
 #: app/templates/settings/wizard/index.html:13
 msgid "Wizard Steps"
@@ -2531,7 +2483,7 @@ msgstr "向导步骤"
 
 #: app/templates/settings/wizard/index.html:15
 msgid "Manage your wizard steps and bundles for user onboarding"
-msgstr "管理您的向导步骤和合集以进行用户引导"
+msgstr "管理您的向导步骤和组合包以进行用户引导"
 
 #: app/templates/settings/wizard/index.html:36
 msgid "No wizard steps found"
@@ -2580,12 +2532,13 @@ msgstr "未找到步骤。"
 msgid ""
 "Are you sure you want to reset all steps for %(server)s to defaults? This"
 " will delete all custom steps and reimport the default ones."
-msgstr ""
+msgstr "您确定要将 %(server)s 的所有步骤重置为默认值吗？这将删除所有自定义步骤并重新"
+"导入默认步骤。"
 
 #: app/templates/settings/wizard/steps.html:26
-#, fuzzy, python-format
+#, python-format
 msgid "Reset %(server)s Steps to Defaults"
-msgstr "导出 %(server)s 步骤"
+msgstr "将 %(server)s 的步骤重置为默认值"
 
 #: app/templates/settings/wizard/steps.html:38
 #, python-format
@@ -2617,9 +2570,8 @@ msgid "Used"
 msgstr "已使用"
 
 #: app/templates/tables/invite_card.html:66
-#, fuzzy
 msgid "Not used yet"
-msgstr "使用者"
+msgstr "尚未使用"
 
 #: app/templates/tables/invite_card.html:71
 #, fuzzy
@@ -2654,18 +2606,16 @@ msgid "Edit nickname"
 msgstr "编辑昵称"
 
 #: app/templates/tables/user_card.html:54
-#, fuzzy
 msgid "Home User"
-msgstr "移除用户"
+msgstr "家庭用户"
 
 #: app/templates/tables/user_card.html:104
 msgid "Invited"
 msgstr "已邀请"
 
 #: app/templates/tables/user_card.html:143
-#, fuzzy
 msgid "Disabled"
-msgstr "已禁用直播电视功能"
+msgstr "已禁用"
 
 #: app/templates/tables/user_card.html:149
 msgid "Downloads enabled"
@@ -2676,14 +2626,12 @@ msgid "Live TV enabled"
 msgstr "已启用直播电视功能"
 
 #: app/templates/tables/user_card.html:182
-#, fuzzy
 msgid "View details"
-msgstr "用户详情"
+msgstr "查看详情"
 
 #: app/templates/tables/user_card.html:200
-#, fuzzy
 msgid "Edit user"
-msgstr "编辑服务器"
+msgstr "编辑用户"
 
 #: app/templates/tables/user_card.html:219
 msgid "Remove user"
@@ -2691,15 +2639,13 @@ msgstr "移除用户"
 
 #: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:42
 #: app/templates/wizard/steps.html:82
-#, fuzzy
 msgid "Before Invitation"
-msgstr "创建邀请"
+msgstr "邀请之前"
 
 #: app/templates/wizard/steps.html:17 app/templates/wizard/steps.html:44
 #: app/templates/wizard/steps.html:84
-#, fuzzy
 msgid "After Invitation"
-msgstr "创建邀请"
+msgstr "邀请之后"
 
 #: app/templates/wizard/steps.html:141 app/templates/wizard/steps.html:201
 msgid "Previous"
@@ -3231,4 +3177,3 @@ msgstr "点击此步骤中的链接以继续进行操作"
 
 #~ msgid "Add step"
 #~ msgstr "添加步骤"
-
