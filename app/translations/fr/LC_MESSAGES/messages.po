@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-10-28 03:47+0000\n"
 "PO-Revision-Date: 2025-10-28 11:24+0000\n"
-"Last-Translator: Watever44 <jeannicolas.turcotte@gmail.com>\n"
+"Last-Translator: Jycreyn <krymi@curassik.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr/"
 "wizarr-universal/fr/>\n"
 "Language: fr\n"
@@ -21,9 +21,8 @@ msgstr ""
 "Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
-#, fuzzy
 msgid "Failed to load settings"
-msgstr "Échec du chargement des statistiques"
+msgstr "Échec du chargement des paramètres"
 
 #: app/activity/api/blueprint.py:256
 #, fuzzy
@@ -47,15 +46,15 @@ msgstr "Échec du chargement des statistiques"
 
 #: app/activity/api/blueprint.py:373
 msgid "Database not available"
-msgstr ""
+msgstr "Base de donnée non accessible"
 
 #: app/activity/api/blueprint.py:387
 msgid "Failed to get session details"
-msgstr ""
+msgstr "Impossible de récupérer les détails de la sessions"
 
 #: app/activity/api/blueprint.py:469
 msgid "Failed to export activity data"
-msgstr ""
+msgstr "Impossible d'exporter les données d'activité"
 
 #: app/activity/api/blueprint.py:488
 #, fuzzy
@@ -64,17 +63,17 @@ msgstr "Administrateur créé"
 
 #: app/activity/api/blueprint.py:491
 msgid "Monitor not available"
-msgstr ""
+msgstr "Le monitoring est innacessible"
 
 #: app/activity/api/blueprint.py:501
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
-msgstr ""
+msgstr "{} a été nettoyé des anciennes activités"
 
 #: app/activity/api/blueprint.py:514
 #, python-brace-format
 msgid "Ended {} stale sessions"
-msgstr ""
+msgstr "{} a clôturé les anciennes sessions"
 
 #: app/activity/api/blueprint.py:518
 #, fuzzy
@@ -90,6 +89,7 @@ msgstr "Échec du chargement des statistiques"
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
 msgstr ""
+"Les données d’activité ont été supprimées avec succès ({} enregistrements)."
 
 #: app/activity/api/blueprint.py:544
 #, fuzzy, python-brace-format
@@ -111,6 +111,8 @@ msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, "
 "Emby, and AudiobookShelf servers."
 msgstr ""
+"L’importation de données historiques est actuellement uniquement prise en "
+"charge pour les serveurs Plex, Jellyfin, Emby et AudiobookShelf."
 
 #: app/activity/api/blueprint.py:597
 #, python-brace-format
