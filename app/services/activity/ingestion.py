@@ -312,22 +312,34 @@ class ActivityIngestionService:
         new_session: ActivitySession,
         event: ActivityEvent,
     ) -> None:
+        """
+        Apply session grouping with multi-level matching strategy.
+
+        Handles real-world scenarios where Plex creates new sessionKeys for:
+        - Subtitle/audio track changes
+        - Quality/transcoding changes
+        - App quit/resume
+        - Network reconnections
+
+        Uses fallback matching when media_id is missing during initial creation.
+        """
         try:
-            previous_sessions = (
-                db.session.query(ActivitySession)  # type: ignore[union-attr]
-                .filter_by(
-                    server_id=event.server_id,
-                    user_name=event.user_name,
-                    media_id=event.media_id,
-                )
-                .filter(ActivitySession.id < new_session.id)
-                .order_by(ActivitySession.id.desc())
-                .limit(2)
-                .all()
+            # Find potential previous sessions using flexible matching
+            previous_sessions = self._find_groupable_sessions(
+                event.server_id,
+                event.user_name,
+                event.media_id,
+                event.media_title,
+                event.device_name,
+                new_session.id,
             )
 
             if not previous_sessions:
                 new_session.reference_id = new_session.id
+                self.logger.debug(
+                    "No groupable sessions found for %s, creating new group",
+                    event.session_id,
+                )
                 return
 
             prev_session = previous_sessions[0]
@@ -347,20 +359,120 @@ class ActivityIngestionService:
                 event_timestamp = event_timestamp.astimezone(UTC)  # type: ignore[union-attr]
 
             time_gap = event_timestamp - prev_timestamp
-            should_group = time_gap.total_seconds() < 1800
+            gap_seconds = time_gap.total_seconds()
+
+            # Extended window: 2 hours (handles dinner breaks, phone calls, etc.)
+            # Previous 30-minute window was too strict for real-world usage
+            time_window_seconds = 7200  # 2 hours
+
+            should_group = gap_seconds < time_window_seconds
 
             if should_group:
                 if prev_session.reference_id is None:
                     prev_session.reference_id = prev_session.id
                 new_session.reference_id = prev_session.reference_id
+
+                self.logger.info(
+                    "Grouped session %s with reference %s (gap: %.0fs, media_id: %s)",
+                    event.session_id,
+                    prev_session.reference_id,
+                    gap_seconds,
+                    event.media_id or "unknown",
+                )
             else:
                 new_session.reference_id = new_session.id
+                self.logger.debug(
+                    "Session %s not grouped - gap %.0fs exceeds window",
+                    event.session_id,
+                    gap_seconds,
+                )
 
         except Exception as exc:
             new_session.reference_id = new_session.id
             self.logger.warning(
                 "Session grouping failed for %s: %s", event.session_id, exc
             )
+
+    def _find_groupable_sessions(
+        self,
+        server_id: int,
+        user_name: str,
+        media_id: str | None,
+        media_title: str,
+        device_name: str | None,
+        current_session_id: int,
+    ) -> list[ActivitySession]:
+        """
+        Find previous sessions that should be grouped using multi-level matching.
+
+        Priority order:
+        1. Exact media_id match (highest confidence)
+        2. Title + Device match (medium confidence - handles subtitle changes)
+        3. Title-only match (lower confidence - handles device changes)
+
+        Returns:
+            List of up to 2 most recent matching sessions
+        """
+        base_query = db.session.query(ActivitySession).filter(  # type: ignore[union-attr]
+            ActivitySession.server_id == server_id,
+            ActivitySession.user_name == user_name,
+            ActivitySession.id < current_session_id,
+        )
+
+        # Strategy 1: Exact media_id match (if available and not "Unknown")
+        if media_id and media_id.lower() != "unknown":
+            exact_matches = (
+                base_query.filter(ActivitySession.media_id == media_id)
+                .order_by(ActivitySession.id.desc())
+                .limit(2)
+                .all()
+            )
+            if exact_matches:
+                self.logger.debug(
+                    "Found %d sessions via media_id match (%s)",
+                    len(exact_matches),
+                    media_id,
+                )
+                return exact_matches
+
+        # Strategy 2: Title + Device match
+        # Handles cases where:
+        # - media_id is missing/unknown during initial session creation
+        # - User changed subtitle/audio (new sessionKey but same viewing session)
+        if device_name and device_name.lower() != "unknown":
+            title_device_matches = (
+                base_query.filter(
+                    ActivitySession.media_title == media_title,
+                    ActivitySession.device_name == device_name,
+                )
+                .order_by(ActivitySession.id.desc())
+                .limit(2)
+                .all()
+            )
+            if title_device_matches:
+                self.logger.debug(
+                    "Found %d sessions via title+device match (%s on %s)",
+                    len(title_device_matches),
+                    media_title,
+                    device_name,
+                )
+                return title_device_matches
+
+        # Strategy 3: Title-only match (last resort)
+        # Handles cases where device info is also missing
+        title_matches = (
+            base_query.filter(ActivitySession.media_title == media_title)
+            .order_by(ActivitySession.id.desc())
+            .limit(2)
+            .all()
+        )
+        if title_matches:
+            self.logger.debug(
+                "Found %d sessions via title-only match (%s)",
+                len(title_matches),
+                media_title,
+            )
+        return title_matches
 
     def _update_session_from_event(
         self,
