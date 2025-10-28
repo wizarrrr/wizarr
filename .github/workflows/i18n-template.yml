@@ -26,8 +26,8 @@ jobs:
           uv run pybabel extract -F babel.cfg -k _l -o messages.pot .
           uv run pybabel update -d app/translations -i messages.pot
           if ! git diff --quiet messages.pot app/translations; then
-            git config user.name  "i18n-bot"
-            git config user.email "i18n-bot@users.noreply.github.com"
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add messages.pot app/translations
             git commit -m "i18n: refresh POT and update PO files [skip ci]"
             git push
