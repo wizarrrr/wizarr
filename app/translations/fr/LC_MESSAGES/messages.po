@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-10-28 03:47+0000\n"
-"PO-Revision-Date: 2025-10-28 11:56+0000\n"
+"PO-Revision-Date: 2025-10-29 10:04+0000\n"
 "Last-Translator: Jycreyn <krymi@curassik.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr/"
 "wizarr-universal/fr/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 msgid "Failed to load settings"
-msgstr "Échec du chargement des paramètres"
+msgstr "Échec du chargement des statistiques"
 
 #: app/activity/api/blueprint.py:256
 #, fuzzy
@@ -1615,16 +1615,14 @@ msgid "Add Administrator"
 msgstr ""
 
 #: app/templates/modals/create-api-key.html:13
-#, fuzzy
 msgid "API Key Created"
-msgstr "Création"
+msgstr "Clé API créée"
 
 #: app/templates/modals/create-api-key.html:15
 #: app/templates/settings/api_keys.html:17
 #: app/templates/settings/general.html:207
-#, fuzzy
 msgid "Create API Key"
-msgstr "Créer un Agent"
+msgstr "Créer une clé API"
 
 #: app/templates/modals/create-api-key.html:30
 msgid "API Key Created Successfully"
@@ -1637,9 +1635,8 @@ msgid ""
 msgstr ""
 
 #: app/templates/modals/create-api-key.html:40
-#, fuzzy
 msgid "Copy to clipboard"
-msgstr "Le lien a été copié dans le presse-papiers !"
+msgstr "Copier dans le presse-papiers"
 
 #: app/templates/modals/create-api-key.html:48
 msgid "Name:"
@@ -1685,16 +1682,14 @@ msgstr "URL de l'agent"
 
 #: app/templates/modals/create-notification-agent.html:110
 #: app/templates/modals/edit-notification-agent.html:105
-#, fuzzy
 msgid "Notification Events"
-msgstr "Agents de Notification"
+msgstr "Événements de Notification"
 
 #: app/templates/modals/create-notification-agent.html:121
 #: app/templates/modals/edit-notification-agent.html:117
 #: app/templates/settings/notifications.html:84
-#, fuzzy
 msgid "User Joined"
-msgstr "Rejoindre"
+msgstr "Utilisateur rejoint"
 
 #: app/templates/modals/create-notification-agent.html:133
 #: app/templates/modals/edit-notification-agent.html:129
@@ -1732,9 +1727,8 @@ msgid "Nickname"
 msgstr "Surnom"
 
 #: app/templates/modals/edit-notification-agent.html:12
-#, fuzzy
 msgid "Edit Agent"
-msgstr "Nouvel Agent"
+msgstr "Editer Agent"
 
 #: app/templates/modals/edit-notification-agent.html:24
 #: app/templates/servers/index.html:10
@@ -1742,14 +1736,12 @@ msgid "Name"
 msgstr "Nom"
 
 #: app/templates/modals/edit-notification-agent.html:36
-#, fuzzy
 msgid "Notification Service"
-msgstr "Agents de Notification"
+msgstr "Service de notification"
 
 #: app/templates/modals/edit-notification-agent.html:137
-#, fuzzy
 msgid "Test & Save Changes"
-msgstr "Tester & Créer l'Agent"
+msgstr "Tester & sauvegarder les changements"
 
 #: app/templates/modals/edit-server.html:12
 msgid "Edit Server"
@@ -1820,14 +1812,12 @@ msgid "Show Information"
 msgstr "Montrer les informations"
 
 #: app/templates/modals/invite.html:137
-#, fuzzy
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
 msgstr ""
-"Si renseigné, les utilisateurs invités seront retirés\n"
-"du serveur Plex après un nombre de jours.\n"
-"(1-999)"
+"Si sélectionné, les utilisateurs invités seront retirés du serveur Plex "
+"après plusieurs jours. (1-999)"
 
 #: app/templates/modals/invite.html:152
 msgid "Target servers"
@@ -1843,9 +1833,8 @@ msgid "Allow Live TV Access"
 msgstr "Autoriser l'accès à la TV en direct"
 
 #: app/templates/modals/invite.html:219 app/templates/modals/invite.html:276
-#, fuzzy
 msgid "Allow Mobile Uploads"
-msgstr "Autoriser les téléchargements"
+msgstr "Autoriser les uploads mobiles"
 
 #: app/templates/modals/invite.html:316
 msgid "Select Libraries"
@@ -1963,9 +1952,8 @@ msgid "Recently Added Media"
 msgstr "Ajouté récemment"
 
 #: app/templates/modals/wizard-step-form.html:79
-#, fuzzy
 msgid "Show recent content"
-msgstr "Échec de chargement du contenu récent"
+msgstr "Afficher le contenu récent"
 
 #: app/templates/modals/wizard-step-form.html:95
 msgid "Button"
@@ -1976,14 +1964,12 @@ msgid "Add a clickable link button"
 msgstr ""
 
 #: app/templates/modals/wizard-step-form.html:101
-#, fuzzy
 msgid "Elements"
-msgstr "Supprimer l'agent"
+msgstr "Éléments"
 
 #: app/templates/modals/wizard-step-form.html:115
-#, fuzzy
 msgid "Card"
-msgstr "Assistant"
+msgstr "Carte"
 
 #: app/templates/modals/wizard-step-form.html:116
 msgid "Add a styled content card"
@@ -2124,9 +2110,8 @@ msgid "Configure your application's basic settings and preferences"
 msgstr ""
 
 #: app/templates/settings/general.html:14
-#, fuzzy
 msgid "Version"
-msgstr "Autorisations"
+msgstr "Version"
 
 #: app/templates/settings/general.html:42
 msgid "Display"
@@ -2149,27 +2134,24 @@ msgid "Control access to the wizard setup process"
 msgstr ""
 
 #: app/templates/settings/general.html:96
-#, fuzzy
 msgid "User Management"
-msgstr "Gestion des clés d'API"
+msgstr "Gestion des utilisateurs"
 
 #: app/templates/settings/general.html:98
 msgid "Configure how users are managed when invitations expire"
 msgstr ""
 
 #: app/templates/settings/general.html:125
-#, fuzzy
 msgid "Server Capabilities"
-msgstr "serveurs en ligne"
+msgstr "Capacités du serveur"
 
 #: app/templates/settings/general.html:129
 msgid "Supports Disable:"
 msgstr ""
 
 #: app/templates/settings/general.html:140
-#, fuzzy
 msgid "Delete Only:"
-msgstr "Supprimer l'agent"
+msgstr "Supprimer seulement:"
 
 #: app/templates/settings/general.html:150
 msgid ""
@@ -2227,9 +2209,8 @@ msgid "Servers"
 msgstr "Serveurs"
 
 #: app/templates/settings/index.html:75
-#, fuzzy
 msgid "Activity"
-msgstr "Actif"
+msgstr "Activité"
 
 #: app/templates/settings/index.html:108
 msgid "Admins"
@@ -2240,9 +2221,8 @@ msgid "Wizard"
 msgstr "Assistant"
 
 #: app/templates/settings/index.html:142
-#, fuzzy
 msgid "Audit"
-msgstr "Modifier"
+msgstr "Audit"
 
 #: app/templates/settings/notifications.html:8
 msgid "Notification Agents"
@@ -2260,9 +2240,8 @@ msgid "Add Agent"
 msgstr "Ajouter un agent"
 
 #: app/templates/settings/notifications.html:51
-#, fuzzy
 msgid "Edit agent"
-msgstr "Nouvel Agent"
+msgstr "Éditer Agent"
 
 #: app/templates/settings/notifications.html:60
 msgid "Are you sure you want to delete"
@@ -2277,9 +2256,8 @@ msgid "Status"
 msgstr "État"
 
 #: app/templates/settings/notifications.html:79
-#, fuzzy
 msgid "Events"
-msgstr "Serveurs"
+msgstr "Évènements"
 
 #: app/templates/settings/notifications.html:112
 msgid "No notification agents"
