@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-10-28 03:47+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2025-10-28 11:14+0000\n"
+"Last-Translator: Bartolome Soriano <bsoriano@gmail.com>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/es/>\n"
 "Language: es\n"
-"Language-Team: es <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
@@ -576,8 +577,8 @@ msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
 msgstr ""
-"No se pudo conectar al servidor tipo %(server_type)s. Por favor verifique"
-" si el servidor está activo y la URL es correcta."
+"No se pudo conectar al servidor tipo %(server_type)s. Por favor verifique si "
+"el servidor está activo y la URL es correcta."
 
 #: app/services/servers.py:40
 #, python-format
@@ -601,8 +602,8 @@ msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s "
 "server: %(error)s"
 msgstr ""
-"Ocurrió un error inesperado al conectarse al servidor %(server_type)s: "
-"%(error)s"
+"Ocurrió un error inesperado al conectarse al servidor %(server_type)s: %"
+"(error)s"
 
 #: app/services/servers.py:66
 msgid "Plex"
@@ -774,7 +775,8 @@ msgstr "Su cuenta de Plex está configurada y lista para usar"
 
 #: app/templates/hybrid-password-form.html:204
 msgid "This password will be used to create accounts on your local servers"
-msgstr "Esta contraseña se utilizará para crear cuentas en sus servidores locales"
+msgstr ""
+"Esta contraseña se utilizará para crear cuentas en sus servidores locales"
 
 #: app/templates/hybrid-password-form.html:205
 msgid "You'll be redirected to the setup wizard to complete configuration"
@@ -869,8 +871,8 @@ msgstr "La entrada con A2F falló"
 #: app/templates/login.html:253
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
-"La autenticación con passkey falló. Por favor intente de nuevo o utilice "
-"su contraseña."
+"La autenticación con passkey falló. Por favor intente de nuevo o utilice su "
+"contraseña."
 
 #: app/templates/profile.html:17
 msgid "Administrator"
@@ -1469,8 +1471,7 @@ msgstr "Creando passkey para"
 #: app/templates/components/passkey_register.html:11
 msgid "Please follow your device's prompts to complete setup"
 msgstr ""
-"Por favor siga las instrucciones en su dispositivo para completar el "
-"ajuste"
+"Por favor siga las instrucciones en su dispositivo para completar el ajuste"
 
 #: app/templates/components/passkey_register.html:111
 msgid "Failed to register passkey"
@@ -1633,8 +1634,8 @@ msgstr "Nombre de Llave API"
 #: app/templates/modals/create-api-key.html:74
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
-"Entre un nombre descriptivo para ayudarle a identificar esta llave API "
-"más adelante."
+"Entre un nombre descriptivo para ayudarle a identificar esta llave API más "
+"adelante."
 
 #: app/templates/modals/create-notification-agent.html:32
 msgid "New Agent"
@@ -1881,8 +1882,8 @@ msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
 "steps will be merged with existing ones."
 msgstr ""
-"Cuando está seleccionado, los pasos existentes serán reemplazados. Cuando"
-" no está seleccionado, los pasos importados se unirán a los existentes."
+"Cuando está seleccionado, los pasos existentes serán reemplazados. Cuando no "
+"está seleccionado, los pasos importados se unirán a los existentes."
 
 #: app/templates/modals/wizard-import-form.html:90
 msgid "Important Notice"
@@ -1893,8 +1894,8 @@ msgid ""
 "This action will modify your wizard steps configuration. Make sure to "
 "backup your current steps before importing if you want to preserve them."
 msgstr ""
-"Esta acción modificará la configuración de sus pasos de genio. Asegúrese "
-"de respaldar sus pasos actuales antes de importar si quiere conservarlos."
+"Esta acción modificará la configuración de sus pasos de genio. Asegúrese de "
+"respaldar sus pasos actuales antes de importar si quiere conservarlos."
 
 #: app/templates/modals/wizard-import-form.html:111
 msgid "Import Steps"
@@ -2044,7 +2045,8 @@ msgstr "Conexiones"
 
 #: app/templates/settings/connections.html:9
 msgid "Manage external service connections for automated user invitations"
-msgstr "Gestionar conexiones a servicios externos para invitaciones automatizadas"
+msgstr ""
+"Gestionar conexiones a servicios externos para invitaciones automatizadas"
 
 #: app/templates/settings/connections.html:23
 #: app/templates/settings/connections/form.html:49
@@ -2088,9 +2090,8 @@ msgid ""
 "Connect your external services to automate user invitations when invites "
 "are created for specific media servers."
 msgstr ""
-"Conecte sus servicios externos para automatizar las invitaciones de "
-"usuario cuando se creen invitaciones para servidores de medios "
-"específicos."
+"Conecte sus servicios externos para automatizar las invitaciones de usuario "
+"cuando se creen invitaciones para servidores de medios específicos."
 
 #: app/templates/settings/connections.html:171
 msgid "Add Your First Connection"
@@ -2232,8 +2233,7 @@ msgstr "Agentes de Notificaciones"
 #: app/templates/settings/notifications.html:10
 msgid "Configure notification services to alert you about important events"
 msgstr ""
-"Configurar servicios de notificación para alertas sobre eventos "
-"importantes"
+"Configurar servicios de notificación para alertas sobre eventos importantes"
 
 #: app/templates/settings/notifications.html:21
 #: app/templates/settings/notifications.html:125
@@ -2296,7 +2296,8 @@ msgstr "Un nombre amigable para identificar esta conexión"
 
 #: app/templates/settings/connections/form.html:111
 msgid "Which media server should trigger invitations to this external service"
-msgstr "Cuál servidor de medios debe iniciar invitaciones a este servicio externo"
+msgstr ""
+"Cuál servidor de medios debe iniciar invitaciones a este servicio externo"
 
 #: app/templates/settings/connections/form.html:132
 msgid "Open your Overseerr/Jellyseerr admin panel"
@@ -2478,8 +2479,8 @@ msgid ""
 "Import wizard steps or bundles from a JSON file to quickly set up or "
 "restore your wizard configuration."
 msgstr ""
-"Importar pasos o paquetes de genio desde un archivo JSON para rápidamente"
-" configurar o restaurar su configuración de genio."
+"Importar pasos o paquetes de genio desde un archivo JSON para rápidamente "
+"configurar o restaurar su configuración de genio."
 
 #: app/templates/settings/wizard/import_form.html:13
 msgid "Select JSON File"
@@ -2495,9 +2496,9 @@ msgid ""
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
 msgstr ""
-"Cuando está seleccionado, todos los pasos y paquetes genio existentes "
-"serán eliminados y reemplazados por la configuración importada. Cuando no"
-" está seleccionado, los ítems importados se añadirán a los existentes."
+"Cuando está seleccionado, todos los pasos y paquetes genio existentes serán "
+"eliminados y reemplazados por la configuración importada. Cuando no está "
+"seleccionado, los ítems importados se añadirán a los existentes."
 
 #: app/templates/settings/wizard/import_form.html:82
 msgid "Important: Backup Recommended"
@@ -2505,7 +2506,8 @@ msgstr "Importante: Respaldo Recomendado"
 
 #: app/templates/settings/wizard/import_form.html:84
 msgid "This action will modify your wizard configuration. Consider the following:"
-msgstr "Esta acción modificará su configuración de genio. Considere lo siguiente:"
+msgstr ""
+"Esta acción modificará su configuración de genio. Considere lo siguiente:"
 
 #: app/templates/settings/wizard/import_form.html:86
 msgid "Export your current steps and bundles first as a backup"
@@ -2514,8 +2516,8 @@ msgstr "Exportar sus pasos y paquetes actuales como un respaldo"
 #: app/templates/settings/wizard/import_form.html:87
 msgid "Imported steps will use the file's step ordering and server types"
 msgstr ""
-"Los pasos importados utilizarán el orden y tipos de servidor presentes en"
-" el archivo"
+"Los pasos importados utilizarán el orden y tipos de servidor presentes en el "
+"archivo"
 
 #: app/templates/settings/wizard/import_form.html:88
 msgid "Imported bundles will preserve their step associations and ordering"
@@ -2526,8 +2528,8 @@ msgid ""
 "If replacing existing configuration, all current steps and bundles will "
 "be permanently removed"
 msgstr ""
-"Si reemplaza la configuración actual, todos los pasos y paquetes actuales"
-" serán eliminados permanentemente"
+"Si reemplaza la configuración actual, todos los pasos y paquetes actuales "
+"serán eliminados permanentemente"
 
 #: app/templates/settings/wizard/import_form.html:90
 msgid "Invalid or malformed JSON files will be rejected"
@@ -2575,7 +2577,8 @@ msgstr "Pasos de Genio"
 
 #: app/templates/settings/wizard/index.html:15
 msgid "Manage your wizard steps and bundles for user onboarding"
-msgstr "Gestionar sus pasos y paquetes de genio para la incorporación de usuarios"
+msgstr ""
+"Gestionar sus pasos y paquetes de genio para la incorporación de usuarios"
 
 #: app/templates/settings/wizard/index.html:36
 msgid "No wizard steps found"
@@ -3616,4 +3619,3 @@ msgstr "Haga click sobre el enlace en este paso para poder continuar"
 
 #~ msgid "Add step"
 #~ msgstr "Añadir paso"
-
