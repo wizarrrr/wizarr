@@ -1123,6 +1123,15 @@ wheels = [
 ]
 
 [[package]]
+name = "pyxdg"
+version = "0.28"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/b0/25/7998cd2dec731acbd438fbf91bc619603fc5188de0a9a17699a781840452/pyxdg-0.28.tar.gz", hash = "sha256:3267bb3074e934df202af2ee0868575484108581e6f3cb006af1da35395e88b4", size = 77776, upload-time = "2022-06-05T11:35:01Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e5/8d/cf41b66a8110670e3ad03dab9b759704eeed07fa96e90fdc0357b2ba70e2/pyxdg-0.28-py2.py3-none-any.whl", hash = "sha256:bdaf595999a0178ecea4052b7f4195569c1ff4d344567bccdc12dfdf02d545ab", size = 49520, upload-time = "2022-06-05T11:34:58.832Z" },
+]
+
+[[package]]
 name = "pyyaml"
 version = "6.0.3"
 source = { registry = "https://pypi.org/simple" }
@@ -1638,6 +1647,7 @@ dev = [
     { name = "pytest-playwright" },
     { name = "ruff" },
     { name = "ty" },
+    { name = "wlc" },
 ]
 
 [package.metadata]
@@ -1685,6 +1695,23 @@ dev = [
     { name = "pytest-playwright", specifier = ">=0.6.2" },
     { name = "ruff", specifier = ">=0.13.0" },
     { name = "ty", specifier = ">=0.0.1a20" },
+    { name = "wlc", specifier = ">=1.16.1" },
+]
+
+[[package]]
+name = "wlc"
+version = "1.16.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "argcomplete" },
+    { name = "python-dateutil" },
+    { name = "pyxdg" },
+    { name = "requests" },
+    { name = "urllib3" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/c8/04/cbdcbd5ff68b3cd396a7cc66ba9cc3ca31fdebdf320bbc2c9d8d4a71be78/wlc-1.16.1.tar.gz", hash = "sha256:81356de5cc73f2d93ade69d3640b73718772e26d0d551d32eb18e65480b0ee98", size = 79549, upload-time = "2025-10-10T06:55:24.54Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/0a/ba/e5ec14c686c59ad255013822b3b09fc19f7ef62b8c05c68aee390c85810b/wlc-1.16.1-py3-none-any.whl", hash = "sha256:c04df389c26ec4ad9fb8fc79d5047f99ac53cadec0c0f78ed91dbd060e2cc7e5", size = 90556, upload-time = "2025-10-10T06:55:23.404Z" },
 ]
 
 [[package]]
