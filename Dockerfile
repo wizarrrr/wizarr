@@ -37,8 +37,8 @@ COPY babel.cfg ./
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
-# Build translations
-RUN uv run --frozen --no-dev pybabel compile -d app/translations
+# Build translations (include fuzzy entries so pending translations are bundled)
+RUN uv run --frozen --no-dev pybabel compile --use-fuzzy -d app/translations
 
 # Ensure static directories exist and build static assets
 RUN mkdir -p app/static/js app/static/css && npm --prefix app/static/ run build
