@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-10-28 03:47+0000\n"
-"PO-Revision-Date: 2025-10-28 11:24+0000\n"
+"PO-Revision-Date: 2025-10-28 11:56+0000\n"
 "Last-Translator: Jycreyn <krymi@curassik.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr/"
 "wizarr-universal/fr/>\n"
@@ -118,11 +118,13 @@ msgstr ""
 #, python-brace-format
 msgid "Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
+"La tâche d’importation historique n°{job_id} a été lancée pour {server} "
+"(sur les {days} derniers jours)."
 
 #: app/activity/api/blueprint.py:607
 #, python-brace-format
 msgid "Failed to import historical data: {}"
-msgstr ""
+msgstr "Échec de l’importation des données historiques : {}"
 
 #: app/activity/api/blueprint.py:630
 #, fuzzy, python-brace-format
@@ -142,6 +144,8 @@ msgstr "Une erreur inconnue s'est produite"
 #: app/activity/api/blueprint.py:676
 msgid "Cannot remove a job that is still queued or running."
 msgstr ""
+"Impossible de supprimer une tâche qui est encore en file d’attente ou en "
+"cours d’exécution."
 
 #: app/activity/api/blueprint.py:704
 #, fuzzy
@@ -308,16 +312,20 @@ msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
 msgstr ""
+"Votre invitation a expiré ou n’est plus valide. Veuillez demander une "
+"nouvelle invitation."
 
 #: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1158
 msgid "Error Loading Step"
-msgstr ""
+msgstr "Erreur lors du chargement de l’étape"
 
 #: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1161
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
 msgstr ""
+"Cette étape n’a pas pu être chargée. Veuillez contacter l’administrateur ou "
+"passer à l’étape suivante."
 
 #: app/blueprints/wizard/routes.py:498 app/blueprints/wizard/routes.py:505
 #: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:1059
@@ -331,10 +339,14 @@ msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
 msgstr ""
+"Aucun serveur multimédia n’est configuré. Veuillez contacter l’"
+"administrateur pour configurer un serveur multimédia."
 
 #: app/blueprints/wizard/routes.py:575
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
+"Impossible de charger les étapes de l’assistant de configuration. Passage à "
+"l’acceptation de l’invitation."
 
 #: app/blueprints/wizard/routes.py:599 app/blueprints/wizard/routes.py:910
 #: app/blueprints/wizard/routes.py:1180 app/templates/wizard/steps.html:20
@@ -344,7 +356,7 @@ msgstr "Nouvelle invitation"
 
 #: app/blueprints/wizard/routes.py:652
 msgid "Please log in to continue"
-msgstr ""
+msgstr "Veuillez vous connecter pour continuer."
 
 #: app/blueprints/wizard/routes.py:764
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
