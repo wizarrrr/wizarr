@@ -3,24 +3,24 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-29 03:54+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2025-10-28 03:47+0000\n"
+"PO-Revision-Date: 2025-10-29 10:04+0000\n"
+"Last-Translator: Jycreyn <krymi@curassik.fr>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/fr/>\n"
 "Language: fr\n"
-"Language-Team: fr <LL@li.org>\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
-#, fuzzy
 msgid "Failed to load settings"
 msgstr "Échec du chargement des statistiques"
 
@@ -46,15 +46,15 @@ msgstr "Échec du chargement des statistiques"
 
 #: app/activity/api/blueprint.py:373
 msgid "Database not available"
-msgstr ""
+msgstr "Base de donnée non accessible"
 
 #: app/activity/api/blueprint.py:387
 msgid "Failed to get session details"
-msgstr ""
+msgstr "Impossible de récupérer les détails de la sessions"
 
 #: app/activity/api/blueprint.py:469
 msgid "Failed to export activity data"
-msgstr ""
+msgstr "Impossible d'exporter les données d'activité"
 
 #: app/activity/api/blueprint.py:488
 #, fuzzy
@@ -63,17 +63,17 @@ msgstr "Administrateur créé"
 
 #: app/activity/api/blueprint.py:491
 msgid "Monitor not available"
-msgstr ""
+msgstr "Le monitoring est innacessible"
 
 #: app/activity/api/blueprint.py:501
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
-msgstr ""
+msgstr "{} a été nettoyé des anciennes activités"
 
 #: app/activity/api/blueprint.py:514
 #, python-brace-format
 msgid "Ended {} stale sessions"
-msgstr ""
+msgstr "{} a clôturé les anciennes sessions"
 
 #: app/activity/api/blueprint.py:518
 #, fuzzy
@@ -89,6 +89,7 @@ msgstr "Échec du chargement des statistiques"
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
 msgstr ""
+"Les données d’activité ont été supprimées avec succès ({} enregistrements)."
 
 #: app/activity/api/blueprint.py:544
 #, fuzzy, python-brace-format
@@ -110,16 +111,20 @@ msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, "
 "Emby, and AudiobookShelf servers."
 msgstr ""
+"L’importation de données historiques est actuellement uniquement prise en "
+"charge pour les serveurs Plex, Jellyfin, Emby et AudiobookShelf."
 
 #: app/activity/api/blueprint.py:597
 #, python-brace-format
 msgid "Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
+"La tâche d’importation historique n°{job_id} a été lancée pour {server} "
+"(sur les {days} derniers jours)."
 
 #: app/activity/api/blueprint.py:607
 #, python-brace-format
 msgid "Failed to import historical data: {}"
-msgstr ""
+msgstr "Échec de l’importation des données historiques : {}"
 
 #: app/activity/api/blueprint.py:630
 #, fuzzy, python-brace-format
@@ -139,6 +144,8 @@ msgstr "Une erreur inconnue s'est produite"
 #: app/activity/api/blueprint.py:676
 msgid "Cannot remove a job that is still queued or running."
 msgstr ""
+"Impossible de supprimer une tâche qui est encore en file d’attente ou en "
+"cours d’exécution."
 
 #: app/activity/api/blueprint.py:704
 #, fuzzy
@@ -206,8 +213,8 @@ msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
 msgstr ""
-"La clé API a été créée avec succès. Veuillez la copier maintenant car "
-"elle ne sera plus affichée."
+"La clé API a été créée avec succès. Veuillez la copier maintenant car elle "
+"ne sera plus affichée."
 
 #: app/blueprints/api_keys/routes.py:111
 msgid "API key deleted successfully"
@@ -305,16 +312,20 @@ msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
 msgstr ""
+"Votre invitation a expiré ou n’est plus valide. Veuillez demander une "
+"nouvelle invitation."
 
 #: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1158
 msgid "Error Loading Step"
-msgstr ""
+msgstr "Erreur lors du chargement de l’étape"
 
 #: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1161
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
 msgstr ""
+"Cette étape n’a pas pu être chargée. Veuillez contacter l’administrateur ou "
+"passer à l’étape suivante."
 
 #: app/blueprints/wizard/routes.py:498 app/blueprints/wizard/routes.py:505
 #: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:1059
@@ -328,10 +339,14 @@ msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
 msgstr ""
+"Aucun serveur multimédia n’est configuré. Veuillez contacter l’"
+"administrateur pour configurer un serveur multimédia."
 
 #: app/blueprints/wizard/routes.py:575
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
+"Impossible de charger les étapes de l’assistant de configuration. Passage à "
+"l’acceptation de l’invitation."
 
 #: app/blueprints/wizard/routes.py:599 app/blueprints/wizard/routes.py:910
 #: app/blueprints/wizard/routes.py:1180 app/templates/wizard/steps.html:20
@@ -341,7 +356,7 @@ msgstr "Nouvelle invitation"
 
 #: app/blueprints/wizard/routes.py:652
 msgid "Please log in to continue"
-msgstr ""
+msgstr "Veuillez vous connecter pour continuer."
 
 #: app/blueprints/wizard/routes.py:764
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
@@ -576,8 +591,8 @@ msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
 msgstr ""
-"Impossible de se connecter au serveur %(server_type)s. Veuillez vérifier "
-"que le serveur est en cours d'exécution et que l'URL est correcte."
+"Impossible de se connecter au serveur %(server_type)s. Veuillez vérifier que "
+"le serveur est en cours d'exécution et que l'URL est correcte."
 
 #: app/services/servers.py:40
 #, python-format
@@ -594,8 +609,8 @@ msgid ""
 "An error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
 msgstr ""
-"Une erreur s'est produite lors de la connexion au serveur %(server_type)s"
-" : %(error)s"
+"Une erreur s'est produite lors de la connexion au serveur %(server_type)s : %"
+"(error)s"
 
 #: app/services/servers.py:53
 #, python-format
@@ -603,8 +618,8 @@ msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s "
 "server: %(error)s"
 msgstr ""
-"Une erreur inattendue s'est produite lors de la connexion au serveur "
-"%(server_type)s : %(error)s"
+"Une erreur inattendue s'est produite lors de la connexion au serveur %"
+"(server_type)s : %(error)s"
 
 #: app/services/servers.py:66
 msgid "Plex"
@@ -1502,7 +1517,8 @@ msgstr "Il manque quelque chose."
 
 #: app/templates/error/404.html:18
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Désolé, nous ne trouvons pas cette page. On dirait qu'elle n'existe pas !"
+msgstr ""
+"Désolé, nous ne trouvons pas cette page. On dirait qu'elle n'existe pas !"
 
 #: app/templates/error/500.html:15
 msgid "Internal Server Error."
@@ -1599,16 +1615,14 @@ msgid "Add Administrator"
 msgstr ""
 
 #: app/templates/modals/create-api-key.html:13
-#, fuzzy
 msgid "API Key Created"
-msgstr "Création"
+msgstr "Clé API créée"
 
 #: app/templates/modals/create-api-key.html:15
 #: app/templates/settings/api_keys.html:17
 #: app/templates/settings/general.html:207
-#, fuzzy
 msgid "Create API Key"
-msgstr "Créer un Agent"
+msgstr "Créer une clé API"
 
 #: app/templates/modals/create-api-key.html:30
 msgid "API Key Created Successfully"
@@ -1621,9 +1635,8 @@ msgid ""
 msgstr ""
 
 #: app/templates/modals/create-api-key.html:40
-#, fuzzy
 msgid "Copy to clipboard"
-msgstr "Le lien a été copié dans le presse-papiers !"
+msgstr "Copier dans le presse-papiers"
 
 #: app/templates/modals/create-api-key.html:48
 msgid "Name:"
@@ -1640,8 +1653,8 @@ msgstr "Nom de la clé d'API"
 #: app/templates/modals/create-api-key.html:74
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
-"Entrez un nom descriptif pour vous aider à identifier cette clé d'API "
-"plus tard."
+"Entrez un nom descriptif pour vous aider à identifier cette clé d'API plus "
+"tard."
 
 #: app/templates/modals/create-notification-agent.html:32
 msgid "New Agent"
@@ -1669,16 +1682,14 @@ msgstr "URL de l'agent"
 
 #: app/templates/modals/create-notification-agent.html:110
 #: app/templates/modals/edit-notification-agent.html:105
-#, fuzzy
 msgid "Notification Events"
-msgstr "Agents de Notification"
+msgstr "Événements de Notification"
 
 #: app/templates/modals/create-notification-agent.html:121
 #: app/templates/modals/edit-notification-agent.html:117
 #: app/templates/settings/notifications.html:84
-#, fuzzy
 msgid "User Joined"
-msgstr "Rejoindre"
+msgstr "Utilisateur rejoint"
 
 #: app/templates/modals/create-notification-agent.html:133
 #: app/templates/modals/edit-notification-agent.html:129
@@ -1716,9 +1727,8 @@ msgid "Nickname"
 msgstr "Surnom"
 
 #: app/templates/modals/edit-notification-agent.html:12
-#, fuzzy
 msgid "Edit Agent"
-msgstr "Nouvel Agent"
+msgstr "Editer Agent"
 
 #: app/templates/modals/edit-notification-agent.html:24
 #: app/templates/servers/index.html:10
@@ -1726,14 +1736,12 @@ msgid "Name"
 msgstr "Nom"
 
 #: app/templates/modals/edit-notification-agent.html:36
-#, fuzzy
 msgid "Notification Service"
-msgstr "Agents de Notification"
+msgstr "Service de notification"
 
 #: app/templates/modals/edit-notification-agent.html:137
-#, fuzzy
 msgid "Test & Save Changes"
-msgstr "Tester & Créer l'Agent"
+msgstr "Tester & sauvegarder les changements"
 
 #: app/templates/modals/edit-server.html:12
 msgid "Edit Server"
@@ -1804,14 +1812,12 @@ msgid "Show Information"
 msgstr "Montrer les informations"
 
 #: app/templates/modals/invite.html:137
-#, fuzzy
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
 msgstr ""
-"Si renseigné, les utilisateurs invités seront retirés\n"
-"du serveur Plex après un nombre de jours.\n"
-"(1-999)"
+"Si sélectionné, les utilisateurs invités seront retirés du serveur Plex "
+"après plusieurs jours. (1-999)"
 
 #: app/templates/modals/invite.html:152
 msgid "Target servers"
@@ -1827,9 +1833,8 @@ msgid "Allow Live TV Access"
 msgstr "Autoriser l'accès à la TV en direct"
 
 #: app/templates/modals/invite.html:219 app/templates/modals/invite.html:276
-#, fuzzy
 msgid "Allow Mobile Uploads"
-msgstr "Autoriser les téléchargements"
+msgstr "Autoriser les uploads mobiles"
 
 #: app/templates/modals/invite.html:316
 msgid "Select Libraries"
@@ -1947,9 +1952,8 @@ msgid "Recently Added Media"
 msgstr "Ajouté récemment"
 
 #: app/templates/modals/wizard-step-form.html:79
-#, fuzzy
 msgid "Show recent content"
-msgstr "Échec de chargement du contenu récent"
+msgstr "Afficher le contenu récent"
 
 #: app/templates/modals/wizard-step-form.html:95
 msgid "Button"
@@ -1960,14 +1964,12 @@ msgid "Add a clickable link button"
 msgstr ""
 
 #: app/templates/modals/wizard-step-form.html:101
-#, fuzzy
 msgid "Elements"
-msgstr "Supprimer l'agent"
+msgstr "Éléments"
 
 #: app/templates/modals/wizard-step-form.html:115
-#, fuzzy
 msgid "Card"
-msgstr "Assistant"
+msgstr "Carte"
 
 #: app/templates/modals/wizard-step-form.html:116
 msgid "Add a styled content card"
@@ -2050,8 +2052,7 @@ msgstr "Connexions"
 #: app/templates/settings/connections.html:9
 msgid "Manage external service connections for automated user invitations"
 msgstr ""
-"Gérer les connexions aux services externes pour les invitations "
-"automatiques"
+"Gérer les connexions aux services externes pour les invitations automatiques"
 
 #: app/templates/settings/connections.html:23
 #: app/templates/settings/connections/form.html:49
@@ -2109,9 +2110,8 @@ msgid "Configure your application's basic settings and preferences"
 msgstr ""
 
 #: app/templates/settings/general.html:14
-#, fuzzy
 msgid "Version"
-msgstr "Autorisations"
+msgstr "Version"
 
 #: app/templates/settings/general.html:42
 msgid "Display"
@@ -2134,27 +2134,24 @@ msgid "Control access to the wizard setup process"
 msgstr ""
 
 #: app/templates/settings/general.html:96
-#, fuzzy
 msgid "User Management"
-msgstr "Gestion des clés d'API"
+msgstr "Gestion des utilisateurs"
 
 #: app/templates/settings/general.html:98
 msgid "Configure how users are managed when invitations expire"
 msgstr ""
 
 #: app/templates/settings/general.html:125
-#, fuzzy
 msgid "Server Capabilities"
-msgstr "serveurs en ligne"
+msgstr "Capacités du serveur"
 
 #: app/templates/settings/general.html:129
 msgid "Supports Disable:"
 msgstr ""
 
 #: app/templates/settings/general.html:140
-#, fuzzy
 msgid "Delete Only:"
-msgstr "Supprimer l'agent"
+msgstr "Supprimer seulement:"
 
 #: app/templates/settings/general.html:150
 msgid ""
@@ -2212,9 +2209,8 @@ msgid "Servers"
 msgstr "Serveurs"
 
 #: app/templates/settings/index.html:75
-#, fuzzy
 msgid "Activity"
-msgstr "Actif"
+msgstr "Activité"
 
 #: app/templates/settings/index.html:108
 msgid "Admins"
@@ -2225,9 +2221,8 @@ msgid "Wizard"
 msgstr "Assistant"
 
 #: app/templates/settings/index.html:142
-#, fuzzy
 msgid "Audit"
-msgstr "Modifier"
+msgstr "Audit"
 
 #: app/templates/settings/notifications.html:8
 msgid "Notification Agents"
@@ -2245,9 +2240,8 @@ msgid "Add Agent"
 msgstr "Ajouter un agent"
 
 #: app/templates/settings/notifications.html:51
-#, fuzzy
 msgid "Edit agent"
-msgstr "Nouvel Agent"
+msgstr "Éditer Agent"
 
 #: app/templates/settings/notifications.html:60
 msgid "Are you sure you want to delete"
@@ -2262,9 +2256,8 @@ msgid "Status"
 msgstr "État"
 
 #: app/templates/settings/notifications.html:79
-#, fuzzy
 msgid "Events"
-msgstr "Serveurs"
+msgstr "Évènements"
 
 #: app/templates/settings/notifications.html:112
 msgid "No notification agents"
@@ -2509,8 +2502,8 @@ msgstr "Important : Sauvegarde recommandée"
 #: app/templates/settings/wizard/import_form.html:84
 msgid "This action will modify your wizard configuration. Consider the following:"
 msgstr ""
-"Cette action modifiera la configuration de votre assistant. Veuillez "
-"prendre en compte les éléments suivants :"
+"Cette action modifiera la configuration de votre assistant. Veuillez prendre "
+"en compte les éléments suivants :"
 
 #: app/templates/settings/wizard/import_form.html:86
 msgid "Export your current steps and bundles first as a backup"
@@ -3646,4 +3639,3 @@ msgstr "Cliquez le lien dans cette étape pour continuer"
 
 #~ msgid "Add step"
 #~ msgstr "Ajouter une étape"
-
