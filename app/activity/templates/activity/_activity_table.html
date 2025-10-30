@@ -167,6 +167,14 @@ function paginateTo(page) {
     const params = new URLSearchParams(window.location.search);
     params.set('page', page);
 
+    const userSearch = document.getElementById('user-search')?.value;
+    const serverFilter = document.getElementById('server-filter')?.value;
+    const mediaTypeFilter = document.getElementById('media-type-filter')?.value;
+
+    if (userSearch) params.append('user_name', userSearch);
+    if (serverFilter) params.append('server_id', serverFilter);
+    if (mediaTypeFilter) params.append('media_type', mediaTypeFilter);
+
     // Remove days parameter since history shows all data
     params.delete('days');
 
