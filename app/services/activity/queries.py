@@ -21,6 +21,8 @@ from app.activity.domain.models import ActivityQuery
 from app.models import ActivitySession
 from app.services.activity.identity_resolution import apply_identity_resolution
 
+from sqlalchemy import or_
+
 
 class ActivityQueryService:
     """Encapsulates filterable queries over activity sessions."""
@@ -56,7 +58,10 @@ class ActivityQueryService:
             if query.server_ids:
                 filters.append(ActivitySession.server_id.in_(query.server_ids))
             if query.user_names:
-                filters.append(ActivitySession.user_name.in_(query.user_names))
+    # Replace exact match with partial, case-insensitive match for each name
+                filters.append(
+                    or_(*[ActivitySession.user_name.ilike(f"%{name}%") for name in query.user_names])
+                )
             if query.media_types:
                 filters.append(ActivitySession.media_type.in_(query.media_types))
             if query.start_date:
