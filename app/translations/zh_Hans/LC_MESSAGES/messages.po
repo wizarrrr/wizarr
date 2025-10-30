@@ -7,17 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-28 03:47+0000\n"
+"POT-Creation-Date: 2025-10-30 03:49+0000\n"
 "PO-Revision-Date: 2025-10-28 12:56+0000\n"
 "Last-Translator: 刘付苏 <liufusucc@gmail.com>\n"
-"Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
-"projects/wizarr/wizarr-universal/zh_Hans/>\n"
 "Language: zh_Hans\n"
+"Language-Team: Chinese (Simplified Han script) "
+"<https://hosted.weblate.org/projects/wizarr/wizarr-universal/zh_Hans/>\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
@@ -547,8 +546,7 @@ msgstr "%(server_type)s 服务器返回错误：%(error)s"
 msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
-msgstr "无法连接到 %(server_type)s 服务器。请检查服务器是否正在运行以及 URL 是否正确"
-"。"
+msgstr "无法连接到 %(server_type)s 服务器。请检查服务器是否正在运行以及 URL 是否正确。"
 
 #: app/services/servers.py:40
 #, python-format
@@ -1522,8 +1520,7 @@ msgstr "要启用自动导入："
 msgid ""
 "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
 "new users' and 'Import Jellyfin/Plex users'"
-msgstr "前往您的 Overseerr/Jellyseerr 设置 → 用户 → 启用“自动批准新用户”和“导入 "
-"Jellyfin/Plex 用户”"
+msgstr "前往您的 Overseerr/Jellyseerr 设置 → 用户 → 启用“自动批准新用户”和“导入 Jellyfin/Plex 用户”"
 
 #: app/templates/modals/connection-form.html:139
 msgid "Testing connection..."
@@ -2410,8 +2407,7 @@ msgid ""
 "When checked, all existing wizard steps and bundles will be removed and "
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
-msgstr "选中时，所有现有的向导步骤和组合包将被移除，并替换为导入的配置。不选中时，导"
-"入的项目将与现有项目一起添加。"
+msgstr "选中时，所有现有的向导步骤和组合包将被移除，并替换为导入的配置。不选中时，导入的项目将与现有项目一起添加。"
 
 #: app/templates/settings/wizard/import_form.html:82
 msgid "Important: Backup Recommended"
@@ -2532,8 +2528,7 @@ msgstr "未找到步骤。"
 msgid ""
 "Are you sure you want to reset all steps for %(server)s to defaults? This"
 " will delete all custom steps and reimport the default ones."
-msgstr "您确定要将 %(server)s 的所有步骤重置为默认值吗？这将删除所有自定义步骤并重新"
-"导入默认步骤。"
+msgstr "您确定要将 %(server)s 的所有步骤重置为默认值吗？这将删除所有自定义步骤并重新导入默认步骤。"
 
 #: app/templates/settings/wizard/steps.html:26
 #, python-format
@@ -3177,3 +3172,4 @@ msgstr "点击此步骤中的链接以继续进行操作"
 
 #~ msgid "Add step"
 #~ msgstr "添加步骤"
+

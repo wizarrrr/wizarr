@@ -7,17 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-28 03:47+0000\n"
+"POT-Creation-Date: 2025-10-30 03:49+0000\n"
 "PO-Revision-Date: 2025-10-29 10:04+0000\n"
 "Last-Translator: Jycreyn <krymi@curassik.fr>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/wizarr/"
-"wizarr-universal/fr/>\n"
 "Language: fr\n"
+"Language-Team: French <https://hosted.weblate.org/projects/wizarr/wizarr-"
+"universal/fr/>\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
@@ -89,7 +88,8 @@ msgstr "Échec du chargement des statistiques"
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
 msgstr ""
-"Les données d’activité ont été supprimées avec succès ({} enregistrements)."
+"Les données d’activité ont été supprimées avec succès ({} "
+"enregistrements)."
 
 #: app/activity/api/blueprint.py:544
 #, fuzzy, python-brace-format
@@ -111,8 +111,8 @@ msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, "
 "Emby, and AudiobookShelf servers."
 msgstr ""
-"L’importation de données historiques est actuellement uniquement prise en "
-"charge pour les serveurs Plex, Jellyfin, Emby et AudiobookShelf."
+"L’importation de données historiques est actuellement uniquement prise en"
+" charge pour les serveurs Plex, Jellyfin, Emby et AudiobookShelf."
 
 #: app/activity/api/blueprint.py:597
 #, python-brace-format
@@ -213,8 +213,8 @@ msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
 msgstr ""
-"La clé API a été créée avec succès. Veuillez la copier maintenant car elle "
-"ne sera plus affichée."
+"La clé API a été créée avec succès. Veuillez la copier maintenant car "
+"elle ne sera plus affichée."
 
 #: app/blueprints/api_keys/routes.py:111
 msgid "API key deleted successfully"
@@ -324,8 +324,8 @@ msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
 msgstr ""
-"Cette étape n’a pas pu être chargée. Veuillez contacter l’administrateur ou "
-"passer à l’étape suivante."
+"Cette étape n’a pas pu être chargée. Veuillez contacter l’administrateur "
+"ou passer à l’étape suivante."
 
 #: app/blueprints/wizard/routes.py:498 app/blueprints/wizard/routes.py:505
 #: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:1059
@@ -339,14 +339,14 @@ msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
 msgstr ""
-"Aucun serveur multimédia n’est configuré. Veuillez contacter l’"
-"administrateur pour configurer un serveur multimédia."
+"Aucun serveur multimédia n’est configuré. Veuillez contacter "
+"l’administrateur pour configurer un serveur multimédia."
 
 #: app/blueprints/wizard/routes.py:575
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
-"Impossible de charger les étapes de l’assistant de configuration. Passage à "
-"l’acceptation de l’invitation."
+"Impossible de charger les étapes de l’assistant de configuration. Passage"
+" à l’acceptation de l’invitation."
 
 #: app/blueprints/wizard/routes.py:599 app/blueprints/wizard/routes.py:910
 #: app/blueprints/wizard/routes.py:1180 app/templates/wizard/steps.html:20
@@ -591,8 +591,8 @@ msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
 msgstr ""
-"Impossible de se connecter au serveur %(server_type)s. Veuillez vérifier que "
-"le serveur est en cours d'exécution et que l'URL est correcte."
+"Impossible de se connecter au serveur %(server_type)s. Veuillez vérifier "
+"que le serveur est en cours d'exécution et que l'URL est correcte."
 
 #: app/services/servers.py:40
 #, python-format
@@ -609,8 +609,8 @@ msgid ""
 "An error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
 msgstr ""
-"Une erreur s'est produite lors de la connexion au serveur %(server_type)s : %"
-"(error)s"
+"Une erreur s'est produite lors de la connexion au serveur %(server_type)s"
+" : %(error)s"
 
 #: app/services/servers.py:53
 #, python-format
@@ -618,8 +618,8 @@ msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s "
 "server: %(error)s"
 msgstr ""
-"Une erreur inattendue s'est produite lors de la connexion au serveur %"
-"(server_type)s : %(error)s"
+"Une erreur inattendue s'est produite lors de la connexion au serveur "
+"%(server_type)s : %(error)s"
 
 #: app/services/servers.py:66
 msgid "Plex"
@@ -1517,8 +1517,7 @@ msgstr "Il manque quelque chose."
 
 #: app/templates/error/404.html:18
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr ""
-"Désolé, nous ne trouvons pas cette page. On dirait qu'elle n'existe pas !"
+msgstr "Désolé, nous ne trouvons pas cette page. On dirait qu'elle n'existe pas !"
 
 #: app/templates/error/500.html:15
 msgid "Internal Server Error."
@@ -1653,8 +1652,8 @@ msgstr "Nom de la clé d'API"
 #: app/templates/modals/create-api-key.html:74
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
-"Entrez un nom descriptif pour vous aider à identifier cette clé d'API plus "
-"tard."
+"Entrez un nom descriptif pour vous aider à identifier cette clé d'API "
+"plus tard."
 
 #: app/templates/modals/create-notification-agent.html:32
 msgid "New Agent"
@@ -2052,7 +2051,8 @@ msgstr "Connexions"
 #: app/templates/settings/connections.html:9
 msgid "Manage external service connections for automated user invitations"
 msgstr ""
-"Gérer les connexions aux services externes pour les invitations automatiques"
+"Gérer les connexions aux services externes pour les invitations "
+"automatiques"
 
 #: app/templates/settings/connections.html:23
 #: app/templates/settings/connections/form.html:49
@@ -2502,8 +2502,8 @@ msgstr "Important : Sauvegarde recommandée"
 #: app/templates/settings/wizard/import_form.html:84
 msgid "This action will modify your wizard configuration. Consider the following:"
 msgstr ""
-"Cette action modifiera la configuration de votre assistant. Veuillez prendre "
-"en compte les éléments suivants :"
+"Cette action modifiera la configuration de votre assistant. Veuillez "
+"prendre en compte les éléments suivants :"
 
 #: app/templates/settings/wizard/import_form.html:86
 msgid "Export your current steps and bundles first as a backup"
@@ -3639,3 +3639,4 @@ msgstr "Cliquez le lien dans cette étape pour continuer"
 
 #~ msgid "Add step"
 #~ msgstr "Ajouter une étape"
+
