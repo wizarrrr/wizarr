@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-10-31 03:50+0000\n"
 "PO-Revision-Date: 2025-10-31 15:19+0000\n"
-"Last-Translator: Jycreyn <krymi@curassik.fr>\n"
+"Last-Translator: Nathan <bonnemainsnathan@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr/"
 "wizarr-universal/fr/>\n"
 "Language: fr\n"
@@ -591,8 +591,8 @@ msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
 msgstr ""
-"Impossible de se connecter au serveur %(server_type)s. Veuillez vérifier "
-"que le serveur est en cours d'exécution et que l'URL est correcte."
+"Impossible de se connecter au serveur %(server_type)s. Veuillez vérifier que "
+"le serveur est en cours d'exécution et que l'URL est correcte."
 
 #: app/services/servers.py:40
 #, python-format
@@ -609,8 +609,8 @@ msgid ""
 "An error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
 msgstr ""
-"Une erreur s'est produite lors de la connexion au serveur %(server_type)s"
-" : %(error)s"
+"Une erreur s'est produite lors de la connexion au serveur %(server_type)s : %"
+"(error)s"
 
 #: app/services/servers.py:53
 #, python-format
@@ -618,8 +618,8 @@ msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s "
 "server: %(error)s"
 msgstr ""
-"Une erreur inattendue s'est produite lors de la connexion au serveur "
-"%(server_type)s : %(error)s"
+"Une erreur inattendue s'est produite lors de la connexion au serveur %"
+"(server_type)s : %(error)s"
 
 #: app/services/servers.py:66
 msgid "Plex"
@@ -1652,8 +1652,8 @@ msgstr "Nom de la clé d'API"
 #: app/templates/modals/create-api-key.html:74
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
-"Entrez un nom descriptif pour vous aider à identifier cette clé d'API "
-"plus tard."
+"Entrez un nom descriptif pour vous aider à identifier cette clé d'API plus "
+"tard."
 
 #: app/templates/modals/create-notification-agent.html:32
 msgid "New Agent"
@@ -2051,8 +2051,7 @@ msgstr "Connexions"
 #: app/templates/settings/connections.html:9
 msgid "Manage external service connections for automated user invitations"
 msgstr ""
-"Gérer les connexions aux services externes pour les invitations "
-"automatiques"
+"Gérer les connexions aux services externes pour les invitations automatiques"
 
 #: app/templates/settings/connections.html:23
 #: app/templates/settings/connections/form.html:49
@@ -2502,8 +2501,8 @@ msgstr "Important : Sauvegarde recommandée"
 #: app/templates/settings/wizard/import_form.html:84
 msgid "This action will modify your wizard configuration. Consider the following:"
 msgstr ""
-"Cette action modifiera la configuration de votre assistant. Veuillez "
-"prendre en compte les éléments suivants :"
+"Cette action modifiera la configuration de votre assistant. Veuillez prendre "
+"en compte les éléments suivants :"
 
 #: app/templates/settings/wizard/import_form.html:86
 msgid "Export your current steps and bundles first as a backup"
