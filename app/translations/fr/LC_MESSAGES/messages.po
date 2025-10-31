@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-10-31 03:50+0000\n"
-"PO-Revision-Date: 2025-10-29 10:04+0000\n"
+"PO-Revision-Date: 2025-10-31 15:19+0000\n"
 "Last-Translator: Jycreyn <krymi@curassik.fr>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/fr/>\n"
 "Language: fr\n"
-"Language-Team: French <https://hosted.weblate.org/projects/wizarr/wizarr-"
-"universal/fr/>\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
@@ -88,8 +89,7 @@ msgstr "Échec du chargement des statistiques"
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
 msgstr ""
-"Les données d’activité ont été supprimées avec succès ({} "
-"enregistrements)."
+"Les données d’activité ont été supprimées avec succès ({} enregistrements)."
 
 #: app/activity/api/blueprint.py:544
 #, fuzzy, python-brace-format
@@ -111,8 +111,8 @@ msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, "
 "Emby, and AudiobookShelf servers."
 msgstr ""
-"L’importation de données historiques est actuellement uniquement prise en"
-" charge pour les serveurs Plex, Jellyfin, Emby et AudiobookShelf."
+"L’importation de données historiques est actuellement uniquement prise en "
+"charge pour les serveurs Plex, Jellyfin, Emby et AudiobookShelf."
 
 #: app/activity/api/blueprint.py:597
 #, python-brace-format
@@ -324,8 +324,8 @@ msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
 msgstr ""
-"Cette étape n’a pas pu être chargée. Veuillez contacter l’administrateur "
-"ou passer à l’étape suivante."
+"Cette étape n’a pas pu être chargée. Veuillez contacter l’administrateur ou "
+"passer à l’étape suivante."
 
 #: app/blueprints/wizard/routes.py:498 app/blueprints/wizard/routes.py:505
 #: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:1059
@@ -339,14 +339,14 @@ msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
 msgstr ""
-"Aucun serveur multimédia n’est configuré. Veuillez contacter "
-"l’administrateur pour configurer un serveur multimédia."
+"Aucun serveur multimédia n’est configuré. Veuillez contacter l’"
+"administrateur pour configurer un serveur multimédia."
 
 #: app/blueprints/wizard/routes.py:575
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
-"Impossible de charger les étapes de l’assistant de configuration. Passage"
-" à l’acceptation de l’invitation."
+"Impossible de charger les étapes de l’assistant de configuration. Passage à "
+"l’acceptation de l’invitation."
 
 #: app/blueprints/wizard/routes.py:599 app/blueprints/wizard/routes.py:910
 #: app/blueprints/wizard/routes.py:1180 app/templates/wizard/steps.html:20
@@ -3639,4 +3639,3 @@ msgstr "Cliquez le lien dans cette étape pour continuer"
 
 #~ msgid "Add step"
 #~ msgstr "Ajouter une étape"
-
