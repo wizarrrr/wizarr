@@ -7,17 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-31 03:50+0000\n"
+"POT-Creation-Date: 2025-11-01 03:49+0000\n"
 "PO-Revision-Date: 2025-10-31 16:06+0000\n"
 "Last-Translator: Ben Avermate <weblate@benavermate.be>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/"
-"wizarr-universal/nl/>\n"
 "Language: nl\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/wizarr-"
+"universal/nl/>\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
@@ -208,8 +207,8 @@ msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
 msgstr ""
-"API sleutel succesvol aangemaakt. Kopieer dit nu omdat het niet meer getoond "
-"zal worden."
+"API sleutel succesvol aangemaakt. Kopieer dit nu omdat het niet meer "
+"getoond zal worden."
 
 #: app/blueprints/api_keys/routes.py:111
 msgid "API key deleted successfully"
@@ -577,8 +576,8 @@ msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
 msgstr ""
-"Kan geen verbinding maken met de %(server_type)s server. Controleer of de "
-"server aan staat en de URL klopt."
+"Kan geen verbinding maken met de %(server_type)s server. Controleer of de"
+" server aan staat en de URL klopt."
 
 #: app/services/servers.py:40
 #, python-format
@@ -586,8 +585,8 @@ msgid ""
 "Connection to %(server_type)s server timed out. Please check if the "
 "server is running and accessible."
 msgstr ""
-"Verbinding met server %(server_type)s is verlopen. Controleer of de server "
-"actief en toegankelijk is."
+"Verbinding met server %(server_type)s is verlopen. Controleer of de "
+"server actief en toegankelijk is."
 
 #: app/services/servers.py:46
 #, python-format
@@ -595,8 +594,8 @@ msgid ""
 "An error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
 msgstr ""
-"Een foutmelding is opgetreden tijdens het verbinden met de server %"
-"(server_type)s: %(error)s"
+"Een foutmelding is opgetreden tijdens het verbinden met de server "
+"%(server_type)s: %(error)s"
 
 #: app/services/servers.py:53
 #, python-format
@@ -604,8 +603,8 @@ msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s "
 "server: %(error)s"
 msgstr ""
-"Een onverwachte fout is opgetreden tijdens het verbinden met de server %"
-"(server_type)s : %(error)s"
+"Een onverwachte fout is opgetreden tijdens het verbinden met de server "
+"%(server_type)s : %(error)s"
 
 #: app/services/servers.py:66
 msgid "Plex"
@@ -778,7 +777,8 @@ msgstr "Je Plex account is al ingesteld en klaar voor gebruik"
 #: app/templates/hybrid-password-form.html:204
 msgid "This password will be used to create accounts on your local servers"
 msgstr ""
-"Dit wachtwoord wordt gebruikt om accounts op je lokale servers aan te maken"
+"Dit wachtwoord wordt gebruikt om accounts op je lokale servers aan te "
+"maken"
 
 #: app/templates/hybrid-password-form.html:205
 msgid "You'll be redirected to the setup wizard to complete configuration"
@@ -874,8 +874,7 @@ msgstr "Het voltooien van de 2FA-aanmelding is mislukt"
 
 #: app/templates/login.html:253
 msgid "Passkey authentication failed. Please try again or use your password."
-msgstr ""
-"Passkey authenticatie gefaald. Probeer opnieuw of gebruik je wachtwoord."
+msgstr "Passkey authenticatie gefaald. Probeer opnieuw of gebruik je wachtwoord."
 
 #: app/templates/profile.html:17
 msgid "Administrator"
@@ -1243,8 +1242,8 @@ msgid ""
 "This user exists on multiple servers. You can set different expiry dates "
 "for each server."
 msgstr ""
-"Deze gebruiker bestaat op meerdere server. Je kan per server een vervaldatum "
-"instellen."
+"Deze gebruiker bestaat op meerdere server. Je kan per server een "
+"vervaldatum instellen."
 
 #: app/templates/admin/user_modal.html:48
 msgid "Expiry date"
@@ -1557,8 +1556,8 @@ msgid ""
 "Overseerr and Jellyseerr automatically import new users by default. No "
 "API connection is required for Wizarr integration."
 msgstr ""
-"Overseerr and Jellyseer kunnen standaard automatisch gebruikers importeren. "
-"Geen API verbinding nodig voor Wizarr intergratie."
+"Overseerr and Jellyseer kunnen standaard automatisch gebruikers "
+"importeren. Geen API verbinding nodig voor Wizarr intergratie."
 
 #: app/templates/modals/connection-form.html:82
 #: app/templates/settings/connections/form.html:130
@@ -1637,8 +1636,8 @@ msgstr "API Sleutel Naam"
 #: app/templates/modals/create-api-key.html:74
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
-"Voer een beschrijvende naam in, zodat u deze API-sleutel later gemakkelijk "
-"kunt herkennen."
+"Voer een beschrijvende naam in, zodat u deze API-sleutel later "
+"gemakkelijk kunt herkennen."
 
 #: app/templates/modals/create-notification-agent.html:32
 msgid "New Agent"
@@ -1885,8 +1884,8 @@ msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
 "steps will be merged with existing ones."
 msgstr ""
-"Indien aangevinkt, worden bestaande stappen vervangen. Indien uitgevinkt, "
-"worden geïmporteerde stappen samengevoegd met bestaande stappen."
+"Indien aangevinkt, worden bestaande stappen vervangen. Indien uitgevinkt,"
+" worden geïmporteerde stappen samengevoegd met bestaande stappen."
 
 #: app/templates/modals/wizard-import-form.html:90
 msgid "Important Notice"
@@ -1897,8 +1896,8 @@ msgid ""
 "This action will modify your wizard steps configuration. Make sure to "
 "backup your current steps before importing if you want to preserve them."
 msgstr ""
-"Met deze actie wordt de configuratie van uw wizardstappen gewijzigd. Zorg "
-"ervoor dat u een back-up van uw huidige stappen maakt voordat u ze "
+"Met deze actie wordt de configuratie van uw wizardstappen gewijzigd. Zorg"
+" ervoor dat u een back-up van uw huidige stappen maakt voordat u ze "
 "importeert, als u ze wilt behouden."
 
 #: app/templates/modals/wizard-import-form.html:111
@@ -2050,7 +2049,8 @@ msgstr "Verbindingen"
 #: app/templates/settings/connections.html:9
 msgid "Manage external service connections for automated user invitations"
 msgstr ""
-"Beheer externe service verbindngen voor automatisch gebruikers uitnodigingen"
+"Beheer externe service verbindngen voor automatisch gebruikers "
+"uitnodigingen"
 
 #: app/templates/settings/connections.html:23
 #: app/templates/settings/connections/form.html:49
@@ -2303,8 +2303,7 @@ msgstr "Een vriendelijke naam om deze verbinding te identificeren"
 
 #: app/templates/settings/connections/form.html:111
 msgid "Which media server should trigger invitations to this external service"
-msgstr ""
-"Welke mediaserver moet uitnodigingen voor deze externe service activeren"
+msgstr "Welke mediaserver moet uitnodigingen voor deze externe service activeren"
 
 #: app/templates/settings/connections/form.html:132
 msgid "Open your Overseerr/Jellyseerr admin panel"
@@ -2486,8 +2485,8 @@ msgid ""
 "Import wizard steps or bundles from a JSON file to quickly set up or "
 "restore your wizard configuration."
 msgstr ""
-"Importeerd wizard stappen of bundels van een JSON bestand om snel je wizard "
-"configuratie op te zetten of herstellen."
+"Importeerd wizard stappen of bundels van een JSON bestand om snel je "
+"wizard configuratie op te zetten of herstellen."
 
 #: app/templates/settings/wizard/import_form.html:13
 msgid "Select JSON File"
@@ -2503,9 +2502,9 @@ msgid ""
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
 msgstr ""
-"Indien aangevinkt, worden alle bestaande wizardstappen en bundels verwijderd "
-"en vervangen door de geïmporteerde configuratie. Indien niet aangevinkt, "
-"worden geïmporteerde items toegevoegd naast de bestaande."
+"Indien aangevinkt, worden alle bestaande wizardstappen en bundels "
+"verwijderd en vervangen door de geïmporteerde configuratie. Indien niet "
+"aangevinkt, worden geïmporteerde items toegevoegd naast de bestaande."
 
 #: app/templates/settings/wizard/import_form.html:82
 msgid "Important: Backup Recommended"
@@ -2513,8 +2512,7 @@ msgstr "Belangrijk: Back-up Aangeraden"
 
 #: app/templates/settings/wizard/import_form.html:84
 msgid "This action will modify your wizard configuration. Consider the following:"
-msgstr ""
-"Deze actie wijzigd je wizard configuratie. Houd rekening met het volgende:"
+msgstr "Deze actie wijzigd je wizard configuratie. Houd rekening met het volgende:"
 
 #: app/templates/settings/wizard/import_form.html:86
 msgid "Export your current steps and bundles first as a backup"
@@ -3563,3 +3561,4 @@ msgstr "Klik de link in deze stap om door te gaan"
 
 #~ msgid "Add step"
 #~ msgstr "Stap toevoegen"
+
