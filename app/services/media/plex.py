@@ -67,7 +67,16 @@ def extract_plex_error_message(exception) -> str:
     clean_message = (
         error_message.split(";")[0] if ";" in error_message else error_message
     )
-    return clean_message.replace("plexapi.exceptions.", "").replace("BadRequest: ", "")
+    clean_message = clean_message.replace("plexapi.exceptions.", "").replace(
+        "BadRequest: ", ""
+    )
+
+    # Check if error is just a library/user ID (strip quotes first)
+    stripped = clean_message.strip().strip("'\"")
+    if stripped.isdigit():
+        return f"Invalid library ID '{stripped}'. Check invitation library settings."
+
+    return clean_message
 
 
 class PlexInvitationError(Exception):
@@ -1313,15 +1322,16 @@ def _invite_user(email: str, code: str, _user_id: int, server: MediaServer) -> N
 
     client = get_client_for_media_server(server)
 
+    # Use library names, not IDs (PlexAPI expects names or LibrarySection objects)
     libs = (
-        [lib.external_id for lib in inv.libraries if lib.server_id == server.id]
+        [lib.name for lib in inv.libraries if lib.server_id == server.id]
         if inv.libraries
         else []
     )
 
     if not libs:
         libs = [
-            lib.external_id
+            lib.name
             for lib in Library.query.filter_by(enabled=True, server_id=server.id).all()
         ]
 
