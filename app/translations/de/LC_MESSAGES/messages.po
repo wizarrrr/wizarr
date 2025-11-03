@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-11-03 03:57+0000\n"
-"PO-Revision-Date: 2025-10-31 15:10+0000\n"
-"Last-Translator: retardgerman <jan.cebulla@icloud.com>\n"
+"PO-Revision-Date: 2025-11-03 19:06+0000\n"
+"Last-Translator: Gom3tzler <gometzler@gmail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/de/>\n"
 "Language: de\n"
-"Language-Team: German <https://hosted.weblate.org/projects/wizarr/wizarr-"
-"universal/de/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
@@ -100,15 +101,15 @@ msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, "
 "Emby, and AudiobookShelf servers."
 msgstr ""
-"Der Import von Verlaufsdaten geht im Moment nur bei Plex-, Jellyfin-, "
-"Emby- und AudiobookShelf-Servern."
+"Der Import von Verlaufsdaten geht im Moment nur bei Plex-, Jellyfin-, Emby- "
+"und AudiobookShelf-Servern."
 
 #: app/activity/api/blueprint.py:597
 #, python-brace-format
 msgid "Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
-"Verlaufsdaten Importauftrag #{job_id} für {server} gestartet (vor {days} "
-"Tagen)."
+"Verlaufsdaten Importauftrag #{job_id} für {server} gestartet "
+"(vor {days} Tagen)."
 
 #: app/activity/api/blueprint.py:607
 #, python-brace-format
@@ -132,8 +133,8 @@ msgstr "Unbekannter Fehler"
 #: app/activity/api/blueprint.py:676
 msgid "Cannot remove a job that is still queued or running."
 msgstr ""
-"Ein Job, der noch in der Warteschlange steht oder läuft, kann nicht "
-"entfernt werden."
+"Ein Job, der noch in der Warteschlange steht oder läuft, kann nicht entfernt "
+"werden."
 
 #: app/activity/api/blueprint.py:704
 msgid "An internal error has occurred."
@@ -200,8 +201,8 @@ msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
 msgstr ""
-"API-Schlüssel wurde erfolgreich erstellt. Bitte kopiere ihn jetzt, er "
-"wird nicht noch mal angezeigt."
+"API-Schlüssel wurde erfolgreich erstellt. Bitte kopiere ihn jetzt, er wird "
+"nicht noch mal angezeigt."
 
 #: app/blueprints/api_keys/routes.py:111
 msgid "API key deleted successfully"
@@ -254,8 +255,8 @@ msgstr "Verbindung erfolgreich gelöscht!"
 #: app/blueprints/connections/routes.py:165
 msgid "Please refresh the page and try again (CSRF token expired)"
 msgstr ""
-"Bitte aktualisiere die Seite und versuch's nochmal (CSRF-Token ist "
-"abgelaufen)"
+"Bitte aktualisiere die Seite und versuch's nochmal "
+"(CSRF-Token ist abgelaufen)"
 
 #: app/blueprints/connections/routes.py:170
 #, python-format
@@ -301,8 +302,8 @@ msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
 msgstr ""
-"Deine Einladung ist abgelaufen oder nicht mehr gültig. Bitte fordere eine"
-" neue Einladung an."
+"Deine Einladung ist abgelaufen oder nicht mehr gültig. Bitte fordere eine "
+"neue Einladung an."
 
 #: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1158
 msgid "Error Loading Step"
@@ -327,14 +328,14 @@ msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
 msgstr ""
-"Keine Medienserver sind eingerichtet. Bitte frag den Administrator, einen"
-" Medienserver einzurichten."
+"Keine Medienserver sind eingerichtet. Bitte frag den Administrator, einen "
+"Medienserver einzurichten."
 
 #: app/blueprints/wizard/routes.py:575
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
-"Die Schritte des Wizards können nicht geladen werden. Weiter zur Annahme "
-"der Einladung."
+"Die Schritte des Wizards können nicht geladen werden. Weiter zur Annahme der "
+"Einladung."
 
 #: app/blueprints/wizard/routes.py:599 app/blueprints/wizard/routes.py:910
 #: app/blueprints/wizard/routes.py:1180 app/templates/wizard/steps.html:20
@@ -348,8 +349,8 @@ msgstr "Melde dich bitte an, um fortzufahren"
 #: app/blueprints/wizard/routes.py:764
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
-"Schritte des Wizards können nicht geladen werden. Einrichtung "
-"abgeschlossen! Willkommen auf deinem Medienserver."
+"Schritte des Wizards können nicht geladen werden. Einrichtung abgeschlossen! "
+"Willkommen auf deinem Medienserver."
 
 #: app/blueprints/wizard/routes.py:797
 msgid "Setup complete! Welcome to your media server."
@@ -357,7 +358,8 @@ msgstr "Einrichtung fertig! Willkommen auf deinem Medienserver."
 
 #: app/blueprints/wizard/routes.py:895
 msgid "Unable to load wizard configuration. Please try again."
-msgstr "Konfiguration des Wizards kann nicht geladen werden. Versuche es nochmal."
+msgstr ""
+"Konfiguration des Wizards kann nicht geladen werden. Versuche es nochmal."
 
 #: app/blueprints/wizard/routes.py:1037
 msgid "Unable to load wizard bundle. Please try again."
@@ -576,8 +578,8 @@ msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
 msgstr ""
-"Es konnte keine Verbindung zum %(server_type)s Server hergestellt werden."
-" Bitte prüf mal, ob der Server läuft und die URL stimmt."
+"Es konnte keine Verbindung zum %(server_type)s Server hergestellt werden. "
+"Bitte prüf mal, ob der Server läuft und die URL stimmt."
 
 #: app/services/servers.py:40
 #, python-format
@@ -585,8 +587,8 @@ msgid ""
 "Connection to %(server_type)s server timed out. Please check if the "
 "server is running and accessible."
 msgstr ""
-"Die Verbindung zum %(server_type)s Server ist abgelaufen. Schau mal nach,"
-" ob der Server läuft und erreichbar ist."
+"Die Verbindung zum %(server_type)s Server ist abgelaufen. Schau mal nach, ob "
+"der Server läuft und erreichbar ist."
 
 #: app/services/servers.py:46
 #, python-format
@@ -783,8 +785,8 @@ msgstr ""
 #: app/templates/hybrid-password-form.html:205
 msgid "You'll be redirected to the setup wizard to complete configuration"
 msgstr ""
-"Du wirst zum Einrichtungsassistenten weitergeleitet, um die Konfiguration"
-" abzuschließen"
+"Du wirst zum Einrichtungsassistenten weitergeleitet, um die Konfiguration "
+"abzuschließen"
 
 #: app/templates/hybrid-password-form.html:211
 msgid "Only want to use Plex?"
@@ -875,8 +877,8 @@ msgstr "Die 2FA-Anmeldung schlägt fehl"
 #: app/templates/login.html:253
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
-"Die Passkey-Authentifizierung ist fehlgeschlagen. Versuch es erneut oder "
-"gib dein Passwort ein."
+"Die Passkey-Authentifizierung ist fehlgeschlagen. Versuch es erneut oder gib "
+"dein Passwort ein."
 
 #: app/templates/profile.html:17
 msgid "Administrator"
@@ -1061,8 +1063,7 @@ msgstr "Keine Bibliotheken gefunden"
 #: app/templates/admin/library_breakdown_card.html:118
 msgid "Configure your media servers to see library statistics"
 msgstr ""
-"Richte deine Medienserver so ein, dass du Bibliotheksstatistiken sehen "
-"kannst"
+"Richte deine Medienserver so ein, dass du Bibliotheksstatistiken sehen kannst"
 
 #: app/templates/admin/library_breakdown_card.html:132
 msgid "Failed to load libraries"
@@ -1578,9 +1579,8 @@ msgid ""
 "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
 "new users' and 'Import Jellyfin/Plex users'"
 msgstr ""
-"Geh zu deinen Overseerr/Jellyseerr-Einstellungen → Benutzer → Aktivier "
-"„Neue Benutzer automatisch genehmigen” und „Jellyfin/Plex-Benutzer "
-"importieren”"
+"Geh zu deinen Overseerr/Jellyseerr-Einstellungen → Benutzer → Aktivier „Neue "
+"Benutzer automatisch genehmigen” und „Jellyfin/Plex-Benutzer importieren”"
 
 #: app/templates/modals/connection-form.html:139
 msgid "Testing connection..."
@@ -1623,8 +1623,8 @@ msgid ""
 "Your API key has been created. Please copy it now as it will not be shown"
 " again."
 msgstr ""
-"Dein API-Schlüssel wurde erstellt. Bitte kopiere ihn jetzt, da er nicht "
-"noch mal angezeigt wird."
+"Dein API-Schlüssel wurde erstellt. Bitte kopiere ihn jetzt, da er nicht noch "
+"mal angezeigt wird."
 
 #: app/templates/modals/create-api-key.html:40
 msgid "Copy to clipboard"
@@ -1893,9 +1893,9 @@ msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
 "steps will be merged with existing ones."
 msgstr ""
-"Wenn diese Option aktiviert ist, werden vorhandene Schritte ersetzt. Ist "
-"das Häkchen nicht gesetzt, werden die importierten Schritte mit den "
-"vorhandenen zusammengeführt."
+"Wenn diese Option aktiviert ist, werden vorhandene Schritte ersetzt. Ist das "
+"Häkchen nicht gesetzt, werden die importierten Schritte mit den vorhandenen "
+"zusammengeführt."
 
 #: app/templates/modals/wizard-import-form.html:90
 msgid "Important Notice"
@@ -1906,9 +1906,9 @@ msgid ""
 "This action will modify your wizard steps configuration. Make sure to "
 "backup your current steps before importing if you want to preserve them."
 msgstr ""
-"Diese Aktion ändert die Konfiguration deiner Wizard-Schritte. Mach vor "
-"dem Importieren ein Backup deiner aktuellen Schritte, wenn du sie "
-"behalten willst."
+"Diese Aktion ändert die Konfiguration deiner Wizard-Schritte. Mach vor dem "
+"Importieren ein Backup deiner aktuellen Schritte, wenn du sie behalten "
+"willst."
 
 #: app/templates/modals/wizard-import-form.html:111
 msgid "Import Steps"
@@ -2058,7 +2058,8 @@ msgstr "Verbindungen"
 
 #: app/templates/settings/connections.html:9
 msgid "Manage external service connections for automated user invitations"
-msgstr "Verwalte externe Serviceverbindungen für automatische Benutzereinladungen"
+msgstr ""
+"Verwalte externe Serviceverbindungen für automatische Benutzereinladungen"
 
 #: app/templates/settings/connections.html:23
 #: app/templates/settings/connections/form.html:49
@@ -2311,7 +2312,8 @@ msgstr "Ein eindeutiger Name, um diese Verbindung zu beschreiben"
 
 #: app/templates/settings/connections/form.html:111
 msgid "Which media server should trigger invitations to this external service"
-msgstr "Welcher Medienserver soll Einladungen zu diesem externen Dienst auslösen"
+msgstr ""
+"Welcher Medienserver soll Einladungen zu diesem externen Dienst auslösen"
 
 #: app/templates/settings/connections/form.html:132
 msgid "Open your Overseerr/Jellyseerr admin panel"
@@ -2510,9 +2512,9 @@ msgid ""
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
 msgstr ""
-"Wenn das Häkchen gesetzt ist, werden alle vorhandenen Wizard-Schritte und"
-" -Bündel gelöscht und durch die importierte Konfiguration ersetzt. Wenn "
-"das Häkchen nicht gesetzt ist, werden die importierten Elemente zu den "
+"Wenn das Häkchen gesetzt ist, werden alle vorhandenen Wizard-Schritte und -"
+"Bündel gelöscht und durch die importierte Konfiguration ersetzt. Wenn das "
+"Häkchen nicht gesetzt ist, werden die importierten Elemente zu den "
 "vorhandenen hinzugefügt."
 
 #: app/templates/settings/wizard/import_form.html:82
@@ -2530,22 +2532,21 @@ msgstr "Exportiere zuerst deine aktuellen Schritte und Bündel als Backup"
 #: app/templates/settings/wizard/import_form.html:87
 msgid "Imported steps will use the file's step ordering and server types"
 msgstr ""
-"Importierte Schritte verwenden die Reihenfolge der Schritte und "
-"Servertypen aus der Datei"
+"Importierte Schritte verwenden die Reihenfolge der Schritte und Servertypen "
+"aus der Datei"
 
 #: app/templates/settings/wizard/import_form.html:88
 msgid "Imported bundles will preserve their step associations and ordering"
 msgstr ""
-"Importierte Pakete behalten ihre Schrittzuordnungen und ihre Reihenfolge "
-"bei"
+"Importierte Pakete behalten ihre Schrittzuordnungen und ihre Reihenfolge bei"
 
 #: app/templates/settings/wizard/import_form.html:89
 msgid ""
 "If replacing existing configuration, all current steps and bundles will "
 "be permanently removed"
 msgstr ""
-"Wenn du die aktuelle Konfiguration ersetzt, werden alle aktuellen "
-"Schritte und Bundles komplett entfernt"
+"Wenn du die aktuelle Konfiguration ersetzt, werden alle aktuellen Schritte "
+"und Bundles komplett entfernt"
 
 #: app/templates/settings/wizard/import_form.html:90
 msgid "Invalid or malformed JSON files will be rejected"
@@ -2584,8 +2585,8 @@ msgid ""
 "This will permanently replace all existing wizard configuration (steps "
 "and bundles). Are you sure you want to continue?"
 msgstr ""
-"Dies ersetzt dauerhaft alle bestehenden Wizard-Konfigurationen (Schritte "
-"und Bündel). Möchtest du wirklich fortfahren?"
+"Dies ersetzt dauerhaft alle bestehenden Wizard-Konfigurationen "
+"(Schritte und Bündel). Möchtest du wirklich fortfahren?"
 
 #: app/templates/settings/wizard/index.html:13
 msgid "Wizard Steps"
@@ -3613,4 +3614,3 @@ msgstr "Klicke auf den Link in diesem Schritt, um weitermachen zu können"
 
 #~ msgid "Add step"
 #~ msgstr "Schritt hinzufügen"
-
