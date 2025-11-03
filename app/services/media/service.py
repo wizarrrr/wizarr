@@ -141,26 +141,29 @@ def list_users_for_server(server: MediaServer):
 
 
 def delete_user(db_id: int) -> None:
-    """Delete a user from its associated MediaServer and local DB."""
+    """Delete a user from its associated MediaServer and local DB.
+
+    Foreign key relationships are handled automatically by SQLite CASCADE/SET NULL:
+    - activity_session.wizarr_user_id: CASCADE (auto-deleted)
+    - invitation_user.user_id: CASCADE (auto-deleted)
+    - invitation.used_by_id: SET NULL (auto-cleared)
+    """
     if not (user := db.session.get(User, db_id)):
         return
 
-    if not user.server:
-        db.session.delete(user)
-        db.session.commit()
-        return
-
-    # Delete from remote media server
-    try:
-        client = get_client_for_media_server(user.server)
-        user_identifier = _get_user_identifier(user, user.server)
-        client.delete_user(user_identifier)
-    except Exception as exc:
-        logging.error("Remote deletion failed: %s", exc)
+    # Delete from remote media server if user has one
+    if user.server:
+        try:
+            client = get_client_for_media_server(user.server)
+            user_identifier = _get_user_identifier(user, user.server)
+            client.delete_user(user_identifier)
+        except Exception as exc:
+            logging.error("Remote deletion failed: %s", exc)
 
     # Delete from companion apps
     _delete_from_companion_apps(user)
 
+    # Delete the user - SQLite handles all foreign key cascades automatically
     db.session.delete(user)
     db.session.commit()
 
