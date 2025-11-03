@@ -1,20 +1,28 @@
 # Gunicorn configuration with clean logging
 import logging
 import os
+import sys
 
 # Add immediate debug to check if config is loaded
 print("DEBUG: gunicorn.conf.py loaded!")
 
-# Reduce log level to prevent INFO spam
-loglevel = "WARNING"
+# Make log level configurable for debugging production issues
+# Set GUNICORN_LOG_LEVEL=info or debug for verbose output
+loglevel = os.getenv("GUNICORN_LOG_LEVEL", "warning").lower()
 accesslog = None  # Disable access logs for clean output
 errorlog = "-"  # Only errors to stderr
 
-# Standard Gunicorn settings
-workers = 4
+# Make workers configurable (default 4, but allow override for resource-constrained systems)
+workers = int(os.getenv("GUNICORN_WORKERS", "4"))
 worker_class = "sync"
 
-print("DEBUG: Gunicorn config variables set")
+# Worker timeout - kill workers that don't respond within this time
+# Increase from default 30s to 120s to account for slow library scans
+timeout = int(os.getenv("GUNICORN_TIMEOUT", "120"))
+
+print(
+    f"DEBUG: Gunicorn config - workers={workers}, loglevel={loglevel}, timeout={timeout}s"
+)
 
 
 def on_starting(server):  # noqa: ARG001
@@ -101,9 +109,38 @@ def when_ready(server):  # noqa: ARG001
 
 def post_worker_init(worker):
     """Worker process initialization - runs once per worker after spawn."""
-    # Set worker environment
-    os.environ["GUNICORN_WORKER_PID"] = str(worker.pid)
+    try:
+        # Set worker environment
+        os.environ["GUNICORN_WORKER_PID"] = str(worker.pid)
+        print(f"DEBUG: Worker {worker.pid} initialized successfully")
 
-    # Suppress Flask app creation logs in workers
-    logging.getLogger("werkzeug").setLevel(logging.ERROR)
-    logging.getLogger("app").setLevel(logging.ERROR)
+        # Suppress Flask app creation logs in workers
+        logging.getLogger("werkzeug").setLevel(logging.ERROR)
+        logging.getLogger("app").setLevel(logging.ERROR)
+    except Exception as e:
+        print(f"ERROR: Worker {worker.pid} failed to initialize: {e}", file=sys.stderr)
+        import traceback
+
+        traceback.print_exc()
+        raise
+
+
+def worker_exit(server, worker):  # noqa: ARG001
+    """Called when a worker exits (crash or graceful shutdown)."""
+    print(f"WARNING: Worker {worker.pid} exited (age: {worker.age}s)")
+
+
+def worker_abort(worker):
+    """Called when a worker receives SIGABRT (usually due to timeout)."""
+    print(
+        f"ERROR: Worker {worker.pid} aborted (timeout or critical error)",
+        file=sys.stderr,
+    )
+    import traceback
+
+    traceback.print_stack()
+
+
+def on_exit(server):  # noqa: ARG001
+    """Called just before the master process exits."""
+    print("INFO: Gunicorn master process shutting down")
