@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-11-03 03:57+0000\n"
-"PO-Revision-Date: 2025-10-31 15:05+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-11-03 19:06+0000\n"
+"Last-Translator: Emil Friis Osmann <Emilfriisosmann@gmail.com>\n"
+"Language-Team: Danish <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/da/>\n"
 "Language: da\n"
-"Language-Team: Danish <https://hosted.weblate.org/projects/wizarr/wizarr-"
-"universal/da/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
@@ -575,8 +576,8 @@ msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
 msgstr ""
-"Kan ikke oprette forbindelse til serveren %(server_type)s. Kontrollér, om"
-" serveren kører, og webadressen er korrekt."
+"Kan ikke oprette forbindelse til serveren %(server_type)s. Kontrollér, om "
+"serveren kører, og webadressen er korrekt."
 
 #: app/services/servers.py:40
 #, python-format
@@ -584,15 +585,16 @@ msgid ""
 "Connection to %(server_type)s server timed out. Please check if the "
 "server is running and accessible."
 msgstr ""
-"Tilslutning til %(server_type)s serveren timed ud. Kontrollér, om "
-"serveren kører og er tilgængelig."
+"Tilslutning til %(server_type)s serveren timed ud. Kontrollér, om serveren "
+"kører og er tilgængelig."
 
 #: app/services/servers.py:46
 #, python-format
 msgid ""
 "An error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
-msgstr "En fejl opstod, mens du tilslutter til %(server_type)s-serveren: %(error)s"
+msgstr ""
+"En fejl opstod, mens du tilslutter til %(server_type)s-serveren: %(error)s"
 
 #: app/services/servers.py:53
 #, python-format
@@ -600,8 +602,8 @@ msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s "
 "server: %(error)s"
 msgstr ""
-"En uventet fejl opstod, mens du tilslutter til %(server_type)s-serveren: "
-"%(error)s"
+"En uventet fejl opstod, mens du tilslutter til %(server_type)s-serveren: %"
+"(error)s"
 
 #: app/services/servers.py:66
 msgid "Plex"
@@ -774,12 +776,12 @@ msgstr "Din Plex-konto er allerede konfigureret og klar til brug"
 #: app/templates/hybrid-password-form.html:204
 msgid "This password will be used to create accounts on your local servers"
 msgstr ""
-"Denne adgangskode vil blive brugt til at oprette konti på dine lokale "
-"servere"
+"Denne adgangskode vil blive brugt til at oprette konti på dine lokale servere"
 
 #: app/templates/hybrid-password-form.html:205
 msgid "You'll be redirected to the setup wizard to complete configuration"
-msgstr "Du bliver viderestillet til opsætningsguiden for at fuldføre konfiguration"
+msgstr ""
+"Du bliver viderestillet til opsætningsguiden for at fuldføre konfiguration"
 
 #: app/templates/hybrid-password-form.html:211
 msgid "Only want to use Plex?"
@@ -1626,8 +1628,8 @@ msgid ""
 "Your API key has been created. Please copy it now as it will not be shown"
 " again."
 msgstr ""
-"Din API-nøgle er blevet oprettet. Kopier det nu, da det ikke vil blive "
-"vist igen."
+"Din API-nøgle er blevet oprettet. Kopier det nu, da det ikke vil blive vist "
+"igen."
 
 #: app/templates/modals/create-api-key.html:40
 msgid "Copy to clipboard"
@@ -1648,8 +1650,8 @@ msgstr "API-Nøgle Navn"
 #: app/templates/modals/create-api-key.html:74
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
-"Indtast et beskrivende navn for at hjælpe dig med at identificere denne "
-"API-nøgle senere."
+"Indtast et beskrivende navn for at hjælpe dig med at identificere denne API-"
+"nøgle senere."
 
 #: app/templates/modals/create-notification-agent.html:32
 msgid "New Agent"
@@ -2308,8 +2310,7 @@ msgstr "Tjekker..."
 #: app/templates/settings/connections/form.html:68
 msgid "Create a new external service connection for automated user invitations"
 msgstr ""
-"Opret en ny ekstern tjenesteforbindelse til automatiserede "
-"brugerinvitationer"
+"Opret en ny ekstern tjenesteforbindelse til automatiserede brugerinvitationer"
 
 #: app/templates/settings/connections/form.html:70
 msgid "Update the connection settings"
@@ -2325,7 +2326,8 @@ msgstr "Et venligt navn til at identificere denne forbindelse"
 
 #: app/templates/settings/connections/form.html:111
 msgid "Which media server should trigger invitations to this external service"
-msgstr "Hvilken medieserver skal udløse invitationer til denne eksterne tjeneste"
+msgstr ""
+"Hvilken medieserver skal udløse invitationer til denne eksterne tjeneste"
 
 #: app/templates/settings/connections/form.html:132
 msgid "Open your Overseerr/Jellyseerr admin panel"
@@ -2550,8 +2552,8 @@ msgid ""
 "If replacing existing configuration, all current steps and bundles will "
 "be permanently removed"
 msgstr ""
-"Hvis du udskifter eksisterende konfiguration, fjernes alle aktuelle trin "
-"og bundter permanent"
+"Hvis du udskifter eksisterende konfiguration, fjernes alle aktuelle trin og "
+"bundter permanent"
 
 #: app/templates/settings/wizard/import_form.html:90
 msgid "Invalid or malformed JSON files will be rejected"
@@ -3223,4 +3225,3 @@ msgstr "Klik på linket i dette trin for at kunne fortsætte"
 
 #~ msgid "Add step"
 #~ msgstr "Tilføj trin"
-
