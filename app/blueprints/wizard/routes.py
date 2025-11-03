@@ -69,7 +69,7 @@ def restrict_wizard():
                     "error",
                 )
                 InviteCodeManager.clear_invite_data()
-                return redirect(url_for("public.index"))
+                return redirect(url_for("public.root"))
 
     if not session.get("wizard_access"):
         # Check if this is coming from an invitation process
@@ -497,7 +497,7 @@ def pre_wizard(idx: int = 0):
     if not invite_code:
         flash(_("Invalid or expired invitation"), "error")
         current_app.logger.warning("Pre-wizard accessed without invite code in session")
-        return redirect(url_for("public.index"))
+        return redirect(url_for("public.root"))
 
     is_valid, invitation = InviteCodeManager.validate_invite_code(invite_code)
 
@@ -507,7 +507,7 @@ def pre_wizard(idx: int = 0):
             f"Pre-wizard accessed with invalid invite code: {invite_code}"
         )
         InviteCodeManager.clear_invite_data()
-        return redirect(url_for("public.index"))
+        return redirect(url_for("public.root"))
 
     # Bundle override: redirect to bundle wizard if invitation has a bundle
     if invitation.wizard_bundle_id:
@@ -561,7 +561,7 @@ def pre_wizard(idx: int = 0):
             "error",
         )
         current_app.logger.error(f"No servers configured for invitation {invite_code}")
-        return redirect(url_for("public.index"))
+        return redirect(url_for("public.root"))
 
     # Get pre-invite steps with error handling
     try:
@@ -610,7 +610,7 @@ def pre_wizard_complete():
         current_app.logger.warning(
             "Pre-wizard completion attempted without invite code"
         )
-        return redirect(url_for("public.index"))
+        return redirect(url_for("public.root"))
 
     InviteCodeManager.mark_pre_wizard_complete()
     redirect_url = url_for("public.invite", code=invite_code)
@@ -832,7 +832,7 @@ def start():
         InviteCodeManager.clear_invite_data()
 
     # Priority 3: No context available - redirect to home page
-    return redirect(url_for("public.index"))
+    return redirect(url_for("public.root"))
 
 
 @wizard_bp.route("/<server>/<int:idx>")
@@ -1060,7 +1060,7 @@ def bundle_view(idx: int):
             current_app.logger.warning(
                 "Bundle pre-wizard accessed without invite code in session"
             )
-            return redirect(url_for("public.index"))
+            return redirect(url_for("public.root"))
 
         is_valid, invitation = InviteCodeManager.validate_invite_code(invite_code)
         if not is_valid or not invitation:
@@ -1069,7 +1069,7 @@ def bundle_view(idx: int):
                 f"Bundle pre-wizard accessed with invalid invite code: {invite_code}"
             )
             InviteCodeManager.clear_invite_data()
-            return redirect(url_for("public.index"))
+            return redirect(url_for("public.root"))
     else:
         invite_code = None
 

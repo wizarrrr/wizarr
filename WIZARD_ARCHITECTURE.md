@@ -420,7 +420,7 @@ def start():
     if invite_code:
         return redirect(url_for("wizard.pre_wizard"))
 
-    return redirect(url_for("public.index"))
+    return redirect(url_for("public.root"))
 ```
 
 ---
