@@ -5,12 +5,21 @@ These tests simulate the complete user journey from receiving an invitation
 link to successfully creating accounts on media servers.
 """
 
+import contextlib
+import multiprocessing
 import os
 import tempfile
 from unittest.mock import patch
 
 import pytest
 from playwright.sync_api import Page, expect
+
+# Fix for Python 3.14+ multiprocessing compatibility with pytest-flask live_server
+# GitHub Actions uses spawn/forkserver by default which can't pickle local functions
+# Force 'fork' method before any fixtures initialize
+with contextlib.suppress(RuntimeError):
+    # RuntimeError raised if method already set, which is fine
+    multiprocessing.set_start_method("fork", force=True)
 
 from app import create_app
 from app.config import BaseConfig
