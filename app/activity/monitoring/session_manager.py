@@ -162,12 +162,23 @@ class SessionManager:
             f"Session {session_key} transition: {from_state} -> {to_state}"
         )
 
+        # Check if this is truly a new session or a duplicate alert BEFORE updating
+        with self._lock:
+            session_exists = session_key in self.active_sessions
+            if session_exists:
+                session_already_started = (
+                    self.active_sessions[session_key].get("started_at") is not None
+                )
+            else:
+                session_already_started = False
+
         # Update session tracking
         with self._lock:
-            if session_key not in self.active_sessions:
+            if not session_exists:
+                # New session - create minimal tracking (started_at will be set by _on_session_start)
                 self.active_sessions[session_key] = {
                     "session_key": session_key,
-                    "started_at": transition.timestamp,
+                    "started_at": None,  # Will be set by _on_session_start to avoid duplicates
                     "state": to_state.value,
                     "view_offset": transition.view_offset,
                     "server_id": transition.metadata.get("server_id")
@@ -179,6 +190,7 @@ class SessionManager:
                     "last_updated": transition.timestamp,
                 }
             else:
+                # Existing session - just update state and offset
                 self.active_sessions[session_key].update(
                     {
                         "state": to_state.value,
@@ -188,8 +200,30 @@ class SessionManager:
                 )
 
         # Handle specific state transitions
+
         if from_state is None and to_state == SessionState.PLAYING:
-            self._on_session_start(transition)
+            if session_already_started:
+                # This is a duplicate start alert - Plex sometimes sends these
+                self.logger.debug(
+                    f"🔄 Duplicate start alert for session {session_key} - treating as progress update"
+                )
+                # Don't call _on_session_start again, just update progress
+            else:
+                # Double-check right before starting to handle race conditions
+                with self._lock:
+                    # Check if another thread just started this session
+                    currently_started = (
+                        session_key in self.active_sessions
+                        and self.active_sessions[session_key].get("started_at")
+                        is not None
+                    )
+
+                if currently_started:
+                    self.logger.debug(
+                        f"🔄 Race condition detected - session {session_key} already started by another thread"
+                    )
+                else:
+                    self._on_session_start(transition)
         elif from_state == SessionState.PLAYING and to_state == SessionState.PAUSED:
             self._on_session_pause(transition)
         elif from_state == SessionState.PAUSED and to_state == SessionState.PLAYING:
@@ -206,49 +240,59 @@ class SessionManager:
             self._record_progress(transition)
 
     def _on_session_start(self, transition: SessionTransition):
-        """Handle session start with immediate write (Tautulli-inspired approach)."""
+        """Handle session start with IMMEDIATE enrichment (Tautulli approach)."""
         session_key = transition.session_key
         server_id = (
             transition.metadata.get("server_id") if transition.metadata else None
         )
 
         self.logger.info(
-            f"🎬 Session start handler called for {session_key}, server_id={server_id}"
+            f"🎬 Session {session_key} started - fetching complete data immediately"
         )
 
-        # Tautulli approach: Write immediately with whatever data we have from the WebSocket alert
-        # Don't query API or retry - enrichment happens later during progress updates
-        rating_key = (
-            transition.metadata.get("rating_key") if transition.metadata else None
-        )
+        # ✅ TAUTULLI APPROACH: Fetch complete data IMMEDIATELY on start
+        # This eliminates the "Unknown" value problem at the source
+        session_data = self._get_session_from_current_activity(session_key, server_id)
 
-        # Use minimal data from WebSocket alert - may contain "Unknown" values
-        # This is intentional and will be enriched during progress updates
-        session_data = {
-            "username": "Unknown",
-            "full_title": "Unknown",
-            "device": "Unknown",
-            "player": "Unknown",
-            "platform": "Unknown",
-            "media_type": "unknown",
-            "rating_key": rating_key,
-            "session_key": session_key,
-        }
+        # Only fall back to "Unknown" if API call truly failed
+        if not session_data or session_data.get("username") == "Unknown":
+            self.logger.warning(
+                f"⚠️ Could not enrich session {session_key} on start - using minimal data"
+            )
+            rating_key = (
+                transition.metadata.get("rating_key") if transition.metadata else None
+            )
+            session_data = {
+                "username": "Unknown",
+                "full_title": "Unknown",
+                "device": "Unknown",
+                "player": "Unknown",
+                "platform": "Unknown",
+                "media_type": "unknown",
+                "rating_key": rating_key,
+                "session_key": session_key,
+                "user_id": None,
+                "needs_enrichment": True,  # Mark for retry on next progress
+            }
+        else:
+            self.logger.info(
+                f"✅ Session {session_key} enriched immediately: "
+                f"user={session_data['username']}, title={session_data['full_title']}"
+            )
+            session_data["needs_enrichment"] = False
 
-        self.logger.info(
-            f"🎬 Session {session_key} started - will enrich on next progress update (rating_key: {rating_key})"
-        )
-
-        # Cache the minimal session data - will be enriched during progress updates
+        # Cache the session data
         with self._lock:
             self.active_sessions[session_key] = {
                 **session_data,
                 "started_at": transition.timestamp,
                 "last_update": transition.timestamp,
-                "needs_enrichment": True,  # Flag to indicate this needs enrichment
+                "state": "playing",
+                "paused_counter": 0,  # Track total time spent paused (Tautulli approach)
+                "paused_at": None,  # Track when last paused
             }
 
-        # Create activity event with minimal data (will be enriched later)
+        # Create activity event with enriched data
         event = ActivityEvent(
             event_type="session_start",
             server_id=int(transition.metadata.get("server_id", 0))
@@ -259,7 +303,7 @@ class SessionManager:
             user_id=session_data.get("user_id"),
             media_title=str(session_data.get("full_title", "Unknown")),
             media_type=session_data.get("media_type", "unknown"),
-            media_id=session_data.get("rating_key", rating_key),
+            media_id=session_data.get("rating_key"),
             device_name=session_data.get("device", "Unknown"),
             client_name=session_data.get("player", "Unknown"),
             platform=session_data.get("platform", "Unknown"),
@@ -305,20 +349,35 @@ class SessionManager:
             self.event_callback(event)
 
     def _on_session_resume(self, transition: SessionTransition):
-        """Handle session resume with pause duration tracking."""
+        """Handle session resume with pause duration tracking (Tautulli approach)."""
         session_key = transition.session_key
         self.logger.info(
             f"▶️ Session {session_key} resumed from {transition.view_offset}ms"
         )
 
-        # Calculate pause duration
+        # Calculate pause duration and accumulate in paused_counter (Tautulli approach)
         pause_duration = None
         with self._lock:
             if session_key in self.active_sessions:
                 paused_at = self.active_sessions[session_key].get("paused_at")
                 if paused_at:
                     pause_duration = (transition.timestamp - paused_at).total_seconds()
-                    self.active_sessions[session_key].pop("paused_at", None)
+
+                    # ✅ ACCUMULATE pause time in counter (Tautulli approach)
+                    current_paused_counter = self.active_sessions[session_key].get(
+                        "paused_counter", 0
+                    )
+                    self.active_sessions[session_key]["paused_counter"] = (
+                        current_paused_counter + pause_duration
+                    )
+
+                    # Clear paused_at since we've resumed
+                    self.active_sessions[session_key]["paused_at"] = None
+
+                    self.logger.debug(
+                        f"Session {session_key} was paused for {pause_duration:.1f}s, "
+                        f"total paused: {self.active_sessions[session_key]['paused_counter']:.1f}s"
+                    )
 
         # Get complete session data for resume event
         server_id = (
@@ -350,8 +409,17 @@ class SessionManager:
             f"⏹️ Session {session_key} stopped at {transition.view_offset}ms"
         )
 
-        # Clean up session tracking
+        # Check if session exists
         with self._lock:
+            if session_key not in self.active_sessions:
+                self.logger.warning(
+                    f"⚠️ Session {session_key} stop event received but session not found - "
+                    f"likely stopped before start completed (race condition)"
+                )
+                # Cancel any pending timers just in case
+                self._cancel_cleanup_timer(session_key)
+                return
+
             session_data = self.active_sessions.pop(session_key, {})
         self._cancel_cleanup_timer(session_key)
 
@@ -388,17 +456,55 @@ class SessionManager:
         user_name = current_session_data.get("username", "Unknown")
         media_title = current_session_data.get("full_title", "Unknown")
 
-        # Calculate total duration
+        # Calculate REAL play time (Tautulli approach)
         started_at = session_data.get("started_at")
-        total_duration = None
+        paused_counter = session_data.get("paused_counter", 0)
+        paused_at = session_data.get("paused_at")
+
+        # Handle stopped-while-paused case
+        if paused_at:
+            # User stopped while paused - add current pause to counter
+            current_pause_duration = (transition.timestamp - paused_at).total_seconds()
+            paused_counter += current_pause_duration
+            self.logger.debug(
+                f"Session {session_key} stopped while paused, "
+                f"adding {current_pause_duration:.1f}s to paused_counter"
+            )
+
+        real_play_time = None
         duration_ms = None
         if started_at:
-            total_duration = (transition.timestamp - started_at).total_seconds()
-            if total_duration is not None:
+            # Total elapsed time
+            elapsed_time = (transition.timestamp - started_at).total_seconds()
+
+            # Real play time = elapsed time - time spent paused
+            real_play_time = elapsed_time - paused_counter
+
+            # Ensure non-negative
+            real_play_time = max(real_play_time, 0)
+
+            # Filter out very short sessions (< 10 seconds) - likely testing or accidental starts
+            # This follows Tautulli's approach of ignoring very brief sessions
+            MIN_SESSION_DURATION = 10  # seconds
+            if real_play_time < MIN_SESSION_DURATION:
+                self.logger.info(
+                    f"🚫 Session {session_key} too short ({real_play_time:.1f}s < {MIN_SESSION_DURATION}s) - "
+                    f"ignoring session (likely accidental start/stop)"
+                )
+                # Don't emit the session_end event for very short sessions
+                return
+
+            if real_play_time is not None:
                 try:
-                    duration_ms = max(int(total_duration * 1000), 0)
+                    duration_ms = max(int(real_play_time * 1000), 0)
                 except (TypeError, ValueError):
                     duration_ms = None
+
+            self.logger.info(
+                f"📊 Session {session_key} duration: "
+                f"elapsed={elapsed_time:.1f}s, paused={paused_counter:.1f}s, "
+                f"real_play_time={real_play_time:.1f}s ({duration_ms}ms)"
+            )
 
         event = ActivityEvent(
             event_type="session_end",
@@ -416,7 +522,13 @@ class SessionManager:
             duration_ms=duration_ms,
             metadata={
                 **transition.metadata,
-                "total_duration_seconds": total_duration,
+                "real_play_time_seconds": real_play_time,
+                "paused_counter_seconds": paused_counter,
+                "elapsed_time_seconds": (
+                    (transition.timestamp - started_at).total_seconds()
+                    if started_at
+                    else None
+                ),
             },
         )
 
@@ -483,63 +595,80 @@ class SessionManager:
             self.event_callback(event)
 
     def _record_progress(self, transition: SessionTransition):
-        """Record periodic progress snapshots with enrichment (Tautulli-inspired)."""
-        # Only record progress snapshots every 30 seconds to avoid spam
+        """Record periodic progress snapshots with smart enrichment (Tautulli-inspired)."""
         session_key = transition.session_key
         with self._lock:
             cached_session = self.active_sessions.get(session_key, {})
             last_progress = cached_session.get(
                 "last_progress_recorded", datetime.min.replace(tzinfo=UTC)
             )
+            needs_enrichment = cached_session.get("needs_enrichment", False)
 
-        if (transition.timestamp - last_progress).total_seconds() >= 30:
+        # Smart enrichment strategy:
+        # - If needs_enrichment: try every 10 seconds (fast retry for failed starts)
+        # - If already enriched: only update every 30 seconds (normal progress tracking)
+        retry_interval = 10 if needs_enrichment else 30
+        time_since_progress = (transition.timestamp - last_progress).total_seconds()
+
+        if time_since_progress >= retry_interval:
             server_id = (
                 int(transition.metadata.get("server_id", 0))
                 if transition.metadata
                 else 0
             )
 
-            # Tautulli approach: Always query current activity to enrich session data
-            # This self-heals sessions that started with "Unknown" values
-            fresh_session_data = self._get_session_from_current_activity(
-                session_key, server_id
-            )
+            session_data = cached_session
 
-            # Check if we got better data than what's cached
-            if fresh_session_data:
-                has_improvements = (
-                    fresh_session_data.get("username", "Unknown") != "Unknown"
-                    or fresh_session_data.get("full_title", "Unknown") != "Unknown"
-                    or fresh_session_data.get("device", "Unknown") != "Unknown"
+            # Only query API if we need enrichment or it's time for periodic update
+            if needs_enrichment or time_since_progress >= 30:
+                fresh_session_data = self._get_session_from_current_activity(
+                    session_key, server_id
                 )
 
-                if has_improvements:
-                    self.logger.info(
-                        f"✨ Enriching session {session_key} with fresh data: "
-                        f"user={fresh_session_data.get('username')}, "
-                        f"title={fresh_session_data.get('full_title')}"
+                # Check if we got better data than what's cached
+                if fresh_session_data:
+                    has_improvements = (
+                        fresh_session_data.get("username", "Unknown") != "Unknown"
+                        or fresh_session_data.get("full_title", "Unknown") != "Unknown"
+                        or fresh_session_data.get("device", "Unknown") != "Unknown"
                     )
 
-                    # Update cached session with enriched data
-                    with self._lock:
-                        if session_key in self.active_sessions:
-                            self.active_sessions[session_key].update(fresh_session_data)
-                            self.active_sessions[session_key]["needs_enrichment"] = (
-                                False
+                    if has_improvements:
+                        if needs_enrichment:
+                            self.logger.info(
+                                f"✨ Successfully enriched session {session_key}: "
+                                f"user={fresh_session_data.get('username')}, "
+                                f"title={fresh_session_data.get('full_title')}"
                             )
-                            self.active_sessions[session_key]["enriched_at"] = (
-                                transition.timestamp
-                            )
+                        else:
+                            self.logger.debug(f"🔄 Updated session {session_key} data")
 
-                    session_data = fresh_session_data
+                        # Update cached session with enriched data
+                        with self._lock:
+                            if session_key in self.active_sessions:
+                                self.active_sessions[session_key].update(
+                                    fresh_session_data
+                                )
+                                self.active_sessions[session_key][
+                                    "needs_enrichment"
+                                ] = False
+                                self.active_sessions[session_key]["enriched_at"] = (
+                                    transition.timestamp
+                                )
+
+                        session_data = fresh_session_data
+                    else:
+                        # Use cached data if fresh lookup didn't help
+                        session_data = cached_session
                 else:
-                    # Use cached data if fresh lookup didn't help
+                    # API lookup failed, use cached data
+                    if needs_enrichment:
+                        self.logger.warning(
+                            f"⚠️ Still unable to enrich session {session_key}, will retry"
+                        )
                     session_data = cached_session
-            else:
-                # API lookup failed, use cached data
-                session_data = cached_session
 
-            # Create progress event with enriched data
+            # Create progress event with current data
             event = ActivityEvent(
                 event_type="session_progress",
                 server_id=server_id,
@@ -684,6 +813,100 @@ class SessionManager:
             self.active_sessions.clear()
             self.session_timers.clear()
 
+    def _extract_session_data_from_plex(
+        self, plex_session, server_id: int
+    ) -> dict[str, Any]:
+        """
+        Extract complete session data from a PlexAPI session object.
+
+        This is a reusable helper that parses Plex session objects into our
+        normalized format. Used by both WebSocket and polling paths.
+
+        Args:
+            plex_session: PlexAPI session object
+            server_id: Database ID of the media server
+
+        Returns:
+            dict: Normalized session data with all fields populated
+        """
+        from app.extensions import db
+        from app.models import User
+
+        session_data = {}
+        session_key = str(getattr(plex_session, "sessionKey", ""))
+
+        # User information
+        plex_username = None
+        usernames = getattr(plex_session, "usernames", None)
+        users = getattr(plex_session, "users", None)
+
+        if usernames:
+            plex_username = usernames[0]
+        elif users:
+            plex_username = users[0].title
+
+        # Map to local user
+        if plex_username:
+            local_user = (
+                User.query.filter_by(server_id=server_id)
+                .filter(
+                    db.or_(
+                        User.username == plex_username,
+                        User.email == plex_username,
+                    )
+                )
+                .first()
+            )
+
+            if local_user:
+                session_data["username"] = local_user.username
+                session_data["user_id"] = local_user.id
+            else:
+                session_data["username"] = plex_username
+                session_data["user_id"] = None
+        else:
+            session_data["username"] = "Unknown"
+            session_data["user_id"] = None
+
+        # Media information (rich title like Tautulli)
+        title = getattr(plex_session, "title", "Unknown")
+        grandparent_title = getattr(plex_session, "grandparentTitle", None)
+        parent_title = getattr(plex_session, "parentTitle", None)
+
+        # Build full title
+        if grandparent_title and parent_title:
+            # TV Show: "Game of Thrones - Season 1 - Winter Is Coming"
+            session_data["full_title"] = (
+                f"{grandparent_title} - {parent_title} - {title}"
+            )
+        elif grandparent_title:
+            # TV Show without season: "Game of Thrones - Winter Is Coming"
+            session_data["full_title"] = f"{grandparent_title} - {title}"
+        else:
+            # Movie or other: "The Matrix"
+            session_data["full_title"] = title
+
+        # Additional metadata
+        session_data["media_type"] = getattr(plex_session, "type", "unknown")
+        session_data["rating_key"] = getattr(plex_session, "ratingKey", "")
+        session_data["session_key"] = session_key
+
+        # Extract player/device info properly
+        player_obj = getattr(plex_session, "player", None)
+        if player_obj:
+            # player.product = client software (e.g., "Plex for iOS")
+            # player.title = device name (e.g., "iPhone", "Chrome")
+            # player.platform = platform (e.g., "iOS", "Chrome")
+            session_data["player"] = getattr(player_obj, "product", "Unknown")
+            session_data["device"] = getattr(player_obj, "title", "Unknown")
+            session_data["platform"] = getattr(player_obj, "platform", "Unknown")
+        else:
+            session_data["player"] = "Unknown"
+            session_data["device"] = "Unknown"
+            session_data["platform"] = "Unknown"
+
+        return session_data
+
     def _get_session_from_current_activity(
         self, session_key: str, server_id: int
     ) -> dict[str, Any]:
@@ -697,8 +920,7 @@ class SessionManager:
 
             def _do_session_lookup():
                 """Helper function to perform the actual session lookup."""
-                from app.extensions import db
-                from app.models import MediaServer, User
+                from app.models import MediaServer
                 from app.services.media.service import get_client_for_media_server
 
                 # Get the server
@@ -715,7 +937,7 @@ class SessionManager:
 
                 # Get ALL current sessions from Plex (Tautulli approach)
                 sessions = client.server.sessions()
-                self.logger.info(f"📡 Found {len(sessions)} active Plex sessions")
+                self.logger.debug(f"📡 Found {len(sessions)} active Plex sessions")
 
                 # Find our specific session
                 target_session = None
@@ -731,83 +953,15 @@ class SessionManager:
                     )
                     return {}
 
-                # Extract session data (following Tautulli's pattern)
-                session_data = {}
-
-                # User information
-                plex_username = None
-                usernames = getattr(target_session, "usernames", None)
-                users = getattr(target_session, "users", None)
-
-                if usernames:
-                    plex_username = usernames[0]
-                elif users:
-                    plex_username = users[0].title
-
-                # Map to local user
-                if plex_username:
-                    local_user = (
-                        User.query.filter_by(server_id=server_id)
-                        .filter(
-                            db.or_(
-                                User.username == plex_username,
-                                User.email == plex_username,
-                            )
-                        )
-                        .first()
-                    )
-
-                    if local_user:
-                        session_data["username"] = local_user.username
-                        session_data["user_id"] = local_user.id
-                    else:
-                        session_data["username"] = plex_username
-                        session_data["user_id"] = None
-                else:
-                    session_data["username"] = "Unknown"
-                    session_data["user_id"] = None
-
-                # Media information (rich title like Tautulli)
-                title = getattr(target_session, "title", "Unknown")
-                grandparent_title = getattr(target_session, "grandparentTitle", None)
-                parent_title = getattr(target_session, "parentTitle", None)
-
-                # Build full title
-                if grandparent_title and parent_title:
-                    # TV Show: "Game of Thrones - Season 1 - Winter Is Coming"
-                    session_data["full_title"] = (
-                        f"{grandparent_title} - {parent_title} - {title}"
-                    )
-                elif grandparent_title:
-                    # TV Show without season: "Game of Thrones - Winter Is Coming"
-                    session_data["full_title"] = f"{grandparent_title} - {title}"
-                else:
-                    # Movie or other: "The Matrix"
-                    session_data["full_title"] = title
-
-                # Additional metadata
-                session_data["media_type"] = getattr(target_session, "type", "unknown")
-                session_data["rating_key"] = getattr(target_session, "ratingKey", "")
-                session_data["session_key"] = session_key_attr
-
-                # Extract player/device info properly
-                player_obj = getattr(target_session, "player", None)
-                if player_obj:
-                    # player.product = client software (e.g., "Plex for iOS")
-                    # player.title = device name (e.g., "iPhone", "Chrome")
-                    # player.platform = platform (e.g., "iOS", "Chrome")
-                    session_data["player"] = getattr(player_obj, "product", "Unknown")
-                    session_data["device"] = getattr(player_obj, "title", "Unknown")
-                    session_data["platform"] = getattr(
-                        player_obj, "platform", "Unknown"
-                    )
-                else:
-                    session_data["player"] = "Unknown"
-                    session_data["device"] = "Unknown"
-                    session_data["platform"] = "Unknown"
+                # Extract session data using our reusable helper
+                session_data = self._extract_session_data_from_plex(
+                    target_session, server_id
+                )
 
                 self.logger.info(
-                    f"📡 Retrieved complete session data for {session_key}: user={session_data['username']}, title={session_data['full_title']}"
+                    f"📡 Retrieved complete session data for {session_key}: "
+                    f"user={session_data.get('username', 'Unknown')}, "
+                    f"title={session_data.get('full_title', 'Unknown')}"
                 )
                 return session_data
 

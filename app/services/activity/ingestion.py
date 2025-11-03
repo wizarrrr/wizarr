@@ -420,43 +420,51 @@ class ActivityIngestionService:
         )
 
         # Strategy 1: Exact media_id match (if available and not "Unknown")
-        if media_id and media_id.lower() != "unknown":
-            exact_matches = (
-                base_query.filter(ActivitySession.media_id == media_id)
-                .order_by(ActivitySession.id.desc())
-                .limit(2)
-                .all()
-            )
-            if exact_matches:
-                self.logger.debug(
-                    "Found %d sessions via media_id match (%s)",
-                    len(exact_matches),
-                    media_id,
+        # Defensive: Convert media_id to string since it may come as int from some sources
+        if media_id:
+            media_id_str = str(media_id) if not isinstance(media_id, str) else media_id
+            if media_id_str.lower() != "unknown":
+                exact_matches = (
+                    base_query.filter(ActivitySession.media_id == media_id_str)
+                    .order_by(ActivitySession.id.desc())
+                    .limit(2)
+                    .all()
                 )
-                return exact_matches
+                if exact_matches:
+                    self.logger.debug(
+                        "Found %d sessions via media_id match (%s)",
+                        len(exact_matches),
+                        media_id_str,
+                    )
+                    return exact_matches
 
         # Strategy 2: Title + Device match
         # Handles cases where:
         # - media_id is missing/unknown during initial session creation
         # - User changed subtitle/audio (new sessionKey but same viewing session)
-        if device_name and device_name.lower() != "unknown":
-            title_device_matches = (
-                base_query.filter(
-                    ActivitySession.media_title == media_title,
-                    ActivitySession.device_name == device_name,
-                )
-                .order_by(ActivitySession.id.desc())
-                .limit(2)
-                .all()
+        # Defensive: Convert device_name to string since it may come as int from some sources
+        if device_name:
+            device_name_str = (
+                str(device_name) if not isinstance(device_name, str) else device_name
             )
-            if title_device_matches:
-                self.logger.debug(
-                    "Found %d sessions via title+device match (%s on %s)",
-                    len(title_device_matches),
-                    media_title,
-                    device_name,
+            if device_name_str.lower() != "unknown":
+                title_device_matches = (
+                    base_query.filter(
+                        ActivitySession.media_title == media_title,
+                        ActivitySession.device_name == device_name_str,
+                    )
+                    .order_by(ActivitySession.id.desc())
+                    .limit(2)
+                    .all()
                 )
-                return title_device_matches
+                if title_device_matches:
+                    self.logger.debug(
+                        "Found %d sessions via title+device match (%s on %s)",
+                        len(title_device_matches),
+                        media_title,
+                        device_name_str,
+                    )
+                    return title_device_matches
 
         # Strategy 3: Title-only match (last resort)
         # Handles cases where device info is also missing

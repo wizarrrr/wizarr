@@ -114,18 +114,35 @@ class PlexCollector(BaseCollector):
                 self._fallback_to_polling()
                 return
 
-            # Keep the listener running
-            self.logger.info("Entering monitoring loop...")
+            # Keep the listener running with polling backup (Tautulli approach)
+            self.logger.info("Entering monitoring loop with polling backup...")
             loop_count = 0
+            last_poll_time = 0
+            POLL_INTERVAL = 10  # Poll every 10 seconds like Tautulli
+
             while self.running and not self._stop_event.is_set():
+                import time
+
+                current_time = time.time()
+
+                # Tautulli approach: Poll /status/sessions as backup every 10 seconds
+                # This catches missed WebSocket events and enriches incomplete sessions
+                if current_time - last_poll_time >= POLL_INTERVAL:
+                    try:
+                        self._poll_and_update_sessions()
+                        last_poll_time = current_time
+                    except Exception as e:
+                        self.logger.error(f"Polling error: {e}")
+
                 # Log periodic status
                 loop_count += 1
                 if loop_count % 6 == 1:  # Every minute (6 * 10 seconds)
                     self.logger.debug(
-                        f"AlertListener monitoring active (events: {self.event_count}, errors: {self.error_count})"
+                        f"AlertListener monitoring active (events: {self.event_count}, "
+                        f"errors: {self.error_count}, polling: enabled)"
                     )
 
-                # Simple check - just wait and let the AlertListener handle reconnections
+                # Wait interval before next check
                 self._stop_event.wait(10)
 
             self.logger.info("Exiting monitoring loop")
@@ -185,6 +202,100 @@ class PlexCollector(BaseCollector):
         """Handle AlertListener errors."""
         self.logger.error(f"❌ Plex AlertListener error: {error}")
         self.error_count += 1
+
+    def _poll_and_update_sessions(self):
+        """
+        Poll current sessions and update any with incomplete data (Tautulli approach).
+
+        This runs every 10 seconds as a backup to WebSocket events and helps:
+        1. Catch sessions that WebSocket missed
+        2. Enrich sessions that failed initial enrichment
+        3. Validate session state against Plex's current activity
+        """
+        try:
+            client = self._get_media_client()
+            if not client or not hasattr(client, "server"):
+                return
+
+            # Get all current sessions from Plex
+            sessions = client.server.sessions()
+
+            if not sessions:
+                return
+
+            # Track which sessions we found in Plex
+            found_session_keys = set()
+
+            # Check each active Plex session
+            for plex_session in sessions:
+                session_key = str(getattr(plex_session, "sessionKey", ""))
+                if not session_key:
+                    continue
+
+                found_session_keys.add(session_key)
+
+                # Check if we're tracking this session
+                with self.session_manager._lock:
+                    cached = self.session_manager.active_sessions.get(session_key)
+
+                # If session needs enrichment, update it from polling data
+                if cached and cached.get("needs_enrichment"):
+                    self.logger.info(
+                        f"🔄 Enriching session {session_key} from polling data"
+                    )
+
+                    # Extract fresh data from Plex session object
+                    fresh_data = self.session_manager._extract_session_data_from_plex(
+                        plex_session, self.server.id
+                    )
+
+                    # Check if we got useful data
+                    if fresh_data and fresh_data.get("username") != "Unknown":
+                        with self.session_manager._lock:
+                            if session_key in self.session_manager.active_sessions:
+                                self.session_manager.active_sessions[
+                                    session_key
+                                ].update(fresh_data)
+                                self.session_manager.active_sessions[session_key][
+                                    "needs_enrichment"
+                                ] = False
+                                self.logger.info(
+                                    f"✅ Session {session_key} enriched via polling: "
+                                    f"user={fresh_data['username']}, title={fresh_data['full_title']}"
+                                )
+
+                # If we're not tracking this session, it might be new (WebSocket missed it)
+                elif not cached:
+                    self.logger.debug(
+                        f"Found untracked session {session_key} in polling - "
+                        f"will be initialized on next WebSocket event"
+                    )
+
+            # Check for orphaned sessions (tracked but not in Plex anymore)
+            with self.session_manager._lock:
+                tracked_keys = set(self.session_manager.active_sessions.keys())
+
+            orphaned_keys = tracked_keys - found_session_keys
+            for orphaned_key in orphaned_keys:
+                with self.session_manager._lock:
+                    orphaned_session = self.session_manager.active_sessions.get(
+                        orphaned_key, {}
+                    )
+                    started_at = orphaned_session.get("started_at")
+
+                if started_at:
+                    # If session has been active for more than 1 minute but not in Plex, it's orphaned
+                    from datetime import UTC, datetime
+
+                    age_seconds = (datetime.now(UTC) - started_at).total_seconds()
+                    if age_seconds > 60:
+                        self.logger.warning(
+                            f"🧹 Found orphaned session {orphaned_key} (age: {age_seconds:.0f}s) - "
+                            f"not in Plex sessions, will be force-stopped by timer"
+                        )
+
+        except Exception as e:
+            self.logger.error(f"Failed to poll sessions: {e}", exc_info=True)
 
     def _fallback_to_polling(self):
         """Fallback to polling if AlertListener is not available."""
