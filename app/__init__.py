@@ -111,22 +111,29 @@ def create_app(config_object=DevelopmentConfig):
             logger.warning(f"Wizard step migration failed: {exc}")
 
         # Step 8: Scan libraries for all media servers
-        if show_startup:
+        # Skip during migrations to avoid database locking issues
+        skip_library_scan = os.getenv("FLASK_SKIP_SCHEDULER") == "true"
+
+        if not skip_library_scan:
+            if show_startup:
+                logger.step("Scanning media server libraries", "📚")
+            try:
+                from .services.library_scanner import scan_all_server_libraries
+
+                total_scanned, _ = scan_all_server_libraries(show_logs=show_startup)
+
+                if show_startup:
+                    if total_scanned > 0:
+                        logger.success(f"Scanned {total_scanned} libraries")
+                    else:
+                        logger.info("No media servers configured")
+            except Exception as exc:
+                # Non-fatal – log and continue startup to avoid blocking the app
+                if show_startup:
+                    logger.warning(f"Library scanning failed: {exc}")
+        elif show_startup:
             logger.step("Scanning media server libraries", "📚")
-        try:
-            from .services.library_scanner import scan_all_server_libraries
-
-            total_scanned, _ = scan_all_server_libraries(show_logs=show_startup)
-
-            if show_startup:
-                if total_scanned > 0:
-                    logger.success(f"Scanned {total_scanned} libraries")
-                else:
-                    logger.info("No media servers configured")
-        except Exception as exc:
-            # Non-fatal – log and continue startup to avoid blocking the app
-            if show_startup:
-                logger.warning(f"Library scanning failed: {exc}")
+            logger.info("Skipped during migrations")
 
     # Step 9: Initialize Plus features if enabled
     if show_startup:

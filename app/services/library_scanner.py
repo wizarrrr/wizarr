@@ -8,6 +8,10 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+# Timeout for individual server library scans (in seconds)
+# This prevents a single unreachable server from blocking startup
+LIBRARY_SCAN_TIMEOUT = 15
+
 
 def scan_all_server_libraries(show_logs: bool = True) -> tuple[int, list[str]]:
     """Scan libraries for all configured media servers.
