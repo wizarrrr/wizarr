@@ -228,6 +228,48 @@ class MediaClient(ABC):
     def delete_user(self, *args, **kwargs):
         raise NotImplementedError
 
+    def update_user_permissions(
+        self, _user_identifier: str, _permissions: dict[str, bool]
+    ) -> bool:
+        """Update user permissions on the media server.
+
+        Args:
+            _user_identifier: User ID, email, or token depending on server type
+            _permissions: Dict with keys: allow_downloads, allow_live_tv, allow_camera_upload
+
+        Returns:
+            bool: True if successful, False otherwise
+
+        Note:
+            Default implementation returns False. Media servers that support
+            permission updates should override this method.
+        """
+        logging.warning(
+            f"{self.__class__.__name__} does not support permission updates"
+        )
+        return False
+
+    def update_user_libraries(
+        self, _user_identifier: str, _library_names: list[str] | None
+    ) -> bool:
+        """Update user's library access on the media server.
+
+        Args:
+            _user_identifier: User ID, email, or token depending on server type
+            _library_names: List of library names to grant access to, or None for all libraries
+
+        Returns:
+            bool: True if successful, False otherwise
+
+        Note:
+            Default implementation returns False. Media servers that support
+            library access updates should override this method.
+        """
+        logging.warning(
+            f"{self.__class__.__name__} does not support library access updates"
+        )
+        return False
+
     @abstractmethod
     def get_user(self, *args, **kwargs):
         raise NotImplementedError

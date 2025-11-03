@@ -234,22 +234,18 @@ def scan_libraries():
         error_message = str(exc) if str(exc) else _("Library scan failed")
         return f"<div class='text-red-500 p-3 border border-red-300 rounded-lg bg-red-50 dark:bg-red-900 dark:border-red-700'><strong>{_('Error')}:</strong> {error_message}</div>"
 
-    # 3) upsert into our Library table
-    seen_ids = set()
+    # 3) Delete all old libraries and insert fresh ones
+    # Note: This assumes single-server legacy setup (settings route)
+    Library.query.delete()
+    db.session.flush()
+
+    # Insert fresh libraries with correct external IDs
     for fid, name in items:
-        seen_ids.add(fid)
-        lib = Library.query.filter_by(external_id=fid).first()
-        if lib:
-            lib.name = name  # keep names fresh
-        else:
-            lib = Library()
-            lib.external_id = fid
-            lib.name = name
-            db.session.add(lib)
-    # delete any that upstream no longer offers
-    Library.query.filter(~Library.external_id.in_(seen_ids)).delete(
-        synchronize_session=False
-    )
+        lib = Library()
+        lib.external_id = fid
+        lib.name = name
+        lib.enabled = True
+        db.session.add(lib)
     db.session.commit()
 
     # 4) render checkboxes off our Library.enabled

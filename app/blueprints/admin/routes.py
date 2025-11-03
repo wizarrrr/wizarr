@@ -8,6 +8,7 @@ from urllib.parse import urlparse
 from flask import (
     Blueprint,
     Response,
+    jsonify,
     redirect,
     render_template,
     request,
@@ -482,17 +483,11 @@ def user_detail(db_id: int):
     • GET  → return the enhanced per-server expiry edit modal
     • POST → update per-server expiry then return the entire card grid
     """
-    from app.models import Invitation
 
     user = db.get_or_404(User, db_id)
 
     if request.method == "POST":
         # Handle per-server expiry updates
-
-        # Find the invitation this user was created from
-        invitation = None
-        if user.code:
-            invitation = Invitation.query.filter_by(code=user.code).first()
 
         # Update expiry for the user's specific server
         raw_expires = request.form.get("expires")
@@ -535,17 +530,211 @@ def user_detail(db_id: int):
         # Single user, no identity linking
         related_users = [user]
 
-    # Get the invitation to show additional context
-    invitation = None
-    if user.code:
-        invitation = Invitation.query.filter_by(code=user.code).first()
+    # Pre-load libraries for each user to avoid client-side fetching
+    user_libraries_map = {}
+    for related_user in related_users:
+        if related_user.server:
+            libraries = (
+                Library.query.filter_by(server_id=related_user.server.id, enabled=True)
+                .order_by(Library.name)
+                .all()
+            )
+            accessible_libraries = related_user.get_accessible_libraries()
+            user_libraries_map[related_user.id] = {
+                "libraries": libraries,
+                "accessible_libraries": accessible_libraries or [],
+            }
+        else:
+            user_libraries_map[related_user.id] = {
+                "libraries": [],
+                "accessible_libraries": [],
+            }
 
     return render_template(
         "admin/user_modal.html",
         user=user,
         related_users=related_users,
-        invitation=invitation,
+        user_libraries_map=user_libraries_map,
     )
+
+
+@admin_bp.route("/user/<int:db_id>/libraries", methods=["GET"])
+@login_required
+def user_libraries(db_id: int):
+    """Return available libraries for the user's server as JSON."""
+    user = db.get_or_404(User, db_id)
+
+    if not user.server:
+        return jsonify({"libraries": [], "accessible_libraries": []}), 200
+
+    try:
+        # Get all enabled libraries for this server
+        libraries = (
+            Library.query.filter_by(server_id=user.server.id, enabled=True)
+            .order_by(Library.name)
+            .all()
+        )
+
+        # Get user's current accessible libraries
+        # If accessible_libraries column is NULL, user has access to all libraries
+        accessible_libraries = user.get_accessible_libraries()
+
+        # Return empty list if None (meaning all libraries accessible)
+        if accessible_libraries is None:
+            accessible_libraries = []
+
+        logging.info(
+            f"Loading libraries for user {user.username} (ID: {db_id}): "
+            f"{len(libraries)} total libraries, "
+            f"accessible: {accessible_libraries or 'all'}"
+        )
+
+        return jsonify(
+            {
+                "libraries": [{"id": lib.id, "name": lib.name} for lib in libraries],
+                "accessible_libraries": accessible_libraries,
+            }
+        ), 200
+    except Exception as exc:
+        logging.error(f"Failed to load libraries for user {db_id}: {exc}")
+        return jsonify({"error": str(exc)}), 500
+
+
+@admin_bp.route("/user/<int:db_id>/permissions", methods=["POST"])
+@login_required
+def update_user_permissions(db_id: int):
+    """Update user permissions (downloads, live_tv, camera_upload)."""
+    from app.services.media.service import get_client_for_media_server
+
+    user = db.get_or_404(User, db_id)
+
+    if not user.server:
+        return Response("User has no associated server", status=400)
+
+    # Get permission type and value from form
+    permission_type = request.form.get("permission_type")
+    enabled = request.form.get("enabled") == "true"
+
+    if permission_type not in (
+        "allow_downloads",
+        "allow_live_tv",
+        "allow_camera_upload",
+    ):
+        return Response("Invalid permission type", status=400)
+
+    try:
+        # Update database
+        setattr(user, permission_type, enabled)
+        db.session.commit()
+
+        # Update media server via API (with graceful error handling)
+        try:
+            client = get_client_for_media_server(user.server)
+
+            # Use the generic interface - all clients support this now
+            user_identifier = (
+                user.email if user.server.server_type == "plex" else user.token
+            )
+            permissions = {
+                "allow_downloads": user.allow_downloads or False,
+                "allow_live_tv": user.allow_live_tv or False,
+                "allow_camera_upload": user.allow_camera_upload or False,
+            }
+
+            success = client.update_user_permissions(user_identifier, permissions)
+            if not success:
+                logging.warning(
+                    f"Media server {user.server.server_type} does not support permission updates or update failed"
+                )
+        except Exception as api_exc:
+            # Log but don't fail - database update is more important
+            logging.warning(
+                f"Could not update permissions on media server for user {user.username}: {api_exc}"
+            )
+
+        logging.info(
+            f"Updated {permission_type} to {enabled} for user {user.username} (ID: {db_id})"
+        )
+
+        response = Response("", status=200)
+        response.headers["HX-Trigger"] = "refreshUserTable"
+        return response
+
+    except Exception as exc:
+        logging.error(f"Failed to update user permissions: {exc}")
+        db.session.rollback()
+        return Response(f"Failed to update permissions: {exc!s}", status=500)
+
+
+@admin_bp.route("/user/<int:db_id>/libraries", methods=["POST"])
+@login_required
+def update_user_libraries(db_id: int):
+    """Update user's accessible libraries."""
+    from app.services.media.service import get_client_for_media_server
+
+    user = db.get_or_404(User, db_id)
+
+    if not user.server:
+        return Response("User has no associated server", status=400)
+
+    try:
+        # Get selected library IDs from form
+        library_ids = request.form.getlist("library_ids[]")
+        logging.info(f"Received library_ids from form: {library_ids}")
+
+        # Convert string IDs to integers
+        try:
+            library_ids = [int(lid) for lid in library_ids if lid]
+        except (ValueError, TypeError):
+            library_ids = []
+
+        logging.info(f"Converted to integers: {library_ids}")
+
+        # If no libraries selected, it means "all libraries" (None)
+        if not library_ids:
+            user.set_accessible_libraries(None)
+            library_names = None
+        else:
+            # Convert IDs to library names
+            libraries = Library.query.filter(Library.id.in_(library_ids)).all()
+            library_names = [lib.name for lib in libraries]
+            logging.info(f"Converted to library names: {library_names}")
+            user.set_accessible_libraries(library_names)
+
+        db.session.commit()
+
+        # Update media server via API (with graceful error handling)
+        try:
+            client = get_client_for_media_server(user.server)
+
+            # Use the generic interface - all clients support this now
+            user_identifier = (
+                user.email if user.server.server_type == "plex" else user.token
+            )
+
+            success = client.update_user_libraries(user_identifier, library_names)
+            if not success:
+                logging.warning(
+                    f"Media server {user.server.server_type} does not support library updates or update failed"
+                )
+        except Exception as api_exc:
+            # Log but don't fail - database update is more important
+            logging.warning(
+                f"Could not update library access on media server for user {user.username}: {api_exc}"
+            )
+
+        logging.info(
+            f"Updated library access for user {user.username} (ID: {db_id}): {library_names or 'all libraries'}"
+        )
+
+        response = Response("", status=200)
+        response.headers["HX-Trigger"] = "refreshUserTable"
+        return response
+
+    except Exception as exc:
+        logging.error(f"Failed to update library access: {exc}")
+        db.session.rollback()
+        return Response(f"Failed to update library access: {exc!s}", status=500)
 
 
 @admin_bp.post("/invite/scan-libraries")
@@ -577,16 +766,19 @@ def invite_scan_libraries():
             logging.warning("Library scan failed for %s: %s", server.name, exc)
             items = []
 
+        # Delete all old libraries for this server and insert fresh ones
+        Library.query.filter_by(server_id=server.id).delete()
+        db.session.flush()
+
+        # Insert fresh libraries with correct external IDs
         for fid, name in items:
-            lib = Library.query.filter_by(external_id=fid, server_id=server.id).first()
-            if lib:
-                lib.name = name
-            else:
-                lib = Library()
-                lib.external_id = fid
-                lib.name = name
-                lib.server_id = server.id
-                db.session.add(lib)
+            lib = Library()
+            lib.external_id = fid
+            lib.name = name
+            lib.server_id = server.id
+            lib.enabled = True
+            db.session.add(lib)
+
         db.session.flush()
         server_libs[server.id] = (
             Library.query.filter_by(server_id=server.id).order_by(Library.name).all()

@@ -153,18 +153,20 @@ def scan_server_libraries(server_id):
         items.items() if isinstance(items, dict) else [(name, name) for name in items]
     )
 
-    seen_ids = set()
+    # Delete all old libraries for this server and insert fresh ones
+    # This avoids conflicts during migration from name-based to ID-based external_id
+    Library.query.filter_by(server_id=server.id).delete()
+    db.session.flush()
+
+    # Insert fresh libraries with correct external IDs
     for fid, name in pairs:
-        seen_ids.add(fid)
-        lib = Library.query.filter_by(external_id=fid, server_id=server.id).first()
-        if lib:
-            lib.name = name
-        else:
-            lib = Library()
-            lib.external_id = fid
-            lib.name = name
-            lib.server_id = server.id
-            db.session.add(lib)
+        lib = Library()
+        lib.external_id = fid
+        lib.name = name
+        lib.server_id = server.id
+        lib.enabled = True
+        db.session.add(lib)
+
     db.session.commit()
 
     # Render checkboxes partial (reuse existing partials)

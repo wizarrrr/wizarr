@@ -164,6 +164,125 @@ class JellyfinClient(RestApiMixin):
 
         return self.post(f"/Users/{jf_id}", json=current).json()
 
+    def update_user_permissions(
+        self, user_id: str, permissions: dict[str, bool]
+    ) -> bool:
+        """Update user permissions on Jellyfin.
+
+        Args:
+            user_id: User's Jellyfin ID (external_id from database)
+            permissions: Dict with keys: allow_downloads, allow_live_tv, allow_camera_upload
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        try:
+            # Get current policy
+            raw_user = self.get(f"/Users/{user_id}").json()
+            if not raw_user:
+                logging.error(f"Jellyfin: User {user_id} not found")
+                return False
+
+            current_policy = raw_user.get("Policy", {})
+
+            # Update permissions
+            current_policy["EnableContentDownloading"] = permissions.get(
+                "allow_downloads", False
+            )
+            current_policy["EnableLiveTvAccess"] = permissions.get(
+                "allow_live_tv", False
+            )
+            # Jellyfin doesn't have a direct camera upload setting, but we keep the interface consistent
+            # Store it in a comment field if needed in the future
+
+            # Update policy
+            response = self.post(f"/Users/{user_id}/Policy", json=current_policy)
+            success = response.status_code in {204, 200}
+
+            if success:
+                logging.info(
+                    f"Successfully updated permissions for Jellyfin user {user_id}"
+                )
+            return success
+
+        except Exception as e:
+            logging.error(f"Failed to update Jellyfin permissions for {user_id}: {e}")
+            return False
+
+    def update_user_libraries(
+        self, user_id: str, library_names: list[str] | None
+    ) -> bool:
+        """Update user's library access on Jellyfin.
+
+        Args:
+            user_id: User's Jellyfin ID (external_id from database)
+            library_names: List of library names to grant access to, or None for all libraries
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        try:
+            # Get current policy
+            raw_user = self.get(f"/Users/{user_id}").json()
+            if not raw_user:
+                logging.error(f"Jellyfin: User {user_id} not found")
+                return False
+
+            current_policy = raw_user.get("Policy", {})
+
+            # Get library external IDs from database
+            folder_ids = []
+            if library_names is not None:
+                logging.info(f"JELLYFIN: Requested libraries: {library_names}")
+                libraries = (
+                    Library.query.filter_by(server_id=self.server_id)
+                    .filter(Library.name.in_(library_names))
+                    .all()
+                )
+
+                for lib in libraries:
+                    folder_ids.append(lib.external_id)
+                    logging.info(f"  ✓ {lib.name} -> {lib.external_id}")
+
+                # Check for missing libraries
+                found_names = {lib.name for lib in libraries}
+                missing = set(library_names) - found_names
+                for name in missing:
+                    logging.warning(
+                        f"  ✗ Library '{name}' not found in database (scan libraries to fix)"
+                    )
+
+                logging.info(f"JELLYFIN: Converted to folder IDs: {folder_ids}")
+            else:
+                # None means all libraries - get all enabled libraries for this server
+                libraries = Library.query.filter_by(
+                    server_id=self.server_id, enabled=True
+                ).all()
+                folder_ids = [lib.external_id for lib in libraries]
+                logging.info(f"JELLYFIN: Using all library IDs: {folder_ids}")
+
+            # Update policy with library access
+            current_policy["EnableAllFolders"] = library_names is None
+            current_policy["EnabledFolders"] = (
+                folder_ids if library_names is not None else []
+            )
+
+            # Update policy
+            response = self.post(f"/Users/{user_id}/Policy", json=current_policy)
+            success = response.status_code in {204, 200}
+
+            if success:
+                logging.info(
+                    f"Successfully updated library access for Jellyfin user {user_id}"
+                )
+            return success
+
+        except Exception as e:
+            logging.error(
+                f"Failed to update Jellyfin library access for {user_id}: {e}"
+            )
+            return False
+
     def enable_user(self, user_id: str) -> bool:
         """Enable a user account on Jellyfin.
 

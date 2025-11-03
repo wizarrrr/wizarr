@@ -468,6 +468,125 @@ class AudiobookshelfClient(RestApiMixin):
             logging.error("ABS: failed to update user %s – %s", user_id, exc)
             raise
 
+    def update_user_permissions(
+        self, user_id: str, permissions: dict[str, bool]
+    ) -> bool:
+        """Update user permissions on Audiobookshelf.
+
+        Args:
+            user_id: User's Audiobookshelf ID (external_id from database)
+            permissions: Dict with keys: allow_downloads, allow_live_tv, allow_camera_upload
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        try:
+            # Get current user to preserve existing settings
+            try:
+                current = self.get_user(user_id)
+            except Exception as exc:
+                logging.error(f"ABS: Failed to get user {user_id} – {exc}")
+                return False
+
+            # Get current permissions or create new ones
+            current_perms = current.get("permissions", {}) or {}
+
+            # Update only the download permission (ABS doesn't have live TV or camera upload)
+            current_perms["download"] = permissions.get("allow_downloads", False)
+
+            # Prepare payload with updated permissions
+            payload = {"permissions": current_perms}
+
+            # Update user
+            response = self.patch(f"{self.API_PREFIX}/users/{user_id}", json=payload)
+            success = response.status_code == 200
+
+            if success:
+                logging.info(
+                    f"Successfully updated permissions for Audiobookshelf user {user_id}"
+                )
+            return success
+
+        except Exception as e:
+            logging.error(
+                f"Failed to update Audiobookshelf permissions for {user_id}: {e}"
+            )
+            return False
+
+    def update_user_libraries(
+        self, user_id: str, library_names: list[str] | None
+    ) -> bool:
+        """Update user's library access on Audiobookshelf.
+
+        Args:
+            user_id: User's Audiobookshelf ID (external_id from database)
+            library_names: List of library names to grant access to, or None for all libraries
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        try:
+            # Get current user to preserve existing settings
+            try:
+                current = self.get_user(user_id)
+            except Exception as exc:
+                logging.error(f"ABS: Failed to get user {user_id} – {exc}")
+                return False
+
+            current_perms = current.get("permissions", {}) or {}
+
+            # Get library external IDs from database
+            library_ids = []
+            if library_names is not None:
+                logging.info(f"AUDIOBOOKSHELF: Requested libraries: {library_names}")
+                libraries = (
+                    Library.query.filter_by(server_id=self.server_id)
+                    .filter(Library.name.in_(library_names))
+                    .all()
+                )
+
+                for lib in libraries:
+                    library_ids.append(lib.external_id)
+                    logging.info(f"  ✓ {lib.name} -> {lib.external_id}")
+
+                # Check for missing libraries
+                found_names = {lib.name for lib in libraries}
+                missing = set(library_names) - found_names
+                for name in missing:
+                    logging.warning(
+                        f"  ✗ Library '{name}' not found in database (scan libraries to fix)"
+                    )
+
+                logging.info(f"AUDIOBOOKSHELF: Converted to library IDs: {library_ids}")
+            else:
+                # None means all libraries
+                logging.info("AUDIOBOOKSHELF: Granting access to all libraries")
+
+            # Update permissions with library access settings
+            current_perms["accessAllLibraries"] = library_names is None
+
+            # Prepare payload
+            payload = {
+                "permissions": current_perms,
+                "librariesAccessible": library_ids if library_names is not None else [],
+            }
+
+            # Update user
+            response = self.patch(f"{self.API_PREFIX}/users/{user_id}", json=payload)
+            success = response.status_code == 200
+
+            if success:
+                logging.info(
+                    f"Successfully updated library access for Audiobookshelf user {user_id}"
+                )
+            return success
+
+        except Exception as e:
+            logging.error(
+                f"Failed to update Audiobookshelf library access for {user_id}: {e}"
+            )
+            return False
+
     def enable_user(self, user_id: str) -> bool:
         """Enable a user account on Audiobookshelf.
 

@@ -14,73 +14,14 @@ from app.services.media.service import get_client_for_media_server
 from app.services.notifications import notify
 
 from .client_base import MediaClient, register_media_client
+from .plex_custom import accept_invite_v2, update_shared_server
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
 
 
-def _accept_invite_v2(self: MyPlexAccount, user):
-    """Accept a pending server share via the v2 API."""
-    base = "https://clients.plex.tv"
-
-    params = {
-        k: v
-        for k, v in self._session.headers.items()
-        if k.startswith("X-Plex-") and k != "X-Plex-Provides"
-    }
-
-    defaults = {
-        "X-Plex-Product": "Wizarr",
-        "X-Plex-Version": "1.0",
-        "X-Plex-Client-Identifier": "wizarr-client",
-        "X-Plex-Platform": "Python",
-        "X-Plex-Platform-Version": "3",
-        "X-Plex-Device": "Server",
-        "X-Plex-Device-Name": "Wizarr",
-        "X-Plex-Model": "server",
-        "X-Plex-Device-Screen-Resolution": "1920x1080",
-        "X-Plex-Features": "external-media,indirect-media,hub-style-list",
-        "X-Plex-Language": "en",
-    }
-
-    for key, value in defaults.items():
-        params.setdefault(key, value)
-
-    params["X-Plex-Token"] = self.authToken
-    hdrs = {"Accept": "application/json"}
-
-    url_list = f"{base}/api/v2/shared_servers/invites/received/pending"
-    resp = self._session.get(url_list, params=params, headers=hdrs)
-    resp.raise_for_status()
-    invites = resp.json()
-
-    def _matches(inv):
-        o = inv.get("owner", {})
-        return user in (
-            o.get("username"),
-            o.get("email"),
-            o.get("title"),
-            o.get("friendlyName"),
-        )
-
-    try:
-        inv = next(i for i in invites if _matches(i))
-    except StopIteration as exc:
-        raise ValueError(f"No pending invite from '{user}' found") from exc
-
-    shared_servers = inv.get("sharedServers")
-    if not shared_servers:
-        raise ValueError("Invite structure missing 'sharedServers' list")
-
-    invite_id = shared_servers[0]["id"]
-
-    url_accept = f"{base}/api/v2/shared_servers/{invite_id}/accept"
-    resp = self._session.post(url_accept, params=params, headers=hdrs)
-    resp.raise_for_status()
-    return resp
-
-
-MyPlexAccount.acceptInvite = _accept_invite_v2  # type: ignore[assignment]
+# Patch PlexAPI's acceptInvite method with our custom v2 implementation
+MyPlexAccount.acceptInvite = accept_invite_v2  # type: ignore[assignment]
 
 
 def extract_plex_error_message(exception) -> str:
@@ -170,7 +111,17 @@ class PlexClient(MediaClient):
         return self._admin
 
     def libraries(self) -> dict[str, str]:
-        return {lib.title: lib.title for lib in self.server.library.sections()}
+        """Get all libraries with their global IDs.
+
+        Returns:
+            dict: Mapping of {global_id: library_name} for database storage
+                  where global_id is used as external_id in the Library model
+        """
+        # Get global library IDs from Plex API
+        library_map = self._get_all_library_global_ids()
+
+        # Return {global_id: name} so external_id stores the global ID
+        return {str(global_id): name for name, global_id in library_map.items()}
 
     # ─── Helper Methods ────────────────────────────────────────────────────────
 
@@ -547,6 +498,326 @@ class PlexClient(MediaClient):
             allowChannels=bool(form.get("allowChannels")),
             allowCameraUpload=bool(form.get("allowCameraUpload")),
         )
+
+    def _get_all_library_global_ids(self) -> dict[str, int]:
+        """Get mapping of all server libraries (name -> global ID).
+
+        This fetches library information from the Plex server's own libraries endpoint,
+        which includes the global library section IDs needed for the sharing API.
+
+        Returns:
+            dict: Mapping of library title to global ID {title: id}
+        """
+        try:
+            base = "https://plex.tv"
+            url = f"{base}/api/v2/servers/{self.server.machineIdentifier}"
+
+            params = {
+                "X-Plex-Product": "Wizarr",
+                "X-Plex-Version": "1.0",
+                "X-Plex-Client-Identifier": self.admin.uuid,
+                "X-Plex-Token": self.admin.authToken,
+                "X-Plex-Platform": "Web",
+                "X-Plex-Features": "external-media,indirect-media,hub-style-list",
+                "X-Plex-Language": "en",
+            }
+
+            headers = {"Accept": "application/json"}
+
+            resp = self.admin._session.get(url, params=params, headers=headers)
+            resp.raise_for_status()
+            server_data = resp.json()
+
+            # Extract libraries from server data (Plex uses 'librarySections' key)
+            libraries = server_data.get("librarySections", [])
+
+            library_map = {}
+
+            for lib in libraries:
+                title = lib.get("title")
+                lib_id = lib.get("id")
+                if title and lib_id:
+                    library_map[title] = lib_id
+
+            logging.debug(f"Found {len(library_map)} libraries with global IDs")
+            return library_map
+
+        except Exception as e:
+            logging.error(f"Failed to get library global IDs: {e}", exc_info=True)
+            return {}
+
+    def _get_share_data(self, email: str) -> dict | None:
+        """Get the complete share data for a user.
+
+        Returns the full share object which includes the shared_server ID
+        and the library mappings with their global IDs.
+
+        Args:
+            email: User's email address
+
+        Returns:
+            dict: The share data, or None if not found
+        """
+        try:
+            # First, try to get the Plex user object to find their ID
+            plex_user_id = None
+            try:
+                plex_user = self.admin.user(email)
+                if plex_user:
+                    plex_user_id = getattr(plex_user, "id", None)
+            except Exception as exc:
+                # If getting by email fails, might not exist or different identifier
+                logging.debug(f"Could not get Plex user by email {email}: {exc}")
+
+            # GET the list of owned/accepted shares
+            base = "https://clients.plex.tv"
+            url = f"{base}/api/v2/shared_servers/owned/accepted"
+
+            params = {
+                "X-Plex-Product": "Wizarr",
+                "X-Plex-Version": "1.0",
+                "X-Plex-Client-Identifier": self.admin.uuid,
+                "X-Plex-Token": self.admin.authToken,
+                "X-Plex-Platform": "Web",
+                "X-Plex-Platform-Version": "1.0",
+                "X-Plex-Features": "external-media,indirect-media,hub-style-list",
+                "X-Plex-Language": "en",
+            }
+
+            headers = {"Accept": "application/json"}
+
+            resp = self.admin._session.get(url, params=params, headers=headers)
+            resp.raise_for_status()
+            shared_servers = resp.json()
+
+            # Find the share matching this server and user
+            for share in shared_servers:
+                # Check if this share is for our server
+                if share.get("machineIdentifier") != self.server.machineIdentifier:
+                    continue
+
+                # Try matching by Plex user ID first (most reliable)
+                if plex_user_id and share.get("invitedId") == plex_user_id:
+                    return share
+
+                # Fallback: Try matching by email/username
+                invited = share.get("invited", {})
+                invited_email = (
+                    invited.get("email")
+                    or invited.get("username")
+                    or share.get("invitedEmail")
+                )
+
+                if invited_email and invited_email.lower() == email.lower():
+                    return share
+
+            logging.warning(
+                f"No shared_server found for {email} on server {self.server.friendlyName}"
+            )
+            return None
+        except Exception as e:
+            logging.error(f"Failed to get share data for {email}: {e}")
+            return None
+
+    def _get_shared_server_id(self, email: str) -> int | None:
+        """Get the shared_server ID from the admin's perspective."""
+        share = self._get_share_data(email)
+        return share.get("id") if share else None
+
+    def _get_current_plex_state(self, email: str) -> tuple[dict, list | None]:
+        """Get current permissions and library access for a Plex user.
+
+        Args:
+            email: User's email address
+
+        Returns:
+            Tuple of (permissions_dict, sections_list)
+            permissions_dict has keys: allow_downloads, allow_live_tv, allow_camera_upload
+            sections_list is either None or a list of LibrarySection objects
+        """
+        plex_user = self.admin.user(email)
+        if not plex_user:
+            raise ValueError(f"Plex user not found: {email}")
+
+        # Extract current permissions
+        permissions = self._extract_plex_permissions(plex_user)
+
+        # Find this server's share for the user
+        matching_share = next(
+            (
+                s
+                for s in getattr(plex_user, "servers", []) or []
+                if getattr(s, "machineIdentifier", None)
+                == self.server.machineIdentifier
+            ),
+            None,
+        )
+
+        # Get current sections (libraries) for this user
+        sections = None
+        if matching_share:
+            library_names = self._extract_library_names_from_share(matching_share)
+            # Convert library names to section objects
+            if library_names:
+                all_sections = self.server.library.sections()
+                sections = [s for s in all_sections if s.title in library_names]
+
+        return permissions, sections
+
+    def update_user_permissions(self, email: str, permissions: dict[str, bool]) -> bool:
+        """Update user permissions on Plex using the shared_servers API.
+
+        Args:
+            email: User's email address
+            permissions: Dict with keys: allow_downloads, allow_live_tv, allow_camera_upload
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        try:
+            # Get the shared_server ID
+            shared_server_id = self._get_shared_server_id(email)
+            if not shared_server_id:
+                logging.error(f"Could not find shared_server ID for {email}")
+                return False
+
+            # Get current library section IDs to preserve them
+            # Use share data to get the global library IDs
+            share = self._get_share_data(email)
+            if not share:
+                logging.error(f"Could not get share data for {email}")
+                return False
+
+            section_ids = [lib["id"] for lib in share.get("libraries", [])]
+
+            # Build settings with new permissions
+            settings = {
+                "allowSync": permissions.get("allow_downloads", False),
+                "allowChannels": permissions.get("allow_live_tv", False),
+                "allowCameraUpload": permissions.get("allow_camera_upload", False),
+                "filterMovies": "",
+                "filterMusic": "",
+                "filterPhotos": None,
+                "filterTelevision": "",
+                "filterAll": None,
+                "allowSubtitleAdmin": False,
+                "allowTuners": 0,
+            }
+
+            # Call the custom API method
+            success = update_shared_server(
+                self.admin, shared_server_id, settings, section_ids
+            )
+
+            if success:
+                logging.info(
+                    f"Successfully updated permissions for {email} via shared_servers API"
+                )
+
+            return success
+        except Exception as e:
+            logging.error(f"Failed to update permissions for {email}: {e}")
+            return False
+
+    def update_user_libraries(
+        self, email: str, library_names: list[str] | None
+    ) -> bool:
+        """Update user's library access on Plex using the shared_servers API.
+
+        Args:
+            email: User's email address
+            library_names: List of library names to grant access to, or None for all libraries
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        try:
+            # Get the shared_server ID
+            shared_server_id = self._get_shared_server_id(email)
+            if not shared_server_id:
+                logging.error(f"Could not find shared_server ID for {email}")
+                return False
+
+            # Get current permissions to preserve them
+            current_perms, _ = self._get_current_plex_state(email)
+
+            # Get the share data to access library ID mappings
+            share = self._get_share_data(email)
+            if not share:
+                logging.error(f"Could not get share data for {email}")
+                return False
+
+            # Log current share state
+            current_libs = share.get("libraries", [])
+            logging.info(
+                f"Current libraries in share: {[lib['title'] for lib in current_libs]}"
+            )
+            logging.info(
+                f"Current library IDs in share: {[lib['id'] for lib in current_libs]}"
+            )
+
+            # Get library global IDs from database (external_id stores the global ID)
+            # This assumes libraries have been scanned and stored correctly
+            from app.models import Library
+
+            section_ids = []
+            if library_names is not None:
+                logging.info(f"Requested libraries: {library_names}")
+                libraries = (
+                    Library.query.filter_by(server_id=self.server_id)
+                    .filter(Library.name.in_(library_names))
+                    .all()
+                )
+
+                for lib in libraries:
+                    section_ids.append(int(lib.external_id))
+                    logging.info(f"  ✓ {lib.name} -> {lib.external_id}")
+
+                # Check for missing libraries
+                found_names = {lib.name for lib in libraries}
+                missing = set(library_names) - found_names
+                for name in missing:
+                    logging.warning(
+                        f"  ✗ Library '{name}' not found in database (scan libraries to fix)"
+                    )
+
+                logging.info(f"Converted to section IDs: {section_ids}")
+            else:
+                # None means all libraries - get all enabled libraries for this server
+                libraries = Library.query.filter_by(
+                    server_id=self.server_id, enabled=True
+                ).all()
+                section_ids = [int(lib.external_id) for lib in libraries]
+                logging.info(f"Using all library IDs: {section_ids}")
+
+            # Build settings with preserved permissions
+            settings = {
+                "allowSync": current_perms["allow_downloads"],
+                "allowChannels": current_perms["allow_live_tv"],
+                "allowCameraUpload": current_perms["allow_camera_upload"],
+                "filterMovies": "",
+                "filterMusic": "",
+                "filterPhotos": None,
+                "filterTelevision": "",
+                "filterAll": None,
+                "allowSubtitleAdmin": False,
+                "allowTuners": 0,
+            }
+
+            # Call the custom API method
+            success = update_shared_server(
+                self.admin, shared_server_id, settings, section_ids
+            )
+
+            if success:
+                logging.info(
+                    f"Successfully updated library access for {email} via shared_servers API"
+                )
+
+            return success
+        except Exception as e:
+            logging.error(f"Failed to update library access for {email}: {e}")
+            return False
 
     def enable_user(self, _user_id: str) -> bool:
         """Enable a user account on Plex.
