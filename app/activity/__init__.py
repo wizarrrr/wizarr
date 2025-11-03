@@ -28,6 +28,12 @@ def init_app(app: Flask) -> None:
         logger.debug("Skipping activity monitoring in test mode")
         return
 
+    # Skip during migrations to avoid database locking and race conditions
+    # This prevents session recovery from running during 'flask db upgrade'
+    if os.environ.get("FLASK_SKIP_SCHEDULER") == "true":
+        logger.debug("Skipping activity monitoring during migrations")
+        return
+
     # Skip only in Werkzeug's reloader parent process (development mode)
     # WERKZEUG_RUN_MAIN is only set when using Flask's development server with reloader
     # In production (Gunicorn/uWSGI), this env var won't be set, so we should proceed
