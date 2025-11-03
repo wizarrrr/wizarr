@@ -1,8 +1,5 @@
 """
-Enhanced session management inspired by Tautulli's robust approach.
-
-This module provides sophisticated session lifecycle management with
-state tracking, automatic cleanup, and intelligent session grouping.
+Session lifecycle management with state tracking and automatic cleanup.
 """
 
 from dataclasses import dataclass
@@ -40,12 +37,7 @@ class SessionTransition:
 
 
 class SessionManager:
-    """
-    Enhanced session manager with state tracking and lifecycle management.
-
-    Inspired by Tautulli's robust session handling with automatic cleanup,
-    state transitions, and intelligent session grouping.
-    """
+    """Manages session lifecycle with state transitions and automatic cleanup."""
 
     def __init__(self, event_callback=None):
         self.logger = structlog.get_logger(__name__)
@@ -56,16 +48,7 @@ class SessionManager:
         self.cleanup_interval = 300  # 5 minutes stale session cleanup
 
     def process_alert(self, alert_data: dict[str, Any], server_id: int) -> bool:
-        """
-        Process a Plex alert with sophisticated state management.
-
-        Args:
-            alert_data: Raw alert data from Plex WebSocket
-            server_id: Media server ID
-
-        Returns:
-            True if alert was processed successfully
-        """
+        """Process a Plex alert and update session state."""
         try:
             alert_type = alert_data.get("type")
 
@@ -149,11 +132,7 @@ class SessionManager:
         return True
 
     def _handle_state_transition(self, transition: SessionTransition):
-        """
-        Handle state transitions with sophisticated logic.
-
-        This is inspired by Tautulli's state machine approach.
-        """
+        """Handle state transitions and update session tracking."""
         session_key = transition.session_key
         from_state = transition.from_state
         to_state = transition.to_state
@@ -203,11 +182,10 @@ class SessionManager:
 
         if from_state is None and to_state == SessionState.PLAYING:
             if session_already_started:
-                # This is a duplicate start alert - Plex sometimes sends these
+                # Duplicate start alert - skip
                 self.logger.debug(
-                    f"🔄 Duplicate start alert for session {session_key} - treating as progress update"
+                    f"Duplicate start alert for session {session_key}, skipping"
                 )
-                # Don't call _on_session_start again, just update progress
             else:
                 # Double-check right before starting to handle race conditions
                 with self._lock:
@@ -220,7 +198,7 @@ class SessionManager:
 
                 if currently_started:
                     self.logger.debug(
-                        f"🔄 Race condition detected - session {session_key} already started by another thread"
+                        f"Session {session_key} already started by another thread"
                     )
                 else:
                     self._on_session_start(transition)
@@ -240,24 +218,20 @@ class SessionManager:
             self._record_progress(transition)
 
     def _on_session_start(self, transition: SessionTransition):
-        """Handle session start with IMMEDIATE enrichment (Tautulli approach)."""
+        """Handle session start and fetch complete data immediately."""
         session_key = transition.session_key
-        server_id = (
+        server_id_raw = (
             transition.metadata.get("server_id") if transition.metadata else None
         )
+        server_id = int(server_id_raw) if server_id_raw is not None else 0
 
-        self.logger.info(
-            f"🎬 Session {session_key} started - fetching complete data immediately"
-        )
+        self.logger.info(f"Session {session_key} started, fetching data")
 
-        # ✅ TAUTULLI APPROACH: Fetch complete data IMMEDIATELY on start
-        # This eliminates the "Unknown" value problem at the source
         session_data = self._get_session_from_current_activity(session_key, server_id)
 
-        # Only fall back to "Unknown" if API call truly failed
         if not session_data or session_data.get("username") == "Unknown":
             self.logger.warning(
-                f"⚠️ Could not enrich session {session_key} on start - using minimal data"
+                f"Could not enrich session {session_key}, using minimal data"
             )
             rating_key = (
                 transition.metadata.get("rating_key") if transition.metadata else None
@@ -272,41 +246,45 @@ class SessionManager:
                 "rating_key": rating_key,
                 "session_key": session_key,
                 "user_id": None,
-                "needs_enrichment": True,  # Mark for retry on next progress
+                "needs_enrichment": True,
             }
         else:
             self.logger.info(
-                f"✅ Session {session_key} enriched immediately: "
+                f"Session {session_key} enriched: "
                 f"user={session_data['username']}, title={session_data['full_title']}"
             )
             session_data["needs_enrichment"] = False
 
-        # Cache the session data
         with self._lock:
             self.active_sessions[session_key] = {
                 **session_data,
                 "started_at": transition.timestamp,
                 "last_update": transition.timestamp,
                 "state": "playing",
-                "paused_counter": 0,  # Track total time spent paused (Tautulli approach)
-                "paused_at": None,  # Track when last paused
+                "paused_counter": 0,
+                "paused_at": None,
             }
 
         # Create activity event with enriched data
+        user_id_raw = session_data.get("user_id")
+        media_type_raw = session_data.get("media_type", "unknown")
+        media_id_raw = session_data.get("rating_key")
+        device_name_raw = session_data.get("device", "Unknown")
+        client_name_raw = session_data.get("player", "Unknown")
+        platform_raw = session_data.get("platform", "Unknown")
+
         event = ActivityEvent(
             event_type="session_start",
-            server_id=int(transition.metadata.get("server_id", 0))
-            if transition.metadata
-            else 0,
+            server_id=server_id,
             session_id=session_key,
             user_name=str(session_data.get("username", "Unknown")),
-            user_id=session_data.get("user_id"),
+            user_id=str(user_id_raw) if user_id_raw is not None else None,
             media_title=str(session_data.get("full_title", "Unknown")),
-            media_type=session_data.get("media_type", "unknown"),
-            media_id=session_data.get("rating_key"),
-            device_name=session_data.get("device", "Unknown"),
-            client_name=session_data.get("player", "Unknown"),
-            platform=session_data.get("platform", "Unknown"),
+            media_type=str(media_type_raw) if media_type_raw is not None else None,
+            media_id=str(media_id_raw) if media_id_raw is not None else None,
+            device_name=str(device_name_raw) if device_name_raw is not None else None,
+            client_name=str(client_name_raw) if client_name_raw is not None else None,
+            platform=str(platform_raw) if platform_raw is not None else None,
             timestamp=transition.timestamp,
             position_ms=transition.view_offset,
             metadata=transition.metadata,
@@ -317,13 +295,10 @@ class SessionManager:
             self.event_callback(event)
 
     def _on_session_pause(self, transition: SessionTransition):
-        """Handle session pause with timestamp tracking."""
+        """Handle session pause."""
         session_key = transition.session_key
-        self.logger.info(
-            f"⏸️ Session {session_key} paused at {transition.view_offset}ms"
-        )
+        self.logger.info(f"Session {session_key} paused at {transition.view_offset}ms")
 
-        # Track pause timestamp for duration calculations
         with self._lock:
             if session_key in self.active_sessions:
                 self.active_sessions[session_key]["paused_at"] = transition.timestamp
@@ -338,8 +313,8 @@ class SessionManager:
             event_type="session_pause",
             server_id=server_id,
             session_id=session_key,
-            user_name=session_data.get("username", "Unknown"),
-            media_title=session_data.get("full_title", "Unknown"),
+            user_name=str(session_data.get("username", "Unknown")),
+            media_title=str(session_data.get("full_title", "Unknown")),
             timestamp=transition.timestamp,
             position_ms=transition.view_offset,
             metadata=transition.metadata,
@@ -349,34 +324,28 @@ class SessionManager:
             self.event_callback(event)
 
     def _on_session_resume(self, transition: SessionTransition):
-        """Handle session resume with pause duration tracking (Tautulli approach)."""
+        """Handle session resume and track pause duration."""
         session_key = transition.session_key
         self.logger.info(
-            f"▶️ Session {session_key} resumed from {transition.view_offset}ms"
+            f"Session {session_key} resumed from {transition.view_offset}ms"
         )
 
-        # Calculate pause duration and accumulate in paused_counter (Tautulli approach)
         pause_duration = None
         with self._lock:
             if session_key in self.active_sessions:
                 paused_at = self.active_sessions[session_key].get("paused_at")
                 if paused_at:
                     pause_duration = (transition.timestamp - paused_at).total_seconds()
-
-                    # ✅ ACCUMULATE pause time in counter (Tautulli approach)
                     current_paused_counter = self.active_sessions[session_key].get(
                         "paused_counter", 0
                     )
                     self.active_sessions[session_key]["paused_counter"] = (
                         current_paused_counter + pause_duration
                     )
-
-                    # Clear paused_at since we've resumed
                     self.active_sessions[session_key]["paused_at"] = None
-
                     self.logger.debug(
-                        f"Session {session_key} was paused for {pause_duration:.1f}s, "
-                        f"total paused: {self.active_sessions[session_key]['paused_counter']:.1f}s"
+                        f"Session {session_key} paused {pause_duration:.1f}s, "
+                        f"total: {self.active_sessions[session_key]['paused_counter']:.1f}s"
                     )
 
         # Get complete session data for resume event
@@ -385,113 +354,80 @@ class SessionManager:
         )
         session_data = self._get_session_from_current_activity(session_key, server_id)
 
+        metadata_dict = (
+            {**transition.metadata, "pause_duration_seconds": pause_duration}
+            if transition.metadata
+            else {"pause_duration_seconds": pause_duration}
+        )
+
         event = ActivityEvent(
             event_type="session_resume",
             server_id=server_id,
             session_id=session_key,
-            user_name=session_data.get("username", "Unknown"),
-            media_title=session_data.get("full_title", "Unknown"),
+            user_name=str(session_data.get("username", "Unknown")),
+            media_title=str(session_data.get("full_title", "Unknown")),
             timestamp=transition.timestamp,
             position_ms=transition.view_offset,
-            metadata={**transition.metadata, "pause_duration_seconds": pause_duration},
+            metadata=metadata_dict,
         )
 
         if self.event_callback:
             self.event_callback(event)
 
     def _on_session_stop(self, transition: SessionTransition):
-        """Handle session stop with cleanup and final recording."""
+        """Handle session stop and record final duration."""
         session_key = transition.session_key
         server_id = (
             int(transition.metadata.get("server_id", 0)) if transition.metadata else 0
         )
-        self.logger.info(
-            f"⏹️ Session {session_key} stopped at {transition.view_offset}ms"
-        )
+        self.logger.info(f"Session {session_key} stopped at {transition.view_offset}ms")
 
-        # Check if session exists
         with self._lock:
             if session_key not in self.active_sessions:
                 self.logger.warning(
-                    f"⚠️ Session {session_key} stop event received but session not found - "
-                    f"likely stopped before start completed (race condition)"
+                    f"Session {session_key} stop received but not found (race condition)"
                 )
-                # Cancel any pending timers just in case
                 self._cancel_cleanup_timer(session_key)
                 return
 
             session_data = self.active_sessions.pop(session_key, {})
         self._cancel_cleanup_timer(session_key)
 
-        # Debug: Log what's in the cached session data
-        self.logger.debug(
-            f"🔍 Cached session data for {session_key}: username={session_data.get('username', 'missing')}, title={session_data.get('full_title', 'missing')}"
-        )
-
-        # Use cached data first (from session start), then try current activity as fallback
-        # This is because stopped sessions are often already removed from Plex's active sessions
         current_session_data = session_data
 
-        # If cached data is incomplete, try to get current session data
         if (
             not current_session_data
             or current_session_data.get("username") == "Unknown"
         ):
-            self.logger.debug(
-                f"🔍 Cached data incomplete for {session_key}, trying current activity lookup"
-            )
             lookup_data = self._get_session_from_current_activity(
                 session_key, server_id
             )
             if lookup_data and lookup_data.get("username") != "Unknown":
-                self.logger.debug(
-                    f"🔍 Current activity lookup successful for {session_key}: username={lookup_data.get('username')}"
-                )
                 current_session_data = lookup_data
-            else:
-                self.logger.debug(
-                    f"🔍 Current activity lookup also failed for {session_key}"
-                )
 
-        user_name = current_session_data.get("username", "Unknown")
-        media_title = current_session_data.get("full_title", "Unknown")
+        user_name = str(current_session_data.get("username", "Unknown"))
+        media_title = str(current_session_data.get("full_title", "Unknown"))
 
-        # Calculate REAL play time (Tautulli approach)
         started_at = session_data.get("started_at")
         paused_counter = session_data.get("paused_counter", 0)
         paused_at = session_data.get("paused_at")
 
-        # Handle stopped-while-paused case
         if paused_at:
-            # User stopped while paused - add current pause to counter
             current_pause_duration = (transition.timestamp - paused_at).total_seconds()
             paused_counter += current_pause_duration
-            self.logger.debug(
-                f"Session {session_key} stopped while paused, "
-                f"adding {current_pause_duration:.1f}s to paused_counter"
-            )
 
         real_play_time = None
         duration_ms = None
         if started_at:
-            # Total elapsed time
             elapsed_time = (transition.timestamp - started_at).total_seconds()
+            real_play_time = max(elapsed_time - paused_counter, 0)
 
-            # Real play time = elapsed time - time spent paused
-            real_play_time = elapsed_time - paused_counter
-
-            # Ensure non-negative
-            real_play_time = max(real_play_time, 0)
-
-            # Filter out very short sessions (< 10 seconds) - likely testing or accidental starts
-            # This follows Tautulli's approach of ignoring very brief sessions
-            MIN_SESSION_DURATION = 10  # seconds
+            # Ignore very short sessions (< 10 seconds)
+            MIN_SESSION_DURATION = 10
             if real_play_time < MIN_SESSION_DURATION:
                 self.logger.info(
-                    f"🚫 Session {session_key} too short ({real_play_time:.1f}s < {MIN_SESSION_DURATION}s) - "
-                    f"ignoring session (likely accidental start/stop)"
+                    f"Session {session_key} too short ({real_play_time:.1f}s), ignoring"
                 )
-                # Don't emit the session_end event for very short sessions
                 return
 
             if real_play_time is not None:
@@ -501,27 +437,34 @@ class SessionManager:
                     duration_ms = None
 
             self.logger.info(
-                f"📊 Session {session_key} duration: "
+                f"Session {session_key} duration: "
                 f"elapsed={elapsed_time:.1f}s, paused={paused_counter:.1f}s, "
-                f"real_play_time={real_play_time:.1f}s ({duration_ms}ms)"
+                f"play_time={real_play_time:.1f}s"
             )
 
+        media_type_raw = current_session_data.get("media_type", "unknown")
+        media_id_raw = current_session_data.get("rating_key")
+        device_name_raw = current_session_data.get("device", "Unknown")
+        client_name_raw = current_session_data.get("player", "Unknown")
+        platform_raw = current_session_data.get("platform", "Unknown")
+
+        metadata_base = transition.metadata if transition.metadata else {}
         event = ActivityEvent(
             event_type="session_end",
             server_id=server_id,
             session_id=session_key,
             user_name=user_name,
             media_title=media_title,
-            media_type=current_session_data.get("media_type", "unknown"),
-            media_id=current_session_data.get("rating_key"),
-            device_name=current_session_data.get("device", "Unknown"),
-            client_name=current_session_data.get("player", "Unknown"),
-            platform=current_session_data.get("platform", "Unknown"),
+            media_type=str(media_type_raw) if media_type_raw is not None else None,
+            media_id=str(media_id_raw) if media_id_raw is not None else None,
+            device_name=str(device_name_raw) if device_name_raw is not None else None,
+            client_name=str(client_name_raw) if client_name_raw is not None else None,
+            platform=str(platform_raw) if platform_raw is not None else None,
             timestamp=transition.timestamp,
             position_ms=transition.view_offset,
             duration_ms=duration_ms,
             metadata={
-                **transition.metadata,
+                **metadata_base,
                 "real_play_time_seconds": real_play_time,
                 "paused_counter_seconds": paused_counter,
                 "elapsed_time_seconds": (
@@ -536,10 +479,9 @@ class SessionManager:
             self.event_callback(event)
 
     def _on_session_buffer(self, transition: SessionTransition):
-        """Handle buffering events with frequency tracking."""
+        """Handle buffering events."""
         session_key = transition.session_key
 
-        # Track buffer events frequency
         with self._lock:
             if session_key in self.active_sessions:
                 buffer_count = (
@@ -547,10 +489,9 @@ class SessionManager:
                 )
                 self.active_sessions[session_key]["buffer_count"] = buffer_count
 
-                # Only log excessive buffering
                 if buffer_count >= 3:
                     self.logger.warning(
-                        f"🔄 Session {session_key} buffering (count: {buffer_count})"
+                        f"Session {session_key} buffering ({buffer_count} times)"
                     )
 
         # Get complete session data for buffer event
@@ -563,8 +504,8 @@ class SessionManager:
             event_type="session_buffer",
             server_id=server_id,
             session_id=session_key,
-            user_name=session_data.get("username", "Unknown"),
-            media_title=session_data.get("full_title", "Unknown"),
+            user_name=str(session_data.get("username", "Unknown")),
+            media_title=str(session_data.get("full_title", "Unknown")),
             timestamp=transition.timestamp,
             position_ms=transition.view_offset,
             metadata=transition.metadata,
@@ -576,7 +517,7 @@ class SessionManager:
     def _on_session_error(self, transition: SessionTransition):
         """Handle session errors."""
         session_key = transition.session_key
-        self.logger.warning(f"❌ Session {session_key} encountered error")
+        self.logger.warning(f"Session {session_key} encountered error")
 
         event = ActivityEvent(
             event_type="session_error",
@@ -595,7 +536,7 @@ class SessionManager:
             self.event_callback(event)
 
     def _record_progress(self, transition: SessionTransition):
-        """Record periodic progress snapshots with smart enrichment (Tautulli-inspired)."""
+        """Record periodic progress snapshots with enrichment retry."""
         session_key = transition.session_key
         with self._lock:
             cached_session = self.active_sessions.get(session_key, {})
@@ -604,9 +545,6 @@ class SessionManager:
             )
             needs_enrichment = cached_session.get("needs_enrichment", False)
 
-        # Smart enrichment strategy:
-        # - If needs_enrichment: try every 10 seconds (fast retry for failed starts)
-        # - If already enriched: only update every 30 seconds (normal progress tracking)
         retry_interval = 10 if needs_enrichment else 30
         time_since_progress = (transition.timestamp - last_progress).total_seconds()
 
@@ -619,13 +557,11 @@ class SessionManager:
 
             session_data = cached_session
 
-            # Only query API if we need enrichment or it's time for periodic update
             if needs_enrichment or time_since_progress >= 30:
                 fresh_session_data = self._get_session_from_current_activity(
                     session_key, server_id
                 )
 
-                # Check if we got better data than what's cached
                 if fresh_session_data:
                     has_improvements = (
                         fresh_session_data.get("username", "Unknown") != "Unknown"
@@ -636,14 +572,11 @@ class SessionManager:
                     if has_improvements:
                         if needs_enrichment:
                             self.logger.info(
-                                f"✨ Successfully enriched session {session_key}: "
+                                f"Enriched session {session_key}: "
                                 f"user={fresh_session_data.get('username')}, "
                                 f"title={fresh_session_data.get('full_title')}"
                             )
-                        else:
-                            self.logger.debug(f"🔄 Updated session {session_key} data")
 
-                        # Update cached session with enriched data
                         with self._lock:
                             if session_key in self.active_sessions:
                                 self.active_sessions[session_key].update(
@@ -658,29 +591,38 @@ class SessionManager:
 
                         session_data = fresh_session_data
                     else:
-                        # Use cached data if fresh lookup didn't help
                         session_data = cached_session
                 else:
-                    # API lookup failed, use cached data
                     if needs_enrichment:
-                        self.logger.warning(
-                            f"⚠️ Still unable to enrich session {session_key}, will retry"
+                        self.logger.debug(
+                            f"Unable to enrich session {session_key}, will retry"
                         )
                     session_data = cached_session
 
             # Create progress event with current data
+            user_id_raw = session_data.get("user_id")
+            media_type_raw = session_data.get("media_type", "unknown")
+            media_id_raw = session_data.get("rating_key")
+            device_name_raw = session_data.get("device", "Unknown")
+            client_name_raw = session_data.get("player", "Unknown")
+            platform_raw = session_data.get("platform", "Unknown")
+
             event = ActivityEvent(
                 event_type="session_progress",
                 server_id=server_id,
                 session_id=session_key,
-                user_name=session_data.get("username", "Unknown"),
-                user_id=session_data.get("user_id"),
-                media_title=session_data.get("full_title", "Unknown"),
-                media_type=session_data.get("media_type", "unknown"),
-                media_id=session_data.get("rating_key"),
-                device_name=session_data.get("device", "Unknown"),
-                client_name=session_data.get("player", "Unknown"),
-                platform=session_data.get("platform", "Unknown"),
+                user_name=str(session_data.get("username", "Unknown")),
+                user_id=str(user_id_raw) if user_id_raw is not None else None,
+                media_title=str(session_data.get("full_title", "Unknown")),
+                media_type=str(media_type_raw) if media_type_raw is not None else None,
+                media_id=str(media_id_raw) if media_id_raw is not None else None,
+                device_name=str(device_name_raw)
+                if device_name_raw is not None
+                else None,
+                client_name=str(client_name_raw)
+                if client_name_raw is not None
+                else None,
+                platform=str(platform_raw) if platform_raw is not None else None,
                 timestamp=transition.timestamp,
                 position_ms=transition.view_offset,
                 state=transition.to_state.value,
@@ -696,7 +638,7 @@ class SessionManager:
                     )
 
     def _schedule_cleanup(self, session_key: str, timeout_minutes: int = 5):
-        """Schedule automatic cleanup for stale sessions (Tautulli-inspired)."""
+        """Schedule automatic cleanup for stale sessions."""
         # Cancel existing timer
         self._cancel_cleanup_timer(session_key)
 
@@ -718,13 +660,13 @@ class SessionManager:
             timer.cancel()
 
     def _force_stop_session(self, session_key: str):
-        """Force stop a stale session (Tautulli-inspired)."""
+        """Force stop a stale session."""
         with self._lock:
             if session_key not in self.active_sessions:
                 return
             session_data = self.active_sessions[session_key].copy()
 
-        self.logger.warning(f"🧹 Force stopping stale session {session_key}")
+        self.logger.warning(f"Force stopping stale session {session_key}")
 
         # Create a synthetic stop transition
         transition = SessionTransition(
@@ -773,9 +715,7 @@ class SessionManager:
             transcode_sessions = [transcode_sessions]
 
         for session in transcode_sessions:
-            self.logger.info(
-                f"🔄 Transcode session started: {session.get('key', 'unknown')}"
-            )
+            self.logger.debug(f"Transcode started: {session.get('key', 'unknown')}")
 
         return True
 
@@ -788,9 +728,7 @@ class SessionManager:
             transcode_sessions = [transcode_sessions]
 
         for session in transcode_sessions:
-            self.logger.info(
-                f"✅ Transcode session ended: {session.get('key', 'unknown')}"
-            )
+            self.logger.debug(f"Transcode ended: {session.get('key', 'unknown')}")
 
         return True
 
@@ -816,19 +754,7 @@ class SessionManager:
     def _extract_session_data_from_plex(
         self, plex_session, server_id: int
     ) -> dict[str, Any]:
-        """
-        Extract complete session data from a PlexAPI session object.
-
-        This is a reusable helper that parses Plex session objects into our
-        normalized format. Used by both WebSocket and polling paths.
-
-        Args:
-            plex_session: PlexAPI session object
-            server_id: Database ID of the media server
-
-        Returns:
-            dict: Normalized session data with all fields populated
-        """
+        """Extract session data from a PlexAPI session object."""
         from app.extensions import db
         from app.models import User
 
@@ -868,35 +794,26 @@ class SessionManager:
             session_data["username"] = "Unknown"
             session_data["user_id"] = None
 
-        # Media information (rich title like Tautulli)
+        # Media information
         title = getattr(plex_session, "title", "Unknown")
         grandparent_title = getattr(plex_session, "grandparentTitle", None)
         parent_title = getattr(plex_session, "parentTitle", None)
 
-        # Build full title
         if grandparent_title and parent_title:
-            # TV Show: "Game of Thrones - Season 1 - Winter Is Coming"
             session_data["full_title"] = (
                 f"{grandparent_title} - {parent_title} - {title}"
             )
         elif grandparent_title:
-            # TV Show without season: "Game of Thrones - Winter Is Coming"
             session_data["full_title"] = f"{grandparent_title} - {title}"
         else:
-            # Movie or other: "The Matrix"
             session_data["full_title"] = title
 
-        # Additional metadata
         session_data["media_type"] = getattr(plex_session, "type", "unknown")
         session_data["rating_key"] = getattr(plex_session, "ratingKey", "")
         session_data["session_key"] = session_key
 
-        # Extract player/device info properly
         player_obj = getattr(plex_session, "player", None)
         if player_obj:
-            # player.product = client software (e.g., "Plex for iOS")
-            # player.title = device name (e.g., "iPhone", "Chrome")
-            # player.platform = platform (e.g., "iOS", "Chrome")
             session_data["player"] = getattr(player_obj, "product", "Unknown")
             session_data["device"] = getattr(player_obj, "title", "Unknown")
             session_data["platform"] = getattr(player_obj, "platform", "Unknown")
@@ -910,10 +827,7 @@ class SessionManager:
     def _get_session_from_current_activity(
         self, session_key: str, server_id: int
     ) -> dict[str, Any]:
-        """
-        Get complete session data using Tautulli's approach.
-        Makes one API call to /status/sessions and finds our session.
-        """
+        """Get session data from Plex /status/sessions endpoint."""
         try:
             # Import Flask dependencies
             from flask import has_app_context
@@ -935,11 +849,8 @@ class SessionManager:
                     self.logger.warning(f"No valid client for server {server_id}")
                     return {}
 
-                # Get ALL current sessions from Plex (Tautulli approach)
-                sessions = client.server.sessions()
-                self.logger.debug(f"📡 Found {len(sessions)} active Plex sessions")
+                sessions = client.server.sessions()  # type: ignore[attr-defined]
 
-                # Find our specific session
                 target_session = None
                 for session in sessions:
                     session_key_attr = str(getattr(session, "sessionKey", ""))
@@ -948,36 +859,21 @@ class SessionManager:
                         break
 
                 if not target_session:
-                    self.logger.warning(
-                        f"Session {session_key} not found in current activity"
-                    )
                     return {}
 
-                # Extract session data using our reusable helper
-                session_data = self._extract_session_data_from_plex(
-                    target_session, server_id
-                )
+                return self._extract_session_data_from_plex(target_session, server_id)
 
-                self.logger.info(
-                    f"📡 Retrieved complete session data for {session_key}: "
-                    f"user={session_data.get('username', 'Unknown')}, "
-                    f"title={session_data.get('full_title', 'Unknown')}"
-                )
-                return session_data
-
-            # Check if we need app context or if we already have one
             if has_app_context():
                 return _do_session_lookup()
-            # Look for app in the websocket monitor that created this collector
+
             from .monitor import _app_instance
 
             app = _app_instance
             if app:
                 with app.app_context():
                     return _do_session_lookup()
-            else:
-                self.logger.warning("📡 No app context available for session lookup")
-                return {}
+
+            return {}
 
         except Exception as e:
             self.logger.warning(

@@ -372,7 +372,7 @@ def activity_session(session_id):
         if db is None:
             return jsonify({"error": _("Database not available")}), 500
 
-        session = db.session.query(ActivitySession).get_or_404(session_id)
+        session = db.get_or_404(ActivitySession, session_id)
 
         return jsonify(session.to_dict())
 

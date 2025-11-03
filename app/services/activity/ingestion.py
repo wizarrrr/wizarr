@@ -196,10 +196,8 @@ class ActivityIngestionService:
             event.event_type = "session_start"
             return self._handle_session_start(event)
 
-        # Tautulli approach: Allow enrichment by overwriting "Unknown" values
-        # Update fields if: (1) current value is Unknown OR (2) new value is not Unknown
         def should_update(current_value: str | None, new_value: str | None) -> bool:
-            """Check if field should be updated based on enrichment rules."""
+            """Check if field should be updated to enrich Unknown values."""
             if not new_value:
                 return False
             new_is_unknown = new_value.lower() in {"unknown", "unknown user"}
@@ -312,17 +310,7 @@ class ActivityIngestionService:
         new_session: ActivitySession,
         event: ActivityEvent,
     ) -> None:
-        """
-        Apply session grouping with multi-level matching strategy.
-
-        Handles real-world scenarios where Plex creates new sessionKeys for:
-        - Subtitle/audio track changes
-        - Quality/transcoding changes
-        - App quit/resume
-        - Network reconnections
-
-        Uses fallback matching when media_id is missing during initial creation.
-        """
+        """Group sessions that belong together despite different sessionKeys."""
         try:
             # Find potential previous sessions using flexible matching
             previous_sessions = self._find_groupable_sessions(
@@ -361,8 +349,6 @@ class ActivityIngestionService:
             time_gap = event_timestamp - prev_timestamp
             gap_seconds = time_gap.total_seconds()
 
-            # Extended window: 2 hours (handles dinner breaks, phone calls, etc.)
-            # Previous 30-minute window was too strict for real-world usage
             time_window_seconds = 7200  # 2 hours
 
             should_group = gap_seconds < time_window_seconds
@@ -402,25 +388,14 @@ class ActivityIngestionService:
         device_name: str | None,
         current_session_id: int,
     ) -> list[ActivitySession]:
-        """
-        Find previous sessions that should be grouped using multi-level matching.
-
-        Priority order:
-        1. Exact media_id match (highest confidence)
-        2. Title + Device match (medium confidence - handles subtitle changes)
-        3. Title-only match (lower confidence - handles device changes)
-
-        Returns:
-            List of up to 2 most recent matching sessions
-        """
+        """Find previous sessions to group using fallback matching strategies."""
         base_query = db.session.query(ActivitySession).filter(  # type: ignore[union-attr]
             ActivitySession.server_id == server_id,
             ActivitySession.user_name == user_name,
             ActivitySession.id < current_session_id,
         )
 
-        # Strategy 1: Exact media_id match (if available and not "Unknown")
-        # Defensive: Convert media_id to string since it may come as int from some sources
+        # Try media_id match first
         if media_id:
             media_id_str = str(media_id) if not isinstance(media_id, str) else media_id
             if media_id_str.lower() != "unknown":
@@ -431,18 +406,9 @@ class ActivityIngestionService:
                     .all()
                 )
                 if exact_matches:
-                    self.logger.debug(
-                        "Found %d sessions via media_id match (%s)",
-                        len(exact_matches),
-                        media_id_str,
-                    )
                     return exact_matches
 
-        # Strategy 2: Title + Device match
-        # Handles cases where:
-        # - media_id is missing/unknown during initial session creation
-        # - User changed subtitle/audio (new sessionKey but same viewing session)
-        # Defensive: Convert device_name to string since it may come as int from some sources
+        # Fallback to title + device match
         if device_name:
             device_name_str = (
                 str(device_name) if not isinstance(device_name, str) else device_name
@@ -458,29 +424,15 @@ class ActivityIngestionService:
                     .all()
                 )
                 if title_device_matches:
-                    self.logger.debug(
-                        "Found %d sessions via title+device match (%s on %s)",
-                        len(title_device_matches),
-                        media_title,
-                        device_name_str,
-                    )
                     return title_device_matches
 
-        # Strategy 3: Title-only match (last resort)
-        # Handles cases where device info is also missing
-        title_matches = (
+        # Last resort: title-only match
+        return (
             base_query.filter(ActivitySession.media_title == media_title)
             .order_by(ActivitySession.id.desc())
             .limit(2)
             .all()
         )
-        if title_matches:
-            self.logger.debug(
-                "Found %d sessions via title-only match (%s)",
-                len(title_matches),
-                media_title,
-            )
-        return title_matches
 
     def _update_session_from_event(
         self,

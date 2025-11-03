@@ -605,6 +605,7 @@ def test_category_persists_after_multiple_edits(
 
     session.expire_all()
     step = db.session.get(WizardStep, step_id)
+    assert step is not None
     assert step.category == "pre_invite"
 
     # Edit 2: Change markdown only
@@ -621,6 +622,7 @@ def test_category_persists_after_multiple_edits(
 
     session.expire_all()
     step = db.session.get(WizardStep, step_id)
+    assert step is not None
     assert step.category == "pre_invite"
 
     # Edit 3: Change category to post_invite
@@ -637,4 +639,5 @@ def test_category_persists_after_multiple_edits(
 
     session.expire_all()
     step = db.session.get(WizardStep, step_id)
+    assert step is not None
     assert step.category == "post_invite"
