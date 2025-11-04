@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-03 03:57+0000\n"
+"POT-Creation-Date: 2025-11-04 03:48+0000\n"
 "PO-Revision-Date: 2025-10-31 16:35+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language: ro\n"
@@ -141,41 +141,41 @@ msgstr ""
 msgid "An internal error has occurred."
 msgstr ""
 
-#: app/blueprints/admin/routes.py:322
+#: app/blueprints/admin/routes.py:323
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:325 app/templates/modals/invite.html:69
+#: app/blueprints/admin/routes.py:326 app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
 #: app/templates/tables/user_card.html:90
 msgid "Never"
 msgstr "Niciodată"
 
-#: app/blueprints/admin/routes.py:398 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:399 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr "Expirat"
 
-#: app/blueprints/admin/routes.py:406
+#: app/blueprints/admin/routes.py:407
 #, python-format
 msgid "in %(n)d d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:408
+#: app/blueprints/admin/routes.py:409
 msgid "in 1 d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:410
+#: app/blueprints/admin/routes.py:411
 #, python-format
 msgid "in %(n)d h"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:412
+#: app/blueprints/admin/routes.py:413
 #, python-format
 msgid "in %(n)d m"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:413
+#: app/blueprints/admin/routes.py:414
 msgid "soon"
 msgstr ""
 
@@ -262,7 +262,7 @@ msgstr ""
 msgid "Invalid form data: %(errors)s"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:272
+#: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:268
 msgid "Settings saved successfully!"
 msgstr ""
 
@@ -531,14 +531,14 @@ msgid "Libraries"
 msgstr "Biblioteci"
 
 #: app/forms/settings.py:30 app/forms/settings.py:46
-#: app/templates/modals/invite.html:197 app/templates/modals/invite.html:231
-#: app/templates/modals/invite.html:254 app/templates/modals/invite.html:288
-#: app/templates/modals/invite.html:300
+#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
+#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:254
+#: app/templates/modals/invite.html:288 app/templates/modals/invite.html:300
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Descarcă"
 
-#: app/forms/settings.py:33
+#: app/forms/settings.py:33 app/templates/admin/user_modal.html:112
 msgid "Allow Live TV"
 msgstr ""
 
@@ -1248,122 +1248,106 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:8
-msgid "Edit expiry"
-msgstr ""
-
-#: app/templates/admin/user_modal.html:26
-msgid "Server-specific Expiry Management"
-msgstr ""
-
-#: app/templates/admin/user_modal.html:28
-msgid ""
-"This user exists on multiple servers. You can set different expiry dates "
-"for each server."
-msgstr ""
-
-#: app/templates/admin/user_modal.html:48
+#: app/templates/admin/user_modal.html:11
 #, fuzzy
-msgid "Expiry date"
-msgstr "Expiră"
+msgid "Edit User"
+msgstr "Niciodată"
 
-#: app/templates/admin/user_modal.html:58
-msgid "Update"
+#: app/templates/admin/user_modal.html:16
+#: app/templates/admin/user_modal.html:24
+#: app/templates/modals/connection-form.html:20
+msgid "Close modal"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:63
-msgid "Current expiry"
+#: app/templates/admin/user_modal.html:30
+msgid "Tabs"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:65
-#, fuzzy
-msgid "No expiry set"
-msgstr "Expiră"
+#: app/templates/admin/user_modal.html:42
+msgid "Local"
+msgstr ""
 
-#: app/templates/admin/user_modal.html:73
-#: app/templates/admin/user_modal.html:109
+#: app/templates/admin/user_modal.html:52
+#: app/templates/admin/user_modal.html:249
 #: app/templates/tables/user_card.html:130
 msgid "Notes"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:80
-#: app/templates/admin/user_modal.html:113
+#: app/templates/admin/user_modal.html:81
+#, fuzzy
+msgid "Permission Management"
+msgstr "Nume de utilizator"
+
+#: app/templates/admin/user_modal.html:93
+msgid "Toggle downloads permission"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:118
+msgid "Toggle live TV permission"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:138
+#, fuzzy
+msgid "Allow Camera Upload"
+msgstr "Descarcă"
+
+#: app/templates/admin/user_modal.html:144
+msgid "Toggle camera upload permission"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:169
+#, fuzzy
+msgid "Library Access"
+msgstr "Biblioteci"
+
+#: app/templates/admin/user_modal.html:172
+#, fuzzy
+msgid "No libraries available"
+msgstr "Scanează Pentru Biblioteci"
+
+#: app/templates/admin/user_modal.html:173
+msgid "Scan libraries from the invitation page to enable library restrictions"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:205
+msgid "Click to toggle library access. Updates save automatically."
+msgstr ""
+
+#: app/templates/admin/user_modal.html:211
+#, fuzzy
+msgid "Expiry Management"
+msgstr "Nume de utilizator"
+
+#: app/templates/admin/user_modal.html:218
+#, fuzzy
+msgid "Expiry date"
+msgstr "Expiră"
+
+#: app/templates/admin/user_modal.html:228
+msgid "Update"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:233
+msgid "Current expiry"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:235
+#, fuzzy
+msgid "No expiry set"
+msgstr "Expiră"
+
+#: app/templates/admin/user_modal.html:253
+#, fuzzy
+msgid "User notes"
+msgstr "Utilizatori"
+
+#: app/templates/admin/user_modal.html:257
 msgid "Add notes about this user..."
 msgstr ""
 
-#: app/templates/admin/user_modal.html:86
+#: app/templates/admin/user_modal.html:263
 msgid "Update Notes"
 msgstr ""
-
-#: app/templates/admin/user_modal.html:99
-msgid "Expiry date (leave blank for never)"
-msgstr ""
-
-#: app/templates/admin/user_modal.html:119
-#: app/templates/modals/edit-admin.html:45
-#: app/templates/modals/edit-identity.html:44
-#: app/templates/modals/edit-server.html:173
-#: app/templates/modals/wizard-bundle-form.html:36
-#: app/templates/modals/wizard-simple-step-form.html:50
-#: app/templates/modals/wizard-step-form.html:141
-#: app/templates/settings/wizard/bundle_form.html:16
-#: app/templates/settings/wizard/form.html:30
-#: app/templates/settings/wizard/simple_form.html:26
-msgid "Save"
-msgstr "Salvare"
-
-#: app/templates/admin/user_modal.html:123
-#: app/templates/components/passkey_add_form.html:24
-#: app/templates/components/passkey_register.html:19
-#: app/templates/modals/bundle-add-steps.html:35
-#: app/templates/modals/connection-form.html:162
-#: app/templates/modals/create-admin.html:48
-#: app/templates/modals/create-api-key.html:82
-#: app/templates/modals/create-notification-agent.html:146
-#: app/templates/modals/create-server.html:168
-#: app/templates/modals/edit-admin.html:50
-#: app/templates/modals/edit-identity.html:49
-#: app/templates/modals/edit-notification-agent.html:142
-#: app/templates/modals/edit-server.html:178
-#: app/templates/modals/invite.html:345
-#: app/templates/modals/wizard-bundle-form.html:34
-#: app/templates/modals/wizard-import-form.html:102
-#: app/templates/modals/wizard-preset-form.html:59
-#: app/templates/modals/wizard-simple-step-form.html:48
-#: app/templates/modals/wizard-step-form.html:139
-#: app/templates/settings/connections/form.html:183
-#: app/templates/settings/wizard/bundle_form.html:18
-#: app/templates/settings/wizard/form.html:38
-#: app/templates/settings/wizard/preset_form.html:38
-#: app/templates/settings/wizard/simple_form.html:28
-msgid "Cancel"
-msgstr ""
-
-#: app/templates/admin/user_modal.html:130
-#, fuzzy
-msgid "Invitation Details"
-msgstr "Invitații"
-
-#: app/templates/admin/user_modal.html:133
-msgid "Code"
-msgstr ""
-
-#: app/templates/admin/user_modal.html:135 app/templates/modals/invite.html:114
-#: app/templates/modals/invite.html:136
-#: app/templates/tables/invite_card.html:129
-msgid "Duration"
-msgstr "Durată"
-
-#: app/templates/admin/user_modal.html:135
-#: app/templates/tables/invite_card.html:129
-#, fuzzy
-msgid "days"
-msgstr "1 zi"
-
-#: app/templates/admin/user_modal.html:136
-#, fuzzy
-msgid "Invitation expires"
-msgstr "Invitații"
 
 #: app/templates/admin/users.html:192
 #, fuzzy
@@ -1448,6 +1432,32 @@ msgstr "Nume de utilizator"
 
 #: app/templates/components/passkey_add_form.html:16
 msgid "e.g., My iPhone, Work Laptop"
+msgstr ""
+
+#: app/templates/components/passkey_add_form.html:24
+#: app/templates/components/passkey_register.html:19
+#: app/templates/modals/bundle-add-steps.html:35
+#: app/templates/modals/connection-form.html:162
+#: app/templates/modals/create-admin.html:48
+#: app/templates/modals/create-api-key.html:82
+#: app/templates/modals/create-notification-agent.html:146
+#: app/templates/modals/create-server.html:168
+#: app/templates/modals/edit-admin.html:50
+#: app/templates/modals/edit-identity.html:49
+#: app/templates/modals/edit-notification-agent.html:142
+#: app/templates/modals/edit-server.html:178
+#: app/templates/modals/invite.html:345
+#: app/templates/modals/wizard-bundle-form.html:34
+#: app/templates/modals/wizard-import-form.html:102
+#: app/templates/modals/wizard-preset-form.html:59
+#: app/templates/modals/wizard-simple-step-form.html:48
+#: app/templates/modals/wizard-step-form.html:139
+#: app/templates/settings/connections/form.html:183
+#: app/templates/settings/wizard/bundle_form.html:18
+#: app/templates/settings/wizard/form.html:38
+#: app/templates/settings/wizard/preset_form.html:38
+#: app/templates/settings/wizard/simple_form.html:28
+msgid "Cancel"
 msgstr ""
 
 #: app/templates/components/passkey_add_form.html:28
@@ -1539,8 +1549,8 @@ msgstr ""
 
 #: app/templates/modals/bundle-add-steps.html:26
 #: app/templates/settings/wizard/bundles.html:94
-#: app/templates/settings/wizard/bundles.html:175
-#: app/templates/settings/wizard/bundles.html:256
+#: app/templates/settings/wizard/bundles.html:176
+#: app/templates/settings/wizard/bundles.html:257
 #: app/templates/settings/wizard/steps.html:86
 #: app/templates/settings/wizard/steps.html:166
 #, fuzzy
@@ -1567,10 +1577,6 @@ msgstr ""
 #: app/templates/settings/connections/form.html:51
 #: app/templates/settings/connections/form.html:63
 msgid "Edit Connection"
-msgstr ""
-
-#: app/templates/modals/connection-form.html:20
-msgid "Close modal"
 msgstr ""
 
 #: app/templates/modals/connection-form.html:76
@@ -1731,6 +1737,18 @@ msgstr ""
 msgid "New Password (optional)"
 msgstr "(opțional)"
 
+#: app/templates/modals/edit-admin.html:45
+#: app/templates/modals/edit-identity.html:44
+#: app/templates/modals/edit-server.html:173
+#: app/templates/modals/wizard-bundle-form.html:36
+#: app/templates/modals/wizard-simple-step-form.html:50
+#: app/templates/modals/wizard-step-form.html:141
+#: app/templates/settings/wizard/bundle_form.html:16
+#: app/templates/settings/wizard/form.html:30
+#: app/templates/settings/wizard/simple_form.html:26
+msgid "Save"
+msgstr "Salvare"
+
 #: app/templates/modals/edit-identity.html:12
 msgid "Edit Identity"
 msgstr ""
@@ -1822,6 +1840,11 @@ msgstr "String pentru cod de invitație"
 #: app/templates/modals/invite.html:108
 msgid "Unlimited Usages"
 msgstr "Utilizări nelimitate"
+
+#: app/templates/modals/invite.html:114 app/templates/modals/invite.html:136
+#: app/templates/tables/invite_card.html:129
+msgid "Duration"
+msgstr "Durată"
 
 #: app/templates/modals/invite.html:115
 #, fuzzy
@@ -2404,29 +2427,29 @@ msgstr "Creat"
 msgid "Add a new wizard step"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:131
+#: app/templates/settings/wizard/_sub_nav.html:130
 #, fuzzy
 msgid "Add Step to Bundle"
 msgstr "Creat"
 
-#: app/templates/settings/wizard/_sub_nav.html:155
+#: app/templates/settings/wizard/_sub_nav.html:152
 msgid "No bundles available yet"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:173
+#: app/templates/settings/wizard/_sub_nav.html:169
 msgid "Add Preset"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:174
+#: app/templates/settings/wizard/_sub_nav.html:170
 msgid "Create step from template"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:190
+#: app/templates/settings/wizard/_sub_nav.html:186
 #, fuzzy
 msgid "Create Bundle"
 msgstr "Creat"
 
-#: app/templates/settings/wizard/_sub_nav.html:191
+#: app/templates/settings/wizard/_sub_nav.html:187
 msgid "Create a collection of steps"
 msgstr ""
 
@@ -2443,19 +2466,19 @@ msgstr ""
 msgid "Are you sure you want to delete this bundle?"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:71
+#: app/templates/settings/wizard/bundles.html:70
 #: app/templates/settings/wizard/steps.html:65
 msgid "Before Invite Acceptance"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:73
+#: app/templates/settings/wizard/bundles.html:72
 #: app/templates/settings/wizard/steps.html:67
 msgid "Steps shown to users before they accept the invitation"
 msgstr ""
 
 #: app/templates/settings/wizard/bundles.html:115
-#: app/templates/settings/wizard/bundles.html:196
-#: app/templates/settings/wizard/bundles.html:277
+#: app/templates/settings/wizard/bundles.html:197
+#: app/templates/settings/wizard/bundles.html:278
 #: app/templates/settings/wizard/index.html:104
 #: app/templates/settings/wizard/steps.html:106
 #: app/templates/settings/wizard/steps.html:186
@@ -2478,16 +2501,16 @@ msgstr "Cod de invitație"
 msgid "Steps shown to users after they accept the invitation"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:227
+#: app/templates/settings/wizard/bundles.html:228
 #: app/templates/settings/wizard/steps.html:218
 msgid "No post-invite steps configured"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:234
+#: app/templates/settings/wizard/bundles.html:235
 msgid "Additional Categories"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:236
+#: app/templates/settings/wizard/bundles.html:237
 msgid "Steps that use custom categories keep their order here."
 msgstr ""
 
@@ -2495,21 +2518,21 @@ msgstr ""
 msgid "Orphaned Steps"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:306
+#: app/templates/settings/wizard/bundles.html:307
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:310
+#: app/templates/settings/wizard/bundles.html:312
 msgid "Step deleted (orphaned)"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:317
+#: app/templates/settings/wizard/bundles.html:319
 msgid "Are you sure you want to remove this orphaned step?"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:320
+#: app/templates/settings/wizard/bundles.html:322
 msgid "Remove orphaned step"
 msgstr ""
 
@@ -2718,6 +2741,11 @@ msgstr "Creat"
 #: app/templates/tables/user_card.html:90
 msgid "Expires"
 msgstr "Expiră"
+
+#: app/templates/tables/invite_card.html:129
+#, fuzzy
+msgid "days"
+msgstr "1 zi"
 
 #: app/templates/tables/invite_card.html:151
 msgid "Default"
@@ -3242,4 +3270,28 @@ msgstr ""
 
 #~ msgid "Add step"
 #~ msgstr ""
+
+#~ msgid "Edit expiry"
+#~ msgstr ""
+
+#~ msgid "Server-specific Expiry Management"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "This user exists on multiple servers."
+#~ " You can set different expiry dates"
+#~ " for each server."
+#~ msgstr ""
+
+#~ msgid "Expiry date (leave blank for never)"
+#~ msgstr ""
+
+#~ msgid "Invitation Details"
+#~ msgstr "Invitații"
+
+#~ msgid "Code"
+#~ msgstr ""
+
+#~ msgid "Invitation expires"
+#~ msgstr "Invitații"
 
