@@ -488,22 +488,26 @@ def user_detail(db_id: int):
 
     if request.method == "POST":
         # Handle per-server expiry updates
+        # Only update fields that are actually present in the form to avoid
+        # clearing fields that weren't submitted
 
-        # Update expiry for the user's specific server
-        raw_expires = request.form.get("expires")
-        if raw_expires:
-            user_expires = datetime.datetime.fromisoformat(raw_expires)
-            # Ensure timezone-aware datetime
-            user.expires = (
-                user_expires
-                if user_expires.tzinfo
-                else user_expires.replace(tzinfo=datetime.UTC)
-            )
-        else:
-            user.expires = None
+        # Update expiry only if present in form
+        if "expires" in request.form:
+            raw_expires = request.form.get("expires")
+            if raw_expires:
+                user_expires = datetime.datetime.fromisoformat(raw_expires)
+                # Ensure timezone-aware datetime
+                user.expires = (
+                    user_expires
+                    if user_expires.tzinfo
+                    else user_expires.replace(tzinfo=datetime.UTC)
+                )
+            else:
+                user.expires = None
 
-        # Update notes
-        user.notes = request.form.get("notes", "")
+        # Update notes only if present in form
+        if "notes" in request.form:
+            user.notes = request.form.get("notes", "")
 
         # NOTE: We intentionally do NOT update server-specific expiry here.
         # Server-specific expiry in invitation_servers is meant for multi-server invitations
