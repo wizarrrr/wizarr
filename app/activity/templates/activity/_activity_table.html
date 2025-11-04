@@ -34,6 +34,9 @@
                         {{ _("Media") }}
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        {{ _("Playback") }}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         {{ _("Device") }}
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -58,6 +61,15 @@
                             {% set duration_str = "{}m".format(minutes) %}
                         {% endif %}
                     {% endif %}
+                    {% set playback_info = session.get_transcoding_info() %}
+                    {% set is_transcoding = playback_info.get("is_transcoding") %}
+                    {% set is_direct_play = playback_info.get("direct_play") %}
+                    {% set is_remux = (playback_info|length > 0 and not is_transcoding and not is_direct_play) %}
+                    {% set video_codec = playback_info.get("video_codec") %}
+                    {% set audio_codec = playback_info.get("audio_codec") %}
+                    {% set video_resolution = playback_info.get("video_resolution") %}
+                    {% set container = playback_info.get("container") %}
+                    {% set transcoding_speed = playback_info.get("transcoding_speed") %}
 
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                         <!-- User -->
@@ -95,11 +107,49 @@
                                         </div>
                                     {% endif %}
                                     {% if session.media_type %}
-                                        <span class="inline-flex items-center mt-1 px-2.5 py-0.5 rounded-full border border-blue-200 bg-blue-100 text-xs font-semibold text-blue-800 shadow-sm dark:border-blue-400/60 dark:bg-blue-500/25 dark:text-blue-100 capitalize">
+                                        <span class="inline-flex items-center mt-1 px-2 py-0.5 rounded-md border border-blue-200 text-[11px] font-medium text-blue-700 bg-blue-50 dark:border-blue-500/40 dark:text-blue-100 dark:bg-blue-500/10 capitalize">
                                             {{ session.media_type }}
                                         </span>
                                     {% endif %}
                                 </div>
+                                <button type="button"
+                                        class="ml-2 inline-flex items-center justify-center w-7 h-7 rounded-md text-gray-400 hover:text-primary hover:bg-gray-100 transition dark:text-gray-500 dark:hover:text-primary-200 dark:hover:bg-gray-700/60"
+                                        onclick="viewSessionDetails({{ session.id }})"
+                                        title="{{ _('View session details') }}"
+                                        aria-label="{{ _('View session details') }}">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 0110 10 10 10 0 11-10-10z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+
+                        <!-- Playback -->
+                        <td class="px-6 py-4">
+                            {% if is_transcoding %}
+                                {% set playback_label = _("Transcoding") %}
+                                {% set playback_dot = "bg-orange-500" %}
+                                {% set playback_hint = _('Video or audio is being transcoded for this session.') %}
+                            {% elif is_remux %}
+                                {% set playback_label = _("Remuxing") %}
+                                {% set playback_dot = "bg-blue-500" %}
+                                {% set playback_hint = _('Container remux without video transcoding.') %}
+                            {% elif is_direct_play %}
+                                {% set playback_label = _("Direct Play") %}
+                                {% set playback_dot = "bg-green-500" %}
+                                {% set playback_hint = _('Media is direct playing without conversion.') %}
+                            {% else %}
+                                {% set playback_label = _("Unknown") %}
+                                {% set playback_dot = "bg-gray-400" %}
+                                {% set playback_hint = _('Playback method unknown – no stream details reported.') %}
+                            {% endif %}
+
+                            <div class="flex items-center gap-2" title="{{ playback_hint }}">
+                                <span class="inline-flex w-2.5 h-2.5 rounded-full {{ playback_dot }}"></span>
+                                <span class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ playback_label }}</span>
+                                {% if transcoding_speed and is_transcoding %}
+                                    <span class="text-xs font-medium text-gray-500 dark:text-gray-300">{{ "%.1f"|format(transcoding_speed|float) }}x</span>
+                                {% endif %}
                             </div>
                         </td>
 
@@ -144,6 +194,29 @@
         </table>
     </div>
 
+    <div class="flex flex-wrap items-center gap-4 px-6 py-3 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-700/60 bg-gray-50/60 dark:bg-gray-800/40">
+        <span class="inline-flex items-center gap-2">
+            <span class="inline-flex w-2.5 h-2.5 rounded-full bg-orange-500"></span>
+            <span>{{ _("Transcoding") }}</span>
+        </span>
+        <span class="inline-flex items-center gap-2">
+            <span class="inline-flex w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+            <span>{{ _("Remuxing") }}</span>
+        </span>
+        <span class="inline-flex items-center gap-2">
+            <span class="inline-flex w-2.5 h-2.5 rounded-full bg-green-500"></span>
+            <span>{{ _("Direct Play") }}</span>
+        </span>
+        <span class="inline-flex items-center gap-2">
+            <span class="inline-flex w-2.5 h-2.5 rounded-full bg-gray-400"></span>
+            <span>{{ _("Unknown") }}</span>
+        </span>
+        <span class="inline-flex items-center gap-2 text-gray-400 dark:text-gray-500">
+            <span class="inline-flex w-2.5 h-2.5 rounded-full border border-dashed border-gray-400 dark:border-gray-500"></span>
+            <span>{{ _("Hover a state for stream details.") }}</span>
+        </span>
+    </div>
+
     <!-- Pagination -->
     {% if total_pages > 1 %}
     <div class="flex flex-col items-center mt-6 mb-6">
@@ -162,24 +235,77 @@
 {% endif %}
 
 <script>
+function escapeHtml(value) {
+    if (value === null || value === undefined) {
+        return "";
+    }
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function ensureActivityState() {
+    if (!window.wizarrActivityState) {
+        window.wizarrActivityState = {
+            detailOpen: false,
+            pendingRefresh: false,
+            summaryTimer: null,
+            lastSummary: null,
+            summaryInFlight: false,
+        };
+    }
+    return window.wizarrActivityState;
+}
+
+function triggerActivityRefresh(options = {}) {
+    if (typeof refreshActivities === 'function') {
+        refreshActivities(options);
+    } else if (typeof refreshData === 'function') {
+        refreshData(options);
+    }
+}
+
 function paginateTo(page) {
-    // Build query parameters from current URL but replace page number
-    const params = new URLSearchParams(window.location.search);
-    params.set('page', page);
+    let params;
 
-    const userSearch = document.getElementById('user-search')?.value;
-    const serverFilter = document.getElementById('server-filter')?.value;
-    const mediaTypeFilter = document.getElementById('media-type-filter')?.value;
+    if (typeof buildActivityParams === 'function') {
+        params = buildActivityParams({ page });
+    } else {
+        params = new URLSearchParams(window.location.search);
+        params.set('page', page);
 
-    if (userSearch) params.append('user_name', userSearch);
-    if (serverFilter) params.append('server_id', serverFilter);
-    if (mediaTypeFilter) params.append('media_type', mediaTypeFilter);
+        const searchInput =
+            document.getElementById('user-search') ||
+            document.getElementById('simple-search');
+        const userSearch = searchInput?.value;
+        const serverFilter = document.getElementById('server-filter')?.value;
+        const mediaTypeFilter = document.getElementById('media-type-filter')?.value;
+        const sortOrder = document.getElementById('sort-order')?.value;
+
+        if (userSearch) params.set('user_name', userSearch);
+        if (serverFilter) params.set('server_id', serverFilter);
+        if (mediaTypeFilter) params.set('media_type', mediaTypeFilter);
+
+        if (sortOrder) {
+            const [sortBy, sortDirection] = sortOrder.split(':');
+            if (sortBy) params.set('sort_by', sortBy);
+            if (sortDirection) params.set('sort_direction', sortDirection);
+        }
+    }
 
     // Remove days parameter since history shows all data
     params.delete('days');
 
+    const queryString = params.toString();
+    const url = queryString
+        ? '{{ url_for("activity.activity_grid") }}?' + queryString
+        : '{{ url_for("activity.activity_grid") }}';
+
     // Make the HTMX request
-    htmx.ajax('GET', '{{ url_for("activity.activity_grid") }}?' + params.toString(), {
+    htmx.ajax('GET', url, {
         target: '#activity-table-container'
     });
 }
@@ -232,85 +358,229 @@ document.addEventListener('htmx:afterSwap', function() {
 });
 
 function viewSessionDetails(sessionId) {
-    // Fetch and display session details in a modal
     fetch(`{{ url_for('activity.activity_session', session_id=0) }}`.replace('0', sessionId))
-        .then(response => response.json())
-        .then(data => {
+        .then((response) => response.json())
+        .then((data) => {
             if (data.error) {
                 alert(data.error);
                 return;
             }
 
-            // Create modal content
+            const playback = data.transcoding_info || {};
+            const hasPlayback = Object.keys(playback).length > 0;
+            const isTranscoding = Boolean(playback.is_transcoding);
+            const isDirectPlay = Boolean(playback.direct_play);
+            const isRemux = hasPlayback && !isTranscoding && !isDirectPlay;
+
+            let playbackLabel = {{ _("Unknown")|tojson }};
+            let playbackDotClass = 'bg-gray-400';
+            let playbackHint = {{ _("Playback method unknown – no stream details reported.")|tojson }};
+
+            if (isTranscoding) {
+                playbackLabel = {{ _("Transcoding")|tojson }};
+                playbackDotClass = 'bg-orange-500';
+                playbackHint = {{ _("Video or audio is being transcoded for this session.")|tojson }};
+            } else if (isRemux) {
+                playbackLabel = {{ _("Remuxing")|tojson }};
+                playbackDotClass = 'bg-blue-500';
+                playbackHint = {{ _("Container remux without video transcoding.")|tojson }};
+            } else if (isDirectPlay) {
+                playbackLabel = {{ _("Direct Play")|tojson }};
+                playbackDotClass = 'bg-green-500';
+                playbackHint = {{ _("Media is direct playing without conversion.")|tojson }};
+            }
+
+            const playbackBadge = `
+                <span class="inline-flex items-center gap-2 text-sm font-medium text-gray-800 dark:text-gray-200" title="${escapeHtml(playbackHint)}">
+                    <span class="inline-flex w-2.5 h-2.5 rounded-full ${playbackDotClass}"></span>
+                    <span>${escapeHtml(playbackLabel)}</span>
+                </span>
+            `;
+
+            const speedNumber = Number(playback.transcoding_speed);
+            const speedDisplay =
+                Number.isFinite(speedNumber) && isTranscoding
+                    ? speedNumber.toFixed(1)
+                    : null;
+            const transcodingSpeed = speedDisplay
+                ? `<span class="text-xs text-gray-500 dark:text-gray-300 ml-2">${speedDisplay}x</span>`
+                : '';
+
+            const techRows = [
+                playback.video_codec
+                    ? `<div><strong class="text-gray-900 dark:text-white">{{ _("Video") }}:</strong> <span class="text-gray-600 dark:text-gray-300">${escapeHtml(playback.video_codec)}</span></div>`
+                    : '',
+                playback.audio_codec
+                    ? `<div><strong class="text-gray-900 dark:text-white">{{ _("Audio") }}:</strong> <span class="text-gray-600 dark:text-gray-300">${escapeHtml(playback.audio_codec)}</span></div>`
+                    : '',
+                playback.video_resolution
+                    ? `<div><strong class="text-gray-900 dark:text-white">{{ _("Resolution") }}:</strong> <span class="text-gray-600 dark:text-gray-300">${escapeHtml(playback.video_resolution)}</span></div>`
+                    : '',
+                playback.container
+                    ? `<div><strong class="text-gray-900 dark:text-white">{{ _("Container") }}:</strong> <span class="text-gray-600 dark:text-gray-300">${escapeHtml(playback.container)}</span></div>`
+                    : '',
+            ].filter(Boolean);
+
+            const startedAt = data.started_at
+                ? new Date(data.started_at).toLocaleString()
+                : '{{ _("Unknown") }}';
+
             const modalContent = `
-                <div class="space-y-4">
-                    <div>
-                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">${data.media_title}</h3>
-                        ${data.series_name ? `<p class="text-sm text-gray-500 dark:text-gray-400">${data.series_name} - S${data.season_number}E${data.episode_number}</p>` : ''}
+                <div class="space-y-6">
+                    <div class="space-y-1">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">${escapeHtml(data.media_title)}</h3>
+                        ${
+                            data.series_name
+                                ? `<p class="text-sm text-gray-500 dark:text-gray-400">${escapeHtml(data.series_name)}${
+                                      data.season_number && data.episode_number
+                                          ? ` • S${escapeHtml(data.season_number)}E${escapeHtml(data.episode_number)}`
+                                          : ''
+                                  }</p>`
+                                : ''
+                        }
                     </div>
 
                     <div class="grid grid-cols-2 gap-4 text-sm">
                         <div>
                             <strong class="text-gray-900 dark:text-white">{{ _("User") }}:</strong>
-                            <span class="text-gray-600 dark:text-gray-300">${data.display_user_name}</span>
+                            <span class="text-gray-600 dark:text-gray-300">${escapeHtml(data.display_user_name || data.user_name || '{{ _("Unknown") }}')}</span>
                         </div>
                         <div>
                             <strong class="text-gray-900 dark:text-white">{{ _("Device") }}:</strong>
-                            <span class="text-gray-600 dark:text-gray-300">${data.device_name || data.client_name || '{{ _("Unknown") }}'}</span>
+                            <span class="text-gray-600 dark:text-gray-300">${escapeHtml(data.device_name || data.client_name || '{{ _("Unknown Device") }}')}</span>
                         </div>
                         <div>
                             <strong class="text-gray-900 dark:text-white">{{ _("Started") }}:</strong>
-                            <span class="text-gray-600 dark:text-gray-300">${new Date(data.started_at).toLocaleString()}</span>
+                            <span class="text-gray-600 dark:text-gray-300">${startedAt}</span>
                         </div>
+                        ${
+                            data.duration_ms
+                                ? `<div>
+                                        <strong class="text-gray-900 dark:text-white">{{ _("Duration") }}:</strong>
+                                        <span class="text-gray-600 dark:text-gray-300">${Math.round(Number(data.duration_ms) / 60000)} {{ _("minutes") }}</span>
+                                   </div>`
+                                : ''
+                        }
                     </div>
 
-                    ${data.transcoding_info && Object.keys(data.transcoding_info).length > 0 ? `
+                    <div class="space-y-3">
                         <div>
-                            <strong class="text-gray-900 dark:text-white block mb-2">{{ _("Transcoding Info") }}:</strong>
-                            <div class="bg-gray-50 dark:bg-gray-700 rounded p-3 text-sm">
-                                <pre class="whitespace-pre-wrap">${JSON.stringify(data.transcoding_info, null, 2)}</pre>
+                            <strong class="text-sm text-gray-900 dark:text-white block">{{ _("Playback") }}:</strong>
+                            <div class="flex items-center gap-2 mt-2">
+                                ${playbackBadge}
+                                ${transcodingSpeed}
                             </div>
                         </div>
-                    ` : ''}
+                        ${
+                            techRows.length
+                                ? `<div class="grid grid-cols-2 gap-3 text-xs text-gray-600 dark:text-gray-300">${techRows.join(
+                                      ''
+                                  )}</div>`
+                                : ''
+                        }
+                    </div>
+
+                    ${
+                        hasPlayback
+                            ? `<details class="bg-gray-50 dark:bg-gray-800/60 rounded border border-gray-200 dark:border-gray-700">
+                                    <summary class="px-4 py-2 cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-200">
+                                        {{ _("Raw stream payload") }}
+                                    </summary>
+                                    <div class="px-4 pb-4">
+                                        <pre class="text-xs text-gray-600 dark:text-gray-300 whitespace-pre-wrap">${escapeHtml(
+                                            JSON.stringify(playback, null, 2)
+                                        )}</pre>
+                                    </div>
+                               </details>`
+                            : ''
+                    }
                 </div>
             `;
 
-            // Show modal (you'll need to implement this based on your modal system)
             showSessionModal(modalContent);
         })
-        .catch(error => {
+        .catch((error) => {
             console.error('Error fetching session details:', error);
             alert('{{ _("Failed to load session details") }}');
         });
 }
 
 function showSessionModal(content) {
-    // Simple modal implementation - you can enhance this
-    const modal = document.createElement('div');
-    modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50';
-    modal.innerHTML = `
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full mx-4 max-h-screen overflow-auto">
-            <div class="p-6">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ _("Session Details") }}</h2>
-                    <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                        </svg>
-                    </button>
+    const state = ensureActivityState();
+    state.detailOpen = true;
+
+    const container = document.createElement('div');
+    container.className = 'relative modal-container';
+    container.setAttribute('role', 'dialog');
+    container.setAttribute('aria-modal', 'true');
+
+    const backdrop = document.createElement('div');
+    backdrop.className = 'fixed inset-0 modal-backdrop transition-opacity';
+    container.appendChild(backdrop);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'fixed inset-0 z-50 overflow-y-auto';
+
+    const closeModal = () => {
+        if (!document.body.contains(container)) {
+            return;
+        }
+        container.remove();
+        document.removeEventListener('keydown', handleEscape);
+
+        const activityState = ensureActivityState();
+        activityState.detailOpen = false;
+
+        if (activityState.pendingRefresh) {
+            activityState.pendingRefresh = false;
+            const indicator = document.getElementById('activity-refresh-pending');
+            if (indicator) {
+                indicator.classList.add('hidden');
+            }
+            triggerActivityRefresh();
+        }
+    };
+
+    const handleEscape = (event) => {
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            closeModal();
+        }
+    };
+
+    overlay.innerHTML = `
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-6">
+            <div class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all w-full max-w-2xl">
+                <div class="p-6 max-h-[80vh] overflow-y-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ _("Session Details") }}</h2>
+                        <button type="button" class="session-modal-close text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" aria-label="{{ _('Close modal') }}">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                    ${content}
                 </div>
-                ${content}
             </div>
         </div>
     `;
 
-    document.body.appendChild(modal);
+    container.appendChild(overlay);
+    document.body.appendChild(container);
 
-    // Close on background click
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.remove();
+    const closeButton = container.querySelector('.session-modal-close');
+    if (closeButton) {
+        closeButton.addEventListener('click', closeModal);
+    }
+
+    backdrop.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) {
+            closeModal();
         }
     });
+
+    document.addEventListener('keydown', handleEscape);
 }
 </script>

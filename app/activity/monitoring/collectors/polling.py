@@ -54,16 +54,25 @@ class PollingCollector(BaseCollector):
                     continue
 
                 current_session_ids.add(session_id)
+                existing = self.active_sessions.get(session_id)
 
                 # Check if this is a new session
-                if session_id not in self.active_sessions:
+                if existing is None:
                     # New session started
-                    self.active_sessions[session_id] = session_data
+                    record = dict(session_data)
+                    record["_started_at_ts"] = datetime.now(UTC)
+                    record["_last_position_ms"] = session_data.get("position_ms")
+                    self.active_sessions[session_id] = record
                     self._emit_polling_event(session_data, "session_start")
                 else:
                     # Existing session - check for changes
-                    old_session = self.active_sessions[session_id]
-                    self.active_sessions[session_id] = session_data
+                    old_session = existing
+                    updated_record = dict(old_session)
+                    updated_record.update(session_data)
+                    updated_record["_last_position_ms"] = session_data.get(
+                        "position_ms"
+                    )
+                    self.active_sessions[session_id] = updated_record
 
                     # Check for state changes
                     old_state = old_session.get("state", "unknown")
@@ -84,7 +93,35 @@ class PollingCollector(BaseCollector):
             ended_sessions = set(self.active_sessions.keys()) - current_session_ids
             for session_id in ended_sessions:
                 old_session = self.active_sessions.pop(session_id)
-                self._emit_polling_event(old_session, "session_end")
+
+                end_payload = dict(old_session)
+                started_ts = end_payload.pop("_started_at_ts", None)
+                last_position = end_payload.pop("_last_position_ms", None)
+
+                duration_ms = end_payload.get("duration_ms")
+                if not isinstance(duration_ms, (int, float)) or duration_ms <= 0:
+                    if isinstance(last_position, (int, float)) and last_position > 0:
+                        duration_ms = int(last_position)
+                    elif isinstance(started_ts, datetime):
+                        elapsed = (
+                            datetime.now(UTC) - started_ts
+                        ).total_seconds() * 1000
+                        duration_ms = max(int(elapsed), 0)
+                    else:
+                        duration_ms = 0
+
+                end_payload["duration_ms"] = duration_ms
+                end_payload["state"] = "stopped"
+
+                metadata = dict(end_payload.get("metadata") or {})
+                metadata["calculated_duration_ms"] = duration_ms
+                if isinstance(last_position, (int, float)):
+                    metadata["last_reported_position_ms"] = int(last_position)
+                if isinstance(started_ts, datetime):
+                    metadata["started_at_timestamp"] = started_ts.isoformat()
+                end_payload["metadata"] = metadata
+
+                self._emit_polling_event(end_payload, "session_end")
 
         except Exception as e:
             self.logger.error(f"Failed to poll sessions: {e}", exc_info=True)

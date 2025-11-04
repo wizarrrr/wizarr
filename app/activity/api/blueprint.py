@@ -309,6 +309,21 @@ def activity_grid():
             # Apply date filter (for dashboard tab)
             start_date = datetime.now(UTC) - timedelta(days=days)
 
+        sort_by = request.args.get("sort_by", "started_at")
+        sort_direction = request.args.get("sort_direction", "desc").lower()
+
+        # Map friendly sort keys to safe model attributes
+        sort_field_map: dict[str, str] = {
+            "started_at": "started_at",
+            "start_time": "started_at",
+            "user": "user_name",
+            "user_name": "user_name",
+            "media_title": "media_title",
+        }
+
+        resolved_sort_field = sort_field_map.get(sort_by, "started_at")
+        resolved_direction = "asc" if sort_direction == "asc" else "desc"
+
         query = ActivityQuery(
             server_ids=[server_id] if server_id else None,
             user_names=[user_name] if user_name else None,
@@ -316,11 +331,38 @@ def activity_grid():
             start_date=start_date,
             limit=limit,
             offset=offset,
-            order_by="started_at",
-            order_direction="desc",
+            order_by=resolved_sort_field,
+            order_direction=resolved_direction,
         )
 
         sessions, total_count = activity_service.get_activity_sessions(query)
+
+        # Perform in-memory sorting for fields not backed by database columns
+        if sort_by == "playback":
+            status_rank = {
+                "transcoding": 3,
+                "remux": 2,
+                "direct_play": 1,
+                "unknown": 0,
+            }
+
+            def playback_sort_key(session: ActivitySession):
+                info = session.get_transcoding_info()
+                is_transcoding = bool(info.get("is_transcoding"))
+                is_direct_play = bool(info.get("direct_play"))
+                if is_transcoding:
+                    bucket = status_rank["transcoding"]
+                elif is_direct_play:
+                    bucket = status_rank["direct_play"]
+                elif info:
+                    bucket = status_rank["remux"]
+                else:
+                    bucket = status_rank["unknown"]
+                # Secondary sort by start time for consistency
+                started_at = session.started_at or datetime.min.replace(tzinfo=UTC)
+                return (bucket, started_at)
+
+            sessions.sort(key=playback_sort_key, reverse=resolved_direction == "desc")
 
         # Calculate pagination info
         total_pages = (total_count + limit - 1) // limit
@@ -335,6 +377,8 @@ def activity_grid():
             has_prev=has_prev,
             total_count=total_count,
             total_pages=total_pages,
+            sort_by=sort_by,
+            sort_direction=resolved_direction,
         )
 
     except Exception as e:
@@ -344,6 +388,64 @@ def activity_grid():
             "activity/_activity_table.html",
             sessions=[],
             error=_("Failed to load activity data"),
+        )
+
+
+@activity_bp.route("/summary")
+@login_required
+def activity_summary():
+    """Provide a lightweight snapshot of current activity state for refresh decisions."""
+    if db is None:
+        return jsonify(
+            {
+                "active_sessions": 0,
+                "latest_started_at": None,
+                "latest_updated_at": None,
+            }
+        )
+
+    try:
+        from sqlalchemy import func
+
+        active_sessions = (
+            db.session.query(func.count(ActivitySession.id))
+            .filter(ActivitySession.active.is_(True))
+            .scalar()
+            or 0
+        )
+
+        latest_started_at = db.session.query(
+            func.max(ActivitySession.started_at)
+        ).scalar()
+        latest_updated_at = db.session.query(
+            func.max(ActivitySession.updated_at)
+        ).scalar()
+
+        return jsonify(
+            {
+                "active_sessions": active_sessions,
+                "latest_started_at": latest_started_at.isoformat()
+                if latest_started_at
+                else None,
+                "latest_updated_at": latest_updated_at.isoformat()
+                if latest_updated_at
+                else None,
+                "server_time": datetime.now(UTC).isoformat(),
+            }
+        )
+    except Exception as exc:
+        logger = structlog.get_logger(__name__)
+        logger.error("Failed to load activity summary: %s", exc, exc_info=True)
+        return (
+            jsonify(
+                {
+                    "active_sessions": None,
+                    "latest_started_at": None,
+                    "latest_updated_at": None,
+                    "error": _("Failed to load activity summary"),
+                }
+            ),
+            500,
         )
 
 

@@ -151,6 +151,7 @@ class ActivityAnalyticsService:
             watch_time_expr = case(
                 (
                     and_(
+                        ActivitySession.active.is_(False),
                         ActivitySession.duration_ms.is_not(None),
                         ActivitySession.duration_ms > 0,
                     ),
@@ -172,6 +173,7 @@ class ActivityAnalyticsService:
                         case(
                             (
                                 and_(
+                                    ActivitySession.active.is_(False),
                                     ActivitySession.duration_ms.is_not(None),
                                     ActivitySession.duration_ms > 0,
                                 ),

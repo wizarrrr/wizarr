@@ -1,4 +1,8 @@
 <!-- History Tab Content -->
+{% set current_sort_by = request.args.get('sort_by', 'started_at') %}
+{% set current_sort_direction = request.args.get('sort_direction', 'desc') %}
+{% set current_sort_value = current_sort_by ~ ':' ~ current_sort_direction %}
+
 <div>
     {% if error %}
         <div class="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
@@ -49,6 +53,29 @@
                             <option value="track">{{ _("Music") }}</option>
                             <option value="book">{{ _("Audiobooks") }}</option>
                         </select>
+
+                        <!-- Sort Order -->
+                        <select id="sort-order" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full md:w-60 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" onchange="filterActivities()">
+                            <option value="started_at:desc" {% if current_sort_value == 'started_at:desc' %}selected{% endif %}>{{ _("Start Time · Newest first") }}</option>
+                            <option value="started_at:asc" {% if current_sort_value == 'started_at:asc' %}selected{% endif %}>{{ _("Start Time · Oldest first") }}</option>
+                            <option value="user_name:asc" {% if current_sort_value == 'user_name:asc' %}selected{% endif %}>{{ _("User · A → Z") }}</option>
+                            <option value="user_name:desc" {% if current_sort_value == 'user_name:desc' %}selected{% endif %}>{{ _("User · Z → A") }}</option>
+                            <option value="playback:desc" {% if current_sort_value == 'playback:desc' %}selected{% endif %}>{{ _("Playback · Transcoding first") }}</option>
+                            <option value="playback:asc" {% if current_sort_value == 'playback:asc' %}selected{% endif %}>{{ _("Playback · Direct play first") }}</option>
+                        </select>
+
+                        <!-- Manual Refresh -->
+                        <button type="button"
+                                id="activity-refresh-button"
+                                class="inline-flex items-center justify-center h-10 px-4 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 transition dark:border-gray-600 dark:text-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
+                                onclick="refreshActivities({ manual: true })"
+                                title="{{ _('Refresh activity list') }}">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9M20 20v-5h-.581m-15.357-2a8.003 8.003 0 0015.357 2" />
+                            </svg>
+                            {{ _("Refresh") }}
+                            <span id="activity-refresh-pending" class="ml-2 hidden text-xs font-semibold text-orange-600 dark:text-orange-300">• {{ _("updates ready") }}</span>
+                        </button>
                     </div>
                 </div>
 
@@ -71,28 +98,145 @@
 </div>
 
 <script>
-function filterActivities() {
-    // Build query parameters
-    const params = new URLSearchParams();
-
-    // Get filter values
-    const userSearch = document.getElementById('user-search')?.value;
-    const serverFilter = document.getElementById('server-filter')?.value;
-    const mediaTypeFilter = document.getElementById('media-type-filter')?.value;
-
-    // Add parameters (no days constraint - show all history)
-    if (userSearch) params.append('user_name', userSearch);
-    if (serverFilter) params.append('server_id', serverFilter);
-    if (mediaTypeFilter) params.append('media_type', mediaTypeFilter);
-
-    // Refresh the table with filters
-    htmx.ajax('GET', '{{ url_for("activity.activity_grid") }}?' + params.toString(), {
-        target: '#activity-table-container'
-    });
+if (typeof window.ensureActivityState !== 'function') {
+    window.ensureActivityState = function ensureActivityState() {
+        if (!window.wizarrActivityState) {
+            window.wizarrActivityState = {
+                detailOpen: false,
+                pendingRefresh: false,
+                summaryTimer: null,
+                lastSummary: null,
+                summaryInFlight: false,
+            };
+        }
+        return window.wizarrActivityState;
+    };
 }
 
-// Auto-refresh every 30 seconds for active sessions
-setInterval(() => {
-    filterActivities();
-}, 30000);
+function buildActivityParams(extra = {}) {
+    const params = new URLSearchParams();
+
+    const searchInput =
+        document.getElementById('user-search') ||
+        document.getElementById('simple-search');
+    const userName = (searchInput?.value || '').trim();
+    const serverFilter = document.getElementById('server-filter')?.value;
+    const mediaTypeFilter = document.getElementById('media-type-filter')?.value;
+    const sortOrder = document.getElementById('sort-order')?.value;
+
+    if (userName) params.set('user_name', userName);
+    if (serverFilter) params.set('server_id', serverFilter);
+    if (mediaTypeFilter) params.set('media_type', mediaTypeFilter);
+
+    if (sortOrder) {
+        const [sortBy, sortDirection] = sortOrder.split(':');
+        if (sortBy) params.set('sort_by', sortBy);
+        if (sortDirection) params.set('sort_direction', sortDirection);
+    }
+
+    if (typeof extra.page !== 'undefined') {
+        params.set('page', extra.page);
+    }
+    if (typeof extra.limit !== 'undefined') {
+        params.set('limit', extra.limit);
+    }
+
+    return params;
+}
+
+function refreshActivities(options = {}) {
+    const { page, manual } = options;
+    const params = buildActivityParams({ page });
+    const queryString = params.toString();
+    const url = queryString
+        ? '{{ url_for("activity.activity_grid") }}?' + queryString
+        : '{{ url_for("activity.activity_grid") }}';
+
+    htmx.ajax('GET', url, {
+        target: '#activity-table-container'
+    });
+
+    const state = ensureActivityState();
+    state.pendingRefresh = false;
+    if (manual) {
+        state.lastSummary = null;
+    }
+
+    const indicator = document.getElementById('activity-refresh-pending');
+    if (indicator) {
+        indicator.classList.add('hidden');
+    }
+}
+
+function filterActivities() {
+    refreshActivities({ page: 1 });
+}
+
+const ACTIVITY_SUMMARY_URL = '{{ url_for("activity.activity_summary") }}';
+
+async function checkActivitySummary() {
+    const state = ensureActivityState();
+    if (state.summaryInFlight) {
+        return;
+    }
+
+    state.summaryInFlight = true;
+
+    try {
+        const response = await fetch(ACTIVITY_SUMMARY_URL, { cache: 'no-store' });
+        if (!response.ok) {
+            return;
+        }
+
+        const data = await response.json();
+        if (!data) {
+            return;
+        }
+
+        if (!state.lastSummary) {
+            state.lastSummary = data;
+            return;
+        }
+
+        const activeChanged =
+            data.active_sessions !== state.lastSummary.active_sessions;
+        const updatedChanged =
+            data.latest_updated_at !== state.lastSummary.latest_updated_at;
+
+        if (activeChanged || updatedChanged) {
+            state.lastSummary = data;
+
+            if (state.detailOpen) {
+                state.pendingRefresh = true;
+                const indicator = document.getElementById('activity-refresh-pending');
+                if (indicator) {
+                    indicator.classList.remove('hidden');
+                }
+            } else {
+                refreshActivities();
+            }
+        }
+    } catch (error) {
+        console.debug('Activity summary poll failed', error);
+    } finally {
+        ensureActivityState().summaryInFlight = false;
+    }
+}
+
+function scheduleActivitySummaryPolling() {
+    const state = ensureActivityState();
+    if (state.summaryTimer) {
+        clearInterval(state.summaryTimer);
+    }
+
+    const container = document.getElementById('activity-table-container');
+    if (!container) {
+        return;
+    }
+
+    state.summaryTimer = setInterval(checkActivitySummary, 15000);
+    checkActivitySummary();
+}
+
+scheduleActivitySummaryPolling();
 </script>
