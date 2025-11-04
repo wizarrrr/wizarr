@@ -188,11 +188,11 @@ class WebSocketMonitor:
             )
 
             if server.server_type == "plex":
-                self.logger.info("Creating PlexCollector...")
-                from .collectors.plex import PlexCollector
+                self.logger.info("Creating PollingCollector for Plex...")
+                from .collectors.polling import PollingCollector
 
-                collector = PlexCollector(server, self._on_activity_event)
-                self.logger.info(f"PlexCollector created: {collector}")
+                collector = PollingCollector(server, self._on_activity_event)
+                self.logger.info(f"PollingCollector created for Plex: {collector}")
                 return collector
             if server.server_type == "jellyfin":
                 self.logger.info("Creating JellyfinCollector...")
