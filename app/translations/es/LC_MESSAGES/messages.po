@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-03 03:57+0000\n"
+"POT-Creation-Date: 2025-11-04 03:48+0000\n"
 "PO-Revision-Date: 2025-10-31 15:16+0000\n"
 "Last-Translator: Gom3tzler <gometzler@gmail.com>\n"
 "Language: es\n"
@@ -146,41 +146,41 @@ msgstr ""
 msgid "An internal error has occurred."
 msgstr "Ocurrió un error desconocido"
 
-#: app/blueprints/admin/routes.py:322
+#: app/blueprints/admin/routes.py:323
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr "Desconocido"
 
-#: app/blueprints/admin/routes.py:325 app/templates/modals/invite.html:69
+#: app/blueprints/admin/routes.py:326 app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
 #: app/templates/tables/user_card.html:90
 msgid "Never"
 msgstr "Nunca"
 
-#: app/blueprints/admin/routes.py:398 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:399 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr "Expirado"
 
-#: app/blueprints/admin/routes.py:406
+#: app/blueprints/admin/routes.py:407
 #, python-format
 msgid "in %(n)d d"
 msgstr "en %(n)d d"
 
-#: app/blueprints/admin/routes.py:408
+#: app/blueprints/admin/routes.py:409
 msgid "in 1 d"
 msgstr "en 1 d"
 
-#: app/blueprints/admin/routes.py:410
+#: app/blueprints/admin/routes.py:411
 #, python-format
 msgid "in %(n)d h"
 msgstr "in %(n)d h"
 
-#: app/blueprints/admin/routes.py:412
+#: app/blueprints/admin/routes.py:413
 #, python-format
 msgid "in %(n)d m"
 msgstr "en %(n)d m"
 
-#: app/blueprints/admin/routes.py:413
+#: app/blueprints/admin/routes.py:414
 msgid "soon"
 msgstr "pronto"
 
@@ -267,7 +267,7 @@ msgstr "Por favor refrescar la página e intentar de nuevo (token CSRF expiró)"
 msgid "Invalid form data: %(errors)s"
 msgstr "Datos de formulario inválidos: %(errors)s"
 
-#: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:272
+#: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:268
 msgid "Settings saved successfully!"
 msgstr "¡Ajustes guardados exitosamente!"
 
@@ -531,13 +531,13 @@ msgid "Libraries"
 msgstr "Bibliotecas"
 
 #: app/forms/settings.py:30 app/forms/settings.py:46
-#: app/templates/modals/invite.html:197 app/templates/modals/invite.html:231
-#: app/templates/modals/invite.html:254 app/templates/modals/invite.html:288
-#: app/templates/modals/invite.html:300
+#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
+#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:254
+#: app/templates/modals/invite.html:288 app/templates/modals/invite.html:300
 msgid "Allow Downloads"
 msgstr "Permitir descargas"
 
-#: app/forms/settings.py:33
+#: app/forms/settings.py:33 app/templates/admin/user_modal.html:112
 #, fuzzy
 msgid "Allow Live TV"
 msgstr "Permitir acceso a TV En Vivo"
@@ -1225,119 +1225,105 @@ msgstr "Acceso Básico"
 msgid "Close"
 msgstr "Cerrar"
 
-#: app/templates/admin/user_modal.html:8
-msgid "Edit expiry"
-msgstr "Modificar la fecha de vencimiento"
+#: app/templates/admin/user_modal.html:11
+#, fuzzy
+msgid "Edit User"
+msgstr "Editar Servidor"
 
-#: app/templates/admin/user_modal.html:26
-msgid "Server-specific Expiry Management"
-msgstr "Gestión de la Expiración Específica de Servidor"
+#: app/templates/admin/user_modal.html:16
+#: app/templates/admin/user_modal.html:24
+#: app/templates/modals/connection-form.html:20
+msgid "Close modal"
+msgstr "Cerrar diálogo modal"
 
-#: app/templates/admin/user_modal.html:28
-msgid ""
-"This user exists on multiple servers. You can set different expiry dates "
-"for each server."
+#: app/templates/admin/user_modal.html:30
+#, fuzzy
+msgid "Tabs"
+msgstr "Estatus"
+
+#: app/templates/admin/user_modal.html:42
+msgid "Local"
 msgstr ""
-"Este usuario existe en múltiples servidores. Puede establecer diferentes "
-"fechas de expiración para cada servidor."
 
-#: app/templates/admin/user_modal.html:48
-msgid "Expiry date"
-msgstr "Fecha de expiración"
-
-#: app/templates/admin/user_modal.html:58
-msgid "Update"
-msgstr "Actualizar"
-
-#: app/templates/admin/user_modal.html:63
-msgid "Current expiry"
-msgstr "Fecha de expiración actual"
-
-#: app/templates/admin/user_modal.html:65
-msgid "No expiry set"
-msgstr "No tiene fecha de vencimiento"
-
-#: app/templates/admin/user_modal.html:73
-#: app/templates/admin/user_modal.html:109
+#: app/templates/admin/user_modal.html:52
+#: app/templates/admin/user_modal.html:249
 #: app/templates/tables/user_card.html:130
 msgid "Notes"
 msgstr "Notas"
 
-#: app/templates/admin/user_modal.html:80
-#: app/templates/admin/user_modal.html:113
+#: app/templates/admin/user_modal.html:81
+#, fuzzy
+msgid "Permission Management"
+msgstr "Gestión de Llaves API"
+
+#: app/templates/admin/user_modal.html:93
+msgid "Toggle downloads permission"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:118
+msgid "Toggle live TV permission"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:138
+#, fuzzy
+msgid "Allow Camera Upload"
+msgstr "Carga de Cámara"
+
+#: app/templates/admin/user_modal.html:144
+msgid "Toggle camera upload permission"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:169
+#, fuzzy
+msgid "Library Access"
+msgstr "Bibliotecas"
+
+#: app/templates/admin/user_modal.html:172
+#, fuzzy
+msgid "No libraries available"
+msgstr "No se encontraron bibliotecas"
+
+#: app/templates/admin/user_modal.html:173
+msgid "Scan libraries from the invitation page to enable library restrictions"
+msgstr ""
+
+#: app/templates/admin/user_modal.html:205
+msgid "Click to toggle library access. Updates save automatically."
+msgstr ""
+
+#: app/templates/admin/user_modal.html:211
+#, fuzzy
+msgid "Expiry Management"
+msgstr "Gestión de Llaves API"
+
+#: app/templates/admin/user_modal.html:218
+msgid "Expiry date"
+msgstr "Fecha de expiración"
+
+#: app/templates/admin/user_modal.html:228
+msgid "Update"
+msgstr "Actualizar"
+
+#: app/templates/admin/user_modal.html:233
+msgid "Current expiry"
+msgstr "Fecha de expiración actual"
+
+#: app/templates/admin/user_modal.html:235
+msgid "No expiry set"
+msgstr "No tiene fecha de vencimiento"
+
+#: app/templates/admin/user_modal.html:253
+#, fuzzy
+msgid "User notes"
+msgstr "Actualizar Notas"
+
+#: app/templates/admin/user_modal.html:257
 msgid "Add notes about this user..."
 msgstr "Añadir notas sobre este usuario..."
 
-#: app/templates/admin/user_modal.html:86
+#: app/templates/admin/user_modal.html:263
 msgid "Update Notes"
 msgstr "Actualizar Notas"
-
-#: app/templates/admin/user_modal.html:99
-msgid "Expiry date (leave blank for never)"
-msgstr "Fecha de vencimiento (dejar en blanco si no caduca)"
-
-#: app/templates/admin/user_modal.html:119
-#: app/templates/modals/edit-admin.html:45
-#: app/templates/modals/edit-identity.html:44
-#: app/templates/modals/edit-server.html:173
-#: app/templates/modals/wizard-bundle-form.html:36
-#: app/templates/modals/wizard-simple-step-form.html:50
-#: app/templates/modals/wizard-step-form.html:141
-#: app/templates/settings/wizard/bundle_form.html:16
-#: app/templates/settings/wizard/form.html:30
-#: app/templates/settings/wizard/simple_form.html:26
-msgid "Save"
-msgstr "Guardar"
-
-#: app/templates/admin/user_modal.html:123
-#: app/templates/components/passkey_add_form.html:24
-#: app/templates/components/passkey_register.html:19
-#: app/templates/modals/bundle-add-steps.html:35
-#: app/templates/modals/connection-form.html:162
-#: app/templates/modals/create-admin.html:48
-#: app/templates/modals/create-api-key.html:82
-#: app/templates/modals/create-notification-agent.html:146
-#: app/templates/modals/create-server.html:168
-#: app/templates/modals/edit-admin.html:50
-#: app/templates/modals/edit-identity.html:49
-#: app/templates/modals/edit-notification-agent.html:142
-#: app/templates/modals/edit-server.html:178
-#: app/templates/modals/invite.html:345
-#: app/templates/modals/wizard-bundle-form.html:34
-#: app/templates/modals/wizard-import-form.html:102
-#: app/templates/modals/wizard-preset-form.html:59
-#: app/templates/modals/wizard-simple-step-form.html:48
-#: app/templates/modals/wizard-step-form.html:139
-#: app/templates/settings/connections/form.html:183
-#: app/templates/settings/wizard/bundle_form.html:18
-#: app/templates/settings/wizard/form.html:38
-#: app/templates/settings/wizard/preset_form.html:38
-#: app/templates/settings/wizard/simple_form.html:28
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: app/templates/admin/user_modal.html:130
-msgid "Invitation Details"
-msgstr "Detalles de Invitación"
-
-#: app/templates/admin/user_modal.html:133
-msgid "Code"
-msgstr "Código"
-
-#: app/templates/admin/user_modal.html:135 app/templates/modals/invite.html:114
-#: app/templates/modals/invite.html:136
-#: app/templates/tables/invite_card.html:129
-msgid "Duration"
-msgstr "Duración"
-
-#: app/templates/admin/user_modal.html:135
-#: app/templates/tables/invite_card.html:129
-msgid "days"
-msgstr "Días"
-
-#: app/templates/admin/user_modal.html:136
-msgid "Invitation expires"
-msgstr "La invitación vence en"
 
 #: app/templates/admin/users.html:192
 msgid "Link"
@@ -1419,6 +1405,32 @@ msgstr "Nombre de Passkey"
 #: app/templates/components/passkey_add_form.html:16
 msgid "e.g., My iPhone, Work Laptop"
 msgstr "i.e., Mi iPhone, Laptop del Trabajo"
+
+#: app/templates/components/passkey_add_form.html:24
+#: app/templates/components/passkey_register.html:19
+#: app/templates/modals/bundle-add-steps.html:35
+#: app/templates/modals/connection-form.html:162
+#: app/templates/modals/create-admin.html:48
+#: app/templates/modals/create-api-key.html:82
+#: app/templates/modals/create-notification-agent.html:146
+#: app/templates/modals/create-server.html:168
+#: app/templates/modals/edit-admin.html:50
+#: app/templates/modals/edit-identity.html:49
+#: app/templates/modals/edit-notification-agent.html:142
+#: app/templates/modals/edit-server.html:178
+#: app/templates/modals/invite.html:345
+#: app/templates/modals/wizard-bundle-form.html:34
+#: app/templates/modals/wizard-import-form.html:102
+#: app/templates/modals/wizard-preset-form.html:59
+#: app/templates/modals/wizard-simple-step-form.html:48
+#: app/templates/modals/wizard-step-form.html:139
+#: app/templates/settings/connections/form.html:183
+#: app/templates/settings/wizard/bundle_form.html:18
+#: app/templates/settings/wizard/form.html:38
+#: app/templates/settings/wizard/preset_form.html:38
+#: app/templates/settings/wizard/simple_form.html:28
+msgid "Cancel"
+msgstr "Cancelar"
 
 #: app/templates/components/passkey_add_form.html:28
 #: app/templates/components/passkey_register.html:4
@@ -1510,8 +1522,8 @@ msgstr "Añadir pasos a paquete"
 
 #: app/templates/modals/bundle-add-steps.html:26
 #: app/templates/settings/wizard/bundles.html:94
-#: app/templates/settings/wizard/bundles.html:175
-#: app/templates/settings/wizard/bundles.html:256
+#: app/templates/settings/wizard/bundles.html:176
+#: app/templates/settings/wizard/bundles.html:257
 #: app/templates/settings/wizard/steps.html:86
 #: app/templates/settings/wizard/steps.html:166
 msgid "Untitled"
@@ -1538,10 +1550,6 @@ msgstr "Añadir Conexión Nueva"
 #: app/templates/settings/connections/form.html:63
 msgid "Edit Connection"
 msgstr "Editar Conexión"
-
-#: app/templates/modals/connection-form.html:20
-msgid "Close modal"
-msgstr "Cerrar diálogo modal"
 
 #: app/templates/modals/connection-form.html:76
 #: app/templates/settings/connections/form.html:125
@@ -1700,6 +1708,18 @@ msgstr "Editar Administrador"
 msgid "New Password (optional)"
 msgstr "Nueva Contraseña (opcional)"
 
+#: app/templates/modals/edit-admin.html:45
+#: app/templates/modals/edit-identity.html:44
+#: app/templates/modals/edit-server.html:173
+#: app/templates/modals/wizard-bundle-form.html:36
+#: app/templates/modals/wizard-simple-step-form.html:50
+#: app/templates/modals/wizard-step-form.html:141
+#: app/templates/settings/wizard/bundle_form.html:16
+#: app/templates/settings/wizard/form.html:30
+#: app/templates/settings/wizard/simple_form.html:26
+msgid "Save"
+msgstr "Guardar"
+
 #: app/templates/modals/edit-identity.html:12
 msgid "Edit Identity"
 msgstr "Editar Identidad"
@@ -1787,6 +1807,11 @@ msgstr "Ajustes de Invitación"
 #: app/templates/modals/invite.html:108
 msgid "Unlimited Usages"
 msgstr "Usos ilimitados"
+
+#: app/templates/modals/invite.html:114 app/templates/modals/invite.html:136
+#: app/templates/tables/invite_card.html:129
+msgid "Duration"
+msgstr "Duración"
 
 #: app/templates/modals/invite.html:115
 msgid "in days"
@@ -2352,28 +2377,28 @@ msgstr "Crear"
 msgid "Add a new wizard step"
 msgstr "Añadir un nuevo paso genio"
 
-#: app/templates/settings/wizard/_sub_nav.html:131
+#: app/templates/settings/wizard/_sub_nav.html:130
 #, fuzzy
 msgid "Add Step to Bundle"
 msgstr "Añadir pasos a paquete"
 
-#: app/templates/settings/wizard/_sub_nav.html:155
+#: app/templates/settings/wizard/_sub_nav.html:152
 msgid "No bundles available yet"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:173
+#: app/templates/settings/wizard/_sub_nav.html:169
 msgid "Add Preset"
 msgstr "Añadir Prefijado"
 
-#: app/templates/settings/wizard/_sub_nav.html:174
+#: app/templates/settings/wizard/_sub_nav.html:170
 msgid "Create step from template"
 msgstr "Crear paso desde plantilla"
 
-#: app/templates/settings/wizard/_sub_nav.html:190
+#: app/templates/settings/wizard/_sub_nav.html:186
 msgid "Create Bundle"
 msgstr "Crear Paquete"
 
-#: app/templates/settings/wizard/_sub_nav.html:191
+#: app/templates/settings/wizard/_sub_nav.html:187
 msgid "Create a collection of steps"
 msgstr "Crear una colección de pasos"
 
@@ -2390,20 +2415,20 @@ msgstr "Exportar Paquete %(bundle_name)s"
 msgid "Are you sure you want to delete this bundle?"
 msgstr "¿Está seguro(a) de eliminar este paquete?"
 
-#: app/templates/settings/wizard/bundles.html:71
+#: app/templates/settings/wizard/bundles.html:70
 #: app/templates/settings/wizard/steps.html:65
 #, fuzzy
 msgid "Before Invite Acceptance"
 msgstr "No hay invitaciones recientes aceptadas"
 
-#: app/templates/settings/wizard/bundles.html:73
+#: app/templates/settings/wizard/bundles.html:72
 #: app/templates/settings/wizard/steps.html:67
 msgid "Steps shown to users before they accept the invitation"
 msgstr ""
 
 #: app/templates/settings/wizard/bundles.html:115
-#: app/templates/settings/wizard/bundles.html:196
-#: app/templates/settings/wizard/bundles.html:277
+#: app/templates/settings/wizard/bundles.html:197
+#: app/templates/settings/wizard/bundles.html:278
 #: app/templates/settings/wizard/index.html:104
 #: app/templates/settings/wizard/steps.html:106
 #: app/templates/settings/wizard/steps.html:186
@@ -2427,17 +2452,17 @@ msgstr "Entre código de invitación"
 msgid "Steps shown to users after they accept the invitation"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:227
+#: app/templates/settings/wizard/bundles.html:228
 #: app/templates/settings/wizard/steps.html:218
 #, fuzzy
 msgid "No post-invite steps configured"
 msgstr "No hay servidores configurados"
 
-#: app/templates/settings/wizard/bundles.html:234
+#: app/templates/settings/wizard/bundles.html:235
 msgid "Additional Categories"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:236
+#: app/templates/settings/wizard/bundles.html:237
 msgid "Steps that use custom categories keep their order here."
 msgstr ""
 
@@ -2446,21 +2471,21 @@ msgstr ""
 msgid "Orphaned Steps"
 msgstr "Eliminar paso huérfano"
 
-#: app/templates/settings/wizard/bundles.html:306
+#: app/templates/settings/wizard/bundles.html:307
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:310
+#: app/templates/settings/wizard/bundles.html:312
 msgid "Step deleted (orphaned)"
 msgstr "Paso eliminado (huérfano)"
 
-#: app/templates/settings/wizard/bundles.html:317
+#: app/templates/settings/wizard/bundles.html:319
 msgid "Are you sure you want to remove this orphaned step?"
 msgstr "¿Está seguro(a) de eliminar este paso huérfano?"
 
-#: app/templates/settings/wizard/bundles.html:320
+#: app/templates/settings/wizard/bundles.html:322
 msgid "Remove orphaned step"
 msgstr "Eliminar paso huérfano"
 
@@ -2676,6 +2701,10 @@ msgstr "Paquete Genio"
 #: app/templates/tables/user_card.html:90
 msgid "Expires"
 msgstr "Expira"
+
+#: app/templates/tables/invite_card.html:129
+msgid "days"
+msgstr "Días"
 
 #: app/templates/tables/invite_card.html:151
 msgid "Default"
@@ -3616,4 +3645,31 @@ msgstr "Haga click sobre el enlace en este paso para poder continuar"
 
 #~ msgid "Add step"
 #~ msgstr "Añadir paso"
+
+#~ msgid "Edit expiry"
+#~ msgstr "Modificar la fecha de vencimiento"
+
+#~ msgid "Server-specific Expiry Management"
+#~ msgstr "Gestión de la Expiración Específica de Servidor"
+
+#~ msgid ""
+#~ "This user exists on multiple servers."
+#~ " You can set different expiry dates"
+#~ " for each server."
+#~ msgstr ""
+#~ "Este usuario existe en múltiples "
+#~ "servidores. Puede establecer diferentes fechas"
+#~ " de expiración para cada servidor."
+
+#~ msgid "Expiry date (leave blank for never)"
+#~ msgstr "Fecha de vencimiento (dejar en blanco si no caduca)"
+
+#~ msgid "Invitation Details"
+#~ msgstr "Detalles de Invitación"
+
+#~ msgid "Code"
+#~ msgstr "Código"
+
+#~ msgid "Invitation expires"
+#~ msgstr "La invitación vence en"
 
