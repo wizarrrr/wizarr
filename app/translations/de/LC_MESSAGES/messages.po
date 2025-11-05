@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-04 03:48+0000\n"
+"POT-Creation-Date: 2025-11-05 03:50+0000\n"
 "PO-Revision-Date: 2025-10-31 15:10+0000\n"
 "Last-Translator: retardgerman <jan.cebulla@icloud.com>\n"
 "Language: de\n"
@@ -31,71 +31,76 @@ msgstr "Dashboard-Daten laden ist fehlgeschlagen"
 msgid "Failed to load history data"
 msgstr "Fehler beim Laden der Verlaufsdaten"
 
-#: app/activity/api/blueprint.py:346
+#: app/activity/api/blueprint.py:390
 msgid "Failed to load activity data"
 msgstr "Aktivitätsdaten konnten nicht geladen werden"
 
-#: app/activity/api/blueprint.py:364
+#: app/activity/api/blueprint.py:445
+#, fuzzy
+msgid "Failed to load activity summary"
+msgstr "Aktivitätsdaten konnten nicht geladen werden"
+
+#: app/activity/api/blueprint.py:466
 msgid "Failed to get activity statistics"
 msgstr "Aktivitätsstatistiken konnten nicht geladen werden"
 
-#: app/activity/api/blueprint.py:373
+#: app/activity/api/blueprint.py:475
 msgid "Database not available"
 msgstr "Datenbank nicht verfügbar"
 
-#: app/activity/api/blueprint.py:387
+#: app/activity/api/blueprint.py:489
 msgid "Failed to get session details"
 msgstr "Fehler beim Abrufen der Sitzungsdetails"
 
-#: app/activity/api/blueprint.py:469
+#: app/activity/api/blueprint.py:571
 msgid "Failed to export activity data"
 msgstr "Export der Aktivitätsdaten fehlgeschlagen"
 
-#: app/activity/api/blueprint.py:488
+#: app/activity/api/blueprint.py:590
 msgid "Monitoring restarted"
 msgstr "Monitor neu gestartet"
 
-#: app/activity/api/blueprint.py:491
+#: app/activity/api/blueprint.py:593
 msgid "Monitor not available"
 msgstr "Monitor nicht verfügbar"
 
-#: app/activity/api/blueprint.py:501
+#: app/activity/api/blueprint.py:603
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
 msgstr ""
 
-#: app/activity/api/blueprint.py:514
+#: app/activity/api/blueprint.py:616
 #, python-brace-format
 msgid "Ended {} stale sessions"
 msgstr "Beendete {} veraltete Sitzungen"
 
-#: app/activity/api/blueprint.py:518
+#: app/activity/api/blueprint.py:620
 msgid "Unknown action"
 msgstr "Unbekannte Aktion"
 
-#: app/activity/api/blueprint.py:524
+#: app/activity/api/blueprint.py:626
 msgid "Failed to update settings"
 msgstr "Fehler beim Aktualisieren der Einstellungen"
 
-#: app/activity/api/blueprint.py:539
+#: app/activity/api/blueprint.py:641
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
 msgstr "Die Aktivitätsdaten wurden erfolgreich gelöscht ({} Datensätze)."
 
-#: app/activity/api/blueprint.py:544
+#: app/activity/api/blueprint.py:646
 #, python-brace-format
 msgid "Failed to delete activity data: {}"
 msgstr "Aktivitätsdaten konnten nicht gelöscht werden: {}"
 
-#: app/activity/api/blueprint.py:564 app/activity/api/blueprint.py:623
+#: app/activity/api/blueprint.py:666 app/activity/api/blueprint.py:725
 msgid "Please select a media server."
 msgstr "Bitte wähle einen Medienserver aus."
 
-#: app/activity/api/blueprint.py:575
+#: app/activity/api/blueprint.py:677
 msgid "Media server not found."
 msgstr "Medienserver nicht gefunden."
 
-#: app/activity/api/blueprint.py:586
+#: app/activity/api/blueprint.py:688
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, "
 "Emby, and AudiobookShelf servers."
@@ -103,39 +108,39 @@ msgstr ""
 "Der Import von Verlaufsdaten geht im Moment nur bei Plex-, Jellyfin-, "
 "Emby- und AudiobookShelf-Servern."
 
-#: app/activity/api/blueprint.py:597
+#: app/activity/api/blueprint.py:699
 #, python-brace-format
 msgid "Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
 "Verlaufsdaten Importauftrag #{job_id} für {server} gestartet (vor {days} "
 "Tagen)."
 
-#: app/activity/api/blueprint.py:607
+#: app/activity/api/blueprint.py:709
 #, python-brace-format
 msgid "Failed to import historical data: {}"
 msgstr "Verlaufsdaten Import fehlgeschlagen: {}"
 
-#: app/activity/api/blueprint.py:630
+#: app/activity/api/blueprint.py:732
 #, python-brace-format
 msgid "Successfully cleared {} historical entries."
 msgstr "{} Verlaufsdaten wurden erfolgreich entfernt."
 
-#: app/activity/api/blueprint.py:637 app/activity/api/blueprint.py:646
+#: app/activity/api/blueprint.py:739 app/activity/api/blueprint.py:748
 #, python-brace-format
 msgid "Failed to clear historical data: {}"
 msgstr "Fehler beim Entfernen der Verlaufsdaten: {}"
 
-#: app/activity/api/blueprint.py:638
+#: app/activity/api/blueprint.py:740
 msgid "Unknown error"
 msgstr "Unbekannter Fehler"
 
-#: app/activity/api/blueprint.py:676
+#: app/activity/api/blueprint.py:778
 msgid "Cannot remove a job that is still queued or running."
 msgstr ""
 "Ein Job, der noch in der Warteschlange steht oder läuft, kann nicht "
 "entfernt werden."
 
-#: app/activity/api/blueprint.py:704
+#: app/activity/api/blueprint.py:806
 msgid "An internal error has occurred."
 msgstr "Unbekannter Fehler aufgetreten."
 
@@ -455,21 +460,17 @@ msgstr "Zurücksetzen von {} Schritten für {} (gelöscht {}, importiert {})"
 msgid "Failed to reset steps: {}"
 msgstr "Zurücksetzen der Schritte fehlgeschlagen: {}"
 
-#: app/forms/admin.py:8
-msgid "Username must be 3 to 15 characters."
-msgstr "Der Benutzername muss zwischen 3 und 15 Zeichen lang sein."
-
-#: app/forms/admin.py:12
+#: app/forms/admin.py:29
 msgid "Password must be at least 8 characters."
 msgstr ""
 
-#: app/forms/admin.py:17
+#: app/forms/admin.py:34
 msgid ""
 "Password must contain at least one uppercase letter, one lowercase "
 "letter, and one number."
 msgstr ""
 
-#: app/forms/admin.py:25 app/forms/admin.py:37
+#: app/forms/admin.py:43 app/forms/admin.py:57
 #: app/templates/admin/user_details_modal.html:66
 #: app/templates/hybrid-password-form.html:102 app/templates/login.html:48
 #: app/templates/modals/create-admin.html:22
@@ -478,29 +479,29 @@ msgstr ""
 msgid "Username"
 msgstr "Benutzername"
 
-#: app/forms/admin.py:26 app/templates/choose-password.html:22
+#: app/forms/admin.py:45 app/templates/choose-password.html:22
 #: app/templates/hybrid-password-form.html:134 app/templates/login.html:60
 #: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
 #: app/templates/welcome-jellyfin.html:148
 msgid "Password"
 msgstr "Passwort"
 
-#: app/forms/admin.py:28 app/forms/admin.py:44
+#: app/forms/admin.py:47 app/forms/admin.py:65
 #: app/templates/modals/create-admin.html:35
 #: app/templates/modals/edit-admin.html:37
 msgid "Confirm password"
 msgstr "Passwort bestätigen"
 
-#: app/forms/admin.py:31 app/forms/admin.py:47
+#: app/forms/admin.py:50 app/forms/admin.py:68
 #, fuzzy
 msgid "Passwords must match."
 msgstr "Passwörter stimmen nicht überein"
 
-#: app/forms/admin.py:41 app/templates/profile.html:53
+#: app/forms/admin.py:62 app/templates/profile.html:53
 msgid "New Password"
 msgstr "Neues Passwort"
 
-#: app/forms/admin.py:58
+#: app/forms/admin.py:79
 #, fuzzy
 msgid "Please confirm the new password."
 msgstr "Neues Passwort bestätigen"
@@ -3669,4 +3670,7 @@ msgstr "Klicke auf den Link in diesem Schritt, um weitermachen zu können"
 
 #~ msgid "Invitation expires"
 #~ msgstr "Einladung läuft ab"
+
+#~ msgid "Username must be 3 to 15 characters."
+#~ msgstr "Der Benutzername muss zwischen 3 und 15 Zeichen lang sein."
 

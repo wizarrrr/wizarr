@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-04 03:48+0000\n"
+"POT-Creation-Date: 2025-11-05 03:50+0000\n"
 "PO-Revision-Date: 2025-10-31 16:35+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language: ro\n"
@@ -35,109 +35,114 @@ msgstr "Scanează Pentru Biblioteci"
 msgid "Failed to load history data"
 msgstr "Scanează Pentru Biblioteci"
 
-#: app/activity/api/blueprint.py:346
+#: app/activity/api/blueprint.py:390
 #, fuzzy
 msgid "Failed to load activity data"
 msgstr "Scanează Pentru Biblioteci"
 
-#: app/activity/api/blueprint.py:364
+#: app/activity/api/blueprint.py:445
+#, fuzzy
+msgid "Failed to load activity summary"
+msgstr "Scanează Pentru Biblioteci"
+
+#: app/activity/api/blueprint.py:466
 msgid "Failed to get activity statistics"
 msgstr ""
 
-#: app/activity/api/blueprint.py:373
+#: app/activity/api/blueprint.py:475
 msgid "Database not available"
 msgstr ""
 
-#: app/activity/api/blueprint.py:387
+#: app/activity/api/blueprint.py:489
 msgid "Failed to get session details"
 msgstr ""
 
-#: app/activity/api/blueprint.py:469
+#: app/activity/api/blueprint.py:571
 msgid "Failed to export activity data"
 msgstr ""
 
-#: app/activity/api/blueprint.py:488
+#: app/activity/api/blueprint.py:590
 #, fuzzy
 msgid "Monitoring restarted"
 msgstr "Creat"
 
-#: app/activity/api/blueprint.py:491
+#: app/activity/api/blueprint.py:593
 msgid "Monitor not available"
 msgstr ""
 
-#: app/activity/api/blueprint.py:501
+#: app/activity/api/blueprint.py:603
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
 msgstr ""
 
-#: app/activity/api/blueprint.py:514
+#: app/activity/api/blueprint.py:616
 #, python-brace-format
 msgid "Ended {} stale sessions"
 msgstr ""
 
-#: app/activity/api/blueprint.py:518
+#: app/activity/api/blueprint.py:620
 msgid "Unknown action"
 msgstr ""
 
-#: app/activity/api/blueprint.py:524
+#: app/activity/api/blueprint.py:626
 #, fuzzy
 msgid "Failed to update settings"
 msgstr "String pentru cod de invitație"
 
-#: app/activity/api/blueprint.py:539
+#: app/activity/api/blueprint.py:641
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
 msgstr ""
 
-#: app/activity/api/blueprint.py:544
+#: app/activity/api/blueprint.py:646
 #, python-brace-format
 msgid "Failed to delete activity data: {}"
 msgstr ""
 
-#: app/activity/api/blueprint.py:564 app/activity/api/blueprint.py:623
+#: app/activity/api/blueprint.py:666 app/activity/api/blueprint.py:725
 msgid "Please select a media server."
 msgstr ""
 
-#: app/activity/api/blueprint.py:575
+#: app/activity/api/blueprint.py:677
 #, fuzzy
 msgid "Media server not found."
 msgstr "Niciodată"
 
-#: app/activity/api/blueprint.py:586
+#: app/activity/api/blueprint.py:688
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, "
 "Emby, and AudiobookShelf servers."
 msgstr ""
 
-#: app/activity/api/blueprint.py:597
+#: app/activity/api/blueprint.py:699
 #, python-brace-format
 msgid "Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
 
-#: app/activity/api/blueprint.py:607
+#: app/activity/api/blueprint.py:709
 #, python-brace-format
 msgid "Failed to import historical data: {}"
 msgstr ""
 
-#: app/activity/api/blueprint.py:630
+#: app/activity/api/blueprint.py:732
 #, fuzzy, python-brace-format
 msgid "Successfully cleared {} historical entries."
 msgstr "Invitație generată cu succes!"
 
-#: app/activity/api/blueprint.py:637 app/activity/api/blueprint.py:646
+#: app/activity/api/blueprint.py:739 app/activity/api/blueprint.py:748
 #, python-brace-format
 msgid "Failed to clear historical data: {}"
 msgstr ""
 
-#: app/activity/api/blueprint.py:638
+#: app/activity/api/blueprint.py:740
 msgid "Unknown error"
 msgstr ""
 
-#: app/activity/api/blueprint.py:676
+#: app/activity/api/blueprint.py:778
 msgid "Cannot remove a job that is still queued or running."
 msgstr ""
 
-#: app/activity/api/blueprint.py:704
+#: app/activity/api/blueprint.py:806
 msgid "An internal error has occurred."
 msgstr ""
 
@@ -453,21 +458,17 @@ msgstr ""
 msgid "Failed to reset steps: {}"
 msgstr ""
 
-#: app/forms/admin.py:8
-msgid "Username must be 3 to 15 characters."
-msgstr ""
-
-#: app/forms/admin.py:12
+#: app/forms/admin.py:29
 msgid "Password must be at least 8 characters."
 msgstr ""
 
-#: app/forms/admin.py:17
+#: app/forms/admin.py:34
 msgid ""
 "Password must contain at least one uppercase letter, one lowercase "
 "letter, and one number."
 msgstr ""
 
-#: app/forms/admin.py:25 app/forms/admin.py:37
+#: app/forms/admin.py:43 app/forms/admin.py:57
 #: app/templates/admin/user_details_modal.html:66
 #: app/templates/hybrid-password-form.html:102 app/templates/login.html:48
 #: app/templates/modals/create-admin.html:22
@@ -476,31 +477,31 @@ msgstr ""
 msgid "Username"
 msgstr "Nume de utilizator"
 
-#: app/forms/admin.py:26 app/templates/choose-password.html:22
+#: app/forms/admin.py:45 app/templates/choose-password.html:22
 #: app/templates/hybrid-password-form.html:134 app/templates/login.html:60
 #: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
 #: app/templates/welcome-jellyfin.html:148
 msgid "Password"
 msgstr "Parolă"
 
-#: app/forms/admin.py:28 app/forms/admin.py:44
+#: app/forms/admin.py:47 app/forms/admin.py:65
 #: app/templates/modals/create-admin.html:35
 #: app/templates/modals/edit-admin.html:37
 #, fuzzy
 msgid "Confirm password"
 msgstr "Parolă"
 
-#: app/forms/admin.py:31 app/forms/admin.py:47
+#: app/forms/admin.py:50 app/forms/admin.py:68
 #, fuzzy
 msgid "Passwords must match."
 msgstr "Parolă"
 
-#: app/forms/admin.py:41 app/templates/profile.html:53
+#: app/forms/admin.py:62 app/templates/profile.html:53
 #, fuzzy
 msgid "New Password"
 msgstr "Parolă"
 
-#: app/forms/admin.py:58
+#: app/forms/admin.py:79
 #, fuzzy
 msgid "Please confirm the new password."
 msgstr "Parolă"
@@ -3294,4 +3295,7 @@ msgstr ""
 
 #~ msgid "Invitation expires"
 #~ msgstr "Invitații"
+
+#~ msgid "Username must be 3 to 15 characters."
+#~ msgstr ""
 
