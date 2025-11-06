@@ -222,7 +222,7 @@ Make sure disabled buttons don't get the pointer cursor.
   /* Floating progress bar at top - no background bar */
   .wizard-progress-mobile {
     position: fixed;
-    top: 1.5rem;
+    top: 1rem;
     left: 1rem;
     right: 1rem;
     z-index: 50;
@@ -263,7 +263,7 @@ Make sure disabled buttons don't get the pointer cursor.
   .wizard-content {
     flex: 1;
     overflow-y: auto;
-    padding: 6rem 1rem 6rem 1rem; /* Top padding for progress bar, bottom for nav buttons */
+    padding: 8rem 1rem 6rem 1rem; /* Top padding for progress bar + phase badge, bottom for nav buttons */
     width: 100%;
     max-width: 100%;
   }
@@ -350,6 +350,13 @@ Make sure disabled buttons don't get the pointer cursor.
   .wizard-content-mobile {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
+  }
+
+  /* Additional spacing for phase badges - ensure content doesn't overlap with expanded progress indicator */
+  .wizard-container[data-phase="preview"] .wizard-content,
+  .wizard-container[data-step-phase="pre"] .wizard-content,
+  .wizard-container[data-step-phase="post"] .wizard-content {
+    padding-top: 9rem; /* Extra padding when phase badge is visible */
   }
 }
 
