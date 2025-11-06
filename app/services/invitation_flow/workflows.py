@@ -16,6 +16,51 @@ from .results import InvitationResult, ProcessingStatus, ServerResult
 from .strategies import StrategyFactory
 
 
+def _get_server_colors(server_type: str | None) -> dict[str, str]:
+    """Get color scheme for a specific server type.
+
+    Args:
+        server_type: Server type string (e.g., 'plex', 'jellyfin', 'emby', 'audiobookshelf')
+
+    Returns:
+        Dictionary containing:
+        - gradient_start: Starting color for gradient
+        - gradient_end: Ending color for gradient
+        - shadow_color: RGBA color for box shadow (with 0.3 alpha)
+
+    Note:
+        Default colors (Plex red) are used for unknown server types and as fallback.
+    """
+    color_schemes = {
+        "plex": {
+            "gradient_start": "#fe4155",
+            "gradient_end": "#fe4155",
+            "shadow_color": "rgba(254, 65, 85, 0.3)",
+        },
+        "jellyfin": {
+            "gradient_start": "#AA5CC3",
+            "gradient_end": "#00A4DC",
+            "shadow_color": "rgba(0, 164, 220, 0.3)",
+        },
+        "audiobookshelf": {
+            "gradient_start": "#DDBC82",
+            "gradient_end": "#8D6229",
+            "shadow_color": "rgba(141, 98, 41, 0.3)",
+        },
+        "emby": {
+            "gradient_start": "#52b64b",
+            "gradient_end": "#52b64b",
+            "shadow_color": "rgba(82, 182, 75, 0.3)",
+        },
+    }
+
+    # Return server-specific colors or default to Plex colors
+    return color_schemes.get(
+        server_type,
+        color_schemes["plex"],
+    )
+
+
 class InvitationWorkflow(ABC):
     """Base class for invitation workflows."""
 
@@ -207,6 +252,9 @@ class FormBasedWorkflow(InvitationWorkflow):
         # Resolve the server name to display
         server_name = resolve_invitation_server_name(servers)
 
+        # Get server-specific color scheme for theming
+        colors = _get_server_colors(server_type)
+
         return InvitationResult(
             status=ProcessingStatus.AUTHENTICATION_REQUIRED,
             message="Authentication required",
@@ -218,6 +266,9 @@ class FormBasedWorkflow(InvitationWorkflow):
                 "server_type": server_type,
                 "server_name": server_name,
                 "servers": servers,
+                "gradient_start": colors["gradient_start"],
+                "gradient_end": colors["gradient_end"],
+                "shadow_color": colors["shadow_color"],
             },
             session_data={"invitation_in_progress": True},
         )
@@ -325,10 +376,13 @@ class PlexOAuthWorkflow(InvitationWorkflow):
         self, invitation: Invitation, servers: list[MediaServer]
     ) -> InvitationResult:
         """Show Plex OAuth form."""
-        # Get server name (prefer invitation's primary server, fallback to first server or Settings)
-        server_name = None
-        if servers:
-            server_name = servers[0].name
+        from app.services.server_name_resolver import resolve_invitation_server_name
+
+        # Resolve the server name to display
+        server_name = resolve_invitation_server_name(servers)
+
+        # Get server-specific color scheme for theming (always Plex for this workflow)
+        colors = _get_server_colors("plex")
 
         return InvitationResult(
             status=ProcessingStatus.OAUTH_PENDING,
@@ -340,6 +394,9 @@ class PlexOAuthWorkflow(InvitationWorkflow):
                 "code": invitation.code,
                 "oauth_url": f"/oauth/plex?code={invitation.code}",
                 "server_name": server_name,
+                "gradient_start": colors["gradient_start"],
+                "gradient_end": colors["gradient_end"],
+                "shadow_color": colors["shadow_color"],
             },
             session_data={"invitation_in_progress": True},
         )
@@ -373,10 +430,19 @@ class PlexOAuthWorkflow(InvitationWorkflow):
         self, invitation: Invitation, error_message: str
     ) -> InvitationResult:
         """Create result for OAuth errors."""
-        # Get server name from invitation
-        server_name = None
-        if invitation.servers:
-            server_name = invitation.servers[0].name
+        from typing import Any, cast
+
+        from app.services.server_name_resolver import resolve_invitation_server_name
+
+        # Get servers from invitation and resolve the server name
+        servers = []
+        if hasattr(invitation, "servers") and invitation.servers:
+            try:
+                servers_iter = cast(Any, invitation.servers)
+                servers = list(servers_iter)
+            except (TypeError, AttributeError):
+                servers = []
+        server_name = resolve_invitation_server_name(servers)
 
         return InvitationResult(
             status=ProcessingStatus.FAILURE,
@@ -405,13 +471,13 @@ class MixedWorkflow(InvitationWorkflow):
 
         if not plex_token:
             # Start with Plex OAuth
-            # Get server name from servers (prefer plex server)
-            server_name = None
-            plex_server = next((s for s in servers if s.server_type == "plex"), None)
-            if plex_server:
-                server_name = plex_server.name
-            elif servers:
-                server_name = servers[0].name
+            from app.services.server_name_resolver import resolve_invitation_server_name
+
+            # Resolve the server name to display
+            server_name = resolve_invitation_server_name(servers)
+
+            # Get server-specific color scheme for theming (Plex for mixed workflow)
+            colors = _get_server_colors("plex")
 
             return InvitationResult(
                 status=ProcessingStatus.OAUTH_PENDING,
@@ -423,12 +489,19 @@ class MixedWorkflow(InvitationWorkflow):
                     "code": invitation.code,
                     "oauth_url": f"/oauth/plex?code={invitation.code}",
                     "server_name": server_name,
+                    "gradient_start": colors["gradient_start"],
+                    "gradient_end": colors["gradient_end"],
+                    "shadow_color": colors["shadow_color"],
                 },
                 session_data={"invitation_in_progress": True},
             )
 
         if other_servers:
             # Show password form for local servers
+            # Use first local server's colors
+            local_server_type = other_servers[0].server_type if other_servers else None
+            colors = _get_server_colors(local_server_type)
+
             return InvitationResult(
                 status=ProcessingStatus.AUTHENTICATION_REQUIRED,
                 message="Password required for local servers",
@@ -440,6 +513,9 @@ class MixedWorkflow(InvitationWorkflow):
                     "plex_authenticated": True,
                     "plex_token": plex_token,
                     "local_servers": other_servers,
+                    "gradient_start": colors["gradient_start"],
+                    "gradient_end": colors["gradient_end"],
+                    "shadow_color": colors["shadow_color"],
                 },
                 session_data={"invitation_in_progress": True},
             )

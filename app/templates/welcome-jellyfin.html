@@ -9,6 +9,13 @@
   {{ _("You've been invited to join the %(name)s server!", name=server_name) }}
 {% endblock og_description %}
 {% block main %}
+  <style>
+      /* Override CSS custom properties with server-specific colors */
+      :root {
+          --color-primary: {{ gradient_start }};
+          --color-primary_hover: {{ gradient_end }};
+      }
+  </style>
   <section id="invite-section"
            class="min-h-screen bg-gradient-to-br from-gray-100 via-primary/10 to-white dark:from-slate-900 dark:via-primary/20 dark:to-slate-900 relative overflow-x-hidden overflow-y-auto lg:overflow-hidden">
     <!-- Animated background elements -->

@@ -56,8 +56,8 @@
           <div id="progress-bar-mobile"
                class="h-1.5 rounded-full transition-all duration-500 ease-out"
                style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%;
-                      background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%);
-                      box-shadow: 0 0 8px rgba(254, 65, 85, 0.3)"></div>
+                      background: linear-gradient(90deg, {{ gradient_start }} 0%, {{ gradient_end }} 100%);
+                      box-shadow: 0 0 8px {{ shadow_color }}"></div>
         </div>
       {% endif %}
     </div>
@@ -96,8 +96,8 @@
         <div id="progress-bar-desktop"
              class="h-2.5 rounded-full transition-all duration-500 ease-out"
              style="width: {{ ((idx + 1) / (max_idx + 1) * 100) }}%;
-                    background: linear-gradient(90deg, #fe4155 0%, #fe4155 100%);
-                    box-shadow: 0 0 10px rgba(254, 65, 85, 0.3)"></div>
+                    background: linear-gradient(90deg, {{ gradient_start }} 0%, {{ gradient_end }} 100%);
+                    box-shadow: 0 0 10px {{ shadow_color }}"></div>
       </div>
     {% endif %}
   </div>

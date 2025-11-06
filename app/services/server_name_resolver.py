@@ -12,10 +12,9 @@ def resolve_invitation_server_name(servers: list[MediaServer]) -> str:
     Resolve the server name to display for an invitation.
 
     Priority:
-    1. Global "Display Name" setting (if set and not default)
-    2. Actual server name(s) from the invitation
-       - Single server: "Server Name"
-       - Multiple servers: "Server 1, Server 2, Server 3"
+    1. Single server invitations: Always use the actual server name
+    2. Multi-server invitations: Use global "Display Name" setting if set,
+       otherwise comma-separated list of server names
 
     Args:
         servers: List of MediaServer instances associated with the invitation
@@ -23,7 +22,15 @@ def resolve_invitation_server_name(servers: list[MediaServer]) -> str:
     Returns:
         str: The resolved server name to display
     """
-    # Check if there's a global Display Name setting
+    # Handle edge case: no servers
+    if not servers:
+        return "Unknown Server"
+
+    # Single server: ALWAYS use the actual server name
+    if len(servers) == 1:
+        return servers[0].name
+
+    # Multiple servers: Check for global Display Name setting first
     display_name_setting = Settings.query.filter_by(key="server_name").first()
 
     if (
@@ -32,19 +39,10 @@ def resolve_invitation_server_name(servers: list[MediaServer]) -> str:
         and display_name_setting.value.strip()
         and display_name_setting.value != "Wizarr"
     ):
-        # If there's a non-empty Display Name setting and it's not the default "Wizarr",
-        # use it (this preserves the existing behavior when explicitly set)
+        # Use global Display Name for multi-server invitations
         return display_name_setting.value
 
-    # Fall back to actual server name(s)
-    if not servers:
-        return "Unknown Server"
-
-    if len(servers) == 1:
-        # Single server: use its name
-        return servers[0].name
-
-    # Multiple servers: list all names
+    # Fallback: comma-separated list of server names
     server_names = [server.name for server in servers]
     return ", ".join(server_names)
 

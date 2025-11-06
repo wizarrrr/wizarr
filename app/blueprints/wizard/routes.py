@@ -401,6 +401,9 @@ def _serve_wizard(
     elif phase in {"pre", "post"}:
         display_phase = phase
 
+    # Get server-specific color scheme for theming
+    colors = _get_server_colors(server)
+
     response = render_template(
         page,
         body_html=html,
@@ -413,6 +416,9 @@ def _serve_wizard(
         step_phase=display_phase,
         completion_url=completion_url,
         completion_label=completion_label,
+        gradient_start=colors["gradient_start"],
+        gradient_end=colors["gradient_end"],
+        shadow_color=colors["shadow_color"],
     )
 
     # Add custom headers for client-side updates (HTMX requests only)
@@ -469,6 +475,51 @@ def _get_server_type_from_invitation(invitation: Invitation) -> str | None:
 
     # No servers configured - return None to signal error condition
     return None
+
+
+def _get_server_colors(server_type: str | None) -> dict[str, str]:
+    """Get color scheme for a specific server type.
+
+    Args:
+        server_type: Server type string (e.g., 'plex', 'jellyfin', 'emby', 'audiobookshelf')
+
+    Returns:
+        Dictionary containing:
+        - gradient_start: Starting color for gradient
+        - gradient_end: Ending color for gradient
+        - shadow_color: RGBA color for box shadow (with 0.3 alpha)
+
+    Note:
+        Default colors (Plex red) are used for unknown server types and as fallback.
+    """
+    color_schemes = {
+        "plex": {
+            "gradient_start": "#fe4155",
+            "gradient_end": "#fe4155",
+            "shadow_color": "rgba(254, 65, 85, 0.3)",
+        },
+        "jellyfin": {
+            "gradient_start": "#AA5CC3",
+            "gradient_end": "#00A4DC",
+            "shadow_color": "rgba(0, 164, 220, 0.3)",
+        },
+        "audiobookshelf": {
+            "gradient_start": "#DDBC82",
+            "gradient_end": "#8D6229",
+            "shadow_color": "rgba(141, 98, 41, 0.3)",
+        },
+        "emby": {
+            "gradient_start": "#52b64b",
+            "gradient_end": "#52b64b",
+            "shadow_color": "rgba(82, 182, 75, 0.3)",
+        },
+    }
+
+    # Return server-specific colors or default to Plex colors
+    return color_schemes.get(
+        server_type,
+        color_schemes["plex"],
+    )
 
 
 # ─── routes ─────────────────────────────────────────────────────
@@ -974,6 +1025,9 @@ def combo(category: str, idx: int = 0):
         # HTMX request - content-only partial
         page = "wizard/_content.html"
 
+    # Get server-specific color scheme for theming (use current_server_type for combo flows)
+    colors = _get_server_colors(current_server_type)
+
     response = render_template(
         page,
         body_html=html,
@@ -988,6 +1042,9 @@ def combo(category: str, idx: int = 0):
         current_server_type=current_server_type,
         completion_url=completion_url,
         completion_label=completion_label,
+        gradient_start=colors["gradient_start"],
+        gradient_end=colors["gradient_end"],
+        shadow_color=colors["shadow_color"],
     )
 
     # Add custom headers for client-side updates (HTMX requests only)
@@ -1187,6 +1244,9 @@ def bundle_view(idx: int):
         # HTMX request - content-only partial
         page = "wizard/_content.html"
 
+    # Get server-specific color scheme for theming (use current_server_type for bundle flows)
+    colors = _get_server_colors(current_server_type)
+
     response = render_template(
         page,
         body_html=html,
@@ -1199,6 +1259,9 @@ def bundle_view(idx: int):
         step_phase=phase,
         completion_url=completion_url,
         completion_label=completion_label,
+        gradient_start=colors["gradient_start"],
+        gradient_end=colors["gradient_end"],
+        shadow_color=colors["shadow_color"],
     )
 
     # Add custom headers for client-side updates (HTMX requests only)
