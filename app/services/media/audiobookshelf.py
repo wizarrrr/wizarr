@@ -709,11 +709,15 @@ class AudiobookshelfClient(RestApiMixin):
         If *library_ids* is empty, the account will be granted access to all
         libraries (ABS default behaviour).
         """
-        # Fetch current user object so that we do not accidentally wipe other fields
+        # Fetch current user object from API so that we do not accidentally wipe other fields
+        # NOTE: Must use API call here, not database lookup, because this is called during
+        # invitation acceptance before the user is added to the database
         try:
-            current = self.get_user(user_id)
+            response = self.get(f"{self.API_PREFIX}/users/{user_id}")
+            response.raise_for_status()
+            current = response.json()
         except Exception as exc:
-            logging.warning("ABS: failed to read user %s – %s", user_id, exc)
+            logging.warning("ABS: failed to read user %s from API – %s", user_id, exc)
             return
 
         perms = current.get("permissions", {}) or {}
