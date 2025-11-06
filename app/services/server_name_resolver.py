@@ -12,9 +12,9 @@ def resolve_invitation_server_name(servers: list[MediaServer]) -> str:
     Resolve the server name to display for an invitation.
 
     Priority:
-    1. Single server invitations: Always use the actual server name
-    2. Multi-server invitations: Use global "Display Name" setting if set,
-       otherwise comma-separated list of server names
+    1. Check for custom global "Display Name" setting (not "Wizarr" default)
+    2. Single server: Use the actual server name
+    3. Multiple servers: Comma-separated list of server names
 
     Args:
         servers: List of MediaServer instances associated with the invitation
@@ -26,11 +26,7 @@ def resolve_invitation_server_name(servers: list[MediaServer]) -> str:
     if not servers:
         return "Unknown Server"
 
-    # Single server: ALWAYS use the actual server name
-    if len(servers) == 1:
-        return servers[0].name
-
-    # Multiple servers: Check for global Display Name setting first
+    # Check for global Display Name setting first
     display_name_setting = Settings.query.filter_by(key="server_name").first()
 
     if (
@@ -39,10 +35,14 @@ def resolve_invitation_server_name(servers: list[MediaServer]) -> str:
         and display_name_setting.value.strip()
         and display_name_setting.value != "Wizarr"
     ):
-        # Use global Display Name for multi-server invitations
+        # Use custom global Display Name for all invitations
         return display_name_setting.value
 
-    # Fallback: comma-separated list of server names
+    # Single server: Use the actual server name
+    if len(servers) == 1:
+        return servers[0].name
+
+    # Multiple servers: Comma-separated list of server names
     server_names = [server.name for server in servers]
     return ", ".join(server_names)
 
