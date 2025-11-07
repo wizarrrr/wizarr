@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-06 03:54+0000\n"
+"POT-Creation-Date: 2025-11-07 03:49+0000\n"
 "PO-Revision-Date: 2025-10-31 15:10+0000\n"
 "Last-Translator: retardgerman <jan.cebulla@icloud.com>\n"
 "Language: de\n"
@@ -309,11 +309,11 @@ msgstr ""
 "Deine Einladung ist abgelaufen oder nicht mehr gültig. Bitte fordere eine"
 " neue Einladung an."
 
-#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1158
+#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1215
 msgid "Error Loading Step"
 msgstr "Fehler beim Laden des Schritts"
 
-#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1161
+#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1218
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
@@ -321,13 +321,13 @@ msgstr ""
 "Dieser Schritt konnte nicht geladen werden. Bitte kontaktiere den "
 "Administrator oder mach einfach mit dem nächsten Schritt weiter."
 
-#: app/blueprints/wizard/routes.py:498 app/blueprints/wizard/routes.py:505
-#: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:1059
-#: app/blueprints/wizard/routes.py:1067
+#: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
+#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1116
+#: app/blueprints/wizard/routes.py:1124
 msgid "Invalid or expired invitation"
 msgstr "Ungültige oder abgelaufene Einladung"
 
-#: app/blueprints/wizard/routes.py:558 app/blueprints/wizard/routes.py:724
+#: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:775
 msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
@@ -335,40 +335,40 @@ msgstr ""
 "Keine Medienserver sind eingerichtet. Bitte frag den Administrator, einen"
 " Medienserver einzurichten."
 
-#: app/blueprints/wizard/routes.py:575
+#: app/blueprints/wizard/routes.py:626
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
 "Die Schritte des Wizards können nicht geladen werden. Weiter zur Annahme "
 "der Einladung."
 
-#: app/blueprints/wizard/routes.py:599 app/blueprints/wizard/routes.py:910
-#: app/blueprints/wizard/routes.py:1180 app/templates/wizard/steps.html:20
+#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:961
+#: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:20
 msgid "Continue to Invite"
 msgstr "Weiter zur Einladung"
 
-#: app/blueprints/wizard/routes.py:652
+#: app/blueprints/wizard/routes.py:703
 msgid "Please log in to continue"
 msgstr "Melde dich bitte an, um fortzufahren"
 
-#: app/blueprints/wizard/routes.py:764
+#: app/blueprints/wizard/routes.py:815
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 "Schritte des Wizards können nicht geladen werden. Einrichtung "
 "abgeschlossen! Willkommen auf deinem Medienserver."
 
-#: app/blueprints/wizard/routes.py:797
+#: app/blueprints/wizard/routes.py:848
 msgid "Setup complete! Welcome to your media server."
 msgstr "Einrichtung fertig! Willkommen auf deinem Medienserver."
 
-#: app/blueprints/wizard/routes.py:895
+#: app/blueprints/wizard/routes.py:946
 msgid "Unable to load wizard configuration. Please try again."
 msgstr "Konfiguration des Wizards kann nicht geladen werden. Versuche es nochmal."
 
-#: app/blueprints/wizard/routes.py:1037
+#: app/blueprints/wizard/routes.py:1094
 msgid "Unable to load wizard bundle. Please try again."
 msgstr "Das Wizard-Bundle kann nicht geladen werden. Versuche es nochmal."
 
-#: app/blueprints/wizard/routes.py:1088
+#: app/blueprints/wizard/routes.py:1145
 msgid "Unable to load wizard steps. Please try again."
 msgstr "Schritte des Wizards können nicht geladen werden. Versuche es nochmal."
 
@@ -475,14 +475,14 @@ msgstr ""
 #: app/templates/hybrid-password-form.html:102 app/templates/login.html:48
 #: app/templates/modals/create-admin.html:22
 #: app/templates/modals/edit-admin.html:22
-#: app/templates/welcome-jellyfin.html:110
+#: app/templates/welcome-jellyfin.html:117
 msgid "Username"
 msgstr "Benutzername"
 
 #: app/forms/admin.py:45 app/templates/choose-password.html:22
 #: app/templates/hybrid-password-form.html:134 app/templates/login.html:60
 #: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
-#: app/templates/welcome-jellyfin.html:148
+#: app/templates/welcome-jellyfin.html:155
 msgid "Password"
 msgstr "Passwort"
 
@@ -690,7 +690,7 @@ msgstr "Wähle ein Passwort für die restlichen Server aus"
 
 #: app/templates/choose-password.html:33
 #: app/templates/hybrid-password-form.html:150
-#: app/templates/welcome-jellyfin.html:167
+#: app/templates/welcome-jellyfin.html:174
 msgid "Confirm Password"
 msgstr "Passwort bestätigen"
 
@@ -747,7 +747,7 @@ msgid "Your password"
 msgstr "Dein Passwort"
 
 #: app/templates/hybrid-password-form.html:156
-#: app/templates/welcome-jellyfin.html:170
+#: app/templates/welcome-jellyfin.html:177
 msgid "Confirm your password"
 msgstr "Bestätige dein Passwort"
 
@@ -904,15 +904,15 @@ msgstr "Passwort ändern"
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Du wurdest eingeladen, dem Server %(name)s beizutreten!"
 
-#: app/templates/user-plex-login.html:50 app/templates/welcome-jellyfin.html:33
+#: app/templates/user-plex-login.html:50 app/templates/welcome-jellyfin.html:40
 msgid "You've been invited!"
 msgstr "Du wurdest eingeladen!"
 
-#: app/templates/user-plex-login.html:54 app/templates/welcome-jellyfin.html:38
+#: app/templates/user-plex-login.html:54 app/templates/welcome-jellyfin.html:45
 msgid "To join"
 msgstr "Willkommen bei"
 
-#: app/templates/user-plex-login.html:59 app/templates/welcome-jellyfin.html:44
+#: app/templates/user-plex-login.html:59 app/templates/welcome-jellyfin.html:51
 msgid "Join the ultimate media server experience."
 msgstr "Dein Tor zur ultimativen Medienwelt."
 
@@ -933,7 +933,7 @@ msgid "Join Server"
 msgstr "Server beitreten"
 
 #: app/templates/user-plex-login.html:115
-#: app/templates/welcome-jellyfin.html:219
+#: app/templates/welcome-jellyfin.html:226
 msgid "Secure invitation system powered by Wizarr"
 msgstr "Sicheres Einladungssystem dank Wizarr"
 
@@ -941,50 +941,50 @@ msgstr "Sicheres Einladungssystem dank Wizarr"
 msgid "Invite User"
 msgstr "Benutzer einladen"
 
-#: app/templates/welcome-jellyfin.html:66
-#: app/templates/welcome-jellyfin.html:71
+#: app/templates/welcome-jellyfin.html:73
+#: app/templates/welcome-jellyfin.html:78
 msgid "Accept Invitation"
 msgstr "Einladung annehmen"
 
-#: app/templates/welcome-jellyfin.html:67
+#: app/templates/welcome-jellyfin.html:74
 msgid "Get ready to join the magic"
 msgstr "Machen Sie sich bereit, Teil der Magie zu werden"
 
-#: app/templates/welcome-jellyfin.html:84
-#: app/templates/welcome-jellyfin.html:199
+#: app/templates/welcome-jellyfin.html:91
+#: app/templates/welcome-jellyfin.html:206
 msgid "Create Account"
 msgstr "Konto erstellen"
 
-#: app/templates/welcome-jellyfin.html:85
+#: app/templates/welcome-jellyfin.html:92
 msgid "Set up your magical account"
 msgstr "Richte dein magisches Konto ein"
 
-#: app/templates/welcome-jellyfin.html:113
+#: app/templates/welcome-jellyfin.html:120
 msgid "Enter your username"
 msgstr "Benutzername eingeben"
 
-#: app/templates/welcome-jellyfin.html:129
+#: app/templates/welcome-jellyfin.html:136
 msgid "Email"
 msgstr "E-Mail"
 
-#: app/templates/welcome-jellyfin.html:132
+#: app/templates/welcome-jellyfin.html:139
 msgid "Enter your email"
 msgstr "E-Mail eingeben"
 
-#: app/templates/welcome-jellyfin.html:151
+#: app/templates/welcome-jellyfin.html:158
 msgid "Create a password"
 msgstr "Erstelle ein Passwort"
 
 #: app/templates/tables/user_card.html:116
-#: app/templates/welcome-jellyfin.html:186
+#: app/templates/welcome-jellyfin.html:193
 msgid "Invite Code"
 msgstr "Einladungscode"
 
-#: app/templates/welcome-jellyfin.html:189
+#: app/templates/welcome-jellyfin.html:196
 msgid "Enter invite code"
 msgstr "Einladungscode eingeben"
 
-#: app/templates/welcome-jellyfin.html:209
+#: app/templates/welcome-jellyfin.html:216
 msgid "Creating account..."
 msgstr "Konto erstellen..."
 

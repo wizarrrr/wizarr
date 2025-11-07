@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-06 03:54+0000\n"
+"POT-Creation-Date: 2025-11-07 03:49+0000\n"
 "PO-Revision-Date: 2025-10-31 16:51+0000\n"
 "Last-Translator: 刘付苏 <liufusucc@gmail.com>\n"
 "Language: zh_Hans\n"
@@ -297,58 +297,58 @@ msgid ""
 "invitation."
 msgstr "您的邀请已过期或不再有效。请请求一个新的邀请。"
 
-#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1158
+#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1215
 msgid "Error Loading Step"
 msgstr "加载步骤时出错"
 
-#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1161
+#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1218
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
 msgstr "无法加载此步骤。请联系管理员或跳到下一步。"
 
-#: app/blueprints/wizard/routes.py:498 app/blueprints/wizard/routes.py:505
-#: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:1059
-#: app/blueprints/wizard/routes.py:1067
+#: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
+#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1116
+#: app/blueprints/wizard/routes.py:1124
 msgid "Invalid or expired invitation"
 msgstr "邀请无效或已过期"
 
-#: app/blueprints/wizard/routes.py:558 app/blueprints/wizard/routes.py:724
+#: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:775
 msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
 msgstr "未配置媒体服务器。请联系管理员设置媒体服务器。"
 
-#: app/blueprints/wizard/routes.py:575
+#: app/blueprints/wizard/routes.py:626
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr "无法加载向导步骤。正在继续进行邀请接受。"
 
-#: app/blueprints/wizard/routes.py:599 app/blueprints/wizard/routes.py:910
-#: app/blueprints/wizard/routes.py:1180 app/templates/wizard/steps.html:20
+#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:961
+#: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:20
 msgid "Continue to Invite"
 msgstr "继续邀请"
 
-#: app/blueprints/wizard/routes.py:652
+#: app/blueprints/wizard/routes.py:703
 msgid "Please log in to continue"
 msgstr "请登录以继续操作"
 
-#: app/blueprints/wizard/routes.py:764
+#: app/blueprints/wizard/routes.py:815
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr "无法加载向导步骤。设置已完成！欢迎使用您的媒体服务器。"
 
-#: app/blueprints/wizard/routes.py:797
+#: app/blueprints/wizard/routes.py:848
 msgid "Setup complete! Welcome to your media server."
 msgstr "设置已完成！欢迎使用您的媒体服务器。"
 
-#: app/blueprints/wizard/routes.py:895
+#: app/blueprints/wizard/routes.py:946
 msgid "Unable to load wizard configuration. Please try again."
 msgstr "无法加载向导配置。请重试。"
 
-#: app/blueprints/wizard/routes.py:1037
+#: app/blueprints/wizard/routes.py:1094
 msgid "Unable to load wizard bundle. Please try again."
 msgstr "无法加载向导组合包。请重试。"
 
-#: app/blueprints/wizard/routes.py:1088
+#: app/blueprints/wizard/routes.py:1145
 msgid "Unable to load wizard steps. Please try again."
 msgstr "无法加载向导步骤。请重试。"
 
@@ -455,14 +455,14 @@ msgstr "密码必须至少包含一个大写字母、一个小写字母和一个
 #: app/templates/hybrid-password-form.html:102 app/templates/login.html:48
 #: app/templates/modals/create-admin.html:22
 #: app/templates/modals/edit-admin.html:22
-#: app/templates/welcome-jellyfin.html:110
+#: app/templates/welcome-jellyfin.html:117
 msgid "Username"
 msgstr "用户名"
 
 #: app/forms/admin.py:45 app/templates/choose-password.html:22
 #: app/templates/hybrid-password-form.html:134 app/templates/login.html:60
 #: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
-#: app/templates/welcome-jellyfin.html:148
+#: app/templates/welcome-jellyfin.html:155
 msgid "Password"
 msgstr "密码"
 
@@ -653,7 +653,7 @@ msgstr "为剩余的服务器选择一个密码"
 
 #: app/templates/choose-password.html:33
 #: app/templates/hybrid-password-form.html:150
-#: app/templates/welcome-jellyfin.html:167
+#: app/templates/welcome-jellyfin.html:174
 msgid "Confirm Password"
 msgstr "确认密码"
 
@@ -710,7 +710,7 @@ msgid "Your password"
 msgstr "您的密码"
 
 #: app/templates/hybrid-password-form.html:156
-#: app/templates/welcome-jellyfin.html:170
+#: app/templates/welcome-jellyfin.html:177
 msgid "Confirm your password"
 msgstr "确认您的密码"
 
@@ -860,15 +860,15 @@ msgstr "更改密码"
 msgid "You've been invited to join the %(name)s server!"
 msgstr "您已经被邀请加入 %(name)s 服务器！"
 
-#: app/templates/user-plex-login.html:50 app/templates/welcome-jellyfin.html:33
+#: app/templates/user-plex-login.html:50 app/templates/welcome-jellyfin.html:40
 msgid "You've been invited!"
 msgstr "您已收到邀请！"
 
-#: app/templates/user-plex-login.html:54 app/templates/welcome-jellyfin.html:38
+#: app/templates/user-plex-login.html:54 app/templates/welcome-jellyfin.html:45
 msgid "To join"
 msgstr "加入"
 
-#: app/templates/user-plex-login.html:59 app/templates/welcome-jellyfin.html:44
+#: app/templates/user-plex-login.html:59 app/templates/welcome-jellyfin.html:51
 msgid "Join the ultimate media server experience."
 msgstr "加入终极媒体服务器体验。"
 
@@ -889,7 +889,7 @@ msgid "Join Server"
 msgstr "加入服务器"
 
 #: app/templates/user-plex-login.html:115
-#: app/templates/welcome-jellyfin.html:219
+#: app/templates/welcome-jellyfin.html:226
 msgid "Secure invitation system powered by Wizarr"
 msgstr "由Wizarr提供支持的安全邀请系统"
 
@@ -897,50 +897,50 @@ msgstr "由Wizarr提供支持的安全邀请系统"
 msgid "Invite User"
 msgstr "邀请用户"
 
-#: app/templates/welcome-jellyfin.html:66
-#: app/templates/welcome-jellyfin.html:71
+#: app/templates/welcome-jellyfin.html:73
+#: app/templates/welcome-jellyfin.html:78
 msgid "Accept Invitation"
 msgstr "接受邀请"
 
-#: app/templates/welcome-jellyfin.html:67
+#: app/templates/welcome-jellyfin.html:74
 msgid "Get ready to join the magic"
 msgstr "准备好加入这场魔法吧"
 
-#: app/templates/welcome-jellyfin.html:84
-#: app/templates/welcome-jellyfin.html:199
+#: app/templates/welcome-jellyfin.html:91
+#: app/templates/welcome-jellyfin.html:206
 msgid "Create Account"
 msgstr "创建账户"
 
-#: app/templates/welcome-jellyfin.html:85
+#: app/templates/welcome-jellyfin.html:92
 msgid "Set up your magical account"
 msgstr "设置你的魔法账户"
 
-#: app/templates/welcome-jellyfin.html:113
+#: app/templates/welcome-jellyfin.html:120
 msgid "Enter your username"
 msgstr "输入您的用户名"
 
-#: app/templates/welcome-jellyfin.html:129
+#: app/templates/welcome-jellyfin.html:136
 msgid "Email"
 msgstr "邮件"
 
-#: app/templates/welcome-jellyfin.html:132
+#: app/templates/welcome-jellyfin.html:139
 msgid "Enter your email"
 msgstr "输入您的邮箱地址"
 
-#: app/templates/welcome-jellyfin.html:151
+#: app/templates/welcome-jellyfin.html:158
 msgid "Create a password"
 msgstr "创建一个密码"
 
 #: app/templates/tables/user_card.html:116
-#: app/templates/welcome-jellyfin.html:186
+#: app/templates/welcome-jellyfin.html:193
 msgid "Invite Code"
 msgstr "邀请代码"
 
-#: app/templates/welcome-jellyfin.html:189
+#: app/templates/welcome-jellyfin.html:196
 msgid "Enter invite code"
 msgstr "输入邀请代码"
 
-#: app/templates/welcome-jellyfin.html:209
+#: app/templates/welcome-jellyfin.html:216
 msgid "Creating account..."
 msgstr "正在创建账户..."
 
