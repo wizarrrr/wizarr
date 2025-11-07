@@ -106,16 +106,12 @@ class UserDetailsService:
 
     def check_user_inactivity(
         self, account: User, server: MediaServer
-        ) -> tuple[bool, datetime | None]:
+    ) -> tuple[bool, datetime | None]:
         """Check if user is inactive based on server's inactivity threshold.
 
         Returns:
             Tuple of (is_inactive, last_activity_date)
         """
-        
-        # If no threshold is set, user is never considered inactive
-        if server.inactivity_threshold_days is None:
-            return False, self._get_join_date(account)
 
         # Determine filter for ActivitySession
         session_filter = {"server_id": server.id}
@@ -125,20 +121,28 @@ class UserDetailsService:
         else:
             session_filter["wizarr_user_id"] = account.id
 
+        # Get latest session
         last_session = (
-                db.session.query(ActivitySession)
-                .filter_by(**session_filter)
-                .order_by(ActivitySession.started_at.desc())
-                .first()
-            )
+            db.session.query(ActivitySession)
+            .filter_by(**session_filter)
+            .order_by(ActivitySession.started_at.desc())
+            .first()
+        )
 
         # Use join_date if no activity session exists
-        last_activity = last_session.started_at if last_session else self._get_join_date(account)
+        last_activity = (
+            last_session.started_at if last_session else self._get_join_date(account)
+        )
 
         # If we still have no date, treat as never active
         if last_activity is None:
             return True, None
 
+        # If threshold is not set, user is never inactive — but still return last_activity
+        if server.inactivity_threshold_days is None:
+            return False, last_activity
+
+        # Otherwise, compare against threshold
         threshold_date = datetime.now() - timedelta(days=server.inactivity_threshold_days)
         is_inactive = last_activity < threshold_date
 
