@@ -134,6 +134,11 @@ def server_settings():
 
         # Check if a MediaServer already exists
         existing_server = MediaServer.query.first()
+        # Inactivity threshold (convert empty string to None)
+        inactivity_threshold = data.get("inactivity_threshold_days", "").strip()
+        inactivity_threshold_value = (
+            int(inactivity_threshold) if inactivity_threshold else None
+        )
         if existing_server:
             # Update existing server
             existing_server.name = data["server_name"]
@@ -143,6 +148,7 @@ def server_settings():
             existing_server.external_url = data.get("external_url")
             existing_server.allow_downloads = bool(data.get("allow_downloads"))
             existing_server.allow_live_tv = bool(data.get("allow_live_tv"))
+            existing_server.inactivity_threshold_days = inactivity_threshold_value
             existing_server.verified = True
             db.session.commit()
         else:
@@ -155,6 +161,7 @@ def server_settings():
             server.external_url = data.get("external_url")
             server.allow_downloads = bool(data.get("allow_downloads"))
             server.allow_live_tv = bool(data.get("allow_live_tv"))
+            server.inactivity_threshold_days = inactivity_threshold_value
             server.verified = True
             db.session.add(server)
             db.session.commit()

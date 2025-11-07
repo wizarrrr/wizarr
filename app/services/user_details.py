@@ -2,11 +2,11 @@
 
 import logging
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import cast
 
 from app.extensions import db
-from app.models import MediaServer, User
+from app.models import ActivitySession, MediaServer, User
 from app.services.media.service import get_client_for_media_server
 from app.services.media.user_details import MediaUserDetails
 
@@ -23,6 +23,8 @@ class AccountInfo:
     allow_downloads: bool
     allow_live_tv: bool
     allow_camera_upload: bool
+    is_inactive: bool = False
+    last_activity_date: datetime | None = None
 
 
 @dataclass(frozen=True)
@@ -78,6 +80,11 @@ class UserDetailsService:
                 )
                 # Add a basic info object even if API call failed
                 server = account.server
+                is_inactive, last_activity = (
+                    self.check_user_inactivity(account, server)
+                    if server
+                    else (False, None)
+                )
                 accounts_info.append(
                     AccountInfo(
                         server_type=server.server_type if server else "local",
@@ -88,14 +95,66 @@ class UserDetailsService:
                         allow_downloads=False,
                         allow_live_tv=False,
                         allow_camera_upload=False,
+                        is_inactive=is_inactive,
+                        last_activity_date=last_activity,
                     )
                 )
 
         return accounts_info
 
+        
+
+    def check_user_inactivity(
+        self, account: User, server: MediaServer
+        ) -> tuple[bool, datetime | None]:
+        """Check if user is inactive based on server's inactivity threshold.
+
+        Returns:
+            Tuple of (is_inactive, last_activity_date)
+        """
+        
+        # If no threshold is set, user is never considered inactive
+        if server.inactivity_threshold_days is None:
+            return False, self._get_join_date(account)
+
+        # Determine filter for ActivitySession
+        session_filter = {"server_id": server.id}
+
+        if account.identity_id:
+            session_filter["wizarr_identity_id"] = account.identity_id
+        else:
+            session_filter["wizarr_user_id"] = account.id
+
+        last_session = (
+                db.session.query(ActivitySession)
+                .filter_by(**session_filter)
+                .order_by(ActivitySession.started_at.desc())
+                .first()
+            )
+
+        # Use join_date if no activity session exists
+        last_activity = last_session.started_at if last_session else self._get_join_date(account)
+
+        # If we still have no date, treat as never active
+        if last_activity is None:
+            return True, None
+
+        threshold_date = datetime.now() - timedelta(days=server.inactivity_threshold_days)
+        is_inactive = last_activity < threshold_date
+
+        return is_inactive, last_activity
+
+
     def _get_account_info(self, account: User) -> AccountInfo:
         """Get detailed information for a single account."""
         server: MediaServer | None = cast(MediaServer | None, account.server)
+
+        # Check inactivity status
+        is_inactive, last_activity = (
+            self.check_user_inactivity(account, server)
+            if server
+            else (False, None)
+        )
 
         if not server:
             return AccountInfo(
@@ -107,6 +166,8 @@ class UserDetailsService:
                 allow_downloads=False,
                 allow_live_tv=False,
                 allow_camera_upload=False,
+                is_inactive=is_inactive,
+                last_activity_date=last_activity,
             )
 
         # Use standardized metadata if available
@@ -121,6 +182,8 @@ class UserDetailsService:
                 allow_downloads=account.allow_downloads or False,
                 allow_live_tv=account.allow_live_tv or False,
                 allow_camera_upload=account.allow_camera_upload or False,
+                is_inactive=is_inactive,
+                last_activity_date=last_activity,
             )
 
         # No standardized metadata available, fetch from API
@@ -144,6 +207,8 @@ class UserDetailsService:
             allow_downloads=details.allow_downloads,
             allow_live_tv=details.allow_live_tv,
             allow_camera_upload=details.allow_camera_upload,
+            is_inactive=is_inactive,
+            last_activity_date=last_activity,
         )
 
     def _extract_libraries_from_cached_data(

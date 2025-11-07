@@ -110,6 +110,21 @@
                   <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Mobile Uploads</span>
                 </label>
               </div>
+              <div id="inactivity-threshold-option" class="mt-4">
+                <label for="inactivity_threshold_days"
+                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  {{ _("Inactivity Threshold (days)") }}
+                </label>
+                <input type="number"
+                       name="inactivity_threshold_days"
+                       id="inactivity_threshold_days"
+                       min="0"
+                       placeholder="{{ _('Leave empty to disable') }}"
+                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+                <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                  {{ _("Users with no activity for this many days will be marked as inactive. Leave empty to disable inactivity checking.") }}
+                </p>
+              </div>
             </div>
             <div id="romm-options" style="display:none;">
               <div>
@@ -195,6 +210,14 @@
         const allowMobileUploadsOption = document.getElementById('allow-mobile-uploads-option');
         if (allowMobileUploadsOption) {
             allowMobileUploadsOption.style.display = ['plex', 'emby'].includes(type) ? 'block' : 'none';
+        }
+
+        // Show "Inactivity Threshold" for Audiobookshelf, Plex, Emby and Jellyfin
+        const inactivityOption = document.getElementById('inactivity-threshold-option');
+        const allowedServers = ['plex', 'emby', 'jellyfin', 'audiobookshelf'];
+
+        if (inactivityOption) {
+            inactivityOption.style.display = allowedServers.includes(type) ? 'block' : 'none';
         }
 
         document.getElementById('romm-options').style.display = type === 'romm' ? 'block' : 'none';
