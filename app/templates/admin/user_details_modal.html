@@ -53,7 +53,11 @@
           </path>
         </svg>
         <span class="font-medium mr-1">{{ _("Joined") }}:</span>
-        {{ join_date|default(_('Unknown') ) if join_date else _('Unknown') }}
+                {% if join_date %}
+                    {{ join_date  | local_date('%Y-%m-%d %H:%M') }}
+                {% else %}
+                    {{ _("Unknown") }}
+                {% endif %}
       </div>
       <!-- Account sections -->
       {% for info in accounts_info %}
@@ -83,7 +87,11 @@
                         text-gray-600 dark:text-gray-300
                     {% endif %}">
                 <span class="font-medium">{{ _("Last Activity") }}:</span>
-                {{ info.last_activity_date.strftime('%Y-%m-%d %H:%M') if info.last_activity_date else _('Never') }}
+                {% if info.last_activity_date %}
+                    {{ info.last_activity_date  | local_date('%Y-%m-%d %H:%M') }}
+                {% else %}
+                    {{ _("Never") }}
+                {% endif %}
             </p>
             {% endif %}
           <p class="mb-3 text-gray-500 dark:text-gray-400">
