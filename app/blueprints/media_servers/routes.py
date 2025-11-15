@@ -99,6 +99,11 @@ def create_server():
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))
         server.allow_live_tv = bool(data.get("allow_live_tv"))
+        # Inactivity threshold (convert empty string to None)
+        inactivity_threshold = data.get("inactivity_threshold_days", "").strip()
+        server.inactivity_threshold_days = (
+            int(inactivity_threshold) if inactivity_threshold else None
+        )
         server.verified = True
         db.session.add(server)
         db.session.commit()
@@ -206,6 +211,11 @@ def edit_server(server_id):
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))
         server.allow_live_tv = bool(data.get("allow_live_tv"))
+        # Inactivity threshold (convert empty string to None)
+        inactivity_threshold = data.get("inactivity_threshold_days", "").strip()
+        server.inactivity_threshold_days = (
+            int(inactivity_threshold) if inactivity_threshold else None
+        )
         # update libraries
         chosen = request.form.getlist("libraries")
         if chosen:

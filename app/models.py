@@ -409,6 +409,9 @@ class MediaServer(db.Model):
     allow_live_tv = db.Column(db.Boolean, default=False, nullable=False)
     allow_mobile_uploads = db.Column(db.Boolean, default=False, nullable=False)
 
+    # Inactivity threshold in days (None means inactivity checking is disabled)
+    inactivity_threshold_days = db.Column(db.Integer, nullable=True)
+
     # Whether the connection credentials were validated successfully
     verified = db.Column(db.Boolean, default=False, nullable=False)
 

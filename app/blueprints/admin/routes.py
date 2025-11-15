@@ -954,6 +954,9 @@ def _group_users_for_display(user_list):
       placeholder addresses ("None", "", etc.) from being merged together.
     """
 
+    from app.services.user_details import UserDetailsService
+    service = UserDetailsService()
+
     groups: dict[str, list] = {}
     for u in user_list:
         if u.identity_id:
@@ -990,6 +993,18 @@ def _group_users_for_display(user_list):
                     invited_dates.append(invitation.created)
         invited_date = min(invited_dates) if invited_dates else None
 
+        # ── compute inactivity per account
+        inactive_count = 0
+        last_activities = []
+        for a in lst:
+            inactive, last_activity = service.check_user_inactivity(a, a.server)
+            if inactive:
+                inactive_count += 1
+            if last_activity:
+                last_activities.append(last_activity)
+
+        primary.inactive_count = inactive_count
+        primary.last_activity = max(last_activities) if last_activities else None
         primary.accounts = lst
         primary.photo = photo or primary.photo
         primary.expires = expires
