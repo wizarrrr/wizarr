@@ -104,7 +104,9 @@ class Invitation(db.Model):
         db.Integer, db.ForeignKey("media_server.id", ondelete="SET NULL"), nullable=True
     )
     server = db.relationship(
-        "MediaServer", backref=db.backref("primary_invites", lazy=True)
+        "MediaServer",
+        backref=db.backref("primary_invites", lazy=True, passive_deletes=True),
+        passive_deletes=True,
     )
 
     libraries = db.relationship(
@@ -177,7 +179,11 @@ class User(db.Model, UserMixin):
     server_id = db.Column(
         db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=True
     )
-    server = db.relationship("MediaServer", backref=db.backref("users", lazy=True))
+    server = db.relationship(
+        "MediaServer",
+        backref=db.backref("users", lazy=True, passive_deletes=True),
+        passive_deletes=True,
+    )
     identity_id = db.Column(db.Integer, db.ForeignKey("identity.id"), nullable=True)
     identity = db.relationship("Identity", backref=db.backref("accounts", lazy=True))
     notes = db.Column(db.Text, nullable=True)
@@ -378,7 +384,9 @@ class Connection(db.Model):
 
     # Relationships
     media_server = db.relationship(
-        "MediaServer", backref=db.backref("connections", lazy=True)
+        "MediaServer",
+        backref=db.backref("connections", lazy=True, passive_deletes=True),
+        passive_deletes=True,
     )
 
     def __init__(self, **kwargs):
@@ -427,6 +435,7 @@ class MediaServer(db.Model):
         back_populates="server",
         lazy="selectin",
         cascade="all, delete-orphan",
+        passive_deletes=True,
     )
 
     def __init__(self, **kwargs):
@@ -443,7 +452,11 @@ class Library(db.Model):
     server_id = db.Column(
         db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=True
     )
-    server = db.relationship("MediaServer", backref=db.backref("libraries", lazy=True))
+    server = db.relationship(
+        "MediaServer",
+        backref=db.backref("libraries", lazy=True, passive_deletes=True),
+        passive_deletes=True,
+    )
 
     # backref gives Invitation.libraries automatically
     invites = db.relationship(
@@ -672,7 +685,9 @@ class ExpiredUser(db.Model):
         db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=True
     )
     server = db.relationship(
-        "MediaServer", backref=db.backref("expired_users", lazy=True)
+        "MediaServer",
+        backref=db.backref("expired_users", lazy=True, passive_deletes=True),
+        passive_deletes=True,
     )
     expired_at = db.Column(
         db.DateTime, nullable=False
@@ -736,7 +751,9 @@ class ActivitySession(db.Model):
     )
 
     server = db.relationship(
-        "MediaServer", backref=db.backref("activity_sessions", lazy=True)
+        "MediaServer",
+        backref=db.backref("activity_sessions", lazy=True, passive_deletes=True),
+        passive_deletes=True,
     )
     snapshots = db.relationship(
         "ActivitySnapshot", backref="session", lazy=True, cascade="all, delete-orphan"
@@ -906,7 +923,10 @@ class HistoricalImportJob(db.Model):
     )
 
     server = db.relationship(
-        "MediaServer", back_populates="historical_import_jobs", lazy="joined"
+        "MediaServer",
+        back_populates="historical_import_jobs",
+        lazy="joined",
+        passive_deletes=True,
     )
 
     __table_args__ = (
