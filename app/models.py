@@ -67,7 +67,12 @@ invitation_users = db.Table(
         "used_at", db.DateTime, default=lambda: datetime.now(UTC), nullable=False
     ),
     # Track which server the user was created on when using this invitation
-    db.Column("server_id", db.Integer, db.ForeignKey("media_server.id"), nullable=True),
+    db.Column(
+        "server_id",
+        db.Integer,
+        db.ForeignKey("media_server.id", ondelete="SET NULL"),
+        nullable=True,
+    ),
 )
 
 
@@ -756,7 +761,11 @@ class ActivitySession(db.Model):
         passive_deletes=True,
     )
     snapshots = db.relationship(
-        "ActivitySnapshot", backref="session", lazy=True, cascade="all, delete-orphan"
+        "ActivitySnapshot",
+        backref=db.backref("session", passive_deletes=True),
+        lazy=True,
+        cascade="all, delete-orphan",
+        passive_deletes=True,
     )
     wizarr_user = db.relationship("User", foreign_keys=[wizarr_user_id], lazy="joined")
     wizarr_identity = db.relationship(

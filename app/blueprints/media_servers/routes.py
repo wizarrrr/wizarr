@@ -12,9 +12,22 @@ from flask import (
     url_for,
 )
 from flask_login import login_required
+from sqlalchemy import delete, select, update
 
 from app.extensions import db
-from app.models import Library, MediaServer
+from app.models import (
+    ActivitySession,
+    ActivitySnapshot,
+    Connection,
+    ExpiredUser,
+    HistoricalImportJob,
+    Invitation,
+    Library,
+    MediaServer,
+    User,
+    invitation_servers,
+    invitation_users,
+)
 from app.services.media.service import list_users_for_server, scan_libraries_for_server
 from app.services.servers import (
     check_audiobookshelf,
@@ -236,6 +249,55 @@ def delete_server():
     if server_id is not None:
         server = MediaServer.query.get(server_id)
         if server:
+            # Manually clear dependent rows to avoid legacy FK RESTRICT schemas on SQLite
+            session_ids = select(ActivitySession.id).where(
+                ActivitySession.server_id == server.id
+            )
+            db.session.execute(
+                delete(ActivitySnapshot).where(
+                    ActivitySnapshot.session_id.in_(session_ids)
+                )
+            )
+            db.session.execute(
+                delete(ActivitySession).where(ActivitySession.server_id == server.id)
+            )
+            db.session.execute(
+                delete(HistoricalImportJob).where(
+                    HistoricalImportJob.server_id == server.id
+                )
+            )
+            db.session.execute(
+                delete(Connection).where(Connection.media_server_id == server.id)
+            )
+            db.session.execute(delete(Library).where(Library.server_id == server.id))
+            db.session.execute(
+                delete(ExpiredUser).where(ExpiredUser.server_id == server.id)
+            )
+            db.session.execute(delete(User).where(User.server_id == server.id))
+            # Clear invitation association rows pointing to this server
+            db.session.execute(
+                update(invitation_users)
+                .where(invitation_users.c.server_id == server.id)
+                .values(server_id=None)
+            )
+            db.session.execute(
+                delete(invitation_servers).where(
+                    invitation_servers.c.server_id == server.id
+                )
+            )
+            # Remove invitations tied to this server (primary or multi-server)
+            invitations = Invitation.query.filter(
+                db.or_(
+                    Invitation.server_id == server.id,
+                    Invitation.servers.any(id=server.id),
+                )
+            ).all()
+            for invite in invitations:
+                # Ensure association rows are cleared in case legacy FKs don't cascade
+                invite.servers = []
+                invite.libraries = []
+                invite.users = []
+                db.session.delete(invite)
             # Database CASCADE constraints handle all dependent records automatically
             db.session.delete(server)
             db.session.commit()
