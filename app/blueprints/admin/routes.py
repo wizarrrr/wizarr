@@ -26,6 +26,7 @@ from app.models import (
     Settings,
     User,
     invitation_servers,
+    invitation_users,
 )
 from app.services.expiry import get_expired_users, get_expiring_this_week_users
 from app.services.invites import create_invite
@@ -1075,18 +1076,19 @@ def accepted_invites_card():
 
     # Query user-invitation pairs with proper timestamp ordering
     # This ensures pagination counts actual displayed entries, not just invitations
-    from sqlalchemy import func
+    # Use the invitation_users.used_at timestamp (individual user's acceptance time)
+    # instead of Invitation.used_at (first acceptance time) to properly handle
+    # unlimited invitations where multiple users can use the same invite code
 
     user_invite_pairs = (
         db.session.query(
             User.id,
-            func.coalesce(Invitation.used_at, Invitation.created).label("joined_at"),
+            invitation_users.c.used_at.label("joined_at"),
         )
-        .join(User.used_invitations)
+        .join(invitation_users, User.id == invitation_users.c.user_id)
+        .join(Invitation, Invitation.id == invitation_users.c.invite_id)
         .filter(or_(Invitation.used.is_(True), Invitation.id.in_(used_invite_ids)))
-        .order_by(
-            func.coalesce(Invitation.used_at, Invitation.created).desc(), User.id.desc()
-        )
+        .order_by(invitation_users.c.used_at.desc(), User.id.desc())
         .all()
     )
 
