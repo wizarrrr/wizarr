@@ -1,5 +1,6 @@
 import datetime
 import logging
+import time
 
 from app.extensions import db
 from app.models import ExpiredUser, Invitation, User, invitation_servers
@@ -128,6 +129,8 @@ def delete_user_if_expired() -> list[int]:
                 "🗑️ Expired user %s (%s) logged and deleted", user.id, user.username
             )
             savepoint.commit()  # Commit the savepoint on success
+            # Add delay to prevent hammering the media server's database
+            time.sleep(1)
         except Exception as exc:
             # Rollback the savepoint - this removes the ExpiredUser record
             # and keeps the User record for retry on next scheduler run
@@ -222,6 +225,8 @@ def disable_or_delete_user_if_expired() -> list[int]:
                             user.server.server_type if user.server else "unknown",
                         )
                         savepoint.commit()  # Commit the savepoint on success
+                        # Add delay to prevent hammering the media server's database
+                        time.sleep(1)
                     else:
                         # Disable failed, fallback to deletion
                         raise Exception("Disable operation failed")
@@ -240,6 +245,8 @@ def disable_or_delete_user_if_expired() -> list[int]:
                         user.username,
                     )
                     savepoint.commit()  # Commit the savepoint on success
+                    # Add delay to prevent hammering the media server's database
+                    time.sleep(1)
             else:
                 # Delete the user (either by setting or server doesn't support disable)
                 delete_user(user.id)
@@ -254,6 +261,8 @@ def disable_or_delete_user_if_expired() -> list[int]:
                     action_reason,
                 )
                 savepoint.commit()  # Commit the savepoint on success
+                # Add delay to prevent hammering the media server's database
+                time.sleep(1)
         except Exception as exc:
             # Rollback the savepoint - this removes the ExpiredUser record
             # and keeps the User record for retry on next scheduler run

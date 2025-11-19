@@ -614,7 +614,7 @@ class RestApiMixin(MediaClient):
         logging.info("%s %s", method.upper(), url)
         try:
             response = requests.request(
-                method, url, headers=headers, timeout=10, **kwargs
+                method, url, headers=headers, timeout=60, **kwargs
             )
             logging.info("→ %s", response.status_code)
             response.raise_for_status()
