@@ -252,6 +252,50 @@ def scan_libraries_for_server(server: MediaServer):
     return client.libraries()
 
 
+def reset_user_password(db_id: int, new_password: str) -> bool:
+    """Reset the password for a user on their associated media server.
+
+    Args:
+        db_id: ID of the User row in our database
+        new_password: The new password to set (already validated for length by caller)
+
+    Returns:
+        bool: True if the password was successfully reset on the media server, False otherwise
+    """
+    user = db.session.get(User, db_id)
+    if not user:
+        logging.error(f"User with id {db_id} not found")
+        return False
+
+    if not user.server:
+        logging.warning(f"User {db_id} has no associated server to reset password on")
+        return False
+
+    # Basic safeguard – keep consistent with join rules
+    if not (8 <= len(new_password) <= 128):
+        logging.warning("Password does not meet length requirements")
+        return False
+
+    try:
+        client = get_client_for_media_server(user.server)
+        user_identifier = _get_user_identifier(user, user.server)
+        result = client.reset_password(user_identifier, new_password)
+
+        if result:
+            logging.info(
+                f"Successfully reset password for user {user.username} (id={db_id}) on {user.server.name}"
+            )
+        else:
+            logging.warning(
+                f"Failed to reset password for user {user.username} (id={db_id}) on {user.server.name}"
+            )
+
+        return bool(result)
+    except Exception as exc:
+        logging.error(f"Error resetting password for user {db_id}: {exc}")
+        return False
+
+
 def get_now_playing_all_servers(
     *, use_cache: bool = True, cache_ttl: float = _NOW_PLAYING_CACHE_TTL
 ):
@@ -345,7 +389,6 @@ def _auto_link_identities():
     one giant pseudo-identity, so we now skip addresses that don't match a
     simple *user@host* pattern.
     """
-
     users = db.session.query(User).filter(User.email.isnot(None)).all()
 
     buckets: dict[str, list[User]] = defaultdict(list)
