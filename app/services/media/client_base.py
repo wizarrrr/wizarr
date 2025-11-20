@@ -228,6 +228,24 @@ class MediaClient(ABC):
     def delete_user(self, *args, **kwargs):
         raise NotImplementedError
 
+    def reset_password(self, user_identifier: str, new_password: str) -> bool:
+        """Reset a user's password on the media server.
+
+        Default implementation does nothing and returns False. MediaClient
+        subclasses that support password resets should override this method.
+
+        Args:
+            user_identifier: User ID, email, or token depending on server type
+            new_password: The new password to set
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        logging.warning(
+            f"{self.__class__.__name__} does not implement password resets"
+        )
+        return False
+
     def update_user_permissions(
         self, _user_identifier: str, _permissions: dict[str, bool]
     ) -> bool:
