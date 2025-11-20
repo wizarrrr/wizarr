@@ -7,7 +7,7 @@ on:
 
 jobs:
   create-release:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-2vcpu-ubuntu-2404
     if: |
       github.event.pull_request.merged == true && 
       startsWith(github.event.pull_request.title, 'Release v') &&
