@@ -210,22 +210,27 @@
                     <path d="m15 5 4 4" />
                   </svg>
                 </button>
-                <!-- Reset password -->
-                <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-colors"
-                        type="button"
-                        onclick="event.stopPropagation(); resetUserPassword({{ user.id }}, '{{ user.username|e }}');"
-                        title="{{ _('Reset password') }}">
-                  <svg class="h-4 w-4"
-                       fill="none"
-                       stroke="currentColor"
-                       stroke-width="2"
-                       stroke-linecap="round"
-                       stroke-linejoin="round"
-                       viewBox="0 0 24 24"
-                       xmlns="http://www.w3.org/2000/svg">
+                <!-- Reset password - Only show for Jellyfin users -->
+                {% if user.server and user.server.server_type == 'jellyfin' %}
+                  <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-colors"
+                          type="button"
+                          hx-get="{{ url_for('admin.reset_password_modal', user_id=user.id) }}"
+                          hx-target="#modal-user"
+                          hx-swap="innerHTML"
+                          onclick="event.stopPropagation();"
+                          title="{{ _('Reset password') }}">
+                    <svg class="h-4 w-4"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         stroke-linecap="round"
+                         stroke-linejoin="round"
+                         viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                  </svg>
-                </button>
+                    </svg>
+                  </button>
+                {% endif %}
                 <!-- Delete user -->
                 <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 rounded-md transition-colors"
                         hx-get="{{ url_for('admin.delete_user_modal', user_id=user.id) }}"
@@ -320,173 +325,4 @@
             document.getElementById('modal').classList.remove('hidden');
         }
     });
-
-    // Reset password helper - creates a secure reset link
-    async function resetUserPassword(userId, username) {
-        // Show loading state
-        const confirmMsg = `Create a password reset link for ${username}?\n\nA secure link will be generated that expires in 24 hours.`;
-        if (!confirm(confirmMsg)) {
-            return;
-        }
-
-        try {
-            const resp = await fetch(`/api/users/${userId}/reset-password`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-
-            const data = await resp.json().catch(() => ({}));
-            if (resp.ok) {
-                // Show the reset link in a modal or copyable format
-                const resetUrl = data.url || `/reset/${data.code}`;
-                const fullUrl = window.location.origin + resetUrl;
-                const expiresAt = data.expires_at ? new Date(data.expires_at).toLocaleString() : '24 hours';
-                
-                // Create a nice modal to show the link
-                showResetLinkModal(username, fullUrl, data.code, expiresAt);
-                
-                // Trigger a lightweight refresh of the user table via HTMX if available
-                if (window.htmx) {
-                    const serverFilter = document.getElementById('server_filter')?.value || '';
-                    const searchQuery = document.getElementById('search_query')?.value || '';
-                    const orderSel = document.getElementById('order_sel')?.value || '';
-                    const params = new URLSearchParams();
-                    if (serverFilter) params.set('server', serverFilter);
-                    if (searchQuery) params.set('q', searchQuery);
-                    if (orderSel) params.set('order', orderSel);
-                    window.htmx.ajax('GET', '/users/table?' + params.toString(), {
-                        target: '#user_table',
-                        swap: 'outerHTML',
-                    });
-                }
-            } else {
-                alert(data.error || 'Failed to create password reset link.');
-            }
-        } catch (e) {
-            console.error('Password reset error', e);
-            alert('Unexpected error while creating password reset link.');
-        }
-    }
-
-    // Show reset link modal with copy functionality
-    function showResetLinkModal(username, resetUrl, code, expiresAt) {
-        const modalHtml = `
-            <div class="relative p-4 w-full max-w-2xl max-h-full">
-                <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                    <!-- Modal header -->
-                    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-                            Password Reset Link Created
-                        </h3>
-                        <button type="button" 
-                                class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" 
-                                onclick="document.getElementById('modal').classList.add('hidden'); document.getElementById('modal-user').innerHTML = '';">
-                            <svg class="w-3 h-3" fill="none" viewBox="0 0 14 14">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <!-- Modal body -->
-                    <div class="p-4 md:p-5 space-y-4">
-                        <div class="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg dark:bg-green-900/20 dark:border-green-800 dark:text-green-400">
-                            <p class="font-medium">✓ Password reset link created for ${username}</p>
-                            <p class="text-sm mt-1">Link expires: ${expiresAt}</p>
-                        </div>
-                        
-                        <div>
-                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Reset Link (Click to copy)
-                            </label>
-                            <div class="relative">
-                                <input type="text" 
-                                       id="reset-link-input" 
-                                       value="${resetUrl}" 
-                                       readonly
-                                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 pr-24 dark:bg-gray-600 dark:border-gray-500 dark:text-white cursor-pointer"
-                                       onclick="this.select(); copyResetLink();">
-                                <button type="button"
-                                        onclick="copyResetLink()"
-                                        class="absolute right-2 top-1/2 -translate-y-1/2 text-white bg-primary hover:bg-primary-dark focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-xs px-3 py-1.5 dark:bg-primary dark:hover:bg-primary-dark">
-                                    Copy
-                                </button>
-                            </div>
-                            <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                                Send this link to the user. They can use it once to reset their password.
-                            </p>
-                        </div>
-
-                        <div>
-                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                Reset Code
-                            </label>
-                            <code class="block bg-gray-100 dark:bg-gray-600 text-gray-800 dark:text-gray-200 px-3 py-2 rounded font-mono text-sm">
-                                ${code}
-                            </code>
-                        </div>
-
-                        <div class="bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg dark:bg-blue-900/20 dark:border-blue-800 dark:text-blue-400">
-                            <p class="text-sm font-medium">Security Notes:</p>
-                            <ul class="text-xs mt-2 space-y-1 list-disc list-inside">
-                                <li>This link can only be used once</li>
-                                <li>It expires in 24 hours</li>
-                                <li>Send it securely (email, message, etc.)</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- Modal footer -->
-                    <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
-                        <button type="button" 
-                                onclick="copyResetLink()"
-                                class="text-white bg-primary hover:bg-primary-dark focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary dark:hover:bg-primary-dark">
-                            Copy Link
-                        </button>
-                        <button type="button" 
-                                onclick="document.getElementById('modal').classList.add('hidden'); document.getElementById('modal-user').innerHTML = '';"
-                                class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                            Close
-                        </button>
-                    </div>
-                </div>
-            </div>
-        `;
-        
-        // Show the modal
-        document.getElementById('modal-user').innerHTML = modalHtml;
-        document.getElementById('modal').classList.remove('hidden');
-    }
-
-    // Copy reset link to clipboard
-    function copyResetLink() {
-        const input = document.getElementById('reset-link-input');
-        input.select();
-        input.setSelectionRange(0, 99999); // For mobile devices
-        
-        // Try modern clipboard API first
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            navigator.clipboard.writeText(input.value).then(() => {
-                // Show success feedback
-                const btn = event.target;
-                const originalText = btn.textContent;
-                btn.textContent = '✓ Copied!';
-                btn.classList.add('bg-green-600', 'hover:bg-green-700');
-                btn.classList.remove('bg-primary', 'hover:bg-primary-dark');
-                
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.classList.remove('bg-green-600', 'hover:bg-green-700');
-                    btn.classList.add('bg-primary', 'hover:bg-primary-dark');
-                }, 2000);
-            });
-        } else {
-            // Fallback for older browsers
-            try {
-                document.execCommand('copy');
-                alert('Reset link copied to clipboard!');
-            } catch (err) {
-                alert('Please manually copy the link');
-            }
-        }
-    }
 </script>
