@@ -686,7 +686,10 @@ class PasswordResetToken(db.Model):
     user_id = db.Column(
         db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False
     )
-    user = db.relationship("User", backref=db.backref("reset_tokens", lazy=True))
+    user = db.relationship(
+        "User", 
+        backref=db.backref("reset_tokens", lazy=True, cascade="all, delete-orphan", passive_deletes=True)
+    )
     created_at = db.Column(
         db.DateTime, default=lambda: datetime.now(UTC), nullable=False
     )
