@@ -544,6 +544,12 @@ class JellyfinClient(RestApiMixin):
             current_policy = self.get(f"/Users/{user_id}").json().get("Policy", {})
             current_policy["EnableContentDownloading"] = allow_downloads
             current_policy["EnableLiveTvAccess"] = allow_live_tv
+
+            # Apply Jellyfin max active sessions setting
+            max_sessions = getattr(inv, "max_active_sessions", None)
+            if max_sessions is not None:
+                current_policy["MaxActiveSessions"] = max_sessions
+
             self.set_policy(user_id, current_policy)
 
             from app.services.expiry import calculate_user_expiry
