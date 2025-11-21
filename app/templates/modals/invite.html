@@ -241,6 +241,22 @@
                             </div>
                             <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Allow Live TV Access") }}</span>
                           </label>
+                          <!-- Max Active Sessions -->
+                          <div>
+                            <label for="max_active_sessions"
+                                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                              {{ _("Max Active Sessions") }}
+                              <span class="text-gray-500 ml-1">({{ _("simultaneous devices") }})</span>
+                            </label>
+                            <input id="max_active_sessions"
+                                   name="max_active_sessions"
+                                   type="number"
+                                   min="0"
+                                   max="100"
+                                   placeholder="0 = unlimited"
+                                   class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
+                            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">{{ _("Number of devices that can stream simultaneously. Set to 0 for unlimited.") }}</p>
+                          </div>
                         {% elif s.server_type == "emby" %}
                           <label class="flex items-center cursor-pointer">
                             <input id="allow_downloads_{{ s.id }}"

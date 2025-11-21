@@ -125,6 +125,12 @@ def create_invite(form: Any) -> Invitation:
             form.get("allow_live_tv") or form.get("plex_allow_channels")
         ),
         allow_mobile_uploads=bool(form.get("allow_mobile_uploads")),
+        # Jellyfin-specific options
+        max_active_sessions=(
+            int(form.get("max_active_sessions"))
+            if form.get("max_active_sessions")
+            else None
+        ),
     )
     db.session.add(invite)
     db.session.flush()  # so invite.id exists, but not yet committed
