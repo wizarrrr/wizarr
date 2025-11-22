@@ -7,7 +7,8 @@ import traceback
 from functools import wraps
 
 from flask import Blueprint, request
-from flask_restx import Resource, abort
+from flask_restx import Resource, fields, abort
+from flask_login import current_user
 from sqlalchemy import func
 
 from app.extensions import api, db
@@ -26,6 +27,7 @@ from app.services.media.service import (
     disable_user,
     enable_user,
     list_users_all_servers,
+    reset_user_password,
 )
 from app.services.server_name_resolver import get_display_name_info
 
@@ -77,6 +79,53 @@ def require_api_key(f):
         if not auth_key:
             logger.warning("API request without API key from %s", request.remote_addr)
             abort(401, error="Unauthorized")
+
+        # Type assertion since we've already checked that auth_key exists
+        assert isinstance(auth_key, str)
+
+        # Hash the provided key to compare with stored hash
+        key_hash = hashlib.sha256(auth_key.encode("utf-8")).hexdigest()
+        api_key = ApiKey.query.filter_by(key_hash=key_hash, is_active=True).first()
+
+        if not api_key:
+            logger.warning(
+                "API request with invalid API key from %s", request.remote_addr
+            )
+            abort(401, error="Unauthorized")
+
+        # Update last used timestamp
+        api_key.last_used_at = datetime.datetime.now(datetime.UTC)
+        db.session.commit()
+
+        logger.info(
+            "API request authenticated with key '%s' from %s",
+            api_key.name,
+            request.remote_addr,
+        )
+        return f(*args, **kwargs)
+
+    return decorated_function
+
+def require_api_key_or_session(f):
+    """Decorator to require either valid API key or authenticated session for endpoint access."""
+
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Check if user is authenticated via session (Flask-Login)
+        if current_user.is_authenticated:
+            logger.info(
+                "API request authenticated via session from %s",
+                request.remote_addr,
+            )
+            return f(*args, **kwargs)
+
+        # Fall back to API key authentication
+        auth_key = request.headers.get("X-API-Key")
+        if not auth_key:
+            logger.warning(
+                "API request without API key or session from %s", request.remote_addr
+            )
+            abort(401, error="Unauthorized - API key or session required")
 
         # Type assertion since we've already checked that auth_key exists
         assert isinstance(auth_key, str)
@@ -998,3 +1047,47 @@ class ApiKeyResource(Resource):
             logger.error("Error deleting API key %s: %s", key_id, str(e))
             logger.error(traceback.format_exc())
             return {"error": "Internal server error"}, 500
+
+
+@users_ns.route("/<int:user_id>/reset-password")
+class UserResetPasswordResource(Resource):
+    @api.doc("create_password_reset_token", security="apikey")
+    @api.response(200, "Password reset link created successfully", success_message_model)
+    @api.response(401, "Invalid or missing API key or session", error_model)
+    @api.response(404, "User not found", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key_or_session
+    def post(self, user_id):
+        """Create a password reset token and link for a specific user.
+
+        Returns a secure link that the user can use to reset their password.
+        The link expires after 24 hours.
+        Can be authenticated via API key (X-API-Key header) or admin session.
+        """
+        from app.services.password_reset import create_reset_token
+        
+        user = db.session.get(User, user_id)
+        if not user:
+            abort(404, error="User not found")
+
+        try:
+            token = create_reset_token(user.id)
+            if not token:
+                return {"error": "Failed to create password reset token"}, 500
+            
+            # Generate the reset URL - always return just the path
+            # The frontend will construct the full URL if needed
+            reset_path = f"/reset/{token.code}"
+            
+            return {
+                "message": f"Password reset link created for {user.username}",
+                "code": token.code,
+                "url": reset_path,
+                "expires_at": token.expires_at.isoformat(),
+            }
+            
+        except Exception as e:
+            logger.error("Error creating reset token for user %s: %s", user_id, str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+

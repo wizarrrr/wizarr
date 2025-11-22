@@ -283,6 +283,37 @@ class JellyfinClient(RestApiMixin):
             )
             return False
 
+    def reset_password(self, user_id: str, new_password: str) -> bool:
+        """Reset a Jellyfin user's password using the REST API.
+
+        Args:
+            user_id: Jellyfin user ID
+            new_password: The new password to set
+
+        Returns:
+            bool: True if the operation succeeded, False otherwise
+        """
+        try:
+            # Reuse the same contract as Emby: POST /Users/{id}/Password
+            payload = {
+                "NewPw": new_password,
+                "CurrentPassword": "",
+                "CurrentPw": "",
+                "ResetPassword": False,
+            }
+            resp = self.post(f"/Users/{user_id}/Password", json=payload)
+            success = resp.status_code in {200, 204}
+            if success:
+                logging.info(f"Password reset for Jellyfin user {user_id}")
+            else:
+                logging.warning(
+                    f"Failed to reset Jellyfin password for {user_id}: HTTP {resp.status_code}"
+                )
+            return success
+        except Exception as e:
+            logging.error(f"Error resetting Jellyfin password for {user_id}: {e}")
+            return False
+
     def enable_user(self, user_id: str) -> bool:
         """Enable a user account on Jellyfin.
 

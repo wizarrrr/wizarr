@@ -23,6 +23,7 @@ from app.models import (
     Invitation,
     Library,
     MediaServer,
+    PasswordResetToken,
     Settings,
     User,
     invitation_servers,
@@ -942,6 +943,94 @@ def process_user_deletion():
     response = Response("")
     response.headers["HX-Trigger"] = "refreshUserTable,closeModal"
     return response
+
+
+@admin_bp.get("/users/<int:user_id>/reset-password-modal")
+@login_required
+def reset_password_modal(user_id: int):
+    """Show the password reset link modal with option to generate or view existing token."""
+    from app.models import PasswordResetToken
+    from datetime import datetime, UTC
+    
+    user = db.get_or_404(User, user_id)
+    
+    # Check for existing valid (unused and not expired) tokens
+    existing_token = PasswordResetToken.query.filter_by(
+        user_id=user.id,
+        used=False
+    ).order_by(PasswordResetToken.created_at.desc()).first()
+    
+    # Validate the token is still valid
+    if existing_token and existing_token.is_valid():
+        # Token exists and is valid - show it
+        reset_path = f"/reset/{existing_token.code}"
+        reset_url = request.url_root.rstrip('/') + reset_path
+        expires_at = existing_token.expires_at.strftime('%Y-%m-%d %H:%M UTC')
+        
+        return render_template(
+            "modals/password-reset-link.html",
+            username=user.username,
+            reset_url=reset_url,
+            code=existing_token.code,
+            expires_at=expires_at,
+            has_token=True
+        )
+    else:
+        # No valid token - show generate button
+        return render_template(
+            "modals/password-reset-link.html",
+            username=user.username,
+            user_id=user.id,
+            has_token=False
+        )
+
+
+@admin_bp.post("/users/<int:user_id>/generate-reset-link")
+@login_required
+def generate_reset_link(user_id: int):
+    """Generate a new password reset token and return the updated modal."""
+    from app.services.password_reset import create_reset_token
+    import traceback
+    
+    user = db.get_or_404(User, user_id)
+    
+    try:
+        token = create_reset_token(user.id)
+        if not token:
+            return render_template(
+                "modals/password-reset-link.html",
+                error="Failed to create password reset token",
+                username=user.username,
+                user_id=user.id,
+                has_token=False
+            ), 500
+        
+        # Generate the full reset URL
+        reset_path = f"/reset/{token.code}"
+        reset_url = request.url_root.rstrip('/') + reset_path
+        
+        # Format expiry time
+        expires_at = token.expires_at.strftime('%Y-%m-%d %H:%M UTC')
+        
+        return render_template(
+            "modals/password-reset-link.html",
+            username=user.username,
+            reset_url=reset_url,
+            code=token.code,
+            expires_at=expires_at,
+            has_token=True
+        )
+        
+    except Exception as e:
+        logging.error("Error creating reset token for user %s: %s", user_id, str(e))
+        logging.error(traceback.format_exc())
+        return render_template(
+            "modals/password-reset-link.html",
+            error="Internal server error",
+            username=user.username,
+            user_id=user.id,
+            has_token=False
+        ), 500
 
 
 # Helper: group and enrich users for display
