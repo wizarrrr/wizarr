@@ -140,6 +140,9 @@ class Invitation(db.Model):
     allow_live_tv = db.Column(db.Boolean, default=False, nullable=True)
     allow_mobile_uploads = db.Column(db.Boolean, default=False, nullable=True)
 
+    # Jellyfin options
+    max_active_sessions = db.Column(db.Integer, nullable=True)  # 0 = unlimited/infinity
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
