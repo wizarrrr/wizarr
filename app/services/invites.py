@@ -127,8 +127,8 @@ def create_invite(form: Any) -> Invitation:
         allow_mobile_uploads=bool(form.get("allow_mobile_uploads")),
         # Jellyfin-specific options
         max_active_sessions=(
-            int(form.get("max_active_sessions"))
-            if form.get("max_active_sessions")
+            int(form.get("max_active_sessions").strip())
+            if form.get("max_active_sessions") and str(form.get("max_active_sessions")).strip().isdigit()
             else None
         ),
     )
