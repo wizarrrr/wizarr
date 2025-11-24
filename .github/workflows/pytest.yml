@@ -9,7 +9,7 @@ jobs:
     runs-on: blacksmith-2vcpu-ubuntu-2404
     if: github.actor != 'weblate'
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
 
     - name: Install uv
       uses: astral-sh/setup-uv@v7
