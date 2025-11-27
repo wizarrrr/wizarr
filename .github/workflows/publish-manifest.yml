@@ -17,7 +17,7 @@ jobs:
       # -----------------------------------------------------------
       # Grab the source *and* every tag so we can look up the latest.
       # -----------------------------------------------------------
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0           # ← crucial for git describe
 

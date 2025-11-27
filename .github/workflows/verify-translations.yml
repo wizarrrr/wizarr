@@ -10,7 +10,7 @@ jobs:
   compile:
     runs-on: blacksmith-2vcpu-ubuntu-2404
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Compile .mo
         run: |
           pipx run babel pybabel compile -d app/translations
