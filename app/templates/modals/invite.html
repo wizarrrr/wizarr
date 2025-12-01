@@ -241,7 +241,9 @@
                             </div>
                             <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Allow Live TV Access") }}</span>
                           </label>
-                          <!-- Max Active Sessions -->
+                          <!-- Max Active Sessions - ID is server-specific to prevent duplicate DOM IDs,
+                               but name is shared since max_active_sessions is an invitation-level setting.
+                               When multiple Jellyfin servers are selected, the first value is used. -->
                           <div>
                             <label for="max_active_sessions_{{ s.id }}"
                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
