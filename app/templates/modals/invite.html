@@ -243,12 +243,12 @@
                           </label>
                           <!-- Max Active Sessions -->
                           <div>
-                            <label for="max_active_sessions"
+                            <label for="max_active_sessions_{{ s.id }}"
                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                               {{ _("Max Active Sessions") }}
                               <span class="text-gray-500 ml-1">({{ _("simultaneous devices") }})</span>
                             </label>
-                            <input id="max_active_sessions"
+                            <input id="max_active_sessions_{{ s.id }}"
                                    name="max_active_sessions"
                                    type="number"
                                    min="0"
