@@ -949,7 +949,6 @@ def process_user_deletion():
 @login_required
 def reset_password_modal(user_id: int):
     """Show the password reset link modal with option to generate or view existing token."""
-    from app.models import PasswordResetToken
     from datetime import datetime, UTC
     
     user = db.get_or_404(User, user_id)
