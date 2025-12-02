@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-01 04:18+0000\n"
+"POT-Creation-Date: 2025-12-02 03:59+0000\n"
 "PO-Revision-Date: 2025-10-31 15:21+0000\n"
 "Last-Translator: Watever44 <jeannicolas.turcotte@gmail.com>\n"
 "Language: fr\n"
@@ -548,8 +548,8 @@ msgstr "Bibliothèques"
 
 #: app/forms/settings.py:30 app/forms/settings.py:46
 #: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
-#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:254
-#: app/templates/modals/invite.html:288 app/templates/modals/invite.html:300
+#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:272
+#: app/templates/modals/invite.html:306 app/templates/modals/invite.html:318
 msgid "Allow Downloads"
 msgstr "Autoriser les téléchargements"
 
@@ -1246,7 +1246,7 @@ msgstr "Accès simple"
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
-#: app/templates/modals/invite.html:394
+#: app/templates/modals/invite.html:412
 msgid "Close"
 msgstr "Fermer"
 
@@ -1445,7 +1445,7 @@ msgstr ""
 #: app/templates/modals/edit-identity.html:49
 #: app/templates/modals/edit-notification-agent.html:142
 #: app/templates/modals/edit-server.html:178
-#: app/templates/modals/invite.html:345
+#: app/templates/modals/invite.html:363
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
 #: app/templates/modals/wizard-preset-form.html:59
@@ -1769,7 +1769,7 @@ msgstr "Tester & sauvegarder les changements"
 msgid "Edit Server"
 msgstr "Modifier le serveur"
 
-#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:340
+#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:358
 msgid "Create Invitation"
 msgstr "Créer une invitation"
 
@@ -1855,43 +1855,56 @@ msgid "Invite to Plex Home"
 msgstr "Inviter au Plex Home"
 
 #: app/templates/modals/invite.html:208 app/templates/modals/invite.html:242
-#: app/templates/modals/invite.html:265
+#: app/templates/modals/invite.html:283
 msgid "Allow Live TV Access"
 msgstr "Autoriser l'accès à la TV en direct"
 
-#: app/templates/modals/invite.html:219 app/templates/modals/invite.html:276
+#: app/templates/modals/invite.html:219 app/templates/modals/invite.html:294
 msgid "Allow Mobile Uploads"
 msgstr "Autoriser les uploads mobiles"
 
-#: app/templates/modals/invite.html:316
+#: app/templates/modals/invite.html:250
+#, fuzzy
+msgid "Max Active Sessions"
+msgstr "Sessions actives"
+
+#: app/templates/modals/invite.html:251
+msgid "simultaneous devices"
+msgstr ""
+
+#: app/templates/modals/invite.html:260
+msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgstr ""
+
+#: app/templates/modals/invite.html:334
 msgid "Select Libraries"
 msgstr "Sélectionner les bibliothèques"
 
-#: app/templates/modals/invite.html:329 app/templates/modals/invite.html:433
+#: app/templates/modals/invite.html:347 app/templates/modals/invite.html:451
 msgid "Loading…"
 msgstr "Chargement…"
 
-#: app/templates/modals/invite.html:360
+#: app/templates/modals/invite.html:378
 msgid "Successfully generated an Invitation!"
 msgstr "Invitation générée avec succès !"
 
-#: app/templates/modals/invite.html:366
+#: app/templates/modals/invite.html:384
 msgid "Invitation Link"
 msgstr "Lien d'invitation"
 
-#: app/templates/modals/invite.html:378
+#: app/templates/modals/invite.html:396
 msgid "Copy"
 msgstr "Copier"
 
-#: app/templates/modals/invite.html:383
+#: app/templates/modals/invite.html:401
 msgid "Link has been copied to clipboard!"
 msgstr "Le lien a été copié dans le presse-papiers !"
 
-#: app/templates/modals/invite.html:389
+#: app/templates/modals/invite.html:407
 msgid "Create Another"
 msgstr "En créer un autre"
 
-#: app/templates/modals/invite.html:443
+#: app/templates/modals/invite.html:461
 msgid "Please select at least one server for the invitation."
 msgstr "Veuillez sélectionner au moins un serveur pour l'invitation."
 

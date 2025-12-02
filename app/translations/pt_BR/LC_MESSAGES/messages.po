@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-01 04:18+0000\n"
+"POT-Creation-Date: 2025-12-02 03:59+0000\n"
 "PO-Revision-Date: 2025-10-31 16:28+0000\n"
 "Last-Translator: ClankJake <nascimentoaragao@gmail.com>\n"
 "Language: pt_BR\n"
@@ -533,8 +533,8 @@ msgstr "Bibliotecas"
 
 #: app/forms/settings.py:30 app/forms/settings.py:46
 #: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
-#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:254
-#: app/templates/modals/invite.html:288 app/templates/modals/invite.html:300
+#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:272
+#: app/templates/modals/invite.html:306 app/templates/modals/invite.html:318
 #, fuzzy
 msgid "Allow Downloads"
 msgstr "Baixar"
@@ -1246,7 +1246,7 @@ msgstr ""
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
-#: app/templates/modals/invite.html:394
+#: app/templates/modals/invite.html:412
 msgid "Close"
 msgstr ""
 
@@ -1449,7 +1449,7 @@ msgstr ""
 #: app/templates/modals/edit-identity.html:49
 #: app/templates/modals/edit-notification-agent.html:142
 #: app/templates/modals/edit-server.html:178
-#: app/templates/modals/invite.html:345
+#: app/templates/modals/invite.html:363
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
 #: app/templates/modals/wizard-preset-form.html:59
@@ -1788,7 +1788,7 @@ msgstr "Teste & Criar Agente"
 msgid "Edit Server"
 msgstr "Nunca"
 
-#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:340
+#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:358
 msgid "Create Invitation"
 msgstr "Criar convite"
 
@@ -1886,48 +1886,60 @@ msgid "Invite to Plex Home"
 msgstr "Código do convite"
 
 #: app/templates/modals/invite.html:208 app/templates/modals/invite.html:242
-#: app/templates/modals/invite.html:265
+#: app/templates/modals/invite.html:283
 msgid "Allow Live TV Access"
 msgstr ""
 
-#: app/templates/modals/invite.html:219 app/templates/modals/invite.html:276
+#: app/templates/modals/invite.html:219 app/templates/modals/invite.html:294
 #, fuzzy
 msgid "Allow Mobile Uploads"
 msgstr "Baixar"
 
-#: app/templates/modals/invite.html:316
+#: app/templates/modals/invite.html:250
+msgid "Max Active Sessions"
+msgstr ""
+
+#: app/templates/modals/invite.html:251
+msgid "simultaneous devices"
+msgstr ""
+
+#: app/templates/modals/invite.html:260
+msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgstr ""
+
+#: app/templates/modals/invite.html:334
 #, fuzzy
 msgid "Select Libraries"
 msgstr "Bibliotecas"
 
-#: app/templates/modals/invite.html:329 app/templates/modals/invite.html:433
+#: app/templates/modals/invite.html:347 app/templates/modals/invite.html:451
 #, fuzzy
 msgid "Loading…"
 msgstr "Login"
 
-#: app/templates/modals/invite.html:360
+#: app/templates/modals/invite.html:378
 msgid "Successfully generated an Invitation!"
 msgstr "Convite gerado com sucesso!"
 
-#: app/templates/modals/invite.html:366
+#: app/templates/modals/invite.html:384
 #, fuzzy
 msgid "Invitation Link"
 msgstr "Convites"
 
-#: app/templates/modals/invite.html:378
+#: app/templates/modals/invite.html:396
 msgid "Copy"
 msgstr ""
 
-#: app/templates/modals/invite.html:383
+#: app/templates/modals/invite.html:401
 msgid "Link has been copied to clipboard!"
 msgstr "Link copiado para a área de transferência!"
 
-#: app/templates/modals/invite.html:389
+#: app/templates/modals/invite.html:407
 #, fuzzy
 msgid "Create Another"
 msgstr "Criar conta"
 
-#: app/templates/modals/invite.html:443
+#: app/templates/modals/invite.html:461
 msgid "Please select at least one server for the invitation."
 msgstr ""
 
