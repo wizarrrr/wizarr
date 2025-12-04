@@ -957,7 +957,7 @@ def reset_password_modal(user_id: int):
     existing_token = PasswordResetToken.query.filter_by(
         user_id=user.id,
         used=False
-    ).order_by(PasswordResetToken.created_at.desc()).first()
+    ).filter(PasswordResetToken.expires_at > datetime.now(UTC)).order_by(PasswordResetToken.created_at.desc()).first()
     
     # Validate the token is still valid
     if existing_token and existing_token.is_valid():
