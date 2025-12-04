@@ -7,7 +7,7 @@ import traceback
 from functools import wraps
 
 from flask import Blueprint, request
-from flask_restx import Resource, fields, abort
+from flask_restx import Resource, abort
 from flask_login import current_user
 from sqlalchemy import func
 
