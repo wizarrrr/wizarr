@@ -425,3 +425,71 @@ def image_proxy():
         return Response(status=502)
     except Exception:
         return Response(status=502)
+
+
+# ─── Password Reset ──────────────────────────────────────────────────────────
+@public_bp.route("/reset/<code>", methods=["GET", "POST"])
+@limiter.limit("10 per minute")
+def reset_password(code):
+    """Handle password reset via token link."""
+    from app.services.password_reset import get_reset_token, use_reset_token
+    
+    # Validate the reset token
+    token, error = get_reset_token(code)
+    
+    if not token:
+        return render_template(
+            "password-reset-error.html",
+            error=error,
+            code=code
+        )
+    
+    # GET request - show the password reset form
+    if request.method == "GET":
+        return render_template(
+            "password-reset-form.html",
+            code=code,
+            username=token.user.username,
+            expires_at=token.expires_at
+        )
+    
+    # POST request - process the password reset
+    new_password = request.form.get("new_password", "").strip()
+    confirm_password = request.form.get("confirm_password", "").strip()
+    
+    # Validate passwords match
+    if new_password != confirm_password:
+        return render_template(
+            "password-reset-form.html",
+            code=code,
+            username=token.user.username,
+            expires_at=token.expires_at,
+            error="Passwords do not match"
+        )
+    
+    # Validate password length
+    if not (8 <= len(new_password) <= 128):
+        return render_template(
+            "password-reset-form.html",
+            code=code,
+            username=token.user.username,
+            expires_at=token.expires_at,
+            error="Password must be between 8 and 128 characters"
+        )
+    
+    # Use the reset token to change the password
+    success, message = use_reset_token(code, new_password)
+    
+    if success:
+        return render_template(
+            "password-reset-success.html",
+            username=token.user.username
+        )
+    else:
+        return render_template(
+            "password-reset-form.html",
+            code=code,
+            username=token.user.username,
+            expires_at=token.expires_at,
+            error=message
+        )

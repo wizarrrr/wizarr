@@ -679,6 +679,39 @@ class ApiKey(db.Model):
         super().__init__(**kwargs)
 
 
+class PasswordResetToken(db.Model):
+    """Password reset tokens for media server users."""
+
+    __tablename__ = "password_reset_token"
+
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String, nullable=False, unique=True)  # Reset token code
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False
+    )
+    user = db.relationship(
+        "User", 
+        backref=db.backref("reset_tokens", lazy=True, cascade="all, delete-orphan", passive_deletes=True)
+    )
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+    expires_at = db.Column(db.DateTime, nullable=False)  # Token expiry (24 hours)
+    used = db.Column(db.Boolean, default=False, nullable=False)
+    used_at = db.Column(db.DateTime, nullable=True)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+    def is_valid(self):
+        """Check if token is still valid (not used and not expired)."""
+        if self.used:
+            return False
+        now = datetime.now(UTC)
+        expires_aware = self.expires_at.replace(tzinfo=UTC) if self.expires_at.tzinfo is None else self.expires_at
+        return expires_aware > now
+
+
 class ExpiredUser(db.Model):
     """Track users that have been deleted due to expiry for monitoring and restoration."""
 

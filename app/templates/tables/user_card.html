@@ -58,7 +58,7 @@
               {% set accs = user.accounts if user.accounts is defined else [user] %}
               {% for acct in accs %}
                 {% if acct.server %}
-                  {{ acct.server.server_type|server_name_tag(acct.server.name) }}
+                  {{ acct.server.server_type|server_name_tag }}
                 {% else %}
                   {{ 'local'|server_type_tag }}
                 {% endif %}
@@ -210,6 +210,27 @@
                     <path d="m15 5 4 4" />
                   </svg>
                 </button>
+                <!-- Reset password - Only show for Jellyfin users -->
+                {% if user.server and user.server.server_type == 'jellyfin' %}
+                  <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-colors"
+                          type="button"
+                          hx-get="{{ url_for('admin.reset_password_modal', user_id=user.id) }}"
+                          hx-target="#modal-user"
+                          hx-swap="innerHTML"
+                          onclick="event.stopPropagation();"
+                          title="{{ _('Reset password') }}">
+                    <svg class="h-4 w-4"
+                         fill="none"
+                         stroke="currentColor"
+                         stroke-width="2"
+                         stroke-linecap="round"
+                         stroke-linejoin="round"
+                         viewBox="0 0 24 24"
+                         xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                    </svg>
+                  </button>
+                {% endif %}
                 <!-- Delete user -->
                 <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 rounded-md transition-colors"
                         hx-get="{{ url_for('admin.delete_user_modal', user_id=user.id) }}"
