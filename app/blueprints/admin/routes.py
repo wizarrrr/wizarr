@@ -1022,7 +1022,7 @@ def generate_reset_link(user_id: int):
         
     except Exception as e:
         logging.error("Error creating reset token for user %s: %s", user_id, str(e))
-        logging.error(traceback.format_exc())
+        logging.error("Traceback for user %s (username: %s):\n%s", user_id, user.username, traceback.format_exc())
         return render_template(
             "modals/password-reset-link.html",
             error="Internal server error",
