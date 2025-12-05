@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-04 04:00+0000\n"
+"POT-Creation-Date: 2025-12-05 03:58+0000\n"
 "PO-Revision-Date: 2025-10-31 15:05+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language: da\n"
@@ -151,41 +151,41 @@ msgstr ""
 msgid "An internal error has occurred."
 msgstr "Ukendt fejl opstod"
 
-#: app/blueprints/admin/routes.py:324
+#: app/blueprints/admin/routes.py:325
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr "Ukendt"
 
-#: app/blueprints/admin/routes.py:327 app/templates/modals/invite.html:69
+#: app/blueprints/admin/routes.py:328 app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
 #: app/templates/tables/user_card.html:90
 msgid "Never"
 msgstr "Aldrig"
 
-#: app/blueprints/admin/routes.py:400 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:401 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr "Udløbet"
 
-#: app/blueprints/admin/routes.py:408
+#: app/blueprints/admin/routes.py:409
 #, python-format
 msgid "in %(n)d d"
 msgstr "om %(n)d d"
 
-#: app/blueprints/admin/routes.py:410
+#: app/blueprints/admin/routes.py:411
 msgid "in 1 d"
 msgstr "om 1 d"
 
-#: app/blueprints/admin/routes.py:412
+#: app/blueprints/admin/routes.py:413
 #, python-format
 msgid "in %(n)d h"
 msgstr "om %(n)d h"
 
-#: app/blueprints/admin/routes.py:414
+#: app/blueprints/admin/routes.py:415
 #, python-format
 msgid "in %(n)d m"
 msgstr "om %(n)d m"
 
-#: app/blueprints/admin/routes.py:415
+#: app/blueprints/admin/routes.py:416
 msgid "soon"
 msgstr "snart"
 
@@ -495,7 +495,8 @@ msgstr "Bekræft adgangskode"
 msgid "Passwords must match."
 msgstr "Adgangskoderne stemmer ikke overens."
 
-#: app/forms/admin.py:62 app/templates/profile.html:53
+#: app/forms/admin.py:62 app/templates/password-reset-form.html:37
+#: app/templates/profile.html:53
 #, fuzzy
 msgid "New Password"
 msgstr "Adgangskode"
@@ -687,6 +688,7 @@ msgstr "Vælg en adgangskode til de resterende servere"
 
 #: app/templates/choose-password.html:33
 #: app/templates/hybrid-password-form.html:150
+#: app/templates/password-reset-form.html:52
 #: app/templates/welcome-jellyfin.html:174
 msgid "Confirm Password"
 msgstr "Bekræft Adgangskode"
@@ -807,6 +809,8 @@ msgid "Passwords do not match"
 msgstr "Adgangskoderne stemmer ikke overens."
 
 #: app/templates/invalid-invite.html:10
+#: app/templates/password-reset-error.html:10
+#: app/templates/password-reset-success.html:10
 #, fuzzy
 msgid "Wizarr"
 msgstr "Opsætning af Wizarr"
@@ -873,6 +877,139 @@ msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
 "Godkendelse af adgangsnøgle mislykkedes. Prøv igen eller brug din "
 "adgangskode."
+
+#: app/templates/password-reset-error.html:24
+#, fuzzy
+msgid "Password Reset Error"
+msgstr "Adgangskode for kort"
+
+#: app/templates/password-reset-error.html:28
+#: app/templates/password-reset-form.html:29
+#, fuzzy
+msgid "Error:"
+msgstr "  "
+
+#: app/templates/password-reset-error.html:31
+msgid "This password reset link is invalid."
+msgstr ""
+
+#: app/templates/password-reset-error.html:33
+msgid "This password reset link has already been used."
+msgstr ""
+
+#: app/templates/password-reset-error.html:35
+msgid "This password reset link has expired."
+msgstr ""
+
+#: app/templates/password-reset-error.html:37
+msgid "This password reset link is malformed."
+msgstr ""
+
+#: app/templates/password-reset-error.html:39
+msgid "This password reset link is no longer valid."
+msgstr ""
+
+#: app/templates/password-reset-error.html:45
+msgid ""
+"Please contact your server administrator to request a new password reset "
+"link."
+msgstr ""
+
+#: app/templates/password-reset-error.html:48
+#, fuzzy
+msgid "Code:"
+msgstr "Luk"
+
+#: app/templates/password-reset-error.html:54
+msgid "Common reasons for this error:"
+msgstr ""
+
+#: app/templates/password-reset-error.html:56
+msgid "The link has already been used"
+msgstr ""
+
+#: app/templates/password-reset-error.html:57
+msgid "The link has expired (24 hour limit)"
+msgstr ""
+
+#: app/templates/password-reset-error.html:58
+msgid "The link was not copied correctly"
+msgstr ""
+
+#: app/templates/password-reset-form.html:9
+#, fuzzy
+msgid "Reset Your Password"
+msgstr "Din adgangskode"
+
+#: app/templates/password-reset-form.html:15
+#, fuzzy
+msgid "Choose a new password"
+msgstr "Adgangskode"
+
+#: app/templates/password-reset-form.html:18
+#, fuzzy
+msgid "For user:"
+msgstr "Hjem"
+
+#: app/templates/password-reset-form.html:22
+msgid "This link expires on"
+msgstr ""
+
+#: app/templates/password-reset-form.html:44
+msgid "Enter new password (8-128 characters)"
+msgstr ""
+
+#: app/templates/password-reset-form.html:59
+#, fuzzy
+msgid "Confirm new password"
+msgstr "Bekræft Ny Adgangskode"
+
+#: app/templates/password-reset-form.html:65
+#, fuzzy
+msgid "Password must be:"
+msgstr "Adgangskoderne stemmer ikke overens."
+
+#: app/templates/password-reset-form.html:67
+msgid "Between 8 and 128 characters"
+msgstr ""
+
+#: app/templates/password-reset-form.html:68
+#, fuzzy
+msgid "Match the confirmation"
+msgstr "Importér konfiguration"
+
+#: app/templates/password-reset-form.html:74
+#, fuzzy
+msgid "Reset Password"
+msgstr "Adgangskode"
+
+#: app/templates/password-reset-success.html:24
+#, fuzzy
+msgid "Password Reset Successful!"
+msgstr "Tilslutningstest vellykket!"
+
+#: app/templates/password-reset-success.html:29
+#, fuzzy
+msgid "The password for"
+msgstr "Adgangskode"
+
+#: app/templates/password-reset-success.html:29
+#, fuzzy
+msgid "has been successfully reset."
+msgstr "API-tasten slettet med succes"
+
+#: app/templates/password-reset-success.html:32
+msgid "You can now use your new password to log in to your media server."
+msgstr ""
+
+#: app/templates/password-reset-success.html:37
+#, fuzzy
+msgid "What's next?"
+msgstr "Hvad sker der som det næste?"
+
+#: app/templates/password-reset-success.html:38
+msgid "Log in to your media server with your username and new password."
+msgstr ""
 
 #: app/templates/profile.html:17
 msgid "Administrator"
@@ -1239,6 +1376,7 @@ msgstr "Grundlæggende adgang"
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
 #: app/templates/modals/invite.html:412
+#: app/templates/modals/password-reset-link.html:152
 msgid "Close"
 msgstr "Luk"
 
@@ -1250,6 +1388,7 @@ msgstr "Ændre Server"
 #: app/templates/admin/user_modal.html:16
 #: app/templates/admin/user_modal.html:24
 #: app/templates/modals/connection-form.html:20
+#: app/templates/modals/password-reset-link.html:29
 msgid "Close modal"
 msgstr ""
 
@@ -1894,6 +2033,7 @@ msgid "Invitation Link"
 msgstr "Invitationer"
 
 #: app/templates/modals/invite.html:396
+#: app/templates/modals/password-reset-link.html:84
 msgid "Copy"
 msgstr "Kopier"
 
@@ -1909,6 +2049,88 @@ msgstr "Opret en konto"
 #: app/templates/modals/invite.html:461
 msgid "Please select at least one server for the invitation."
 msgstr "Vælg mindst én server for invitationen."
+
+#: app/templates/modals/password-reset-link.html:14
+#, fuzzy
+msgid "Password Reset Link"
+msgstr "Password (valgfrit)"
+
+#: app/templates/modals/password-reset-link.html:16
+msgid "Generate Password Reset Link"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:59
+#, fuzzy
+msgid "Password reset link for"
+msgstr "Adgangskode for kort"
+
+#: app/templates/modals/password-reset-link.html:63
+#, fuzzy
+msgid "Link expires:"
+msgstr "Udløber"
+
+#: app/templates/modals/password-reset-link.html:71
+msgid "Reset Link (Click to copy)"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:88
+msgid "Send this link to the user. They can use it once to reset their password."
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:95
+msgid "Reset Code"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:105
+#, fuzzy
+msgid "Security Notes:"
+msgstr "Opdater Noter"
+
+#: app/templates/modals/password-reset-link.html:108
+#, fuzzy
+msgid "This link can only be used once"
+msgstr "Denne handling kan ikke fortrydes."
+
+#: app/templates/modals/password-reset-link.html:109
+msgid "It expires in 24 hours"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:110
+msgid "Send it securely (email, message, etc.)"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:117
+#, fuzzy
+msgid "Generate a secure password reset link for"
+msgstr "Generer en stærk tilfældig adgangskode i stedet"
+
+#: app/templates/modals/password-reset-link.html:130
+#, fuzzy
+msgid "Generate Reset Link"
+msgstr "Serverindstillinger"
+
+#: app/templates/modals/password-reset-link.html:133
+msgid "The link will be valid for 24 hours and can only be used once."
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:146
+#, fuzzy
+msgid "Copy Link"
+msgstr "Kopier invitationslink"
+
+#: app/templates/modals/password-reset-link.html:175
+#, fuzzy
+msgid "Copied!"
+msgstr "Tilmeldt"
+
+#: app/templates/modals/password-reset-link.html:195
+#, fuzzy
+msgid "Reset link copied to clipboard!"
+msgstr "Linket er blevet kopieret til udklipsholderen!"
+
+#: app/templates/modals/password-reset-link.html:197
+msgid "Please manually copy the link"
+msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:13
 msgid "Import Wizard Steps"
@@ -2798,7 +3020,12 @@ msgstr "Brugeroplysninger"
 msgid "Edit user"
 msgstr "Ændre Server"
 
-#: app/templates/tables/user_card.html:219
+#: app/templates/tables/user_card.html:221
+#, fuzzy
+msgid "Reset password"
+msgstr "Adgangskode"
+
+#: app/templates/tables/user_card.html:240
 #, fuzzy
 msgid "Remove user"
 msgstr "Hjem"

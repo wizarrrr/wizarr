@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-04 04:00+0000\n"
+"POT-Creation-Date: 2025-12-05 03:58+0000\n"
 "PO-Revision-Date: 2025-10-31 15:16+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language: fa\n"
@@ -141,41 +141,41 @@ msgstr ""
 msgid "An internal error has occurred."
 msgstr ""
 
-#: app/blueprints/admin/routes.py:324
+#: app/blueprints/admin/routes.py:325
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:327 app/templates/modals/invite.html:69
+#: app/blueprints/admin/routes.py:328 app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
 #: app/templates/tables/user_card.html:90
 msgid "Never"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:400 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:401 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:408
+#: app/blueprints/admin/routes.py:409
 #, python-format
 msgid "in %(n)d d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:410
+#: app/blueprints/admin/routes.py:411
 msgid "in 1 d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:412
+#: app/blueprints/admin/routes.py:413
 #, python-format
 msgid "in %(n)d h"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:414
+#: app/blueprints/admin/routes.py:415
 #, python-format
 msgid "in %(n)d m"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:415
+#: app/blueprints/admin/routes.py:416
 msgid "soon"
 msgstr ""
 
@@ -484,7 +484,8 @@ msgstr "رمز عبور"
 msgid "Passwords must match."
 msgstr "رمز عبور"
 
-#: app/forms/admin.py:62 app/templates/profile.html:53
+#: app/forms/admin.py:62 app/templates/password-reset-form.html:37
+#: app/templates/profile.html:53
 #, fuzzy
 msgid "New Password"
 msgstr "رمز عبور"
@@ -668,6 +669,7 @@ msgstr ""
 
 #: app/templates/choose-password.html:33
 #: app/templates/hybrid-password-form.html:150
+#: app/templates/password-reset-form.html:52
 #: app/templates/welcome-jellyfin.html:174
 #, fuzzy
 msgid "Confirm Password"
@@ -792,6 +794,8 @@ msgid "Passwords do not match"
 msgstr ""
 
 #: app/templates/invalid-invite.html:10
+#: app/templates/password-reset-error.html:10
+#: app/templates/password-reset-success.html:10
 msgid "Wizarr"
 msgstr ""
 
@@ -855,6 +859,133 @@ msgstr ""
 
 #: app/templates/login.html:253
 msgid "Passkey authentication failed. Please try again or use your password."
+msgstr ""
+
+#: app/templates/password-reset-error.html:24
+#, fuzzy
+msgid "Password Reset Error"
+msgstr "رمز عبور"
+
+#: app/templates/password-reset-error.html:28
+#: app/templates/password-reset-form.html:29
+msgid "Error:"
+msgstr ""
+
+#: app/templates/password-reset-error.html:31
+msgid "This password reset link is invalid."
+msgstr ""
+
+#: app/templates/password-reset-error.html:33
+msgid "This password reset link has already been used."
+msgstr ""
+
+#: app/templates/password-reset-error.html:35
+msgid "This password reset link has expired."
+msgstr ""
+
+#: app/templates/password-reset-error.html:37
+msgid "This password reset link is malformed."
+msgstr ""
+
+#: app/templates/password-reset-error.html:39
+msgid "This password reset link is no longer valid."
+msgstr ""
+
+#: app/templates/password-reset-error.html:45
+msgid ""
+"Please contact your server administrator to request a new password reset "
+"link."
+msgstr ""
+
+#: app/templates/password-reset-error.html:48
+msgid "Code:"
+msgstr ""
+
+#: app/templates/password-reset-error.html:54
+msgid "Common reasons for this error:"
+msgstr ""
+
+#: app/templates/password-reset-error.html:56
+msgid "The link has already been used"
+msgstr ""
+
+#: app/templates/password-reset-error.html:57
+msgid "The link has expired (24 hour limit)"
+msgstr ""
+
+#: app/templates/password-reset-error.html:58
+msgid "The link was not copied correctly"
+msgstr ""
+
+#: app/templates/password-reset-form.html:9
+#, fuzzy
+msgid "Reset Your Password"
+msgstr "رمز عبور"
+
+#: app/templates/password-reset-form.html:15
+#, fuzzy
+msgid "Choose a new password"
+msgstr "رمز عبور"
+
+#: app/templates/password-reset-form.html:18
+#, fuzzy
+msgid "For user:"
+msgstr "خانه"
+
+#: app/templates/password-reset-form.html:22
+msgid "This link expires on"
+msgstr ""
+
+#: app/templates/password-reset-form.html:44
+msgid "Enter new password (8-128 characters)"
+msgstr ""
+
+#: app/templates/password-reset-form.html:59
+#, fuzzy
+msgid "Confirm new password"
+msgstr "رمز عبور"
+
+#: app/templates/password-reset-form.html:65
+#, fuzzy
+msgid "Password must be:"
+msgstr "رمز عبور"
+
+#: app/templates/password-reset-form.html:67
+msgid "Between 8 and 128 characters"
+msgstr ""
+
+#: app/templates/password-reset-form.html:68
+msgid "Match the confirmation"
+msgstr ""
+
+#: app/templates/password-reset-form.html:74
+#, fuzzy
+msgid "Reset Password"
+msgstr "رمز عبور"
+
+#: app/templates/password-reset-success.html:24
+msgid "Password Reset Successful!"
+msgstr ""
+
+#: app/templates/password-reset-success.html:29
+#, fuzzy
+msgid "The password for"
+msgstr "رمز عبور"
+
+#: app/templates/password-reset-success.html:29
+msgid "has been successfully reset."
+msgstr ""
+
+#: app/templates/password-reset-success.html:32
+msgid "You can now use your new password to log in to your media server."
+msgstr ""
+
+#: app/templates/password-reset-success.html:37
+msgid "What's next?"
+msgstr ""
+
+#: app/templates/password-reset-success.html:38
+msgid "Log in to your media server with your username and new password."
 msgstr ""
 
 #: app/templates/profile.html:17
@@ -1219,6 +1350,7 @@ msgstr ""
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
 #: app/templates/modals/invite.html:412
+#: app/templates/modals/password-reset-link.html:152
 msgid "Close"
 msgstr ""
 
@@ -1230,6 +1362,7 @@ msgstr "ذخیره"
 #: app/templates/admin/user_modal.html:16
 #: app/templates/admin/user_modal.html:24
 #: app/templates/modals/connection-form.html:20
+#: app/templates/modals/password-reset-link.html:29
 msgid "Close modal"
 msgstr ""
 
@@ -1867,6 +2000,7 @@ msgid "Invitation Link"
 msgstr "دعوت ها"
 
 #: app/templates/modals/invite.html:396
+#: app/templates/modals/password-reset-link.html:84
 msgid "Copy"
 msgstr ""
 
@@ -1881,6 +2015,81 @@ msgstr "ساخت حساب کاربری"
 
 #: app/templates/modals/invite.html:461
 msgid "Please select at least one server for the invitation."
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:14
+msgid "Password Reset Link"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:16
+msgid "Generate Password Reset Link"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:59
+#, fuzzy
+msgid "Password reset link for"
+msgstr "رمز عبور"
+
+#: app/templates/modals/password-reset-link.html:63
+msgid "Link expires:"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:71
+msgid "Reset Link (Click to copy)"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:88
+msgid "Send this link to the user. They can use it once to reset their password."
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:95
+msgid "Reset Code"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:105
+#, fuzzy
+msgid "Security Notes:"
+msgstr "کاربر ها"
+
+#: app/templates/modals/password-reset-link.html:108
+msgid "This link can only be used once"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:109
+msgid "It expires in 24 hours"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:110
+msgid "Send it securely (email, message, etc.)"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:117
+msgid "Generate a secure password reset link for"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:130
+#, fuzzy
+msgid "Generate Reset Link"
+msgstr "تنظیمات سرور"
+
+#: app/templates/modals/password-reset-link.html:133
+msgid "The link will be valid for 24 hours and can only be used once."
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:146
+msgid "Copy Link"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:175
+msgid "Copied!"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:195
+msgid "Reset link copied to clipboard!"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:197
+msgid "Please manually copy the link"
 msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:13
@@ -2744,7 +2953,12 @@ msgstr "دعوت ها"
 msgid "Edit user"
 msgstr "ذخیره"
 
-#: app/templates/tables/user_card.html:219
+#: app/templates/tables/user_card.html:221
+#, fuzzy
+msgid "Reset password"
+msgstr "رمز عبور"
+
+#: app/templates/tables/user_card.html:240
 #, fuzzy
 msgid "Remove user"
 msgstr "خانه"
