@@ -6,7 +6,8 @@
             {% elif direction == 'next' %}
               animate__fadeInRight
             {% endif %}"
-     style="--animate-duration: 0.2s">
+     style="--animate-duration: 0.2s"
+     {% if interactions_config %}data-interactions='{{ interactions_config | tojson }}'{% endif %}>
   <div class="prose prose-slate dark:prose-invert text-gray-800 dark:text-gray-200 max-w-none prose-sm md:prose-base">
     {{ body_html|safe }}
   </div>
