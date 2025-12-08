@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import frontmatter
@@ -223,16 +224,22 @@ def _steps(server: str, _cfg: dict, category: str = "post_invite"):
             used by helper functions: `.content` property and `.get()`.
             """
 
-            __slots__ = ("_require", "content")
+            __slots__ = ("_interactions", "_require", "content")
 
             def __init__(self, row: "WizardStep"):
                 self.content = row.markdown
-                # Mirror frontmatter key `require` from DB boolean
-                self._require = bool(getattr(row, "require_interaction", False))
+                # Check new interactions field first, fall back to legacy boolean
+                self._interactions = getattr(row, "interactions", None)
+                if self._interactions:
+                    self._require = row.has_interactions()
+                else:
+                    self._require = bool(getattr(row, "require_interaction", False))
 
             def get(self, key, default=None):
                 if key == "require":
                     return self._require
+                if key == "interactions":
+                    return self._interactions
                 return default
 
             def __iter__(self):
@@ -375,14 +382,19 @@ def _serve_wizard(
     html = _render(post, cfg | server_ctx | {"_": _}, server_type=server)
 
     # Determine if this step requires interaction
-    # (front matter `require: true` or DB flag)
+    # (front matter `require: true` or DB flag or interactions config)
     require_interaction = False
+    interactions_config = None
     try:
         require_interaction = bool(
             getattr(post, "get", lambda _k, _d=None: None)("require", False)
         )
+        interactions_config = getattr(post, "get", lambda _k, _d=None: None)(
+            "interactions", None
+        )
     except Exception:
         require_interaction = False
+        interactions_config = None
 
     # Determine which template to use based on request type
     if not request.headers.get("HX-Request"):
@@ -412,6 +424,7 @@ def _serve_wizard(
         server_type=server,
         direction=direction,
         require_interaction=require_interaction,
+        interactions_config=interactions_config,
         phase=phase,  # NEW: Pass phase to template
         step_phase=display_phase,
         completion_url=completion_url,
@@ -423,13 +436,14 @@ def _serve_wizard(
 
     # Add custom headers for client-side updates (HTMX requests only)
     if request.headers.get("HX-Request"):
-        from flask import make_response
-
         resp = make_response(response)
         resp.headers["X-Wizard-Idx"] = str(idx)
         resp.headers["X-Require-Interaction"] = (
             "true" if require_interaction else "false"
         )
+        # Include interactions config for frontend handlers
+        if interactions_config:
+            resp.headers["X-Interactions"] = json.dumps(interactions_config)
         resp.headers["X-Wizard-Step-Phase"] = display_phase or ""
         return resp
 
@@ -1010,12 +1024,17 @@ def combo(category: str, idx: int = 0):
     html = _render(post, cfg | server_ctx | {"_": _}, server_type=current_server_type)
 
     require_interaction = False
+    interactions_config = None
     try:
         require_interaction = bool(
             getattr(post, "get", lambda _k, _d=None: None)("require", False)
         )
+        interactions_config = getattr(post, "get", lambda _k, _d=None: None)(
+            "interactions", None
+        )
     except Exception:
         require_interaction = False
+        interactions_config = None
 
     # Determine which template to use based on request type
     if not request.headers.get("HX-Request"):
@@ -1036,6 +1055,7 @@ def combo(category: str, idx: int = 0):
         server_type="combo",
         direction=direction,
         require_interaction=require_interaction,
+        interactions_config=interactions_config,
         phase=phase,  # Pass phase based on category
         step_phase=phase,  # Pass step_phase to enable phase badge display
         # Pass current server type for display
@@ -1049,13 +1069,13 @@ def combo(category: str, idx: int = 0):
 
     # Add custom headers for client-side updates (HTMX requests only)
     if request.headers.get("HX-Request"):
-        from flask import make_response
-
         resp = make_response(response)
         resp.headers["X-Wizard-Idx"] = str(idx)
         resp.headers["X-Require-Interaction"] = (
             "true" if require_interaction else "false"
         )
+        if interactions_config:
+            resp.headers["X-Interactions"] = json.dumps(interactions_config)
         resp.headers["X-Wizard-Step-Phase"] = (
             phase  # FIX: Add phase header for badge updates
         )
@@ -1168,15 +1188,21 @@ def bundle_view(idx: int):
 
     # adapt to frontmatter-like interface
     class _RowAdapter:
-        __slots__ = ("_require", "content")
+        __slots__ = ("_interactions", "_require", "content")
 
         def __init__(self, row: WizardStep):
             self.content = row.markdown
-            self._require = bool(getattr(row, "require_interaction", False))
+            self._interactions = getattr(row, "interactions", None)
+            if self._interactions:
+                self._require = row.has_interactions()
+            else:
+                self._require = bool(getattr(row, "require_interaction", False))
 
         def get(self, key, default=None):
             if key == "require":
                 return self._require
+            if key == "interactions":
+                return self._interactions
             return default
 
     steps = [_RowAdapter(s) for s in steps_raw]
@@ -1223,12 +1249,17 @@ def bundle_view(idx: int):
         """
 
     require_interaction = False
+    interactions_config = None
     try:
         require_interaction = bool(
             getattr(post, "get", lambda _k, _d=None: None)("require", False)
         )
+        interactions_config = getattr(post, "get", lambda _k, _d=None: None)(
+            "interactions", None
+        )
     except Exception:
         require_interaction = False
+        interactions_config = None
 
     completion_url = None
     completion_label = None
@@ -1255,6 +1286,7 @@ def bundle_view(idx: int):
         server_type="bundle",
         direction=request.values.get("dir", ""),
         require_interaction=require_interaction,
+        interactions_config=interactions_config,
         phase=phase,  # Phase determined by current step's category
         step_phase=phase,
         completion_url=completion_url,
@@ -1266,14 +1298,14 @@ def bundle_view(idx: int):
 
     # Add custom headers for client-side updates (HTMX requests only)
     if request.headers.get("HX-Request"):
-        from flask import make_response
-
         resp = make_response(response)
         resp.headers["X-Wizard-Idx"] = str(idx)
         resp.headers["X-Require-Interaction"] = (
             "true" if require_interaction else "false"
         )
         resp.headers["X-Wizard-Step-Phase"] = phase
+        if interactions_config:
+            resp.headers["X-Interactions"] = json.dumps(interactions_config)
         return resp
 
     return response

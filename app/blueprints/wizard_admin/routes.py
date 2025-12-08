@@ -167,16 +167,22 @@ def create_step():
 
         cleaned_md = _strip_localization(form.markdown.data or "")
 
+        # Parse interaction configuration from form
+        interactions_data = None
+        if hasattr(form, "interaction_config") and form.interaction_config.data:
+            try:
+                parsed = json.loads(form.interaction_config.data)
+                interactions_data = parsed if parsed else None
+            except (json.JSONDecodeError, TypeError):
+                interactions_data = None
+
         step = WizardStep(
             server_type=stype,
             category=category,
             position=next_pos,
             title=(getattr(form, "title", None) and form.title.data) or None,
             markdown=cleaned_md,
-            require_interaction=(
-                getattr(form, "require_interaction", None) is not None
-                and bool(form.require_interaction.data)
-            ),
+            interactions=interactions_data,
         )
         db.session.add(step)
         db.session.flush()  # get step.id
@@ -312,9 +318,13 @@ def edit_step(step_id: int):
         cleaned_md = _strip_localization(form.markdown.data or "")
         step.markdown = cleaned_md
 
-        # Update interaction requirement if present on this form
-        if getattr(form, "require_interaction", None) is not None:
-            step.require_interaction = bool(form.require_interaction.data)
+        # Update interaction configuration if present on this form
+        if hasattr(form, "interaction_config") and form.interaction_config.data:
+            try:
+                parsed = json.loads(form.interaction_config.data)
+                step.interactions = parsed if parsed else None
+            except (json.JSONDecodeError, TypeError):
+                pass  # Keep existing interactions on parse error
 
         db.session.commit()
         flash(_("Step updated"), "success")
@@ -332,6 +342,9 @@ def edit_step(step_id: int):
     # GET: populate fields
     if request.method == "GET":
         form.markdown.data = _strip_localization(step.markdown)
+        # Populate interaction config
+        if hasattr(form, "set_interactions"):
+            form.set_interactions(step.interactions)
 
     modal_tmpl = (
         "modals/wizard-simple-step-form.html"
