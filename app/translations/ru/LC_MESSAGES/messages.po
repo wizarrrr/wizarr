@@ -5,11 +5,11 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
+"Project-Id-Version: Wizarr\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-09 03:58+0000\n"
-"PO-Revision-Date: 2025-10-31 16:43+0000\n"
-"Last-Translator: Maxim Kovalev <maxkovalev23@gmail.com>\n"
+"POT-Creation-Date: 2025-12-03 03:57+0000\n"
+"PO-Revision-Date: 2025-12-04 21:35+0000\n"
+"Last-Translator: Stepan Curuci <stepan@curuci.eu>\n"
 "Language: ru\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/wizarr"
 "/wizarr-universal/ru/>\n"
@@ -21,197 +21,188 @@ msgstr ""
 "Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
-#, fuzzy
 msgid "Failed to load settings"
-msgstr "Найти библиотеки"
+msgstr "Не удалось загрузить настройки"
 
 #: app/activity/api/blueprint.py:256
-#, fuzzy
 msgid "Failed to load dashboard data"
-msgstr "Найти библиотеки"
+msgstr "Не удалось загрузить данные панели"
 
 #: app/activity/api/blueprint.py:279
-#, fuzzy
 msgid "Failed to load history data"
-msgstr "Найти библиотеки"
+msgstr "Не удалось загрузить данные истории"
 
 #: app/activity/api/blueprint.py:390
-#, fuzzy
 msgid "Failed to load activity data"
-msgstr "Найти библиотеки"
+msgstr "Не удалось загрузить данные активности"
 
 #: app/activity/api/blueprint.py:445
-#, fuzzy
 msgid "Failed to load activity summary"
-msgstr "Найти библиотеки"
+msgstr "Не удалось загрузить сводку активности"
 
 #: app/activity/api/blueprint.py:466
 msgid "Failed to get activity statistics"
-msgstr ""
+msgstr "Не удалось получить статистику активности"
 
 #: app/activity/api/blueprint.py:475
 msgid "Database not available"
-msgstr ""
+msgstr "База данных недоступна"
 
 #: app/activity/api/blueprint.py:489
 msgid "Failed to get session details"
-msgstr ""
+msgstr "Не удалось получить детали сеанса"
 
 #: app/activity/api/blueprint.py:571
 msgid "Failed to export activity data"
-msgstr ""
+msgstr "Не удалось экспортировать данные активности"
 
 #: app/activity/api/blueprint.py:590
-#, fuzzy
 msgid "Monitoring restarted"
-msgstr "Создано"
+msgstr "Мониторинг перезапущен"
 
 #: app/activity/api/blueprint.py:593
 msgid "Monitor not available"
-msgstr ""
+msgstr "Монитор недоступен"
 
 #: app/activity/api/blueprint.py:603
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
-msgstr ""
+msgstr "Очищено {} старых записей активности"
 
 #: app/activity/api/blueprint.py:616
 #, python-brace-format
 msgid "Ended {} stale sessions"
-msgstr ""
+msgstr "Завершено {} устаревших сеансов"
 
 #: app/activity/api/blueprint.py:620
 msgid "Unknown action"
-msgstr ""
+msgstr "Неизвестное действие"
 
 #: app/activity/api/blueprint.py:626
-#, fuzzy
 msgid "Failed to update settings"
-msgstr "Строка кода приглашения"
+msgstr "Не удалось обновить настройки"
 
 #: app/activity/api/blueprint.py:641
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
-msgstr ""
+msgstr "Данные активности успешно удалены ({} записей)."
 
 #: app/activity/api/blueprint.py:646
 #, python-brace-format
 msgid "Failed to delete activity data: {}"
-msgstr ""
+msgstr "Не удалось удалить данные активности: {}"
 
 #: app/activity/api/blueprint.py:666 app/activity/api/blueprint.py:725
 msgid "Please select a media server."
-msgstr ""
+msgstr "Пожалуйста, выберите медиа-сервер."
 
 #: app/activity/api/blueprint.py:677
-#, fuzzy
 msgid "Media server not found."
-msgstr "Сервер"
+msgstr "Медиа-сервер не найден."
 
 #: app/activity/api/blueprint.py:688
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, "
 "Emby, and AudiobookShelf servers."
-msgstr ""
+msgstr "Импорт исторических данных в настоящее время поддерживается только для серверов Plex, Jellyfin, Emby и AudiobookShelf."
 
 #: app/activity/api/blueprint.py:699
 #, python-brace-format
 msgid "Historical import job #{job_id} started for {server} (last {days} days)."
-msgstr ""
+msgstr "Задача импорта истории #{job_id} запущена для {server} (последние {days} дней)."
 
 #: app/activity/api/blueprint.py:709
 #, python-brace-format
 msgid "Failed to import historical data: {}"
-msgstr ""
+msgstr "Не удалось импортировать исторические данные: {}"
 
 #: app/activity/api/blueprint.py:732
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully cleared {} historical entries."
-msgstr "Приглашение успешно создано!"
+msgstr "Успешно очищено {} исторических записей."
 
 #: app/activity/api/blueprint.py:739 app/activity/api/blueprint.py:748
 #, python-brace-format
 msgid "Failed to clear historical data: {}"
-msgstr ""
+msgstr "Не удалось очистить исторические данные: {}"
 
 #: app/activity/api/blueprint.py:740
 msgid "Unknown error"
-msgstr ""
+msgstr "Неизвестная ошибка"
 
 #: app/activity/api/blueprint.py:778
 msgid "Cannot remove a job that is still queued or running."
-msgstr ""
+msgstr "Невозможно удалить задачу, которая еще находится в очереди или выполняется."
 
 #: app/activity/api/blueprint.py:806
 msgid "An internal error has occurred."
-msgstr ""
+msgstr "Произошла внутренняя ошибка."
 
 #: app/blueprints/admin/routes.py:325
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
-msgstr ""
+msgstr "Неизвестно"
 
 #: app/blueprints/admin/routes.py:328 app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
 #: app/templates/tables/user_card.html:90
 msgid "Never"
-msgstr "Никогда"
+msgstr "Безлимит"
 
 #: app/blueprints/admin/routes.py:401 app/templates/tables/invite_card.html:5
 msgid "Expired"
-msgstr "Просрочено"
+msgstr "Истекло"
 
 #: app/blueprints/admin/routes.py:409
 #, python-format
 msgid "in %(n)d d"
-msgstr ""
+msgstr "через %(n)d д"
 
 #: app/blueprints/admin/routes.py:411
 msgid "in 1 d"
-msgstr ""
+msgstr "через 1 д"
 
 #: app/blueprints/admin/routes.py:413
 #, python-format
 msgid "in %(n)d h"
-msgstr ""
+msgstr "через %(n)d ч"
 
 #: app/blueprints/admin/routes.py:415
 #, python-format
 msgid "in %(n)d m"
-msgstr ""
+msgstr "через %(n)d м"
 
 #: app/blueprints/admin/routes.py:416
 msgid "soon"
-msgstr ""
+msgstr "скоро"
 
 #: app/blueprints/admin_accounts/routes.py:41
-#, fuzzy
 msgid "Admin created"
-msgstr "Создано"
+msgstr "Администратор создан"
 
 #: app/blueprints/admin_accounts/routes.py:68
 msgid "Admin updated"
-msgstr ""
+msgstr "Администратор обновлен"
 
 #: app/blueprints/admin_accounts/routes.py:168
 #, python-brace-format
 msgid "All passkeys for {} have been reset"
-msgstr ""
+msgstr "Все ключи доступа для {} были сброшены"
 
 #: app/blueprints/admin_accounts/routes.py:172
 #, python-brace-format
 msgid "Failed to reset passkeys for {}"
-msgstr ""
+msgstr "Не удалось сбросить ключи доступа для {}"
 
 #: app/blueprints/api_keys/routes.py:69
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
-msgstr ""
+msgstr "API-ключ успешно создан. Пожалуйста, скопируйте его сейчас, так как он больше не будет показан."
 
 #: app/blueprints/api_keys/routes.py:111
 msgid "API key deleted successfully"
-msgstr ""
+msgstr "API-ключ успешно удален"
 
 #: app/blueprints/auth/routes.py:85
 msgid "Invalid username or password"
@@ -219,81 +210,78 @@ msgstr "Неверное имя пользователя или пароль"
 
 #: app/blueprints/auth/routes.py:105
 msgid "No pending 2FA authentication"
-msgstr ""
+msgstr "Нет ожидающей двухфакторной аутентификации"
 
 #: app/blueprints/auth/routes.py:119 app/templates/login.html:179
 #: app/templates/login.html:244 app/templates/login.html:248
-#, fuzzy
 msgid "Authentication failed"
-msgstr "Менеджеры уведомлений"
+msgstr "Ошибка аутентификации"
 
 #: app/blueprints/connections/routes.py:52
 #: app/blueprints/connections/routes.py:188
 msgid "Connection type is required"
-msgstr ""
+msgstr "Требуется указать тип подключения"
 
 #: app/blueprints/connections/routes.py:65
 #, python-format
 msgid "Connection test failed: %(message)s"
-msgstr ""
+msgstr "Проверка подключения не удалась: %(message)s"
 
 #: app/blueprints/connections/routes.py:75
 msgid "Connection test successful!"
-msgstr ""
+msgstr "Проверка подключения успешна!"
 
 #: app/blueprints/connections/routes.py:78
 #: app/blueprints/connections/routes.py:204
 msgid "Unknown connection type"
-msgstr ""
+msgstr "Неизвестный тип подключения"
 
 #: app/blueprints/connections/routes.py:95
 msgid "Connection created successfully!"
-msgstr ""
+msgstr "Подключение успешно создано!"
 
 #: app/blueprints/connections/routes.py:124
 msgid "Connection updated successfully!"
-msgstr ""
+msgstr "Подключение успешно обновлено!"
 
 #: app/blueprints/connections/routes.py:146
 msgid "Connection deleted successfully!"
-msgstr ""
+msgstr "Подключение успешно удалено!"
 
 #: app/blueprints/connections/routes.py:165
 msgid "Please refresh the page and try again (CSRF token expired)"
-msgstr ""
+msgstr "Пожалуйста, обновите страницу и попробуйте снова (CSRF-токен истек)"
 
 #: app/blueprints/connections/routes.py:170
 #, python-format
 msgid "Invalid form data: %(errors)s"
-msgstr ""
+msgstr "Неверные данные формы: %(errors)s"
 
 #: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:268
 msgid "Settings saved successfully!"
-msgstr ""
+msgstr "Настройки успешно сохранены!"
 
 #: app/blueprints/settings/routes.py:216 app/forms/settings.py:24
-#, fuzzy
 msgid "Server URL"
-msgstr "Сервер"
+msgstr "URL сервера"
 
 #: app/blueprints/settings/routes.py:219 app/forms/settings.py:25
 msgid "API Key"
-msgstr ""
+msgstr "API-ключ"
 
 #: app/blueprints/settings/routes.py:219
-#, fuzzy
 msgid "Username/Password"
-msgstr "Неверное имя пользователя или пароль"
+msgstr "Имя пользователя/Пароль"
 
 #: app/blueprints/settings/routes.py:222
 #, python-brace-format
 msgid "Missing required fields: {fields}"
-msgstr ""
+msgstr "Отсутствуют обязательные поля: {fields}"
 
 #: app/blueprints/settings/routes.py:225 app/blueprints/settings/routes.py:235
 #: app/templates/components/passkey_error.html:12
 msgid "Error"
-msgstr ""
+msgstr "Ошибка"
 
 #: app/blueprints/settings/routes.py:234
 msgid "Library scan failed"
@@ -301,172 +289,166 @@ msgstr "Ошибка сканирования библиотеки"
 
 #: app/blueprints/setup/routes.py:74
 msgid "Admin account created – welcome!"
-msgstr ""
+msgstr "Аккаунт администратора создан – добро пожаловать!"
 
 #: app/blueprints/wizard/routes.py:66
 msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
-msgstr ""
+msgstr "Ваше приглашение истекло или больше не действительно. Пожалуйста, запросите новое приглашение."
 
 #: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1215
 msgid "Error Loading Step"
-msgstr ""
+msgstr "Ошибка загрузки шага"
 
 #: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1218
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
-msgstr ""
+msgstr "Этот шаг не может быть загружен. Пожалуйста, свяжитесь с администратором или перейдите к следующему шагу."
 
 #: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
 #: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1116
 #: app/blueprints/wizard/routes.py:1124
-#, fuzzy
 msgid "Invalid or expired invitation"
-msgstr "Недействительное приглашение"
+msgstr "Недействительное или истекшее приглашение"
 
 #: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:775
 msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
-msgstr ""
+msgstr "Медиа-серверы не настроены. Пожалуйста, свяжитесь с администратором для настройки медиа-сервера."
 
 #: app/blueprints/wizard/routes.py:626
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
-msgstr ""
+msgstr "Не удалось загрузить шаги мастера. Переход к принятию приглашения."
 
 #: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:961
 #: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:20
-#, fuzzy
 msgid "Continue to Invite"
-msgstr "Быстрое приглашение"
+msgstr "Продолжить к приглашению"
 
 #: app/blueprints/wizard/routes.py:703
 msgid "Please log in to continue"
-msgstr ""
+msgstr "Пожалуйста, войдите, чтобы продолжить"
 
 #: app/blueprints/wizard/routes.py:815
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
-msgstr ""
+msgstr "Не удалось загрузить шаги мастера. Настройка завершена! Добро пожаловать на ваш медиа-сервер."
 
 #: app/blueprints/wizard/routes.py:848
 msgid "Setup complete! Welcome to your media server."
-msgstr ""
+msgstr "Настройка завершена! Добро пожаловать на ваш медиа-сервер."
 
 #: app/blueprints/wizard/routes.py:946
 msgid "Unable to load wizard configuration. Please try again."
-msgstr ""
+msgstr "Не удалось загрузить конфигурацию мастера. Пожалуйста, попробуйте снова."
 
 #: app/blueprints/wizard/routes.py:1094
 msgid "Unable to load wizard bundle. Please try again."
-msgstr ""
+msgstr "Не удалось загрузить пакет мастера. Пожалуйста, попробуйте снова."
 
 #: app/blueprints/wizard/routes.py:1145
 msgid "Unable to load wizard steps. Please try again."
-msgstr ""
+msgstr "Не удалось загрузить шаги мастера. Пожалуйста, попробуйте снова."
 
 #: app/blueprints/wizard_admin/routes.py:126
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
-msgstr ""
+msgstr "Очищено {} потерянных шагов"
 
 #: app/blueprints/wizard_admin/routes.py:199
-#, fuzzy
 msgid "Step created"
-msgstr "Создано"
+msgstr "Шаг создан"
 
 #: app/blueprints/wizard_admin/routes.py:276
 msgid "Preset step created successfully"
-msgstr ""
+msgstr "Предустановленный шаг успешно создан"
 
 #: app/blueprints/wizard_admin/routes.py:284
 #, python-brace-format
 msgid "Error creating preset: {}"
-msgstr ""
+msgstr "Ошибка создания предустановки: {}"
 
 #: app/blueprints/wizard_admin/routes.py:320
 msgid "Step updated"
-msgstr ""
+msgstr "Шаг обновлен"
 
 #: app/blueprints/wizard_admin/routes.py:358
-#, fuzzy
 msgid "Step deleted"
-msgstr "Удалить"
+msgstr "Шаг удален"
 
 #: app/blueprints/wizard_admin/routes.py:478
-#, fuzzy
 msgid "Bundle created"
-msgstr "Создано"
+msgstr "Пакет создан"
 
 #: app/blueprints/wizard_admin/routes.py:508
 msgid "Bundle updated"
-msgstr ""
+msgstr "Пакет обновлен"
 
 #: app/blueprints/wizard_admin/routes.py:532
-#, fuzzy
 msgid "Bundle deleted"
-msgstr "Удалить"
+msgstr "Пакет удален"
 
 #: app/blueprints/wizard_admin/routes.py:684
 msgid "Steps added"
-msgstr ""
+msgstr "Шаги добавлены"
 
 #: app/blueprints/wizard_admin/routes.py:696
 msgid "Orphaned step removed"
-msgstr ""
+msgstr "Потерянный шаг удален"
 
 #: app/blueprints/wizard_admin/routes.py:714
 #, python-brace-format
 msgid "No steps found for server type: {}"
-msgstr ""
+msgstr "Не найдено шагов для типа сервера: {}"
 
 #: app/blueprints/wizard_admin/routes.py:739
 #: app/blueprints/wizard_admin/routes.py:777
 #: app/blueprints/wizard_admin/routes.py:782
 #, python-brace-format
 msgid "Export failed: {}"
-msgstr ""
+msgstr "Экспорт не удался: {}"
 
 #: app/blueprints/wizard_admin/routes.py:827
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully imported {} items"
-msgstr "Приглашение успешно создано!"
+msgstr "Успешно импортировано {} элементов"
 
 #: app/blueprints/wizard_admin/routes.py:831
 #, python-brace-format
 msgid " and updated {} existing items"
-msgstr ""
+msgstr " и обновлено {} существующих элементов"
 
 #: app/blueprints/wizard_admin/routes.py:836
 #: app/blueprints/wizard_admin/routes.py:843
 #, python-brace-format
 msgid "Import failed: {}"
-msgstr ""
+msgstr "Импорт не удался: {}"
 
 #: app/blueprints/wizard_admin/routes.py:841
 msgid "Invalid JSON file"
-msgstr ""
+msgstr "Неверный JSON-файл"
 
 #: app/blueprints/wizard_admin/routes.py:906 app/services/wizard_reset.py:119
 #, python-brace-format
 msgid "Reset {} steps for {} (deleted {}, imported {})"
-msgstr ""
+msgstr "Сброшено {} шагов для {} (удалено {}, импортировано {})"
 
 #: app/blueprints/wizard_admin/routes.py:916 app/services/wizard_reset.py:134
 #, python-brace-format
 msgid "Failed to reset steps: {}"
-msgstr ""
+msgstr "Не удалось сбросить шаги: {}"
 
 #: app/forms/admin.py:29
 msgid "Password must be at least 8 characters."
-msgstr ""
+msgstr "Пароль должен содержать не менее 8 символов."
 
 #: app/forms/admin.py:34
 msgid ""
 "Password must contain at least one uppercase letter, one lowercase "
 "letter, and one number."
-msgstr ""
+msgstr "Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву и одну цифру."
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
 #: app/templates/admin/user_details_modal.html:66
@@ -487,45 +469,36 @@ msgstr "Пароль"
 #: app/forms/admin.py:47 app/forms/admin.py:65
 #: app/templates/modals/create-admin.html:35
 #: app/templates/modals/edit-admin.html:37
-#, fuzzy
 msgid "Confirm password"
-msgstr "Пароль"
+msgstr "Подтвердите пароль"
 
 #: app/forms/admin.py:50 app/forms/admin.py:68
-#, fuzzy
 msgid "Passwords must match."
-msgstr "Пароль"
+msgstr "Пароли должны совпадать."
 
-#: app/forms/admin.py:62 app/templates/password-reset-form.html:37
-#: app/templates/profile.html:53
-#, fuzzy
+#: app/forms/admin.py:62 app/templates/profile.html:53
 msgid "New Password"
-msgstr "Пароль"
+msgstr "Новый пароль"
 
 #: app/forms/admin.py:79
-#, fuzzy
 msgid "Please confirm the new password."
-msgstr "Пароль"
+msgstr "Пожалуйста, подтвердите новый пароль."
 
 #: app/forms/settings.py:10
-#, fuzzy
 msgid "Server Type"
-msgstr "Сервер"
+msgstr "Тип сервера"
 
 #: app/forms/settings.py:23
-#, fuzzy
 msgid "Server Name"
-msgstr "Имя пользователя"
+msgstr "Имя сервера"
 
 #: app/forms/settings.py:26
-#, fuzzy
 msgid "RomM Username"
-msgstr "Имя пользователя"
+msgstr "Имя пользователя RomM"
 
 #: app/forms/settings.py:27
-#, fuzzy
 msgid "RomM Password"
-msgstr "Пароль"
+msgstr "Пароль RomM"
 
 #: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:70
 #: app/templates/tables/invite_card.html:143
@@ -541,123 +514,122 @@ msgstr "Разрешить загрузки"
 
 #: app/forms/settings.py:33 app/templates/admin/user_modal.html:112
 msgid "Allow Live TV"
-msgstr ""
+msgstr "Разрешить Live TV"
 
 #: app/forms/settings.py:36
 msgid "Overseerr/Ombi URL"
-msgstr ""
+msgstr "URL Overseerr/Ombi"
 
 #: app/forms/settings.py:38
-#, fuzzy
 msgid "Ombi API Key"
-msgstr "Удалить"
+msgstr "API-ключ Ombi"
 
 #: app/forms/settings.py:39
 msgid "Discord ID"
-msgstr ""
+msgstr "ID Discord"
 
 #: app/forms/settings.py:40
 msgid "External URL"
-msgstr ""
+msgstr "Внешний URL"
 
 #: app/services/servers.py:16
 #, python-format
 msgid "Server returned status code %(status_code)s"
-msgstr ""
+msgstr "Сервер вернул код состояния %(status_code)s"
 
 #: app/services/servers.py:27
 #, python-format
 msgid "%(server_type)s server returned an error: %(error)s"
-msgstr ""
+msgstr "Сервер %(server_type)s вернул ошибку: %(error)s"
 
 #: app/services/servers.py:34
 #, python-format
 msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
-msgstr ""
+msgstr "Не удалось подключиться к серверу %(server_type)s. Пожалуйста, проверьте, работает ли сервер и правильно ли указан URL."
 
 #: app/services/servers.py:40
 #, python-format
 msgid ""
 "Connection to %(server_type)s server timed out. Please check if the "
 "server is running and accessible."
-msgstr ""
+msgstr "Время подключения к серверу %(server_type)s истекло. Пожалуйста, проверьте, работает ли сервер и доступен ли он."
 
 #: app/services/servers.py:46
 #, python-format
 msgid ""
 "An error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
-msgstr ""
+msgstr "Произошла ошибка при подключении к серверу %(server_type)s: %(error)s"
 
 #: app/services/servers.py:53
 #, python-format
 msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s "
 "server: %(error)s"
-msgstr ""
+msgstr "Произошла неожиданная ошибка при подключении к серверу %(server_type)s: %(error)s"
 
 #: app/services/servers.py:66
 msgid "Plex"
-msgstr ""
+msgstr "Plex"
 
 #: app/services/servers.py:80
 msgid "Jellyfin"
-msgstr ""
+msgstr "Jellyfin"
 
 #: app/services/servers.py:87
 msgid "Emby"
-msgstr ""
+msgstr "Emby"
 
 #: app/services/servers.py:113
 msgid "Audiobookshelf"
-msgstr ""
+msgstr "Audiobookshelf"
 
 #: app/services/servers.py:143
 msgid "RomM"
-msgstr ""
+msgstr "RomM"
 
 #: app/services/servers.py:168
 msgid "Komga"
-msgstr ""
+msgstr "Komga"
 
 #: app/services/servers.py:220
 msgid "Kavita"
-msgstr ""
+msgstr "Kavita"
 
 #: app/services/servers.py:275
 msgid "Navidrome"
-msgstr ""
+msgstr "Navidrome"
 
 #: app/services/servers.py:297
 msgid "Invalid API token or insufficient permissions."
-msgstr ""
+msgstr "Неверный API-токен или недостаточно прав."
 
 #: app/services/servers.py:299
 msgid "API token lacks required permissions."
-msgstr ""
+msgstr "API-токену не хватает необходимых прав."
 
 #: app/services/servers.py:304
 msgid "Could not connect to Drop server."
-msgstr ""
+msgstr "Не удалось подключиться к серверу Drop."
 
 #: app/services/servers.py:306
 msgid "Connection to Drop server timed out."
-msgstr ""
+msgstr "Время подключения к серверу Drop истекло."
 
 #: app/services/servers.py:309
 msgid "Drop API not found. Check the server URL."
-msgstr ""
+msgstr "Drop API не найден. Проверьте URL сервера."
 
 #: app/services/servers.py:312
 msgid "Drop"
-msgstr ""
+msgstr "Drop"
 
 #: app/services/wizard_reset.py:99
 #, python-brace-format
 msgid "No default steps found for server type: {}"
-msgstr ""
+msgstr "Не найдено шагов по умолчанию для типа сервера: {}"
 
 #: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:100
 msgid "Admin"
@@ -665,152 +637,143 @@ msgstr "Администратор"
 
 #: app/templates/admin.html:133
 msgid "Profile"
-msgstr ""
+msgstr "Профиль"
 
 #: app/templates/admin.html:144
 msgid "Logout"
-msgstr ""
+msgstr "Выход"
 
 #: app/templates/choose-password.html:10
 msgid "Complete your access"
-msgstr ""
+msgstr "Завершите настройку доступа"
 
 #: app/templates/choose-password.html:15
 msgid "Choose a password for the remaining servers"
-msgstr ""
+msgstr "Выберите пароль для остальных серверов"
 
 #: app/templates/choose-password.html:33
 #: app/templates/hybrid-password-form.html:150
 #: app/templates/password-reset-form.html:52
 #: app/templates/welcome-jellyfin.html:174
-#, fuzzy
 msgid "Confirm Password"
-msgstr "Пароль"
+msgstr "Подтвердите пароль"
 
 #: app/templates/choose-password.html:50
 msgid "Generate a strong random password instead"
-msgstr ""
+msgstr "Сгенерировать вместо этого надежный случайный пароль"
 
 #: app/templates/choose-password.html:55
 msgid "Continue"
-msgstr ""
+msgstr "Продолжить"
 
 #: app/templates/hybrid-password-form.html:9
 msgid "Complete your account setup for local servers"
-msgstr ""
+msgstr "Завершите настройку аккаунта для локальных серверов"
 
 #: app/templates/hybrid-password-form.html:15
 msgid "Complete Your Account Setup"
-msgstr ""
+msgstr "Завершите настройку аккаунта"
 
 #: app/templates/hybrid-password-form.html:30
 msgid "Plex Authentication Complete!"
-msgstr ""
+msgstr "Аутентификация Plex завершена!"
 
 #: app/templates/hybrid-password-form.html:31
 msgid "Now please set a password for your local server accounts."
-msgstr ""
+msgstr "Теперь установите пароль для ваших аккаунтов на локальных серверах."
 
 #: app/templates/hybrid-password-form.html:38
-#, fuzzy
 msgid "Local Servers"
-msgstr "Сервер"
+msgstr "Локальные серверы"
 
 #: app/templates/hybrid-password-form.html:72
 msgid "Set Password for Local Servers"
-msgstr ""
+msgstr "Установить пароль для локальных серверов"
 
 #: app/templates/hybrid-password-form.html:86
 msgid "Error!"
-msgstr ""
+msgstr "Ошибка!"
 
 #: app/templates/hybrid-password-form.html:107
-#, fuzzy
 msgid "Your username"
-msgstr "Имя пользователя"
+msgstr "Ваше имя пользователя"
 
 #: app/templates/hybrid-password-form.html:119
 msgid "Email Address"
-msgstr ""
+msgstr "Email адрес"
 
 #: app/templates/hybrid-password-form.html:125
 msgid "your.email@example.com"
-msgstr ""
+msgstr "ваш.email@пример.com"
 
 #: app/templates/hybrid-password-form.html:139
-#, fuzzy
 msgid "Your password"
-msgstr "Пароль"
+msgstr "Ваш пароль"
 
 #: app/templates/hybrid-password-form.html:156
 #: app/templates/welcome-jellyfin.html:177
 msgid "Confirm your password"
-msgstr ""
+msgstr "Подтвердите ваш пароль"
 
 #: app/templates/hybrid-password-form.html:174
 msgid "I agree to the"
-msgstr ""
+msgstr "Я согласен с"
 
 #: app/templates/hybrid-password-form.html:177
 msgid "Terms and Conditions"
-msgstr ""
+msgstr "Условиями использования"
 
 #: app/templates/hybrid-password-form.html:185
 msgid "Complete Setup"
-msgstr ""
+msgstr "Завершить настройку"
 
 #: app/templates/hybrid-password-form.html:195
-#, fuzzy
 msgid "Setting up..."
-msgstr "Настройки"
+msgstr "Настройка..."
 
 #: app/templates/hybrid-password-form.html:201
 msgid "What happens next?"
-msgstr ""
+msgstr "Что произойдет дальше?"
 
 #: app/templates/hybrid-password-form.html:203
 msgid "Your Plex account is already set up and ready to use"
-msgstr ""
+msgstr "Ваш аккаунт Plex уже настроен и готов к использованию"
 
 #: app/templates/hybrid-password-form.html:204
 msgid "This password will be used to create accounts on your local servers"
-msgstr ""
+msgstr "Этот пароль будет использоваться для создания аккаунтов на ваших локальных серверах"
 
 #: app/templates/hybrid-password-form.html:205
 msgid "You'll be redirected to the setup wizard to complete configuration"
-msgstr ""
+msgstr "Вы будете перенаправлены в мастер настройки для завершения конфигурации"
 
 #: app/templates/hybrid-password-form.html:211
 msgid "Only want to use Plex?"
-msgstr ""
+msgstr "Хотите использовать только Plex?"
 
 #: app/templates/hybrid-password-form.html:214
 msgid "Skip local servers"
-msgstr ""
+msgstr "Пропустить локальные серверы"
 
 #: app/templates/hybrid-password-form.html:229
-#, fuzzy
 msgid "Password too short"
-msgstr "Пароль"
+msgstr "Пароль слишком короткий"
 
 #: app/templates/hybrid-password-form.html:232
 msgid "Password strength: Medium"
-msgstr ""
+msgstr "Надежность пароля: Средняя"
 
 #: app/templates/hybrid-password-form.html:235
 msgid "Password strength: Strong"
-msgstr ""
+msgstr "Надежность пароля: Высокая"
 
 #: app/templates/hybrid-password-form.html:247
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Пароли не совпадают"
 
 #: app/templates/invalid-invite.html:10
-#: app/templates/password-reset-error.html:10
-#: app/templates/password-reset-success.html:10
-#, fuzzy
 msgid "Wizarr"
-msgstr "Настроить Wizarr"
+msgstr "Wizarr"
 
 #: app/templates/invalid-invite.html:15
 msgid "Invalid Invitation"
@@ -818,11 +781,11 @@ msgstr "Недействительное приглашение"
 
 #: app/templates/invalid-invite.html:19
 msgid "This invitation link is no longer valid. Please request a new invitation."
-msgstr ""
+msgstr "Эта ссылка-приглашение больше не действительна. Пожалуйста, запросите новое приглашение."
 
 #: app/templates/login.html:14
 msgid "Two-Factor Authentication"
-msgstr ""
+msgstr "Двухфакторная аутентификация"
 
 #: app/templates/login.html:16
 msgid "Login"
@@ -831,11 +794,11 @@ msgstr "Войти"
 #: app/templates/login.html:33
 #, python-brace-format
 msgid "Welcome back, {}!"
-msgstr ""
+msgstr "С возвращением, {}!"
 
 #: app/templates/login.html:35
 msgid "Please authenticate with your passkey to complete login."
-msgstr ""
+msgstr "Пожалуйста, пройдите аутентификацию с помощью ключа доступа для завершения входа."
 
 #: app/templates/login.html:79
 msgid "Remember me"
@@ -843,35 +806,35 @@ msgstr "Запомнить меня"
 
 #: app/templates/login.html:86
 msgid "Sign in"
-msgstr "Авторизация"
+msgstr "Войти"
 
 #: app/templates/login.html:104
 msgid "Authenticate with Passkey"
-msgstr ""
+msgstr "Аутентификация с помощью ключа доступа"
 
 #: app/templates/login.html:116
 msgid "Back to Login"
-msgstr ""
+msgstr "Вернуться к входу"
 
 #: app/templates/login.html:125
 msgid "Or"
-msgstr ""
+msgstr "Или"
 
 #: app/templates/login.html:138 app/templates/login.html:260
 msgid "Sign in with Passkey"
-msgstr ""
+msgstr "Войти с помощью ключа доступа"
 
 #: app/templates/login.html:165
 msgid "Authenticating..."
-msgstr ""
+msgstr "Аутентификация..."
 
 #: app/templates/login.html:238
 msgid "Failed to complete 2FA login"
-msgstr ""
+msgstr "Не удалось завершить вход с 2FA"
 
 #: app/templates/login.html:253
 msgid "Passkey authentication failed. Please try again or use your password."
-msgstr ""
+msgstr "Аутентификация с ключом доступа не удалась. Пожалуйста, попробуйте снова или используйте пароль."
 
 #: app/templates/password-reset-error.html:24
 #, fuzzy
@@ -1002,25 +965,23 @@ msgstr ""
 
 #: app/templates/profile.html:17
 msgid "Administrator"
-msgstr ""
+msgstr "Администратор"
 
 #: app/templates/profile.html:34
 msgid "Change your account password for security."
-msgstr ""
+msgstr "Измените пароль вашего аккаунта для безопасности."
 
 #: app/templates/profile.html:42
-#, fuzzy
 msgid "Current Password"
-msgstr "Пароль"
+msgstr "Текущий пароль"
 
 #: app/templates/profile.html:64
 msgid "Confirm New Password"
-msgstr ""
+msgstr "Подтвердите новый пароль"
 
 #: app/templates/profile.html:74
-#, fuzzy
 msgid "Change Password"
-msgstr "Пароль"
+msgstr "Изменить пароль"
 
 #: app/templates/user-plex-login.html:9 app/templates/welcome-jellyfin.html:9
 #, python-format
@@ -1029,41 +990,36 @@ msgstr "Вы были приглашены присоединиться к се�
 
 #: app/templates/user-plex-login.html:50 app/templates/welcome-jellyfin.html:40
 msgid "You've been invited!"
-msgstr ""
+msgstr "Вы приглашены!"
 
 #: app/templates/user-plex-login.html:54 app/templates/welcome-jellyfin.html:45
-#, fuzzy
 msgid "To join"
-msgstr "Присоединиться"
+msgstr "Чтобы присоединиться"
 
 #: app/templates/user-plex-login.html:59 app/templates/welcome-jellyfin.html:51
 msgid "Join the ultimate media server experience."
-msgstr ""
+msgstr "Присоединяйтесь к лучшему медиа-серверу."
 
 #: app/templates/user-plex-login.html:67
-#, fuzzy
 msgid "Enter Code to Continue"
-msgstr "Строка кода приглашения"
+msgstr "Введите код для продолжения"
 
 #: app/templates/user-plex-login.html:68
-#, fuzzy
 msgid "Invitation Code"
 msgstr "Код приглашения"
 
 #: app/templates/user-plex-login.html:79 app/templates/user-plex-login.html:94
-#, fuzzy
 msgid "Enter your code"
-msgstr "Код приглашения"
+msgstr "Введите ваш код"
 
 #: app/templates/user-plex-login.html:108
-#, fuzzy
 msgid "Join Server"
-msgstr "Присоединиться к серверу Plex"
+msgstr "Присоединиться к серверу"
 
 #: app/templates/user-plex-login.html:115
 #: app/templates/welcome-jellyfin.html:226
 msgid "Secure invitation system powered by Wizarr"
-msgstr ""
+msgstr "Безопасная система приглашений на базе Wizarr"
 
 #: app/templates/users.html:3
 msgid "Invite User"
@@ -1071,28 +1027,25 @@ msgstr "Пригласить пользователя"
 
 #: app/templates/welcome-jellyfin.html:73
 #: app/templates/welcome-jellyfin.html:78
-#, fuzzy
 msgid "Accept Invitation"
-msgstr "Создать приглашение"
+msgstr "Принять приглашение"
 
 #: app/templates/welcome-jellyfin.html:74
 msgid "Get ready to join the magic"
-msgstr ""
+msgstr "Приготовьтесь присоединиться к магии"
 
 #: app/templates/welcome-jellyfin.html:91
 #: app/templates/welcome-jellyfin.html:206
-#, fuzzy
 msgid "Create Account"
 msgstr "Создать аккаунт"
 
 #: app/templates/welcome-jellyfin.html:92
-#, fuzzy
 msgid "Set up your magical account"
-msgstr "Настроить аккаунт"
+msgstr "Настройте ваш волшебный аккаунт"
 
 #: app/templates/welcome-jellyfin.html:120
 msgid "Enter your username"
-msgstr ""
+msgstr "Введите ваше имя пользователя"
 
 #: app/templates/welcome-jellyfin.html:136
 msgid "Email"
@@ -1100,12 +1053,11 @@ msgstr "Электронная почта"
 
 #: app/templates/welcome-jellyfin.html:139
 msgid "Enter your email"
-msgstr ""
+msgstr "Введите ваш email"
 
 #: app/templates/welcome-jellyfin.html:158
-#, fuzzy
 msgid "Create a password"
-msgstr "Создать аккаунт"
+msgstr "Создайте пароль"
 
 #: app/templates/tables/user_card.html:116
 #: app/templates/welcome-jellyfin.html:193
@@ -1113,68 +1065,64 @@ msgid "Invite Code"
 msgstr "Код приглашения"
 
 #: app/templates/welcome-jellyfin.html:196
-#, fuzzy
 msgid "Enter invite code"
-msgstr "Код приглашения"
+msgstr "Введите код приглашения"
 
 #: app/templates/welcome-jellyfin.html:216
-#, fuzzy
 msgid "Creating account..."
-msgstr "Создать аккаунт"
+msgstr "Создание аккаунта..."
 
 #: app/templates/admin/accepted_invites_card.html:12
 msgid "Latest Accepted Invites"
-msgstr ""
+msgstr "Последние принятые приглашения"
 
 #: app/templates/admin/accepted_invites_card.html:34
 msgid "Recently joined"
-msgstr ""
+msgstr "Недавно присоединились"
 
 #: app/templates/admin/accepted_invites_card.html:51
 msgid "Showing"
-msgstr ""
+msgstr "Показано"
 
 #: app/templates/admin/accepted_invites_card.html:51
 #: app/templates/admin/server_health_card.html:118
 #: app/templates/wizard/steps.html:52 app/templates/wizard/steps.html:92
 msgid "of"
-msgstr ""
+msgstr "из"
 
 #: app/templates/admin/accepted_invites_card.html:59
-#, fuzzy
 msgid "Prev"
-msgstr "Предыдущий"
+msgstr "Назад"
 
 #: app/templates/admin/accepted_invites_card.html:60
 msgid "Page"
-msgstr ""
+msgstr "Страница"
 
 #: app/templates/admin/accepted_invites_card.html:65
 #: app/templates/wizard/steps.html:15 app/templates/wizard/steps.html:21
 #: app/templates/wizard/steps.html:226 app/templates/wizard/steps.html:236
 msgid "Next"
-msgstr "Следующий"
+msgstr "Далее"
 
 #: app/templates/admin/accepted_invites_card.html:137
 msgid "No recent invitations accepted"
-msgstr ""
+msgstr "Нет недавно принятых приглашений"
 
 #: app/templates/admin/accepted_invites_card.html:138
 msgid "Accepted invitations will appear here"
-msgstr ""
+msgstr "Принятые приглашения появятся здесь"
 
 #: app/templates/admin/home.html:6
 msgid "Dashboard"
-msgstr ""
+msgstr "Панель управления"
 
 #: app/templates/admin/home.html:14 app/templates/admin/invites.html:12
-#, fuzzy
 msgid "New Invite"
-msgstr "Быстрое приглашение"
+msgstr "Новое приглашение"
 
 #: app/templates/admin/home.html:33
 msgid "Now Playing"
-msgstr ""
+msgstr "Сейчас воспроизводится"
 
 #: app/templates/admin/invites.html:5
 msgid "Invitations"
@@ -1182,98 +1130,92 @@ msgstr "Приглашения"
 
 #: app/templates/admin/library_breakdown_card.html:11
 msgid "Library Breakdown"
-msgstr ""
+msgstr "Разбивка по библиотекам"
 
 #: app/templates/admin/library_breakdown_card.html:80
-#, fuzzy
 msgid "Per Server"
-msgstr "Сервер"
+msgstr "По серверу"
 
 #: app/templates/admin/library_breakdown_card.html:100
 #: app/templates/admin/library_breakdown_card.html:117
-#, fuzzy
 msgid "No libraries found"
-msgstr "Найти библиотеки"
+msgstr "Библиотеки не найдены"
 
 #: app/templates/admin/library_breakdown_card.html:118
 msgid "Configure your media servers to see library statistics"
-msgstr ""
+msgstr "Настройте ваши медиа-серверы, чтобы увидеть статистику библиотек"
 
 #: app/templates/admin/library_breakdown_card.html:132
-#, fuzzy
 msgid "Failed to load libraries"
-msgstr "Найти библиотеки"
+msgstr "Не удалось загрузить библиотеки"
 
 #: app/templates/admin/library_breakdown_card.html:133
 #: app/templates/admin/recent_content_card.html:130
 #: app/templates/admin/server_health_card.html:155
 #: app/templates/admin/server_stats_card.html:76
 msgid "Unknown error occurred"
-msgstr ""
+msgstr "Произошла неизвестная ошибка"
 
 #: app/templates/admin/now_playing_cards.html:11
 msgid "Unable to load now playing"
-msgstr ""
+msgstr "Не удалось загрузить текущее воспроизведение"
 
 #: app/templates/admin/now_playing_cards.html:12
 msgid "There was an error connecting to your media servers"
-msgstr ""
+msgstr "Произошла ошибка при подключении к вашим медиа-серверам"
 
 #: app/templates/admin/now_playing_cards.html:25
 msgid "No one is watching"
-msgstr ""
+msgstr "Никто не смотрит"
 
 #: app/templates/admin/now_playing_cards.html:26
 msgid "No active media sessions found across your servers"
-msgstr ""
+msgstr "Не найдено активных медиа-сеансов на ваших серверах"
 
 #: app/templates/admin/recent_content_card.html:11
 msgid "Recently Added"
-msgstr ""
+msgstr "Недавно добавленные"
 
 #: app/templates/admin/recent_content_card.html:101
 msgid "Showing latest 10 items"
-msgstr ""
+msgstr "Показаны последние 10 элементов"
 
 #: app/templates/admin/recent_content_card.html:114
 msgid "No recent content found"
-msgstr ""
+msgstr "Не найдено недавнего контента"
 
 #: app/templates/admin/recent_content_card.html:115
 msgid "Add some content to your media servers to see it here"
-msgstr ""
+msgstr "Добавьте контент на ваши медиа-серверы, чтобы увидеть его здесь"
 
 #: app/templates/admin/recent_content_card.html:129
 msgid "Failed to load recent content"
-msgstr ""
+msgstr "Не удалось загрузить недавний контент"
 
 #: app/templates/admin/server_health_card.html:11
-#, fuzzy
 msgid "Server Health"
-msgstr "Настройки сервера"
+msgstr "Состояние сервера"
 
 #: app/templates/admin/server_health_card.html:44
 #: app/templates/admin/server_stats_card.html:36
-#, fuzzy
 msgid "Online"
-msgstr "Присоединиться"
+msgstr "Онлайн"
 
 #: app/templates/admin/server_health_card.html:48
 msgid "Offline"
-msgstr ""
+msgstr "Офлайн"
 
 #: app/templates/admin/server_health_card.html:60
 #: app/templates/admin/server_stats_card.html:29
 #: app/templates/settings/notifications.html:75
 #: app/templates/tables/invite_card.html:13
-#, fuzzy
 msgid "Active"
-msgstr "Сохранить"
+msgstr "Активно"
 
 #: app/templates/admin/server_health_card.html:66
 #: app/templates/admin/server_health_card.html:87
 msgid "Transcoding"
-msgstr ""
+msgstr "Транскодирование"
 
 #: app/templates/admin/server_health_card.html:71
 #: app/templates/admin/server_stats_card.html:24
@@ -1282,94 +1224,87 @@ msgstr "Пользователи"
 
 #: app/templates/admin/server_health_card.html:81
 msgid "Active Sessions"
-msgstr ""
+msgstr "Активные сеансы"
 
 #: app/templates/admin/server_health_card.html:104
 msgid "Server is currently unreachable"
-msgstr ""
+msgstr "Сервер в настоящее время недоступен"
 
 #: app/templates/admin/server_health_card.html:120
-#, fuzzy
 msgid "servers online"
-msgstr "Настройки сервера"
+msgstr "серверов онлайн"
 
 #: app/templates/admin/server_health_card.html:124
-#, fuzzy
 msgid "server(s) need attention"
-msgstr "Настройки сервера"
+msgstr "серверов требуют внимания"
 
 #: app/templates/admin/server_health_card.html:139
 msgid "No servers configured"
-msgstr ""
+msgstr "Серверы не настроены"
 
 #: app/templates/admin/server_health_card.html:140
 msgid "Add media servers to monitor their health"
-msgstr ""
+msgstr "Добавьте медиа-серверы для мониторинга их состояния"
 
 #: app/templates/admin/server_health_card.html:154
 msgid "Failed to load server health"
-msgstr ""
+msgstr "Не удалось загрузить состояние сервера"
 
 #: app/templates/admin/server_stats_card.html:11
-#, fuzzy
 msgid "Server Overview"
-msgstr "Настройки сервера"
+msgstr "Обзор сервера"
 
 #: app/templates/admin/server_stats_card.html:19
 msgid "Items"
-msgstr ""
+msgstr "Элементы"
 
 #: app/templates/admin/server_stats_card.html:41
 msgid "Server Breakdown"
-msgstr ""
+msgstr "Разбивка по серверам"
 
 #: app/templates/admin/server_stats_card.html:62
 msgid "No active servers found"
-msgstr ""
+msgstr "Не найдено активных серверов"
 
 #: app/templates/admin/server_stats_card.html:75
 msgid "Failed to load statistics"
-msgstr ""
+msgstr "Не удалось загрузить статистику"
 
 #: app/templates/admin/user_details_modal.html:8
 msgid "User Details"
-msgstr ""
+msgstr "Детали пользователя"
 
 #: app/templates/admin/user_details_modal.html:55
-#, fuzzy
 msgid "Joined"
-msgstr "Присоединиться"
+msgstr "Присоединился"
 
 #: app/templates/admin/user_details_modal.html:62
 msgid "Account Details"
-msgstr ""
+msgstr "Детали аккаунта"
 
 #: app/templates/admin/user_details_modal.html:87
-#, fuzzy
 msgid "All libraries"
-msgstr "Библиотеки"
+msgstr "Все библиотеки"
 
 #: app/templates/admin/user_details_modal.html:93
-#, fuzzy
 msgid "Permissions"
-msgstr "Доступ запрещен."
+msgstr "Разрешения"
 
 #: app/templates/admin/user_details_modal.html:108
-#, fuzzy
 msgid "Downloads"
-msgstr "Разрешить загрузки"
+msgstr "Загрузки"
 
 #: app/templates/admin/user_details_modal.html:116
 msgid "Live TV"
-msgstr ""
+msgstr "Live TV"
 
 #: app/templates/admin/user_details_modal.html:124
 msgid "Camera Upload"
-msgstr ""
+msgstr "Загрузка с камеры"
 
 #: app/templates/admin/user_details_modal.html:132
 msgid "Basic Access"
-msgstr ""
+msgstr "Базовый доступ"
 
 #: app/templates/admin/user_details_modal.html:144
 #: app/templates/components/admin_passkeys.html:61
@@ -1378,119 +1313,108 @@ msgstr ""
 #: app/templates/modals/invite.html:412
 #: app/templates/modals/password-reset-link.html:152
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 #: app/templates/admin/user_modal.html:11
-#, fuzzy
 msgid "Edit User"
-msgstr "Сервер"
+msgstr "Редактировать пользователя"
 
 #: app/templates/admin/user_modal.html:16
 #: app/templates/admin/user_modal.html:24
 #: app/templates/modals/connection-form.html:20
 #: app/templates/modals/password-reset-link.html:29
 msgid "Close modal"
-msgstr ""
+msgstr "Закрыть окно"
 
 #: app/templates/admin/user_modal.html:30
 msgid "Tabs"
-msgstr ""
+msgstr "Вкладки"
 
 #: app/templates/admin/user_modal.html:42
 msgid "Local"
-msgstr ""
+msgstr "Локальный"
 
 #: app/templates/admin/user_modal.html:52
 #: app/templates/admin/user_modal.html:249
 #: app/templates/tables/user_card.html:130
 msgid "Notes"
-msgstr ""
+msgstr "Заметки"
 
 #: app/templates/admin/user_modal.html:81
-#, fuzzy
 msgid "Permission Management"
-msgstr "Имя пользователя"
+msgstr "Управление разрешениями"
 
 #: app/templates/admin/user_modal.html:93
 msgid "Toggle downloads permission"
-msgstr ""
+msgstr "Переключить разрешение на загрузки"
 
 #: app/templates/admin/user_modal.html:118
 msgid "Toggle live TV permission"
-msgstr ""
+msgstr "Переключить разрешение на Live TV"
 
 #: app/templates/admin/user_modal.html:138
-#, fuzzy
 msgid "Allow Camera Upload"
-msgstr "Разрешить загрузки"
+msgstr "Разрешить загрузку с камеры"
 
 #: app/templates/admin/user_modal.html:144
 msgid "Toggle camera upload permission"
-msgstr ""
+msgstr "Переключить разрешение на загрузку с камеры"
 
 #: app/templates/admin/user_modal.html:169
-#, fuzzy
 msgid "Library Access"
-msgstr "Библиотеки"
+msgstr "Доступ к библиотекам"
 
 #: app/templates/admin/user_modal.html:172
-#, fuzzy
 msgid "No libraries available"
-msgstr "Найти библиотеки"
+msgstr "Нет доступных библиотек"
 
 #: app/templates/admin/user_modal.html:173
 msgid "Scan libraries from the invitation page to enable library restrictions"
-msgstr ""
+msgstr "Просканируйте библиотеки со страницы приглашений, чтобы включить ограничения библиотек"
 
 #: app/templates/admin/user_modal.html:205
 msgid "Click to toggle library access. Updates save automatically."
-msgstr ""
+msgstr "Нажмите, чтобы переключить доступ к библиотеке. Обновления сохраняются автоматически."
 
 #: app/templates/admin/user_modal.html:211
-#, fuzzy
 msgid "Expiry Management"
-msgstr "Имя пользователя"
+msgstr "Управление сроком действия"
 
 #: app/templates/admin/user_modal.html:218
-#, fuzzy
 msgid "Expiry date"
-msgstr "Срок действия"
+msgstr "Дата истечения"
 
 #: app/templates/admin/user_modal.html:228
 msgid "Update"
-msgstr ""
+msgstr "Обновить"
 
 #: app/templates/admin/user_modal.html:233
-#, fuzzy
 msgid "Current expiry"
-msgstr "Изменить срок действия"
+msgstr "Текущий срок действия"
 
 #: app/templates/admin/user_modal.html:235
-#, fuzzy
 msgid "No expiry set"
-msgstr "Срок действия"
+msgstr "Срок действия не установлен"
 
 #: app/templates/admin/user_modal.html:253
-#, fuzzy
 msgid "User notes"
-msgstr "Пользователи"
+msgstr "Заметки о пользователе"
 
 #: app/templates/admin/user_modal.html:257
 msgid "Add notes about this user..."
-msgstr ""
+msgstr "Добавить заметки об этом пользователе..."
 
 #: app/templates/admin/user_modal.html:263
 msgid "Update Notes"
-msgstr ""
+msgstr "Обновить заметки"
 
 #: app/templates/admin/users.html:192
-#, fuzzy
 msgid "Link"
-msgstr "Войти"
+msgstr "Связать"
 
 #: app/templates/admin/users.html:198
 msgid "Unlink"
-msgstr ""
+msgstr "Отвязать"
 
 #: app/templates/admin/users.html:204 app/templates/servers/index.html:31
 #: app/templates/settings/connections.html:137
@@ -1500,7 +1424,7 @@ msgstr "Удалить"
 #: app/templates/components/admin_passkeys.html:4
 #, python-brace-format
 msgid "Passkeys for {}"
-msgstr ""
+msgstr "Ключи доступа для {}"
 
 #: app/templates/components/admin_passkeys.html:30
 #: app/templates/tables/invite_card.html:100
@@ -1509,63 +1433,61 @@ msgstr "Создано"
 
 #: app/templates/components/admin_passkeys.html:34
 #: app/templates/components/passkey_list.html:22
-#, fuzzy
 msgid "Last used"
-msgstr "Использовано"
+msgstr "Последнее использование"
 
 #: app/templates/components/admin_passkeys.html:56
 msgid "Reset All Passkeys"
-msgstr ""
+msgstr "Сбросить все ключи доступа"
 
 #: app/templates/components/admin_passkeys.html:73
 msgid "No passkeys registered for this user."
-msgstr ""
+msgstr "Для этого пользователя не зарегистрировано ключей доступа."
 
 #: app/templates/components/admin_passkeys.html:84
 msgid "Are you sure you want to delete this passkey?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить этот ключ доступа?"
 
 #: app/templates/components/admin_passkeys.html:96
 msgid "Failed to delete passkey"
-msgstr ""
+msgstr "Не удалось удалить ключ доступа"
 
 #: app/templates/components/admin_passkeys.html:101
 msgid "An error occurred while deleting the passkey"
-msgstr ""
+msgstr "Произошла ошибка при удалении ключа доступа"
 
 #: app/templates/components/admin_passkeys.html:107
 #, python-brace-format
 msgid "Are you sure you want to reset ALL passkeys for {}?"
-msgstr ""
+msgstr "Вы уверены, что хотите сбросить ВСЕ ключи доступа для {}?"
 
 #: app/templates/components/admin_passkeys.html:107
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Это действие не может быть отменено."
 
 #: app/templates/components/admin_passkeys.html:116
 msgid "All passkeys have been reset"
-msgstr ""
+msgstr "Все ключи доступа были сброшены"
 
 #: app/templates/components/admin_passkeys.html:119
 msgid "Failed to reset passkeys"
-msgstr ""
+msgstr "Не удалось сбросить ключи доступа"
 
 #: app/templates/components/admin_passkeys.html:124
 msgid "An error occurred while resetting passkeys"
-msgstr ""
+msgstr "Произошла ошибка при сбросе ключей доступа"
 
 #: app/templates/components/passkey_add_form.html:4
 msgid "Add New Passkey"
-msgstr ""
+msgstr "Добавить новый ключ доступа"
 
 #: app/templates/components/passkey_add_form.html:10
-#, fuzzy
 msgid "Passkey Name"
-msgstr "Имя пользователя"
+msgstr "Имя ключа доступа"
 
 #: app/templates/components/passkey_add_form.html:16
 msgid "e.g., My iPhone, Work Laptop"
-msgstr ""
+msgstr "например, Мой iPhone, Рабочий ноутбук"
 
 #: app/templates/components/passkey_add_form.html:24
 #: app/templates/components/passkey_register.html:19
@@ -1595,62 +1517,61 @@ msgstr "Отменить"
 
 #: app/templates/components/passkey_add_form.html:28
 #: app/templates/components/passkey_register.html:4
-#, fuzzy
 msgid "Create Passkey"
-msgstr "Создать менеджера"
+msgstr "Создать ключ доступа"
 
 #: app/templates/components/passkey_list.html:20
 msgid "Added"
-msgstr ""
+msgstr "Добавлено"
 
 #: app/templates/components/passkey_list.html:51
 msgid "No passkeys registered"
-msgstr ""
+msgstr "Ключи доступа не зарегистрированы"
 
 #: app/templates/components/passkey_list.html:52
 msgid "Add your first passkey for enhanced security"
-msgstr ""
+msgstr "Добавьте ваш первый ключ доступа для повышения безопасности"
 
 #: app/templates/components/passkey_management.html:17
 msgid "Passkeys"
-msgstr ""
+msgstr "Ключи доступа"
 
 #: app/templates/components/passkey_management.html:25
 #: app/templates/components/passkey_management.html:37
 msgid "Passkeys require HTTPS connection"
-msgstr ""
+msgstr "Ключи доступа требуют HTTPS-соединения"
 
 #: app/templates/components/passkey_management.html:25
 msgid "Add Passkey"
-msgstr ""
+msgstr "Добавить ключ доступа"
 
 #: app/templates/components/passkey_management.html:40
 msgid "To use passkeys, please access this page over HTTPS."
-msgstr ""
+msgstr "Для использования ключей доступа, пожалуйста, откройте эту страницу через HTTPS."
 
 #: app/templates/components/passkey_management.html:44
 msgid "Manage your passkeys for passwordless authentication."
-msgstr ""
+msgstr "Управляйте вашими ключами доступа для аутентификации без пароля."
 
 #: app/templates/components/passkey_management.html:53
 msgid "Loading passkeys..."
-msgstr ""
+msgstr "Загрузка ключей доступа..."
 
 #: app/templates/components/passkey_register.html:8
 msgid "Creating passkey for"
-msgstr ""
+msgstr "Создание ключа доступа для"
 
 #: app/templates/components/passkey_register.html:11
 msgid "Please follow your device's prompts to complete setup"
-msgstr ""
+msgstr "Пожалуйста, следуйте подсказкам вашего устройства для завершения настройки"
 
 #: app/templates/components/passkey_register.html:111
 msgid "Failed to register passkey"
-msgstr ""
+msgstr "Не удалось зарегистрировать ключ доступа"
 
 #: app/templates/components/passkey_register.html:116
 msgid "Failed to complete passkey registration"
-msgstr ""
+msgstr "Не удалось завершить регистрацию ключа доступа"
 
 #: app/templates/error/401.html:15
 msgid "Permission denied."
@@ -1678,7 +1599,7 @@ msgstr " Что-то пошло не так. Повторите попытку �
 
 #: app/templates/modals/bundle-add-steps.html:13
 msgid "Add steps to bundle"
-msgstr ""
+msgstr "Добавить шаги в набор"
 
 #: app/templates/modals/bundle-add-steps.html:26
 #: app/templates/settings/wizard/bundles.html:94
@@ -1686,137 +1607,131 @@ msgstr ""
 #: app/templates/settings/wizard/bundles.html:257
 #: app/templates/settings/wizard/steps.html:86
 #: app/templates/settings/wizard/steps.html:166
-#, fuzzy
 msgid "Untitled"
-msgstr "Не ограничено"
+msgstr "Без названия"
 
 #: app/templates/modals/bundle-add-steps.html:29
 msgid "All steps are already included."
-msgstr ""
+msgstr "Все шаги уже включены."
 
 #: app/templates/modals/bundle-add-steps.html:39
 #: app/templates/modals/create-admin.html:43
 msgid "Add"
-msgstr ""
+msgstr "Добавить"
 
 #: app/templates/modals/connection-form.html:9
 #: app/templates/settings/connections/form.html:4
 #: app/templates/settings/connections/form.html:61
 msgid "Add New Connection"
-msgstr ""
+msgstr "Добавить новое подключение"
 
 #: app/templates/modals/connection-form.html:11
 #: app/templates/settings/connections/form.html:6
 #: app/templates/settings/connections/form.html:51
 #: app/templates/settings/connections/form.html:63
 msgid "Edit Connection"
-msgstr ""
+msgstr "Редактировать подключение"
 
 #: app/templates/modals/connection-form.html:76
 #: app/templates/settings/connections/form.html:125
 msgid "Overseerr/Jellyseerr Information"
-msgstr ""
+msgstr "Информация Overseerr/Jellyseerr"
 
 #: app/templates/modals/connection-form.html:78
 #: app/templates/settings/connections/form.html:127
 msgid ""
 "Overseerr and Jellyseerr automatically import new users by default. No "
 "API connection is required for Wizarr integration."
-msgstr ""
+msgstr "Overseerr и Jellyseerr автоматически импортируют новых пользователей по умолчанию. Подключение API для интеграции с Wizarr не требуется."
 
 #: app/templates/modals/connection-form.html:82
 #: app/templates/settings/connections/form.html:130
 msgid "To enable auto-import:"
-msgstr ""
+msgstr "Для включения автоимпорта:"
 
 #: app/templates/modals/connection-form.html:84
 msgid ""
 "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
 "new users' and 'Import Jellyfin/Plex users'"
 msgstr ""
+"Перейдите в Настройки Overseerr/Jellyseerr → Пользователи → Включите "
+"'Автоматическое одобрение новых пользователей' и 'Импорт пользователей Jellyfin/Plex'"
 
 #: app/templates/modals/connection-form.html:139
 msgid "Testing connection..."
-msgstr ""
+msgstr "Проверка подключения..."
 
 #: app/templates/modals/connection-form.html:147
 #: app/templates/settings/connections/form.html:188
-#, fuzzy
 msgid "Create Connection"
-msgstr "Создать приглашение"
+msgstr "Создать подключение"
 
 #: app/templates/modals/connection-form.html:149
 #: app/templates/settings/connections/form.html:190
 msgid "Update Connection"
-msgstr ""
+msgstr "Обновить подключение"
 
 #: app/templates/modals/connection-form.html:158
 msgid "Test Connection"
-msgstr ""
+msgstr "Проверить подключение"
 
 #: app/templates/modals/create-admin.html:12
 msgid "Add Administrator"
-msgstr ""
+msgstr "Добавить администратора"
 
 #: app/templates/modals/create-api-key.html:13
-#, fuzzy
 msgid "API Key Created"
-msgstr "Создано"
+msgstr "API ключ создан"
 
 #: app/templates/modals/create-api-key.html:15
 #: app/templates/settings/api_keys.html:17
 #: app/templates/settings/general.html:207
-#, fuzzy
 msgid "Create API Key"
-msgstr "Создать менеджера"
+msgstr "Создать API ключ"
 
 #: app/templates/modals/create-api-key.html:30
 msgid "API Key Created Successfully"
-msgstr ""
+msgstr "API ключ успешно создан"
 
 #: app/templates/modals/create-api-key.html:33
 msgid ""
 "Your API key has been created. Please copy it now as it will not be shown"
 " again."
-msgstr ""
+msgstr "Ваш API ключ создан. Пожалуйста, скопируйте его сейчас, так как он больше не будет показан."
 
 #: app/templates/modals/create-api-key.html:40
-#, fuzzy
 msgid "Copy to clipboard"
-msgstr "Ссылка скопирована в буфер обмена!"
+msgstr "Копировать в буфер обмена"
 
 #: app/templates/modals/create-api-key.html:48
-#, fuzzy
 msgid "Name:"
-msgstr "Имя пользователя"
+msgstr "Название:"
 
 #: app/templates/modals/create-api-key.html:55
 msgid "Done"
-msgstr ""
+msgstr "Готово"
 
 #: app/templates/modals/create-api-key.html:69
 msgid "API Key Name"
-msgstr ""
+msgstr "Название API ключа"
 
 #: app/templates/modals/create-api-key.html:74
 msgid "Enter a descriptive name to help you identify this API key later."
-msgstr ""
+msgstr "Введите понятное название для идентификации этого API ключа в будущем."
 
 #: app/templates/modals/create-notification-agent.html:32
 msgid "New Agent"
-msgstr "Новый менеджер"
+msgstr "Новый агент"
 
 #: app/templates/modals/create-notification-agent.html:73
 #: app/templates/modals/edit-notification-agent.html:58
-#, fuzzy
 msgid "Channel ID"
-msgstr "Отменить"
+msgstr "ID канала"
 
 #: app/templates/modals/create-notification-agent.html:84
 #: app/templates/modals/edit-notification-agent.html:76
-#, fuzzy
 msgid "Username (optional)"
-msgstr "(опционально)"
+msgstr "Имя пользователя (опционально)"
 
 #: app/templates/modals/create-notification-agent.html:92
 #: app/templates/modals/edit-notification-agent.html:85
@@ -1826,49 +1741,45 @@ msgstr "Пароль (опционально)"
 #: app/templates/modals/create-notification-agent.html:101
 #: app/templates/modals/edit-notification-agent.html:95
 msgid "Agent URL"
-msgstr ""
+msgstr "URL агента"
 
 #: app/templates/modals/create-notification-agent.html:110
 #: app/templates/modals/edit-notification-agent.html:105
-#, fuzzy
 msgid "Notification Events"
-msgstr "Менеджеры уведомлений"
+msgstr "События уведомлений"
 
 #: app/templates/modals/create-notification-agent.html:121
 #: app/templates/modals/edit-notification-agent.html:117
 #: app/templates/settings/notifications.html:84
-#, fuzzy
 msgid "User Joined"
-msgstr "Присоединиться"
+msgstr "Пользователь присоединился"
 
 #: app/templates/modals/create-notification-agent.html:133
 #: app/templates/modals/edit-notification-agent.html:129
 #: app/templates/settings/notifications.html:89
 msgid "Update Available"
-msgstr ""
+msgstr "Доступно обновление"
 
 #: app/templates/modals/create-notification-agent.html:141
 msgid "Test & Create Agent"
-msgstr "Проверить и добавить менеджер"
+msgstr "Проверить и создать агент"
 
 #: app/templates/modals/create-server.html:12
 #: app/templates/servers/index.html:6 app/templates/settings/servers.html:107
-#, fuzzy
 msgid "Add Server"
-msgstr "Сервер"
+msgstr "Добавить сервер"
 
 #: app/templates/modals/create-server.html:163
 msgid "Test & Add"
-msgstr ""
+msgstr "Проверить и добавить"
 
 #: app/templates/modals/edit-admin.html:12
 msgid "Edit Administrator"
-msgstr ""
+msgstr "Редактировать администратора"
 
 #: app/templates/modals/edit-admin.html:29
-#, fuzzy
 msgid "New Password (optional)"
-msgstr "Пароль (опционально)"
+msgstr "Новый пароль (опционально)"
 
 #: app/templates/modals/edit-admin.html:45
 #: app/templates/modals/edit-identity.html:44
@@ -1883,61 +1794,53 @@ msgid "Save"
 msgstr "Сохранить"
 
 #: app/templates/modals/edit-identity.html:12
-#, fuzzy
 msgid "Edit Identity"
-msgstr "Изменить срок действия"
+msgstr "Редактировать идентификацию"
 
 #: app/templates/modals/edit-identity.html:33
 msgid "Nickname"
-msgstr ""
+msgstr "Псевдоним"
 
 #: app/templates/modals/edit-notification-agent.html:12
-#, fuzzy
 msgid "Edit Agent"
-msgstr "Новый менеджер"
+msgstr "Редактировать агент"
 
 #: app/templates/modals/edit-notification-agent.html:24
 #: app/templates/servers/index.html:10
-#, fuzzy
 msgid "Name"
-msgstr "Имя пользователя"
+msgstr "Имя"
 
 #: app/templates/modals/edit-notification-agent.html:36
-#, fuzzy
 msgid "Notification Service"
-msgstr "Менеджеры уведомлений"
+msgstr "Сервис уведомлений"
 
 #: app/templates/modals/edit-notification-agent.html:137
-#, fuzzy
 msgid "Test & Save Changes"
-msgstr "Проверить и добавить менеджер"
+msgstr "Проверить и сохранить изменения"
 
 #: app/templates/modals/edit-server.html:12
-#, fuzzy
 msgid "Edit Server"
-msgstr "Сервер"
+msgstr "Редактировать сервер"
 
 #: app/templates/modals/invite.html:14 app/templates/modals/invite.html:358
 msgid "Create Invitation"
 msgstr "Создать приглашение"
 
 #: app/templates/modals/invite.html:16
-#, fuzzy
 msgid "Invitation Created"
-msgstr "Приглашения"
+msgstr "Приглашение создано"
 
 #: app/templates/modals/invite.html:46
 msgid "Invite Code String"
 msgstr "Строка кода приглашения"
 
 #: app/templates/modals/invite.html:47
-#, fuzzy
 msgid "optional"
-msgstr "(опционально)"
+msgstr "опционально"
 
 #: app/templates/modals/invite.html:55
 msgid "E.g. XMFGEJIKNQ"
-msgstr ""
+msgstr "Например: XMFGEJIKNQ"
 
 #: app/templates/modals/invite.html:61
 msgid "Expiration"
@@ -1957,24 +1860,23 @@ msgstr "1 месяц"
 
 #: app/templates/modals/invite.html:77
 msgid "Wizard bundle"
-msgstr ""
+msgstr "Набор мастера"
 
 #: app/templates/modals/invite.html:82
 msgid "Automatic"
-msgstr ""
+msgstr "Автоматически"
 
 #: app/templates/modals/invite.html:91
 msgid "Advanced Options"
 msgstr "Дополнительные настройки"
 
 #: app/templates/modals/invite.html:98
-#, fuzzy
 msgid "Invite Settings"
-msgstr "Строка кода приглашения"
+msgstr "Настройки приглашения"
 
 #: app/templates/modals/invite.html:108
 msgid "Unlimited Usages"
-msgstr "Неограниченное число использований"
+msgstr "Неограниченное число использований приглашения"
 
 #: app/templates/modals/invite.html:114 app/templates/modals/invite.html:136
 #: app/templates/tables/invite_card.html:129
@@ -1982,29 +1884,24 @@ msgid "Duration"
 msgstr "Длительность"
 
 #: app/templates/modals/invite.html:115
-#, fuzzy
 msgid "in days"
-msgstr "(в днях)"
+msgstr "в днях"
 
 #: app/templates/modals/invite.html:128
 msgid "Show Information"
 msgstr "Показать информацию"
 
 #: app/templates/modals/invite.html:137
-#, fuzzy
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
 msgstr ""
-"При активации, пользователь (и-) с приглашением будут удалены с сервера "
-"Plex через\n"
-"                                        количество\n"
-"                                        дней. (1-999)"
+"При активации приглашенные пользователи будут удалены с сервера Plex через "
+"указанное количество дней. (1-999)"
 
 #: app/templates/modals/invite.html:152
-#, fuzzy
 msgid "Target servers"
-msgstr "Сервер"
+msgstr "Целевые серверы"
 
 #: app/templates/modals/invite.html:186
 msgid "Invite to Plex Home"
@@ -2013,61 +1910,56 @@ msgstr "Пригласить в Plex Home"
 #: app/templates/modals/invite.html:208 app/templates/modals/invite.html:242
 #: app/templates/modals/invite.html:283
 msgid "Allow Live TV Access"
-msgstr ""
+msgstr "Разрешить доступ к Live TV"
 
 #: app/templates/modals/invite.html:219 app/templates/modals/invite.html:294
-#, fuzzy
 msgid "Allow Mobile Uploads"
-msgstr "Разрешить загрузки"
+msgstr "Разрешить загрузки с мобильных устройств"
 
 #: app/templates/modals/invite.html:250
 msgid "Max Active Sessions"
-msgstr ""
+msgstr "Максимум активных сессий"
 
 #: app/templates/modals/invite.html:251
 msgid "simultaneous devices"
-msgstr ""
+msgstr "одновременных устройств"
 
 #: app/templates/modals/invite.html:260
 msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
-msgstr ""
+msgstr "Количество устройств для одновременного воспроизведения. Установите 0 для неограниченного."
 
 #: app/templates/modals/invite.html:334
-#, fuzzy
 msgid "Select Libraries"
-msgstr "Библиотеки"
+msgstr "Выбрать библиотеки"
 
 #: app/templates/modals/invite.html:347 app/templates/modals/invite.html:451
-#, fuzzy
 msgid "Loading…"
-msgstr "Войти"
+msgstr "Загрузка…"
 
 #: app/templates/modals/invite.html:378
 msgid "Successfully generated an Invitation!"
 msgstr "Приглашение успешно создано!"
 
 #: app/templates/modals/invite.html:384
-#, fuzzy
 msgid "Invitation Link"
-msgstr "Приглашения"
+msgstr "Ссылка-приглашение"
 
 #: app/templates/modals/invite.html:396
 #: app/templates/modals/password-reset-link.html:84
 msgid "Copy"
-msgstr ""
+msgstr "Копировать"
 
 #: app/templates/modals/invite.html:401
 msgid "Link has been copied to clipboard!"
 msgstr "Ссылка скопирована в буфер обмена!"
 
 #: app/templates/modals/invite.html:407
-#, fuzzy
 msgid "Create Another"
-msgstr "Создать аккаунт"
+msgstr "Создать еще одно"
 
 #: app/templates/modals/invite.html:461
 msgid "Please select at least one server for the invitation."
-msgstr ""
+msgstr "Пожалуйста, выберите хотя бы один сервер для приглашения."
 
 #: app/templates/modals/password-reset-link.html:14
 #, fuzzy
@@ -2151,336 +2043,328 @@ msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:13
 msgid "Import Wizard Steps"
-msgstr ""
+msgstr "Импорт шагов мастера"
 
 #: app/templates/modals/wizard-import-form.html:47
 #: app/templates/settings/wizard/import_form.html:28
 msgid "Click to upload"
-msgstr ""
+msgstr "Нажмите для загрузки"
 
 #: app/templates/modals/wizard-import-form.html:47
 #: app/templates/settings/wizard/import_form.html:28
 msgid "or drag and drop"
-msgstr ""
+msgstr "или перетащите файл"
 
 #: app/templates/modals/wizard-import-form.html:49
 msgid "JSON files only"
-msgstr ""
+msgstr "Только JSON файлы"
 
 #: app/templates/modals/wizard-import-form.html:62
 #: app/templates/settings/wizard/import_form.html:52
-#, fuzzy
 msgid "Import Options"
-msgstr "Пароль (опционально)"
+msgstr "Параметры импорта"
 
 #: app/templates/modals/wizard-import-form.html:70
 msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
 "steps will be merged with existing ones."
 msgstr ""
+"При включении существующие шаги будут заменены. При выключении импортированные "
+"шаги будут объединены с существующими."
 
 #: app/templates/modals/wizard-import-form.html:90
 msgid "Important Notice"
-msgstr ""
+msgstr "Важное уведомление"
 
 #: app/templates/modals/wizard-import-form.html:92
 msgid ""
 "This action will modify your wizard steps configuration. Make sure to "
 "backup your current steps before importing if you want to preserve them."
 msgstr ""
+"Это действие изменит конфигурацию шагов мастера. Обязательно создайте резервную "
+"копию текущих шагов перед импортом, если хотите их сохранить."
 
 #: app/templates/modals/wizard-import-form.html:111
 msgid "Import Steps"
-msgstr ""
+msgstr "Импортировать шаги"
 
 #: app/templates/modals/wizard-preset-form.html:13
 #: app/templates/settings/wizard/preset_form.html:3
 msgid "Add Preset Wizard Step"
-msgstr ""
+msgstr "Добавить предустановленный шаг мастера"
 
 #: app/templates/modals/wizard-preset-form.html:29
 #: app/templates/modals/wizard-simple-step-form.html:24
 #: app/templates/modals/wizard-step-form.html:29
 msgid "Choose when this step should be shown to users"
-msgstr ""
+msgstr "Выберите, когда этот шаг должен быть показан пользователям"
 
 #: app/templates/modals/wizard-preset-form.html:39
 #: app/templates/settings/wizard/preset_form.html:17
 msgid "Your Discord server ID"
-msgstr ""
+msgstr "ID вашего сервера Discord"
 
 #: app/templates/modals/wizard-preset-form.html:44
 #: app/templates/settings/wizard/preset_form.html:22
 msgid "URL to your Overseerr/Ombi instance"
-msgstr ""
+msgstr "URL вашего экземпляра Overseerr/Ombi"
 
 #: app/templates/modals/wizard-preset-form.html:61
 #: app/templates/settings/wizard/_sub_nav.html:125
 #: app/templates/settings/wizard/preset_form.html:36
-#, fuzzy
 msgid "Create Step"
-msgstr "Создать менеджера"
+msgstr "Создать шаг"
 
 #: app/templates/modals/wizard-step-form.html:46
 msgid "Add..."
-msgstr ""
+msgstr "Добавить..."
 
 #: app/templates/modals/wizard-step-form.html:66
 msgid "Widgets"
-msgstr ""
+msgstr "Виджеты"
 
 #: app/templates/modals/wizard-step-form.html:78
 msgid "Recently Added Media"
-msgstr ""
+msgstr "Недавно добавленные медиа"
 
 #: app/templates/modals/wizard-step-form.html:79
 msgid "Show recent content"
-msgstr ""
+msgstr "Показать недавний контент"
 
 #: app/templates/modals/wizard-step-form.html:95
 msgid "Button"
-msgstr ""
+msgstr "Кнопка"
 
 #: app/templates/modals/wizard-step-form.html:96
 msgid "Add a clickable link button"
-msgstr ""
+msgstr "Добавить кликабельную кнопку-ссылку"
 
 #: app/templates/modals/wizard-step-form.html:101
-#, fuzzy
 msgid "Elements"
-msgstr "Создать менеджера"
+msgstr "Элементы"
 
 #: app/templates/modals/wizard-step-form.html:115
 msgid "Card"
-msgstr ""
+msgstr "Карточка"
 
 #: app/templates/modals/wizard-step-form.html:116
 msgid "Add a styled content card"
-msgstr ""
+msgstr "Добавить стилизованную карточку контента"
 
 #: app/templates/partials/api_keys_grid.html:36
-#, fuzzy
 msgid "Delete API Key"
-msgstr "Удалить"
+msgstr "Удалить API ключ"
 
 #: app/templates/partials/api_keys_grid.html:58
 msgid "No API keys"
-msgstr ""
+msgstr "Нет API ключей"
 
 #: app/templates/partials/api_keys_grid.html:59
 msgid "Get started by creating a new API key."
-msgstr ""
+msgstr "Начните с создания нового API ключа."
 
 #: app/templates/servers/index.html:4 app/templates/settings/servers.html:4
-#, fuzzy
 msgid "Media Servers"
-msgstr "Сервер"
+msgstr "Медиа серверы"
 
 #: app/templates/servers/index.html:11
 #: app/templates/settings/connections.html:36
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #: app/templates/servers/index.html:12
 #: app/templates/settings/connections.html:38
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: app/templates/servers/index.html:13 app/templates/settings/servers.html:56
 msgid "Verified"
-msgstr ""
+msgstr "Проверен"
 
 #: app/templates/servers/index.html:14
 #: app/templates/settings/connections.html:39
-#, fuzzy
 msgid "Actions"
-msgstr "Приглашения"
+msgstr "Действия"
 
 #: app/templates/servers/index.html:26
 #: app/templates/settings/connections.html:122
 msgid "Edit"
-msgstr ""
+msgstr "Редактировать"
 
 #: app/templates/servers/index.html:30
 msgid "Delete this server?"
-msgstr ""
+msgstr "Удалить этот сервер?"
 
 #: app/templates/servers/index.html:37
 msgid "No servers configured yet."
-msgstr ""
+msgstr "Серверы еще не настроены."
 
 #: app/templates/settings/admins.html:4
-#, fuzzy
 msgid "Administrators"
-msgstr "Приглашения"
+msgstr "Администраторы"
 
 #: app/templates/settings/admins.html:24
 msgid "Manage Passkeys"
-msgstr ""
+msgstr "Управление Passkeys"
 
 #: app/templates/settings/admins.html:59
 msgid "No administrators yet."
-msgstr ""
+msgstr "Администраторов пока нет."
 
 #: app/templates/settings/admins.html:68
-#, fuzzy
 msgid "Add Admin"
-msgstr "Администратор"
+msgstr "Добавить администратора"
 
 #: app/templates/settings/api_keys.html:5
 msgid "API Keys"
-msgstr ""
+msgstr "API ключи"
 
 #: app/templates/settings/connections.html:7
 #: app/templates/settings/connections/form.html:37
 #: app/templates/settings/index.html:93
 msgid "Connections"
-msgstr ""
+msgstr "Подключения"
 
 #: app/templates/settings/connections.html:9
 msgid "Manage external service connections for automated user invitations"
-msgstr ""
+msgstr "Управление подключениями к внешним сервисам для автоматических приглашений пользователей"
 
 #: app/templates/settings/connections.html:23
 #: app/templates/settings/connections/form.html:49
-#, fuzzy
 msgid "Add Connection"
-msgstr "Дополнительные настройки"
+msgstr "Добавить подключение"
 
 #: app/templates/settings/connections.html:35
 msgid "Connection Name"
-msgstr ""
+msgstr "Имя подключения"
 
 #: app/templates/settings/connections.html:37
-#, fuzzy
 msgid "Media Server"
-msgstr "Сервер"
+msgstr "Медиа сервер"
 
 #: app/templates/settings/connections.html:53
 msgid "Overseerr (Info)"
-msgstr ""
+msgstr "Overseerr (Информация)"
 
 #: app/templates/settings/connections.html:65
 msgid "Ombi"
-msgstr ""
+msgstr "Ombi"
 
 #: app/templates/settings/connections.html:77
 msgid "Audiobookrequest"
-msgstr ""
+msgstr "Audiobookrequest"
 
 #: app/templates/settings/connections.html:107
 msgid "Auto-import enabled"
-msgstr ""
+msgstr "Автоимпорт включен"
 
 #: app/templates/settings/connections.html:127
 msgid "Are you sure you want to delete this connection?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить это подключение?"
 
 #: app/templates/settings/connections.html:157
 msgid "No connections configured"
-msgstr ""
+msgstr "Подключения не настроены"
 
 #: app/templates/settings/connections.html:159
 msgid ""
 "Connect your external services to automate user invitations when invites "
 "are created for specific media servers."
 msgstr ""
+"Подключите внешние сервисы для автоматизации приглашений пользователей при "
+"создании приглашений для определенных медиа серверов."
 
 #: app/templates/settings/connections.html:171
 msgid "Add Your First Connection"
-msgstr ""
+msgstr "Добавьте первое подключение"
 
 #: app/templates/settings/general.html:8
-#, fuzzy
 msgid "General Settings"
-msgstr "Настройки сервера"
+msgstr "Общие настройки"
 
 #: app/templates/settings/general.html:10
 msgid "Configure your application's basic settings and preferences"
-msgstr ""
+msgstr "Настройте основные параметры и предпочтения приложения"
 
 #: app/templates/settings/general.html:14
-#, fuzzy
 msgid "Version"
-msgstr "Доступ запрещен."
+msgstr "Версия"
 
 #: app/templates/settings/general.html:42
 msgid "Display"
-msgstr ""
+msgstr "Отображение"
 
 #: app/templates/settings/general.html:43
 msgid "Configure how your application appears to users"
-msgstr ""
+msgstr "Настройте внешний вид приложения для пользователей"
 
 #: app/templates/settings/general.html:66
 msgid "Access Control"
-msgstr ""
+msgstr "Контроль доступа"
 
 #: app/templates/settings/general.html:67
 msgid "Manage user access and permissions"
-msgstr ""
+msgstr "Управление доступом и разрешениями пользователей"
 
 #: app/templates/settings/general.html:75
 msgid "Control access to the wizard setup process"
-msgstr ""
+msgstr "Контроль доступа к процессу настройки мастера"
 
 #: app/templates/settings/general.html:96
-#, fuzzy
 msgid "User Management"
-msgstr "Имя пользователя"
+msgstr "Управление пользователями"
 
 #: app/templates/settings/general.html:98
 msgid "Configure how users are managed when invitations expire"
-msgstr ""
+msgstr "Настройте управление пользователями при истечении срока действия приглашений"
 
 #: app/templates/settings/general.html:125
-#, fuzzy
 msgid "Server Capabilities"
-msgstr "Настройки сервера"
+msgstr "Возможности сервера"
 
 #: app/templates/settings/general.html:129
 msgid "Supports Disable:"
-msgstr ""
+msgstr "Поддерживает отключение:"
 
 #: app/templates/settings/general.html:140
-#, fuzzy
 msgid "Delete Only:"
-msgstr "Создать менеджера"
+msgstr "Только удаление:"
 
 #: app/templates/settings/general.html:150
 msgid ""
 "If 'Disable User' is selected but the server does not support it, the "
 "user will be deleted instead."
 msgstr ""
+"Если выбрано 'Отключить пользователя', но сервер не поддерживает это, "
+"пользователь будет удален."
 
 #: app/templates/settings/general.html:159
 msgid "Choose what happens to users when their invitation expires"
-msgstr ""
+msgstr "Выберите, что происходит с пользователями при истечении срока действия приглашения"
 
 #: app/templates/settings/general.html:183
 msgid "API Key Management"
-msgstr ""
+msgstr "Управление API ключами"
 
 #: app/templates/settings/general.html:185
 msgid "Manage API keys for accessing Wizarr programmatically"
-msgstr ""
+msgstr "Управление API ключами для программного доступа к Wizarr"
 
 #: app/templates/settings/general.html:193
 msgid "Your API Keys"
-msgstr ""
+msgstr "Ваши API ключи"
 
 #: app/templates/settings/general.html:194
 msgid "Create and manage API keys for external applications"
-msgstr ""
+msgstr "Создавайте и управляйте API ключами для внешних приложений"
 
 #: app/templates/settings/general.html:218
 msgid "Loading API keys..."
-msgstr ""
+msgstr "Загрузка API ключей..."
 
 #: app/templates/settings/general.html:234
-#, fuzzy
 msgid "Save Settings"
-msgstr "Настройки сервера"
+msgstr "Сохранить настройки"
 
 #: app/templates/settings/connections/form.html:26
 #: app/templates/settings/index.html:3 app/templates/settings/index.html:10
@@ -2489,39 +2373,35 @@ msgstr "Настройки"
 
 #: app/templates/settings/index.html:11
 msgid "Manage your application settings and preferences"
-msgstr ""
+msgstr "Управление настройками и предпочтениями приложения"
 
 #: app/templates/settings/index.html:29
 msgid "General"
-msgstr ""
+msgstr "Общие"
 
 #: app/templates/settings/index.html:44
 msgid "Alerts"
-msgstr ""
+msgstr "Оповещения"
 
 #: app/templates/settings/index.html:59
-#, fuzzy
 msgid "Servers"
-msgstr "Сервер"
+msgstr "Серверы"
 
 #: app/templates/settings/index.html:75
-#, fuzzy
 msgid "Activity"
-msgstr "Сохранить"
+msgstr "Активность"
 
 #: app/templates/settings/index.html:108
-#, fuzzy
 msgid "Admins"
-msgstr "Администратор"
+msgstr "Администраторы"
 
 #: app/templates/settings/index.html:124
 msgid "Wizard"
-msgstr ""
+msgstr "Мастер"
 
 #: app/templates/settings/index.html:142
-#, fuzzy
 msgid "Audit"
-msgstr "Администратор"
+msgstr "Аудит"
 
 #: app/templates/settings/notifications.html:8
 msgid "Notification Agents"
@@ -2529,179 +2409,169 @@ msgstr "Менеджеры уведомлений"
 
 #: app/templates/settings/notifications.html:10
 msgid "Configure notification services to alert you about important events"
-msgstr ""
+msgstr "Настройте сервисы уведомлений для оповещения о важных событиях"
 
 #: app/templates/settings/notifications.html:21
 #: app/templates/settings/notifications.html:125
-#, fuzzy
 msgid "Add Agent"
-msgstr "Новый менеджер"
+msgstr "Добавить агент"
 
 #: app/templates/settings/notifications.html:51
-#, fuzzy
 msgid "Edit agent"
-msgstr "Новый менеджер"
+msgstr "Редактировать агент"
 
 #: app/templates/settings/notifications.html:60
 msgid "Are you sure you want to delete"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить"
 
 #: app/templates/settings/notifications.html:62
-#, fuzzy
 msgid "Delete agent"
-msgstr "Создать менеджера"
+msgstr "Удалить агент"
 
 #: app/templates/settings/notifications.html:72
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 #: app/templates/settings/notifications.html:79
-#, fuzzy
 msgid "Events"
-msgstr "Сервер"
+msgstr "События"
 
 #: app/templates/settings/notifications.html:112
-#, fuzzy
 msgid "No notification agents"
-msgstr "Менеджеры уведомлений"
+msgstr "Нет агентов уведомлений"
 
 #: app/templates/settings/notifications.html:114
 msgid "Get started by creating your first notification agent"
-msgstr ""
+msgstr "Начните с создания первого агента уведомлений"
 
 #: app/templates/settings/servers.html:56
-#, fuzzy
 msgid "Unverified"
-msgstr "Не ограничено"
+msgstr "Не проверен"
 
 #: app/templates/settings/servers.html:62
 msgid "Checking..."
-msgstr ""
+msgstr "Проверка..."
 
 #: app/templates/settings/connections/form.html:68
 msgid "Create a new external service connection for automated user invitations"
-msgstr ""
+msgstr "Создать новое подключение к внешнему сервису для автоматических приглашений пользователей"
 
 #: app/templates/settings/connections/form.html:70
 msgid "Update the connection settings"
-msgstr ""
+msgstr "Обновить настройки подключения"
 
 #: app/templates/settings/connections/form.html:88
 msgid "Select the type of connection to configure"
-msgstr ""
+msgstr "Выберите тип подключения для настройки"
 
 #: app/templates/settings/connections/form.html:99
 msgid "A friendly name to identify this connection"
-msgstr ""
+msgstr "Понятное имя для идентификации этого подключения"
 
 #: app/templates/settings/connections/form.html:111
 msgid "Which media server should trigger invitations to this external service"
-msgstr ""
+msgstr "Какой медиа сервер должен инициировать приглашения к этому внешнему сервису"
 
 #: app/templates/settings/connections/form.html:132
 msgid "Open your Overseerr/Jellyseerr admin panel"
-msgstr ""
+msgstr "Откройте панель администратора Overseerr/Jellyseerr"
 
 #: app/templates/settings/connections/form.html:133
 msgid "Navigate to Settings → Users"
-msgstr ""
+msgstr "Перейдите в Настройки → Пользователи"
 
 #: app/templates/settings/connections/form.html:134
 msgid "Enable 'Auto-approve new users'"
-msgstr ""
+msgstr "Включите 'Автоматическое одобрение новых пользователей'"
 
 #: app/templates/settings/connections/form.html:135
 msgid "Enable 'Import Jellyfin/Plex users'"
-msgstr ""
+msgstr "Включите 'Импорт пользователей Jellyfin/Plex'"
 
 #: app/templates/settings/connections/form.html:151
 msgid "The full URL to your external service instance"
-msgstr ""
+msgstr "Полный URL вашего экземпляра внешнего сервиса"
 
 #: app/templates/settings/connections/form.html:176
 msgid "API key from your external service settings"
-msgstr ""
+msgstr "API ключ из настроек вашего внешнего сервиса"
 
 #: app/templates/settings/wizard/_sub_nav.html:14
-#, fuzzy
 msgid "Default Steps"
-msgstr "По умолчанию"
+msgstr "Шаги по умолчанию"
 
 #: app/templates/settings/wizard/_sub_nav.html:26
 msgid "Custom Bundles"
-msgstr ""
+msgstr "Пользовательские наборы"
 
 #: app/templates/settings/wizard/_sub_nav.html:42
 #: app/templates/settings/wizard/_sub_nav.html:62
 msgid "Import"
-msgstr ""
+msgstr "Импорт"
 
 #: app/templates/settings/wizard/_sub_nav.html:79
 #: app/templates/settings/wizard/import_form.html:163
 msgid "Import Configuration"
-msgstr ""
+msgstr "Импорт конфигурации"
 
 #: app/templates/settings/wizard/_sub_nav.html:80
 msgid "Import steps or bundles from JSON file"
-msgstr ""
+msgstr "Импорт шагов или наборов из JSON файла"
 
 #: app/templates/settings/wizard/_sub_nav.html:95
-#, fuzzy
 msgid "Create"
-msgstr "Создано"
+msgstr "Создать"
 
 #: app/templates/settings/wizard/_sub_nav.html:126
 msgid "Add a new wizard step"
-msgstr ""
+msgstr "Добавить новый шаг мастера"
 
 #: app/templates/settings/wizard/_sub_nav.html:130
-#, fuzzy
 msgid "Add Step to Bundle"
-msgstr "Создано"
+msgstr "Добавить шаг в набор"
 
 #: app/templates/settings/wizard/_sub_nav.html:152
 msgid "No bundles available yet"
-msgstr ""
+msgstr "Наборы пока недоступны"
 
 #: app/templates/settings/wizard/_sub_nav.html:169
 msgid "Add Preset"
-msgstr ""
+msgstr "Добавить предустановку"
 
 #: app/templates/settings/wizard/_sub_nav.html:170
 msgid "Create step from template"
-msgstr ""
+msgstr "Создать шаг из шаблона"
 
 #: app/templates/settings/wizard/_sub_nav.html:186
-#, fuzzy
 msgid "Create Bundle"
-msgstr "Создано"
+msgstr "Создать набор"
 
 #: app/templates/settings/wizard/_sub_nav.html:187
 msgid "Create a collection of steps"
-msgstr ""
+msgstr "Создать коллекцию шагов"
 
 #: app/templates/settings/wizard/bundles.html:10
 msgid "No bundles found."
-msgstr ""
+msgstr "Наборы не найдены."
 
 #: app/templates/settings/wizard/bundles.html:26
 #, python-format
 msgid "Export %(bundle_name)s Bundle"
-msgstr ""
+msgstr "Экспорт набора %(bundle_name)s"
 
 #: app/templates/settings/wizard/bundles.html:53
 msgid "Are you sure you want to delete this bundle?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить этот набор?"
 
 #: app/templates/settings/wizard/bundles.html:70
 #: app/templates/settings/wizard/steps.html:65
 msgid "Before Invite Acceptance"
-msgstr ""
+msgstr "Перед принятием приглашения"
 
 #: app/templates/settings/wizard/bundles.html:72
 #: app/templates/settings/wizard/steps.html:67
 msgid "Steps shown to users before they accept the invitation"
-msgstr ""
+msgstr "Шаги, показываемые пользователям перед принятием приглашения"
 
 #: app/templates/settings/wizard/bundles.html:115
 #: app/templates/settings/wizard/bundles.html:197
@@ -2710,170 +2580,167 @@ msgstr ""
 #: app/templates/settings/wizard/steps.html:106
 #: app/templates/settings/wizard/steps.html:186
 msgid "Are you sure you want to delete this step?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить этот шаг?"
 
 #: app/templates/settings/wizard/bundles.html:146
 #: app/templates/settings/wizard/steps.html:138
 msgid "No pre-invite steps configured"
-msgstr ""
+msgstr "Шаги перед приглашением не настроены"
 
 #: app/templates/settings/wizard/bundles.html:152
 #: app/templates/settings/wizard/steps.html:145
-#, fuzzy
 msgid "After Invite Acceptance"
-msgstr "Код приглашения"
+msgstr "После принятия приглашения"
 
 #: app/templates/settings/wizard/bundles.html:154
 #: app/templates/settings/wizard/steps.html:147
 msgid "Steps shown to users after they accept the invitation"
-msgstr ""
+msgstr "Шаги, показываемые пользователям после принятия приглашения"
 
 #: app/templates/settings/wizard/bundles.html:228
 #: app/templates/settings/wizard/steps.html:218
 msgid "No post-invite steps configured"
-msgstr ""
+msgstr "Шаги после приглашения не настроены"
 
 #: app/templates/settings/wizard/bundles.html:235
 msgid "Additional Categories"
-msgstr ""
+msgstr "Дополнительные категории"
 
 #: app/templates/settings/wizard/bundles.html:237
 msgid "Steps that use custom categories keep their order here."
-msgstr ""
+msgstr "Шаги с пользовательскими категориями сохраняют свой порядок здесь."
 
 #: app/templates/settings/wizard/bundles.html:305
-#, fuzzy
 msgid "Orphaned Steps"
-msgstr "Изменить срок действия"
+msgstr "Осиротевшие шаги"
 
 #: app/templates/settings/wizard/bundles.html:307
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
-msgstr ""
+msgstr "Эти записи больше не связаны с шагами. Удалите их для поддержания порядка в наборе."
 
 #: app/templates/settings/wizard/bundles.html:312
 msgid "Step deleted (orphaned)"
-msgstr ""
+msgstr "Шаг удален (осиротевший)"
 
 #: app/templates/settings/wizard/bundles.html:319
 msgid "Are you sure you want to remove this orphaned step?"
-msgstr ""
+msgstr "Вы уверены, что хотите удалить этот осиротевший шаг?"
 
 #: app/templates/settings/wizard/bundles.html:322
 msgid "Remove orphaned step"
-msgstr ""
+msgstr "Удалить осиротевший шаг"
 
 #: app/templates/settings/wizard/form.html:36
 #: app/templates/settings/wizard/index.html:65
-#, fuzzy
 msgid "Preview"
-msgstr "Предыдущий"
+msgstr "Предпросмотр"
 
 #: app/templates/settings/wizard/import_form.html:4
 msgid "Import Wizard Configuration"
-msgstr ""
+msgstr "Импорт конфигурации мастера"
 
 #: app/templates/settings/wizard/import_form.html:6
 msgid ""
 "Import wizard steps or bundles from a JSON file to quickly set up or "
 "restore your wizard configuration."
-msgstr ""
+msgstr "Импортируйте шаги мастера или наборы из JSON файла для быстрой настройки или восстановления конфигурации мастера."
 
 #: app/templates/settings/wizard/import_form.html:13
 msgid "Select JSON File"
-msgstr ""
+msgstr "Выберите JSON файл"
 
 #: app/templates/settings/wizard/import_form.html:30
 msgid "Steps or Bundle JSON files only (MAX. 10MB)"
-msgstr ""
+msgstr "Только JSON файлы шагов или наборов (МАКС. 10МБ)"
 
 #: app/templates/settings/wizard/import_form.html:61
 msgid ""
 "When checked, all existing wizard steps and bundles will be removed and "
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
-msgstr ""
+msgstr "При включении все существующие шаги мастера и наборы будут удалены и заменены импортированной конфигурацией. При выключении импортированные элементы будут добавлены к существующим."
 
 #: app/templates/settings/wizard/import_form.html:82
 msgid "Important: Backup Recommended"
-msgstr ""
+msgstr "Важно: Рекомендуется резервное копирование"
 
 #: app/templates/settings/wizard/import_form.html:84
 msgid "This action will modify your wizard configuration. Consider the following:"
-msgstr ""
+msgstr "Это действие изменит конфигурацию мастера. Учтите следующее:"
 
 #: app/templates/settings/wizard/import_form.html:86
 msgid "Export your current steps and bundles first as a backup"
-msgstr ""
+msgstr "Сначала экспортируйте текущие шаги и наборы в качестве резервной копии"
 
 #: app/templates/settings/wizard/import_form.html:87
 msgid "Imported steps will use the file's step ordering and server types"
-msgstr ""
+msgstr "Импортированные шаги будут использовать порядок и типы серверов из файла"
 
 #: app/templates/settings/wizard/import_form.html:88
 msgid "Imported bundles will preserve their step associations and ordering"
-msgstr ""
+msgstr "Импортированные наборы сохранят связи и порядок шагов"
 
 #: app/templates/settings/wizard/import_form.html:89
 msgid ""
 "If replacing existing configuration, all current steps and bundles will "
 "be permanently removed"
-msgstr ""
+msgstr "При замене существующей конфигурации все текущие шаги и наборы будут безвозвратно удалены"
 
 #: app/templates/settings/wizard/import_form.html:90
 msgid "Invalid or malformed JSON files will be rejected"
-msgstr ""
+msgstr "Неверные или поврежденные JSON файлы будут отклонены"
 
 #: app/templates/settings/wizard/import_form.html:106
 msgid "Expected JSON Format"
-msgstr ""
+msgstr "Ожидаемый формат JSON"
 
 #: app/templates/settings/wizard/import_form.html:108
 msgid "The JSON file can contain steps or bundles:"
-msgstr ""
+msgstr "JSON файл может содержать шаги или наборы:"
 
 #: app/templates/settings/wizard/import_form.html:111
 msgid "For steps export:"
-msgstr ""
+msgstr "Для экспорта шагов:"
 
 #: app/templates/settings/wizard/import_form.html:123
 msgid "For bundle export:"
-msgstr ""
+msgstr "Для экспорта набора:"
 
 #: app/templates/settings/wizard/import_form.html:152
 msgid "Back to Steps"
-msgstr ""
+msgstr "Вернуться к шагам"
 
 #: app/templates/settings/wizard/import_form.html:237
 msgid "Please select a JSON file to import."
-msgstr ""
+msgstr "Пожалуйста, выберите JSON файл для импорта."
 
 #: app/templates/settings/wizard/import_form.html:244
 msgid "Please select a valid JSON file."
-msgstr ""
+msgstr "Пожалуйста, выберите корректный JSON файл."
 
 #: app/templates/settings/wizard/import_form.html:251
 msgid ""
 "This will permanently replace all existing wizard configuration (steps "
 "and bundles). Are you sure you want to continue?"
-msgstr ""
+msgstr "Это безвозвратно заменит всю существующую конфигурацию мастера (шаги и наборы). Вы уверены, что хотите продолжить?"
 
 #: app/templates/settings/wizard/index.html:13
 msgid "Wizard Steps"
-msgstr ""
+msgstr "Шаги мастера"
 
 #: app/templates/settings/wizard/index.html:15
 msgid "Manage your wizard steps and bundles for user onboarding"
-msgstr ""
+msgstr "Управление шагами мастера и наборами для адаптации пользователей"
 
 #: app/templates/settings/wizard/index.html:36
 msgid "No wizard steps found"
-msgstr ""
+msgstr "Шаги мастера не найдены"
 
 #: app/templates/settings/wizard/index.html:37
 msgid "Get started by creating your first wizard step"
-msgstr ""
+msgstr "Начните с создания первого шага мастера"
 
 #: app/templates/settings/wizard/index.html:53
 msgid "Server"
@@ -2881,53 +2748,50 @@ msgstr "Сервер"
 
 #: app/templates/settings/wizard/index.html:54
 msgid "steps configured"
-msgstr ""
+msgstr "шагов настроено"
 
 #: app/templates/settings/wizard/index.html:60
 #: app/templates/settings/wizard/steps.html:50
 msgid "Preview Wizard"
-msgstr ""
+msgstr "Предпросмотр мастера"
 
 #: app/templates/settings/wizard/index.html:86
-#, fuzzy
 msgid "Untitled Step"
-msgstr "Неограниченное число использований"
+msgstr "Шаг без названия"
 
 #: app/templates/settings/wizard/index.html:87
 #: app/templates/wizard/steps.html:52 app/templates/wizard/steps.html:92
 msgid "Step"
-msgstr ""
+msgstr "Шаг"
 
 #: app/templates/settings/wizard/index.html:95
-#, fuzzy
 msgid "Edit step"
-msgstr "Изменить срок действия"
+msgstr "Редактировать шаг"
 
 #: app/templates/settings/wizard/index.html:106
-#, fuzzy
 msgid "Delete step"
-msgstr "Удалить"
+msgstr "Удалить шаг"
 
 #: app/templates/settings/wizard/steps.html:10
 msgid "No steps found."
-msgstr ""
+msgstr "Шаги не найдены."
 
 #: app/templates/settings/wizard/steps.html:23
 #, python-format
 msgid ""
 "Are you sure you want to reset all steps for %(server)s to defaults? This"
 " will delete all custom steps and reimport the default ones."
-msgstr ""
+msgstr "Вы уверены, что хотите сбросить все шаги для %(server)s к настройкам по умолчанию? Это удалит все пользовательские шаги и переимпортирует стандартные."
 
 #: app/templates/settings/wizard/steps.html:26
 #, python-format
 msgid "Reset %(server)s Steps to Defaults"
-msgstr ""
+msgstr "Сбросить шаги %(server)s к настройкам по умолчанию"
 
 #: app/templates/settings/wizard/steps.html:38
 #, python-format
 msgid "Export %(server)s Steps"
-msgstr ""
+msgstr "Экспорт шагов %(server)s"
 
 #: app/templates/setup/admin_account.html:12
 msgid "Setup Wizarr"
@@ -2946,23 +2810,20 @@ msgid "There are currently no invitations."
 msgstr "Нет действующих приглашений."
 
 #: app/templates/tables/invite_card.html:61
-#, fuzzy
 msgid "Used by"
-msgstr "Использовано"
+msgstr "Использовано пользователями"
 
 #: app/templates/tables/invite_card.html:63
 msgid "Used"
 msgstr "Использовано"
 
 #: app/templates/tables/invite_card.html:66
-#, fuzzy
 msgid "Not used yet"
-msgstr "Использовано"
+msgstr "Еще не использовано"
 
 #: app/templates/tables/invite_card.html:71
-#, fuzzy
 msgid "Bundle"
-msgstr "Создано"
+msgstr "Набор"
 
 #: app/templates/tables/invite_card.html:113
 #: app/templates/tables/invite_card.html:115
@@ -2981,12 +2842,11 @@ msgstr "По умолчанию"
 
 #: app/templates/tables/invite_card.html:168
 msgid "Copy invite link"
-msgstr ""
+msgstr "Копировать ссылку-приглашение"
 
 #: app/templates/tables/invite_card.html:188
-#, fuzzy
 msgid "Delete invite"
-msgstr "Удалить"
+msgstr "Удалить приглашение"
 
 #: app/templates/tables/user_card.html:4
 msgid "There are currently no users."
@@ -2994,448 +2854,54 @@ msgstr "Сейчас пользователи отсутствуют."
 
 #: app/templates/tables/user_card.html:42
 msgid "Edit nickname"
-msgstr ""
+msgstr "Редактировать никнейм"
 
 #: app/templates/tables/user_card.html:54
-#, fuzzy
 msgid "Home User"
 msgstr "Домашний пользователь"
 
 #: app/templates/tables/user_card.html:104
-#, fuzzy
 msgid "Invited"
-msgstr "Код приглашения"
+msgstr "Приглашен"
 
 #: app/templates/tables/user_card.html:143
 msgid "Disabled"
-msgstr ""
+msgstr "Отключено"
 
 #: app/templates/tables/user_card.html:149
 msgid "Downloads enabled"
-msgstr ""
+msgstr "Загрузки включены"
 
 #: app/templates/tables/user_card.html:163
 msgid "Live TV enabled"
-msgstr ""
+msgstr "Live TV включено"
 
 #: app/templates/tables/user_card.html:182
-#, fuzzy
 msgid "View details"
-msgstr "Приглашения"
+msgstr "Просмотр деталей"
 
 #: app/templates/tables/user_card.html:200
-#, fuzzy
 msgid "Edit user"
-msgstr "Сервер"
+msgstr "Редактировать пользователя"
 
-#: app/templates/tables/user_card.html:221
-#, fuzzy
-msgid "Reset password"
-msgstr "Пароль"
-
-#: app/templates/tables/user_card.html:240
-#, fuzzy
+#: app/templates/tables/user_card.html:219
 msgid "Remove user"
-msgstr "Домашний пользователь"
+msgstr "Удалить пользователя"
 
 #: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:42
 #: app/templates/wizard/steps.html:82
-#, fuzzy
 msgid "Before Invitation"
-msgstr "Создать приглашение"
+msgstr "Перед приглашением"
 
 #: app/templates/wizard/steps.html:17 app/templates/wizard/steps.html:44
 #: app/templates/wizard/steps.html:84
-#, fuzzy
 msgid "After Invitation"
-msgstr "Создать приглашение"
+msgstr "После приглашения"
 
 #: app/templates/wizard/steps.html:141 app/templates/wizard/steps.html:201
 msgid "Previous"
-msgstr "Предыдущий"
+msgstr "Назад"
 
 #: app/templates/wizard/steps.html:173 app/templates/wizard/steps.html:231
 msgid "Click the link in this step to be able to continue"
-msgstr ""
-
-#~ msgid ""
-#~ "Request\n"
-#~ "                instance (Ombi, Overseerr...)"
-#~ msgstr ""
-
-#~ msgid "Change Server Settings"
-#~ msgstr ""
-
-#~ msgid "Invite Used"
-#~ msgstr ""
-
-#~ msgid "User"
-#~ msgstr ""
-
-#~ msgid "Home User"
-#~ msgstr ""
-
-#~ msgid "Passwords do not match."
-#~ msgstr ""
-
-#~ msgid "Username must be between 3 and 15 characters."
-#~ msgstr ""
-
-#~ msgid "Password must be between 3 and 40 characters."
-#~ msgstr ""
-
-#~ msgid "You must select at least one library."
-#~ msgstr ""
-
-#~ msgid "It is likely that your token does not work."
-#~ msgstr ""
-
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
-#~ msgstr ""
-
-#~ msgid "Unable to connect to your Jellyfin server."
-#~ msgstr ""
-
-#~ msgid "Invalid Username or Password"
-#~ msgstr ""
-
-#~ msgid "Confirm password"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Server Display\n"
-#~ "                Name"
-#~ msgstr ""
-
-#~ msgid "Server"
-#~ msgstr ""
-
-#~ msgid "Server URL"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Server\n"
-#~ "                Token / API Key"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Server\n"
-#~ "                Libraries"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Request\n"
-#~ "                instance (Ombi, Overseerr...) URL"
-#~ msgstr ""
-
-#~ msgid "Ombi API Key (Only used for user import currently.)"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Discord\n"
-#~ "                Server ID"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "                HTML"
-#~ msgstr ""
-
-#~ msgid "Attention!"
-#~ msgstr ""
-
-#~ msgid "Update available. Click here."
-#~ msgstr ""
-
-#~ msgid "Automatic Media Requests"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "We are excited to offer you a "
-#~ "wide selection of media to choose "
-#~ "from. If you're having trouble finding"
-#~ "\n"
-#~ "    something you like, don't worry! "
-#~ "We have a user-friendly request "
-#~ "system that can automatically search for"
-#~ " the\n"
-#~ "    media you're looking for. "
-#~ msgstr ""
-
-#~ msgid "Request any available Movie or TV Show"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Requested media will be automatically "
-#~ "downloaded and added to the library "
-#~ "(if available)"
-#~ msgstr ""
-
-#~ msgid "If enabled, receive notifications"
-#~ msgstr ""
-
-#~ msgid "Check it Out"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Join & Download Jellyfin\n"
-#~ "            for this device"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use\n"
-#~ ""
-#~ "        it with Jellyfin."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Jellyfin for this "
-#~ "device."
-#~ msgstr ""
-
-#~ msgid "Download"
-#~ msgstr ""
-
-#~ msgid "Eh, So, What is Jellyfin exactly?"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Jellyfin is a platform that lets "
-#~ "you stream all your favorite movies, "
-#~ "TV shows, and music in one place."
-#~ "\n"
-#~ "        It's like having your own "
-#~ "personal movie theater right at your "
-#~ "fingertips! Think of it as a "
-#~ "digital library of\n"
-#~ "        your favorite content that you"
-#~ " can access from anywhere, on any "
-#~ "device - your phone, tablet, laptop, "
-#~ "smart TV,\n"
-#~ "        you name it."
-#~ msgstr ""
-
-#~ msgid "Right, so how do I watch stuff?"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "It couldn't be simpler! Jellyfin is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "        smartphones, and TVs. All you"
-#~ " need to do is download the "
-#~ "Jellyfin app on your device, sign "
-#~ "in with your account,\n"
-#~ "        and\n"
-#~ "        you're ready to start streaming your media. It's that easy!"
-#~ msgstr ""
-
-#~ msgid "Open Jellyfin"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Join & Download Plex\n"
-#~ "            for this device"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use\n"
-#~ ""
-#~ "        it with Plex."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Plex for this device."
-#~ msgstr ""
-
-#~ msgid "Eh, So, What is Plex exactly?"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "    you've received this invitation, it"
-#~ " means someone wants to share their"
-#~ " library with you. With Plex, you'll"
-#~ " have\n"
-#~ "    access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "    smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
-#~ "    you're ready to start streaming your media. It's that easy!"
-#~ msgstr ""
-
-#~ msgid "How can I make sure to have the best experience?"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "    sharing with you - they also,"
-#~ " by default, play content at a "
-#~ "lower quality. "
-#~ msgstr ""
-
-#~ msgid "No need to worry though, this can be easily resolved"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "We highly\n"
-#~ "      recommend you to go through those steps first!"
-#~ msgstr ""
-
-#~ msgid "Configure Plex in your browser"
-#~ msgstr ""
-
-#~ msgid "Configure Plex's app on your computer, mobile device or TV"
-#~ msgstr ""
-
-#~ msgid "Open Plex"
-#~ msgstr ""
-
-#~ msgid "User Configuration"
-#~ msgstr ""
-
-#~ msgid "User Policy"
-#~ msgstr ""
-
-#~ msgid "Name"
-#~ msgstr ""
-
-#~ msgid "Actions"
-#~ msgstr ""
-
-#~ msgid "Home"
-#~ msgstr "Домой"
-
-#~ msgid "Server settings"
-#~ msgstr "Настройки сервера"
-
-#~ msgid "Notification agents"
-#~ msgstr "Менеджеры уведомлений"
-
-#~ msgid "Oops!"
-#~ msgstr "Опаньки!"
-
-#~ msgid ""
-#~ "Confirm\n"
-#~ "                                password"
-#~ msgstr ""
-#~ "Подтвердить\n"
-#~ "                                пароль"
-
-#~ msgid ""
-#~ "Invite\n"
-#~ "                                Code"
-#~ msgstr ""
-#~ "Приглашение\n"
-#~ "                                Код"
-
-#~ msgid "Invite user"
-#~ msgstr "Пригласить пользователя"
-
-#~ msgid ""
-#~ "Specific\n"
-#~ "                                Libraries"
-#~ msgstr ""
-#~ "Конкретные\n"
-#~ "                                библиотеки"
-
-#~ msgid "Back"
-#~ msgstr "Назад"
-
-#~ msgid "Share"
-#~ msgstr "Поделиться"
-
-#~ msgid ""
-#~ "Username\n"
-#~ "                                (optional)"
-#~ msgstr ""
-#~ "Имя пользователя\n"
-#~ "                                (опционально)"
-
-#~ msgid ""
-#~ "Agent\n"
-#~ "                                URL"
-#~ msgstr ""
-#~ "Менеджер\n"
-#~ "                                Ссылка"
-
-#~ msgid "Notifications"
-#~ msgstr "Уведомления"
-
-#~ msgid "Optional, leave empty to disable"
-#~ msgstr "Опционально, оставьте пустым или отключите"
-
-#~ msgid "Available"
-#~ msgstr "Доступно"
-
-#~ msgid "Limit"
-#~ msgstr "Не ограничено"
-
-#~ msgid "libs"
-#~ msgstr "Библиотеки"
-
-#~ msgid "Downloads disabled"
-#~ msgstr ""
-
-#~ msgid "Live TV disabled"
-#~ msgstr ""
-
-#~ msgid "This wizard bundle has no steps configured."
-#~ msgstr ""
-
-#~ msgid "Pre-Invite"
-#~ msgstr "Предыдущий"
-
-#~ msgid "Post-Invite"
-#~ msgstr "Код приглашения"
-
-#~ msgid "Add step"
-#~ msgstr ""
-
-#~ msgid "Edit expiry"
-#~ msgstr "Изменить срок действия"
-
-#~ msgid "Server-specific Expiry Management"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "This user exists on multiple servers."
-#~ " You can set different expiry dates"
-#~ " for each server."
-#~ msgstr ""
-
-#~ msgid "Expiry date (leave blank for never)"
-#~ msgstr "Срок действия (оставить пустым для бессрочного)"
-
-#~ msgid "Invitation Details"
-#~ msgstr "Приглашения"
-
-#~ msgid "Code"
-#~ msgstr ""
-
-#~ msgid "Invitation expires"
-#~ msgstr "Приглашения"
-
-#~ msgid "Username must be 3 to 15 characters."
-#~ msgstr ""
-
+msgstr "Нажмите на ссылку в этом шаге, чтобы продолжить"
