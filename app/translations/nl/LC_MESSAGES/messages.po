@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-04 04:00+0000\n"
+"POT-Creation-Date: 2025-12-09 03:58+0000\n"
 "PO-Revision-Date: 2025-10-31 16:06+0000\n"
 "Last-Translator: Ben Avermate <weblate@benavermate.be>\n"
 "Language: nl\n"
@@ -151,41 +151,41 @@ msgstr ""
 msgid "An internal error has occurred."
 msgstr "Er is een onbekende fout opgetreden"
 
-#: app/blueprints/admin/routes.py:324
+#: app/blueprints/admin/routes.py:325
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: app/blueprints/admin/routes.py:327 app/templates/modals/invite.html:69
+#: app/blueprints/admin/routes.py:328 app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
 #: app/templates/tables/user_card.html:90
 msgid "Never"
 msgstr "Nooit"
 
-#: app/blueprints/admin/routes.py:400 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:401 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr "Vervallen"
 
-#: app/blueprints/admin/routes.py:408
+#: app/blueprints/admin/routes.py:409
 #, python-format
 msgid "in %(n)d d"
 msgstr "in %(n)d d"
 
-#: app/blueprints/admin/routes.py:410
+#: app/blueprints/admin/routes.py:411
 msgid "in 1 d"
 msgstr "in 1 d"
 
-#: app/blueprints/admin/routes.py:412
+#: app/blueprints/admin/routes.py:413
 #, python-format
 msgid "in %(n)d h"
 msgstr "in %(n)d u"
 
-#: app/blueprints/admin/routes.py:414
+#: app/blueprints/admin/routes.py:415
 #, python-format
 msgid "in %(n)d m"
 msgstr "in %(n)d m"
 
-#: app/blueprints/admin/routes.py:415
+#: app/blueprints/admin/routes.py:416
 msgid "soon"
 msgstr "binnenkort"
 
@@ -497,7 +497,8 @@ msgstr "Bevestig wachtwoord"
 msgid "Passwords must match."
 msgstr "Wachtwoorden komen niet overeen"
 
-#: app/forms/admin.py:62 app/templates/profile.html:53
+#: app/forms/admin.py:62 app/templates/password-reset-form.html:37
+#: app/templates/profile.html:53
 msgid "New Password"
 msgstr "Nieuwe Wachtwoord"
 
@@ -690,6 +691,7 @@ msgstr "Kies een wachtwoord voor de overgebleven servers"
 
 #: app/templates/choose-password.html:33
 #: app/templates/hybrid-password-form.html:150
+#: app/templates/password-reset-form.html:52
 #: app/templates/welcome-jellyfin.html:174
 msgid "Confirm Password"
 msgstr "Bevestig wachtwoord"
@@ -812,6 +814,8 @@ msgid "Passwords do not match"
 msgstr "Wachtwoorden komen niet overeen"
 
 #: app/templates/invalid-invite.html:10
+#: app/templates/password-reset-error.html:10
+#: app/templates/password-reset-success.html:10
 #, fuzzy
 msgid "Wizarr"
 msgstr "Wizard"
@@ -876,6 +880,139 @@ msgstr "Het voltooien van de 2FA-aanmelding is mislukt"
 #: app/templates/login.html:253
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr "Passkey authenticatie gefaald. Probeer opnieuw of gebruik je wachtwoord."
+
+#: app/templates/password-reset-error.html:24
+#, fuzzy
+msgid "Password Reset Error"
+msgstr "Wachtwoord te kort"
+
+#: app/templates/password-reset-error.html:28
+#: app/templates/password-reset-form.html:29
+#, fuzzy
+msgid "Error:"
+msgstr "Fout"
+
+#: app/templates/password-reset-error.html:31
+msgid "This password reset link is invalid."
+msgstr ""
+
+#: app/templates/password-reset-error.html:33
+msgid "This password reset link has already been used."
+msgstr ""
+
+#: app/templates/password-reset-error.html:35
+msgid "This password reset link has expired."
+msgstr ""
+
+#: app/templates/password-reset-error.html:37
+msgid "This password reset link is malformed."
+msgstr ""
+
+#: app/templates/password-reset-error.html:39
+msgid "This password reset link is no longer valid."
+msgstr ""
+
+#: app/templates/password-reset-error.html:45
+msgid ""
+"Please contact your server administrator to request a new password reset "
+"link."
+msgstr ""
+
+#: app/templates/password-reset-error.html:48
+#, fuzzy
+msgid "Code:"
+msgstr "Sluiten"
+
+#: app/templates/password-reset-error.html:54
+msgid "Common reasons for this error:"
+msgstr ""
+
+#: app/templates/password-reset-error.html:56
+msgid "The link has already been used"
+msgstr ""
+
+#: app/templates/password-reset-error.html:57
+msgid "The link has expired (24 hour limit)"
+msgstr ""
+
+#: app/templates/password-reset-error.html:58
+msgid "The link was not copied correctly"
+msgstr ""
+
+#: app/templates/password-reset-form.html:9
+#, fuzzy
+msgid "Reset Your Password"
+msgstr "Je wachtwoord"
+
+#: app/templates/password-reset-form.html:15
+#, fuzzy
+msgid "Choose a new password"
+msgstr "Wijzig Wachtwoord"
+
+#: app/templates/password-reset-form.html:18
+#, fuzzy
+msgid "For user:"
+msgstr "Verwijder gebruiker"
+
+#: app/templates/password-reset-form.html:22
+msgid "This link expires on"
+msgstr ""
+
+#: app/templates/password-reset-form.html:44
+msgid "Enter new password (8-128 characters)"
+msgstr ""
+
+#: app/templates/password-reset-form.html:59
+#, fuzzy
+msgid "Confirm new password"
+msgstr "Bevestig Nieuwe Wachtwoord"
+
+#: app/templates/password-reset-form.html:65
+#, fuzzy
+msgid "Password must be:"
+msgstr "Wachtwoorden komen niet overeen"
+
+#: app/templates/password-reset-form.html:67
+msgid "Between 8 and 128 characters"
+msgstr ""
+
+#: app/templates/password-reset-form.html:68
+#, fuzzy
+msgid "Match the confirmation"
+msgstr "Importeer Configuratie"
+
+#: app/templates/password-reset-form.html:74
+#, fuzzy
+msgid "Reset Password"
+msgstr "Huidige Wachtwoord"
+
+#: app/templates/password-reset-success.html:24
+#, fuzzy
+msgid "Password Reset Successful!"
+msgstr "Verbinding test succesvol!"
+
+#: app/templates/password-reset-success.html:29
+#, fuzzy
+msgid "The password for"
+msgstr "Nieuwe Wachtwoord"
+
+#: app/templates/password-reset-success.html:29
+#, fuzzy
+msgid "has been successfully reset."
+msgstr "API sleutel succesvol verwijderd"
+
+#: app/templates/password-reset-success.html:32
+msgid "You can now use your new password to log in to your media server."
+msgstr ""
+
+#: app/templates/password-reset-success.html:37
+#, fuzzy
+msgid "What's next?"
+msgstr "Wat gebeurt er daarna?"
+
+#: app/templates/password-reset-success.html:38
+msgid "Log in to your media server with your username and new password."
+msgstr ""
 
 #: app/templates/profile.html:17
 msgid "Administrator"
@@ -1227,6 +1364,7 @@ msgstr "Basis toegang"
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
 #: app/templates/modals/invite.html:412
+#: app/templates/modals/password-reset-link.html:152
 msgid "Close"
 msgstr "Sluiten"
 
@@ -1238,6 +1376,7 @@ msgstr "Wijzig Server"
 #: app/templates/admin/user_modal.html:16
 #: app/templates/admin/user_modal.html:24
 #: app/templates/modals/connection-form.html:20
+#: app/templates/modals/password-reset-link.html:29
 msgid "Close modal"
 msgstr "Sluiten modaal"
 
@@ -1880,6 +2019,7 @@ msgid "Invitation Link"
 msgstr "Uitnodiging Link"
 
 #: app/templates/modals/invite.html:396
+#: app/templates/modals/password-reset-link.html:84
 msgid "Copy"
 msgstr "Kopiëren"
 
@@ -1894,6 +2034,88 @@ msgstr "Maak nog een"
 #: app/templates/modals/invite.html:461
 msgid "Please select at least one server for the invitation."
 msgstr "Selecteer op zn minst een server voor de uitnodiging."
+
+#: app/templates/modals/password-reset-link.html:14
+#, fuzzy
+msgid "Password Reset Link"
+msgstr "Wachtwoord (optioneel)"
+
+#: app/templates/modals/password-reset-link.html:16
+msgid "Generate Password Reset Link"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:59
+#, fuzzy
+msgid "Password reset link for"
+msgstr "Wachtwoord te kort"
+
+#: app/templates/modals/password-reset-link.html:63
+#, fuzzy
+msgid "Link expires:"
+msgstr "Verloopt"
+
+#: app/templates/modals/password-reset-link.html:71
+msgid "Reset Link (Click to copy)"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:88
+msgid "Send this link to the user. They can use it once to reset their password."
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:95
+msgid "Reset Code"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:105
+#, fuzzy
+msgid "Security Notes:"
+msgstr "Update Notities"
+
+#: app/templates/modals/password-reset-link.html:108
+#, fuzzy
+msgid "This link can only be used once"
+msgstr "Deze actie kan niet ongedaan worden gemaakt."
+
+#: app/templates/modals/password-reset-link.html:109
+msgid "It expires in 24 hours"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:110
+msgid "Send it securely (email, message, etc.)"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:117
+#, fuzzy
+msgid "Generate a secure password reset link for"
+msgstr "Genereer in plaats daarvan een sterk willekeurig wachtwoord"
+
+#: app/templates/modals/password-reset-link.html:130
+#, fuzzy
+msgid "Generate Reset Link"
+msgstr "Algemene Instellingen"
+
+#: app/templates/modals/password-reset-link.html:133
+msgid "The link will be valid for 24 hours and can only be used once."
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:146
+#, fuzzy
+msgid "Copy Link"
+msgstr "Kopieer uitnodigingslink"
+
+#: app/templates/modals/password-reset-link.html:175
+#, fuzzy
+msgid "Copied!"
+msgstr "Lid geworden"
+
+#: app/templates/modals/password-reset-link.html:195
+#, fuzzy
+msgid "Reset link copied to clipboard!"
+msgstr "De link is gekopieerd naar het klembord!"
+
+#: app/templates/modals/password-reset-link.html:197
+msgid "Please manually copy the link"
+msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:13
 msgid "Import Wizard Steps"
@@ -2779,7 +3001,12 @@ msgstr "Gebruikersgegevens"
 msgid "Edit user"
 msgstr "Wijzig Server"
 
-#: app/templates/tables/user_card.html:219
+#: app/templates/tables/user_card.html:221
+#, fuzzy
+msgid "Reset password"
+msgstr "Huidige Wachtwoord"
+
+#: app/templates/tables/user_card.html:240
 msgid "Remove user"
 msgstr "Verwijder gebruiker"
 

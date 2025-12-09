@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-04 04:00+0000\n"
+"POT-Creation-Date: 2025-12-09 03:58+0000\n"
 "PO-Revision-Date: 2025-10-31 16:51+0000\n"
 "Last-Translator: 刘付苏 <liufusucc@gmail.com>\n"
 "Language: zh_Hans\n"
@@ -138,41 +138,41 @@ msgstr "无法删除仍在队列中或正在运行的任务。"
 msgid "An internal error has occurred."
 msgstr "发生了一个内部错误。"
 
-#: app/blueprints/admin/routes.py:324
+#: app/blueprints/admin/routes.py:325
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr "未知"
 
-#: app/blueprints/admin/routes.py:327 app/templates/modals/invite.html:69
+#: app/blueprints/admin/routes.py:328 app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
 #: app/templates/tables/user_card.html:90
 msgid "Never"
 msgstr "从不"
 
-#: app/blueprints/admin/routes.py:400 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:401 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr "已到期"
 
-#: app/blueprints/admin/routes.py:408
+#: app/blueprints/admin/routes.py:409
 #, python-format
 msgid "in %(n)d d"
 msgstr "还有 %(n)d 天"
 
-#: app/blueprints/admin/routes.py:410
+#: app/blueprints/admin/routes.py:411
 msgid "in 1 d"
 msgstr "还有 1 天"
 
-#: app/blueprints/admin/routes.py:412
+#: app/blueprints/admin/routes.py:413
 #, python-format
 msgid "in %(n)d h"
 msgstr "还有%(n)d小时"
 
-#: app/blueprints/admin/routes.py:414
+#: app/blueprints/admin/routes.py:415
 #, python-format
 msgid "in %(n)d m"
 msgstr "还有%(n)d分钟"
 
-#: app/blueprints/admin/routes.py:415
+#: app/blueprints/admin/routes.py:416
 msgid "soon"
 msgstr "很快"
 
@@ -476,7 +476,8 @@ msgstr "确认密码"
 msgid "Passwords must match."
 msgstr "密码必须一致。"
 
-#: app/forms/admin.py:62 app/templates/profile.html:53
+#: app/forms/admin.py:62 app/templates/password-reset-form.html:37
+#: app/templates/profile.html:53
 msgid "New Password"
 msgstr "新密码"
 
@@ -653,6 +654,7 @@ msgstr "为剩余的服务器选择一个密码"
 
 #: app/templates/choose-password.html:33
 #: app/templates/hybrid-password-form.html:150
+#: app/templates/password-reset-form.html:52
 #: app/templates/welcome-jellyfin.html:174
 msgid "Confirm Password"
 msgstr "确认密码"
@@ -771,6 +773,8 @@ msgid "Passwords do not match"
 msgstr "密码不匹配"
 
 #: app/templates/invalid-invite.html:10
+#: app/templates/password-reset-error.html:10
+#: app/templates/password-reset-success.html:10
 msgid "Wizarr"
 msgstr "Wizarr"
 
@@ -834,6 +838,139 @@ msgstr "无法完成双重认证登录"
 #: app/templates/login.html:253
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr "密钥认证失败。请重试或使用您的密码。"
+
+#: app/templates/password-reset-error.html:24
+#, fuzzy
+msgid "Password Reset Error"
+msgstr "密码太短"
+
+#: app/templates/password-reset-error.html:28
+#: app/templates/password-reset-form.html:29
+#, fuzzy
+msgid "Error:"
+msgstr "错误"
+
+#: app/templates/password-reset-error.html:31
+msgid "This password reset link is invalid."
+msgstr ""
+
+#: app/templates/password-reset-error.html:33
+msgid "This password reset link has already been used."
+msgstr ""
+
+#: app/templates/password-reset-error.html:35
+msgid "This password reset link has expired."
+msgstr ""
+
+#: app/templates/password-reset-error.html:37
+msgid "This password reset link is malformed."
+msgstr ""
+
+#: app/templates/password-reset-error.html:39
+msgid "This password reset link is no longer valid."
+msgstr ""
+
+#: app/templates/password-reset-error.html:45
+msgid ""
+"Please contact your server administrator to request a new password reset "
+"link."
+msgstr ""
+
+#: app/templates/password-reset-error.html:48
+#, fuzzy
+msgid "Code:"
+msgstr "关闭"
+
+#: app/templates/password-reset-error.html:54
+msgid "Common reasons for this error:"
+msgstr ""
+
+#: app/templates/password-reset-error.html:56
+msgid "The link has already been used"
+msgstr ""
+
+#: app/templates/password-reset-error.html:57
+msgid "The link has expired (24 hour limit)"
+msgstr ""
+
+#: app/templates/password-reset-error.html:58
+msgid "The link was not copied correctly"
+msgstr ""
+
+#: app/templates/password-reset-form.html:9
+#, fuzzy
+msgid "Reset Your Password"
+msgstr "您的密码"
+
+#: app/templates/password-reset-form.html:15
+#, fuzzy
+msgid "Choose a new password"
+msgstr "更改密码"
+
+#: app/templates/password-reset-form.html:18
+#, fuzzy
+msgid "For user:"
+msgstr "家庭用户"
+
+#: app/templates/password-reset-form.html:22
+msgid "This link expires on"
+msgstr ""
+
+#: app/templates/password-reset-form.html:44
+msgid "Enter new password (8-128 characters)"
+msgstr ""
+
+#: app/templates/password-reset-form.html:59
+#, fuzzy
+msgid "Confirm new password"
+msgstr "确认新密码"
+
+#: app/templates/password-reset-form.html:65
+#, fuzzy
+msgid "Password must be:"
+msgstr "密码必须一致。"
+
+#: app/templates/password-reset-form.html:67
+msgid "Between 8 and 128 characters"
+msgstr ""
+
+#: app/templates/password-reset-form.html:68
+#, fuzzy
+msgid "Match the confirmation"
+msgstr "导入配置"
+
+#: app/templates/password-reset-form.html:74
+#, fuzzy
+msgid "Reset Password"
+msgstr "当前密码"
+
+#: app/templates/password-reset-success.html:24
+#, fuzzy
+msgid "Password Reset Successful!"
+msgstr "连接测试成功！"
+
+#: app/templates/password-reset-success.html:29
+#, fuzzy
+msgid "The password for"
+msgstr "新密码"
+
+#: app/templates/password-reset-success.html:29
+#, fuzzy
+msgid "has been successfully reset."
+msgstr "活动数据已成功删除（{} 条记录）。"
+
+#: app/templates/password-reset-success.html:32
+msgid "You can now use your new password to log in to your media server."
+msgstr ""
+
+#: app/templates/password-reset-success.html:37
+#, fuzzy
+msgid "What's next?"
+msgstr "接下来会发生什么？"
+
+#: app/templates/password-reset-success.html:38
+msgid "Log in to your media server with your username and new password."
+msgstr ""
 
 #: app/templates/profile.html:17
 msgid "Administrator"
@@ -1183,6 +1320,7 @@ msgstr "基本权限"
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
 #: app/templates/modals/invite.html:412
+#: app/templates/modals/password-reset-link.html:152
 msgid "Close"
 msgstr "关闭"
 
@@ -1194,6 +1332,7 @@ msgstr "编辑用户"
 #: app/templates/admin/user_modal.html:16
 #: app/templates/admin/user_modal.html:24
 #: app/templates/modals/connection-form.html:20
+#: app/templates/modals/password-reset-link.html:29
 msgid "Close modal"
 msgstr "关闭弹窗"
 
@@ -1820,6 +1959,7 @@ msgid "Invitation Link"
 msgstr "邀请链接"
 
 #: app/templates/modals/invite.html:396
+#: app/templates/modals/password-reset-link.html:84
 msgid "Copy"
 msgstr "复制"
 
@@ -1834,6 +1974,88 @@ msgstr "创建另一个"
 #: app/templates/modals/invite.html:461
 msgid "Please select at least one server for the invitation."
 msgstr "请至少选择一个服务器进行邀请。"
+
+#: app/templates/modals/password-reset-link.html:14
+#, fuzzy
+msgid "Password Reset Link"
+msgstr "密码（可选）"
+
+#: app/templates/modals/password-reset-link.html:16
+msgid "Generate Password Reset Link"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:59
+#, fuzzy
+msgid "Password reset link for"
+msgstr "密码太短"
+
+#: app/templates/modals/password-reset-link.html:63
+#, fuzzy
+msgid "Link expires:"
+msgstr "到期时间"
+
+#: app/templates/modals/password-reset-link.html:71
+msgid "Reset Link (Click to copy)"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:88
+msgid "Send this link to the user. They can use it once to reset their password."
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:95
+msgid "Reset Code"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:105
+#, fuzzy
+msgid "Security Notes:"
+msgstr "更新备注"
+
+#: app/templates/modals/password-reset-link.html:108
+#, fuzzy
+msgid "This link can only be used once"
+msgstr "此操作无法撤销。"
+
+#: app/templates/modals/password-reset-link.html:109
+msgid "It expires in 24 hours"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:110
+msgid "Send it securely (email, message, etc.)"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:117
+#, fuzzy
+msgid "Generate a secure password reset link for"
+msgstr "生成一个强随机密码代替"
+
+#: app/templates/modals/password-reset-link.html:130
+#, fuzzy
+msgid "Generate Reset Link"
+msgstr "常规设置"
+
+#: app/templates/modals/password-reset-link.html:133
+msgid "The link will be valid for 24 hours and can only be used once."
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:146
+#, fuzzy
+msgid "Copy Link"
+msgstr "复制邀请链接"
+
+#: app/templates/modals/password-reset-link.html:175
+#, fuzzy
+msgid "Copied!"
+msgstr "加入时间"
+
+#: app/templates/modals/password-reset-link.html:195
+#, fuzzy
+msgid "Reset link copied to clipboard!"
+msgstr "链接已复制到剪贴板！"
+
+#: app/templates/modals/password-reset-link.html:197
+msgid "Please manually copy the link"
+msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:13
 msgid "Import Wizard Steps"
@@ -2673,7 +2895,12 @@ msgstr "查看详情"
 msgid "Edit user"
 msgstr "编辑用户"
 
-#: app/templates/tables/user_card.html:219
+#: app/templates/tables/user_card.html:221
+#, fuzzy
+msgid "Reset password"
+msgstr "当前密码"
+
+#: app/templates/tables/user_card.html:240
 msgid "Remove user"
 msgstr "移除用户"
 

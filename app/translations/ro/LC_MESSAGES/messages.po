@@ -138,41 +138,41 @@ msgstr "Nu poți elimina o sarcină care este încă în coadă sau în desfăș
 msgid "An internal error has occurred."
 msgstr "A apărut o eroare internă."
 
-#: app/blueprints/admin/routes.py:324
+#: app/blueprints/admin/routes.py:325
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr "Necunoscut"
 
-#: app/blueprints/admin/routes.py:327 app/templates/modals/invite.html:69
+#: app/blueprints/admin/routes.py:328 app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
 #: app/templates/tables/user_card.html:90
 msgid "Never"
 msgstr "Niciodată"
 
-#: app/blueprints/admin/routes.py:400 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:401 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr "Expirat"
 
-#: app/blueprints/admin/routes.py:408
+#: app/blueprints/admin/routes.py:409
 #, python-format
 msgid "in %(n)d d"
 msgstr "în %(n)d zile"
 
-#: app/blueprints/admin/routes.py:410
+#: app/blueprints/admin/routes.py:411
 msgid "in 1 d"
 msgstr "în 1 zi"
 
-#: app/blueprints/admin/routes.py:412
+#: app/blueprints/admin/routes.py:413
 #, python-format
 msgid "in %(n)d h"
 msgstr "în %(n)d ore"
 
-#: app/blueprints/admin/routes.py:414
+#: app/blueprints/admin/routes.py:415
 #, python-format
 msgid "in %(n)d m"
 msgstr "în %(n)d minute"
 
-#: app/blueprints/admin/routes.py:415
+#: app/blueprints/admin/routes.py:416
 msgid "soon"
 msgstr "în curând"
 
@@ -653,6 +653,7 @@ msgstr "Alege o parolă pentru serverele rămase"
 
 #: app/templates/choose-password.html:33
 #: app/templates/hybrid-password-form.html:150
+#: app/templates/password-reset-form.html:52
 #: app/templates/welcome-jellyfin.html:174
 msgid "Confirm Password"
 msgstr "Confirmă parola"
@@ -770,10 +771,6 @@ msgstr "Putere parolă: mare"
 msgid "Passwords do not match"
 msgstr "Parolele nu coincid"
 
-#: app/templates/invalid-invite.html:10
-msgid "Wizarr"
-msgstr "Wizarr"
-
 #: app/templates/invalid-invite.html:15
 msgid "Invalid Invitation"
 msgstr "Invitație invalidă"
@@ -834,6 +831,133 @@ msgstr "Autentificarea 2FA nu a putut fi finalizată"
 #: app/templates/login.html:253
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr "Autentificarea cu passkey a eșuat. Încearcă din nou sau folosește parola."
+
+#: app/templates/password-reset-error.html:24
+#, fuzzy
+msgid "Password Reset Error"
+msgstr "Parolă"
+
+#: app/templates/password-reset-error.html:28
+#: app/templates/password-reset-form.html:29
+msgid "Error:"
+msgstr ""
+
+#: app/templates/password-reset-error.html:31
+msgid "This password reset link is invalid."
+msgstr ""
+
+#: app/templates/password-reset-error.html:33
+msgid "This password reset link has already been used."
+msgstr ""
+
+#: app/templates/password-reset-error.html:35
+msgid "This password reset link has expired."
+msgstr ""
+
+#: app/templates/password-reset-error.html:37
+msgid "This password reset link is malformed."
+msgstr ""
+
+#: app/templates/password-reset-error.html:39
+msgid "This password reset link is no longer valid."
+msgstr ""
+
+#: app/templates/password-reset-error.html:45
+msgid ""
+"Please contact your server administrator to request a new password reset "
+"link."
+msgstr ""
+
+#: app/templates/password-reset-error.html:48
+msgid "Code:"
+msgstr ""
+
+#: app/templates/password-reset-error.html:54
+msgid "Common reasons for this error:"
+msgstr ""
+
+#: app/templates/password-reset-error.html:56
+msgid "The link has already been used"
+msgstr ""
+
+#: app/templates/password-reset-error.html:57
+msgid "The link has expired (24 hour limit)"
+msgstr ""
+
+#: app/templates/password-reset-error.html:58
+msgid "The link was not copied correctly"
+msgstr ""
+
+#: app/templates/password-reset-form.html:9
+#, fuzzy
+msgid "Reset Your Password"
+msgstr "Parolă"
+
+#: app/templates/password-reset-form.html:15
+#, fuzzy
+msgid "Choose a new password"
+msgstr "Parolă"
+
+#: app/templates/password-reset-form.html:18
+#, fuzzy
+msgid "For user:"
+msgstr "Acasă"
+
+#: app/templates/password-reset-form.html:22
+msgid "This link expires on"
+msgstr ""
+
+#: app/templates/password-reset-form.html:44
+msgid "Enter new password (8-128 characters)"
+msgstr ""
+
+#: app/templates/password-reset-form.html:59
+#, fuzzy
+msgid "Confirm new password"
+msgstr "Parolă"
+
+#: app/templates/password-reset-form.html:65
+#, fuzzy
+msgid "Password must be:"
+msgstr "Parolă"
+
+#: app/templates/password-reset-form.html:67
+msgid "Between 8 and 128 characters"
+msgstr ""
+
+#: app/templates/password-reset-form.html:68
+msgid "Match the confirmation"
+msgstr ""
+
+#: app/templates/password-reset-form.html:74
+#, fuzzy
+msgid "Reset Password"
+msgstr "Parolă"
+
+#: app/templates/password-reset-success.html:24
+msgid "Password Reset Successful!"
+msgstr ""
+
+#: app/templates/password-reset-success.html:29
+#, fuzzy
+msgid "The password for"
+msgstr "Parolă"
+
+#: app/templates/password-reset-success.html:29
+msgid "has been successfully reset."
+msgstr ""
+
+#: app/templates/password-reset-success.html:32
+msgid "You can now use your new password to log in to your media server."
+msgstr ""
+
+#: app/templates/password-reset-success.html:37
+msgid "What's next?"
+msgstr ""
+
+#: app/templates/password-reset-success.html:38
+msgid "Log in to your media server with your username and new password."
+msgstr ""
 
 #: app/templates/profile.html:17
 msgid "Administrator"
@@ -1183,6 +1307,7 @@ msgstr "Acces de bază"
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
 #: app/templates/modals/invite.html:412
+#: app/templates/modals/password-reset-link.html:152
 msgid "Close"
 msgstr "Închide"
 
@@ -1193,6 +1318,7 @@ msgstr "Editează utilizator"
 #: app/templates/admin/user_modal.html:16
 #: app/templates/admin/user_modal.html:24
 #: app/templates/modals/connection-form.html:20
+#: app/templates/modals/password-reset-link.html:29
 msgid "Close modal"
 msgstr "Închide fereastra"
 
@@ -1813,6 +1939,7 @@ msgid "Invitation Link"
 msgstr "Link invitație"
 
 #: app/templates/modals/invite.html:396
+#: app/templates/modals/password-reset-link.html:84
 msgid "Copy"
 msgstr "Copiază"
 
@@ -1827,6 +1954,86 @@ msgstr "Creează altă invitație"
 #: app/templates/modals/invite.html:461
 msgid "Please select at least one server for the invitation."
 msgstr "Selectează cel puțin un server pentru invitație."
+
+#: app/templates/modals/password-reset-link.html:14
+#, fuzzy
+msgid "Password Reset Link"
+msgstr "(opțional)"
+
+#: app/templates/modals/password-reset-link.html:16
+msgid "Generate Password Reset Link"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:59
+#, fuzzy
+msgid "Password reset link for"
+msgstr "Parolă"
+
+#: app/templates/modals/password-reset-link.html:63
+#, fuzzy
+msgid "Link expires:"
+msgstr "Expiră"
+
+#: app/templates/modals/password-reset-link.html:71
+msgid "Reset Link (Click to copy)"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:88
+msgid "Send this link to the user. They can use it once to reset their password."
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:95
+msgid "Reset Code"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:105
+#, fuzzy
+msgid "Security Notes:"
+msgstr "Utilizatori"
+
+#: app/templates/modals/password-reset-link.html:108
+msgid "This link can only be used once"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:109
+msgid "It expires in 24 hours"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:110
+msgid "Send it securely (email, message, etc.)"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:117
+msgid "Generate a secure password reset link for"
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:130
+#, fuzzy
+msgid "Generate Reset Link"
+msgstr "Setări server"
+
+#: app/templates/modals/password-reset-link.html:133
+msgid "The link will be valid for 24 hours and can only be used once."
+msgstr ""
+
+#: app/templates/modals/password-reset-link.html:146
+#, fuzzy
+msgid "Copy Link"
+msgstr "Logare"
+
+#: app/templates/modals/password-reset-link.html:175
+#, fuzzy
+msgid "Copied!"
+msgstr "Alătură-te"
+
+#: app/templates/modals/password-reset-link.html:195
+#, fuzzy
+msgid "Reset link copied to clipboard!"
+msgstr "Link-ul a fost copiat cu succes în clipboard!"
+
+#: app/templates/modals/password-reset-link.html:197
+msgid "Please manually copy the link"
+msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:13
 msgid "Import Wizard Steps"
