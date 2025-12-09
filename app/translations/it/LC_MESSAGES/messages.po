@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-12-04 04:00+0000\n"
-"PO-Revision-Date: 2025-10-31 15:47+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-12-09 15:47+0000\n"
+"Last-Translator: Stepan Curuci <stepan@curuci.eu>\n"
 "Language: it\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/wizarr"
 "/wizarr-universal/it/>\n"
@@ -1622,12 +1622,10 @@ msgid ""
 msgstr "La tua chiave API è stata creata. Copiala ora perché non verrà più mostrata."
 
 #: app/templates/modals/create-api-key.html:40
-
 msgid "Copy to clipboard"
 msgstr "Il collegamento è stato copiato negli appunti!"
 
 #: app/templates/modals/create-api-key.html:48
-
 msgid "Name:"
 msgstr "Nome utente"
 
@@ -1654,13 +1652,11 @@ msgstr "ID canale"
 
 #: app/templates/modals/create-notification-agent.html:84
 #: app/templates/modals/edit-notification-agent.html:76
-
 msgid "Username (optional)"
 msgstr "(facoltativo)"
 
 #: app/templates/modals/create-notification-agent.html:92
 #: app/templates/modals/edit-notification-agent.html:85
-
 msgid "Password (optional)"
 msgstr "(facoltativo)"
 
@@ -1677,7 +1673,6 @@ msgstr "Eventi di notifica"
 #: app/templates/modals/create-notification-agent.html:121
 #: app/templates/modals/edit-notification-agent.html:117
 #: app/templates/settings/notifications.html:84
-
 msgid "User Joined"
 msgstr "Unisciti"
 
@@ -1705,7 +1700,6 @@ msgid "Edit Administrator"
 msgstr "Modifica amministratore"
 
 #: app/templates/modals/edit-admin.html:29
-
 msgid "New Password (optional)"
 msgstr "(facoltativo)"
 
@@ -1730,13 +1724,11 @@ msgid "Nickname"
 msgstr "Soprannome"
 
 #: app/templates/modals/edit-notification-agent.html:12
-
 msgid "Edit Agent"
 msgstr "Crea un account"
 
 #: app/templates/modals/edit-notification-agent.html:24
 #: app/templates/servers/index.html:10
-
 msgid "Name"
 msgstr "Nome utente"
 
@@ -1765,7 +1757,6 @@ msgid "Invite Code String"
 msgstr "Codice di invito"
 
 #: app/templates/modals/invite.html:47
-
 msgid "optional"
 msgstr "(facoltativo)"
 
@@ -1811,12 +1802,10 @@ msgstr "Usi illimitati"
 
 #: app/templates/modals/invite.html:114 app/templates/modals/invite.html:136
 #: app/templates/tables/invite_card.html:129
-
 msgid "Duration"
 msgstr "Durata"
 
 #: app/templates/modals/invite.html:115
-
 msgid "in days"
 msgstr "(in giorni)"
 
@@ -1825,22 +1814,18 @@ msgid "Show Information"
 msgstr "Mostra informazioni"
 
 #: app/templates/modals/invite.html:137
-
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
 msgstr ""
-"Se impostato, l'utente o gli utenti invitati saranno rimossi dal server "
-"Plex dopo\n"
-"                                        numero di\n"
-"                                        giorni. (1-999)"
+"Se impostato, l'utente o gli utenti invitati saranno rimossi dal server Plex dopo\n"
+"numero di giorni. (1-999)"
 
 #: app/templates/modals/invite.html:152
 msgid "Target servers"
 msgstr "Server di destinazione"
 
 #: app/templates/modals/invite.html:186
-
 msgid "Invite to Plex Home"
 msgstr "Codice d'invito"
 
@@ -1850,7 +1835,6 @@ msgid "Allow Live TV Access"
 msgstr "Consenti accesso TV in diretta"
 
 #: app/templates/modals/invite.html:219 app/templates/modals/invite.html:294
-
 msgid "Allow Mobile Uploads"
 msgstr "Scarica"
 
@@ -1867,12 +1851,10 @@ msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited.
 msgstr "Numero di dispositivi che possono trasmettere simultaneamente. Imposta su 0 per illimitati."
 
 #: app/templates/modals/invite.html:334
-
 msgid "Select Libraries"
 msgstr "Librerie"
 
 #: app/templates/modals/invite.html:347 app/templates/modals/invite.html:451
-
 msgid "Loading…"
 msgstr "Accedi"
 
@@ -1893,7 +1875,6 @@ msgid "Link has been copied to clipboard!"
 msgstr "Il collegamento è stato copiato negli appunti!"
 
 #: app/templates/modals/invite.html:407
-
 msgid "Create Another"
 msgstr "Crea un account"
 
@@ -1921,7 +1902,6 @@ msgstr "Solo file JSON"
 
 #: app/templates/modals/wizard-import-form.html:62
 #: app/templates/settings/wizard/import_form.html:52
-
 msgid "Import Options"
 msgstr "(facoltativo)"
 
@@ -1969,7 +1949,6 @@ msgstr "URL della tua istanza Overseerr/Ombi"
 #: app/templates/modals/wizard-preset-form.html:61
 #: app/templates/settings/wizard/_sub_nav.html:125
 #: app/templates/settings/wizard/preset_form.html:36
-
 msgid "Create Step"
 msgstr "Crea un account"
 
@@ -1998,7 +1977,6 @@ msgid "Add a clickable link button"
 msgstr "Aggiungi un pulsante link cliccabile"
 
 #: app/templates/modals/wizard-step-form.html:101
-
 msgid "Elements"
 msgstr "Crea un account"
 
@@ -2011,7 +1989,6 @@ msgid "Add a styled content card"
 msgstr "Aggiungi una scheda di contenuto stilizzata"
 
 #: app/templates/partials/api_keys_grid.html:36
-
 msgid "Delete API Key"
 msgstr "Predefinito"
 
@@ -2072,7 +2049,6 @@ msgid "No administrators yet."
 msgstr "Nessun amministratore ancora."
 
 #: app/templates/settings/admins.html:68
-
 msgid "Add Admin"
 msgstr "Admin"
 
@@ -2092,7 +2068,6 @@ msgstr "Gestisci connessioni servizi esterni per inviti utente automatizzati"
 
 #: app/templates/settings/connections.html:23
 #: app/templates/settings/connections/form.html:49
-
 msgid "Add Connection"
 msgstr "Impostazioni Avanzate"
 
@@ -2139,7 +2114,6 @@ msgid "Add Your First Connection"
 msgstr "Aggiungi la tua prima connessione"
 
 #: app/templates/settings/general.html:8
-
 msgid "General Settings"
 msgstr "Cambia le impostazioni del server"
 
@@ -2148,7 +2122,6 @@ msgid "Configure your application's basic settings and preferences"
 msgstr "Configura le impostazioni e preferenze di base dell'applicazione"
 
 #: app/templates/settings/general.html:14
-
 msgid "Version"
 msgstr "Permesso negato."
 
@@ -2173,7 +2146,6 @@ msgid "Control access to the wizard setup process"
 msgstr "Controlla l'accesso al processo di configurazione guidata"
 
 #: app/templates/settings/general.html:96
-
 msgid "User Management"
 msgstr "Nome utente"
 
@@ -2182,7 +2154,6 @@ msgid "Configure how users are managed when invitations expire"
 msgstr "Configura come gli utenti vengono gestiti quando gli inviti scadono"
 
 #: app/templates/settings/general.html:125
-
 msgid "Server Capabilities"
 msgstr "Cambia le impostazioni del server"
 
@@ -2191,7 +2162,6 @@ msgid "Supports Disable:"
 msgstr "Supporta disabilitazione:"
 
 #: app/templates/settings/general.html:140
-
 msgid "Delete Only:"
 msgstr "Crea un account"
 
@@ -2226,7 +2196,6 @@ msgid "Loading API keys..."
 msgstr "Caricamento chiavi API..."
 
 #: app/templates/settings/general.html:234
-
 msgid "Save Settings"
 msgstr "Cambia le impostazioni del server"
 
@@ -2252,12 +2221,10 @@ msgid "Servers"
 msgstr "Server"
 
 #: app/templates/settings/index.html:75
-
 msgid "Activity"
 msgstr "Salva"
 
 #: app/templates/settings/index.html:108
-
 msgid "Admins"
 msgstr "Admin"
 
@@ -2266,7 +2233,6 @@ msgid "Wizard"
 msgstr "Procedura guidata"
 
 #: app/templates/settings/index.html:142
-
 msgid "Audit"
 msgstr "Admin"
 
@@ -2280,12 +2246,10 @@ msgstr "Configura servizi di notifica per avvisarti di eventi importanti"
 
 #: app/templates/settings/notifications.html:21
 #: app/templates/settings/notifications.html:125
-
 msgid "Add Agent"
 msgstr "Crea un account"
 
 #: app/templates/settings/notifications.html:51
-
 msgid "Edit agent"
 msgstr "Crea un account"
 
@@ -2294,7 +2258,6 @@ msgid "Are you sure you want to delete"
 msgstr "Sei sicuro di voler eliminare"
 
 #: app/templates/settings/notifications.html:62
-
 msgid "Delete agent"
 msgstr "Crea un account"
 
@@ -2368,7 +2331,6 @@ msgid "API key from your external service settings"
 msgstr "Chiave API dalle impostazioni del servizio esterno"
 
 #: app/templates/settings/wizard/_sub_nav.html:14
-
 msgid "Default Steps"
 msgstr "Predefinito"
 
@@ -2461,7 +2423,6 @@ msgstr "Nessun passaggio pre-invito configurato"
 
 #: app/templates/settings/wizard/bundles.html:152
 #: app/templates/settings/wizard/steps.html:145
-
 msgid "After Invite Acceptance"
 msgstr "Codice d'invito"
 
@@ -2629,7 +2590,6 @@ msgid "Preview Wizard"
 msgstr "Anteprima procedura guidata"
 
 #: app/templates/settings/wizard/index.html:86
-
 msgid "Untitled Step"
 msgstr "Usi illimitati"
 
@@ -2643,7 +2603,6 @@ msgid "Edit step"
 msgstr "Modifica passaggio"
 
 #: app/templates/settings/wizard/index.html:106
-
 msgid "Delete step"
 msgstr "Predefinito"
 
@@ -2685,7 +2644,6 @@ msgid "There are currently no invitations."
 msgstr "Al momento non ci sono inviti."
 
 #: app/templates/tables/invite_card.html:61
-
 msgid "Used by"
 msgstr "Usato"
 
@@ -2694,7 +2652,6 @@ msgid "Used"
 msgstr "Usato"
 
 #: app/templates/tables/invite_card.html:66
-
 msgid "Not used yet"
 msgstr "Usato"
 
@@ -2710,7 +2667,6 @@ msgid "Expires"
 msgstr "Scade"
 
 #: app/templates/tables/invite_card.html:129
-
 msgid "days"
 msgstr "1 giorno"
 
@@ -2723,7 +2679,6 @@ msgid "Copy invite link"
 msgstr "Copia link invito"
 
 #: app/templates/tables/invite_card.html:188
-
 msgid "Delete invite"
 msgstr "Predefinito"
 
@@ -2736,12 +2691,10 @@ msgid "Edit nickname"
 msgstr "Modifica soprannome"
 
 #: app/templates/tables/user_card.html:54
-
 msgid "Home User"
 msgstr "Home"
 
 #: app/templates/tables/user_card.html:104
-
 msgid "Invited"
 msgstr "Codice d'invito"
 
@@ -2766,19 +2719,16 @@ msgid "Edit user"
 msgstr "Modifica utente"
 
 #: app/templates/tables/user_card.html:219
-
 msgid "Remove user"
 msgstr "Home"
 
 #: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:42
 #: app/templates/wizard/steps.html:82
-
 msgid "Before Invitation"
 msgstr "Crea un invito"
 
 #: app/templates/wizard/steps.html:17 app/templates/wizard/steps.html:44
 #: app/templates/wizard/steps.html:84
-
 msgid "After Invitation"
 msgstr "Crea un invito"
 
@@ -2789,177 +2739,3 @@ msgstr "Precedente"
 #: app/templates/wizard/steps.html:173 app/templates/wizard/steps.html:231
 msgid "Click the link in this step to be able to continue"
 msgstr "Clicca il link in questo passaggio per poter continuare"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
