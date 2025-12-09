@@ -53,13 +53,13 @@ class TestPasswordResetTokenGeneration:
             assert len(token.code) == 10  # TOKEN_LENGTH
             assert token.user_id == user.id
             assert token.used is False
-            
+
             # Ensure both datetimes are timezone-aware for comparison
             now = datetime.now(UTC)
             token_expires = token.expires_at
             if token_expires.tzinfo is None:
                 token_expires = token_expires.replace(tzinfo=UTC)
-            
+
             assert token_expires > now
             expires_limit = now + timedelta(hours=25)
             assert token_expires <= expires_limit
@@ -377,7 +377,8 @@ class TestPasswordResetAPIEndpoints:
 
             # Login as admin
             client.post(
-                "/login", data={"username": "admin_test_create_token", "password": "password123"}
+                "/login",
+                data={"username": "admin_test_create_token", "password": "password123"},
             )
 
             # Call reset password endpoint
@@ -403,7 +404,8 @@ class TestPasswordResetAPIEndpoints:
 
             # Login as admin
             client.post(
-                "/login", data={"username": "admin_test_nonexistent", "password": "password123"}
+                "/login",
+                data={"username": "admin_test_nonexistent", "password": "password123"},
             )
 
             # Call reset password endpoint with invalid user ID
@@ -444,14 +446,18 @@ class TestPasswordResetAPIEndpoints:
 
             # Login as admin
             client.post(
-                "/login", data={"username": "admin_test_modal", "password": "password123"}
+                "/login",
+                data={"username": "admin_test_modal", "password": "password123"},
             )
 
             # Get modal
             response = client.get(f"/users/{user.id}/reset-password-modal")
 
             assert response.status_code == 200
-            assert b"Generate Password Reset Link" in response.data or b"Password Reset Link" in response.data
+            assert (
+                b"Generate Password Reset Link" in response.data
+                or b"Password Reset Link" in response.data
+            )
 
     def test_generate_reset_link_endpoint(self, app, client):
         """Test the generate reset link endpoint."""
@@ -486,7 +492,8 @@ class TestPasswordResetAPIEndpoints:
 
             # Login as admin
             client.post(
-                "/login", data={"username": "admin_test_generate", "password": "password123"}
+                "/login",
+                data={"username": "admin_test_generate", "password": "password123"},
             )
 
             # Generate reset link
@@ -526,7 +533,10 @@ class TestPasswordResetAPIEndpoints:
             response = client.get(f"/reset/{token.code}")
 
             assert response.status_code == 200
-            assert b"Choose a new password" in response.data or b"Reset Password" in response.data
+            assert (
+                b"Choose a new password" in response.data
+                or b"Reset Password" in response.data
+            )
 
     def test_reset_password_form_invalid_token(self, app, client):
         """Test accessing the reset password form with invalid token."""
@@ -535,7 +545,10 @@ class TestPasswordResetAPIEndpoints:
             response = client.get("/reset/INVALID123")
 
             assert response.status_code == 200
-            assert b"Password Reset Error" in response.data or b"invalid" in response.data.lower()
+            assert (
+                b"Password Reset Error" in response.data
+                or b"invalid" in response.data.lower()
+            )
 
 
 class TestPasswordResetSecurityEdgeCases:
@@ -713,7 +726,8 @@ class TestPasswordResetSecurityEdgeCases:
 
             # Login as admin
             client.post(
-                "/login", data={"username": "admin_test_reuse", "password": "password123"}
+                "/login",
+                data={"username": "admin_test_reuse", "password": "password123"},
             )
 
             # Open modal - should show existing token
@@ -723,7 +737,9 @@ class TestPasswordResetSecurityEdgeCases:
             assert code1.encode() in response.data
 
             # Check that no new token was created
-            tokens = PasswordResetToken.query.filter_by(user_id=user.id, used=False).all()
+            tokens = PasswordResetToken.query.filter_by(
+                user_id=user.id, used=False
+            ).all()
             assert len(tokens) == 1
             assert tokens[0].code == code1
 

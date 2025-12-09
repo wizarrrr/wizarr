@@ -128,7 +128,8 @@ def create_invite(form: Any) -> Invitation:
         # Jellyfin-specific options
         max_active_sessions=(
             int(form.get("max_active_sessions").strip())
-            if form.get("max_active_sessions") and str(form.get("max_active_sessions")).strip().isdigit()
+            if form.get("max_active_sessions")
+            and str(form.get("max_active_sessions")).strip().isdigit()
             else None
         ),
     )

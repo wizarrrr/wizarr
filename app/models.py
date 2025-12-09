@@ -690,8 +690,13 @@ class PasswordResetToken(db.Model):
         db.Integer, db.ForeignKey("user.id", ondelete="CASCADE"), nullable=False
     )
     user = db.relationship(
-        "User", 
-        backref=db.backref("reset_tokens", lazy=True, cascade="all, delete-orphan", passive_deletes=True)
+        "User",
+        backref=db.backref(
+            "reset_tokens",
+            lazy=True,
+            cascade="all, delete-orphan",
+            passive_deletes=True,
+        ),
     )
     created_at = db.Column(
         db.DateTime, default=lambda: datetime.now(UTC), nullable=False
@@ -708,7 +713,11 @@ class PasswordResetToken(db.Model):
         if self.used:
             return False
         now = datetime.now(UTC)
-        expires_aware = self.expires_at.replace(tzinfo=UTC) if self.expires_at.tzinfo is None else self.expires_at
+        expires_aware = (
+            self.expires_at.replace(tzinfo=UTC)
+            if self.expires_at.tzinfo is None
+            else self.expires_at
+        )
         return expires_aware > now
 
 

@@ -7,8 +7,8 @@ import traceback
 from functools import wraps
 
 from flask import Blueprint, request
-from flask_restx import Resource, abort
 from flask_login import current_user
+from flask_restx import Resource, abort
 from sqlalchemy import func
 
 from app.extensions import api, db
@@ -27,7 +27,6 @@ from app.services.media.service import (
     disable_user,
     enable_user,
     list_users_all_servers,
-    reset_user_password,
 )
 from app.services.server_name_resolver import get_display_name_info
 
@@ -105,6 +104,7 @@ def require_api_key(f):
         return f(*args, **kwargs)
 
     return decorated_function
+
 
 def require_api_key_or_session(f):
     """Decorator to require either valid API key or authenticated session for endpoint access."""
@@ -1052,7 +1052,9 @@ class ApiKeyResource(Resource):
 @users_ns.route("/<int:user_id>/reset-password")
 class UserResetPasswordResource(Resource):
     @api.doc("create_password_reset_token", security="apikey")
-    @api.response(200, "Password reset link created successfully", success_message_model)
+    @api.response(
+        200, "Password reset link created successfully", success_message_model
+    )
     @api.response(401, "Invalid or missing API key or session", error_model)
     @api.response(404, "User not found", error_model)
     @api.response(500, "Internal server error", error_model)
@@ -1065,7 +1067,7 @@ class UserResetPasswordResource(Resource):
         Can be authenticated via API key (X-API-Key header) or admin session.
         """
         from app.services.password_reset import create_reset_token
-        
+
         user = db.session.get(User, user_id)
         if not user:
             abort(404, error="User not found")
@@ -1074,20 +1076,19 @@ class UserResetPasswordResource(Resource):
             token = create_reset_token(user.id)
             if not token:
                 return {"error": "Failed to create password reset token"}, 500
-            
+
             # Generate the reset URL - always return just the path
             # The frontend will construct the full URL if needed
             reset_path = f"/reset/{token.code}"
-            
+
             return {
                 "message": f"Password reset link created for {user.username}",
                 "code": token.code,
                 "url": reset_path,
                 "expires_at": token.expires_at.isoformat(),
             }
-            
+
         except Exception as e:
             logger.error("Error creating reset token for user %s: %s", user_id, str(e))
             logger.error(traceback.format_exc())
             return {"error": "Internal server error"}, 500
-

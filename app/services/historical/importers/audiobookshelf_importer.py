@@ -51,7 +51,11 @@ class AudiobookShelfHistoricalImporter:
 
         try:
             while not maybe_stop():
-                query_params = {"itemsPerPage": str(items_per_page), "page": str(page), "desc": 1}
+                query_params = {
+                    "itemsPerPage": str(items_per_page),
+                    "page": str(page),
+                    "desc": 1,
+                }
 
                 try:
                     response = client.get(endpoint, params=query_params)
