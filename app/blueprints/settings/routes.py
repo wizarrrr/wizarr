@@ -15,6 +15,7 @@ from flask import (
 from flask_babel import _
 from flask_login import login_required
 
+from app.services.expiry import disable_or_delete_user_if_expired
 from app.services.media.service import scan_libraries as scan_media
 
 from ...extensions import db
@@ -277,3 +278,76 @@ def general_settings():
             "settings/general.html", form=form, app_version=app_version
         )
     return redirect(url_for("settings.page"))
+
+
+@settings_bp.route("/clean-expired-users", methods=["POST"])
+@login_required
+def clean_expired_users():
+    """Manually trigger cleanup of all expired users."""
+    try:
+        processed_ids = disable_or_delete_user_if_expired()
+        count = len(processed_ids)
+
+        if count > 0:
+            flash(
+                _("Successfully cleaned {count} expired user(s).").format(count=count),
+                "success",
+            )
+            logging.info("🧹 Manual cleanup: Processed %s expired users.", count)
+        else:
+            flash(_("No expired users found to clean."), "info")
+
+        # Return the button HTML for HTMX swap
+        return """
+        <button type="button"
+                hx-post="{url}"
+                hx-target="#clean-expired-users-container"
+                hx-swap="innerHTML"
+                hx-indicator="#clean-expired-indicator"
+                hx-confirm="{confirm}"
+                class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800 text-sm font-medium shadow-xs transition-colors">
+          <svg id="clean-expired-indicator" class="htmx-indicator w-4 h-4 mr-2 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <svg class="w-4 h-4 mr-2 [.htmx-request_&]:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+          {label}
+        </button>
+        """.format(
+            url=url_for("settings.clean_expired_users"),
+            confirm=_(
+                "Are you sure you want to clean all expired users? This action cannot be undone."
+            ),
+            label=_("Clean Expired Users"),
+        )
+    except Exception as exc:
+        logging.exception("Failed to clean expired users: %s", exc)
+        flash(
+            _("Failed to clean expired users: {error}").format(error=str(exc)), "error"
+        )
+        return """
+        <button type="button"
+                hx-post="{url}"
+                hx-target="#clean-expired-users-container"
+                hx-swap="innerHTML"
+                hx-indicator="#clean-expired-indicator"
+                hx-confirm="{confirm}"
+                class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800 text-sm font-medium shadow-xs transition-colors">
+          <svg id="clean-expired-indicator" class="htmx-indicator w-4 h-4 mr-2 animate-spin" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <svg class="w-4 h-4 mr-2 [.htmx-request_&]:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+          </svg>
+          {label}
+        </button>
+        """.format(
+            url=url_for("settings.clean_expired_users"),
+            confirm=_(
+                "Are you sure you want to clean all expired users? This action cannot be undone."
+            ),
+            label=_("Clean Expired Users"),
+        )

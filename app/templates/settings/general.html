@@ -160,6 +160,35 @@
                     </p>
                     {% for err in form.expiry_action.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
                   </div>
+                  {# ───── Clean Expired Users ──────────────────────── #}
+                  <div class="pt-4 border-t border-gray-200 dark:border-gray-600">
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                      <div>
+                        <h3 class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Clean Expired Users") }}</h3>
+                        <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                          {{ _("Immediately process all expired users based on the expiry action above") }}
+                        </p>
+                      </div>
+                      <div id="clean-expired-users-container">
+                        <button type="button"
+                                hx-post="{{ url_for('settings.clean_expired_users') }}"
+                                hx-target="#clean-expired-users-container"
+                                hx-swap="innerHTML"
+                                hx-indicator="#clean-expired-indicator"
+                                hx-confirm="{{ _('Are you sure you want to clean all expired users? This action cannot be undone.') }}"
+                                class="inline-flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 dark:focus:ring-red-800 text-sm font-medium shadow-xs transition-colors">
+                          <svg id="clean-expired-indicator" class="htmx-indicator w-4 h-4 mr-2 animate-spin" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                          </svg>
+                          <svg class="w-4 h-4 mr-2 [.htmx-request_&]:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                          </svg>
+                          {{ _("Clean Expired Users") }}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
