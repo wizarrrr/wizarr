@@ -10,6 +10,7 @@
      data-server-type="{{ server_type }}"
      data-phase="{{ phase|default('') }}"
      data-step-phase="{{ (step_phase or '') }}"
+     {% if is_bundle_preview %}data-bundle-id="{{ bundle_id }}"{% endif %}
      data-completion-url="{{ completion_url or '' }}"
      data-completion-label="{{ completion_label or '' }}"
      data-next-label="{{ _('Next') }}"
@@ -125,6 +126,10 @@
          {% else %}
            hx-get="{{ url_for('wizard.combo', category='post_invite', idx=idx-1) }}"
          {% endif %}
+       {% elif is_bundle_preview and bundle_id %}
+       hx-get="{{ url_for('wizard.bundle_preview', bundle_id=bundle_id, idx=idx-1) }}"
+       {% elif server_type == 'bundle' %}
+       hx-get="{{ url_for('wizard.bundle_view', idx=idx-1) }}"
        {% elif phase == 'pre' %}
        hx-get="{{ url_for('wizard.pre_wizard', idx=idx-1) }}"
        {% elif phase == 'post' %}
@@ -153,6 +158,10 @@
            {% else %}
              hx-get="{{ url_for('wizard.combo', category='post_invite', idx=idx+1) }}"
            {% endif %}
+       {% elif is_bundle_preview and bundle_id %}
+       hx-get="{{ url_for('wizard.bundle_preview', bundle_id=bundle_id, idx=idx+1) }}"
+       {% elif server_type == 'bundle' %}
+       hx-get="{{ url_for('wizard.bundle_view', idx=idx+1) }}"
        {% elif phase == 'pre' %}
        hx-get="{{ url_for('wizard.pre_wizard', idx=idx+1) }}"
        {% elif phase == 'post' %}
@@ -186,6 +195,10 @@
          {% else %}
            hx-get="{{ url_for('wizard.combo', category='post_invite', idx=idx-1) }}"
          {% endif %}
+       {% elif is_bundle_preview and bundle_id %}
+       hx-get="{{ url_for('wizard.bundle_preview', bundle_id=bundle_id, idx=idx-1) }}"
+       {% elif server_type == 'bundle' %}
+       hx-get="{{ url_for('wizard.bundle_view', idx=idx-1) }}"
        {% elif phase == 'pre' %}
        hx-get="{{ url_for('wizard.pre_wizard', idx=idx-1) }}"
        {% elif phase == 'post' %}
@@ -209,6 +222,10 @@
            {% else %}
              hx-get="{{ url_for('wizard.combo', category='post_invite', idx=idx+1) }}"
            {% endif %}
+       {% elif is_bundle_preview and bundle_id %}
+       hx-get="{{ url_for('wizard.bundle_preview', bundle_id=bundle_id, idx=idx+1) }}"
+       {% elif server_type == 'bundle' %}
+       hx-get="{{ url_for('wizard.bundle_view', idx=idx+1) }}"
        {% elif phase == 'pre' %}
        hx-get="{{ url_for('wizard.pre_wizard', idx=idx+1) }}"
        {% elif phase == 'post' %}
@@ -512,11 +529,16 @@
 
                 // Generate URL based on phase and server type
                 let newUrl;
+                const bundleId = this.wrapper.dataset.bundleId;
                 if (serverType === 'combo') {
                     // Combo wizard uses path-based category routing
                     const category = phase === 'pre' ? 'pre_invite' : 'post_invite';
                     newUrl = `/wizard/combo/${category}/${targetIdx}`;
+                } else if (serverType === 'bundle' && bundleId) {
+                    // Bundle preview mode (admin)
+                    newUrl = `/wizard/bundle-preview/${bundleId}/${targetIdx}`;
                 } else if (serverType === 'bundle') {
+                    // Runtime bundle mode (user flow)
                     newUrl = `/wizard/bundle/${targetIdx}`;
                 } else if (phase === 'pre') {
                     newUrl = `/wizard/pre-wizard/${targetIdx}`;

@@ -1277,3 +1277,158 @@ def bundle_view(idx: int):
         return resp
 
     return response
+
+
+# ─── bundle preview route (admin) ──────────────────────────────
+
+
+@wizard_bp.route("/bundle-preview/<int:bundle_id>/<int:idx>")
+def bundle_preview(bundle_id: int, idx: int):
+    """Admin preview for custom bundles.
+
+    Displays all bundle steps (both pre_invite and post_invite) in sequence,
+    similar to how the regular wizard preview works for server-specific steps.
+    """
+    try:
+        bundle = db.session.get(WizardBundle, bundle_id)
+    except Exception as e:
+        current_app.logger.error(
+            f"Error loading wizard bundle {bundle_id} for preview: {e}", exc_info=True
+        )
+        abort(404)
+
+    if not bundle:
+        current_app.logger.warning(f"Bundle {bundle_id} not found for preview")
+        abort(404)
+
+    # Load all ordered steps (both pre and post) for preview
+    try:
+        ordered = (
+            WizardBundleStep.query.filter_by(bundle_id=bundle_id)
+            .options(joinedload(WizardBundleStep.step))
+            .order_by(WizardBundleStep.position)
+            .all()
+        )
+    except Exception as e:
+        current_app.logger.error(
+            f"Error loading steps for bundle {bundle_id} preview: {e}", exc_info=True
+        )
+        abort(404)
+
+    # Get all steps with valid step references, ordered by position
+    # Group by category to show pre_invite first, then post_invite
+    pre_steps = [
+        assoc.step
+        for assoc in ordered
+        if assoc.step and assoc.step.category == "pre_invite"
+    ]
+    post_steps = [
+        assoc.step
+        for assoc in ordered
+        if assoc.step and assoc.step.category == "post_invite"
+    ]
+
+    # Combine: pre_invite first, then post_invite
+    steps_raw = pre_steps + post_steps
+
+    # Track which phase each step belongs to for display
+    phases = ["pre"] * len(pre_steps) + ["post"] * len(post_steps)
+
+    if not steps_raw:
+        flash(_("This bundle has no steps to preview."), "info")
+        return redirect(url_for("settings.settings_wizard"))
+
+    # Adapter for frontmatter-like interface
+    class _RowAdapter:
+        __slots__ = ("_require", "content")
+
+        def __init__(self, row: WizardStep):
+            self.content = row.markdown
+            self._require = bool(getattr(row, "require_interaction", False))
+
+        def get(self, key, default=None):
+            if key == "require":
+                return self._require
+            return default
+
+    steps = [_RowAdapter(s) for s in steps_raw]
+    idx = max(0, min(idx, len(steps) - 1))
+
+    # Get the server type and category for the current step
+    current_server_type = steps_raw[idx].server_type if idx < len(steps_raw) else None
+    current_phase = phases[idx] if idx < len(phases) else "post"
+
+    post = steps[idx]
+
+    # Render with error handling
+    try:
+        settings = _settings()
+        html = _render(
+            post,
+            settings | {"_": _} | _get_server_context(current_server_type or ""),
+            server_type=current_server_type,
+        )
+    except Exception as e:
+        current_app.logger.error(
+            f"Error rendering bundle preview step {idx} for bundle {bundle_id}: {e}",
+            exc_info=True,
+        )
+        html = f"""
+        <div class="alert alert-error">
+            <h3>{_("Error Loading Step")}</h3>
+            <p>{
+            _(
+                "This step could not be loaded. Please contact the "
+                "administrator or skip to the next step."
+            )
+        }</p>
+        </div>
+        """
+
+    require_interaction = False
+    try:
+        require_interaction = bool(
+            getattr(post, "get", lambda _k, _d=None: None)("require", False)
+        )
+    except Exception:
+        require_interaction = False
+
+    # Determine which template to use based on request type
+    if not request.headers.get("HX-Request"):
+        page = "wizard/frame.html"
+    else:
+        page = "wizard/_content.html"
+
+    # Get server-specific color scheme for theming
+    colors = _get_server_colors(current_server_type)
+
+    response = render_template(
+        page,
+        body_html=html,
+        idx=idx,
+        max_idx=len(steps) - 1,
+        server_type="bundle",
+        bundle_id=bundle_id,  # Pass bundle_id for navigation URLs
+        direction=request.values.get("dir", ""),
+        require_interaction=require_interaction,
+        phase="preview",  # Preview mode for admin
+        step_phase=current_phase,
+        completion_url=None,
+        completion_label=None,
+        gradient_start=colors["gradient_start"],
+        gradient_end=colors["gradient_end"],
+        shadow_color=colors["shadow_color"],
+        is_bundle_preview=True,  # Flag to help template generate correct URLs
+    )
+
+    # Add custom headers for client-side updates (HTMX requests only)
+    if request.headers.get("HX-Request"):
+        resp = make_response(response)
+        resp.headers["X-Wizard-Idx"] = str(idx)
+        resp.headers["X-Require-Interaction"] = (
+            "true" if require_interaction else "false"
+        )
+        resp.headers["X-Wizard-Step-Phase"] = current_phase
+        return resp
+
+    return response

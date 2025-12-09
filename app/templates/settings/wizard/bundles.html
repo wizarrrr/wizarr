@@ -21,6 +21,18 @@
       <div class="flex items-center justify-between mb-4">
         <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-100">{{ b.name }}</h2>
         <span class="flex items-center gap-2">
+          <a href="{{ url_for('wizard.bundle_preview', bundle_id=b.id, idx=0) }}"
+             target="_blank"
+             class="inline-flex items-center justify-center p-2 text-gray-800 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:text-white dark:hover:bg-gray-600"
+             title="{{ _('Preview Wizard') }}">
+            <svg class="w-5 h-5"
+                 aria-hidden="true"
+                 xmlns="http://www.w3.org/2000/svg"
+                 fill="none"
+                 viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 14v4.833A1.166 1.166 0 0 1 16.833 20H5.167A1.167 1.167 0 0 1 4 18.833V7.167A1.166 1.166 0 0 1 5.167 6h4.618m4.447-2H20v5.768m-7.889 2.121 7.778-7.778" />
+            </svg>
+          </a>
           <a href="{{ url_for('wizard_admin.export_bundle', bundle_id=b.id) }}"
              class="inline-flex items-center justify-center p-2 text-gray-600 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
              title="{{ _('Export %(bundle_name)s Bundle', bundle_name=b.name) }}">

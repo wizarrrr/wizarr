@@ -619,6 +619,9 @@ class KomgaClient(RestApiMixin):
         Returns:
             list: List of dicts with 'title' and 'thumb' keys
         """
+        if not self.url:
+            return []
+
         try:
             # Get latest books from Komga API
             response = self.get(f"/api/v1/books/latest?size={limit}")

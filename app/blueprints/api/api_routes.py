@@ -399,6 +399,7 @@ class UserResource(Resource):
         user = db.session.get(User, user_id)
         if not user:
             abort(404, error="User not found")
+            return None  # Type narrowing: unreachable but helps type checker
 
         # Get server info for the user
         server = db.session.get(MediaServer, user.server_id)
@@ -435,6 +436,7 @@ class UserEnableResource(Resource):
         user = db.session.get(User, user_id)
         if not user:
             abort(404, error="User not found")
+            return None  # Type narrowing: unreachable but helps type checker
 
         # Get server info for the user
         server = db.session.get(MediaServer, user.server_id)
@@ -482,6 +484,7 @@ class UserDisableResource(Resource):
         user = db.session.get(User, user_id)
         if not user:
             abort(404, error="User not found")
+            return None  # Type narrowing: unreachable but helps type checker
 
         # Get server info for the user
         server = db.session.get(MediaServer, user.server_id)
@@ -527,6 +530,7 @@ class UserExtendResource(Resource):
         user = db.session.get(User, user_id)
         if not user:
             abort(404, error="User not found")
+            return None  # Type narrowing: unreachable but helps type checker
 
         try:
             logger.info("API: Extending expiry for user %s", user_id)
@@ -572,6 +576,7 @@ class UserUpdateExpiryResource(Resource):
         user = db.session.get(User, user_id)
         if not user:
             abort(404, error="User not found")
+            return None  # Type narrowing: unreachable but helps type checker
 
         try:
             logger.info("API: Updating expiry for user %s", user_id)
@@ -831,6 +836,7 @@ class InvitationResource(Resource):
         invitation = db.session.get(Invitation, invitation_id)
         if not invitation:
             abort(404, error="Invitation not found")
+            return None  # Type narrowing: unreachable but helps type checker
 
         try:
             logger.info("API: Deleting invitation %s", invitation_id)
@@ -1024,6 +1030,7 @@ class ApiKeyResource(Resource):
         api_key = db.session.get(ApiKey, key_id)
         if not api_key:
             abort(404, error="API key not found")
+            return None  # Type narrowing: unreachable but helps type checker
 
         try:
             logger.info("API: Deleting API key %s", key_id)
@@ -1071,6 +1078,7 @@ class UserResetPasswordResource(Resource):
         user = db.session.get(User, user_id)
         if not user:
             abort(404, error="User not found")
+            return None  # Type narrowing: unreachable but helps type checker
 
         try:
             token = create_reset_token(user.id)

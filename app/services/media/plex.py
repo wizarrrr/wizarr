@@ -238,6 +238,9 @@ class PlexClient(MediaClient):
 
     def get_movie_posters(self, limit: int = 10) -> list[str]:
         """Get movie poster URLs for background display."""
+        if not self.url:
+            return []
+
         poster_urls = []
         try:
             # Get movie libraries
@@ -280,6 +283,9 @@ class PlexClient(MediaClient):
         self, library_id: str | None = None, limit: int = 10
     ) -> list[dict]:
         """Get recently added items from Plex server."""
+        if not self.url:
+            return []
+
         try:
             items = []
 

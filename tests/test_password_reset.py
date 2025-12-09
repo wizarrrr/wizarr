@@ -89,10 +89,12 @@ class TestPasswordResetTokenGeneration:
 
             # Create first token
             token1 = create_reset_token(user.id)
+            assert token1 is not None
             token1_code = token1.code
 
             # Create second token
             token2 = create_reset_token(user.id)
+            assert token2 is not None
 
             # Refresh token1 from database
             db.session.refresh(token1)
@@ -144,6 +146,8 @@ class TestPasswordResetTokenGeneration:
             # Create tokens for both users
             token1 = create_reset_token(user1.id)
             token2 = create_reset_token(user2.id)
+            assert token1 is not None
+            assert token2 is not None
 
             assert token1.code != token2.code
 
@@ -176,6 +180,7 @@ class TestPasswordResetTokenValidation:
 
             # Create token
             created_token = create_reset_token(user.id)
+            assert created_token is not None
 
             # Retrieve token
             token, error = get_reset_token(created_token.code)
@@ -528,6 +533,7 @@ class TestPasswordResetAPIEndpoints:
 
             # Create reset token
             token = create_reset_token(user.id)
+            assert token is not None
 
             # Access reset form
             response = client.get(f"/reset/{token.code}")
@@ -579,6 +585,7 @@ class TestPasswordResetSecurityEdgeCases:
 
             # Create token
             token = create_reset_token(user.id)
+            assert token is not None
             code = token.code
 
             # First use - should work
@@ -722,6 +729,7 @@ class TestPasswordResetSecurityEdgeCases:
 
             # Create initial token
             token1 = create_reset_token(user.id)
+            assert token1 is not None
             code1 = token1.code
 
             # Login as admin
