@@ -11,9 +11,9 @@ Supported interaction types:
 - text_input: User must answer a question correctly
 - quiz: User must pass a multi-question quiz
 
-Revision ID: 20251208_add_wizard_interactions
-Revises: 080eaac6e013, c854ad44aad5
-Create Date: 2025-12-08
+Revision ID: 20251210_add_wizard_interactions
+Revises: eecad7c18ac3
+Create Date: 2025-12-10
 """
 
 import sqlalchemy as sa
@@ -21,8 +21,8 @@ from alembic import op
 from sqlalchemy import inspect
 
 # revision identifiers, used by Alembic.
-revision = "20251208_add_wizard_interactions"
-down_revision = ("080eaac6e013", "c854ad44aad5")
+revision = "20251210_add_wizard_interactions"
+down_revision = "eecad7c18ac3"
 branch_labels = None
 depends_on = None
 

@@ -17,8 +17,48 @@ from app.services.wizard_seed import (
     _collect_server_files,
     _gather_step_files,
     _parse_markdown,
+    _strip_jinja_translation,
     import_default_wizard_steps,
 )
+
+
+class TestStripJinjaTranslation:
+    """Test the _strip_jinja_translation helper function."""
+
+    def test_strips_single_quotes(self):
+        """Test stripping Jinja translation with single quotes."""
+        result = _strip_jinja_translation("{{ _('What is Plex?') }}")
+        assert result == "What is Plex?"
+
+    def test_strips_double_quotes(self):
+        """Test stripping Jinja translation with double quotes."""
+        result = _strip_jinja_translation('{{ _("Tips for the best experience") }}')
+        assert result == "Tips for the best experience"
+
+    def test_strips_with_whitespace(self):
+        """Test stripping Jinja translation with extra whitespace."""
+        result = _strip_jinja_translation("{{  _('Download Plex Clients')  }}")
+        assert result == "Download Plex Clients"
+
+    def test_returns_plain_text_unchanged(self):
+        """Test that plain text is returned unchanged."""
+        result = _strip_jinja_translation("Test Title")
+        assert result == "Test Title"
+
+    def test_returns_none_for_none(self):
+        """Test that None input returns None."""
+        result = _strip_jinja_translation(None)
+        assert result is None
+
+    def test_returns_empty_string_for_empty(self):
+        """Test that empty string returns empty string."""
+        result = _strip_jinja_translation("")
+        assert result == ""
+
+    def test_preserves_special_characters(self):
+        """Test that special characters in titles are preserved."""
+        result = _strip_jinja_translation("{{ _('What\\'s New?') }}")
+        assert result == "What\\'s New?"
 
 
 class TestWizardSeedHelpers:
@@ -85,6 +125,24 @@ title: Test
 
         assert result["title"] == "Test"
         assert result["requires"] == []
+
+    def test_parse_markdown_strips_jinja_translation_from_title(self, tmp_path):
+        """Test that Jinja translation syntax is stripped from titles."""
+        md_file = tmp_path / "test.md"
+        md_file.write_text(
+            """---
+title: "{{ _('What is Plex?') }}"
+---
+
+# Welcome to Plex
+"""
+        )
+
+        result = _parse_markdown(md_file)
+
+        # Title should be plain text, not the Jinja syntax
+        assert result["title"] == "What is Plex?"
+        assert "{{ _" not in result["title"]
 
     def test_collect_server_files(self, tmp_path):
         """Test collecting markdown files organized by server type."""
