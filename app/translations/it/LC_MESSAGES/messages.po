@@ -203,7 +203,6 @@ msgid "API key deleted successfully"
 msgstr "Chiave API eliminata con successo"
 
 #: app/blueprints/auth/routes.py:85
-
 msgid "Invalid username or password"
 msgstr "Nome utente o password non validi"
 
@@ -269,7 +268,6 @@ msgid "API Key"
 msgstr "Chiave API"
 
 #: app/blueprints/settings/routes.py:219
-
 msgid "Username/Password"
 msgstr "Nome utente o password non validi"
 
@@ -375,9 +373,8 @@ msgid "Step updated"
 msgstr "Passaggio aggiornato"
 
 #: app/blueprints/wizard_admin/routes.py:358
-
 msgid "Step deleted"
-msgstr "Predefinito"
+msgstr "Passaggio eliminato"
 
 #: app/blueprints/wizard_admin/routes.py:478
 msgid "Bundle created"
@@ -388,9 +385,8 @@ msgid "Bundle updated"
 msgstr "Pacchetto aggiornato"
 
 #: app/blueprints/wizard_admin/routes.py:532
-
 msgid "Bundle deleted"
-msgstr "Predefinito"
+msgstr "Pacchetto eliminato"
 
 #: app/blueprints/wizard_admin/routes.py:684
 msgid "Steps added"
@@ -471,41 +467,34 @@ msgstr "Password"
 #: app/forms/admin.py:47 app/forms/admin.py:65
 #: app/templates/modals/create-admin.html:35
 #: app/templates/modals/edit-admin.html:37
-
 msgid "Confirm password"
-msgstr "Password"
+msgstr "Conferma password"
 
 #: app/forms/admin.py:50 app/forms/admin.py:68
-
 msgid "Passwords must match."
-msgstr "Password"
+msgstr "Le password devono corrispondere."
 
 #: app/forms/admin.py:62 app/templates/profile.html:53
-
 msgid "New Password"
-msgstr "Password"
+msgstr "Nuova password"
 
 #: app/forms/admin.py:79
-
 msgid "Please confirm the new password."
-msgstr "Password"
+msgstr "Conferma la nuova password."
 
 #: app/forms/settings.py:10
 msgid "Server Type"
 msgstr "Tipo di server"
 
 #: app/forms/settings.py:23
-
 msgid "Server Name"
-msgstr "Nome utente"
+msgstr "Nome del server"
 
 #: app/forms/settings.py:26
-
 msgid "RomM Username"
 msgstr "Nome utente"
 
 #: app/forms/settings.py:27
-
 msgid "RomM Password"
 msgstr "Password"
 
@@ -518,9 +507,8 @@ msgstr "Librerie"
 #: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
 #: app/templates/modals/invite.html:231 app/templates/modals/invite.html:272
 #: app/templates/modals/invite.html:306 app/templates/modals/invite.html:318
-
 msgid "Allow Downloads"
-msgstr "Scarica"
+msgstr "Consenti download"
 
 #: app/forms/settings.py:33 app/templates/admin/user_modal.html:112
 msgid "Allow Live TV"
@@ -531,9 +519,8 @@ msgid "Overseerr/Ombi URL"
 msgstr "URL Overseerr/Ombi"
 
 #: app/forms/settings.py:38
-
 msgid "Ombi API Key"
-msgstr "Predefinito"
+msgstr "Chiave API Ombi"
 
 #: app/forms/settings.py:39
 msgid "Discord ID"
@@ -665,7 +652,6 @@ msgstr "Scegli una password per i server rimanenti"
 #: app/templates/choose-password.html:33
 #: app/templates/hybrid-password-form.html:150
 #: app/templates/welcome-jellyfin.html:174
-
 msgid "Confirm Password"
 msgstr "Password"
 
@@ -706,9 +692,8 @@ msgid "Error!"
 msgstr "Errore!"
 
 #: app/templates/hybrid-password-form.html:107
-
 msgid "Your username"
-msgstr "Nome utente"
+msgstr "Il tuo nome utente"
 
 #: app/templates/hybrid-password-form.html:119
 msgid "Email Address"
@@ -719,9 +704,8 @@ msgid "your.email@example.com"
 msgstr "tua.email@esempio.com"
 
 #: app/templates/hybrid-password-form.html:139
-
 msgid "Your password"
-msgstr "Password"
+msgstr "La tua password"
 
 #: app/templates/hybrid-password-form.html:156
 #: app/templates/welcome-jellyfin.html:177
@@ -741,9 +725,8 @@ msgid "Complete Setup"
 msgstr "Completa configurazione"
 
 #: app/templates/hybrid-password-form.html:195
-
 msgid "Setting up..."
-msgstr "Impostazioni"
+msgstr "Configurazione in corso..."
 
 #: app/templates/hybrid-password-form.html:201
 msgid "What happens next?"
@@ -770,9 +753,8 @@ msgid "Skip local servers"
 msgstr "Salta i server locali"
 
 #: app/templates/hybrid-password-form.html:229
-
 msgid "Password too short"
-msgstr "Password"
+msgstr "Password troppo corta"
 
 #: app/templates/hybrid-password-form.html:232
 msgid "Password strength: Medium"
@@ -787,9 +769,8 @@ msgid "Passwords do not match"
 msgstr "Le password non corrispondono"
 
 #: app/templates/invalid-invite.html:10
-
 msgid "Wizarr"
-msgstr "Configura Wizarr"
+msgstr "Wizarr"
 
 #: app/templates/invalid-invite.html:15
 msgid "Invalid Invitation"
@@ -818,11 +799,11 @@ msgstr "Autenticati con la tua passkey per completare l'accesso."
 
 #: app/templates/login.html:79
 msgid "Remember me"
-msgstr "Ricordati di me"
+msgstr "Ricordami"
 
 #: app/templates/login.html:86
 msgid "Sign in"
-msgstr "Registrati"
+msgstr "Accedi"
 
 #: app/templates/login.html:104
 msgid "Authenticate with Passkey"
@@ -861,18 +842,16 @@ msgid "Change your account password for security."
 msgstr "Cambia la password del tuo account per sicurezza."
 
 #: app/templates/profile.html:42
-
 msgid "Current Password"
-msgstr "Password"
+msgstr "Password attuale"
 
 #: app/templates/profile.html:64
 msgid "Confirm New Password"
 msgstr "Conferma nuova password"
 
 #: app/templates/profile.html:74
-
 msgid "Change Password"
-msgstr "Password"
+msgstr "Cambia password"
 
 #: app/templates/user-plex-login.html:9 app/templates/welcome-jellyfin.html:9
 #, python-format
@@ -884,9 +863,8 @@ msgid "You've been invited!"
 msgstr "Sei stato invitato!"
 
 #: app/templates/user-plex-login.html:54 app/templates/welcome-jellyfin.html:45
-
 msgid "To join"
-msgstr "Unisciti"
+msgstr "Per unirti"
 
 #: app/templates/user-plex-login.html:59 app/templates/welcome-jellyfin.html:51
 msgid "Join the ultimate media server experience."
@@ -897,19 +875,16 @@ msgid "Enter Code to Continue"
 msgstr "Inserisci il codice per continuare"
 
 #: app/templates/user-plex-login.html:68
-
 msgid "Invitation Code"
 msgstr "Codice d'invito"
 
 #: app/templates/user-plex-login.html:79 app/templates/user-plex-login.html:94
-
 msgid "Enter your code"
-msgstr "Codice d'invito"
+msgstr "Inserisci il tuo codice"
 
 #: app/templates/user-plex-login.html:108
-
 msgid "Join Server"
-msgstr "Unisciti al server Plex"
+msgstr "Unisciti al server"
 
 #: app/templates/user-plex-login.html:115
 #: app/templates/welcome-jellyfin.html:226
@@ -922,9 +897,8 @@ msgstr "Invita un utente"
 
 #: app/templates/welcome-jellyfin.html:73
 #: app/templates/welcome-jellyfin.html:78
-
 msgid "Accept Invitation"
-msgstr "Crea un invito"
+msgstr "Accetta l'invito"
 
 #: app/templates/welcome-jellyfin.html:74
 msgid "Get ready to join the magic"
@@ -932,14 +906,12 @@ msgstr "Preparati a unirti alla magia"
 
 #: app/templates/welcome-jellyfin.html:91
 #: app/templates/welcome-jellyfin.html:206
-
 msgid "Create Account"
 msgstr "Crea un account"
 
 #: app/templates/welcome-jellyfin.html:92
-
 msgid "Set up your magical account"
-msgstr "Crea un account"
+msgstr "Configura il tuo account magico"
 
 #: app/templates/welcome-jellyfin.html:120
 msgid "Enter your username"
@@ -954,9 +926,8 @@ msgid "Enter your email"
 msgstr "Inserisci la tua email"
 
 #: app/templates/welcome-jellyfin.html:158
-
 msgid "Create a password"
-msgstr "Crea un account"
+msgstr "Crea una password"
 
 #: app/templates/tables/user_card.html:116
 #: app/templates/welcome-jellyfin.html:193
@@ -964,14 +935,12 @@ msgid "Invite Code"
 msgstr "Codice d'invito"
 
 #: app/templates/welcome-jellyfin.html:196
-
 msgid "Enter invite code"
-msgstr "Codice d'invito"
+msgstr "Inserisci il codice dell'invito"
 
 #: app/templates/welcome-jellyfin.html:216
-
 msgid "Creating account..."
-msgstr "Crea un account"
+msgstr "Creazione account..."
 
 #: app/templates/admin/accepted_invites_card.html:12
 msgid "Latest Accepted Invites"
@@ -1094,13 +1063,11 @@ msgid "Failed to load recent content"
 msgstr "Impossibile caricare i contenuti recenti"
 
 #: app/templates/admin/server_health_card.html:11
-
 msgid "Server Health"
 msgstr "Cambia le impostazioni del server"
 
 #: app/templates/admin/server_health_card.html:44
 #: app/templates/admin/server_stats_card.html:36
-
 msgid "Online"
 msgstr "Unisciti"
 
@@ -1112,7 +1079,6 @@ msgstr "Offline"
 #: app/templates/admin/server_stats_card.html:29
 #: app/templates/settings/notifications.html:75
 #: app/templates/tables/invite_card.html:13
-
 msgid "Active"
 msgstr "Salva"
 
@@ -1135,12 +1101,10 @@ msgid "Server is currently unreachable"
 msgstr "Il server è attualmente irraggiungibile"
 
 #: app/templates/admin/server_health_card.html:120
-
 msgid "servers online"
 msgstr "Cambia le impostazioni del server"
 
 #: app/templates/admin/server_health_card.html:124
-
 msgid "server(s) need attention"
 msgstr "Cambia le impostazioni del server"
 
@@ -1157,7 +1121,6 @@ msgid "Failed to load server health"
 msgstr "Impossibile caricare lo stato del server"
 
 #: app/templates/admin/server_stats_card.html:11
-
 msgid "Server Overview"
 msgstr "Cambia le impostazioni del server"
 
@@ -1182,7 +1145,6 @@ msgid "User Details"
 msgstr "Dettagli utente"
 
 #: app/templates/admin/user_details_modal.html:55
-
 msgid "Joined"
 msgstr "Unisciti"
 
@@ -1191,17 +1153,14 @@ msgid "Account Details"
 msgstr "Dettagli account"
 
 #: app/templates/admin/user_details_modal.html:87
-
 msgid "All libraries"
 msgstr "Librerie"
 
 #: app/templates/admin/user_details_modal.html:93
-
 msgid "Permissions"
 msgstr "Permesso negato."
 
 #: app/templates/admin/user_details_modal.html:108
-
 msgid "Downloads"
 msgstr "Scarica"
 
@@ -1250,7 +1209,6 @@ msgid "Notes"
 msgstr "Note"
 
 #: app/templates/admin/user_modal.html:81
-
 msgid "Permission Management"
 msgstr "Nome utente"
 
@@ -1263,7 +1221,6 @@ msgid "Toggle live TV permission"
 msgstr "Attiva/disattiva permesso TV in diretta"
 
 #: app/templates/admin/user_modal.html:138
-
 msgid "Allow Camera Upload"
 msgstr "Scarica"
 
@@ -1272,7 +1229,6 @@ msgid "Toggle camera upload permission"
 msgstr "Attiva/disattiva permesso caricamento fotocamera"
 
 #: app/templates/admin/user_modal.html:169
-
 msgid "Library Access"
 msgstr "Librerie"
 
@@ -1289,12 +1245,10 @@ msgid "Click to toggle library access. Updates save automatically."
 msgstr "Clicca per attivare/disattivare l'accesso alla libreria. Le modifiche vengono salvate automaticamente."
 
 #: app/templates/admin/user_modal.html:211
-
 msgid "Expiry Management"
 msgstr "Nome utente"
 
 #: app/templates/admin/user_modal.html:218
-
 msgid "Expiry date"
 msgstr "Scade"
 
@@ -1307,12 +1261,10 @@ msgid "Current expiry"
 msgstr "Scadenza attuale"
 
 #: app/templates/admin/user_modal.html:235
-
 msgid "No expiry set"
 msgstr "Scade"
 
 #: app/templates/admin/user_modal.html:253
-
 msgid "User notes"
 msgstr "Utenti"
 
@@ -1325,7 +1277,6 @@ msgid "Update Notes"
 msgstr "Aggiorna note"
 
 #: app/templates/admin/users.html:192
-
 msgid "Link"
 msgstr "Accedi"
 
@@ -1335,7 +1286,6 @@ msgstr "Rimuovi link"
 
 #: app/templates/admin/users.html:204 app/templates/servers/index.html:31
 #: app/templates/settings/connections.html:137
-
 msgid "Delete"
 msgstr "Predefinito"
 
@@ -1351,7 +1301,6 @@ msgstr "Creato"
 
 #: app/templates/components/admin_passkeys.html:34
 #: app/templates/components/passkey_list.html:22
-
 msgid "Last used"
 msgstr "Usato"
 
@@ -1401,7 +1350,6 @@ msgid "Add New Passkey"
 msgstr "Aggiungi nuova passkey"
 
 #: app/templates/components/passkey_add_form.html:10
-
 msgid "Passkey Name"
 msgstr "Nome utente"
 
@@ -1437,7 +1385,6 @@ msgstr "Annulla"
 
 #: app/templates/components/passkey_add_form.html:28
 #: app/templates/components/passkey_register.html:4
-
 msgid "Create Passkey"
 msgstr "Crea un account"
 
@@ -1528,9 +1475,8 @@ msgstr "Aggiungi passaggi al pacchetto"
 #: app/templates/settings/wizard/bundles.html:257
 #: app/templates/settings/wizard/steps.html:86
 #: app/templates/settings/wizard/steps.html:166
-
 msgid "Untitled"
-msgstr "Illimitato"
+msgstr "Senza titolo"
 
 #: app/templates/modals/bundle-add-steps.html:29
 msgid "All steps are already included."
@@ -1583,7 +1529,6 @@ msgstr "Test connessione..."
 
 #: app/templates/modals/connection-form.html:147
 #: app/templates/settings/connections/form.html:188
-
 msgid "Create Connection"
 msgstr "Crea un invito"
 
@@ -1607,7 +1552,6 @@ msgstr "Chiave API creata"
 #: app/templates/modals/create-api-key.html:15
 #: app/templates/settings/api_keys.html:17
 #: app/templates/settings/general.html:207
-
 msgid "Create API Key"
 msgstr "Crea un account"
 
@@ -2278,7 +2222,6 @@ msgid "Get started by creating your first notification agent"
 msgstr "Inizia creando il tuo primo agente di notifica"
 
 #: app/templates/settings/servers.html:56
-
 msgid "Unverified"
 msgstr "Illimitato"
 
@@ -2653,7 +2596,7 @@ msgstr "Usato"
 
 #: app/templates/tables/invite_card.html:66
 msgid "Not used yet"
-msgstr "Usato"
+msgstr "Non ancora utilizzato"
 
 #: app/templates/tables/invite_card.html:71
 msgid "Bundle"
@@ -2668,7 +2611,7 @@ msgstr "Scade"
 
 #: app/templates/tables/invite_card.html:129
 msgid "days"
-msgstr "1 giorno"
+msgstr "giorni"
 
 #: app/templates/tables/invite_card.html:151
 msgid "Default"
@@ -2680,7 +2623,7 @@ msgstr "Copia link invito"
 
 #: app/templates/tables/invite_card.html:188
 msgid "Delete invite"
-msgstr "Predefinito"
+msgstr "Elimina invito"
 
 #: app/templates/tables/user_card.html:4
 msgid "There are currently no users."
@@ -2696,7 +2639,7 @@ msgstr "Home"
 
 #: app/templates/tables/user_card.html:104
 msgid "Invited"
-msgstr "Codice d'invito"
+msgstr "Invitato"
 
 #: app/templates/tables/user_card.html:143
 msgid "Disabled"
@@ -2720,17 +2663,17 @@ msgstr "Modifica utente"
 
 #: app/templates/tables/user_card.html:219
 msgid "Remove user"
-msgstr "Home"
+msgstr "Rimuovi utente"
 
 #: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:42
 #: app/templates/wizard/steps.html:82
 msgid "Before Invitation"
-msgstr "Crea un invito"
+msgstr "Prima dell'invito"
 
 #: app/templates/wizard/steps.html:17 app/templates/wizard/steps.html:44
 #: app/templates/wizard/steps.html:84
 msgid "After Invitation"
-msgstr "Crea un invito"
+msgstr "Dopo l'invito"
 
 #: app/templates/wizard/steps.html:141 app/templates/wizard/steps.html:201
 msgid "Previous"
