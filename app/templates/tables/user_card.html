@@ -58,7 +58,7 @@
               {% set accs = user.accounts if user.accounts is defined else [user] %}
               {% for acct in accs %}
                 {% if acct.server %}
-                  {{ acct.server.server_type|server_name_tag }}
+                  {{ acct.server.server_type|server_name_tag(acct.server.name) }}
                 {% else %}
                   {{ 'local'|server_type_tag }}
                 {% endif %}
