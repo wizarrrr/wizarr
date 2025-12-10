@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-09 03:58+0000\n"
+"POT-Creation-Date: 2025-12-10 04:02+0000\n"
 "PO-Revision-Date: 2025-10-31 15:33+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language: hr\n"
@@ -257,34 +257,61 @@ msgstr ""
 msgid "Invalid form data: %(errors)s"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:268
+#: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
 msgid "Settings saved successfully!"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:216 app/forms/settings.py:24
+#: app/blueprints/settings/routes.py:217 app/forms/settings.py:24
 msgid "Server URL"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:219 app/forms/settings.py:25
+#: app/blueprints/settings/routes.py:220 app/forms/settings.py:25
 msgid "API Key"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:219
+#: app/blueprints/settings/routes.py:220
 msgid "Username/Password"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:222
+#: app/blueprints/settings/routes.py:223
 #, python-brace-format
 msgid "Missing required fields: {fields}"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:225 app/blueprints/settings/routes.py:235
+#: app/blueprints/settings/routes.py:226 app/blueprints/settings/routes.py:236
 #: app/templates/components/passkey_error.html:12
 msgid "Error"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:234
+#: app/blueprints/settings/routes.py:235
 msgid "Library scan failed"
+msgstr ""
+
+#: app/blueprints/settings/routes.py:293
+#, python-brace-format
+msgid "Successfully cleaned {count} expired user(s)."
+msgstr ""
+
+#: app/blueprints/settings/routes.py:298
+msgid "No expired users found to clean."
+msgstr ""
+
+#: app/blueprints/settings/routes.py:321 app/blueprints/settings/routes.py:350
+#: app/templates/settings/general.html:178
+msgid ""
+"Are you sure you want to clean all expired users? This action cannot be "
+"undone."
+msgstr ""
+
+#: app/blueprints/settings/routes.py:323 app/blueprints/settings/routes.py:352
+#: app/templates/settings/general.html:167
+#: app/templates/settings/general.html:195
+msgid "Clean Expired Users"
+msgstr ""
+
+#: app/blueprints/settings/routes.py:328
+#, python-brace-format
+msgid "Failed to clean expired users: {error}"
 msgstr ""
 
 #: app/blueprints/setup/routes.py:74
@@ -298,10 +325,12 @@ msgid ""
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1215
+#: app/blueprints/wizard/routes.py:1378
 msgid "Error Loading Step"
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1218
+#: app/blueprints/wizard/routes.py:1381
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
@@ -324,7 +353,7 @@ msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:961
-#: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:20
+#: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:21
 msgid "Continue to Invite"
 msgstr ""
 
@@ -350,6 +379,10 @@ msgstr ""
 
 #: app/blueprints/wizard/routes.py:1145
 msgid "Unable to load wizard steps. Please try again."
+msgstr ""
+
+#: app/blueprints/wizard/routes.py:1338
+msgid "This bundle has no steps to preview."
 msgstr ""
 
 #: app/blueprints/wizard_admin/routes.py:126
@@ -476,7 +509,7 @@ msgstr ""
 msgid "Passwords must match."
 msgstr ""
 
-#: app/forms/admin.py:62 app/templates/password-reset-form.html:37
+#: app/forms/admin.py:62 app/templates/password-reset-form.html:36
 #: app/templates/profile.html:53
 msgid "New Password"
 msgstr ""
@@ -508,8 +541,8 @@ msgstr ""
 
 #: app/forms/settings.py:30 app/forms/settings.py:46
 #: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
-#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:272
-#: app/templates/modals/invite.html:306 app/templates/modals/invite.html:318
+#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:274
+#: app/templates/modals/invite.html:308 app/templates/modals/invite.html:320
 msgid "Allow Downloads"
 msgstr ""
 
@@ -654,7 +687,7 @@ msgstr ""
 
 #: app/templates/choose-password.html:33
 #: app/templates/hybrid-password-form.html:150
-#: app/templates/password-reset-form.html:52
+#: app/templates/password-reset-form.html:50
 #: app/templates/welcome-jellyfin.html:174
 msgid "Confirm Password"
 msgstr ""
@@ -773,8 +806,8 @@ msgid "Passwords do not match"
 msgstr ""
 
 #: app/templates/invalid-invite.html:10
-#: app/templates/password-reset-error.html:10
-#: app/templates/password-reset-success.html:10
+#: app/templates/password-reset-error.html:9
+#: app/templates/password-reset-success.html:9
 msgid "Wizarr"
 msgstr ""
 
@@ -839,32 +872,32 @@ msgstr ""
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
 
-#: app/templates/password-reset-error.html:24
+#: app/templates/password-reset-error.html:25
 msgid "Password Reset Error"
 msgstr ""
 
-#: app/templates/password-reset-error.html:28
+#: app/templates/password-reset-error.html:29
 #: app/templates/password-reset-form.html:29
 msgid "Error:"
 msgstr ""
 
-#: app/templates/password-reset-error.html:31
+#: app/templates/password-reset-error.html:32
 msgid "This password reset link is invalid."
 msgstr ""
 
-#: app/templates/password-reset-error.html:33
+#: app/templates/password-reset-error.html:34
 msgid "This password reset link has already been used."
 msgstr ""
 
-#: app/templates/password-reset-error.html:35
+#: app/templates/password-reset-error.html:36
 msgid "This password reset link has expired."
 msgstr ""
 
-#: app/templates/password-reset-error.html:37
+#: app/templates/password-reset-error.html:38
 msgid "This password reset link is malformed."
 msgstr ""
 
-#: app/templates/password-reset-error.html:39
+#: app/templates/password-reset-error.html:40
 msgid "This password reset link is no longer valid."
 msgstr ""
 
@@ -874,23 +907,23 @@ msgid ""
 "link."
 msgstr ""
 
-#: app/templates/password-reset-error.html:48
+#: app/templates/password-reset-error.html:47
 msgid "Code:"
 msgstr ""
 
-#: app/templates/password-reset-error.html:54
+#: app/templates/password-reset-error.html:51
 msgid "Common reasons for this error:"
 msgstr ""
 
-#: app/templates/password-reset-error.html:56
+#: app/templates/password-reset-error.html:53
 msgid "The link has already been used"
 msgstr ""
 
-#: app/templates/password-reset-error.html:57
+#: app/templates/password-reset-error.html:54
 msgid "The link has expired (24 hour limit)"
 msgstr ""
 
-#: app/templates/password-reset-error.html:58
+#: app/templates/password-reset-error.html:55
 msgid "The link was not copied correctly"
 msgstr ""
 
@@ -910,27 +943,27 @@ msgstr ""
 msgid "This link expires on"
 msgstr ""
 
-#: app/templates/password-reset-form.html:44
+#: app/templates/password-reset-form.html:43
 msgid "Enter new password (8-128 characters)"
 msgstr ""
 
-#: app/templates/password-reset-form.html:59
+#: app/templates/password-reset-form.html:57
 msgid "Confirm new password"
 msgstr ""
 
-#: app/templates/password-reset-form.html:65
+#: app/templates/password-reset-form.html:62
 msgid "Password must be:"
 msgstr ""
 
-#: app/templates/password-reset-form.html:67
+#: app/templates/password-reset-form.html:64
 msgid "Between 8 and 128 characters"
 msgstr ""
 
-#: app/templates/password-reset-form.html:68
+#: app/templates/password-reset-form.html:65
 msgid "Match the confirmation"
 msgstr ""
 
-#: app/templates/password-reset-form.html:74
+#: app/templates/password-reset-form.html:70
 msgid "Reset Password"
 msgstr ""
 
@@ -938,23 +971,23 @@ msgstr ""
 msgid "Password Reset Successful!"
 msgstr ""
 
-#: app/templates/password-reset-success.html:29
+#: app/templates/password-reset-success.html:28
 msgid "The password for"
 msgstr ""
 
-#: app/templates/password-reset-success.html:29
+#: app/templates/password-reset-success.html:28
 msgid "has been successfully reset."
 msgstr ""
 
-#: app/templates/password-reset-success.html:32
+#: app/templates/password-reset-success.html:31
 msgid "You can now use your new password to log in to your media server."
 msgstr ""
 
-#: app/templates/password-reset-success.html:37
+#: app/templates/password-reset-success.html:36
 msgid "What's next?"
 msgstr ""
 
-#: app/templates/password-reset-success.html:38
+#: app/templates/password-reset-success.html:37
 msgid "Log in to your media server with your username and new password."
 msgstr ""
 
@@ -1081,7 +1114,7 @@ msgstr ""
 
 #: app/templates/admin/accepted_invites_card.html:51
 #: app/templates/admin/server_health_card.html:118
-#: app/templates/wizard/steps.html:52 app/templates/wizard/steps.html:92
+#: app/templates/wizard/steps.html:53 app/templates/wizard/steps.html:93
 msgid "of"
 msgstr ""
 
@@ -1094,8 +1127,8 @@ msgid "Page"
 msgstr ""
 
 #: app/templates/admin/accepted_invites_card.html:65
-#: app/templates/wizard/steps.html:15 app/templates/wizard/steps.html:21
-#: app/templates/wizard/steps.html:226 app/templates/wizard/steps.html:236
+#: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:22
+#: app/templates/wizard/steps.html:243 app/templates/wizard/steps.html:253
 msgid "Next"
 msgstr ""
 
@@ -1305,8 +1338,8 @@ msgstr ""
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
-#: app/templates/modals/invite.html:412
-#: app/templates/modals/password-reset-link.html:152
+#: app/templates/modals/invite.html:414
+#: app/templates/modals/password-reset-link.html:143
 msgid "Close"
 msgstr ""
 
@@ -1496,7 +1529,7 @@ msgstr ""
 #: app/templates/modals/edit-identity.html:49
 #: app/templates/modals/edit-notification-agent.html:142
 #: app/templates/modals/edit-server.html:178
-#: app/templates/modals/invite.html:363
+#: app/templates/modals/invite.html:365
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
 #: app/templates/modals/wizard-preset-form.html:59
@@ -1597,9 +1630,9 @@ msgid "Add steps to bundle"
 msgstr ""
 
 #: app/templates/modals/bundle-add-steps.html:26
-#: app/templates/settings/wizard/bundles.html:94
-#: app/templates/settings/wizard/bundles.html:176
-#: app/templates/settings/wizard/bundles.html:257
+#: app/templates/settings/wizard/bundles.html:106
+#: app/templates/settings/wizard/bundles.html:188
+#: app/templates/settings/wizard/bundles.html:269
 #: app/templates/settings/wizard/steps.html:86
 #: app/templates/settings/wizard/steps.html:166
 msgid "Untitled"
@@ -1678,7 +1711,7 @@ msgstr ""
 
 #: app/templates/modals/create-api-key.html:15
 #: app/templates/settings/api_keys.html:17
-#: app/templates/settings/general.html:207
+#: app/templates/settings/general.html:244
 msgid "Create API Key"
 msgstr ""
 
@@ -1815,7 +1848,7 @@ msgstr ""
 msgid "Edit Server"
 msgstr ""
 
-#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:358
+#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:360
 msgid "Create Invitation"
 msgstr ""
 
@@ -1899,11 +1932,11 @@ msgid "Invite to Plex Home"
 msgstr ""
 
 #: app/templates/modals/invite.html:208 app/templates/modals/invite.html:242
-#: app/templates/modals/invite.html:283
+#: app/templates/modals/invite.html:285
 msgid "Allow Live TV Access"
 msgstr ""
 
-#: app/templates/modals/invite.html:219 app/templates/modals/invite.html:294
+#: app/templates/modals/invite.html:219 app/templates/modals/invite.html:296
 msgid "Allow Mobile Uploads"
 msgstr ""
 
@@ -1915,40 +1948,40 @@ msgstr ""
 msgid "simultaneous devices"
 msgstr ""
 
-#: app/templates/modals/invite.html:260
+#: app/templates/modals/invite.html:261
 msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
 
-#: app/templates/modals/invite.html:334
+#: app/templates/modals/invite.html:336
 msgid "Select Libraries"
 msgstr ""
 
-#: app/templates/modals/invite.html:347 app/templates/modals/invite.html:451
+#: app/templates/modals/invite.html:349 app/templates/modals/invite.html:453
 msgid "Loading…"
 msgstr ""
 
-#: app/templates/modals/invite.html:378
+#: app/templates/modals/invite.html:380
 msgid "Successfully generated an Invitation!"
 msgstr ""
 
-#: app/templates/modals/invite.html:384
+#: app/templates/modals/invite.html:386
 msgid "Invitation Link"
 msgstr ""
 
-#: app/templates/modals/invite.html:396
-#: app/templates/modals/password-reset-link.html:84
+#: app/templates/modals/invite.html:398
+#: app/templates/modals/password-reset-link.html:81
 msgid "Copy"
 msgstr ""
 
-#: app/templates/modals/invite.html:401
+#: app/templates/modals/invite.html:403
 msgid "Link has been copied to clipboard!"
 msgstr ""
 
-#: app/templates/modals/invite.html:407
+#: app/templates/modals/invite.html:409
 msgid "Create Another"
 msgstr ""
 
-#: app/templates/modals/invite.html:461
+#: app/templates/modals/invite.html:463
 msgid "Please select at least one server for the invitation."
 msgstr ""
 
@@ -1964,63 +1997,63 @@ msgstr ""
 msgid "Password reset link for"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:63
+#: app/templates/modals/password-reset-link.html:62
 msgid "Link expires:"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:71
+#: app/templates/modals/password-reset-link.html:68
 msgid "Reset Link (Click to copy)"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:88
+#: app/templates/modals/password-reset-link.html:85
 msgid "Send this link to the user. They can use it once to reset their password."
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:95
+#: app/templates/modals/password-reset-link.html:90
 msgid "Reset Code"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:105
+#: app/templates/modals/password-reset-link.html:97
 msgid "Security Notes:"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:108
+#: app/templates/modals/password-reset-link.html:99
 msgid "This link can only be used once"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:109
+#: app/templates/modals/password-reset-link.html:100
 msgid "It expires in 24 hours"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:110
+#: app/templates/modals/password-reset-link.html:101
 msgid "Send it securely (email, message, etc.)"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:117
+#: app/templates/modals/password-reset-link.html:108
 msgid "Generate a secure password reset link for"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:130
+#: app/templates/modals/password-reset-link.html:122
 msgid "Generate Reset Link"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:133
+#: app/templates/modals/password-reset-link.html:125
 msgid "The link will be valid for 24 hours and can only be used once."
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:146
+#: app/templates/modals/password-reset-link.html:137
 msgid "Copy Link"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:175
+#: app/templates/modals/password-reset-link.html:165
 msgid "Copied!"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:195
+#: app/templates/modals/password-reset-link.html:185
 msgid "Reset link copied to clipboard!"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:197
+#: app/templates/modals/password-reset-link.html:187
 msgid "Please manually copy the link"
 msgstr ""
 
@@ -2317,27 +2350,31 @@ msgstr ""
 msgid "Choose what happens to users when their invitation expires"
 msgstr ""
 
-#: app/templates/settings/general.html:183
+#: app/templates/settings/general.html:169
+msgid "Immediately process all expired users based on the expiry action above"
+msgstr ""
+
+#: app/templates/settings/general.html:220
 msgid "API Key Management"
 msgstr ""
 
-#: app/templates/settings/general.html:185
+#: app/templates/settings/general.html:222
 msgid "Manage API keys for accessing Wizarr programmatically"
 msgstr ""
 
-#: app/templates/settings/general.html:193
+#: app/templates/settings/general.html:230
 msgid "Your API Keys"
 msgstr ""
 
-#: app/templates/settings/general.html:194
+#: app/templates/settings/general.html:231
 msgid "Create and manage API keys for external applications"
 msgstr ""
 
-#: app/templates/settings/general.html:218
+#: app/templates/settings/general.html:255
 msgid "Loading API keys..."
 msgstr ""
 
-#: app/templates/settings/general.html:234
+#: app/templates/settings/general.html:271
 msgid "Save Settings"
 msgstr ""
 
@@ -2529,81 +2566,87 @@ msgstr ""
 msgid "No bundles found."
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:26
+#: app/templates/settings/wizard/bundles.html:27
+#: app/templates/settings/wizard/index.html:60
+#: app/templates/settings/wizard/steps.html:50
+msgid "Preview Wizard"
+msgstr ""
+
+#: app/templates/settings/wizard/bundles.html:38
 #, python-format
 msgid "Export %(bundle_name)s Bundle"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:53
+#: app/templates/settings/wizard/bundles.html:65
 msgid "Are you sure you want to delete this bundle?"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:70
+#: app/templates/settings/wizard/bundles.html:82
 #: app/templates/settings/wizard/steps.html:65
 msgid "Before Invite Acceptance"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:72
+#: app/templates/settings/wizard/bundles.html:84
 #: app/templates/settings/wizard/steps.html:67
 msgid "Steps shown to users before they accept the invitation"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:115
-#: app/templates/settings/wizard/bundles.html:197
-#: app/templates/settings/wizard/bundles.html:278
+#: app/templates/settings/wizard/bundles.html:127
+#: app/templates/settings/wizard/bundles.html:209
+#: app/templates/settings/wizard/bundles.html:290
 #: app/templates/settings/wizard/index.html:104
 #: app/templates/settings/wizard/steps.html:106
 #: app/templates/settings/wizard/steps.html:186
 msgid "Are you sure you want to delete this step?"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:146
+#: app/templates/settings/wizard/bundles.html:158
 #: app/templates/settings/wizard/steps.html:138
 msgid "No pre-invite steps configured"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:152
+#: app/templates/settings/wizard/bundles.html:164
 #: app/templates/settings/wizard/steps.html:145
 msgid "After Invite Acceptance"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:154
+#: app/templates/settings/wizard/bundles.html:166
 #: app/templates/settings/wizard/steps.html:147
 msgid "Steps shown to users after they accept the invitation"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:228
+#: app/templates/settings/wizard/bundles.html:240
 #: app/templates/settings/wizard/steps.html:218
 msgid "No post-invite steps configured"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:235
+#: app/templates/settings/wizard/bundles.html:247
 msgid "Additional Categories"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:237
+#: app/templates/settings/wizard/bundles.html:249
 msgid "Steps that use custom categories keep their order here."
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:305
+#: app/templates/settings/wizard/bundles.html:317
 msgid "Orphaned Steps"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:307
+#: app/templates/settings/wizard/bundles.html:319
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:312
+#: app/templates/settings/wizard/bundles.html:324
 msgid "Step deleted (orphaned)"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:319
+#: app/templates/settings/wizard/bundles.html:331
 msgid "Are you sure you want to remove this orphaned step?"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:322
+#: app/templates/settings/wizard/bundles.html:334
 msgid "Remove orphaned step"
 msgstr ""
 
@@ -2725,17 +2768,12 @@ msgstr ""
 msgid "steps configured"
 msgstr ""
 
-#: app/templates/settings/wizard/index.html:60
-#: app/templates/settings/wizard/steps.html:50
-msgid "Preview Wizard"
-msgstr ""
-
 #: app/templates/settings/wizard/index.html:86
 msgid "Untitled Step"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:87
-#: app/templates/wizard/steps.html:52 app/templates/wizard/steps.html:92
+#: app/templates/wizard/steps.html:53 app/templates/wizard/steps.html:93
 msgid "Step"
 msgstr ""
 
@@ -2863,25 +2901,25 @@ msgstr ""
 msgid "Reset password"
 msgstr ""
 
-#: app/templates/tables/user_card.html:240
+#: app/templates/tables/user_card.html:241
 msgid "Remove user"
 msgstr ""
 
-#: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:42
-#: app/templates/wizard/steps.html:82
+#: app/templates/wizard/steps.html:17 app/templates/wizard/steps.html:43
+#: app/templates/wizard/steps.html:83
 msgid "Before Invitation"
 msgstr ""
 
-#: app/templates/wizard/steps.html:17 app/templates/wizard/steps.html:44
-#: app/templates/wizard/steps.html:84
+#: app/templates/wizard/steps.html:18 app/templates/wizard/steps.html:45
+#: app/templates/wizard/steps.html:85
 msgid "After Invitation"
 msgstr ""
 
-#: app/templates/wizard/steps.html:141 app/templates/wizard/steps.html:201
+#: app/templates/wizard/steps.html:146 app/templates/wizard/steps.html:214
 msgid "Previous"
 msgstr ""
 
-#: app/templates/wizard/steps.html:173 app/templates/wizard/steps.html:231
+#: app/templates/wizard/steps.html:182 app/templates/wizard/steps.html:248
 msgid "Click the link in this step to be able to continue"
 msgstr ""
 

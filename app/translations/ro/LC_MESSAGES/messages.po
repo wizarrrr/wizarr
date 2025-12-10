@@ -1,13 +1,13 @@
-# Romanian translations for PROJECT.
+# Romanian translations for .
 # Copyright (C) 2025 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the  project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Wizarr\n"
+"Project-Id-Version:  Wizarr\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-03 03:57+0000\n"
+"POT-Creation-Date: 2025-12-10 04:02+0000\n"
 "PO-Revision-Date: 2025-12-04 21:35+0000\n"
 "Last-Translator: Stepan Curuci <stepan@curuci.eu>\n"
 "Language: ro\n"
@@ -104,12 +104,16 @@ msgstr "Serverul media nu a fost găsit."
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, "
 "Emby, and AudiobookShelf servers."
-msgstr "Importul de date istorice este disponibil momentan doar pentru serverele Plex, Jellyfin, Emby și AudiobookShelf."
+msgstr ""
+"Importul de date istorice este disponibil momentan doar pentru serverele "
+"Plex, Jellyfin, Emby și AudiobookShelf."
 
 #: app/activity/api/blueprint.py:699
 #, python-brace-format
 msgid "Historical import job #{job_id} started for {server} (last {days} days)."
-msgstr "Sarcina de import istoric #{job_id} a pornit pentru {server} (ultimele {days} zile)."
+msgstr ""
+"Sarcina de import istoric #{job_id} a pornit pentru {server} (ultimele "
+"{days} zile)."
 
 #: app/activity/api/blueprint.py:709
 #, python-brace-format
@@ -198,7 +202,9 @@ msgstr "Nu s-au putut reseta cheile de acces pentru {}"
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
-msgstr "Cheia API a fost creată cu succes. Te rugăm să o copiezi acum deoarece nu va mai fi afișată."
+msgstr ""
+"Cheia API a fost creată cu succes. Te rugăm să o copiezi acum deoarece nu"
+" va mai fi afișată."
 
 #: app/blueprints/api_keys/routes.py:111
 msgid "API key deleted successfully"
@@ -257,35 +263,65 @@ msgstr "Reîncarcă pagina și încearcă din nou (tokenul CSRF a expirat)"
 msgid "Invalid form data: %(errors)s"
 msgstr "Date de formular nevalide: %(errors)s"
 
-#: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:268
+#: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
 msgid "Settings saved successfully!"
 msgstr "Setările au fost salvate cu succes!"
 
-#: app/blueprints/settings/routes.py:216 app/forms/settings.py:24
+#: app/blueprints/settings/routes.py:217 app/forms/settings.py:24
 msgid "Server URL"
 msgstr "URL-ul serverului"
 
-#: app/blueprints/settings/routes.py:219 app/forms/settings.py:25
+#: app/blueprints/settings/routes.py:220 app/forms/settings.py:25
 msgid "API Key"
 msgstr "Cheie API"
 
-#: app/blueprints/settings/routes.py:219
+#: app/blueprints/settings/routes.py:220
 msgid "Username/Password"
 msgstr "Nume de utilizator/Parolă"
 
-#: app/blueprints/settings/routes.py:222
+#: app/blueprints/settings/routes.py:223
 #, python-brace-format
 msgid "Missing required fields: {fields}"
 msgstr "Lipsesc câmpurile obligatorii: {fields}"
 
-#: app/blueprints/settings/routes.py:225 app/blueprints/settings/routes.py:235
+#: app/blueprints/settings/routes.py:226 app/blueprints/settings/routes.py:236
 #: app/templates/components/passkey_error.html:12
 msgid "Error"
 msgstr "Eroare"
 
-#: app/blueprints/settings/routes.py:234
+#: app/blueprints/settings/routes.py:235
 msgid "Library scan failed"
 msgstr "Scanarea bibliotecii a eșuat"
+
+#: app/blueprints/settings/routes.py:293
+#, python-brace-format
+msgid "Successfully cleaned {count} expired user(s)."
+msgstr ""
+
+#: app/blueprints/settings/routes.py:298
+#, fuzzy
+msgid "No expired users found to clean."
+msgstr "Nu au fost găsiți pași ai expertului"
+
+#: app/blueprints/settings/routes.py:321 app/blueprints/settings/routes.py:350
+#: app/templates/settings/general.html:178
+#, fuzzy
+msgid ""
+"Are you sure you want to clean all expired users? This action cannot be "
+"undone."
+msgstr "Sigur dorești să ștergi acest pachet?"
+
+#: app/blueprints/settings/routes.py:323 app/blueprints/settings/routes.py:352
+#: app/templates/settings/general.html:167
+#: app/templates/settings/general.html:195
+#, fuzzy
+msgid "Clean Expired Users"
+msgstr "Fără dată de expirare"
+
+#: app/blueprints/settings/routes.py:328
+#, fuzzy, python-brace-format
+msgid "Failed to clean expired users: {error}"
+msgstr "Nu s-au putut reseta pașii: {}"
 
 #: app/blueprints/setup/routes.py:74
 msgid "Admin account created – welcome!"
@@ -295,17 +331,23 @@ msgstr "Contul de administrator a fost creat – bine ai venit!"
 msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
-msgstr "Invitația ta a expirat sau nu mai este valabilă. Solicită o invitație nouă."
+msgstr ""
+"Invitația ta a expirat sau nu mai este valabilă. Solicită o invitație "
+"nouă."
 
 #: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1215
+#: app/blueprints/wizard/routes.py:1378
 msgid "Error Loading Step"
 msgstr "Eroare la încărcarea pasului"
 
 #: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1218
+#: app/blueprints/wizard/routes.py:1381
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
-msgstr "Acest pas nu a putut fi încărcat. Contactează administratorul sau treci la pasul următor."
+msgstr ""
+"Acest pas nu a putut fi încărcat. Contactează administratorul sau treci "
+"la pasul următor."
 
 #: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
 #: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1116
@@ -317,14 +359,18 @@ msgstr "Invitație invalidă sau expirată"
 msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
-msgstr "Nu este configurat niciun server media. Contactează administratorul pentru a configura un server."
+msgstr ""
+"Nu este configurat niciun server media. Contactează administratorul "
+"pentru a configura un server."
 
 #: app/blueprints/wizard/routes.py:626
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
-msgstr "Pașii expertului nu pot fi încărcați. Se continuă cu acceptarea invitației."
+msgstr ""
+"Pașii expertului nu pot fi încărcați. Se continuă cu acceptarea "
+"invitației."
 
 #: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:961
-#: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:20
+#: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:21
 msgid "Continue to Invite"
 msgstr "Continuă către invitație"
 
@@ -334,7 +380,9 @@ msgstr "Autentifică-te pentru a continua"
 
 #: app/blueprints/wizard/routes.py:815
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
-msgstr "Pașii expertului nu pot fi încărcați. Configurarea este finalizată! Bun venit pe serverul tău media."
+msgstr ""
+"Pașii expertului nu pot fi încărcați. Configurarea este finalizată! Bun "
+"venit pe serverul tău media."
 
 #: app/blueprints/wizard/routes.py:848
 msgid "Setup complete! Welcome to your media server."
@@ -351,6 +399,10 @@ msgstr "Nu se poate încărca pachetul expertului. Te rugăm să încerci din no
 #: app/blueprints/wizard/routes.py:1145
 msgid "Unable to load wizard steps. Please try again."
 msgstr "Nu se pot încărca pașii expertului. Te rugăm să încerci din nou."
+
+#: app/blueprints/wizard/routes.py:1338
+msgid "This bundle has no steps to preview."
+msgstr ""
 
 #: app/blueprints/wizard_admin/routes.py:126
 #, python-brace-format
@@ -448,7 +500,9 @@ msgstr "Parola trebuie să aibă cel puțin 8 caractere."
 msgid ""
 "Password must contain at least one uppercase letter, one lowercase "
 "letter, and one number."
-msgstr "Parola trebuie să conțină cel puțin o literă mare, o literă mică și o cifră."
+msgstr ""
+"Parola trebuie să conțină cel puțin o literă mare, o literă mică și o "
+"cifră."
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
 #: app/templates/admin/user_details_modal.html:66
@@ -476,7 +530,8 @@ msgstr "Confirmă parola"
 msgid "Passwords must match."
 msgstr "Parolele trebuie să coincidă."
 
-#: app/forms/admin.py:62 app/templates/profile.html:53
+#: app/forms/admin.py:62 app/templates/password-reset-form.html:36
+#: app/templates/profile.html:53
 msgid "New Password"
 msgstr "Parolă nouă"
 
@@ -507,8 +562,8 @@ msgstr "Biblioteci"
 
 #: app/forms/settings.py:30 app/forms/settings.py:46
 #: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
-#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:272
-#: app/templates/modals/invite.html:306 app/templates/modals/invite.html:318
+#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:274
+#: app/templates/modals/invite.html:308 app/templates/modals/invite.html:320
 msgid "Allow Downloads"
 msgstr "Permite descărcări"
 
@@ -547,14 +602,18 @@ msgstr "Serverul %(server_type)s a returnat o eroare: %(error)s"
 msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
-msgstr "Nu s-a putut realiza conexiunea la serverul %(server_type)s. Verifică dacă serverul rulează și dacă URL-ul este corect."
+msgstr ""
+"Nu s-a putut realiza conexiunea la serverul %(server_type)s. Verifică "
+"dacă serverul rulează și dacă URL-ul este corect."
 
 #: app/services/servers.py:40
 #, python-format
 msgid ""
 "Connection to %(server_type)s server timed out. Please check if the "
 "server is running and accessible."
-msgstr "Conexiunea la serverul %(server_type)s a expirat. Verifică dacă serverul rulează și este accesibil."
+msgstr ""
+"Conexiunea la serverul %(server_type)s a expirat. Verifică dacă serverul "
+"rulează și este accesibil."
 
 #: app/services/servers.py:46
 #, python-format
@@ -568,7 +627,9 @@ msgstr "A apărut o eroare la conectarea la serverul %(server_type)s: %(error)s"
 msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s "
 "server: %(error)s"
-msgstr "A apărut o eroare neașteptată la conectarea la serverul %(server_type)s: %(error)s"
+msgstr ""
+"A apărut o eroare neașteptată la conectarea la serverul %(server_type)s: "
+"%(error)s"
 
 #: app/services/servers.py:66
 msgid "Plex"
@@ -653,7 +714,7 @@ msgstr "Alege o parolă pentru serverele rămase"
 
 #: app/templates/choose-password.html:33
 #: app/templates/hybrid-password-form.html:150
-#: app/templates/password-reset-form.html:52
+#: app/templates/password-reset-form.html:50
 #: app/templates/welcome-jellyfin.html:174
 msgid "Confirm Password"
 msgstr "Confirmă parola"
@@ -741,11 +802,15 @@ msgstr "Contul tău Plex este deja configurat și gata de utilizare"
 
 #: app/templates/hybrid-password-form.html:204
 msgid "This password will be used to create accounts on your local servers"
-msgstr "Această parolă va fi folosită pentru a crea conturi pe serverele tale locale"
+msgstr ""
+"Această parolă va fi folosită pentru a crea conturi pe serverele tale "
+"locale"
 
 #: app/templates/hybrid-password-form.html:205
 msgid "You'll be redirected to the setup wizard to complete configuration"
-msgstr "Vei fi redirecționat către expertul de configurare pentru a finaliza setările"
+msgstr ""
+"Vei fi redirecționat către expertul de configurare pentru a finaliza "
+"setările"
 
 #: app/templates/hybrid-password-form.html:211
 msgid "Only want to use Plex?"
@@ -770,6 +835,13 @@ msgstr "Putere parolă: mare"
 #: app/templates/hybrid-password-form.html:247
 msgid "Passwords do not match"
 msgstr "Parolele nu coincid"
+
+#: app/templates/invalid-invite.html:10
+#: app/templates/password-reset-error.html:9
+#: app/templates/password-reset-success.html:9
+#, fuzzy
+msgid "Wizarr"
+msgstr "Expert"
 
 #: app/templates/invalid-invite.html:15
 msgid "Invalid Invitation"
@@ -832,33 +904,33 @@ msgstr "Autentificarea 2FA nu a putut fi finalizată"
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr "Autentificarea cu passkey a eșuat. Încearcă din nou sau folosește parola."
 
-#: app/templates/password-reset-error.html:24
+#: app/templates/password-reset-error.html:25
 #, fuzzy
 msgid "Password Reset Error"
 msgstr "Parolă"
 
-#: app/templates/password-reset-error.html:28
+#: app/templates/password-reset-error.html:29
 #: app/templates/password-reset-form.html:29
 msgid "Error:"
 msgstr ""
 
-#: app/templates/password-reset-error.html:31
+#: app/templates/password-reset-error.html:32
 msgid "This password reset link is invalid."
 msgstr ""
 
-#: app/templates/password-reset-error.html:33
+#: app/templates/password-reset-error.html:34
 msgid "This password reset link has already been used."
 msgstr ""
 
-#: app/templates/password-reset-error.html:35
+#: app/templates/password-reset-error.html:36
 msgid "This password reset link has expired."
 msgstr ""
 
-#: app/templates/password-reset-error.html:37
+#: app/templates/password-reset-error.html:38
 msgid "This password reset link is malformed."
 msgstr ""
 
-#: app/templates/password-reset-error.html:39
+#: app/templates/password-reset-error.html:40
 msgid "This password reset link is no longer valid."
 msgstr ""
 
@@ -868,23 +940,23 @@ msgid ""
 "link."
 msgstr ""
 
-#: app/templates/password-reset-error.html:48
+#: app/templates/password-reset-error.html:47
 msgid "Code:"
 msgstr ""
 
-#: app/templates/password-reset-error.html:54
+#: app/templates/password-reset-error.html:51
 msgid "Common reasons for this error:"
 msgstr ""
 
-#: app/templates/password-reset-error.html:56
+#: app/templates/password-reset-error.html:53
 msgid "The link has already been used"
 msgstr ""
 
-#: app/templates/password-reset-error.html:57
+#: app/templates/password-reset-error.html:54
 msgid "The link has expired (24 hour limit)"
 msgstr ""
 
-#: app/templates/password-reset-error.html:58
+#: app/templates/password-reset-error.html:55
 msgid "The link was not copied correctly"
 msgstr ""
 
@@ -907,29 +979,29 @@ msgstr "Acasă"
 msgid "This link expires on"
 msgstr ""
 
-#: app/templates/password-reset-form.html:44
+#: app/templates/password-reset-form.html:43
 msgid "Enter new password (8-128 characters)"
 msgstr ""
 
-#: app/templates/password-reset-form.html:59
+#: app/templates/password-reset-form.html:57
 #, fuzzy
 msgid "Confirm new password"
 msgstr "Parolă"
 
-#: app/templates/password-reset-form.html:65
+#: app/templates/password-reset-form.html:62
 #, fuzzy
 msgid "Password must be:"
 msgstr "Parolă"
 
-#: app/templates/password-reset-form.html:67
+#: app/templates/password-reset-form.html:64
 msgid "Between 8 and 128 characters"
 msgstr ""
 
-#: app/templates/password-reset-form.html:68
+#: app/templates/password-reset-form.html:65
 msgid "Match the confirmation"
 msgstr ""
 
-#: app/templates/password-reset-form.html:74
+#: app/templates/password-reset-form.html:70
 #, fuzzy
 msgid "Reset Password"
 msgstr "Parolă"
@@ -938,24 +1010,24 @@ msgstr "Parolă"
 msgid "Password Reset Successful!"
 msgstr ""
 
-#: app/templates/password-reset-success.html:29
+#: app/templates/password-reset-success.html:28
 #, fuzzy
 msgid "The password for"
 msgstr "Parolă"
 
-#: app/templates/password-reset-success.html:29
+#: app/templates/password-reset-success.html:28
 msgid "has been successfully reset."
 msgstr ""
 
-#: app/templates/password-reset-success.html:32
+#: app/templates/password-reset-success.html:31
 msgid "You can now use your new password to log in to your media server."
 msgstr ""
 
-#: app/templates/password-reset-success.html:37
+#: app/templates/password-reset-success.html:36
 msgid "What's next?"
 msgstr ""
 
-#: app/templates/password-reset-success.html:38
+#: app/templates/password-reset-success.html:37
 msgid "Log in to your media server with your username and new password."
 msgstr ""
 
@@ -1082,7 +1154,7 @@ msgstr "Se afișează"
 
 #: app/templates/admin/accepted_invites_card.html:51
 #: app/templates/admin/server_health_card.html:118
-#: app/templates/wizard/steps.html:52 app/templates/wizard/steps.html:92
+#: app/templates/wizard/steps.html:53 app/templates/wizard/steps.html:93
 msgid "of"
 msgstr "din"
 
@@ -1095,8 +1167,8 @@ msgid "Page"
 msgstr "Pagină"
 
 #: app/templates/admin/accepted_invites_card.html:65
-#: app/templates/wizard/steps.html:15 app/templates/wizard/steps.html:21
-#: app/templates/wizard/steps.html:226 app/templates/wizard/steps.html:236
+#: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:22
+#: app/templates/wizard/steps.html:243 app/templates/wizard/steps.html:253
 msgid "Next"
 msgstr "Înainte"
 
@@ -1306,8 +1378,8 @@ msgstr "Acces de bază"
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
-#: app/templates/modals/invite.html:412
-#: app/templates/modals/password-reset-link.html:152
+#: app/templates/modals/invite.html:414
+#: app/templates/modals/password-reset-link.html:143
 msgid "Close"
 msgstr "Închide"
 
@@ -1370,7 +1442,9 @@ msgstr "Scanează bibliotecile din pagina de invitație pentru a activa restric�
 
 #: app/templates/admin/user_modal.html:205
 msgid "Click to toggle library access. Updates save automatically."
-msgstr "Apasă pentru a comuta accesul la bibliotecă. Modificările se salvează automat."
+msgstr ""
+"Apasă pentru a comuta accesul la bibliotecă. Modificările se salvează "
+"automat."
 
 #: app/templates/admin/user_modal.html:211
 msgid "Expiry Management"
@@ -1497,7 +1571,7 @@ msgstr "ex.: iPhone-ul meu, laptopul de serviciu"
 #: app/templates/modals/edit-identity.html:49
 #: app/templates/modals/edit-notification-agent.html:142
 #: app/templates/modals/edit-server.html:178
-#: app/templates/modals/invite.html:363
+#: app/templates/modals/invite.html:365
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
 #: app/templates/modals/wizard-preset-form.html:59
@@ -1598,9 +1672,9 @@ msgid "Add steps to bundle"
 msgstr "Adaugă pași în pachet"
 
 #: app/templates/modals/bundle-add-steps.html:26
-#: app/templates/settings/wizard/bundles.html:94
-#: app/templates/settings/wizard/bundles.html:176
-#: app/templates/settings/wizard/bundles.html:257
+#: app/templates/settings/wizard/bundles.html:106
+#: app/templates/settings/wizard/bundles.html:188
+#: app/templates/settings/wizard/bundles.html:269
 #: app/templates/settings/wizard/steps.html:86
 #: app/templates/settings/wizard/steps.html:166
 msgid "Untitled"
@@ -1638,7 +1712,9 @@ msgstr "Informații Overseerr/Jellyseerr"
 msgid ""
 "Overseerr and Jellyseerr automatically import new users by default. No "
 "API connection is required for Wizarr integration."
-msgstr "Overseerr și Jellyseerr importă automat utilizatorii noi. Nu este necesară o conexiune API pentru integrarea cu Wizarr."
+msgstr ""
+"Overseerr și Jellyseerr importă automat utilizatorii noi. Nu este "
+"necesară o conexiune API pentru integrarea cu Wizarr."
 
 #: app/templates/modals/connection-form.html:82
 #: app/templates/settings/connections/form.html:130
@@ -1649,7 +1725,9 @@ msgstr "Pentru a activa importul automat:"
 msgid ""
 "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
 "new users' and 'Import Jellyfin/Plex users'"
-msgstr "Accesează Overseerr/Jellyseerr → Settings → Users → activează „Auto-approve new users” și „Import Jellyfin/Plex users”"
+msgstr ""
+"Accesează Overseerr/Jellyseerr → Settings → Users → activează „Auto-"
+"approve new users” și „Import Jellyfin/Plex users”"
 
 #: app/templates/modals/connection-form.html:139
 msgid "Testing connection..."
@@ -1679,7 +1757,7 @@ msgstr "Creat"
 
 #: app/templates/modals/create-api-key.html:15
 #: app/templates/settings/api_keys.html:17
-#: app/templates/settings/general.html:207
+#: app/templates/settings/general.html:244
 msgid "Create API Key"
 msgstr "Creează cheie API"
 
@@ -1816,7 +1894,7 @@ msgstr "Testează și salvează modificările"
 msgid "Edit Server"
 msgstr "Editează serverul"
 
-#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:358
+#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:360
 msgid "Create Invitation"
 msgstr "Creează Invitație"
 
@@ -1902,11 +1980,11 @@ msgid "Invite to Plex Home"
 msgstr "Invită în Plex Home"
 
 #: app/templates/modals/invite.html:208 app/templates/modals/invite.html:242
-#: app/templates/modals/invite.html:283
+#: app/templates/modals/invite.html:285
 msgid "Allow Live TV Access"
 msgstr "Permite acces la TV în direct"
 
-#: app/templates/modals/invite.html:219 app/templates/modals/invite.html:294
+#: app/templates/modals/invite.html:219 app/templates/modals/invite.html:296
 msgid "Allow Mobile Uploads"
 msgstr "Permite încărcări mobile"
 
@@ -1918,40 +1996,40 @@ msgstr "Număr maxim de sesiuni active"
 msgid "simultaneous devices"
 msgstr "dispozitive simultane"
 
-#: app/templates/modals/invite.html:260
+#: app/templates/modals/invite.html:261
 msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr "Numărul de dispozitive care pot reda simultan. Setează 0 pentru nelimitat."
 
-#: app/templates/modals/invite.html:334
+#: app/templates/modals/invite.html:336
 msgid "Select Libraries"
 msgstr "Selectează bibliotecile"
 
-#: app/templates/modals/invite.html:347 app/templates/modals/invite.html:451
+#: app/templates/modals/invite.html:349 app/templates/modals/invite.html:453
 msgid "Loading…"
 msgstr "Se încarcă…"
 
-#: app/templates/modals/invite.html:378
+#: app/templates/modals/invite.html:380
 msgid "Successfully generated an Invitation!"
 msgstr "Invitație generată cu succes!"
 
-#: app/templates/modals/invite.html:384
+#: app/templates/modals/invite.html:386
 msgid "Invitation Link"
 msgstr "Link invitație"
 
-#: app/templates/modals/invite.html:396
-#: app/templates/modals/password-reset-link.html:84
+#: app/templates/modals/invite.html:398
+#: app/templates/modals/password-reset-link.html:81
 msgid "Copy"
 msgstr "Copiază"
 
-#: app/templates/modals/invite.html:401
+#: app/templates/modals/invite.html:403
 msgid "Link has been copied to clipboard!"
 msgstr "Link-ul a fost copiat cu succes în clipboard!"
 
-#: app/templates/modals/invite.html:407
+#: app/templates/modals/invite.html:409
 msgid "Create Another"
 msgstr "Creează altă invitație"
 
-#: app/templates/modals/invite.html:461
+#: app/templates/modals/invite.html:463
 msgid "Please select at least one server for the invitation."
 msgstr "Selectează cel puțin un server pentru invitație."
 
@@ -1969,69 +2047,69 @@ msgstr ""
 msgid "Password reset link for"
 msgstr "Parolă"
 
-#: app/templates/modals/password-reset-link.html:63
+#: app/templates/modals/password-reset-link.html:62
 #, fuzzy
 msgid "Link expires:"
 msgstr "Expiră"
 
-#: app/templates/modals/password-reset-link.html:71
+#: app/templates/modals/password-reset-link.html:68
 msgid "Reset Link (Click to copy)"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:88
+#: app/templates/modals/password-reset-link.html:85
 msgid "Send this link to the user. They can use it once to reset their password."
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:95
+#: app/templates/modals/password-reset-link.html:90
 msgid "Reset Code"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:105
+#: app/templates/modals/password-reset-link.html:97
 #, fuzzy
 msgid "Security Notes:"
 msgstr "Utilizatori"
 
-#: app/templates/modals/password-reset-link.html:108
+#: app/templates/modals/password-reset-link.html:99
 msgid "This link can only be used once"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:109
+#: app/templates/modals/password-reset-link.html:100
 msgid "It expires in 24 hours"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:110
+#: app/templates/modals/password-reset-link.html:101
 msgid "Send it securely (email, message, etc.)"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:117
+#: app/templates/modals/password-reset-link.html:108
 msgid "Generate a secure password reset link for"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:130
+#: app/templates/modals/password-reset-link.html:122
 #, fuzzy
 msgid "Generate Reset Link"
 msgstr "Setări server"
 
-#: app/templates/modals/password-reset-link.html:133
+#: app/templates/modals/password-reset-link.html:125
 msgid "The link will be valid for 24 hours and can only be used once."
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:146
+#: app/templates/modals/password-reset-link.html:137
 #, fuzzy
 msgid "Copy Link"
 msgstr "Logare"
 
-#: app/templates/modals/password-reset-link.html:175
+#: app/templates/modals/password-reset-link.html:165
 #, fuzzy
 msgid "Copied!"
 msgstr "Alătură-te"
 
-#: app/templates/modals/password-reset-link.html:195
+#: app/templates/modals/password-reset-link.html:185
 #, fuzzy
 msgid "Reset link copied to clipboard!"
 msgstr "Link-ul a fost copiat cu succes în clipboard!"
 
-#: app/templates/modals/password-reset-link.html:197
+#: app/templates/modals/password-reset-link.html:187
 msgid "Please manually copy the link"
 msgstr ""
 
@@ -2062,7 +2140,9 @@ msgstr "Opțiuni de import"
 msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
 "steps will be merged with existing ones."
-msgstr "Dacă este bifat, pașii existenți vor fi înlocuiți. Dacă este debifat, pașii importați vor fi îmbinați cu cei existenți."
+msgstr ""
+"Dacă este bifat, pașii existenți vor fi înlocuiți. Dacă este debifat, "
+"pașii importați vor fi îmbinați cu cei existenți."
 
 #: app/templates/modals/wizard-import-form.html:90
 msgid "Important Notice"
@@ -2072,7 +2152,9 @@ msgstr "Atenție importantă"
 msgid ""
 "This action will modify your wizard steps configuration. Make sure to "
 "backup your current steps before importing if you want to preserve them."
-msgstr "Această acțiune va modifica configurarea pașilor. Fă backup pașilor actuali înainte de import dacă dorești să-i păstrezi."
+msgstr ""
+"Această acțiune va modifica configurarea pașilor. Fă backup pașilor "
+"actuali înainte de import dacă dorești să-i păstrezi."
 
 #: app/templates/modals/wizard-import-form.html:111
 msgid "Import Steps"
@@ -2260,7 +2342,9 @@ msgstr "Nu există conexiuni configurate"
 msgid ""
 "Connect your external services to automate user invitations when invites "
 "are created for specific media servers."
-msgstr "Conectează-ți serviciile externe pentru a automatiza invitațiile, în funcție de serverele media selectate."
+msgstr ""
+"Conectează-ți serviciile externe pentru a automatiza invitațiile, în "
+"funcție de serverele media selectate."
 
 #: app/templates/settings/connections.html:171
 msgid "Add Your First Connection"
@@ -2304,7 +2388,9 @@ msgstr "Administrare utilizatori"
 
 #: app/templates/settings/general.html:98
 msgid "Configure how users are managed when invitations expire"
-msgstr "Configurează modul în care sunt gestionați utilizatorii după expirarea invitațiilor"
+msgstr ""
+"Configurează modul în care sunt gestionați utilizatorii după expirarea "
+"invitațiilor"
 
 #: app/templates/settings/general.html:125
 msgid "Server Capabilities"
@@ -2322,33 +2408,39 @@ msgstr "Doar ștergere:"
 msgid ""
 "If 'Disable User' is selected but the server does not support it, the "
 "user will be deleted instead."
-msgstr "Dacă serverul nu suportă opțiunea „Dezactivează utilizatorul”, acesta va fi șters."
+msgstr ""
+"Dacă serverul nu suportă opțiunea „Dezactivează utilizatorul”, acesta va "
+"fi șters."
 
 #: app/templates/settings/general.html:159
 msgid "Choose what happens to users when their invitation expires"
 msgstr "Alege ce se întâmplă cu utilizatorii când invitația expiră"
 
-#: app/templates/settings/general.html:183
+#: app/templates/settings/general.html:169
+msgid "Immediately process all expired users based on the expiry action above"
+msgstr ""
+
+#: app/templates/settings/general.html:220
 msgid "API Key Management"
 msgstr "Administrarea cheilor API"
 
-#: app/templates/settings/general.html:185
+#: app/templates/settings/general.html:222
 msgid "Manage API keys for accessing Wizarr programmatically"
 msgstr "Gestionează cheile API pentru acces programatic la Wizarr"
 
-#: app/templates/settings/general.html:193
+#: app/templates/settings/general.html:230
 msgid "Your API Keys"
 msgstr "Cheile tale API"
 
-#: app/templates/settings/general.html:194
+#: app/templates/settings/general.html:231
 msgid "Create and manage API keys for external applications"
 msgstr "Creează și administrează chei API pentru aplicații externe"
 
-#: app/templates/settings/general.html:218
+#: app/templates/settings/general.html:255
 msgid "Loading API keys..."
 msgstr "Se încarcă cheile API..."
 
-#: app/templates/settings/general.html:234
+#: app/templates/settings/general.html:271
 msgid "Save Settings"
 msgstr "Salvează setările"
 
@@ -2395,7 +2487,9 @@ msgstr "Agenți de notificare"
 
 #: app/templates/settings/notifications.html:10
 msgid "Configure notification services to alert you about important events"
-msgstr "Configurează serviciile de notificare pentru a fi alertat despre evenimente importante"
+msgstr ""
+"Configurează serviciile de notificare pentru a fi alertat despre "
+"evenimente importante"
 
 #: app/templates/settings/notifications.html:21
 #: app/templates/settings/notifications.html:125
@@ -2540,81 +2634,89 @@ msgstr "Creează o colecție de pași"
 msgid "No bundles found."
 msgstr "Nu s-au găsit pachete."
 
-#: app/templates/settings/wizard/bundles.html:26
+#: app/templates/settings/wizard/bundles.html:27
+#: app/templates/settings/wizard/index.html:60
+#: app/templates/settings/wizard/steps.html:50
+msgid "Preview Wizard"
+msgstr "Previzualizează expertul"
+
+#: app/templates/settings/wizard/bundles.html:38
 #, python-format
 msgid "Export %(bundle_name)s Bundle"
 msgstr "Exportă pachetul %(bundle_name)s"
 
-#: app/templates/settings/wizard/bundles.html:53
+#: app/templates/settings/wizard/bundles.html:65
 msgid "Are you sure you want to delete this bundle?"
 msgstr "Sigur dorești să ștergi acest pachet?"
 
-#: app/templates/settings/wizard/bundles.html:70
+#: app/templates/settings/wizard/bundles.html:82
 #: app/templates/settings/wizard/steps.html:65
 msgid "Before Invite Acceptance"
 msgstr "Înainte de acceptarea invitației"
 
-#: app/templates/settings/wizard/bundles.html:72
+#: app/templates/settings/wizard/bundles.html:84
 #: app/templates/settings/wizard/steps.html:67
 msgid "Steps shown to users before they accept the invitation"
 msgstr "Pași afișați înainte ca utilizatorii să accepte invitația"
 
-#: app/templates/settings/wizard/bundles.html:115
-#: app/templates/settings/wizard/bundles.html:197
-#: app/templates/settings/wizard/bundles.html:278
+#: app/templates/settings/wizard/bundles.html:127
+#: app/templates/settings/wizard/bundles.html:209
+#: app/templates/settings/wizard/bundles.html:290
 #: app/templates/settings/wizard/index.html:104
 #: app/templates/settings/wizard/steps.html:106
 #: app/templates/settings/wizard/steps.html:186
 msgid "Are you sure you want to delete this step?"
 msgstr "Sigur dorești să ștergi acest pas?"
 
-#: app/templates/settings/wizard/bundles.html:146
+#: app/templates/settings/wizard/bundles.html:158
 #: app/templates/settings/wizard/steps.html:138
 msgid "No pre-invite steps configured"
 msgstr "Nu sunt configurați pași pre-invitație"
 
-#: app/templates/settings/wizard/bundles.html:152
+#: app/templates/settings/wizard/bundles.html:164
 #: app/templates/settings/wizard/steps.html:145
 msgid "After Invite Acceptance"
 msgstr "După acceptarea invitației"
 
-#: app/templates/settings/wizard/bundles.html:154
+#: app/templates/settings/wizard/bundles.html:166
 #: app/templates/settings/wizard/steps.html:147
 msgid "Steps shown to users after they accept the invitation"
 msgstr "Pași afișați după ce utilizatorii acceptă invitația"
 
-#: app/templates/settings/wizard/bundles.html:228
+#: app/templates/settings/wizard/bundles.html:240
 #: app/templates/settings/wizard/steps.html:218
 msgid "No post-invite steps configured"
 msgstr "Nu sunt configurați pași post-invitație"
 
-#: app/templates/settings/wizard/bundles.html:235
+#: app/templates/settings/wizard/bundles.html:247
 msgid "Additional Categories"
 msgstr "Categorii adiționale"
 
-#: app/templates/settings/wizard/bundles.html:237
+#: app/templates/settings/wizard/bundles.html:249
 msgid "Steps that use custom categories keep their order here."
 msgstr "Pașii care folosesc categorii personalizate își păstrează ordinea aici."
 
-#: app/templates/settings/wizard/bundles.html:305
+#: app/templates/settings/wizard/bundles.html:317
 msgid "Orphaned Steps"
 msgstr "Pași orfani"
 
-#: app/templates/settings/wizard/bundles.html:307
+#: app/templates/settings/wizard/bundles.html:319
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
-msgstr "Aceste intrări nu mai au un pas asociat. Elimină-le pentru a păstra pachetul ordonat."
+msgstr ""
+"Aceste intrări nu mai au un pas asociat. Elimină-le pentru a păstra "
+"pachetul ordonat."
 
-#: app/templates/settings/wizard/bundles.html:312
+#: app/templates/settings/wizard/bundles.html:324
 msgid "Step deleted (orphaned)"
 msgstr "Pas șters (orfan)"
 
-#: app/templates/settings/wizard/bundles.html:319
+#: app/templates/settings/wizard/bundles.html:331
 msgid "Are you sure you want to remove this orphaned step?"
 msgstr "Sigur dorești să elimini acest pas orfan?"
 
-#: app/templates/settings/wizard/bundles.html:322
+#: app/templates/settings/wizard/bundles.html:334
 msgid "Remove orphaned step"
 msgstr "Elimină pasul orfan"
 
@@ -2631,7 +2733,9 @@ msgstr "Importă configurația expertului"
 msgid ""
 "Import wizard steps or bundles from a JSON file to quickly set up or "
 "restore your wizard configuration."
-msgstr "Importă pași sau pachete dintr-un fișier JSON pentru a configura sau restaura rapid expertul."
+msgstr ""
+"Importă pași sau pachete dintr-un fișier JSON pentru a configura sau "
+"restaura rapid expertul."
 
 #: app/templates/settings/wizard/import_form.html:13
 msgid "Select JSON File"
@@ -2646,7 +2750,10 @@ msgid ""
 "When checked, all existing wizard steps and bundles will be removed and "
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
-msgstr "Dacă este bifat, toți pașii și pachetele actuale vor fi înlocuite cu configurația importată. Dacă este debifat, elementele importate vor fi adăugate lângă cele existente."
+msgstr ""
+"Dacă este bifat, toți pașii și pachetele actuale vor fi înlocuite cu "
+"configurația importată. Dacă este debifat, elementele importate vor fi "
+"adăugate lângă cele existente."
 
 #: app/templates/settings/wizard/import_form.html:82
 msgid "Important: Backup Recommended"
@@ -2654,7 +2761,9 @@ msgstr "Important: recomandăm backup"
 
 #: app/templates/settings/wizard/import_form.html:84
 msgid "This action will modify your wizard configuration. Consider the following:"
-msgstr "Această acțiune îți va modifica configurația expertului. Ține cont de următoarele:"
+msgstr ""
+"Această acțiune îți va modifica configurația expertului. Ține cont de "
+"următoarele:"
 
 #: app/templates/settings/wizard/import_form.html:86
 msgid "Export your current steps and bundles first as a backup"
@@ -2672,7 +2781,9 @@ msgstr "Pachetele importate își păstrează asocierile și ordinea pașilor"
 msgid ""
 "If replacing existing configuration, all current steps and bundles will "
 "be permanently removed"
-msgstr "Dacă alegi înlocuirea configurației, toți pașii și pachetele curente vor fi eliminați definitiv"
+msgstr ""
+"Dacă alegi înlocuirea configurației, toți pașii și pachetele curente vor "
+"fi eliminați definitiv"
 
 #: app/templates/settings/wizard/import_form.html:90
 msgid "Invalid or malformed JSON files will be rejected"
@@ -2710,7 +2821,9 @@ msgstr "Selectează un fișier JSON valid."
 msgid ""
 "This will permanently replace all existing wizard configuration (steps "
 "and bundles). Are you sure you want to continue?"
-msgstr "Aceasta va înlocui definitiv configurația actuală (pași și pachete). Sigur dorești să continui?"
+msgstr ""
+"Aceasta va înlocui definitiv configurația actuală (pași și pachete). "
+"Sigur dorești să continui?"
 
 #: app/templates/settings/wizard/index.html:13
 msgid "Wizard Steps"
@@ -2718,7 +2831,9 @@ msgstr "Pași ai expertului"
 
 #: app/templates/settings/wizard/index.html:15
 msgid "Manage your wizard steps and bundles for user onboarding"
-msgstr "Gestionează pașii și pachetele expertului pentru onboarding-ul utilizatorilor"
+msgstr ""
+"Gestionează pașii și pachetele expertului pentru onboarding-ul "
+"utilizatorilor"
 
 #: app/templates/settings/wizard/index.html:36
 msgid "No wizard steps found"
@@ -2736,17 +2851,12 @@ msgstr "Server"
 msgid "steps configured"
 msgstr "pași configurați"
 
-#: app/templates/settings/wizard/index.html:60
-#: app/templates/settings/wizard/steps.html:50
-msgid "Preview Wizard"
-msgstr "Previzualizează expertul"
-
 #: app/templates/settings/wizard/index.html:86
 msgid "Untitled Step"
 msgstr "Pas fără titlu"
 
 #: app/templates/settings/wizard/index.html:87
-#: app/templates/wizard/steps.html:52 app/templates/wizard/steps.html:92
+#: app/templates/wizard/steps.html:53 app/templates/wizard/steps.html:93
 msgid "Step"
 msgstr "Pas"
 
@@ -2767,7 +2877,10 @@ msgstr "Nu s-au găsit pași."
 msgid ""
 "Are you sure you want to reset all steps for %(server)s to defaults? This"
 " will delete all custom steps and reimport the default ones."
-msgstr "Sigur dorești să resetezi toți pașii pentru %(server)s la valorile implicite? Pașii personalizați vor fi șterși și vor fi importate valorile implicite."
+msgstr ""
+"Sigur dorești să resetezi toți pașii pentru %(server)s la valorile "
+"implicite? Pașii personalizați vor fi șterși și vor fi importate valorile"
+" implicite."
 
 #: app/templates/settings/wizard/steps.html:26
 #, python-format
@@ -2870,25 +2983,30 @@ msgstr "Vezi detalii"
 msgid "Edit user"
 msgstr "Editează utilizatorul"
 
-#: app/templates/tables/user_card.html:219
+#: app/templates/tables/user_card.html:221
+#, fuzzy
+msgid "Reset password"
+msgstr "Parolă"
+
+#: app/templates/tables/user_card.html:241
 msgid "Remove user"
 msgstr "Șterge utilizatorul"
 
-#: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:42
-#: app/templates/wizard/steps.html:82
+#: app/templates/wizard/steps.html:17 app/templates/wizard/steps.html:43
+#: app/templates/wizard/steps.html:83
 msgid "Before Invitation"
 msgstr "Înainte de invitație"
 
-#: app/templates/wizard/steps.html:17 app/templates/wizard/steps.html:44
-#: app/templates/wizard/steps.html:84
+#: app/templates/wizard/steps.html:18 app/templates/wizard/steps.html:45
+#: app/templates/wizard/steps.html:85
 msgid "After Invitation"
 msgstr "După invitație"
 
-#: app/templates/wizard/steps.html:141 app/templates/wizard/steps.html:201
+#: app/templates/wizard/steps.html:146 app/templates/wizard/steps.html:214
 msgid "Previous"
 msgstr "Înapoi"
 
-#: app/templates/wizard/steps.html:173 app/templates/wizard/steps.html:231
+#: app/templates/wizard/steps.html:182 app/templates/wizard/steps.html:248
 msgid "Click the link in this step to be able to continue"
 msgstr "Apasă linkul din acest pas pentru a putea continua"
 
