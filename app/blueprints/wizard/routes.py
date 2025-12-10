@@ -285,6 +285,42 @@ def _gather_steps_with_phases(
     return ordered_steps, phases
 
 
+def _process_interactions_config(config: dict | None) -> dict | None:
+    """Process interactions config to convert markdown content to HTML.
+
+    For ToS interactions, converts content_markdown to content_html so the
+    frontend can display formatted content (paragraphs, bold, lists, etc.)
+    instead of raw markdown text.
+
+    Args:
+        config: The interactions configuration dict (or None).
+
+    Returns:
+        The processed config with content_html added for ToS, or None if input was None.
+    """
+    if not config:
+        return config
+
+    # Make a copy to avoid mutating the original
+    processed = dict(config)
+
+    # Process ToS interaction if present and has content
+    if "tos" in processed and processed["tos"].get("content_markdown"):
+        tos_config = dict(processed["tos"])
+        content_md = tos_config.get("content_markdown", "")
+
+        # Convert markdown to HTML using same extensions as wizard steps
+        # nl2br extension converts newlines within paragraphs to <br>
+        content_html = markdown.markdown(
+            content_md,
+            extensions=["fenced_code", "tables", "attr_list", "nl2br"],
+        )
+        tos_config["content_html"] = content_html
+        processed["tos"] = tos_config
+
+    return processed
+
+
 def _render(post, ctx: dict, server_type: str | None = None) -> str:
     """Render a post (frontmatter.Post or _RowAdapter) with context.
 
@@ -396,6 +432,15 @@ def _serve_wizard(
         require_interaction = False
         interactions_config = None
 
+    # Also require interaction if any modular interactions are enabled
+    if interactions_config and not require_interaction:
+        has_enabled = any(
+            interactions_config.get(itype, {}).get("enabled", False)
+            for itype in ("click", "time", "tos", "text_input", "quiz")
+        )
+        if has_enabled:
+            require_interaction = True
+
     # Determine which template to use based on request type
     if not request.headers.get("HX-Request"):
         # Initial page load - full wrapper with UI chrome
@@ -424,7 +469,7 @@ def _serve_wizard(
         server_type=server,
         direction=direction,
         require_interaction=require_interaction,
-        interactions_config=interactions_config,
+        interactions_config=_process_interactions_config(interactions_config),
         phase=phase,  # NEW: Pass phase to template
         step_phase=display_phase,
         completion_url=completion_url,
@@ -1036,6 +1081,15 @@ def combo(category: str, idx: int = 0):
         require_interaction = False
         interactions_config = None
 
+    # Also require interaction if any modular interactions are enabled
+    if interactions_config and not require_interaction:
+        has_enabled = any(
+            interactions_config.get(itype, {}).get("enabled", False)
+            for itype in ("click", "time", "tos", "text_input", "quiz")
+        )
+        if has_enabled:
+            require_interaction = True
+
     # Determine which template to use based on request type
     if not request.headers.get("HX-Request"):
         # Initial page load - full wrapper with UI chrome
@@ -1047,6 +1101,9 @@ def combo(category: str, idx: int = 0):
     # Get server-specific color scheme for theming (use current_server_type for combo flows)
     colors = _get_server_colors(current_server_type)
 
+    # Process interactions config for markdown rendering
+    processed_interactions = _process_interactions_config(interactions_config)
+
     response = render_template(
         page,
         body_html=html,
@@ -1055,7 +1112,7 @@ def combo(category: str, idx: int = 0):
         server_type="combo",
         direction=direction,
         require_interaction=require_interaction,
-        interactions_config=interactions_config,
+        interactions_config=processed_interactions,
         phase=phase,  # Pass phase based on category
         step_phase=phase,  # Pass step_phase to enable phase badge display
         # Pass current server type for display
@@ -1074,8 +1131,8 @@ def combo(category: str, idx: int = 0):
         resp.headers["X-Require-Interaction"] = (
             "true" if require_interaction else "false"
         )
-        if interactions_config:
-            resp.headers["X-Interactions"] = json.dumps(interactions_config)
+        if processed_interactions:
+            resp.headers["X-Interactions"] = json.dumps(processed_interactions)
         resp.headers["X-Wizard-Step-Phase"] = (
             phase  # FIX: Add phase header for badge updates
         )
@@ -1261,6 +1318,15 @@ def bundle_view(idx: int):
         require_interaction = False
         interactions_config = None
 
+    # Also require interaction if any modular interactions are enabled
+    if interactions_config and not require_interaction:
+        has_enabled = any(
+            interactions_config.get(itype, {}).get("enabled", False)
+            for itype in ("click", "time", "tos", "text_input", "quiz")
+        )
+        if has_enabled:
+            require_interaction = True
+
     completion_url = None
     completion_label = None
     if phase_context == "pre":
@@ -1278,6 +1344,9 @@ def bundle_view(idx: int):
     # Get server-specific color scheme for theming (use current_server_type for bundle flows)
     colors = _get_server_colors(current_server_type)
 
+    # Process interactions config for markdown rendering
+    processed_interactions = _process_interactions_config(interactions_config)
+
     response = render_template(
         page,
         body_html=html,
@@ -1286,7 +1355,7 @@ def bundle_view(idx: int):
         server_type="bundle",
         direction=request.values.get("dir", ""),
         require_interaction=require_interaction,
-        interactions_config=interactions_config,
+        interactions_config=processed_interactions,
         phase=phase,  # Phase determined by current step's category
         step_phase=phase,
         completion_url=completion_url,
@@ -1304,8 +1373,8 @@ def bundle_view(idx: int):
             "true" if require_interaction else "false"
         )
         resp.headers["X-Wizard-Step-Phase"] = phase
-        if interactions_config:
-            resp.headers["X-Interactions"] = json.dumps(interactions_config)
+        if processed_interactions:
+            resp.headers["X-Interactions"] = json.dumps(processed_interactions)
         return resp
 
     return response

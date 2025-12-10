@@ -278,9 +278,37 @@ function attachInteractionGating(root = document) {
     cleanupWizardInteractions();
   }
 
+  // Always cleanup previous button handlers first (buttons persist across HTMX swaps)
+  // Use document.querySelector to find buttons regardless of root context
+  const globalMobileNext = document.querySelector('#wizard-next-btn');
+  const globalDesktopNext = document.querySelector('#wizard-next-btn-desktop');
+  [globalMobileNext, globalDesktopNext].filter(Boolean).forEach(btn => {
+    // Remove previous click/key blockers
+    if (btn._clickBlocker) {
+      btn.removeEventListener('click', btn._clickBlocker, true);
+      delete btn._clickBlocker;
+    }
+    if (btn._keyBlocker) {
+      btn.removeEventListener('keydown', btn._keyBlocker, true);
+      delete btn._keyBlocker;
+    }
+    // Clear the attached flag to allow re-initialization
+    delete btn.dataset.interactionGatingAttached;
+    // Restore hx-get if it was saved (button may have been left in disabled state)
+    if (btn.dataset.savedHxGet != null) {
+      btn.setAttribute('hx-get', btn.dataset.savedHxGet);
+      delete btn.dataset.savedHxGet;
+    }
+    // Reset visual state
+    btn.style.pointerEvents = '';
+    btn.style.opacity = '';
+    btn.style.cursor = '';
+  });
+
   // Handle both mobile and desktop next buttons (updated after button refactoring)
-  const mobileNext = root.querySelector('#wizard-next-btn');
-  const desktopNext = root.querySelector('#wizard-next-btn-desktop');
+  // Use document.querySelector since buttons are outside #wizard-content (persist across HTMX swaps)
+  const mobileNext = document.querySelector('#wizard-next-btn');
+  const desktopNext = document.querySelector('#wizard-next-btn-desktop');
 
   // Get all next buttons that exist
   const nextButtons = [mobileNext, desktopNext].filter(btn => btn !== null);
@@ -292,12 +320,16 @@ function attachInteractionGating(root = document) {
   if (!requiresInteraction) return;
 
   // Check for new modular interactions config
-  const wizardWrapper = root.querySelector('#wizard-wrapper') || root.querySelector('#wizard-content');
+  // The data-interactions attribute is on #wizard-content (set in _content.html)
+  // Handle case where root itself is the wizard-content (e.g., from htmx:load event)
+  const wizardContent = root.querySelector('#wizard-content') ||
+                        (root.matches && root.matches('#wizard-content') ? root : null) ||
+                        document.querySelector('#wizard-content');
   let interactionsConfig = null;
 
-  if (wizardWrapper && wizardWrapper.dataset.interactions) {
+  if (wizardContent && wizardContent.dataset.interactions) {
     try {
-      interactionsConfig = JSON.parse(wizardWrapper.dataset.interactions);
+      interactionsConfig = JSON.parse(wizardContent.dataset.interactions);
     } catch (e) {
       console.warn('Failed to parse interactions config:', e);
     }
@@ -336,6 +368,26 @@ function attachInteractionGating(root = document) {
       content.removeEventListener('click', content._interactionHandler, true);
       delete content._interactionHandler;
     }
+  }
+
+  // Shared disable function that re-disables ALL next buttons (e.g., when ToS unchecked)
+  function disableAllButtons() {
+    nextButtons.forEach(next => {
+      // Save and remove HTMX if not already saved
+      if (!next.dataset.savedHxGet) {
+        const hxGet = next.getAttribute('hx-get');
+        if (hxGet != null) {
+          next.dataset.savedHxGet = hxGet;
+          next.removeAttribute('hx-get');
+        }
+      }
+
+      next.dataset.disabled = '1';
+      next.setAttribute('aria-disabled', 'true');
+      next.setAttribute('tabindex', '-1');
+      next.style.opacity = '0.6';
+      next.style.cursor = 'not-allowed';
+    });
   }
 
   // Disable all buttons first
@@ -387,7 +439,8 @@ function attachInteractionGating(root = document) {
 
   if (hasModularInteractions && typeof initWizardInteractions === 'function') {
     // Use new modular interaction coordinator
-    initWizardInteractions(interactionsConfig, enableAllButtons);
+    // Pass both enable and disable callbacks for bidirectional satisfaction tracking
+    initWizardInteractions(interactionsConfig, enableAllButtons, disableAllButtons);
   } else {
     // Legacy fallback: click-based interaction
     // Single interaction handler for the content area
