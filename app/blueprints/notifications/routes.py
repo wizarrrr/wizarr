@@ -14,6 +14,7 @@ from app.services.notifications import (  # your existing helpers
     _apprise,
     _discord,
     _notifiarr,
+    _pushover,
     _ntfy,
 )
 
@@ -45,6 +46,8 @@ def create():
             "type": request.form.get("notification_service"),
             "username": request.form.get("username") or None,
             "password": request.form.get("password") or None,
+            "user_key": request.form.get("user_key") or None,
+            "api_token": request.form.get("api_token") or None,
             "channel_id": request.form.get("channel_id") or None,
             "notification_events": ",".join(events)
             if events
@@ -84,6 +87,8 @@ def create():
                     url,
                     channel_id,
                 )
+        elif form["type"] == "pushover":
+            ok = _pushover(msg="Wizarr test message", title="Wizarr", user_key=form.get("user_key"), api_token=form.get("api_token"))
 
         if ok:
             # from Notification.create(**form) to SQLAlchemy ORM
@@ -125,6 +130,8 @@ def edit(agent_id):
             "type": request.form.get("notification_service"),
             "username": request.form.get("username") or None,
             "password": request.form.get("password") or None,
+            "user_key": request.form.get("user_key") or None,
+            "api_token": request.form.get("api_token") or None,
             "channel_id": request.form.get("channel_id") or None,
             "notification_events": ",".join(events)
             if events
@@ -164,6 +171,8 @@ def edit(agent_id):
                     url,
                     channel_id,
                 )
+        elif form["type"] == "pushover":
+            ok = _pushover(msg="Wizarr test message", title="Wizarr", user_key=form.get("user_key"), api_token=form.get("api_token"))
 
         if ok:
             # Update the agent with new values

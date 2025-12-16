@@ -66,6 +66,23 @@ def _ntfy(
         headers["Authorization"] = "Basic " + base64.b64encode(creds.encode()).decode()
     return _send(url, msg, headers)
 
+def _pushover(
+    msg: str,
+    title: str,
+    user_key: str,
+    api_token: str,
+) -> bool:
+    data = {
+        "token": api_token,
+        "user": user_key,
+        "message": msg,
+        "title": title,
+    }
+    pushover_url = "https://api.pushover.net/1/messages.json"
+    return _send(pushover_url, data, headers={})
+
+
+
 
 def _apprise(msg: str, title: str, _tags: str, url: str) -> bool:
     try:
@@ -136,3 +153,5 @@ def notify(
             _apprise(message, title, tags, agent.url)
         elif agent.type == "notifiarr":
             _notifiarr(message, title, agent.url, agent.channel_id)
+        elif agent.type == "pushover":
+            _pushover(message, title, agent.user_key, agent.api_token)

@@ -353,6 +353,8 @@ class Notification(db.Model):
     username = db.Column(db.String, nullable=True)
     password = db.Column(db.String, nullable=True)
     channel_id = db.Column(db.Integer, nullable=True)
+    user_key = db.Column(db.String(50), nullable=True)
+    api_token = db.Column(db.String(50), nullable=True) 
     notification_events = db.Column(
         db.String, nullable=False, default="user_joined,update_available"
     )

@@ -63,6 +63,7 @@
                 <option value="apprise">Apprise</option>
                 <option value="discord">Discord</option>
                 <option value="notifiarr">Notifiarr</option>
+                <option value="pushover">Pushover</option>
                 <option value="ntfy">Ntfy</option>
               </select>
             </div>
@@ -95,6 +96,23 @@
                      name="password"
                      id="password"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+            </div>
+            <div>
+            <div id="pushoverSection"
+                 class="notificationAgentInfo"
+                 style="display: none">
+              <label for="user_key"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("User Key") }}</label>
+              <input type="text"
+                     name="user_key"
+                     id="user_key"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+              <label for="api_token"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("API Token") }}</label>
+              <input type="text"
+                     name="api_token"
+                     id="api_token"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
             <div>
               <label for="url"
@@ -168,9 +186,11 @@
 
         // Trigger sections
         if (value === 'ntfy') {
-            credentialsSection.style.display = 'block';
+            document.getElementById('credentialsSection').style.display = 'block';
         } else if (value === "notifiarr") {
-            notifiarrSection.style.display = 'block';
+            document.getElementById('notifiarrSection').style.display = 'block';
+        } else if (value === "pushover") {
+            document.getElementById('pushoverSection').style.display = 'block';
         }
 
         // Trigger required channel_id
@@ -183,10 +203,24 @@
         // Adjust placeholder text
         const urlEle = document.getElementById('url');
 
+        // Trigger required url
+        if (value === 'pushover') {
+            urlEle.required = false;
+        } else {
+            urlEle.required = true;
+        }
+
         if (value === 'apprise') {
             urlEle.placeholder = "e.g. apprise://hostname/token";
+            urlEle.style.display = "block";
+            document.querySelector('label[for="url"]').style.display = "block";
+        } else if (value === 'pushover') {
+            urlEle.style.display = "none";
+            document.querySelector('label[for="url"]').style.display = "none";
         } else {
             urlEle.placeholder = "e.g. https://example.com";
+            urlEle.style.display = "block";
+            document.querySelector('label[for="url"]').style.display = "block";
         }
     }
 </script>
