@@ -173,7 +173,7 @@ class TimeInteractionHandler extends InteractionHandler {
       if (remaining > 0) {
         textEl.innerHTML = `Please wait <strong>${remaining}</strong> second${remaining !== 1 ? "s" : ""}...`;
       } else {
-        textEl.innerHTML = `<span class="text-green-600 dark:text-green-400">Time complete!</span>`;
+        textEl.innerHTML = `<span class="text-green-600 dark:text-green-400">All set! Click Next to continue</span>`;
         // Change icon to checkmark
         const svg = this.countdownElement.querySelector("svg");
         if (svg) {
@@ -390,6 +390,7 @@ class QuizInteractionHandler extends InteractionHandler {
     this.questions = config.questions || [];
     this.passThreshold = config.pass_threshold ?? 1.0;
     this.shuffleQuestions = config.shuffle_questions === true;
+    this.shuffleAnswers = config.shuffle_answers === true;
     this.showExplanations = config.show_explanations !== false;
     this.quizElement = null;
     this.currentQuestion = 0;
@@ -466,14 +467,18 @@ class QuizInteractionHandler extends InteractionHandler {
 
   renderOptions(question) {
     if (question.type === "true_false") {
+      // True/False options stay in fixed order for consistency
       return `
         <button type="button" class="quiz-option w-full text-left px-4 py-3 border dark:border-gray-600 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" data-value="true">True</button>
         <button type="button" class="quiz-option w-full text-left px-4 py-3 border dark:border-gray-600 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" data-value="false">False</button>
       `;
     }
 
-    // Multiple choice
-    const options = question.options || [];
+    // Multiple choice - shuffle if enabled
+    let options = question.options || [];
+    if (this.shuffleAnswers) {
+      options = this.shuffleArray([...options]);
+    }
     return options
       .map(
         (opt, i) => `

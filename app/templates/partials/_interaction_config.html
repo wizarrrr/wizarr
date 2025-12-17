@@ -9,7 +9,7 @@
 #}
 {# djlint:off H023 - &#39; entity is required to safely escape single quotes in JSON within single-quoted attribute #}
 <div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6"
-     x-data='interactionConfig({{ form.interaction_config.data | default("{}") | safe }})'
+     x-data='interactionConfig({{ form.interaction_config.data | default("{}") | replace("'", "&#39;") | safe }})'
      x-init="init()">
 {# djlint:on #}
   {# Hidden field for JSON storage #}
@@ -383,8 +383,8 @@
                        class="w-full bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg p-2.5 text-sm text-gray-900 dark:text-white"
                        placeholder="{{ _('Enter question text...') }}">
                 <select x-model="question.type"
-                        @change="question.type === 'true_false' && (question.options = ['True', 'False'])"
-                        class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg p-2.5 text-sm text-gray-900 dark:text-white">
+                        @change="changeQuestionType(question)"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary p-2.5 pr-8 cursor-pointer dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
                   <option value="multiple_choice">{{ _("Multiple Choice") }}</option>
                   <option value="true_false">{{ _("True/False") }}</option>
                 </select>
@@ -394,12 +394,11 @@
                     <div class="flex items-center gap-2">
                       <input type="radio"
                              :name="'q_' + question.id + '_correct'"
-                             :checked="question.correct_answer === opt"
-                             @change="question.correct_answer = opt"
+                             :checked="question.correct_option_index === optIdx"
+                             @change="question.correct_option_index = optIdx"
                              class="w-4 h-4 text-primary focus:ring-primary">
                       <input type="text"
                              x-model="question.options[optIdx]"
-                             @input="question.correct_answer === question.options[optIdx] && (question.correct_answer = $el.value)"
                              class="flex-1 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-sm text-gray-900 dark:text-white"
                              placeholder="{{ _('Option') }}">
                       <button type="button"
@@ -482,6 +481,12 @@
                    x-model="config.quiz.shuffle_questions"
                    class="w-4 h-4 text-primary rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600">
             <label class="text-sm text-gray-700 dark:text-gray-300">{{ _("Randomize question order") }}</label>
+          </div>
+          <div class="flex items-center gap-2">
+            <input type="checkbox"
+                   x-model="config.quiz.shuffle_answers"
+                   class="w-4 h-4 text-primary rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600">
+            <label class="text-sm text-gray-700 dark:text-gray-300">{{ _("Randomize answer order") }}</label>
           </div>
           <div class="flex items-center gap-2">
             <input type="checkbox"

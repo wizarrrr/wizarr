@@ -41,6 +41,7 @@ function interactionConfig(initialConfig = {}) {
       questions: [],
       pass_threshold: 1.0,
       shuffle_questions: false,
+      shuffle_answers: false,
       show_explanations: true
     }
   };
@@ -75,14 +76,24 @@ function interactionConfig(initialConfig = {}) {
         merged.quiz = { ...merged.quiz, ...initial.quiz };
         // Ensure questions have proper structure
         if (Array.isArray(initial.quiz.questions)) {
-          merged.quiz.questions = initial.quiz.questions.map(q => ({
-            id: q.id || generateId(),
-            question: q.question || '',
-            type: q.type || 'multiple_choice',
-            options: q.options || ['', ''],
-            correct_answer: q.correct_answer,
-            explanation: q.explanation || ''
-          }));
+          merged.quiz.questions = initial.quiz.questions.map(q => {
+            const options = q.options || ['', ''];
+            // Compute correct_option_index from correct_answer if not already set
+            let correctIndex = q.correct_option_index;
+            if (correctIndex === undefined || correctIndex === null) {
+              correctIndex = options.indexOf(q.correct_answer);
+              if (correctIndex === -1) correctIndex = 0; // Default to first option
+            }
+            return {
+              id: q.id || generateId(),
+              question: q.question || '',
+              type: q.type || 'multiple_choice',
+              options: options,
+              correct_option_index: correctIndex,
+              correct_answer: q.correct_answer,
+              explanation: q.explanation || ''
+            };
+          });
         }
       }
     }
@@ -200,20 +211,28 @@ function interactionConfig(initialConfig = {}) {
         output.quiz = {
           enabled: true,
           questions: this.config.quiz.questions.map(q => {
+            // Compute correct_answer from correct_option_index
+            const filteredOptions = q.type === 'multiple_choice'
+              ? q.options.filter(o => o.trim())
+              : q.options;
+            const correctAnswer = q.correct_option_index !== null && q.correct_option_index !== undefined
+              ? q.options[q.correct_option_index]
+              : q.correct_answer;
             const question = {
               id: q.id,
               question: q.question,
               type: q.type,
-              correct_answer: q.correct_answer,
+              correct_answer: correctAnswer,
               explanation: q.explanation || null
             };
             if (q.type === 'multiple_choice') {
-              question.options = q.options.filter(o => o.trim());
+              question.options = filteredOptions;
             }
             return question;
           }),
           pass_threshold: parseFloat(this.config.quiz.pass_threshold) || 1.0,
           shuffle_questions: this.config.quiz.shuffle_questions || false,
+          shuffle_answers: this.config.quiz.shuffle_answers || false,
           show_explanations: this.config.quiz.show_explanations !== false
         };
       }
@@ -248,6 +267,7 @@ function interactionConfig(initialConfig = {}) {
         question: '',
         type: 'multiple_choice',
         options: ['', ''],
+        correct_option_index: 0, // Track by index, first option selected by default
         correct_answer: '',
         explanation: ''
       });
@@ -279,11 +299,31 @@ function interactionConfig(initialConfig = {}) {
      */
     removeOption(question, optIdx) {
       if (question.options.length > 2) {
-        const removed = question.options.splice(optIdx, 1)[0];
-        // Clear correct answer if it was the removed option
-        if (question.correct_answer === removed) {
-          question.correct_answer = '';
+        question.options.splice(optIdx, 1);
+        // Adjust correct_option_index when removing an option
+        if (question.correct_option_index === optIdx) {
+          // Removed the correct option, default to first option
+          question.correct_option_index = 0;
+        } else if (question.correct_option_index > optIdx) {
+          // Shift index down if a prior option was removed
+          question.correct_option_index--;
         }
+      }
+    },
+
+    /**
+     * Handle question type change between multiple_choice and true_false
+     * @param {Object} question - Question object
+     */
+    changeQuestionType(question) {
+      if (question.type === 'true_false') {
+        question.options = ['True', 'False'];
+        question.correct_answer = true; // Default to "True"
+      } else if (question.type === 'multiple_choice') {
+        // Reset to clean state for multiple choice
+        question.options = ['', ''];
+        question.correct_option_index = 0;
+        question.correct_answer = '';
       }
     }
   };
