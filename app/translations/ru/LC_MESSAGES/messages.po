@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Wizarr\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-09 04:10+0000\n"
+"POT-Creation-Date: 2026-01-09 11:59+0100\n"
 "PO-Revision-Date: 2025-12-04 21:35+0000\n"
 "Last-Translator: Stepan Curuci <stepan@curuci.eu>\n"
 "Language: ru\n"
@@ -19,6 +19,68 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
+
+#: app/interactions.py:116
+msgid "Time duration must be at least 1 second"
+msgstr ""
+
+#: app/interactions.py:169
+#, fuzzy
+msgid "ToS content cannot be empty"
+msgstr "Это действие не может быть отменено."
+
+#: app/interactions.py:171
+msgid "ToS content exceeds maximum length (100,000 characters)"
+msgstr ""
+
+#: app/interactions.py:230
+msgid "Text input question cannot be empty"
+msgstr ""
+
+#: app/interactions.py:232
+msgid "At least one valid answer is required"
+msgstr ""
+
+#: app/interactions.py:234
+msgid "Empty answers are not allowed"
+msgstr ""
+
+#: app/interactions.py:297
+#, fuzzy
+msgid "Question ID cannot be empty"
+msgstr "Это действие не может быть отменено."
+
+#: app/interactions.py:299
+#, python-format
+msgid "Question '%(id)s' text cannot be empty"
+msgstr ""
+
+#: app/interactions.py:303
+#, python-format
+msgid "Question '%(id)s' needs at least 2 options"
+msgstr ""
+
+#: app/interactions.py:307
+#, python-format
+msgid "Question '%(id)s' correct answer not in options"
+msgstr ""
+
+#: app/interactions.py:315
+#, python-format
+msgid "Question '%(id)s' must have boolean correct_answer for true/false type"
+msgstr ""
+
+#: app/interactions.py:382
+msgid "Quiz must have at least one question"
+msgstr ""
+
+#: app/interactions.py:384
+msgid "Pass threshold must be between 0.0 and 1.0"
+msgstr ""
+
+#: app/interactions.py:388
+msgid "Duplicate question IDs found"
+msgstr ""
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 msgid "Failed to load settings"
@@ -269,11 +331,11 @@ msgstr "Неверные данные формы: %(errors)s"
 msgid "Settings saved successfully!"
 msgstr "Настройки успешно сохранены!"
 
-#: app/blueprints/settings/routes.py:217 app/forms/settings.py:24
+#: app/blueprints/settings/routes.py:217
 msgid "Server URL"
 msgstr "URL сервера"
 
-#: app/blueprints/settings/routes.py:220 app/forms/settings.py:25
+#: app/blueprints/settings/routes.py:220
 msgid "API Key"
 msgstr "API-ключ"
 
@@ -329,7 +391,7 @@ msgstr "Не удалось сбросить шаги: {}"
 msgid "Admin account created – welcome!"
 msgstr "Аккаунт администратора создан – добро пожаловать!"
 
-#: app/blueprints/wizard/routes.py:66
+#: app/blueprints/wizard/routes.py:67
 msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
@@ -337,13 +399,13 @@ msgstr ""
 "Ваше приглашение истекло или больше не действительно. Пожалуйста, "
 "запросите новое приглашение."
 
-#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1215
-#: app/blueprints/wizard/routes.py:1378
+#: app/blueprints/wizard/routes.py:374 app/blueprints/wizard/routes.py:1298
+#: app/blueprints/wizard/routes.py:1479
 msgid "Error Loading Step"
 msgstr "Ошибка загрузки шага"
 
-#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1218
-#: app/blueprints/wizard/routes.py:1381
+#: app/blueprints/wizard/routes.py:377 app/blueprints/wizard/routes.py:1301
+#: app/blueprints/wizard/routes.py:1482
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
@@ -351,13 +413,13 @@ msgstr ""
 "Этот шаг не может быть загружен. Пожалуйста, свяжитесь с администратором "
 "или перейдите к следующему шагу."
 
-#: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
-#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1116
-#: app/blueprints/wizard/routes.py:1124
+#: app/blueprints/wizard/routes.py:608 app/blueprints/wizard/routes.py:615
+#: app/blueprints/wizard/routes.py:719 app/blueprints/wizard/routes.py:1193
+#: app/blueprints/wizard/routes.py:1201
 msgid "Invalid or expired invitation"
 msgstr "Недействительное или истекшее приглашение"
 
-#: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:775
+#: app/blueprints/wizard/routes.py:668 app/blueprints/wizard/routes.py:834
 msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
@@ -365,42 +427,42 @@ msgstr ""
 "Медиа-серверы не настроены. Пожалуйста, свяжитесь с администратором для "
 "настройки медиа-сервера."
 
-#: app/blueprints/wizard/routes.py:626
+#: app/blueprints/wizard/routes.py:685
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr "Не удалось загрузить шаги мастера. Переход к принятию приглашения."
 
-#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:961
-#: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:21
+#: app/blueprints/wizard/routes.py:709 app/blueprints/wizard/routes.py:1020
+#: app/blueprints/wizard/routes.py:1334 app/templates/wizard/steps.html:21
 msgid "Continue to Invite"
 msgstr "Продолжить к приглашению"
 
-#: app/blueprints/wizard/routes.py:703
+#: app/blueprints/wizard/routes.py:762
 msgid "Please log in to continue"
 msgstr "Пожалуйста, войдите, чтобы продолжить"
 
-#: app/blueprints/wizard/routes.py:815
+#: app/blueprints/wizard/routes.py:874
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 "Не удалось загрузить шаги мастера. Настройка завершена! Добро пожаловать "
 "на ваш медиа-сервер."
 
-#: app/blueprints/wizard/routes.py:848
+#: app/blueprints/wizard/routes.py:907
 msgid "Setup complete! Welcome to your media server."
 msgstr "Настройка завершена! Добро пожаловать на ваш медиа-сервер."
 
-#: app/blueprints/wizard/routes.py:946
+#: app/blueprints/wizard/routes.py:1005
 msgid "Unable to load wizard configuration. Please try again."
 msgstr "Не удалось загрузить конфигурацию мастера. Пожалуйста, попробуйте снова."
 
-#: app/blueprints/wizard/routes.py:1094
+#: app/blueprints/wizard/routes.py:1171
 msgid "Unable to load wizard bundle. Please try again."
 msgstr "Не удалось загрузить пакет мастера. Пожалуйста, попробуйте снова."
 
-#: app/blueprints/wizard/routes.py:1145
+#: app/blueprints/wizard/routes.py:1222
 msgid "Unable to load wizard steps. Please try again."
 msgstr "Не удалось загрузить шаги мастера. Пожалуйста, попробуйте снова."
 
-#: app/blueprints/wizard/routes.py:1338
+#: app/blueprints/wizard/routes.py:1439
 msgid "This bundle has no steps to preview."
 msgstr ""
 
@@ -409,183 +471,97 @@ msgstr ""
 msgid "Cleaned up {} orphaned step(s)"
 msgstr "Очищено {} потерянных шагов"
 
-#: app/blueprints/wizard_admin/routes.py:199
+#: app/blueprints/wizard_admin/routes.py:205
 msgid "Step created"
 msgstr "Шаг создан"
 
-#: app/blueprints/wizard_admin/routes.py:276
+#: app/blueprints/wizard_admin/routes.py:282
 msgid "Preset step created successfully"
 msgstr "Предустановленный шаг успешно создан"
 
-#: app/blueprints/wizard_admin/routes.py:284
+#: app/blueprints/wizard_admin/routes.py:290
 #, python-brace-format
 msgid "Error creating preset: {}"
 msgstr "Ошибка создания предустановки: {}"
 
-#: app/blueprints/wizard_admin/routes.py:320
+#: app/blueprints/wizard_admin/routes.py:330
 msgid "Step updated"
 msgstr "Шаг обновлен"
 
-#: app/blueprints/wizard_admin/routes.py:358
+#: app/blueprints/wizard_admin/routes.py:371
 msgid "Step deleted"
 msgstr "Шаг удален"
 
-#: app/blueprints/wizard_admin/routes.py:478
+#: app/blueprints/wizard_admin/routes.py:491
 msgid "Bundle created"
 msgstr "Пакет создан"
 
-#: app/blueprints/wizard_admin/routes.py:508
+#: app/blueprints/wizard_admin/routes.py:521
 msgid "Bundle updated"
 msgstr "Пакет обновлен"
 
-#: app/blueprints/wizard_admin/routes.py:532
+#: app/blueprints/wizard_admin/routes.py:545
 msgid "Bundle deleted"
 msgstr "Пакет удален"
 
-#: app/blueprints/wizard_admin/routes.py:684
+#: app/blueprints/wizard_admin/routes.py:697
 msgid "Steps added"
 msgstr "Шаги добавлены"
 
-#: app/blueprints/wizard_admin/routes.py:696
+#: app/blueprints/wizard_admin/routes.py:709
 msgid "Orphaned step removed"
 msgstr "Потерянный шаг удален"
 
-#: app/blueprints/wizard_admin/routes.py:714
+#: app/blueprints/wizard_admin/routes.py:727
 #, python-brace-format
 msgid "No steps found for server type: {}"
 msgstr "Не найдено шагов для типа сервера: {}"
 
-#: app/blueprints/wizard_admin/routes.py:739
-#: app/blueprints/wizard_admin/routes.py:777
-#: app/blueprints/wizard_admin/routes.py:782
+#: app/blueprints/wizard_admin/routes.py:752
+#: app/blueprints/wizard_admin/routes.py:790
+#: app/blueprints/wizard_admin/routes.py:795
 #, python-brace-format
 msgid "Export failed: {}"
 msgstr "Экспорт не удался: {}"
 
-#: app/blueprints/wizard_admin/routes.py:827
+#: app/blueprints/wizard_admin/routes.py:840
 #, python-brace-format
 msgid "Successfully imported {} items"
 msgstr "Успешно импортировано {} элементов"
 
-#: app/blueprints/wizard_admin/routes.py:831
+#: app/blueprints/wizard_admin/routes.py:844
 #, python-brace-format
 msgid " and updated {} existing items"
 msgstr " и обновлено {} существующих элементов"
 
-#: app/blueprints/wizard_admin/routes.py:836
-#: app/blueprints/wizard_admin/routes.py:843
+#: app/blueprints/wizard_admin/routes.py:849
+#: app/blueprints/wizard_admin/routes.py:856
 #, python-brace-format
 msgid "Import failed: {}"
 msgstr "Импорт не удался: {}"
 
-#: app/blueprints/wizard_admin/routes.py:841
+#: app/blueprints/wizard_admin/routes.py:854
 msgid "Invalid JSON file"
 msgstr "Неверный JSON-файл"
 
-#: app/blueprints/wizard_admin/routes.py:906 app/services/wizard_reset.py:119
+#: app/blueprints/wizard_admin/routes.py:919 app/services/wizard_reset.py:143
 #, python-brace-format
 msgid "Reset {} steps for {} (deleted {}, imported {})"
 msgstr "Сброшено {} шагов для {} (удалено {}, импортировано {})"
 
-#: app/blueprints/wizard_admin/routes.py:916 app/services/wizard_reset.py:134
+#: app/blueprints/wizard_admin/routes.py:929 app/services/wizard_reset.py:158
 #, python-brace-format
 msgid "Failed to reset steps: {}"
 msgstr "Не удалось сбросить шаги: {}"
 
-#: app/forms/admin.py:29
-msgid "Password must be at least 8 characters."
-msgstr "Пароль должен содержать не менее 8 символов."
+#: app/forms/wizard.py:37
+#, fuzzy, python-format
+msgid "Invalid JSON: %(error)s"
+msgstr "Неверные данные формы: %(error)s"
 
-#: app/forms/admin.py:34
-msgid ""
-"Password must contain at least one uppercase letter, one lowercase "
-"letter, and one number."
+#: app/forms/wizard.py:40
+msgid "Interaction configuration must be a JSON object"
 msgstr ""
-"Пароль должен содержать хотя бы одну заглавную букву, одну строчную букву"
-" и одну цифру."
-
-#: app/forms/admin.py:43 app/forms/admin.py:57
-#: app/templates/admin/user_details_modal.html:66
-#: app/templates/hybrid-password-form.html:102 app/templates/login.html:48
-#: app/templates/modals/create-admin.html:22
-#: app/templates/modals/edit-admin.html:22
-#: app/templates/welcome-jellyfin.html:117
-msgid "Username"
-msgstr "Имя пользователя"
-
-#: app/forms/admin.py:45 app/templates/choose-password.html:22
-#: app/templates/hybrid-password-form.html:134 app/templates/login.html:60
-#: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
-#: app/templates/welcome-jellyfin.html:155
-msgid "Password"
-msgstr "Пароль"
-
-#: app/forms/admin.py:47 app/forms/admin.py:65
-#: app/templates/modals/create-admin.html:35
-#: app/templates/modals/edit-admin.html:37
-msgid "Confirm password"
-msgstr "Подтвердите пароль"
-
-#: app/forms/admin.py:50 app/forms/admin.py:68
-msgid "Passwords must match."
-msgstr "Пароли должны совпадать."
-
-#: app/forms/admin.py:62 app/templates/password-reset-form.html:36
-#: app/templates/profile.html:53
-msgid "New Password"
-msgstr "Новый пароль"
-
-#: app/forms/admin.py:79
-msgid "Please confirm the new password."
-msgstr "Пожалуйста, подтвердите новый пароль."
-
-#: app/forms/settings.py:10
-msgid "Server Type"
-msgstr "Тип сервера"
-
-#: app/forms/settings.py:23
-msgid "Server Name"
-msgstr "Имя сервера"
-
-#: app/forms/settings.py:26
-msgid "RomM Username"
-msgstr "Имя пользователя RomM"
-
-#: app/forms/settings.py:27
-msgid "RomM Password"
-msgstr "Пароль RomM"
-
-#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:70
-#: app/templates/tables/invite_card.html:143
-msgid "Libraries"
-msgstr "Библиотеки"
-
-#: app/forms/settings.py:30 app/forms/settings.py:46
-#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
-#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:274
-#: app/templates/modals/invite.html:308 app/templates/modals/invite.html:320
-msgid "Allow Downloads"
-msgstr "Разрешить загрузки"
-
-#: app/forms/settings.py:33 app/templates/admin/user_modal.html:112
-msgid "Allow Live TV"
-msgstr "Разрешить Live TV"
-
-#: app/forms/settings.py:36
-msgid "Overseerr/Ombi URL"
-msgstr "URL Overseerr/Ombi"
-
-#: app/forms/settings.py:38
-msgid "Ombi API Key"
-msgstr "API-ключ Ombi"
-
-#: app/forms/settings.py:39
-msgid "Discord ID"
-msgstr "ID Discord"
-
-#: app/forms/settings.py:40
-msgid "External URL"
-msgstr "Внешний URL"
 
 #: app/services/servers.py:16
 #, python-format
@@ -687,7 +663,7 @@ msgstr "Drop API не найден. Проверьте URL сервера."
 msgid "Drop"
 msgstr "Drop"
 
-#: app/services/wizard_reset.py:99
+#: app/services/wizard_reset.py:123
 #, python-brace-format
 msgid "No default steps found for server type: {}"
 msgstr "Не найдено шагов по умолчанию для типа сервера: {}"
@@ -711,6 +687,13 @@ msgstr "Завершите настройку доступа"
 #: app/templates/choose-password.html:15
 msgid "Choose a password for the remaining servers"
 msgstr "Выберите пароль для остальных серверов"
+
+#: app/templates/choose-password.html:22
+#: app/templates/hybrid-password-form.html:134 app/templates/login.html:60
+#: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
+#: app/templates/welcome-jellyfin.html:155
+msgid "Password"
+msgstr "Пароль"
 
 #: app/templates/choose-password.html:33
 #: app/templates/hybrid-password-form.html:150
@@ -754,6 +737,14 @@ msgstr "Установить пароль для локальных сервер
 #: app/templates/hybrid-password-form.html:86
 msgid "Error!"
 msgstr "Ошибка!"
+
+#: app/templates/admin/user_details_modal.html:66
+#: app/templates/hybrid-password-form.html:102 app/templates/login.html:48
+#: app/templates/modals/create-admin.html:22
+#: app/templates/modals/edit-admin.html:22
+#: app/templates/welcome-jellyfin.html:117
+msgid "Username"
+msgstr "Имя пользователя"
 
 #: app/templates/hybrid-password-form.html:107
 msgid "Your username"
@@ -981,6 +972,10 @@ msgstr "Домашний пользователь"
 #: app/templates/password-reset-form.html:22
 msgid "This link expires on"
 msgstr ""
+
+#: app/templates/password-reset-form.html:36 app/templates/profile.html:53
+msgid "New Password"
+msgstr "Новый пароль"
 
 #: app/templates/password-reset-form.html:43
 msgid "Enter new password (8-128 characters)"
@@ -1353,6 +1348,11 @@ msgstr "Присоединился"
 msgid "Account Details"
 msgstr "Детали аккаунта"
 
+#: app/templates/admin/user_details_modal.html:70
+#: app/templates/tables/invite_card.html:143
+msgid "Libraries"
+msgstr "Библиотеки"
+
 #: app/templates/admin/user_details_modal.html:87
 msgid "All libraries"
 msgstr "Все библиотеки"
@@ -1415,9 +1415,19 @@ msgstr "Заметки"
 msgid "Permission Management"
 msgstr "Управление разрешениями"
 
+#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
+#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:274
+#: app/templates/modals/invite.html:308 app/templates/modals/invite.html:320
+msgid "Allow Downloads"
+msgstr "Разрешить загрузки"
+
 #: app/templates/admin/user_modal.html:93
 msgid "Toggle downloads permission"
 msgstr "Переключить разрешение на загрузки"
+
+#: app/templates/admin/user_modal.html:112
+msgid "Allow Live TV"
+msgstr "Разрешить Live TV"
 
 #: app/templates/admin/user_modal.html:118
 msgid "Toggle live TV permission"
@@ -1580,13 +1590,13 @@ msgstr "например, Мой iPhone, Рабочий ноутбук"
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
 #: app/templates/modals/wizard-preset-form.html:59
-#: app/templates/modals/wizard-simple-step-form.html:48
-#: app/templates/modals/wizard-step-form.html:139
+#: app/templates/modals/wizard-simple-step-form.html:40
+#: app/templates/modals/wizard-step-form.html:131
 #: app/templates/settings/connections/form.html:183
 #: app/templates/settings/wizard/bundle_form.html:18
-#: app/templates/settings/wizard/form.html:38
+#: app/templates/settings/wizard/form.html:30
 #: app/templates/settings/wizard/preset_form.html:38
-#: app/templates/settings/wizard/simple_form.html:28
+#: app/templates/settings/wizard/simple_form.html:20
 msgid "Cancel"
 msgstr "Отменить"
 
@@ -1759,6 +1769,11 @@ msgstr "Проверить подключение"
 msgid "Add Administrator"
 msgstr "Добавить администратора"
 
+#: app/templates/modals/create-admin.html:35
+#: app/templates/modals/edit-admin.html:37
+msgid "Confirm password"
+msgstr "Подтвердите пароль"
+
 #: app/templates/modals/create-api-key.html:13
 msgid "API Key Created"
 msgstr "API ключ создан"
@@ -1867,11 +1882,11 @@ msgstr "Новый пароль (опционально)"
 #: app/templates/modals/edit-identity.html:44
 #: app/templates/modals/edit-server.html:173
 #: app/templates/modals/wizard-bundle-form.html:36
-#: app/templates/modals/wizard-simple-step-form.html:50
-#: app/templates/modals/wizard-step-form.html:141
+#: app/templates/modals/wizard-simple-step-form.html:42
+#: app/templates/modals/wizard-step-form.html:133
 #: app/templates/settings/wizard/bundle_form.html:16
-#: app/templates/settings/wizard/form.html:30
-#: app/templates/settings/wizard/simple_form.html:26
+#: app/templates/settings/wizard/form.html:22
+#: app/templates/settings/wizard/simple_form.html:18
 msgid "Save"
 msgstr "Сохранить"
 
@@ -2234,6 +2249,247 @@ msgstr "Карточка"
 #: app/templates/modals/wizard-step-form.html:116
 msgid "Add a styled content card"
 msgstr "Добавить стилизованную карточку контента"
+
+#: app/templates/partials/_interaction_config.html:26
+msgid "User Interaction Requirements"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:29
+msgid "Configure what users must do before proceeding to the next step."
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:60
+#, fuzzy
+msgid "Click Interaction"
+msgstr "Принять приглашение"
+
+#: app/templates/partials/_interaction_config.html:61
+#, fuzzy
+msgid "Require clicking a link or button"
+msgstr "Добавить кликабельную кнопку-ссылку"
+
+#: app/templates/partials/_interaction_config.html:83
+msgid ""
+"User must click any link or button in the step content before the Next "
+"button becomes available. No additional configuration needed."
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:86
+#, fuzzy
+msgid "Help Text (optional)"
+msgstr "Имя пользователя (опционально)"
+
+#: app/templates/partials/_interaction_config.html:90
+#, fuzzy
+msgid "Click the download link to continue"
+msgstr "Пожалуйста, войдите, чтобы продолжить"
+
+#: app/templates/partials/_interaction_config.html:112
+msgid "Time-Based Wait"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:113
+msgid "Require waiting a specific duration"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:137
+msgid "Wait Duration (seconds)"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:149
+msgid "Show countdown timer"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:155
+#, fuzzy
+msgid "Preview:"
+msgstr "Предпросмотр"
+
+#: app/templates/partials/_interaction_config.html:165
+msgid "seconds remaining"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:188
+#, fuzzy
+msgid "Terms of Service"
+msgstr "По серверу"
+
+#: app/templates/partials/_interaction_config.html:189
+msgid "Require accepting terms before continuing"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:212
+msgid "Terms Content (Markdown)"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:220
+msgid "Checkbox Label"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:224
+#, fuzzy
+msgid "I agree to the Terms of Service"
+msgstr "Я согласен с"
+
+#: app/templates/partials/_interaction_config.html:231
+msgid "Require scrolling to bottom before showing checkbox"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:254
+#, fuzzy
+msgid "Text Input Validation"
+msgstr "После приглашения"
+
+#: app/templates/partials/_interaction_config.html:255
+msgid "Require answering a question correctly"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:279
+#: app/templates/partials/_interaction_config.html:370
+#, fuzzy
+msgid "Question"
+msgstr "Версия"
+
+#: app/templates/partials/_interaction_config.html:283
+msgid "What is the name of our media server?"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:287
+msgid "Acceptable Answers (one per line)"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:294
+msgid "Enter each acceptable answer on a new line"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:301
+msgid "Case sensitive"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:305
+msgid "Error Message"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:309
+#: app/templates/wizard/_content.html:39
+#, fuzzy
+msgid "Incorrect answer. Please try again."
+msgstr " Что-то пошло не так. Повторите попытку позже."
+
+#: app/templates/partials/_interaction_config.html:331
+msgid "Quiz / Knowledge Check"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:332
+msgid "Require passing a quiz before continuing"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:356
+#, fuzzy
+msgid "Questions"
+msgstr "Версия"
+
+#: app/templates/partials/_interaction_config.html:363
+#, fuzzy
+msgid "Add Question"
+msgstr "Добавить подключение"
+
+#: app/templates/partials/_interaction_config.html:384
+msgid "Enter question text..."
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:388
+msgid "Multiple Choice"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:389
+msgid "True/False"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:403
+#, fuzzy
+msgid "Option"
+msgstr "опционально"
+
+#: app/templates/partials/_interaction_config.html:416
+#, fuzzy
+msgid "Add Option"
+msgstr "Дополнительные настройки"
+
+#: app/templates/partials/_interaction_config.html:417
+msgid "Select the radio button for the correct answer"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:428
+#: app/templates/wizard/_content.html:29
+msgid "True"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:437
+#: app/templates/wizard/_content.html:30
+#, fuzzy
+msgid "False"
+msgstr "Закрыть"
+
+#: app/templates/partials/_interaction_config.html:442
+msgid "Explanation (shown after answer)"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:446
+msgid "Optional explanation..."
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:460
+msgid "No questions added yet"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:463
+#, fuzzy
+msgid "Add your first question"
+msgstr "Добавьте первое подключение"
+
+#: app/templates/partials/_interaction_config.html:470
+msgid "Pass threshold:"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:483
+msgid "Randomize question order"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:489
+msgid "Randomize answer order"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:495
+msgid "Show explanations after answering"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:504
+msgid "Active Requirements:"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:512
+#, fuzzy
+msgid "Click"
+msgstr "Связать"
+
+#: app/templates/partials/_interaction_config.html:520
+#, fuzzy
+msgid "Time"
+msgstr "Активно"
+
+#: app/templates/partials/_interaction_config.html:528
+#, fuzzy
+msgid "ToS"
+msgstr "Действия"
+
+#: app/templates/partials/_interaction_config.html:536
+msgid "Text Input"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:544
+msgid "Quiz"
+msgstr ""
 
 #: app/templates/partials/api_keys_grid.html:36
 msgid "Delete API Key"
@@ -2738,7 +2994,7 @@ msgstr "Вы уверены, что хотите удалить этот оси�
 msgid "Remove orphaned step"
 msgstr "Удалить осиротевший шаг"
 
-#: app/templates/settings/wizard/form.html:36
+#: app/templates/settings/wizard/form.html:28
 #: app/templates/settings/wizard/index.html:65
 msgid "Preview"
 msgstr "Предпросмотр"
@@ -3006,6 +3262,107 @@ msgstr "Пароль"
 msgid "Remove user"
 msgstr "Удалить пользователя"
 
+#: app/templates/wizard/_content.html:14
+msgid "Please wait"
+msgstr ""
+
+#: app/templates/wizard/_content.html:15
+msgid "seconds"
+msgstr ""
+
+#: app/templates/wizard/_content.html:16
+#, fuzzy
+msgid "second"
+msgstr "Использовано"
+
+#: app/templates/wizard/_content.html:17
+#, fuzzy
+msgid "All set! Click Next to continue"
+msgstr "Пожалуйста, войдите, чтобы продолжить"
+
+#: app/templates/wizard/_content.html:18
+msgid "Correct!"
+msgstr ""
+
+#: app/templates/wizard/_content.html:19
+msgid "Incorrect."
+msgstr ""
+
+#: app/templates/wizard/_content.html:20
+msgid "Quiz Passed!"
+msgstr ""
+
+#: app/templates/wizard/_content.html:21
+msgid "Quiz Not Passed"
+msgstr ""
+
+#: app/templates/wizard/_content.html:22
+msgid "Try Again"
+msgstr ""
+
+#: app/templates/wizard/_content.html:23
+#, fuzzy
+msgid "You may continue."
+msgstr "Продолжить"
+
+#: app/templates/wizard/_content.html:24
+#, fuzzy
+msgid "You got"
+msgstr "Выход"
+
+#: app/templates/wizard/_content.html:25
+msgid "out of"
+msgstr ""
+
+#: app/templates/wizard/_content.html:26
+#, fuzzy
+msgid "correct"
+msgstr "Создать"
+
+#: app/templates/wizard/_content.html:27
+#, python-brace-format, python-format
+msgid "You need {percent}%% to pass."
+msgstr ""
+
+#: app/templates/wizard/_content.html:28
+#, python-brace-format
+msgid "Question {current} of {total}"
+msgstr ""
+
+#: app/templates/wizard/_content.html:31
+#, fuzzy
+msgid "Check"
+msgstr "Проверка..."
+
+#: app/templates/wizard/_content.html:32
+msgid "Type your answer..."
+msgstr ""
+
+#: app/templates/wizard/_content.html:33
+msgid "Please scroll to the bottom to enable the checkbox"
+msgstr ""
+
+#: app/templates/wizard/_content.html:34
+msgid "You may now accept the terms"
+msgstr ""
+
+#: app/templates/wizard/_content.html:35
+msgid "This step requires clicking a link or button in the content above."
+msgstr ""
+
+#: app/templates/wizard/_content.html:36
+#, fuzzy
+msgid "Terms of Service content"
+msgstr "Показать недавний контент"
+
+#: app/templates/wizard/_content.html:37
+msgid "I have read and agree to the terms"
+msgstr ""
+
+#: app/templates/wizard/_content.html:38
+msgid "Please answer the question:"
+msgstr ""
+
 #: app/templates/wizard/steps.html:17 app/templates/wizard/steps.html:43
 #: app/templates/wizard/steps.html:83
 msgid "Before Invitation"
@@ -3023,4 +3380,52 @@ msgstr "Назад"
 #: app/templates/wizard/steps.html:182 app/templates/wizard/steps.html:248
 msgid "Click the link in this step to be able to continue"
 msgstr "Нажмите на ссылку в этом шаге, чтобы продолжить"
+
+#~ msgid "Password must be at least 8 characters."
+#~ msgstr "Пароль должен содержать не менее 8 символов."
+
+#~ msgid ""
+#~ "Password must contain at least one "
+#~ "uppercase letter, one lowercase letter, "
+#~ "and one number."
+#~ msgstr ""
+#~ "Пароль должен содержать хотя бы одну "
+#~ "заглавную букву, одну строчную букву и"
+#~ " одну цифру."
+
+#~ msgid "Passwords must match."
+#~ msgstr "Пароли должны совпадать."
+
+#~ msgid "Please confirm the new password."
+#~ msgstr "Пожалуйста, подтвердите новый пароль."
+
+#~ msgid "Server Type"
+#~ msgstr "Тип сервера"
+
+#~ msgid "Server Name"
+#~ msgstr "Имя сервера"
+
+#~ msgid "RomM Username"
+#~ msgstr "Имя пользователя RomM"
+
+#~ msgid "RomM Password"
+#~ msgstr "Пароль RomM"
+
+#~ msgid "Overseerr/Ombi URL"
+#~ msgstr "URL Overseerr/Ombi"
+
+#~ msgid "Ombi API Key"
+#~ msgstr "API-ключ Ombi"
+
+#~ msgid "Discord ID"
+#~ msgstr "ID Discord"
+
+#~ msgid "External URL"
+#~ msgstr "Внешний URL"
+
+#~ msgid "You need %(percent)s%% to pass."
+#~ msgstr ""
+
+#~ msgid "Question %(current)s of %(total)s"
+#~ msgstr ""
 
