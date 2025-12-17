@@ -58,18 +58,42 @@ class ClickInteractionHandler extends InteractionHandler {
   constructor(config, onSatisfied, onUnsatisfied) {
     super(config, onSatisfied, onUnsatisfied);
     this.clickHandler = null;
+    this.contentArea = null;
     this.targetSelector = config.target_selector || "a, button";
   }
 
   init() {
-    // Find clickable elements in the wizard content
-    const contentArea = document.querySelector("#wizard-body, .wizard-content");
-    if (!contentArea) return;
+    // Find the wizard content container
+    const wizardContent = document.querySelector("#wizard-body, .wizard-content");
+    if (!wizardContent) {
+      console.warn("[ClickInteractionHandler] No content area found");
+      return;
+    }
+
+    // Target only the .prose content area to avoid capturing clicks from
+    // other interaction handlers' UI elements (quiz buttons, text input buttons, etc.)
+    // Fall back to wizardContent for backwards compatibility
+    const contentArea = wizardContent.querySelector(".prose") || wizardContent;
+    this.contentArea = contentArea;
 
     const targets = contentArea.querySelectorAll(this.targetSelector);
     if (targets.length === 0) {
-      // No targets found, auto-satisfy (content may not have clickable elements)
-      this.markSatisfied();
+      // Log warning - admin should include clickable elements when Click is enabled
+      console.warn(
+        `[ClickInteractionHandler] No clickable elements found matching "${this.targetSelector}". ` +
+          "Add links or buttons to the step content, or disable Click Interaction."
+      );
+
+      // Create error UI element to inform the user
+      const errorDiv = document.createElement("div");
+      errorDiv.id = "click-interaction-error";
+      errorDiv.className =
+        "text-sm text-red-600 dark:text-red-400 mt-4 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg";
+      errorDiv.textContent =
+        "This step requires clicking a link or button in the content above.";
+      contentArea.appendChild(errorDiv);
+
+      // Do NOT auto-satisfy - requirement stays unsatisfied until clickable elements exist
       return;
     }
 
@@ -85,14 +109,17 @@ class ClickInteractionHandler extends InteractionHandler {
   }
 
   cleanup() {
-    if (this.clickHandler) {
-      const contentArea = document.querySelector(
-        "#wizard-body, .wizard-content"
-      );
-      if (contentArea) {
-        contentArea.removeEventListener("click", this.clickHandler);
-      }
+    // Remove error element if present
+    const errorEl = document.querySelector("#click-interaction-error");
+    if (errorEl) {
+      errorEl.remove();
+    }
+
+    // Remove click event listener from stored contentArea reference
+    if (this.clickHandler && this.contentArea) {
+      this.contentArea.removeEventListener("click", this.clickHandler);
       this.clickHandler = null;
+      this.contentArea = null;
     }
   }
 }

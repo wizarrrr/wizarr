@@ -135,12 +135,7 @@ function interactionConfig(initialConfig = {}) {
         this.mainSectionExpanded = true;
       }
 
-      // Expand individual sections that are enabled
-      Object.keys(this.sections).forEach(key => {
-        if (this.config[key]?.enabled) {
-          this.sections[key] = true;
-        }
-      });
+      // Individual sections remain collapsed by default - user can expand as needed
 
       // Set up watcher to sync JSON on changes
       this.$watch('config', () => this.syncJson(), { deep: true });
