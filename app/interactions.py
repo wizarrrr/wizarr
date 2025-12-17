@@ -330,6 +330,7 @@ class QuizInteraction:
         questions: List of quiz questions.
         pass_threshold: Fraction (0.0-1.0) of questions that must be correct.
         shuffle_questions: Whether to randomize question order.
+        shuffle_answers: Whether to randomize answer order for multiple choice questions.
         show_explanations: Whether to show explanations after answering.
     """
 
@@ -337,6 +338,7 @@ class QuizInteraction:
     questions: tuple[QuizQuestion, ...] = field(default_factory=tuple)
     pass_threshold: float = 1.0
     shuffle_questions: bool = False
+    shuffle_answers: bool = False
     show_explanations: bool = True
 
     def to_dict(self) -> dict[str, Any]:
@@ -346,6 +348,7 @@ class QuizInteraction:
             "questions": [q.to_dict() for q in self.questions],
             "pass_threshold": self.pass_threshold,
             "shuffle_questions": self.shuffle_questions,
+            "shuffle_answers": self.shuffle_answers,
             "show_explanations": self.show_explanations,
         }
 
@@ -358,6 +361,7 @@ class QuizInteraction:
             questions=questions,
             pass_threshold=data.get("pass_threshold", 1.0),
             shuffle_questions=data.get("shuffle_questions", False),
+            shuffle_answers=data.get("shuffle_answers", False),
             show_explanations=data.get("show_explanations", True),
         )
 
