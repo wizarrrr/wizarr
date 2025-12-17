@@ -516,9 +516,9 @@ class QuizInteractionHandler extends InteractionHandler {
 
     const question = this.questions[this.currentQuestion];
     // Format: "Question 1 of 5"
-    const questionOf = getI18nString("questionOf", "Question %(current)s of %(total)s")
-      .replace("%(current)s", this.currentQuestion + 1)
-      .replace("%(total)s", this.questions.length);
+    const questionOf = getI18nString("questionOf", "Question {current} of {total}")
+      .replace("{current}", this.currentQuestion + 1)
+      .replace("{total}", this.questions.length);
     const correctWord = getI18nString("correctWord", "correct");
 
     this.quizElement.innerHTML = `
@@ -632,8 +632,8 @@ class QuizInteractionHandler extends InteractionHandler {
     const outOf = getI18nString("outOf", "out of");
     const correctWord = getI18nString("correctWord", "correct");
     const youMayContinue = getI18nString("youMayContinue", "You may continue.");
-    const needToPass = getI18nString("needToPass", "You need %(percent)s%% to pass.").replace(
-      "%(percent)s",
+    const needToPass = getI18nString("needToPass", "You need {percent}% to pass.").replace(
+      "{percent}",
       Math.round(this.passThreshold * 100)
     );
     const tryAgain = getI18nString("tryAgain", "Try Again");
