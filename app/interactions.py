@@ -311,7 +311,9 @@ class QuizQuestion:
             self.correct_answer, bool
         ):
             errors.append(
-                _("Question '%(id)s' must have boolean correct_answer for true/false type")
+                _(
+                    "Question '%(id)s' must have boolean correct_answer for true/false type"
+                )
                 % {"id": self.id}
             )
         return errors
