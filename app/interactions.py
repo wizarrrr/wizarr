@@ -19,6 +19,8 @@ from dataclasses import dataclass, field
 from enum import StrEnum
 from typing import Any, Self
 
+from flask_babel import gettext as _
+
 
 class InteractionType(StrEnum):
     """Supported wizard step interaction types."""
@@ -111,7 +113,7 @@ class TimeInteraction:
         """Return validation errors, if any."""
         errors = []
         if self.duration_seconds < 1:
-            errors.append("Time duration must be at least 1 second")
+            errors.append(_("Time duration must be at least 1 second"))
         return errors
 
 
@@ -164,9 +166,9 @@ class TosInteraction:
         """Return validation errors, if any."""
         errors = []
         if not self.content_markdown.strip():
-            errors.append("ToS content cannot be empty")
+            errors.append(_("ToS content cannot be empty"))
         if len(self.content_markdown) > 100000:
-            errors.append("ToS content exceeds maximum length (100,000 characters)")
+            errors.append(_("ToS content exceeds maximum length (100,000 characters)"))
         return errors
 
 
@@ -225,11 +227,11 @@ class TextInputInteraction:
         """Return validation errors, if any."""
         errors = []
         if not self.question.strip():
-            errors.append("Text input question cannot be empty")
+            errors.append(_("Text input question cannot be empty"))
         if not self.answers:
-            errors.append("At least one valid answer is required")
+            errors.append(_("At least one valid answer is required"))
         if any(not ans.strip() for ans in self.answers):
-            errors.append("Empty answers are not allowed")
+            errors.append(_("Empty answers are not allowed"))
         return errors
 
     def check_answer(self, user_answer: str) -> bool:
@@ -292,19 +294,27 @@ class QuizQuestion:
         """Return validation errors, if any."""
         errors = []
         if not self.id.strip():
-            errors.append("Question ID cannot be empty")
+            errors.append(_("Question ID cannot be empty"))
         if not self.question.strip():
-            errors.append(f"Question '{self.id}' text cannot be empty")
+            errors.append(_("Question '%(id)s' text cannot be empty") % {"id": self.id})
         if self.type == QuizQuestionType.MULTIPLE_CHOICE:
             if len(self.options) < 2:
-                errors.append(f"Question '{self.id}' needs at least 2 options")
+                errors.append(
+                    _("Question '%(id)s' needs at least 2 options") % {"id": self.id}
+                )
             if self.correct_answer not in self.options:
-                errors.append(f"Question '{self.id}' correct answer not in options")
+                errors.append(
+                    _("Question '%(id)s' correct answer not in options")
+                    % {"id": self.id}
+                )
         if self.type == QuizQuestionType.TRUE_FALSE and not isinstance(
             self.correct_answer, bool
         ):
             errors.append(
-                f"Question '{self.id}' must have boolean correct_answer for true/false type"
+                _(
+                    "Question '%(id)s' must have boolean correct_answer for true/false type"
+                )
+                % {"id": self.id}
             )
         return errors
 
@@ -369,13 +379,13 @@ class QuizInteraction:
         """Return validation errors, if any."""
         errors = []
         if not self.questions:
-            errors.append("Quiz must have at least one question")
+            errors.append(_("Quiz must have at least one question"))
         if not 0.0 <= self.pass_threshold <= 1.0:
-            errors.append("Pass threshold must be between 0.0 and 1.0")
+            errors.append(_("Pass threshold must be between 0.0 and 1.0"))
         # Check for duplicate question IDs
         ids = [q.id for q in self.questions]
         if len(ids) != len(set(ids)):
-            errors.append("Duplicate question IDs found")
+            errors.append(_("Duplicate question IDs found"))
         # Validate each question
         for q in self.questions:
             errors.extend(q.validate())

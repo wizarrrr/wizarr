@@ -11,7 +11,7 @@
 <div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6"
      x-data='interactionConfig({{ form.interaction_config.data | default("{}") | replace("'", "&#39;") | safe }})'
      x-init="init()">
-{# djlint:on #}
+  {# djlint:on #}
   {# Hidden field for JSON storage #}
   <input type="hidden"
          name="interaction_config"

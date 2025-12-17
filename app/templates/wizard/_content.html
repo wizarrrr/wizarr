@@ -9,7 +9,8 @@
      style="--animate-duration: 0.2s"
      {% if interactions_config %}data-interactions='{{ interactions_config | tojson }}'{% endif %}>
   {# i18n strings for JavaScript interaction handlers #}
-  <div id="wizard-i18n" class="hidden"
+  <div id="wizard-i18n"
+       class="hidden"
        data-please-wait="{{ _('Please wait') }}"
        data-seconds="{{ _('seconds') }}"
        data-second="{{ _('second') }}"
@@ -35,8 +36,7 @@
        data-tos-placeholder="{{ _('Terms of Service content') }}"
        data-default-checkbox="{{ _('I have read and agree to the terms') }}"
        data-default-question="{{ _('Please answer the question:') }}"
-       data-default-error="{{ _('Incorrect answer. Please try again.') }}">
-  </div>
+       data-default-error="{{ _('Incorrect answer. Please try again.') }}"></div>
   <div class="prose prose-slate dark:prose-invert text-gray-800 dark:text-gray-200 max-w-none prose-sm md:prose-base">
     {{ body_html|safe }}
   </div>
