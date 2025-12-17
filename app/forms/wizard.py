@@ -9,6 +9,7 @@ from __future__ import annotations
 import json
 from typing import Any
 
+from flask_babel import gettext as _
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField, FileRequired
 from wtforms import BooleanField, HiddenField, SelectField, StringField, TextAreaField
@@ -33,10 +34,10 @@ def validate_interaction_config(_form: FlaskForm, field: HiddenField) -> None:
     try:
         data = json.loads(field.data)
     except json.JSONDecodeError as e:
-        raise ValidationError(f"Invalid JSON: {e}") from e
+        raise ValidationError(_("Invalid JSON: %(error)s") % {"error": str(e)}) from e
 
     if not isinstance(data, dict):
-        raise ValidationError("Interaction configuration must be a JSON object")
+        raise ValidationError(_("Interaction configuration must be a JSON object"))
 
     # Validate using the StepInteractions dataclass
     interactions = StepInteractions.from_dict(data)
