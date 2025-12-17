@@ -129,13 +129,8 @@ function interactionConfig(initialConfig = {}) {
      * Initialize the component
      */
     init() {
-      // Expand main section if any interaction type is already enabled
-      // (e.g., when editing an existing step with interactions)
-      if (this.hasEnabledInteractions()) {
-        this.mainSectionExpanded = true;
-      }
-
-      // Individual sections remain collapsed by default - user can expand as needed
+      // Main section stays collapsed by default
+      // Users can see active interactions via the "Active Requirements" indicator badges
 
       // Set up watcher to sync JSON on changes
       this.$watch('config', () => this.syncJson(), { deep: true });
