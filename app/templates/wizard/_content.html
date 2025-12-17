@@ -8,6 +8,35 @@
             {% endif %}"
      style="--animate-duration: 0.2s"
      {% if interactions_config %}data-interactions='{{ interactions_config | tojson }}'{% endif %}>
+  {# i18n strings for JavaScript interaction handlers #}
+  <div id="wizard-i18n" class="hidden"
+       data-please-wait="{{ _('Please wait') }}"
+       data-seconds="{{ _('seconds') }}"
+       data-second="{{ _('second') }}"
+       data-all-set="{{ _('All set! Click Next to continue') }}"
+       data-correct="{{ _('Correct!') }}"
+       data-incorrect="{{ _('Incorrect.') }}"
+       data-quiz-passed="{{ _('Quiz Passed!') }}"
+       data-quiz-not-passed="{{ _('Quiz Not Passed') }}"
+       data-try-again="{{ _('Try Again') }}"
+       data-you-may-continue="{{ _('You may continue.') }}"
+       data-you-got="{{ _('You got') }}"
+       data-out-of="{{ _('out of') }}"
+       data-correct-word="{{ _('correct') }}"
+       data-need-to-pass="{{ _('You need {percent}%% to pass.') }}"
+       data-question-of="{{ _('Question {current} of {total}') }}"
+       data-true="{{ _('True') }}"
+       data-false="{{ _('False') }}"
+       data-check="{{ _('Check') }}"
+       data-type-answer="{{ _('Type your answer...') }}"
+       data-scroll-hint="{{ _('Please scroll to the bottom to enable the checkbox') }}"
+       data-scroll-complete="{{ _('You may now accept the terms') }}"
+       data-click-required="{{ _('This step requires clicking a link or button in the content above.') }}"
+       data-tos-placeholder="{{ _('Terms of Service content') }}"
+       data-default-checkbox="{{ _('I have read and agree to the terms') }}"
+       data-default-question="{{ _('Please answer the question:') }}"
+       data-default-error="{{ _('Incorrect answer. Please try again.') }}">
+  </div>
   <div class="prose prose-slate dark:prose-invert text-gray-800 dark:text-gray-200 max-w-none prose-sm md:prose-base">
     {{ body_html|safe }}
   </div>

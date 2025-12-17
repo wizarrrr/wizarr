@@ -7,6 +7,26 @@
  */
 
 // ============================================================================
+// i18n Helper
+// ============================================================================
+
+/**
+ * Get a translated string from the i18n data container.
+ * Falls back to the provided default if the translation is not found.
+ *
+ * @param {string} key - The data attribute key (without 'data-' prefix, use camelCase)
+ * @param {string} fallback - Fallback string if translation not found
+ * @returns {string} The translated string or fallback
+ */
+function getI18nString(key, fallback = "") {
+  const container = document.getElementById("wizard-i18n");
+  if (container && container.dataset[key]) {
+    return container.dataset[key];
+  }
+  return fallback;
+}
+
+// ============================================================================
 // Base Handler
 // ============================================================================
 
@@ -89,8 +109,10 @@ class ClickInteractionHandler extends InteractionHandler {
       errorDiv.id = "click-interaction-error";
       errorDiv.className =
         "text-sm text-red-600 dark:text-red-400 mt-4 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg";
-      errorDiv.textContent =
-        "This step requires clicking a link or button in the content above.";
+      errorDiv.textContent = getI18nString(
+        "clickRequired",
+        "This step requires clicking a link or button in the content above."
+      );
       contentArea.appendChild(errorDiv);
 
       // Do NOT auto-satisfy - requirement stays unsatisfied until clickable elements exist
@@ -176,6 +198,9 @@ class TimeInteractionHandler extends InteractionHandler {
       }
     }
 
+    const pleaseWait = getI18nString("pleaseWait", "Please wait");
+    const seconds = getI18nString("seconds", "seconds");
+
     this.countdownElement = document.createElement("div");
     this.countdownElement.className =
       "flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-blue-700 dark:text-blue-300";
@@ -184,7 +209,7 @@ class TimeInteractionHandler extends InteractionHandler {
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
       </svg>
-      <span class="countdown-text">Please wait <strong>${this.duration}</strong> seconds...</span>
+      <span class="countdown-text">${pleaseWait} <strong>${this.duration}</strong> ${seconds}...</span>
     `;
     statusArea.appendChild(this.countdownElement);
   }
@@ -198,9 +223,15 @@ class TimeInteractionHandler extends InteractionHandler {
     const textEl = this.countdownElement.querySelector(".countdown-text");
     if (textEl) {
       if (remaining > 0) {
-        textEl.innerHTML = `Please wait <strong>${remaining}</strong> second${remaining !== 1 ? "s" : ""}...`;
+        const pleaseWait = getI18nString("pleaseWait", "Please wait");
+        const timeUnit =
+          remaining !== 1
+            ? getI18nString("seconds", "seconds")
+            : getI18nString("second", "second");
+        textEl.innerHTML = `${pleaseWait} <strong>${remaining}</strong> ${timeUnit}...`;
       } else {
-        textEl.innerHTML = `<span class="text-green-600 dark:text-green-400">All set! Click Next to continue</span>`;
+        const allSet = getI18nString("allSet", "All set! Click Next to continue");
+        textEl.innerHTML = `<span class="text-green-600 dark:text-green-400">${allSet}</span>`;
         // Change icon to checkmark
         const svg = this.countdownElement.querySelector("svg");
         if (svg) {
@@ -227,7 +258,9 @@ class TosInteractionHandler extends InteractionHandler {
   constructor(config, onSatisfied, onUnsatisfied) {
     super(config, onSatisfied, onUnsatisfied);
     this.requireScroll = config.require_scroll !== false;
-    this.checkboxLabel = config.checkbox_label || "I have read and agree to the terms";
+    this.checkboxLabel =
+      config.checkbox_label ||
+      getI18nString("defaultCheckbox", "I have read and agree to the terms");
     // Prefer pre-rendered HTML, fall back to raw markdown for backwards compatibility
     this.content = config.content_html || config.content_markdown || "";
     this.scrollHandler = null;
@@ -263,18 +296,24 @@ class TosInteractionHandler extends InteractionHandler {
       }
     }
 
+    const tosPlaceholder = getI18nString("tosPlaceholder", "Terms of Service content");
+    const scrollHint = getI18nString(
+      "scrollHint",
+      "Please scroll to the bottom to enable the checkbox"
+    );
+
     this.tosElement = document.createElement("div");
     this.tosElement.className = "w-full border dark:border-gray-700 rounded-lg overflow-hidden";
     this.tosElement.innerHTML = `
       <div class="tos-content max-h-48 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-800 text-sm prose dark:prose-invert prose-sm max-w-none">
-        ${this.content || "<p>Terms of Service content</p>"}
+        ${this.content || `<p>${tosPlaceholder}</p>`}
       </div>
       <div class="p-3 bg-white dark:bg-gray-900 border-t dark:border-gray-700">
         <label class="flex items-center gap-2 cursor-pointer">
           <input type="checkbox" class="tos-checkbox w-4 h-4 rounded border-gray-300 dark:border-gray-600" ${!this.requireScroll || this.hasScrolledToBottom ? "" : "disabled"}>
           <span class="text-sm text-gray-700 dark:text-gray-300">${this.checkboxLabel}</span>
         </label>
-        ${this.requireScroll ? '<p class="scroll-hint mt-1 text-xs text-gray-500">Please scroll to the bottom to enable the checkbox</p>' : ""}
+        ${this.requireScroll ? `<p class="scroll-hint mt-1 text-xs text-gray-500">${scrollHint}</p>` : ""}
       </div>
     `;
 
@@ -304,7 +343,7 @@ class TosInteractionHandler extends InteractionHandler {
         checkbox.disabled = false;
       }
       if (hint) {
-        hint.textContent = "You may now accept the terms";
+        hint.textContent = getI18nString("scrollComplete", "You may now accept the terms");
         hint.classList.add("text-green-600", "dark:text-green-400");
       }
     }
@@ -327,10 +366,13 @@ class TosInteractionHandler extends InteractionHandler {
 class TextValidationHandler extends InteractionHandler {
   constructor(config, onSatisfied, onUnsatisfied) {
     super(config, onSatisfied, onUnsatisfied);
-    this.question = config.question || "Please answer the question:";
+    this.question =
+      config.question || getI18nString("defaultQuestion", "Please answer the question:");
     this.answers = config.answers || [];
     this.caseSensitive = config.case_sensitive === true;
-    this.errorMessage = config.error_message || "Incorrect answer. Please try again.";
+    this.errorMessage =
+      config.error_message ||
+      getI18nString("defaultError", "Incorrect answer. Please try again.");
     this.inputElement = null;
   }
 
@@ -350,13 +392,16 @@ class TextValidationHandler extends InteractionHandler {
       }
     }
 
+    const typeAnswer = getI18nString("typeAnswer", "Type your answer...");
+    const checkBtn = getI18nString("check", "Check");
+
     this.inputElement = document.createElement("div");
     this.inputElement.className = "p-4 border dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800";
     this.inputElement.innerHTML = `
       <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">${this.question}</label>
       <div class="flex gap-2">
-        <input type="text" class="text-answer flex-1 px-3 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white" placeholder="Type your answer...">
-        <button type="button" class="check-answer px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">Check</button>
+        <input type="text" class="text-answer flex-1 px-3 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white" placeholder="${typeAnswer}">
+        <button type="button" class="check-answer px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">${checkBtn}</button>
       </div>
       <p class="feedback mt-2 text-sm hidden"></p>
     `;
@@ -375,12 +420,13 @@ class TextValidationHandler extends InteractionHandler {
       });
 
       if (isCorrect) {
-        feedback.textContent = "Correct!";
+        const correctText = getI18nString("correct", "Correct!");
+        feedback.textContent = correctText;
         feedback.className = "feedback mt-2 text-sm text-green-600 dark:text-green-400";
         feedback.classList.remove("hidden");
         input.disabled = true;
         button.disabled = true;
-        button.textContent = "Correct";
+        button.textContent = correctText;
         button.className = "px-4 py-2 bg-green-600 text-white rounded-lg cursor-not-allowed";
         this.markSatisfied();
       } else {
@@ -469,13 +515,17 @@ class QuizInteractionHandler extends InteractionHandler {
     if (!this.quizElement) return;
 
     const question = this.questions[this.currentQuestion];
-    const progress = `Question ${this.currentQuestion + 1} of ${this.questions.length}`;
+    // Format: "Question 1 of 5"
+    const questionOf = getI18nString("questionOf", "Question {current} of {total}")
+      .replace("{current}", this.currentQuestion + 1)
+      .replace("{total}", this.questions.length);
+    const correctWord = getI18nString("correctWord", "correct");
 
     this.quizElement.innerHTML = `
       <div class="p-4 bg-gray-50 dark:bg-gray-800">
         <div class="flex justify-between items-center mb-3">
-          <span class="text-xs font-medium text-gray-500 dark:text-gray-400">${progress}</span>
-          <span class="text-xs text-gray-500 dark:text-gray-400">${this.correctCount} correct</span>
+          <span class="text-xs font-medium text-gray-500 dark:text-gray-400">${questionOf}</span>
+          <span class="text-xs text-gray-500 dark:text-gray-400">${this.correctCount} ${correctWord}</span>
         </div>
         <p class="font-medium text-gray-900 dark:text-white mb-4">${question.question}</p>
         <div class="space-y-2 quiz-options">
@@ -495,9 +545,11 @@ class QuizInteractionHandler extends InteractionHandler {
   renderOptions(question) {
     if (question.type === "true_false") {
       // True/False options stay in fixed order for consistency
+      const trueText = getI18nString("true", "True");
+      const falseText = getI18nString("false", "False");
       return `
-        <button type="button" class="quiz-option w-full text-left px-4 py-3 border dark:border-gray-600 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" data-value="true">True</button>
-        <button type="button" class="quiz-option w-full text-left px-4 py-3 border dark:border-gray-600 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" data-value="false">False</button>
+        <button type="button" class="quiz-option w-full text-left px-4 py-3 border dark:border-gray-600 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" data-value="true">${trueText}</button>
+        <button type="button" class="quiz-option w-full text-left px-4 py-3 border dark:border-gray-600 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" data-value="false">${falseText}</button>
       `;
     }
 
@@ -546,9 +598,11 @@ class QuizInteractionHandler extends InteractionHandler {
 
     const feedback = this.quizElement.querySelector(".quiz-feedback");
     if (feedback && this.showExplanations && question.explanation) {
+      const correctText = getI18nString("correct", "Correct!");
+      const incorrectText = getI18nString("incorrect", "Incorrect.");
       feedback.innerHTML = `
         <p class="text-sm ${isCorrect ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}">
-          ${isCorrect ? "Correct!" : "Incorrect."} ${question.explanation}
+          ${isCorrect ? correctText : incorrectText} ${question.explanation}
         </p>
       `;
       feedback.classList.remove("hidden");
@@ -572,16 +626,28 @@ class QuizInteractionHandler extends InteractionHandler {
     const passed = score >= this.passThreshold;
     const percentage = Math.round(score * 100);
 
+    const quizPassed = getI18nString("quizPassed", "Quiz Passed!");
+    const quizNotPassed = getI18nString("quizNotPassed", "Quiz Not Passed");
+    const youGot = getI18nString("youGot", "You got");
+    const outOf = getI18nString("outOf", "out of");
+    const correctWord = getI18nString("correctWord", "correct");
+    const youMayContinue = getI18nString("youMayContinue", "You may continue.");
+    const needToPass = getI18nString("needToPass", "You need {percent}% to pass.").replace(
+      "{percent}",
+      Math.round(this.passThreshold * 100)
+    );
+    const tryAgain = getI18nString("tryAgain", "Try Again");
+
     this.quizElement.innerHTML = `
       <div class="p-4 ${passed ? "bg-green-50 dark:bg-green-900/20" : "bg-red-50 dark:bg-red-900/20"}">
         <h3 class="font-bold text-lg ${passed ? "text-green-700 dark:text-green-300" : "text-red-700 dark:text-red-300"} mb-2">
-          ${passed ? "Quiz Passed!" : "Quiz Not Passed"}
+          ${passed ? quizPassed : quizNotPassed}
         </h3>
         <p class="text-gray-700 dark:text-gray-300 mb-3">
-          You got ${this.correctCount} out of ${this.questions.length} correct (${percentage}%).
-          ${passed ? "You may continue." : `You need ${Math.round(this.passThreshold * 100)}% to pass.`}
+          ${youGot} ${this.correctCount} ${outOf} ${this.questions.length} ${correctWord} (${percentage}%).
+          ${passed ? youMayContinue : needToPass}
         </p>
-        ${!passed ? '<button type="button" class="retry-quiz px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">Try Again</button>' : ""}
+        ${!passed ? `<button type="button" class="retry-quiz px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">${tryAgain}</button>` : ""}
       </div>
     `;
 
