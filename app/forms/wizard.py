@@ -1,10 +1,77 @@
+"""Wizard step forms for admin configuration.
+
+Forms for creating and editing wizard steps, including interaction
+configuration support.
+"""
+
+from __future__ import annotations
+
+import json
+from typing import Any
+
+from flask_babel import gettext as _
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField, FileRequired
 from wtforms import BooleanField, HiddenField, SelectField, StringField, TextAreaField
-from wtforms.validators import DataRequired, Optional
+from wtforms.validators import DataRequired, Optional, ValidationError
+
+from app.interactions import StepInteractions
+
+
+def validate_interaction_config(_form: FlaskForm, field: HiddenField) -> None:
+    """Validate the interaction configuration JSON.
+
+    Args:
+        form: The parent form.
+        field: The interaction_config field.
+
+    Raises:
+        ValidationError: If the JSON is invalid or interactions fail validation.
+    """
+    if not field.data or field.data == "{}":
+        return
+
+    try:
+        data = json.loads(field.data)
+    except json.JSONDecodeError as e:
+        raise ValidationError(_("Invalid JSON: %(error)s") % {"error": str(e)}) from e
+
+    if not isinstance(data, dict):
+        raise ValidationError(_("Interaction configuration must be a JSON object"))
+
+    # Validate using the StepInteractions dataclass
+    interactions = StepInteractions.from_dict(data)
+    errors = interactions.validate()
+    if errors:
+        raise ValidationError("; ".join(errors))
+
+
+def parse_interaction_config(data: str | None) -> dict[str, Any] | None:
+    """Parse interaction configuration JSON string.
+
+    Args:
+        data: JSON string or None.
+
+    Returns:
+        Parsed dict or None if empty/invalid.
+    """
+    if not data or data == "{}":
+        return None
+
+    try:
+        parsed = json.loads(data)
+        return parsed if isinstance(parsed, dict) and parsed else None
+    except json.JSONDecodeError:
+        return None
 
 
 class WizardStepForm(FlaskForm):
+    """Form for creating/editing wizard steps.
+
+    The interaction_config field stores a JSON object with interaction
+    configurations. The actual UI is rendered using Alpine.js in templates.
+    """
+
     server_type = SelectField(
         "Server Type",
         choices=[
@@ -35,12 +102,41 @@ class WizardStepForm(FlaskForm):
 
     markdown = TextAreaField("Markdown", validators=[DataRequired()])
 
-    # Require explicit user interaction before enabling Next
-    require_interaction = BooleanField(
-        "Require User Interaction",
-        default=False,
-        description="Block the user continuing, until they click a button or link in this step.",
+    # JSON field storing all interaction configurations
+    interaction_config = HiddenField(
+        "Interaction Configuration",
+        default="{}",
+        validators=[validate_interaction_config],
     )
+
+    def get_interactions(self) -> StepInteractions:
+        """Get typed interaction configuration from form data.
+
+        Returns:
+            StepInteractions object with parsed configuration.
+        """
+        data = parse_interaction_config(self.interaction_config.data)
+        return StepInteractions.from_dict(data)
+
+    def set_interactions(
+        self, interactions: StepInteractions | dict[str, Any] | None
+    ) -> None:
+        """Set interaction configuration on the form.
+
+        Args:
+            interactions: StepInteractions object, dict, or None.
+        """
+        if interactions is None:
+            self.interaction_config.data = "{}"
+        elif isinstance(interactions, StepInteractions):
+            data = interactions.to_dict()
+            self.interaction_config.data = json.dumps(data) if data else "{}"
+        elif isinstance(interactions, dict):
+            self.interaction_config.data = (
+                json.dumps(interactions) if interactions else "{}"
+            )
+        else:
+            self.interaction_config.data = "{}"
 
 
 class WizardPresetForm(FlaskForm):
@@ -90,7 +186,11 @@ class WizardBundleForm(FlaskForm):
 
 
 class SimpleWizardStepForm(FlaskForm):
-    """Minimal form for bundle-only steps (no server_type, no requires)."""
+    """Minimal form for bundle-only steps (no server_type, no requires).
+
+    The interaction_config field stores a JSON object with interaction
+    configurations, similar to WizardStepForm.
+    """
 
     category = SelectField(
         "Category",
@@ -105,12 +205,41 @@ class SimpleWizardStepForm(FlaskForm):
     title = StringField("Title", validators=[Optional()])
     markdown = TextAreaField("Markdown", validators=[DataRequired()])
 
-    # Allow interaction requirement for custom/bundle steps as well
-    require_interaction = BooleanField(
-        "Require User Interaction",
-        default=False,
-        description="Block the user continuing, until they click a button or link in this step.",
+    # JSON field storing all interaction configurations
+    interaction_config = HiddenField(
+        "Interaction Configuration",
+        default="{}",
+        validators=[validate_interaction_config],
     )
+
+    def get_interactions(self) -> StepInteractions:
+        """Get typed interaction configuration from form data.
+
+        Returns:
+            StepInteractions object with parsed configuration.
+        """
+        data = parse_interaction_config(self.interaction_config.data)
+        return StepInteractions.from_dict(data)
+
+    def set_interactions(
+        self, interactions: StepInteractions | dict[str, Any] | None
+    ) -> None:
+        """Set interaction configuration on the form.
+
+        Args:
+            interactions: StepInteractions object, dict, or None.
+        """
+        if interactions is None:
+            self.interaction_config.data = "{}"
+        elif isinstance(interactions, StepInteractions):
+            data = interactions.to_dict()
+            self.interaction_config.data = json.dumps(data) if data else "{}"
+        elif isinstance(interactions, dict):
+            self.interaction_config.data = (
+                json.dumps(interactions) if interactions else "{}"
+            )
+        else:
+            self.interaction_config.data = "{}"
 
 
 class WizardImportForm(FlaskForm):

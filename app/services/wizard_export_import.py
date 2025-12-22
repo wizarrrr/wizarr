@@ -24,7 +24,8 @@ class WizardStepDTO:
     markdown: str
     requires: list[str] | None
     require_interaction: bool = False
-    category: str = "post_invite"  # NEW: Category field for pre/post-invite distinction
+    category: str = "post_invite"  # Category field for pre/post-invite distinction
+    interactions: dict[str, Any] | None = None  # Modular interaction configuration
 
     @classmethod
     def from_model(cls, step: WizardStep) -> WizardStepDTO:
@@ -36,20 +37,25 @@ class WizardStepDTO:
             markdown=step.markdown,
             requires=step.requires or [],
             require_interaction=bool(getattr(step, "require_interaction", False)),
-            category=getattr(step, "category", "post_invite"),  # NEW: Include category
+            category=getattr(step, "category", "post_invite"),
+            interactions=getattr(step, "interactions", None),
         )
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON serialization."""
-        return {
+        result = {
             "server_type": self.server_type,
             "position": self.position,
             "title": self.title,
             "markdown": self.markdown,
             "requires": self.requires or [],
             "require_interaction": bool(self.require_interaction),
-            "category": self.category,  # NEW: Include category in export
+            "category": self.category,
         }
+        # Only include interactions if present (backward compatible)
+        if self.interactions:
+            result["interactions"] = self.interactions
+        return result
 
 
 @dataclass(frozen=True)
@@ -311,7 +317,7 @@ class WizardExportImportService:
         ):
             errors.append(f"Step {index}: 'require_interaction' must be a boolean")
 
-        # NEW: Validate category field (optional, defaults to 'post_invite')
+        # Validate category field (optional, defaults to 'post_invite')
         if "category" in step and step["category"] is not None:
             if not isinstance(step["category"], str):
                 errors.append(f"Step {index}: 'category' must be a string")
@@ -319,6 +325,63 @@ class WizardExportImportService:
                 errors.append(
                     f"Step {index}: 'category' must be 'pre_invite' or 'post_invite'"
                 )
+
+        # Validate interactions field (optional JSON object)
+        if "interactions" in step and step["interactions"] is not None:
+            if not isinstance(step["interactions"], dict):
+                errors.append(f"Step {index}: 'interactions' must be an object or null")
+            else:
+                errors.extend(
+                    self._validate_interactions_data(step["interactions"], index)
+                )
+
+        return errors
+
+    def _validate_interactions_data(
+        self, interactions: dict[str, Any], step_index: int
+    ) -> list[str]:
+        """Validate interactions configuration structure."""
+        errors = []
+        valid_interaction_types = ["click", "time", "tos", "text_input", "quiz"]
+
+        for key in interactions:
+            if key not in valid_interaction_types:
+                errors.append(f"Step {step_index}: unknown interaction type '{key}'")
+                continue
+
+            interaction = interactions[key]
+            if not isinstance(interaction, dict):
+                errors.append(
+                    f"Step {step_index}: interaction '{key}' must be an object"
+                )
+                continue
+
+            # Validate enabled field
+            if "enabled" not in interaction:
+                errors.append(
+                    f"Step {step_index}: interaction '{key}' missing 'enabled' field"
+                )
+            elif not isinstance(interaction["enabled"], bool):
+                errors.append(
+                    f"Step {step_index}: interaction '{key}.enabled' must be a boolean"
+                )
+
+            # Type-specific validation
+            if key == "time" and "duration_seconds" in interaction:
+                duration = interaction["duration_seconds"]
+                if not isinstance(duration, int) or duration < 1:
+                    errors.append(
+                        f"Step {step_index}: 'time.duration_seconds' must be a positive integer"
+                    )
+
+            if key == "quiz" and "questions" in interaction:
+                questions = interaction["questions"]
+                if not isinstance(questions, list):
+                    errors.append(f"Step {step_index}: 'quiz.questions' must be a list")
+                elif len(questions) == 0 and interaction.get("enabled", False):
+                    errors.append(
+                        f"Step {step_index}: 'quiz.questions' cannot be empty when enabled"
+                    )
 
         return errors
 
@@ -426,9 +489,13 @@ class WizardExportImportService:
                                     existing_step.require_interaction = bool(
                                         step_data.get("require_interaction") or False
                                     )
-                                # NEW: Update category with backward compatibility
+                                # Update category with backward compatibility
                                 existing_step.category = step_data.get(
                                     "category", "post_invite"
+                                )
+                                # Update interactions (new modular system)
+                                existing_step.interactions = step_data.get(
+                                    "interactions", None
                                 )
                                 updated_count += 1
                                 continue
@@ -449,8 +516,8 @@ class WizardExportImportService:
                             require_interaction=bool(
                                 step_data.get("require_interaction") or False
                             ),
-                            # NEW: Include category with backward compatibility default
                             category=step_data.get("category", "post_invite"),
+                            interactions=step_data.get("interactions", None),
                         )
                         self.session.add(new_step)
                         imported_count += 1
@@ -554,8 +621,8 @@ class WizardExportImportService:
                         require_interaction=bool(
                             step_data.get("require_interaction") or False
                         ),
-                        # NEW: Include category with backward compatibility default
                         category=step_data.get("category", "post_invite"),
+                        interactions=step_data.get("interactions", None),
                     )
                     self.session.add(wizard_step)
                     self.session.flush()  # Get the step ID
