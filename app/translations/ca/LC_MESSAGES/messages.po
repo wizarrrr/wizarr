@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-17 17:12+0100\n"
+"POT-Creation-Date: 2025-12-22 10:12+0100\n"
 "PO-Revision-Date: 2025-10-31 14:52+0000\n"
 "Last-Translator: DoeJoohn <oorca@tuta.io>\n"
 "Language: ca\n"
@@ -62,20 +62,20 @@ msgstr ""
 msgid "Question '%(id)s' correct answer not in options"
 msgstr ""
 
-#: app/interactions.py:314
+#: app/interactions.py:315
 #, python-format
 msgid "Question '%(id)s' must have boolean correct_answer for true/false type"
 msgstr ""
 
-#: app/interactions.py:380
+#: app/interactions.py:382
 msgid "Quiz must have at least one question"
 msgstr ""
 
-#: app/interactions.py:382
+#: app/interactions.py:384
 msgid "Pass threshold must be between 0.0 and 1.0"
 msgstr ""
 
-#: app/interactions.py:386
+#: app/interactions.py:388
 msgid "Duplicate question IDs found"
 msgstr ""
 
@@ -2301,239 +2301,239 @@ msgstr ""
 msgid "Add a styled content card"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:24
+#: app/templates/partials/_interaction_config.html:26
 msgid "User Interaction Requirements"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:27
+#: app/templates/partials/_interaction_config.html:29
 msgid "Configure what users must do before proceeding to the next step."
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:58
+#: app/templates/partials/_interaction_config.html:60
 #, fuzzy
 msgid "Click Interaction"
 msgstr "Crear Invitació"
 
-#: app/templates/partials/_interaction_config.html:59
+#: app/templates/partials/_interaction_config.html:61
 msgid "Require clicking a link or button"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:81
+#: app/templates/partials/_interaction_config.html:83
 msgid ""
 "User must click any link or button in the step content before the Next "
 "button becomes available. No additional configuration needed."
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:84
+#: app/templates/partials/_interaction_config.html:86
 #, fuzzy
 msgid "Help Text (optional)"
 msgstr "(opcional)"
 
-#: app/templates/partials/_interaction_config.html:88
+#: app/templates/partials/_interaction_config.html:90
 msgid "Click the download link to continue"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:110
+#: app/templates/partials/_interaction_config.html:112
 msgid "Time-Based Wait"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:111
+#: app/templates/partials/_interaction_config.html:113
 msgid "Require waiting a specific duration"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:135
+#: app/templates/partials/_interaction_config.html:137
 msgid "Wait Duration (seconds)"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:147
+#: app/templates/partials/_interaction_config.html:149
 msgid "Show countdown timer"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:153
+#: app/templates/partials/_interaction_config.html:155
 #, fuzzy
 msgid "Preview:"
 msgstr "Anterior"
 
-#: app/templates/partials/_interaction_config.html:163
+#: app/templates/partials/_interaction_config.html:165
 msgid "seconds remaining"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:186
+#: app/templates/partials/_interaction_config.html:188
 #, fuzzy
 msgid "Terms of Service"
 msgstr "Mai"
 
-#: app/templates/partials/_interaction_config.html:187
+#: app/templates/partials/_interaction_config.html:189
 msgid "Require accepting terms before continuing"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:210
+#: app/templates/partials/_interaction_config.html:212
 msgid "Terms Content (Markdown)"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:218
+#: app/templates/partials/_interaction_config.html:220
 msgid "Checkbox Label"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:222
+#: app/templates/partials/_interaction_config.html:224
 msgid "I agree to the Terms of Service"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:229
+#: app/templates/partials/_interaction_config.html:231
 msgid "Require scrolling to bottom before showing checkbox"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:252
+#: app/templates/partials/_interaction_config.html:254
 #, fuzzy
 msgid "Text Input Validation"
 msgstr "Crear Invitació"
 
-#: app/templates/partials/_interaction_config.html:253
+#: app/templates/partials/_interaction_config.html:255
 msgid "Require answering a question correctly"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:277
-#: app/templates/partials/_interaction_config.html:368
+#: app/templates/partials/_interaction_config.html:279
+#: app/templates/partials/_interaction_config.html:370
 #, fuzzy
 msgid "Question"
 msgstr "Permís denegat."
 
-#: app/templates/partials/_interaction_config.html:281
+#: app/templates/partials/_interaction_config.html:283
 msgid "What is the name of our media server?"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:285
+#: app/templates/partials/_interaction_config.html:287
 msgid "Acceptable Answers (one per line)"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:292
+#: app/templates/partials/_interaction_config.html:294
 msgid "Enter each acceptable answer on a new line"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:299
+#: app/templates/partials/_interaction_config.html:301
 msgid "Case sensitive"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:303
+#: app/templates/partials/_interaction_config.html:305
 msgid "Error Message"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:307
-#: app/templates/wizard/_content.html:38
+#: app/templates/partials/_interaction_config.html:309
+#: app/templates/wizard/_content.html:39
 #, fuzzy
 msgid "Incorrect answer. Please try again."
 msgstr " Alguna cosa ha anat malament. Si us plau, intenta-ho més tard."
 
-#: app/templates/partials/_interaction_config.html:329
+#: app/templates/partials/_interaction_config.html:331
 msgid "Quiz / Knowledge Check"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:330
+#: app/templates/partials/_interaction_config.html:332
 msgid "Require passing a quiz before continuing"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:354
+#: app/templates/partials/_interaction_config.html:356
 #, fuzzy
 msgid "Questions"
 msgstr "Permís denegat."
 
-#: app/templates/partials/_interaction_config.html:361
+#: app/templates/partials/_interaction_config.html:363
 #, fuzzy
 msgid "Add Question"
 msgstr "Opcions avançades"
 
-#: app/templates/partials/_interaction_config.html:382
+#: app/templates/partials/_interaction_config.html:384
 msgid "Enter question text..."
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:386
+#: app/templates/partials/_interaction_config.html:388
 msgid "Multiple Choice"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:387
+#: app/templates/partials/_interaction_config.html:389
 msgid "True/False"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:401
+#: app/templates/partials/_interaction_config.html:403
 #, fuzzy
 msgid "Option"
 msgstr "(opcional)"
 
-#: app/templates/partials/_interaction_config.html:414
+#: app/templates/partials/_interaction_config.html:416
 #, fuzzy
 msgid "Add Option"
 msgstr "Opcions avançades"
 
-#: app/templates/partials/_interaction_config.html:415
+#: app/templates/partials/_interaction_config.html:417
 msgid "Select the radio button for the correct answer"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:426
-#: app/templates/wizard/_content.html:28
+#: app/templates/partials/_interaction_config.html:428
+#: app/templates/wizard/_content.html:29
 msgid "True"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:435
-#: app/templates/wizard/_content.html:29
+#: app/templates/partials/_interaction_config.html:437
+#: app/templates/wizard/_content.html:30
 msgid "False"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:440
+#: app/templates/partials/_interaction_config.html:442
 msgid "Explanation (shown after answer)"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:444
+#: app/templates/partials/_interaction_config.html:446
 msgid "Optional explanation..."
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:458
+#: app/templates/partials/_interaction_config.html:460
 msgid "No questions added yet"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:461
+#: app/templates/partials/_interaction_config.html:463
 msgid "Add your first question"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:468
+#: app/templates/partials/_interaction_config.html:470
 msgid "Pass threshold:"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:481
+#: app/templates/partials/_interaction_config.html:483
 msgid "Randomize question order"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:487
+#: app/templates/partials/_interaction_config.html:489
 msgid "Randomize answer order"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:493
+#: app/templates/partials/_interaction_config.html:495
 msgid "Show explanations after answering"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:502
+#: app/templates/partials/_interaction_config.html:504
 msgid "Active Requirements:"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:510
+#: app/templates/partials/_interaction_config.html:512
 #, fuzzy
 msgid "Click"
 msgstr "Iniciar sessió"
 
-#: app/templates/partials/_interaction_config.html:518
+#: app/templates/partials/_interaction_config.html:520
 #, fuzzy
 msgid "Time"
 msgstr "Guardar"
 
-#: app/templates/partials/_interaction_config.html:526
+#: app/templates/partials/_interaction_config.html:528
 #, fuzzy
 msgid "ToS"
 msgstr "Invitacions"
 
-#: app/templates/partials/_interaction_config.html:534
+#: app/templates/partials/_interaction_config.html:536
 msgid "Text Input"
 msgstr ""
 
-#: app/templates/partials/_interaction_config.html:542
+#: app/templates/partials/_interaction_config.html:544
 msgid "Quiz"
 msgstr ""
 
@@ -3324,100 +3324,100 @@ msgstr "Contrassenya"
 msgid "Remove user"
 msgstr "Inici"
 
-#: app/templates/wizard/_content.html:13
+#: app/templates/wizard/_content.html:14
 msgid "Please wait"
 msgstr ""
 
-#: app/templates/wizard/_content.html:14
+#: app/templates/wizard/_content.html:15
 msgid "seconds"
 msgstr ""
 
-#: app/templates/wizard/_content.html:15
+#: app/templates/wizard/_content.html:16
 #, fuzzy
 msgid "second"
 msgstr "Utilitzat"
 
-#: app/templates/wizard/_content.html:16
+#: app/templates/wizard/_content.html:17
 #, fuzzy
 msgid "All set! Click Next to continue"
 msgstr "Convida cadena de codi"
 
-#: app/templates/wizard/_content.html:17
+#: app/templates/wizard/_content.html:18
 msgid "Correct!"
 msgstr ""
 
-#: app/templates/wizard/_content.html:18
+#: app/templates/wizard/_content.html:19
 msgid "Incorrect."
 msgstr ""
 
-#: app/templates/wizard/_content.html:19
+#: app/templates/wizard/_content.html:20
 msgid "Quiz Passed!"
 msgstr ""
 
-#: app/templates/wizard/_content.html:20
+#: app/templates/wizard/_content.html:21
 msgid "Quiz Not Passed"
 msgstr ""
 
-#: app/templates/wizard/_content.html:21
+#: app/templates/wizard/_content.html:22
 msgid "Try Again"
 msgstr ""
 
-#: app/templates/wizard/_content.html:22
+#: app/templates/wizard/_content.html:23
 msgid "You may continue."
 msgstr ""
 
-#: app/templates/wizard/_content.html:23
+#: app/templates/wizard/_content.html:24
 msgid "You got"
 msgstr ""
 
-#: app/templates/wizard/_content.html:24
+#: app/templates/wizard/_content.html:25
 msgid "out of"
 msgstr ""
 
-#: app/templates/wizard/_content.html:25
+#: app/templates/wizard/_content.html:26
 #, fuzzy
 msgid "correct"
 msgstr "Creat"
 
-#: app/templates/wizard/_content.html:26
-#, python-format
-msgid "You need %(percent)s%% to pass."
-msgstr ""
-
 #: app/templates/wizard/_content.html:27
-#, python-format
-msgid "Question %(current)s of %(total)s"
+#, python-brace-format, python-format
+msgid "You need {percent}%% to pass."
 msgstr ""
 
-#: app/templates/wizard/_content.html:30
-msgid "Check"
+#: app/templates/wizard/_content.html:28
+#, python-brace-format
+msgid "Question {current} of {total}"
 msgstr ""
 
 #: app/templates/wizard/_content.html:31
-msgid "Type your answer..."
+msgid "Check"
 msgstr ""
 
 #: app/templates/wizard/_content.html:32
-msgid "Please scroll to the bottom to enable the checkbox"
+msgid "Type your answer..."
 msgstr ""
 
 #: app/templates/wizard/_content.html:33
-msgid "You may now accept the terms"
+msgid "Please scroll to the bottom to enable the checkbox"
 msgstr ""
 
 #: app/templates/wizard/_content.html:34
-msgid "This step requires clicking a link or button in the content above."
+msgid "You may now accept the terms"
 msgstr ""
 
 #: app/templates/wizard/_content.html:35
-msgid "Terms of Service content"
+msgid "This step requires clicking a link or button in the content above."
 msgstr ""
 
 #: app/templates/wizard/_content.html:36
-msgid "I have read and agree to the terms"
+msgid "Terms of Service content"
 msgstr ""
 
 #: app/templates/wizard/_content.html:37
+msgid "I have read and agree to the terms"
+msgstr ""
+
+#: app/templates/wizard/_content.html:38
 msgid "Please answer the question:"
 msgstr ""
 
@@ -4067,5 +4067,11 @@ msgstr ""
 #~ msgstr ""
 
 #~ msgid "External URL"
+#~ msgstr ""
+
+#~ msgid "You need %(percent)s%% to pass."
+#~ msgstr ""
+
+#~ msgid "Question %(current)s of %(total)s"
 #~ msgstr ""
 
