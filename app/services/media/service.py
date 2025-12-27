@@ -151,6 +151,37 @@ def delete_user(db_id: int) -> None:
     if not (user := db.session.get(User, db_id)):
         return
 
+    # Delete from LDAP if user is an LDAP user
+    # Only delete from LDAP if this is the last User record with the same username
+    if user.is_ldap_user:
+        try:
+            from app.models import LDAPConfiguration
+
+            # Check if there are other User records with the same username
+            other_users_count = User.query.filter(
+                User.username == user.username, User.is_ldap_user, User.id != user.id
+            ).count()
+
+            # Only delete from LDAP if this is the last user with this username
+            if other_users_count == 0:
+                ldap_config = LDAPConfiguration.query.filter_by(enabled=True).first()
+                if ldap_config:
+                    from app.services.ldap.client import LDAPClient
+
+                    ldap_client = LDAPClient(ldap_config)
+                    # Reconstruct DN from username
+                    user_dn = f"{ldap_config.username_attribute}={user.username},{ldap_config.user_base_dn}"
+                    success, message = ldap_client.delete_user(user_dn)
+
+                    if not success:
+                        logging.error(
+                            "LDAP deletion failed for %s: %s", user_dn, message
+                        )
+                    else:
+                        logging.info("Deleted LDAP user: %s", user_dn)
+        except Exception as exc:
+            logging.error("LDAP deletion error: %s", exc)
+
     # Delete from remote media server if user has one
     if user.server:
         try:
@@ -253,22 +284,18 @@ def scan_libraries_for_server(server: MediaServer):
 
 
 def reset_user_password(db_id: int, new_password: str) -> bool:
-    """Reset the password for a user on their associated media server.
+    """Reset the password for a user on LDAP and/or their associated media server.
 
     Args:
         db_id: ID of the User row in our database
         new_password: The new password to set (already validated for length by caller)
 
     Returns:
-        bool: True if the password was successfully reset on the media server, False otherwise
+        bool: True if the password was successfully reset on LDAP or media server, False otherwise
     """
     user = db.session.get(User, db_id)
     if not user:
         logging.error(f"User with id {db_id} not found")
-        return False
-
-    if not user.server:
-        logging.warning(f"User {db_id} has no associated server to reset password on")
         return False
 
     # Basic safeguard – keep consistent with join rules
@@ -276,24 +303,57 @@ def reset_user_password(db_id: int, new_password: str) -> bool:
         logging.warning("Password does not meet length requirements")
         return False
 
-    try:
-        client = get_client_for_media_server(user.server)
-        user_identifier = _get_user_identifier(user, user.server)
-        result = client.reset_password(user_identifier, new_password)
+    ldap_success = False
+    media_server_success = False
 
-        if result:
-            logging.info(
-                f"Successfully reset password for user {user.username} (id={db_id}) on {user.server.name}"
-            )
-        else:
-            logging.warning(
-                f"Failed to reset password for user {user.username} (id={db_id}) on {user.server.name}"
-            )
+    # Reset LDAP password if user is an LDAP user
+    # Only reset LDAP password once even if multiple User records share the same username
+    if user.is_ldap_user:
+        try:
+            from app.models import LDAPConfiguration
 
-        return bool(result)
-    except Exception as exc:
-        logging.error(f"Error resetting password for user {db_id}: {exc}")
-        return False
+            ldap_config = LDAPConfiguration.query.filter_by(enabled=True).first()
+            if ldap_config:
+                from app.services.ldap.client import LDAPClient
+
+                ldap_client = LDAPClient(ldap_config)
+                # Reconstruct DN from username
+                user_dn = f"{ldap_config.username_attribute}={user.username},{ldap_config.user_base_dn}"
+                success, message = ldap_client.change_password(user_dn, new_password)
+
+                if success:
+                    logging.info(
+                        f"Successfully reset LDAP password for {user_dn} (user {user.username}, id={db_id})"
+                    )
+                    ldap_success = True
+                else:
+                    logging.error(
+                        f"Failed to reset LDAP password for {user_dn}: {message}"
+                    )
+        except Exception as exc:
+            logging.error(f"LDAP password reset error: {exc}")
+
+    # Reset media server password if user has an associated server
+    if user.server:
+        try:
+            client = get_client_for_media_server(user.server)
+            user_identifier = _get_user_identifier(user, user.server)
+            result = client.reset_password(user_identifier, new_password)
+
+            if result:
+                logging.info(
+                    f"Successfully reset password for user {user.username} (id={db_id}) on {user.server.name}"
+                )
+                media_server_success = True
+            else:
+                logging.warning(
+                    f"Failed to reset password for user {user.username} (id={db_id}) on {user.server.name}"
+                )
+        except Exception as exc:
+            logging.error(f"Media server password reset error: {exc}")
+
+    # Return True if either LDAP or media server password reset succeeded
+    return ldap_success or media_server_success
 
 
 def get_now_playing_all_servers(
