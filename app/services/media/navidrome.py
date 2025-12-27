@@ -362,7 +362,13 @@ class NavidromeClient(RestApiMixin):
         )
 
     def _do_join(
-        self, username: str, password: str, confirm: str, email: str, code: str
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
+        _: bool = False,
     ):
         """Public invite flow for Navidrome users."""
         if not 1 <= len(username) <= 50:

@@ -497,7 +497,15 @@ class MediaClient(ABC):
             "content_stats": {},  # Minimal for health cards
         }
 
-    def join(self, username: str, password: str, confirm: str, email: str, code: str):
+    def join(
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
+        is_ldap_user: bool = False,
+    ):
         """Process user invitation for this media server.
 
         This is a template method that handles notifications after successful user creation.
@@ -509,12 +517,15 @@ class MediaClient(ABC):
             confirm: Password confirmation
             email: Email address for the new account
             code: Invitation code being used
+            is_ldap_user: Whether this user was created in LDAP
 
         Returns:
             tuple: (success: bool, message: str)
         """
         # Call the concrete implementation
-        success, message = self._do_join(username, password, confirm, email, code)
+        success, message = self._do_join(
+            username, password, confirm, email, code, is_ldap_user
+        )
 
         # Send notification on successful join
         if success:
@@ -532,7 +543,13 @@ class MediaClient(ABC):
 
     @abstractmethod
     def _do_join(
-        self, username: str, password: str, confirm: str, email: str, code: str
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
+        is_ldap_user: bool = False,
     ):
         """Process user invitation for this media server (implementation method).
 
@@ -545,6 +562,7 @@ class MediaClient(ABC):
             confirm: Password confirmation
             email: Email address for the new account
             code: Invitation code being used
+            is_ldap_user: Whether this user was created in LDAP
 
         Returns:
             tuple: (success: bool, message: str)

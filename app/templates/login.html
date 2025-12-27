@@ -16,9 +16,11 @@
               {{ _("Login") }}
             {% endif %}
           </h1>
-          <p class="mt-2 text-sm text-red-600 dark:text-red-500">
-            <span class="font-medium">{{ error }}
+          {% if error %}
+            <p class="mt-2 text-sm text-red-600 dark:text-red-500">
+              <span class="font-medium">{{ error }}</span>
             </p>
+          {% endif %}
             {% if show_2fa %}
               <div class="mb-4 p-4 bg-blue-50 dark:bg-blue-900 border border-blue-200 dark:border-blue-800 rounded-lg">
                 <div class="flex items-center">
@@ -41,7 +43,27 @@
             {% if not show_2fa %}
               <form class="space-y-4 md:space-y-6"
                     action="{{ url_for('auth.login') }}"
-                    method="post">
+                    method="post"
+                  x-data="{ authMethod: '{{ selected_auth_method|default('local') }}' }">
+                {% if ldap_enabled %}
+                  <div>
+                    <label for="auth_method"
+                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      {{ _("Authentication Method") }}
+                    </label>
+                    <select name="auth_method"
+                            id="auth_method"
+                            x-model="authMethod"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                      <option value="local">{{ _("Local Account") }}</option>
+                      {% if ldap_enabled %}
+                        <option value="ldap">{{ _("LDAP") }}</option>
+                      {% endif %}
+                    </select>
+                  </div>
+                {% else %}
+                  <input type="hidden" name="auth_method" value="local">
+                {% endif %}
                 <div>
                   <label for="username"
                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -52,7 +74,7 @@
                          id="username"
                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                          placeholder="marvin"
-                         required="">
+                         required>
                 </div>
                 <div id="password-section">
                   <label for="password"
@@ -64,7 +86,7 @@
                          id="password"
                          placeholder="••••••••"
                          class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                         required="">
+                         required>
                 </div>
                 <div class="flex items-center justify-between">
                   <div class="flex items-start">

@@ -15,7 +15,9 @@ from flask import (
 from flask_babel import _
 from flask_login import login_required
 
+from app.forms.ldap import LDAPSettingsForm
 from app.services.expiry import disable_or_delete_user_if_expired
+from app.services.ldap.encryption import encrypt_credential
 from app.services.media.service import scan_libraries as scan_media
 
 from ...extensions import db
@@ -351,3 +353,279 @@ def clean_expired_users():
             ),
             label=_("Clean Expired Users"),
         )
+
+
+# ────────────────────────────────────────────────────────────────────────────
+# LDAP Settings Routes (2025-12)
+# ────────────────────────────────────────────────────────────────────────────
+
+
+@settings_bp.route("/ldap", methods=["GET", "POST"])
+@login_required
+def ldap_settings():
+    """LDAP configuration page."""
+    from app.forms.ldap import LDAPSettingsForm
+    from app.models import LDAPConfiguration, LDAPGroup
+    from app.services.ldap.encryption import encrypt_credential
+
+    config = LDAPConfiguration.query.first()
+    form = LDAPSettingsForm()
+
+    # Populate admin group choices from synced LDAP groups
+    groups = LDAPGroup.query.order_by(LDAPGroup.cn).all()
+    group_choices = [("", "-- None --")] + [(g.dn, g.cn) for g in groups]
+    form.admin_group_dn.choices = group_choices
+
+    if form.validate_on_submit():
+        if not config:
+            config = LDAPConfiguration()
+            db.session.add(config)
+
+        # Update configuration from form
+        config.enabled = form.enabled.data
+        config.server_url = form.server_url.data
+        config.use_tls = form.use_tls.data
+        config.verify_cert = form.verify_cert.data
+        config.service_account_dn = form.service_account_dn.data
+
+        # Only update password if provided
+        if form.service_account_password.data:
+            config.service_account_password_encrypted = encrypt_credential(
+                form.service_account_password.data
+            )
+
+        config.user_base_dn = form.user_base_dn.data
+        config.user_search_filter = form.user_search_filter.data
+        config.user_object_class = form.user_object_class.data
+        config.username_attribute = form.username_attribute.data
+        config.email_attribute = form.email_attribute.data
+        config.group_base_dn = form.group_base_dn.data
+        config.group_object_class = form.group_object_class.data
+        config.group_member_attribute = form.group_member_attribute.data
+        config.allow_admin_bind = form.allow_admin_bind.data
+        config.admin_group_dn = form.admin_group_dn.data
+
+        db.session.commit()
+        flash(_("LDAP configuration saved successfully"), "success")
+        return render_template("settings/ldap.html", form=form, config=config)
+
+    # Populate form with existing config
+    if config and request.method == "GET":
+        form.enabled.data = config.enabled
+        form.server_url.data = config.server_url
+        form.use_tls.data = config.use_tls
+        form.verify_cert.data = config.verify_cert
+        form.service_account_dn.data = config.service_account_dn
+        form.user_base_dn.data = config.user_base_dn
+        form.user_search_filter.data = config.user_search_filter
+        form.user_object_class.data = config.user_object_class
+        form.username_attribute.data = config.username_attribute
+        form.email_attribute.data = config.email_attribute
+        form.group_base_dn.data = config.group_base_dn
+        form.group_object_class.data = config.group_object_class
+        form.group_member_attribute.data = config.group_member_attribute
+        form.allow_admin_bind.data = config.allow_admin_bind
+        form.admin_group_dn.data = config.admin_group_dn
+
+    return render_template("settings/ldap.html", form=form, config=config)
+
+
+@settings_bp.route("/ldap/test", methods=["POST"])
+@login_required
+def test_ldap_connection():
+    """Test LDAP connection (HTMX endpoint)."""
+    from app.models import LDAPConfiguration
+    from app.services.ldap.client import LDAPClient
+
+    # Try to get existing config for password fallback
+    existing_config = LDAPConfiguration.query.first()
+
+    config = LDAPConfiguration()
+    form = LDAPSettingsForm()
+
+    config.enabled = form.enabled.data
+    config.server_url = form.server_url.data
+    config.use_tls = form.use_tls.data
+    config.verify_cert = form.verify_cert.data
+    config.service_account_dn = form.service_account_dn.data
+
+    # Use new password if provided, otherwise fall back to existing encrypted password
+    if form.service_account_password.data:
+        config.service_account_password_encrypted = encrypt_credential(
+            form.service_account_password.data
+        )
+    elif existing_config:
+        config.service_account_password_encrypted = (
+            existing_config.service_account_password_encrypted
+        )
+
+    client = LDAPClient(config)
+    success, message = client.test_connection()
+
+    if success:
+        return f"""
+        <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+            <p class="text-sm text-green-800 dark:text-green-200">✓ {message}</p>
+        </div>
+        """
+    return f"""
+    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+        <p class="text-sm text-red-800 dark:text-red-200">✗ {message}</p>
+    </div>
+    """
+
+
+@settings_bp.route("/ldap/groups/sync", methods=["POST"])
+@login_required
+def sync_ldap_groups():
+    """Synchronize LDAP groups into database (HTMX endpoint)."""
+    from app.models import LDAPConfiguration, LDAPGroup
+    from app.services.ldap.client import LDAPClient
+
+    config = LDAPConfiguration.query.first()
+    if not config or not config.enabled:
+        return """
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+            <p class="text-sm text-red-800 dark:text-red-200">LDAP not configured or disabled</p>
+        </div>
+        """
+
+    client = LDAPClient(config)
+    groups = client.search_groups()
+
+    if not groups:
+        return """
+        <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+            <p class="text-sm text-yellow-800 dark:text-yellow-200">No groups found in LDAP</p>
+        </div>
+        """
+
+    synced_count = 0
+    for group_data in groups:
+        existing = LDAPGroup.query.filter_by(dn=group_data["dn"]).first()
+        if not existing:
+            group = LDAPGroup(
+                dn=group_data["dn"],
+                cn=group_data["cn"],
+                description=group_data.get("description"),
+            )
+            db.session.add(group)
+            synced_count += 1
+
+    db.session.commit()
+
+    # Get updated groups for admin dropdown
+    all_groups = LDAPGroup.query.order_by(LDAPGroup.cn).all()
+    group_options = '<option value="">-- None --</option>'
+    for g in all_groups:
+        group_options += f'<option value="{g.dn}">{g.cn}</option>'
+
+    # Return status message + OOB update for admin group dropdown
+    return f"""
+    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+        <p class="text-sm text-green-800 dark:text-green-200">
+            ✓ Synchronized {synced_count} new group{"s" if synced_count != 1 else ""}
+            (Total: {len(groups)} group{"s" if len(groups) != 1 else ""} in LDAP)
+        </p>
+    </div>
+    <select id="admin_group_dn_select"
+            name="admin_group_dn"
+            hx-swap-oob="true"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+        {group_options}
+    </select>
+    """
+
+
+@settings_bp.route("/ldap/users/sync-all", methods=["POST"])
+@login_required
+def sync_all_ldap_users():
+    """Automatically sync all users from LDAP and show unified user list.
+
+    This imports all new LDAP users that don't exist in Wizarr yet,
+    then returns the updated unified user list.
+    """
+    from app.models import LDAPConfiguration, User
+    from app.services.ldap.user_sync import import_ldap_user, list_ldap_users
+
+    ldap_config = LDAPConfiguration.query.filter_by(enabled=True).first()
+    if not ldap_config:
+        return """
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+            <p class="text-sm text-red-800 dark:text-red-200">✗ LDAP is not configured</p>
+        </div>
+        """
+
+    # Get all LDAP users
+    success, result = list_ldap_users()
+    if not success:
+        return f"""
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+            <p class="text-sm text-red-800 dark:text-red-200">✗ Failed to list LDAP users: {result}</p>
+        </div>
+        """
+
+    ldap_users = result
+
+    # Import each user that doesn't exist yet
+    imported_count = 0
+    skipped_count = 0
+    errors = []
+
+    for ldap_user in ldap_users:
+        username = ldap_user["username"]
+
+        # Check if user already exists
+        existing = User.query.filter_by(username=username).first()
+        if existing:
+            skipped_count += 1
+            continue
+
+        # Import the user
+        import_success, import_msg = import_ldap_user(username)
+        if import_success:
+            imported_count += 1
+        else:
+            errors.append(f"{username}: {import_msg}")
+
+    # Build success/error message
+    msg_html = '<div class="space-y-2 mb-4">'
+
+    if imported_count > 0:
+        msg_html += f"""
+        <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+            <p class="text-sm text-green-800 dark:text-green-200">
+                ✓ Imported {imported_count} new user{"s" if imported_count != 1 else ""} from LDAP
+            </p>
+        </div>
+        """
+
+    if skipped_count > 0:
+        msg_html += f"""
+        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+            <p class="text-sm text-blue-800 dark:text-blue-200">
+                ℹ Skipped {skipped_count} user{"s" if skipped_count != 1 else ""} (already in Wizarr)
+            </p>
+        </div>
+        """
+
+    if errors:
+        msg_html += f"""
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+            <p class="text-sm text-red-800 dark:text-red-200">✗ Errors during import:</p>
+            <ul class="mt-2 text-xs text-red-700 dark:text-red-300 list-disc list-inside">
+                {"".join(f"<li>{err}</li>" for err in errors)}
+            </ul>
+        </div>
+        """
+
+    if imported_count == 0 and skipped_count == 0 and not errors:
+        msg_html += """
+        <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+            <p class="text-sm text-gray-600 dark:text-gray-400">No users to import</p>
+        </div>
+        """
+
+    msg_html += "</div>"
+
+    return msg_html

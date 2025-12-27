@@ -1,0 +1,259 @@
+<section class="animate__animated animate__fadeIn">
+  <div class="p-6 space-y-8">
+    <!-- Page Header -->
+    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("LDAP Settings") }}</h1>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            {{ _("Configure LDAP for user authentication and management") }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Content -->
+    <div class="w-full">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="p-6">
+          <form method="post"
+                hx-post="{{ url_for('settings.ldap_settings') }}"
+                hx-target="#tab-body"
+                hx-swap="innerHTML"
+                class="space-y-6">
+            {{ form.hidden_tag() }}
+
+            {# ───── Enable LDAP ──────────────────────────────────── #}
+            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <label class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Enable LDAP") }}</label>
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">{{ _("Turn on LDAP integration") }}</p>
+                </div>
+                <label class="inline-flex items-center cursor-pointer">
+                  {{ form.enabled(class="sr-only peer") }}
+                  <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            {# ───── Connection Settings ──────────────────────────── #}
+            <div class="space-y-4">
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Connection") }}</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("LDAP server connection") }}</p>
+              </div>
+
+              <div>
+                {{ form.server_url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.server_url(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", placeholder="ldap://ldap.example.com:389") }}
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ _("e.g., ldap://server:3890 or ldaps://server:6360") }}</p>
+                {% for err in form.server_url.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+
+              <div class="grid grid-cols-2 gap-4">
+                <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                  <div class="flex items-center justify-between">
+                    <label class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Use TLS") }}</label>
+                    <label class="inline-flex items-center cursor-pointer">
+                      {{ form.use_tls(class="sr-only peer") }}
+                      <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
+                      </div>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                  <div class="flex items-center justify-between">
+                    <label class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Verify Cert") }}</label>
+                    <label class="inline-flex items-center cursor-pointer">
+                      {{ form.verify_cert(class="sr-only peer") }}
+                      <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                {{ form.service_account_dn.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.service_account_dn(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", placeholder="cn=wizarr,ou=people,dc=example,dc=com") }}
+                {% for err in form.service_account_dn.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+
+              <div>
+                {{ form.service_account_password.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.service_account_password(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", type="password") }}
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ _("Encrypted before storage") }}</p>
+                {% for err in form.service_account_password.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+
+              <!-- Test Connection -->
+              <div class="pt-4 border-t border-gray-200 dark:border-gray-600">
+                <button type="button"
+                        hx-post="{{ url_for('settings.test_ldap_connection') }}"
+                        hx-target="#test-connection-result"
+                        hx-swap="innerHTML"
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition-colors">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                  {{ _("Test Connection") }}
+                </button>
+                <div id="test-connection-result" class="mt-3"></div>
+              </div>
+            </div>
+
+            {# ───── User & Group Base DNs ─────────────────────────── #}
+            <div class="space-y-4">
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("User & Group Settings") }}</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Where to find users and groups") }}</p>
+              </div>
+
+              <div>
+                {{ form.user_base_dn.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.user_base_dn(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", placeholder="ou=people,dc=example,dc=com") }}
+                {% for err in form.user_base_dn.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+
+              <div>
+                {{ form.group_base_dn.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.group_base_dn(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", placeholder="ou=groups,dc=example,dc=com") }}
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ _("Optional - only needed for admin group restriction") }}</p>
+                {% for err in form.group_base_dn.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+
+              <!-- Sync Groups -->
+              <div class="pt-4 border-t border-gray-200 dark:border-gray-600">
+                <button type="button"
+                        hx-post="{{ url_for('settings.sync_ldap_groups') }}"
+                        hx-target="#sync-groups-result"
+                        hx-swap="innerHTML"
+                        class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium transition-colors">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                  </svg>
+                  {{ _("Sync Groups") }}
+                </button>
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">{{ _("Sync LDAP groups to populate admin group selection") }}</p>
+                <div id="sync-groups-result" class="mt-3"></div>
+              </div>
+
+              <!-- Advanced Settings -->
+              <div class="pt-4 border-t border-gray-200 dark:border-gray-600" x-data="{ show: false }">
+                <button type="button"
+                        @click="show = !show"
+                        class="inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
+                  <svg class="w-4 h-4 mr-2 transition-transform" :class="{ 'rotate-90': show }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                  </svg>
+                  {{ _("Advanced Settings") }}
+                </button>
+
+                <div x-show="show" x-transition class="mt-4 space-y-4">
+                  <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                    <p class="text-sm text-blue-800 dark:text-blue-200">
+                      {{ _("Defaults are optimized for LLDAP. Only change if using a different LDAP server.") }}
+                    </p>
+                  </div>
+
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="col-span-1 md:col-span-2">
+                      {{ form.user_search_filter.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                      {{ form.user_search_filter(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
+                    </div>
+                    <div>
+                      {{ form.username_attribute.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                      {{ form.username_attribute(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+                    </div>
+                    <div>
+                      {{ form.email_attribute.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                      {{ form.email_attribute(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+                    </div>
+                    <div>
+                      {{ form.user_object_class.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                      {{ form.user_object_class(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+                    </div>
+                    <div>
+                      {{ form.group_object_class.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                      {{ form.group_object_class(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+                    </div>
+                    <div>
+                      {{ form.group_member_attribute.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                      {{ form.group_member_attribute(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {# ───── Users ─────────────────────────────────────────── #}
+            <div class="space-y-4">
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Users") }}</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Manage all users - both LDAP and local authentication") }}</p>
+              </div>
+
+              <div class="flex flex-wrap gap-3 pt-4">
+                <button type="button"
+                        hx-post="{{ url_for('settings.sync_all_ldap_users') }}"
+                        hx-target="#all-users-list"
+                        hx-swap="innerHTML"
+                        class="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium transition-colors">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                  </svg>
+                  {{ _("Sync from LDAP") }}
+                </button>
+              </div>
+              <p class="text-xs text-gray-500 dark:text-gray-400">
+                {{ _("Users can authenticate via LDAP or locally. Sync automatically imports new users from LDAP.") }}
+              </p>
+              <div id="all-users-list" class="mt-4"></div>
+            </div>
+
+            {# ───── Admin Authentication ──────────────────────────── #}
+            <div class="space-y-4">
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Admin Authentication") }}</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Allow administrators to log in using LDAP") }}</p>
+              </div>
+
+              <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <label class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Allow Admin Login via LDAP") }}</label>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">{{ _("Enable admin login using LDAP credentials") }}</p>
+                  </div>
+                  <label class="inline-flex items-center cursor-pointer">
+                    {{ form.allow_admin_bind(class="sr-only peer") }}
+                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <div>
+                {{ form.admin_group_dn.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.admin_group_dn(id="admin_group_dn_select", class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ _("Optional: Restrict admin access to members of this LDAP group") }}</p>
+              </div>
+            </div>
+            {# ───── Submit ───────────────────────────────────────── #}
+            <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
+              <button type="submit"
+                      class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg text-sm focus:ring-4 focus:ring-primary/20 transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                {{ _("Save Settings") }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

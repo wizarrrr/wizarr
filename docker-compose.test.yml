@@ -62,3 +62,21 @@ services:
       timeout: 10s
       retries: 5
       start_period: 30s
+
+  # LLDAP test server - Lightweight LDAP for testing authentication
+  lldap-test:
+    image: lldap/lldap:stable
+    container_name: wizarr-lldap-test
+    ports:
+      - "3890:3890"   # LDAP port
+      - "17170:17170" # Web UI
+    environment:
+      - LLDAP_JWT_SECRET=test_jwt_secret_change_in_production
+      - LLDAP_LDAP_USER_PASS=test_admin_password
+      - LLDAP_LDAP_BASE_DN=dc=wizarr,dc=test
+    healthcheck:
+      test: ["CMD", "sh", "-c", "nc -z localhost 3890"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s

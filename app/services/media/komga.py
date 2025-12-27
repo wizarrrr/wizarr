@@ -380,7 +380,13 @@ class KomgaClient(RestApiMixin):
             logging.warning(f"Failed to set library access for user {user_id}: {e}")
 
     def _do_join(
-        self, username: str, password: str, confirm: str, email: str, code: str
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
+        is_ldap_user: bool = False,
     ) -> tuple[bool, str]:
         """Handle public sign-up via invite for Komga servers."""
         if not EMAIL_RE.fullmatch(email):
@@ -451,6 +457,7 @@ class KomgaClient(RestApiMixin):
                     "code": code,
                     "expires": expires,
                     "server_id": current_server_id,
+                    "is_ldap_user": is_ldap_user,
                 }
             )
             db.session.commit()
