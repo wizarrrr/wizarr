@@ -43,6 +43,7 @@
                 <option value="discord" {% if agent.type == 'discord' %}selected{% endif %}>Discord</option>
                 <option value="notifiarr"
                         {% if agent.type == 'notifiarr' %}selected{% endif %}>Notifiarr</option>
+                <option value="pushover" {% if agent.type == 'pushover' %}selected{% endif %}>Pushover</option>
                 <option value="ntfy" {% if agent.type == 'ntfy' %}selected{% endif %}>Ntfy</option>
               </select>
             </div>
@@ -90,6 +91,35 @@
                      value="{{ agent.password or '' }}"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
+            <div id="pushoverSection"
+                 class="notificationAgentInfo"
+                 style="display:
+                        {% if agent.type == 'pushover' %}
+                          block
+                        {% else %}
+                          none
+                        {% endif %}">
+              <label for="user_key"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("User Key") }}</label>
+              <input type="text"
+                     name="user_key"
+                     id="user_key"
+                     value="{{ agent.user_key or '' }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                     {% if agent.type == 'pushover' %}
+                        required
+                     {% endif %}/>
+              <label for="api_token"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("API Token") }}</label>
+              <input type="text"
+                     name="api_token"
+                     id="api_token"
+                     value="{{ agent.api_token or '' }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                     {% if agent.type == 'pushover' %}
+                        required
+                     {% endif %}/>
+            </div>
             <div>
               <label for="url"
                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent URL") }}</label>
@@ -99,7 +129,9 @@
                      value="{{ agent.url }}"
                      placeholder="e.g. https://example.com"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                     required>
+                     {% if agent.type != 'pushover' %}
+                        required
+                     {% endif %}>
             </div>
             <div>
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Notification Events") }}</label>
@@ -149,6 +181,13 @@
   </div>
 </div>
 <script>
+    document.body.addEventListener('htmx:afterSwap', function (e) {
+        // only react to swaps that affect the modal/form
+        const select = document.getElementById('notification_service');
+        if (select) {
+            toggleService(select.value);
+        }
+    });
     function closeModal() {
         document.getElementById('create-modal').innerHTML = '';
     }
@@ -161,23 +200,37 @@
         }
 
         if (value === 'ntfy') {
+            document.getElementById('credentialsSection').style.display = 'block';
+        } else if (value === 'notifiarr') {
+            document.getElementById('notifiarrSection').style.display = 'block';
+        } else if (value === 'pushover') {
+            document.getElementById('pushoverSection').style.display = 'block';
+        }
+
+        if (value === 'ntfy') {
             credentialsSection.style.display = 'block';
         } else if (value === "notifiarr") {
             notifiarrSection.style.display = 'block';
         }
 
-        if (value === 'notifiarr') {
-            document.getElementById("channel_id").required = true
-        } else {
-            document.getElementById("channel_id").required = false
-        }
-
         const urlEle = document.getElementById('url');
+        const urlWrapper = urlEle.closest('div');
 
-        if (value === 'apprise') {
-            urlEle.placeholder = "e.g. apprise://hostname/token";
+        if (value === 'pushover') {
+            urlEle.required = false;
+            urlWrapper.style.display = 'none';
         } else {
-            urlEle.placeholder = "e.g. https://example.com";
+            urlEle.required = true;
+            urlWrapper.style.display = 'block';
+
+            if (value === 'apprise') {
+                urlEle.placeholder = 'e.g. apprise://hostname/token';
+            } else {
+                urlEle.placeholder = 'e.g. https://example.com';
+            }
         }
-    }
+}
+
+
+
 </script>
