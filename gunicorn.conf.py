@@ -144,3 +144,15 @@ def worker_abort(worker):
 def on_exit(server):  # noqa: ARG001
     """Called just before the master process exits."""
     print("INFO: Gunicorn master process shutting down")
+
+    # Gracefully shutdown the APScheduler to prevent "cannot schedule new futures" errors
+    try:
+        from app.extensions import scheduler
+
+        if scheduler and hasattr(scheduler, "running") and scheduler.running:
+            print("INFO: Shutting down APScheduler...")
+            # wait=False to avoid blocking on pending jobs during shutdown
+            scheduler.shutdown(wait=False)
+            print("INFO: APScheduler shut down successfully")
+    except Exception as e:
+        print(f"WARNING: Error shutting down APScheduler: {e}")
