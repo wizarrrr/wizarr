@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-04 04:00+0000\n"
-"PO-Revision-Date: 2025-12-09 15:47+0000\n"
-"Last-Translator: Stepan Curuci <stepan@curuci.eu>\n"
+"POT-Creation-Date: 2026-01-07 04:09+0000\n"
+"PO-Revision-Date: 2025-10-31 15:47+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language: it\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/wizarr"
 "/wizarr-universal/it/>\n"
@@ -255,7 +255,7 @@ msgstr "Aggiorna la pagina e riprova (token CSRF scaduto)"
 msgid "Invalid form data: %(errors)s"
 msgstr "Dati del modulo non validi: %(errors)s"
 
-#: app/blueprints/settings/routes.py:165 app/blueprints/settings/routes.py:268
+#: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
 msgid "Settings saved successfully!"
 msgstr "Impostazioni salvate con successo!"
 
@@ -263,7 +263,7 @@ msgstr "Impostazioni salvate con successo!"
 msgid "Server URL"
 msgstr "URL del server"
 
-#: app/blueprints/settings/routes.py:219 app/forms/settings.py:25
+#: app/blueprints/settings/routes.py:220 app/forms/settings.py:25
 msgid "API Key"
 msgstr "Chiave API"
 
@@ -271,19 +271,47 @@ msgstr "Chiave API"
 msgid "Username/Password"
 msgstr "Nome utente o password non validi"
 
-#: app/blueprints/settings/routes.py:222
+#: app/blueprints/settings/routes.py:223
 #, python-brace-format
 msgid "Missing required fields: {fields}"
 msgstr "Campi obbligatori mancanti: {fields}"
 
-#: app/blueprints/settings/routes.py:225 app/blueprints/settings/routes.py:235
+#: app/blueprints/settings/routes.py:226 app/blueprints/settings/routes.py:236
 #: app/templates/components/passkey_error.html:12
 msgid "Error"
 msgstr "Errore"
 
-#: app/blueprints/settings/routes.py:234
+#: app/blueprints/settings/routes.py:235
 msgid "Library scan failed"
 msgstr "Scansione della libreria fallita"
+
+#: app/blueprints/settings/routes.py:293
+#, python-brace-format
+msgid "Successfully cleaned {count} expired user(s)."
+msgstr ""
+
+#: app/blueprints/settings/routes.py:298
+msgid "No expired users found to clean."
+msgstr ""
+
+#: app/blueprints/settings/routes.py:321 app/blueprints/settings/routes.py:350
+#: app/templates/settings/general.html:178
+msgid ""
+"Are you sure you want to clean all expired users? This action cannot be "
+"undone."
+msgstr ""
+
+#: app/blueprints/settings/routes.py:323 app/blueprints/settings/routes.py:352
+#: app/templates/settings/general.html:167
+#: app/templates/settings/general.html:195
+#, fuzzy
+msgid "Clean Expired Users"
+msgstr "Scade"
+
+#: app/blueprints/settings/routes.py:328
+#, python-brace-format
+msgid "Failed to clean expired users: {error}"
+msgstr ""
 
 #: app/blueprints/setup/routes.py:74
 msgid "Admin account created – welcome!"
@@ -296,10 +324,12 @@ msgid ""
 msgstr "Il tuo invito è scaduto o non è più valido. Richiedi un nuovo invito."
 
 #: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1215
+#: app/blueprints/wizard/routes.py:1378
 msgid "Error Loading Step"
 msgstr "Errore nel caricamento del passaggio"
 
 #: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1218
+#: app/blueprints/wizard/routes.py:1381
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
@@ -349,6 +379,10 @@ msgstr "Impossibile caricare il pacchetto della procedura guidata. Riprova."
 #: app/blueprints/wizard/routes.py:1145
 msgid "Unable to load wizard steps. Please try again."
 msgstr "Impossibile caricare i passaggi della procedura guidata. Riprova."
+
+#: app/blueprints/wizard/routes.py:1338
+msgid "This bundle has no steps to preview."
+msgstr ""
 
 #: app/blueprints/wizard_admin/routes.py:126
 #, python-brace-format
@@ -956,7 +990,7 @@ msgstr "Visualizzazione"
 
 #: app/templates/admin/accepted_invites_card.html:51
 #: app/templates/admin/server_health_card.html:118
-#: app/templates/wizard/steps.html:52 app/templates/wizard/steps.html:92
+#: app/templates/wizard/steps.html:53 app/templates/wizard/steps.html:93
 msgid "of"
 msgstr "di"
 
@@ -969,8 +1003,8 @@ msgid "Page"
 msgstr "Pagina"
 
 #: app/templates/admin/accepted_invites_card.html:65
-#: app/templates/wizard/steps.html:15 app/templates/wizard/steps.html:21
-#: app/templates/wizard/steps.html:226 app/templates/wizard/steps.html:236
+#: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:22
+#: app/templates/wizard/steps.html:243 app/templates/wizard/steps.html:253
 msgid "Next"
 msgstr "Avanti"
 
@@ -1369,7 +1403,7 @@ msgstr "ad es., Il mio iPhone, Laptop di lavoro"
 #: app/templates/modals/edit-identity.html:49
 #: app/templates/modals/edit-notification-agent.html:142
 #: app/templates/modals/edit-server.html:178
-#: app/templates/modals/invite.html:363
+#: app/templates/modals/invite.html:365
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
 #: app/templates/modals/wizard-preset-form.html:59
@@ -1470,9 +1504,9 @@ msgid "Add steps to bundle"
 msgstr "Aggiungi passaggi al pacchetto"
 
 #: app/templates/modals/bundle-add-steps.html:26
-#: app/templates/settings/wizard/bundles.html:94
-#: app/templates/settings/wizard/bundles.html:176
-#: app/templates/settings/wizard/bundles.html:257
+#: app/templates/settings/wizard/bundles.html:106
+#: app/templates/settings/wizard/bundles.html:188
+#: app/templates/settings/wizard/bundles.html:269
 #: app/templates/settings/wizard/steps.html:86
 #: app/templates/settings/wizard/steps.html:166
 msgid "Untitled"
@@ -1688,7 +1722,7 @@ msgstr "Testa e salva modifiche"
 msgid "Edit Server"
 msgstr "Modifica server"
 
-#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:358
+#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:360
 msgid "Create Invitation"
 msgstr "Crea un invito"
 
@@ -1774,7 +1808,7 @@ msgid "Invite to Plex Home"
 msgstr "Codice d'invito"
 
 #: app/templates/modals/invite.html:208 app/templates/modals/invite.html:242
-#: app/templates/modals/invite.html:283
+#: app/templates/modals/invite.html:285
 msgid "Allow Live TV Access"
 msgstr "Consenti accesso TV in diretta"
 
@@ -1790,7 +1824,7 @@ msgstr "Sessioni attive massime"
 msgid "simultaneous devices"
 msgstr "dispositivi simultanei"
 
-#: app/templates/modals/invite.html:260
+#: app/templates/modals/invite.html:261
 msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr "Numero di dispositivi che possono trasmettere simultaneamente. Imposta su 0 per illimitati."
 
@@ -1802,7 +1836,7 @@ msgstr "Librerie"
 msgid "Loading…"
 msgstr "Accedi"
 
-#: app/templates/modals/invite.html:378
+#: app/templates/modals/invite.html:380
 msgid "Successfully generated an Invitation!"
 msgstr "Invito generato con successo!"
 
@@ -1814,7 +1848,7 @@ msgstr "Link invito"
 msgid "Copy"
 msgstr "Copia"
 
-#: app/templates/modals/invite.html:401
+#: app/templates/modals/invite.html:403
 msgid "Link has been copied to clipboard!"
 msgstr "Il collegamento è stato copiato negli appunti!"
 
@@ -1822,7 +1856,7 @@ msgstr "Il collegamento è stato copiato negli appunti!"
 msgid "Create Another"
 msgstr "Crea un account"
 
-#: app/templates/modals/invite.html:461
+#: app/templates/modals/invite.html:463
 msgid "Please select at least one server for the invitation."
 msgstr "Seleziona almeno un server per l'invito."
 
@@ -2119,23 +2153,27 @@ msgstr "Se è selezionato 'Disabilita utente' ma il server non lo supporta, l'ut
 msgid "Choose what happens to users when their invitation expires"
 msgstr "Scegli cosa succede agli utenti quando il loro invito scade"
 
-#: app/templates/settings/general.html:183
+#: app/templates/settings/general.html:169
+msgid "Immediately process all expired users based on the expiry action above"
+msgstr ""
+
+#: app/templates/settings/general.html:220
 msgid "API Key Management"
 msgstr "Gestione chiavi API"
 
-#: app/templates/settings/general.html:185
+#: app/templates/settings/general.html:222
 msgid "Manage API keys for accessing Wizarr programmatically"
 msgstr "Gestisci chiavi API per accedere a Wizarr programmaticamente"
 
-#: app/templates/settings/general.html:193
+#: app/templates/settings/general.html:230
 msgid "Your API Keys"
 msgstr "Le tue chiavi API"
 
-#: app/templates/settings/general.html:194
+#: app/templates/settings/general.html:231
 msgid "Create and manage API keys for external applications"
 msgstr "Crea e gestisci chiavi API per applicazioni esterne"
 
-#: app/templates/settings/general.html:218
+#: app/templates/settings/general.html:255
 msgid "Loading API keys..."
 msgstr "Caricamento chiavi API..."
 
@@ -2331,81 +2369,87 @@ msgstr "Crea una raccolta di passaggi"
 msgid "No bundles found."
 msgstr "Nessun pacchetto trovato."
 
-#: app/templates/settings/wizard/bundles.html:26
+#: app/templates/settings/wizard/bundles.html:27
+#: app/templates/settings/wizard/index.html:60
+#: app/templates/settings/wizard/steps.html:50
+msgid "Preview Wizard"
+msgstr ""
+
+#: app/templates/settings/wizard/bundles.html:38
 #, python-format
 msgid "Export %(bundle_name)s Bundle"
 msgstr "Esporta pacchetto %(bundle_name)s"
 
-#: app/templates/settings/wizard/bundles.html:53
+#: app/templates/settings/wizard/bundles.html:65
 msgid "Are you sure you want to delete this bundle?"
 msgstr "Sei sicuro di voler eliminare questo pacchetto?"
 
-#: app/templates/settings/wizard/bundles.html:70
+#: app/templates/settings/wizard/bundles.html:82
 #: app/templates/settings/wizard/steps.html:65
 msgid "Before Invite Acceptance"
 msgstr "Prima dell'accettazione dell'invito"
 
-#: app/templates/settings/wizard/bundles.html:72
+#: app/templates/settings/wizard/bundles.html:84
 #: app/templates/settings/wizard/steps.html:67
 msgid "Steps shown to users before they accept the invitation"
 msgstr "Passaggi mostrati agli utenti prima che accettino l'invito"
 
-#: app/templates/settings/wizard/bundles.html:115
-#: app/templates/settings/wizard/bundles.html:197
-#: app/templates/settings/wizard/bundles.html:278
+#: app/templates/settings/wizard/bundles.html:127
+#: app/templates/settings/wizard/bundles.html:209
+#: app/templates/settings/wizard/bundles.html:290
 #: app/templates/settings/wizard/index.html:104
 #: app/templates/settings/wizard/steps.html:106
 #: app/templates/settings/wizard/steps.html:186
 msgid "Are you sure you want to delete this step?"
 msgstr "Sei sicuro di voler eliminare questo passaggio?"
 
-#: app/templates/settings/wizard/bundles.html:146
+#: app/templates/settings/wizard/bundles.html:158
 #: app/templates/settings/wizard/steps.html:138
 msgid "No pre-invite steps configured"
 msgstr "Nessun passaggio pre-invito configurato"
 
-#: app/templates/settings/wizard/bundles.html:152
+#: app/templates/settings/wizard/bundles.html:164
 #: app/templates/settings/wizard/steps.html:145
 msgid "After Invite Acceptance"
 msgstr "Codice d'invito"
 
-#: app/templates/settings/wizard/bundles.html:154
+#: app/templates/settings/wizard/bundles.html:166
 #: app/templates/settings/wizard/steps.html:147
 msgid "Steps shown to users after they accept the invitation"
 msgstr "Passaggi mostrati agli utenti dopo che accettano l'invito"
 
-#: app/templates/settings/wizard/bundles.html:228
+#: app/templates/settings/wizard/bundles.html:240
 #: app/templates/settings/wizard/steps.html:218
 msgid "No post-invite steps configured"
 msgstr "Nessun passaggio post-invito configurato"
 
-#: app/templates/settings/wizard/bundles.html:235
+#: app/templates/settings/wizard/bundles.html:247
 msgid "Additional Categories"
 msgstr "Categorie aggiuntive"
 
-#: app/templates/settings/wizard/bundles.html:237
+#: app/templates/settings/wizard/bundles.html:249
 msgid "Steps that use custom categories keep their order here."
 msgstr "I passaggi che usano categorie personalizzate mantengono il loro ordine qui."
 
-#: app/templates/settings/wizard/bundles.html:305
+#: app/templates/settings/wizard/bundles.html:317
 msgid "Orphaned Steps"
 msgstr "Passaggi orfani"
 
-#: app/templates/settings/wizard/bundles.html:307
+#: app/templates/settings/wizard/bundles.html:319
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
 msgstr "Queste voci non hanno più un passaggio associato. Rimuovile per mantenere il pacchetto ordinato."
 
-#: app/templates/settings/wizard/bundles.html:312
+#: app/templates/settings/wizard/bundles.html:324
 msgid "Step deleted (orphaned)"
 msgstr "Passaggio eliminato (orfano)"
 
-#: app/templates/settings/wizard/bundles.html:319
+#: app/templates/settings/wizard/bundles.html:331
 msgid "Are you sure you want to remove this orphaned step?"
 msgstr "Sei sicuro di voler rimuovere questo passaggio orfano?"
 
-#: app/templates/settings/wizard/bundles.html:322
+#: app/templates/settings/wizard/bundles.html:334
 msgid "Remove orphaned step"
 msgstr "Rimuovi passaggio orfano"
 
@@ -2537,7 +2581,7 @@ msgid "Untitled Step"
 msgstr "Usi illimitati"
 
 #: app/templates/settings/wizard/index.html:87
-#: app/templates/wizard/steps.html:52 app/templates/wizard/steps.html:92
+#: app/templates/wizard/steps.html:53 app/templates/wizard/steps.html:93
 msgid "Step"
 msgstr "Passaggio"
 
@@ -2675,10 +2719,10 @@ msgstr "Prima dell'invito"
 msgid "After Invitation"
 msgstr "Dopo l'invito"
 
-#: app/templates/wizard/steps.html:141 app/templates/wizard/steps.html:201
+#: app/templates/wizard/steps.html:146 app/templates/wizard/steps.html:214
 msgid "Previous"
 msgstr "Precedente"
 
-#: app/templates/wizard/steps.html:173 app/templates/wizard/steps.html:231
+#: app/templates/wizard/steps.html:182 app/templates/wizard/steps.html:248
 msgid "Click the link in this step to be able to continue"
 msgstr "Clicca il link in questo passaggio per poter continuare"
