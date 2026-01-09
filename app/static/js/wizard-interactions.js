@@ -1,0 +1,866 @@
+/**
+ * Wizard Interaction Handler System
+ *
+ * Modular system for handling user interactions in wizard steps.
+ * Each interaction type has its own handler that validates when the user
+ * has satisfied the interaction requirement.
+ */
+
+// ============================================================================
+// i18n Helper
+// ============================================================================
+
+/**
+ * Get a translated string from the i18n data container.
+ * Falls back to the provided default if the translation is not found.
+ *
+ * @param {string} key - The data attribute key (without 'data-' prefix, use camelCase)
+ * @param {string} fallback - Fallback string if translation not found
+ * @returns {string} The translated string or fallback
+ */
+function getI18nString(key, fallback = "") {
+  const container = document.getElementById("wizard-i18n");
+  if (container && container.dataset[key]) {
+    return container.dataset[key];
+  }
+  return fallback;
+}
+
+// ============================================================================
+// Base Handler
+// ============================================================================
+
+class InteractionHandler {
+  constructor(config, onSatisfied, onUnsatisfied) {
+    this.config = config;
+    this.onSatisfied = onSatisfied;
+    this.onUnsatisfied = onUnsatisfied;
+    this.satisfied = false;
+  }
+
+  /** Initialize the handler - override in subclasses */
+  init() {}
+
+  /** Check if this interaction is satisfied */
+  isSatisfied() {
+    return this.satisfied;
+  }
+
+  /** Mark this interaction as satisfied */
+  markSatisfied() {
+    if (!this.satisfied) {
+      this.satisfied = true;
+      if (this.onSatisfied) {
+        this.onSatisfied(this);
+      }
+    }
+  }
+
+  /** Mark this interaction as unsatisfied (e.g., ToS checkbox unchecked) */
+  markUnsatisfied() {
+    if (this.satisfied) {
+      this.satisfied = false;
+      if (this.onUnsatisfied) {
+        this.onUnsatisfied(this);
+      }
+    }
+  }
+
+  /** Clean up resources - override in subclasses */
+  cleanup() {}
+}
+
+// ============================================================================
+// Click Interaction Handler
+// ============================================================================
+
+class ClickInteractionHandler extends InteractionHandler {
+  constructor(config, onSatisfied, onUnsatisfied) {
+    super(config, onSatisfied, onUnsatisfied);
+    this.clickHandler = null;
+    this.contentArea = null;
+    this.targetSelector = config.target_selector || "a, button";
+  }
+
+  init() {
+    // Find the wizard content container
+    const wizardContent = document.querySelector("#wizard-body, .wizard-content");
+    if (!wizardContent) {
+      console.warn("[ClickInteractionHandler] No content area found");
+      return;
+    }
+
+    // Target only the .prose content area to avoid capturing clicks from
+    // other interaction handlers' UI elements (quiz buttons, text input buttons, etc.)
+    // Fall back to wizardContent for backwards compatibility
+    const contentArea = wizardContent.querySelector(".prose") || wizardContent;
+    this.contentArea = contentArea;
+
+    const targets = contentArea.querySelectorAll(this.targetSelector);
+    if (targets.length === 0) {
+      // Log warning - admin should include clickable elements when Click is enabled
+      console.warn(
+        `[ClickInteractionHandler] No clickable elements found matching "${this.targetSelector}". ` +
+          "Add links or buttons to the step content, or disable Click Interaction."
+      );
+
+      // Create error UI element to inform the user
+      const errorDiv = document.createElement("div");
+      errorDiv.id = "click-interaction-error";
+      errorDiv.className =
+        "text-sm text-red-600 dark:text-red-400 mt-4 p-3 bg-red-50 dark:bg-red-900/20 rounded-lg";
+      errorDiv.textContent = getI18nString(
+        "clickRequired",
+        "This step requires clicking a link or button in the content above."
+      );
+      contentArea.appendChild(errorDiv);
+
+      // Do NOT auto-satisfy - requirement stays unsatisfied until clickable elements exist
+      return;
+    }
+
+    this.clickHandler = (e) => {
+      // Check if click was on a target element
+      const target = e.target.closest(this.targetSelector);
+      if (target) {
+        this.markSatisfied();
+      }
+    };
+
+    contentArea.addEventListener("click", this.clickHandler);
+  }
+
+  cleanup() {
+    // Remove error element if present
+    const errorEl = document.querySelector("#click-interaction-error");
+    if (errorEl) {
+      errorEl.remove();
+    }
+
+    // Remove click event listener from stored contentArea reference
+    if (this.clickHandler && this.contentArea) {
+      this.contentArea.removeEventListener("click", this.clickHandler);
+      this.clickHandler = null;
+      this.contentArea = null;
+    }
+  }
+}
+
+// ============================================================================
+// Time Interaction Handler
+// ============================================================================
+
+class TimeInteractionHandler extends InteractionHandler {
+  constructor(config, onSatisfied, onUnsatisfied) {
+    super(config, onSatisfied, onUnsatisfied);
+    this.duration = config.duration_seconds || 10;
+    this.showCountdown = config.show_countdown !== false;
+    this.timerId = null;
+    this.startTime = null;
+    this.countdownElement = null;
+  }
+
+  init() {
+    this.startTime = Date.now();
+
+    // Create countdown display if configured
+    if (this.showCountdown) {
+      this.createCountdownUI();
+      this.updateCountdown();
+    }
+
+    // Start timer
+    this.timerId = setInterval(() => {
+      const elapsed = Math.floor((Date.now() - this.startTime) / 1000);
+      const remaining = Math.max(0, this.duration - elapsed);
+
+      if (this.showCountdown) {
+        this.updateCountdown(remaining);
+      }
+
+      if (remaining <= 0) {
+        this.markSatisfied();
+        this.cleanup();
+      }
+    }, 100);
+  }
+
+  createCountdownUI() {
+    // Find or create the interaction status area
+    let statusArea = document.querySelector("#interaction-status");
+    if (!statusArea) {
+      statusArea = document.createElement("div");
+      statusArea.id = "interaction-status";
+      statusArea.className = "mt-4 space-y-3";
+      const wizardBody = document.querySelector("#wizard-body, .wizard-content");
+      if (wizardBody) {
+        wizardBody.appendChild(statusArea);
+      }
+    }
+
+    const pleaseWait = getI18nString("pleaseWait", "Please wait");
+    const seconds = getI18nString("seconds", "seconds");
+
+    this.countdownElement = document.createElement("div");
+    this.countdownElement.className =
+      "flex items-center gap-3 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-lg text-blue-700 dark:text-blue-300";
+    this.countdownElement.innerHTML = `
+      <svg class="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+      <span class="countdown-text">${pleaseWait} <strong>${this.duration}</strong> ${seconds}...</span>
+    `;
+    statusArea.appendChild(this.countdownElement);
+  }
+
+  updateCountdown(remaining) {
+    if (!this.countdownElement) return;
+
+    remaining =
+      remaining ?? Math.max(0, this.duration - Math.floor((Date.now() - this.startTime) / 1000));
+
+    const textEl = this.countdownElement.querySelector(".countdown-text");
+    if (textEl) {
+      if (remaining > 0) {
+        const pleaseWait = getI18nString("pleaseWait", "Please wait");
+        const timeUnit =
+          remaining !== 1
+            ? getI18nString("seconds", "seconds")
+            : getI18nString("second", "second");
+        textEl.innerHTML = `${pleaseWait} <strong>${remaining}</strong> ${timeUnit}...`;
+      } else {
+        const allSet = getI18nString("allSet", "All set! Click Next to continue");
+        textEl.innerHTML = `<span class="text-green-600 dark:text-green-400">${allSet}</span>`;
+        // Change icon to checkmark
+        const svg = this.countdownElement.querySelector("svg");
+        if (svg) {
+          svg.classList.remove("animate-spin");
+          svg.innerHTML = `<path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>`;
+        }
+      }
+    }
+  }
+
+  cleanup() {
+    if (this.timerId) {
+      clearInterval(this.timerId);
+      this.timerId = null;
+    }
+  }
+}
+
+// ============================================================================
+// Terms of Service Interaction Handler
+// ============================================================================
+
+class TosInteractionHandler extends InteractionHandler {
+  constructor(config, onSatisfied, onUnsatisfied) {
+    super(config, onSatisfied, onUnsatisfied);
+    this.requireScroll = config.require_scroll !== false;
+    this.checkboxLabel =
+      config.checkbox_label ||
+      getI18nString("defaultCheckbox", "I have read and agree to the terms");
+    // Prefer pre-rendered HTML, fall back to raw markdown for backwards compatibility
+    this.content = config.content_html || config.content_markdown || "";
+    this.scrollHandler = null;
+    this.hasScrolledToBottom = false;
+    this.tosElement = null;
+  }
+
+  init() {
+    this.createTosUI();
+
+    if (this.requireScroll) {
+      const scrollContainer = this.tosElement?.querySelector(".tos-content");
+      if (scrollContainer) {
+        this.scrollHandler = () => this.checkScroll(scrollContainer);
+        scrollContainer.addEventListener("scroll", this.scrollHandler);
+        // Check initial state
+        this.checkScroll(scrollContainer);
+      }
+    } else {
+      this.hasScrolledToBottom = true;
+    }
+  }
+
+  createTosUI() {
+    let statusArea = document.querySelector("#interaction-status");
+    if (!statusArea) {
+      statusArea = document.createElement("div");
+      statusArea.id = "interaction-status";
+      statusArea.className = "mt-4 space-y-3";
+      const wizardBody = document.querySelector("#wizard-body, .wizard-content");
+      if (wizardBody) {
+        wizardBody.appendChild(statusArea);
+      }
+    }
+
+    const tosPlaceholder = getI18nString("tosPlaceholder", "Terms of Service content");
+    const scrollHint = getI18nString(
+      "scrollHint",
+      "Please scroll to the bottom to enable the checkbox"
+    );
+
+    this.tosElement = document.createElement("div");
+    this.tosElement.className = "w-full border dark:border-gray-700 rounded-lg overflow-hidden";
+    this.tosElement.innerHTML = `
+      <div class="tos-content max-h-48 overflow-y-auto p-4 bg-gray-50 dark:bg-gray-800 text-sm prose dark:prose-invert prose-sm max-w-none">
+        ${this.content || `<p>${tosPlaceholder}</p>`}
+      </div>
+      <div class="p-3 bg-white dark:bg-gray-900 border-t dark:border-gray-700">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="checkbox" class="tos-checkbox w-4 h-4 rounded border-gray-300 dark:border-gray-600" ${!this.requireScroll || this.hasScrolledToBottom ? "" : "disabled"}>
+          <span class="text-sm text-gray-700 dark:text-gray-300">${this.checkboxLabel}</span>
+        </label>
+        ${this.requireScroll ? `<p class="scroll-hint mt-1 text-xs text-gray-500">${scrollHint}</p>` : ""}
+      </div>
+    `;
+
+    const checkbox = this.tosElement.querySelector(".tos-checkbox");
+    if (checkbox) {
+      checkbox.addEventListener("change", (e) => {
+        if (e.target.checked && (!this.requireScroll || this.hasScrolledToBottom)) {
+          this.markSatisfied();
+        } else if (!e.target.checked) {
+          // Handle unchecking - re-disable the continue button
+          this.markUnsatisfied();
+        }
+      });
+    }
+
+    statusArea.appendChild(this.tosElement);
+  }
+
+  checkScroll(container) {
+    const isAtBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight < 20;
+    if (isAtBottom && !this.hasScrolledToBottom) {
+      this.hasScrolledToBottom = true;
+      const checkbox = this.tosElement?.querySelector(".tos-checkbox");
+      const hint = this.tosElement?.querySelector(".scroll-hint");
+      if (checkbox) {
+        checkbox.disabled = false;
+      }
+      if (hint) {
+        hint.textContent = getI18nString("scrollComplete", "You may now accept the terms");
+        hint.classList.add("text-green-600", "dark:text-green-400");
+      }
+    }
+  }
+
+  cleanup() {
+    if (this.scrollHandler && this.tosElement) {
+      const scrollContainer = this.tosElement.querySelector(".tos-content");
+      if (scrollContainer) {
+        scrollContainer.removeEventListener("scroll", this.scrollHandler);
+      }
+    }
+  }
+}
+
+// ============================================================================
+// Text Input Validation Handler
+// ============================================================================
+
+class TextValidationHandler extends InteractionHandler {
+  constructor(config, onSatisfied, onUnsatisfied) {
+    super(config, onSatisfied, onUnsatisfied);
+    this.question =
+      config.question || getI18nString("defaultQuestion", "Please answer the question:");
+    this.answers = config.answers || [];
+    this.caseSensitive = config.case_sensitive === true;
+    this.errorMessage =
+      config.error_message ||
+      getI18nString("defaultError", "Incorrect answer. Please try again.");
+    this.inputElement = null;
+  }
+
+  init() {
+    this.createTextInputUI();
+  }
+
+  createTextInputUI() {
+    let statusArea = document.querySelector("#interaction-status");
+    if (!statusArea) {
+      statusArea = document.createElement("div");
+      statusArea.id = "interaction-status";
+      statusArea.className = "mt-4 space-y-3";
+      const wizardBody = document.querySelector("#wizard-body, .wizard-content");
+      if (wizardBody) {
+        wizardBody.appendChild(statusArea);
+      }
+    }
+
+    const typeAnswer = getI18nString("typeAnswer", "Type your answer...");
+    const checkBtn = getI18nString("check", "Check");
+
+    this.inputElement = document.createElement("div");
+    this.inputElement.className = "p-4 border dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-800";
+    this.inputElement.innerHTML = `
+      <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">${this.question}</label>
+      <div class="flex gap-2">
+        <input type="text" class="text-answer flex-1 px-3 py-2 border dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white" placeholder="${typeAnswer}">
+        <button type="button" class="check-answer px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">${checkBtn}</button>
+      </div>
+      <p class="feedback mt-2 text-sm hidden"></p>
+    `;
+
+    const input = this.inputElement.querySelector(".text-answer");
+    const button = this.inputElement.querySelector(".check-answer");
+    const feedback = this.inputElement.querySelector(".feedback");
+
+    const checkAnswer = () => {
+      const userAnswer = input.value.trim();
+      const normalizedUser = this.caseSensitive ? userAnswer : userAnswer.toLowerCase();
+
+      const isCorrect = this.answers.some((answer) => {
+        const normalizedAnswer = this.caseSensitive ? answer : answer.toLowerCase();
+        return normalizedUser === normalizedAnswer;
+      });
+
+      if (isCorrect) {
+        const correctText = getI18nString("correct", "Correct!");
+        feedback.textContent = correctText;
+        feedback.className = "feedback mt-2 text-sm text-green-600 dark:text-green-400";
+        feedback.classList.remove("hidden");
+        input.disabled = true;
+        button.disabled = true;
+        button.textContent = correctText;
+        button.className = "px-4 py-2 bg-green-600 text-white rounded-lg cursor-not-allowed";
+        this.markSatisfied();
+      } else {
+        feedback.textContent = this.errorMessage;
+        feedback.className = "feedback mt-2 text-sm text-red-600 dark:text-red-400";
+        feedback.classList.remove("hidden");
+        input.classList.add("border-red-500");
+        setTimeout(() => {
+          input.classList.remove("border-red-500");
+        }, 2000);
+      }
+    };
+
+    button.addEventListener("click", checkAnswer);
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
+        checkAnswer();
+      }
+    });
+
+    statusArea.appendChild(this.inputElement);
+  }
+
+  cleanup() {}
+}
+
+// ============================================================================
+// Quiz Interaction Handler
+// ============================================================================
+
+class QuizInteractionHandler extends InteractionHandler {
+  constructor(config, onSatisfied, onUnsatisfied) {
+    super(config, onSatisfied, onUnsatisfied);
+    this.questions = config.questions || [];
+    this.passThreshold = config.pass_threshold ?? 1.0;
+    this.shuffleQuestions = config.shuffle_questions === true;
+    this.shuffleAnswers = config.shuffle_answers === true;
+    this.showExplanations = config.show_explanations !== false;
+    this.quizElement = null;
+    this.currentQuestion = 0;
+    this.correctCount = 0;
+    this.userAnswers = [];
+  }
+
+  init() {
+    if (this.questions.length === 0) {
+      this.markSatisfied();
+      return;
+    }
+
+    if (this.shuffleQuestions) {
+      this.questions = this.shuffleArray([...this.questions]);
+    }
+
+    this.createQuizUI();
+  }
+
+  shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  createQuizUI() {
+    let statusArea = document.querySelector("#interaction-status");
+    if (!statusArea) {
+      statusArea = document.createElement("div");
+      statusArea.id = "interaction-status";
+      statusArea.className = "mt-4 space-y-3";
+      const wizardBody = document.querySelector("#wizard-body, .wizard-content");
+      if (wizardBody) {
+        wizardBody.appendChild(statusArea);
+      }
+    }
+
+    this.quizElement = document.createElement("div");
+    this.quizElement.className = "border dark:border-gray-700 rounded-lg overflow-hidden";
+    statusArea.appendChild(this.quizElement);
+
+    this.renderQuestion();
+  }
+
+  renderQuestion() {
+    if (!this.quizElement) return;
+
+    const question = this.questions[this.currentQuestion];
+    // Format: "Question 1 of 5"
+    const questionOf = getI18nString("questionOf", "Question {current} of {total}")
+      .replace("{current}", this.currentQuestion + 1)
+      .replace("{total}", this.questions.length);
+    const correctWord = getI18nString("correctWord", "correct");
+
+    this.quizElement.innerHTML = `
+      <div class="p-4 bg-gray-50 dark:bg-gray-800">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs font-medium text-gray-500 dark:text-gray-400">${questionOf}</span>
+          <span class="text-xs text-gray-500 dark:text-gray-400">${this.correctCount} ${correctWord}</span>
+        </div>
+        <p class="font-medium text-gray-900 dark:text-white mb-4">${question.question}</p>
+        <div class="space-y-2 quiz-options">
+          ${this.renderOptions(question)}
+        </div>
+        <div class="quiz-feedback mt-4 hidden"></div>
+      </div>
+    `;
+
+    // Add click handlers to options
+    const options = this.quizElement.querySelectorAll(".quiz-option");
+    options.forEach((option) => {
+      option.addEventListener("click", (e) => this.selectAnswer(e, question));
+    });
+  }
+
+  renderOptions(question) {
+    if (question.type === "true_false") {
+      // True/False options stay in fixed order for consistency
+      const trueText = getI18nString("true", "True");
+      const falseText = getI18nString("false", "False");
+      return `
+        <button type="button" class="quiz-option w-full text-left px-4 py-3 border dark:border-gray-600 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" data-value="true">${trueText}</button>
+        <button type="button" class="quiz-option w-full text-left px-4 py-3 border dark:border-gray-600 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" data-value="false">${falseText}</button>
+      `;
+    }
+
+    // Multiple choice - shuffle if enabled
+    let options = question.options || [];
+    if (this.shuffleAnswers) {
+      options = this.shuffleArray([...options]);
+    }
+    return options
+      .map(
+        (opt, i) => `
+        <button type="button" class="quiz-option w-full text-left px-4 py-3 border dark:border-gray-600 rounded-lg text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" data-value="${opt}">${opt}</button>
+      `
+      )
+      .join("");
+  }
+
+  selectAnswer(e, question) {
+    const selectedValue = e.target.dataset.value;
+    const correctAnswer = String(question.correct_answer);
+    const isCorrect = selectedValue === correctAnswer;
+
+    if (isCorrect) {
+      this.correctCount++;
+    }
+
+    this.userAnswers.push({
+      question: question.question,
+      selected: selectedValue,
+      correct: correctAnswer,
+      isCorrect,
+    });
+
+    // Show feedback
+    const options = this.quizElement.querySelectorAll(".quiz-option");
+    options.forEach((opt) => {
+      opt.disabled = true;
+      opt.classList.remove("hover:bg-gray-100", "dark:hover:bg-gray-700");
+
+      if (opt.dataset.value === correctAnswer) {
+        opt.classList.add("bg-green-100", "dark:bg-green-900/30", "border-green-500");
+      } else if (opt.dataset.value === selectedValue && !isCorrect) {
+        opt.classList.add("bg-red-100", "dark:bg-red-900/30", "border-red-500");
+      }
+    });
+
+    const feedback = this.quizElement.querySelector(".quiz-feedback");
+    if (feedback && this.showExplanations && question.explanation) {
+      const correctText = getI18nString("correct", "Correct!");
+      const incorrectText = getI18nString("incorrect", "Incorrect.");
+      feedback.innerHTML = `
+        <p class="text-sm ${isCorrect ? "text-green-600 dark:text-green-400" : "text-red-600 dark:text-red-400"}">
+          ${isCorrect ? correctText : incorrectText} ${question.explanation}
+        </p>
+      `;
+      feedback.classList.remove("hidden");
+    }
+
+    // Move to next question after a delay
+    setTimeout(() => {
+      this.currentQuestion++;
+      if (this.currentQuestion < this.questions.length) {
+        this.renderQuestion();
+      } else {
+        this.showResults();
+      }
+    }, 1500);
+  }
+
+  showResults() {
+    if (!this.quizElement) return;
+
+    const score = this.correctCount / this.questions.length;
+    const passed = score >= this.passThreshold;
+    const percentage = Math.round(score * 100);
+
+    const quizPassed = getI18nString("quizPassed", "Quiz Passed!");
+    const quizNotPassed = getI18nString("quizNotPassed", "Quiz Not Passed");
+    const youGot = getI18nString("youGot", "You got");
+    const outOf = getI18nString("outOf", "out of");
+    const correctWord = getI18nString("correctWord", "correct");
+    const youMayContinue = getI18nString("youMayContinue", "You may continue.");
+    const needToPass = getI18nString("needToPass", "You need {percent}% to pass.").replace(
+      "{percent}",
+      Math.round(this.passThreshold * 100)
+    );
+    const tryAgain = getI18nString("tryAgain", "Try Again");
+
+    this.quizElement.innerHTML = `
+      <div class="p-4 ${passed ? "bg-green-50 dark:bg-green-900/20" : "bg-red-50 dark:bg-red-900/20"}">
+        <h3 class="font-bold text-lg ${passed ? "text-green-700 dark:text-green-300" : "text-red-700 dark:text-red-300"} mb-2">
+          ${passed ? quizPassed : quizNotPassed}
+        </h3>
+        <p class="text-gray-700 dark:text-gray-300 mb-3">
+          ${youGot} ${this.correctCount} ${outOf} ${this.questions.length} ${correctWord} (${percentage}%).
+          ${passed ? youMayContinue : needToPass}
+        </p>
+        ${!passed ? `<button type="button" class="retry-quiz px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">${tryAgain}</button>` : ""}
+      </div>
+    `;
+
+    if (passed) {
+      this.markSatisfied();
+    } else {
+      const retryBtn = this.quizElement.querySelector(".retry-quiz");
+      if (retryBtn) {
+        retryBtn.addEventListener("click", () => this.resetQuiz());
+      }
+    }
+  }
+
+  resetQuiz() {
+    this.currentQuestion = 0;
+    this.correctCount = 0;
+    this.userAnswers = [];
+    if (this.shuffleQuestions) {
+      this.questions = this.shuffleArray([...this.questions]);
+    }
+    this.renderQuestion();
+  }
+
+  cleanup() {}
+}
+
+// ============================================================================
+// Interaction Coordinator
+// ============================================================================
+
+class InteractionCoordinator {
+  constructor(config, onAllSatisfied, onUnsatisfied) {
+    this.config = config || {};
+    this.onAllSatisfied = onAllSatisfied;
+    this.onUnsatisfied = onUnsatisfied;
+    this.handlers = [];
+    this.allSatisfied = false;
+  }
+
+  /**
+   * Initialize the coordinator with interaction config.
+   * Spawns handlers for each enabled interaction type.
+   */
+  init() {
+    // Clear any existing interaction status
+    const existingStatus = document.querySelector("#interaction-status");
+    if (existingStatus) {
+      existingStatus.remove();
+    }
+
+    // Create handlers for enabled interactions
+    // Pass both onSatisfied and onUnsatisfied callbacks to handlers that support it
+    if (this.config.click?.enabled) {
+      this.handlers.push(
+        new ClickInteractionHandler(
+          this.config.click,
+          () => this.checkAllSatisfied(),
+          () => this.recheckSatisfaction()
+        )
+      );
+    }
+
+    if (this.config.time?.enabled) {
+      this.handlers.push(
+        new TimeInteractionHandler(
+          this.config.time,
+          () => this.checkAllSatisfied(),
+          () => this.recheckSatisfaction()
+        )
+      );
+    }
+
+    if (this.config.tos?.enabled) {
+      this.handlers.push(
+        new TosInteractionHandler(
+          this.config.tos,
+          () => this.checkAllSatisfied(),
+          () => this.recheckSatisfaction()
+        )
+      );
+    }
+
+    if (this.config.text_input?.enabled) {
+      this.handlers.push(
+        new TextValidationHandler(
+          this.config.text_input,
+          () => this.checkAllSatisfied(),
+          () => this.recheckSatisfaction()
+        )
+      );
+    }
+
+    if (this.config.quiz?.enabled) {
+      this.handlers.push(
+        new QuizInteractionHandler(
+          this.config.quiz,
+          () => this.checkAllSatisfied(),
+          () => this.recheckSatisfaction()
+        )
+      );
+    }
+
+    // Initialize all handlers
+    this.handlers.forEach((h) => h.init());
+
+    // If no handlers, auto-satisfy
+    if (this.handlers.length === 0) {
+      this.allSatisfied = true;
+      if (this.onAllSatisfied) {
+        this.onAllSatisfied();
+      }
+    }
+  }
+
+  /**
+   * Check if all interactions are satisfied.
+   */
+  checkAllSatisfied() {
+    if (this.allSatisfied) return;
+
+    const allDone = this.handlers.every((h) => h.isSatisfied());
+    if (allDone) {
+      this.allSatisfied = true;
+      if (this.onAllSatisfied) {
+        this.onAllSatisfied();
+      }
+    }
+  }
+
+  /**
+   * Re-check satisfaction state when a handler becomes unsatisfied.
+   * Called when user unchecks ToS checkbox, etc.
+   */
+  recheckSatisfaction() {
+    const allDone = this.handlers.every((h) => h.isSatisfied());
+    if (!allDone && this.allSatisfied) {
+      this.allSatisfied = false;
+      if (this.onUnsatisfied) {
+        this.onUnsatisfied();
+      }
+    }
+  }
+
+  /**
+   * Check if navigation should be enabled.
+   */
+  isNavigationEnabled() {
+    return this.allSatisfied;
+  }
+
+  /**
+   * Clean up all handlers.
+   */
+  cleanup() {
+    this.handlers.forEach((h) => h.cleanup());
+    this.handlers = [];
+    this.allSatisfied = false;
+  }
+}
+
+// ============================================================================
+// Global Instance & Alpine Integration
+// ============================================================================
+
+// Global coordinator instance for the current step
+window.wizardInteractionCoordinator = null;
+
+/**
+ * Initialize interactions for a wizard step.
+ * Called from wizard-steps.js when a new step is loaded.
+ *
+ * @param {Object} config - Interaction configuration from server
+ * @param {Function} onAllSatisfied - Callback when all interactions are satisfied
+ * @param {Function} onUnsatisfied - Callback when an interaction becomes unsatisfied (e.g., ToS unchecked)
+ * @returns {InteractionCoordinator}
+ */
+function initWizardInteractions(config, onAllSatisfied, onUnsatisfied) {
+  // Cleanup previous coordinator
+  if (window.wizardInteractionCoordinator) {
+    window.wizardInteractionCoordinator.cleanup();
+  }
+
+  // Create new coordinator with both callbacks
+  const coordinator = new InteractionCoordinator(config, onAllSatisfied, onUnsatisfied);
+  coordinator.init();
+
+  window.wizardInteractionCoordinator = coordinator;
+  return coordinator;
+}
+
+/**
+ * Check if current step interactions are satisfied.
+ * Used by wizard navigation to determine if user can proceed.
+ */
+function areInteractionsSatisfied() {
+  if (!window.wizardInteractionCoordinator) {
+    return true; // No coordinator = no requirements
+  }
+  return window.wizardInteractionCoordinator.isNavigationEnabled();
+}
+
+/**
+ * Clean up current interactions.
+ * Called when navigating away from a step.
+ */
+function cleanupWizardInteractions() {
+  if (window.wizardInteractionCoordinator) {
+    window.wizardInteractionCoordinator.cleanup();
+    window.wizardInteractionCoordinator = null;
+  }
+}
+
+// Export for use by wizard-steps.js
+window.initWizardInteractions = initWizardInteractions;
+window.areInteractionsSatisfied = areInteractionsSatisfied;
+window.cleanupWizardInteractions = cleanupWizardInteractions;

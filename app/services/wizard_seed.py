@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 
 import frontmatter
@@ -8,6 +9,26 @@ from sqlalchemy import inspect  # NEW
 
 from app.extensions import db
 from app.models import WizardStep
+
+
+def _strip_jinja_translation(text: str) -> str:
+    """Strip Jinja2 translation syntax from text.
+
+    Converts strings like "{{ _('What is Plex?') }}" to "What is Plex?".
+    This is used when importing wizard steps to store plain text titles
+    instead of template syntax.
+    """
+    if not text:
+        return text
+
+    # Pattern matches {{ _('...') }} or {{ _("...") }}
+    pattern = r"\{\{\s*_\(['\"](.+?)['\"]\)\s*\}\}"
+    match = re.match(pattern, text.strip())
+    if match:
+        return match.group(1)
+
+    return text
+
 
 # Folder containing the bundled markdown files (wizard_steps/<server>/*.md)
 BASE_DIR = Path(__file__).resolve().parent.parent.parent / "wizard_steps"
@@ -52,6 +73,10 @@ def _parse_markdown(path: Path) -> dict:
             if line.lstrip().startswith("# "):
                 title = line.lstrip("# ").strip()
                 break
+
+    # Strip Jinja2 translation syntax from title (e.g., "{{ _('...') }}" -> "...")
+    # This ensures titles are stored as plain text in the database
+    title = _strip_jinja_translation(title)
 
     return {
         "title": title,

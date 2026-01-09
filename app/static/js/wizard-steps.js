@@ -273,9 +273,42 @@ function attachSortableLists(root = document) {
 
 // Attach Next-button gating that requires an interaction inside step content
 function attachInteractionGating(root = document) {
+  // Cleanup any previous interaction coordinator
+  if (typeof cleanupWizardInteractions === 'function') {
+    cleanupWizardInteractions();
+  }
+
+  // Always cleanup previous button handlers first (buttons persist across HTMX swaps)
+  // Use document.querySelector to find buttons regardless of root context
+  const globalMobileNext = document.querySelector('#wizard-next-btn');
+  const globalDesktopNext = document.querySelector('#wizard-next-btn-desktop');
+  [globalMobileNext, globalDesktopNext].filter(Boolean).forEach(btn => {
+    // Remove previous click/key blockers
+    if (btn._clickBlocker) {
+      btn.removeEventListener('click', btn._clickBlocker, true);
+      delete btn._clickBlocker;
+    }
+    if (btn._keyBlocker) {
+      btn.removeEventListener('keydown', btn._keyBlocker, true);
+      delete btn._keyBlocker;
+    }
+    // Clear the attached flag to allow re-initialization
+    delete btn.dataset.interactionGatingAttached;
+    // Restore hx-get if it was saved (button may have been left in disabled state)
+    if (btn.dataset.savedHxGet != null) {
+      btn.setAttribute('hx-get', btn.dataset.savedHxGet);
+      delete btn.dataset.savedHxGet;
+    }
+    // Reset visual state
+    btn.style.pointerEvents = '';
+    btn.style.opacity = '';
+    btn.style.cursor = '';
+  });
+
   // Handle both mobile and desktop next buttons (updated after button refactoring)
-  const mobileNext = root.querySelector('#wizard-next-btn');
-  const desktopNext = root.querySelector('#wizard-next-btn-desktop');
+  // Use document.querySelector since buttons are outside #wizard-content (persist across HTMX swaps)
+  const mobileNext = document.querySelector('#wizard-next-btn');
+  const desktopNext = document.querySelector('#wizard-next-btn-desktop');
 
   // Get all next buttons that exist
   const nextButtons = [mobileNext, desktopNext].filter(btn => btn !== null);
@@ -286,12 +319,81 @@ function attachInteractionGating(root = document) {
   const requiresInteraction = nextButtons.some(btn => btn.dataset.disabled === '1');
   if (!requiresInteraction) return;
 
-  // Process each button
+  // Check for new modular interactions config
+  // The data-interactions attribute is on #wizard-content (set in _content.html)
+  // Handle case where root itself is the wizard-content (e.g., from htmx:load event)
+  const wizardContent = root.querySelector('#wizard-content') ||
+                        (root.matches && root.matches('#wizard-content') ? root : null) ||
+                        document.querySelector('#wizard-content');
+  let interactionsConfig = null;
+
+  if (wizardContent && wizardContent.dataset.interactions) {
+    try {
+      interactionsConfig = JSON.parse(wizardContent.dataset.interactions);
+    } catch (e) {
+      console.warn('Failed to parse interactions config:', e);
+    }
+  }
+
+  // Shared enable function that enables ALL next buttons at once
+  function enableAllButtons() {
+    nextButtons.forEach(next => {
+      // Restore HTMX capability first
+      if (next.dataset.savedHxGet != null) {
+        next.setAttribute('hx-get', next.dataset.savedHxGet);
+        delete next.dataset.savedHxGet;
+      }
+
+      next.dataset.disabled = '0';
+      next.removeAttribute('aria-disabled');
+      next.removeAttribute('tabindex');
+      next.style.pointerEvents = '';
+      next.style.opacity = '';
+      next.style.cursor = '';
+
+      // Remove blockers using stored references
+      if (next._clickBlocker) {
+        next.removeEventListener('click', next._clickBlocker, true);
+        delete next._clickBlocker;
+      }
+      if (next._keyBlocker) {
+        next.removeEventListener('keydown', next._keyBlocker, true);
+        delete next._keyBlocker;
+      }
+    });
+
+    // Remove content listener (legacy fallback)
+    const content = root.querySelector('#wizard-wrapper .prose') || root.querySelector('#wizard-content .prose');
+    if (content && content._interactionHandler) {
+      content.removeEventListener('click', content._interactionHandler, true);
+      delete content._interactionHandler;
+    }
+  }
+
+  // Shared disable function that re-disables ALL next buttons (e.g., when ToS unchecked)
+  function disableAllButtons() {
+    nextButtons.forEach(next => {
+      // Save and remove HTMX if not already saved
+      if (!next.dataset.savedHxGet) {
+        const hxGet = next.getAttribute('hx-get');
+        if (hxGet != null) {
+          next.dataset.savedHxGet = hxGet;
+          next.removeAttribute('hx-get');
+        }
+      }
+
+      next.dataset.disabled = '1';
+      next.setAttribute('aria-disabled', 'true');
+      next.setAttribute('tabindex', '-1');
+      next.style.opacity = '0.6';
+      next.style.cursor = 'not-allowed';
+    });
+  }
+
+  // Disable all buttons first
   nextButtons.forEach(next => {
     if (next.dataset.interactionGatingAttached === '1') return;
     next.dataset.interactionGatingAttached = '1';
-
-    const content = root.querySelector('#wizard-wrapper .prose') || root.querySelector('#wizard-content .prose');
 
     // 1) Hard-disable HTMX by removing hx-get temporarily
     const savedHxGet = next.getAttribute('hx-get');
@@ -326,53 +428,34 @@ function attachInteractionGating(root = document) {
     next._keyBlocker = keyBlocker;
   });
 
-  // Shared enable function that enables ALL next buttons at once
-  function enableAllButtons() {
-    nextButtons.forEach(next => {
-      // Restore HTMX capability first
-      if (next.dataset.savedHxGet != null) {
-        next.setAttribute('hx-get', next.dataset.savedHxGet);
-        delete next.dataset.savedHxGet;
-      }
+  // Use new modular interaction system if config is present and has enabled interactions
+  const hasModularInteractions = interactionsConfig && (
+    interactionsConfig.click?.enabled ||
+    interactionsConfig.time?.enabled ||
+    interactionsConfig.tos?.enabled ||
+    interactionsConfig.text_input?.enabled ||
+    interactionsConfig.quiz?.enabled
+  );
 
-      next.dataset.disabled = '0';
-      next.removeAttribute('aria-disabled');
-      next.removeAttribute('tabindex');
-      next.style.pointerEvents = '';
-      next.style.opacity = '';
-      next.style.cursor = '';
-
-      // Remove blockers using stored references
-      if (next._clickBlocker) {
-        next.removeEventListener('click', next._clickBlocker, true);
-        delete next._clickBlocker;
-      }
-      if (next._keyBlocker) {
-        next.removeEventListener('keydown', next._keyBlocker, true);
-        delete next._keyBlocker;
-      }
-    });
-
-    // Remove content listener
-    const content = root.querySelector('#wizard-wrapper .prose') || root.querySelector('#wizard-content .prose');
-    if (content && content._interactionHandler) {
-      content.removeEventListener('click', content._interactionHandler, true);
-      delete content._interactionHandler;
+  if (hasModularInteractions && typeof initWizardInteractions === 'function') {
+    // Use new modular interaction coordinator
+    // Pass both enable and disable callbacks for bidirectional satisfaction tracking
+    initWizardInteractions(interactionsConfig, enableAllButtons, disableAllButtons);
+  } else {
+    // Legacy fallback: click-based interaction
+    // Single interaction handler for the content area
+    function handler(ev) {
+      const t = ev.target;
+      if (!t) return;
+      if (t.closest && t.closest('a,button') !== null) enableAllButtons();
     }
-  }
 
-  // Single interaction handler for the content area
-  function handler(ev) {
-    const t = ev.target;
-    if (!t) return;
-    if (t.closest && t.closest('a,button') !== null) enableAllButtons();
-  }
-
-  // Listen for any click within the content that bubbles/captures from links/buttons
-  const content = root.querySelector('#wizard-wrapper .prose') || root.querySelector('#wizard-content .prose');
-  if (content) {
-    content.addEventListener('click', handler, true);
-    content._interactionHandler = handler; // Store for cleanup
+    // Listen for any click within the content that bubbles/captures from links/buttons
+    const content = root.querySelector('#wizard-wrapper .prose') || root.querySelector('#wizard-content .prose');
+    if (content) {
+      content.addEventListener('click', handler, true);
+      content._interactionHandler = handler; // Store for cleanup
+    }
   }
 }
 

@@ -537,8 +537,13 @@ class WizardStep(db.Model):
     # Mirrors the existing `requires:` front-matter array in the legacy files.
     requires = db.Column(db.JSON, nullable=True)
 
-    # New: require explicit user interaction before enabling Next
+    # DEPRECATED: Legacy boolean for backward compatibility
+    # Use `interactions` JSON column for new interaction configurations
     require_interaction = db.Column(db.Boolean, default=False, nullable=True)
+
+    # Flexible interaction configuration stored as JSON
+    # Each key (click, time, tos, text_input, quiz) is optional
+    interactions = db.Column(db.JSON, nullable=True)
 
     created_at = db.Column(
         db.DateTime, default=lambda: datetime.now(UTC), nullable=False
@@ -559,6 +564,40 @@ class WizardStep(db.Model):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
+    # ── interaction helpers ──────────────────────────────────────────────
+    @property
+    def step_interactions(self):
+        """Get typed interaction configuration.
+
+        Returns:
+            StepInteractions: Typed object with all interaction configurations.
+        """
+        from app.interactions import StepInteractions
+
+        return StepInteractions.from_dict(self.interactions)
+
+    @step_interactions.setter
+    def step_interactions(self, value):
+        """Set interaction configuration from typed object.
+
+        Args:
+            value: StepInteractions object to serialize.
+        """
+        self.interactions = value.to_dict() if value else None
+
+    def has_interactions(self) -> bool:
+        """Check if step requires any interactions.
+
+        Checks both the new `interactions` JSON and legacy `require_interaction`
+        boolean for backward compatibility.
+
+        Returns:
+            True if any interaction requirement is enabled.
+        """
+        if self.interactions:
+            return self.step_interactions.has_any_interaction()
+        return bool(self.require_interaction)
+
     # ── convenience helpers ─────────────────────────────────────────────
     def to_dict(self):
         """Return serialisable representation (for JSON responses)."""
@@ -570,7 +609,10 @@ class WizardStep(db.Model):
             "title": self.title,
             "markdown": self.markdown,
             "requires": self.requires or [],
-            "require_interaction": bool(self.require_interaction or False),
+            # Include new interactions field
+            "interactions": self.interactions,
+            # Keep legacy field for backward compatibility
+            "require_interaction": self.has_interactions(),
         }
 
 

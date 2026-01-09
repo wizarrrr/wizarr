@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-09 04:10+0000\n"
+"POT-Creation-Date: 2026-01-09 11:59+0100\n"
 "PO-Revision-Date: 2025-10-31 15:10+0000\n"
 "Last-Translator: retardgerman <jan.cebulla@icloud.com>\n"
 "Language: de\n"
@@ -18,6 +18,68 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
+
+#: app/interactions.py:116
+msgid "Time duration must be at least 1 second"
+msgstr ""
+
+#: app/interactions.py:169
+#, fuzzy
+msgid "ToS content cannot be empty"
+msgstr "Diese Aktion kann nicht rückgängig gemacht werden."
+
+#: app/interactions.py:171
+msgid "ToS content exceeds maximum length (100,000 characters)"
+msgstr ""
+
+#: app/interactions.py:230
+msgid "Text input question cannot be empty"
+msgstr ""
+
+#: app/interactions.py:232
+msgid "At least one valid answer is required"
+msgstr ""
+
+#: app/interactions.py:234
+msgid "Empty answers are not allowed"
+msgstr ""
+
+#: app/interactions.py:297
+#, fuzzy
+msgid "Question ID cannot be empty"
+msgstr "Diese Aktion kann nicht rückgängig gemacht werden."
+
+#: app/interactions.py:299
+#, python-format
+msgid "Question '%(id)s' text cannot be empty"
+msgstr ""
+
+#: app/interactions.py:303
+#, python-format
+msgid "Question '%(id)s' needs at least 2 options"
+msgstr ""
+
+#: app/interactions.py:307
+#, python-format
+msgid "Question '%(id)s' correct answer not in options"
+msgstr ""
+
+#: app/interactions.py:315
+#, python-format
+msgid "Question '%(id)s' must have boolean correct_answer for true/false type"
+msgstr ""
+
+#: app/interactions.py:382
+msgid "Quiz must have at least one question"
+msgstr ""
+
+#: app/interactions.py:384
+msgid "Pass threshold must be between 0.0 and 1.0"
+msgstr ""
+
+#: app/interactions.py:388
+msgid "Duplicate question IDs found"
+msgstr ""
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 msgid "Failed to load settings"
@@ -271,11 +333,11 @@ msgstr "Ungültige Formulardaten: %(errors)s"
 msgid "Settings saved successfully!"
 msgstr "Einstellungen erfolgreich gespeichert!"
 
-#: app/blueprints/settings/routes.py:217 app/forms/settings.py:24
+#: app/blueprints/settings/routes.py:217
 msgid "Server URL"
 msgstr "Server URL"
 
-#: app/blueprints/settings/routes.py:220 app/forms/settings.py:25
+#: app/blueprints/settings/routes.py:220
 msgid "API Key"
 msgstr "API-Schlüssel"
 
@@ -331,7 +393,7 @@ msgstr "Zurücksetzen der Schritte fehlgeschlagen: {}"
 msgid "Admin account created – welcome!"
 msgstr "Administratorkonto erstellt – herzlich willkommen!"
 
-#: app/blueprints/wizard/routes.py:66
+#: app/blueprints/wizard/routes.py:67
 msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
@@ -339,13 +401,13 @@ msgstr ""
 "Deine Einladung ist abgelaufen oder nicht mehr gültig. Bitte fordere eine"
 " neue Einladung an."
 
-#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1215
-#: app/blueprints/wizard/routes.py:1378
+#: app/blueprints/wizard/routes.py:374 app/blueprints/wizard/routes.py:1298
+#: app/blueprints/wizard/routes.py:1479
 msgid "Error Loading Step"
 msgstr "Fehler beim Laden des Schritts"
 
-#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1218
-#: app/blueprints/wizard/routes.py:1381
+#: app/blueprints/wizard/routes.py:377 app/blueprints/wizard/routes.py:1301
+#: app/blueprints/wizard/routes.py:1482
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
@@ -353,13 +415,13 @@ msgstr ""
 "Dieser Schritt konnte nicht geladen werden. Bitte kontaktiere den "
 "Administrator oder mach einfach mit dem nächsten Schritt weiter."
 
-#: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
-#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1116
-#: app/blueprints/wizard/routes.py:1124
+#: app/blueprints/wizard/routes.py:608 app/blueprints/wizard/routes.py:615
+#: app/blueprints/wizard/routes.py:719 app/blueprints/wizard/routes.py:1193
+#: app/blueprints/wizard/routes.py:1201
 msgid "Invalid or expired invitation"
 msgstr "Ungültige oder abgelaufene Einladung"
 
-#: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:775
+#: app/blueprints/wizard/routes.py:668 app/blueprints/wizard/routes.py:834
 msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
@@ -367,44 +429,44 @@ msgstr ""
 "Keine Medienserver sind eingerichtet. Bitte frag den Administrator, einen"
 " Medienserver einzurichten."
 
-#: app/blueprints/wizard/routes.py:626
+#: app/blueprints/wizard/routes.py:685
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
 "Die Schritte des Wizards können nicht geladen werden. Weiter zur Annahme "
 "der Einladung."
 
-#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:961
-#: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:21
+#: app/blueprints/wizard/routes.py:709 app/blueprints/wizard/routes.py:1020
+#: app/blueprints/wizard/routes.py:1334 app/templates/wizard/steps.html:21
 msgid "Continue to Invite"
 msgstr "Weiter zur Einladung"
 
-#: app/blueprints/wizard/routes.py:703
+#: app/blueprints/wizard/routes.py:762
 msgid "Please log in to continue"
 msgstr "Melde dich bitte an, um fortzufahren"
 
-#: app/blueprints/wizard/routes.py:815
+#: app/blueprints/wizard/routes.py:874
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 "Schritte des Wizards können nicht geladen werden. Einrichtung "
 "abgeschlossen! Willkommen auf deinem Medienserver."
 
-#: app/blueprints/wizard/routes.py:848
+#: app/blueprints/wizard/routes.py:907
 msgid "Setup complete! Welcome to your media server."
 msgstr "Einrichtung fertig! Willkommen auf deinem Medienserver."
 
-#: app/blueprints/wizard/routes.py:946
+#: app/blueprints/wizard/routes.py:1005
 msgid "Unable to load wizard configuration. Please try again."
 msgstr "Konfiguration des Wizards kann nicht geladen werden. Versuche es nochmal."
 
-#: app/blueprints/wizard/routes.py:1094
+#: app/blueprints/wizard/routes.py:1171
 msgid "Unable to load wizard bundle. Please try again."
 msgstr "Das Wizard-Bundle kann nicht geladen werden. Versuche es nochmal."
 
-#: app/blueprints/wizard/routes.py:1145
+#: app/blueprints/wizard/routes.py:1222
 msgid "Unable to load wizard steps. Please try again."
 msgstr "Schritte des Wizards können nicht geladen werden. Versuche es nochmal."
 
-#: app/blueprints/wizard/routes.py:1338
+#: app/blueprints/wizard/routes.py:1439
 msgid "This bundle has no steps to preview."
 msgstr ""
 
@@ -413,189 +475,96 @@ msgstr ""
 msgid "Cleaned up {} orphaned step(s)"
 msgstr "{} verwaiste Schritte bereinigt"
 
-#: app/blueprints/wizard_admin/routes.py:199
+#: app/blueprints/wizard_admin/routes.py:205
 msgid "Step created"
 msgstr "Schritt erstellt"
 
-#: app/blueprints/wizard_admin/routes.py:276
+#: app/blueprints/wizard_admin/routes.py:282
 msgid "Preset step created successfully"
 msgstr "Vorgabe Schritt erfolgreich erstellt"
 
-#: app/blueprints/wizard_admin/routes.py:284
+#: app/blueprints/wizard_admin/routes.py:290
 #, python-brace-format
 msgid "Error creating preset: {}"
 msgstr "Fehler beim Erstellen der Vorgabe: {}"
 
-#: app/blueprints/wizard_admin/routes.py:320
+#: app/blueprints/wizard_admin/routes.py:330
 msgid "Step updated"
 msgstr "Schritt aktualisiert"
 
-#: app/blueprints/wizard_admin/routes.py:358
+#: app/blueprints/wizard_admin/routes.py:371
 msgid "Step deleted"
 msgstr "Schritt gelöscht"
 
-#: app/blueprints/wizard_admin/routes.py:478
+#: app/blueprints/wizard_admin/routes.py:491
 msgid "Bundle created"
 msgstr "Bündel erstellt"
 
-#: app/blueprints/wizard_admin/routes.py:508
+#: app/blueprints/wizard_admin/routes.py:521
 msgid "Bundle updated"
 msgstr "Bündel aktualisiert"
 
-#: app/blueprints/wizard_admin/routes.py:532
+#: app/blueprints/wizard_admin/routes.py:545
 msgid "Bundle deleted"
 msgstr "Bündel gelöscht"
 
-#: app/blueprints/wizard_admin/routes.py:684
+#: app/blueprints/wizard_admin/routes.py:697
 msgid "Steps added"
 msgstr "Schritte hinzugefügt"
 
-#: app/blueprints/wizard_admin/routes.py:696
+#: app/blueprints/wizard_admin/routes.py:709
 msgid "Orphaned step removed"
 msgstr "Verwaiste Schritte entfernt"
 
-#: app/blueprints/wizard_admin/routes.py:714
+#: app/blueprints/wizard_admin/routes.py:727
 #, python-brace-format
 msgid "No steps found for server type: {}"
 msgstr "Keine Schritte für Servertyp gefunden: {}"
 
-#: app/blueprints/wizard_admin/routes.py:739
-#: app/blueprints/wizard_admin/routes.py:777
-#: app/blueprints/wizard_admin/routes.py:782
+#: app/blueprints/wizard_admin/routes.py:752
+#: app/blueprints/wizard_admin/routes.py:790
+#: app/blueprints/wizard_admin/routes.py:795
 #, python-brace-format
 msgid "Export failed: {}"
 msgstr "Export fehlgeschlagen: {}"
 
-#: app/blueprints/wizard_admin/routes.py:827
+#: app/blueprints/wizard_admin/routes.py:840
 #, python-brace-format
 msgid "Successfully imported {} items"
 msgstr "{} Elemente erfolgreich importiert"
 
-#: app/blueprints/wizard_admin/routes.py:831
+#: app/blueprints/wizard_admin/routes.py:844
 #, python-brace-format
 msgid " and updated {} existing items"
 msgstr " und aktualisierte {} vorhandene Elemente"
 
-#: app/blueprints/wizard_admin/routes.py:836
-#: app/blueprints/wizard_admin/routes.py:843
+#: app/blueprints/wizard_admin/routes.py:849
+#: app/blueprints/wizard_admin/routes.py:856
 #, python-brace-format
 msgid "Import failed: {}"
 msgstr "Import fehlgeschlagen: {}"
 
-#: app/blueprints/wizard_admin/routes.py:841
+#: app/blueprints/wizard_admin/routes.py:854
 msgid "Invalid JSON file"
 msgstr "Ungültige JSON-Datei"
 
-#: app/blueprints/wizard_admin/routes.py:906 app/services/wizard_reset.py:119
+#: app/blueprints/wizard_admin/routes.py:919 app/services/wizard_reset.py:143
 #, python-brace-format
 msgid "Reset {} steps for {} (deleted {}, imported {})"
 msgstr "Zurücksetzen von {} Schritten für {} (gelöscht {}, importiert {})"
 
-#: app/blueprints/wizard_admin/routes.py:916 app/services/wizard_reset.py:134
+#: app/blueprints/wizard_admin/routes.py:929 app/services/wizard_reset.py:158
 #, python-brace-format
 msgid "Failed to reset steps: {}"
 msgstr "Zurücksetzen der Schritte fehlgeschlagen: {}"
 
-#: app/forms/admin.py:29
-msgid "Password must be at least 8 characters."
-msgstr ""
+#: app/forms/wizard.py:37
+#, fuzzy, python-format
+msgid "Invalid JSON: %(error)s"
+msgstr "Ungültige Formulardaten: %(error)s"
 
-#: app/forms/admin.py:34
-msgid ""
-"Password must contain at least one uppercase letter, one lowercase "
-"letter, and one number."
-msgstr ""
-
-#: app/forms/admin.py:43 app/forms/admin.py:57
-#: app/templates/admin/user_details_modal.html:66
-#: app/templates/hybrid-password-form.html:102 app/templates/login.html:48
-#: app/templates/modals/create-admin.html:22
-#: app/templates/modals/edit-admin.html:22
-#: app/templates/welcome-jellyfin.html:117
-msgid "Username"
-msgstr "Benutzername"
-
-#: app/forms/admin.py:45 app/templates/choose-password.html:22
-#: app/templates/hybrid-password-form.html:134 app/templates/login.html:60
-#: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
-#: app/templates/welcome-jellyfin.html:155
-msgid "Password"
-msgstr "Passwort"
-
-#: app/forms/admin.py:47 app/forms/admin.py:65
-#: app/templates/modals/create-admin.html:35
-#: app/templates/modals/edit-admin.html:37
-msgid "Confirm password"
-msgstr "Passwort bestätigen"
-
-#: app/forms/admin.py:50 app/forms/admin.py:68
-#, fuzzy
-msgid "Passwords must match."
-msgstr "Passwörter stimmen nicht überein"
-
-#: app/forms/admin.py:62 app/templates/password-reset-form.html:36
-#: app/templates/profile.html:53
-msgid "New Password"
-msgstr "Neues Passwort"
-
-#: app/forms/admin.py:79
-#, fuzzy
-msgid "Please confirm the new password."
-msgstr "Neues Passwort bestätigen"
-
-#: app/forms/settings.py:10
-#, fuzzy
-msgid "Server Type"
-msgstr "Server"
-
-#: app/forms/settings.py:23
-#, fuzzy
-msgid "Server Name"
-msgstr "Benutzername"
-
-#: app/forms/settings.py:26
-#, fuzzy
-msgid "RomM Username"
-msgstr "Dein Benutzername"
-
-#: app/forms/settings.py:27
-#, fuzzy
-msgid "RomM Password"
-msgstr "Dein Passwort"
-
-#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:70
-#: app/templates/tables/invite_card.html:143
-msgid "Libraries"
-msgstr "Bibliotheken"
-
-#: app/forms/settings.py:30 app/forms/settings.py:46
-#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
-#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:274
-#: app/templates/modals/invite.html:308 app/templates/modals/invite.html:320
-msgid "Allow Downloads"
-msgstr "Downloads zulassen"
-
-#: app/forms/settings.py:33 app/templates/admin/user_modal.html:112
-#, fuzzy
-msgid "Allow Live TV"
-msgstr "Live-TV-Zugang zulassen"
-
-#: app/forms/settings.py:36
-msgid "Overseerr/Ombi URL"
-msgstr ""
-
-#: app/forms/settings.py:38
-#, fuzzy
-msgid "Ombi API Key"
-msgstr "Keine API-Schlüssel"
-
-#: app/forms/settings.py:39
-#, fuzzy
-msgid "Discord ID"
-msgstr "Deine Discord-Server-ID"
-
-#: app/forms/settings.py:40
-msgid "External URL"
+#: app/forms/wizard.py:40
+msgid "Interaction configuration must be a JSON object"
 msgstr ""
 
 #: app/services/servers.py:16
@@ -700,7 +669,7 @@ msgstr "Drop API nicht gefunden. Überprüfen Sie die Server URL."
 msgid "Drop"
 msgstr "Drop"
 
-#: app/services/wizard_reset.py:99
+#: app/services/wizard_reset.py:123
 #, fuzzy, python-brace-format
 msgid "No default steps found for server type: {}"
 msgstr "Keine Schritte für Servertyp gefunden: {}"
@@ -724,6 +693,13 @@ msgstr "Vervollständige deinen Zugang"
 #: app/templates/choose-password.html:15
 msgid "Choose a password for the remaining servers"
 msgstr "Wähle ein Passwort für die restlichen Server aus"
+
+#: app/templates/choose-password.html:22
+#: app/templates/hybrid-password-form.html:134 app/templates/login.html:60
+#: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
+#: app/templates/welcome-jellyfin.html:155
+msgid "Password"
+msgstr "Passwort"
 
 #: app/templates/choose-password.html:33
 #: app/templates/hybrid-password-form.html:150
@@ -767,6 +743,14 @@ msgstr "Passwort für lokale Server festlegen"
 #: app/templates/hybrid-password-form.html:86
 msgid "Error!"
 msgstr "Fehler!"
+
+#: app/templates/admin/user_details_modal.html:66
+#: app/templates/hybrid-password-form.html:102 app/templates/login.html:48
+#: app/templates/modals/create-admin.html:22
+#: app/templates/modals/edit-admin.html:22
+#: app/templates/welcome-jellyfin.html:117
+msgid "Username"
+msgstr "Benutzername"
 
 #: app/templates/hybrid-password-form.html:107
 msgid "Your username"
@@ -995,6 +979,10 @@ msgstr "Benutzer"
 #: app/templates/password-reset-form.html:22
 msgid "This link expires on"
 msgstr ""
+
+#: app/templates/password-reset-form.html:36 app/templates/profile.html:53
+msgid "New Password"
+msgstr "Neues Passwort"
 
 #: app/templates/password-reset-form.html:43
 msgid "Enter new password (8-128 characters)"
@@ -1375,6 +1363,11 @@ msgstr "Beigetreten"
 msgid "Account Details"
 msgstr "Konto Details"
 
+#: app/templates/admin/user_details_modal.html:70
+#: app/templates/tables/invite_card.html:143
+msgid "Libraries"
+msgstr "Bibliotheken"
+
 #: app/templates/admin/user_details_modal.html:87
 msgid "All libraries"
 msgstr "Alle Bibliotheken"
@@ -1440,9 +1433,20 @@ msgstr "Notizen"
 msgid "Permission Management"
 msgstr "API-Schlüsselverwaltung"
 
+#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
+#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:274
+#: app/templates/modals/invite.html:308 app/templates/modals/invite.html:320
+msgid "Allow Downloads"
+msgstr "Downloads zulassen"
+
 #: app/templates/admin/user_modal.html:93
 msgid "Toggle downloads permission"
 msgstr ""
+
+#: app/templates/admin/user_modal.html:112
+#, fuzzy
+msgid "Allow Live TV"
+msgstr "Live-TV-Zugang zulassen"
 
 #: app/templates/admin/user_modal.html:118
 msgid "Toggle live TV permission"
@@ -1606,13 +1610,13 @@ msgstr "z. B. Mein iPhone, Arbeits-Laptop"
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
 #: app/templates/modals/wizard-preset-form.html:59
-#: app/templates/modals/wizard-simple-step-form.html:48
-#: app/templates/modals/wizard-step-form.html:139
+#: app/templates/modals/wizard-simple-step-form.html:40
+#: app/templates/modals/wizard-step-form.html:131
 #: app/templates/settings/connections/form.html:183
 #: app/templates/settings/wizard/bundle_form.html:18
-#: app/templates/settings/wizard/form.html:38
+#: app/templates/settings/wizard/form.html:30
 #: app/templates/settings/wizard/preset_form.html:38
-#: app/templates/settings/wizard/simple_form.html:28
+#: app/templates/settings/wizard/simple_form.html:20
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -1788,6 +1792,11 @@ msgstr "Verbindung testen"
 msgid "Add Administrator"
 msgstr "Administrator hinzufügen"
 
+#: app/templates/modals/create-admin.html:35
+#: app/templates/modals/edit-admin.html:37
+msgid "Confirm password"
+msgstr "Passwort bestätigen"
+
 #: app/templates/modals/create-api-key.html:13
 msgid "API Key Created"
 msgstr "API-Schlüssel erstellt"
@@ -1900,11 +1909,11 @@ msgstr "Neues Passwort (optional)"
 #: app/templates/modals/edit-identity.html:44
 #: app/templates/modals/edit-server.html:173
 #: app/templates/modals/wizard-bundle-form.html:36
-#: app/templates/modals/wizard-simple-step-form.html:50
-#: app/templates/modals/wizard-step-form.html:141
+#: app/templates/modals/wizard-simple-step-form.html:42
+#: app/templates/modals/wizard-step-form.html:133
 #: app/templates/settings/wizard/bundle_form.html:16
-#: app/templates/settings/wizard/form.html:30
-#: app/templates/settings/wizard/simple_form.html:26
+#: app/templates/settings/wizard/form.html:22
+#: app/templates/settings/wizard/simple_form.html:18
 msgid "Save"
 msgstr "Speichern"
 
@@ -2277,6 +2286,246 @@ msgstr "Wizard"
 
 #: app/templates/modals/wizard-step-form.html:116
 msgid "Add a styled content card"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:26
+msgid "User Interaction Requirements"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:29
+msgid "Configure what users must do before proceeding to the next step."
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:60
+#, fuzzy
+msgid "Click Interaction"
+msgstr "Einladung annehmen"
+
+#: app/templates/partials/_interaction_config.html:61
+msgid "Require clicking a link or button"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:83
+msgid ""
+"User must click any link or button in the step content before the Next "
+"button becomes available. No additional configuration needed."
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:86
+#, fuzzy
+msgid "Help Text (optional)"
+msgstr "Benutzername (optional)"
+
+#: app/templates/partials/_interaction_config.html:90
+#, fuzzy
+msgid "Click the download link to continue"
+msgstr "Melde dich bitte an, um fortzufahren"
+
+#: app/templates/partials/_interaction_config.html:112
+msgid "Time-Based Wait"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:113
+msgid "Require waiting a specific duration"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:137
+msgid "Wait Duration (seconds)"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:149
+msgid "Show countdown timer"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:155
+#, fuzzy
+msgid "Preview:"
+msgstr "Vorschau"
+
+#: app/templates/partials/_interaction_config.html:165
+msgid "seconds remaining"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:188
+#, fuzzy
+msgid "Terms of Service"
+msgstr "Pro Server"
+
+#: app/templates/partials/_interaction_config.html:189
+msgid "Require accepting terms before continuing"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:212
+msgid "Terms Content (Markdown)"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:220
+msgid "Checkbox Label"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:224
+#, fuzzy
+msgid "I agree to the Terms of Service"
+msgstr "Ich akzeptiere die"
+
+#: app/templates/partials/_interaction_config.html:231
+msgid "Require scrolling to bottom before showing checkbox"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:254
+#, fuzzy
+msgid "Text Input Validation"
+msgstr "Einladung erstellen"
+
+#: app/templates/partials/_interaction_config.html:255
+msgid "Require answering a question correctly"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:279
+#: app/templates/partials/_interaction_config.html:370
+#, fuzzy
+msgid "Question"
+msgstr "Berechtigungen"
+
+#: app/templates/partials/_interaction_config.html:283
+msgid "What is the name of our media server?"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:287
+msgid "Acceptable Answers (one per line)"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:294
+msgid "Enter each acceptable answer on a new line"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:301
+msgid "Case sensitive"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:305
+msgid "Error Message"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:309
+#: app/templates/wizard/_content.html:39
+#, fuzzy
+msgid "Incorrect answer. Please try again."
+msgstr " Etwas ist schiefgelaufen. Bitte versuche es später erneut."
+
+#: app/templates/partials/_interaction_config.html:331
+msgid "Quiz / Knowledge Check"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:332
+msgid "Require passing a quiz before continuing"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:356
+#, fuzzy
+msgid "Questions"
+msgstr "Berechtigungen"
+
+#: app/templates/partials/_interaction_config.html:363
+#, fuzzy
+msgid "Add Question"
+msgstr "Verbindung hinzufügen"
+
+#: app/templates/partials/_interaction_config.html:384
+msgid "Enter question text..."
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:388
+msgid "Multiple Choice"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:389
+msgid "True/False"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:403
+#, fuzzy
+msgid "Option"
+msgstr "(Optional)"
+
+#: app/templates/partials/_interaction_config.html:416
+#, fuzzy
+msgid "Add Option"
+msgstr "Erweiterte Optionen"
+
+#: app/templates/partials/_interaction_config.html:417
+msgid "Select the radio button for the correct answer"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:428
+#: app/templates/wizard/_content.html:29
+msgid "True"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:437
+#: app/templates/wizard/_content.html:30
+#, fuzzy
+msgid "False"
+msgstr "Schließen"
+
+#: app/templates/partials/_interaction_config.html:442
+msgid "Explanation (shown after answer)"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:446
+msgid "Optional explanation..."
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:460
+msgid "No questions added yet"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:463
+#, fuzzy
+msgid "Add your first question"
+msgstr "Erste Verbindung einrichten"
+
+#: app/templates/partials/_interaction_config.html:470
+msgid "Pass threshold:"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:483
+msgid "Randomize question order"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:489
+msgid "Randomize answer order"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:495
+msgid "Show explanations after answering"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:504
+msgid "Active Requirements:"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:512
+#, fuzzy
+msgid "Click"
+msgstr "Verlinken"
+
+#: app/templates/partials/_interaction_config.html:520
+#, fuzzy
+msgid "Time"
+msgstr "Aktiv"
+
+#: app/templates/partials/_interaction_config.html:528
+#, fuzzy
+msgid "ToS"
+msgstr "Aktionen"
+
+#: app/templates/partials/_interaction_config.html:536
+msgid "Text Input"
+msgstr ""
+
+#: app/templates/partials/_interaction_config.html:544
+msgid "Quiz"
 msgstr ""
 
 #: app/templates/partials/api_keys_grid.html:36
@@ -2786,7 +3035,7 @@ msgstr "Bist du sicher, dass du diesen verwaisten Schritt löschen willst?"
 msgid "Remove orphaned step"
 msgstr "Verwaisten Schritt entfernen"
 
-#: app/templates/settings/wizard/form.html:36
+#: app/templates/settings/wizard/form.html:28
 #: app/templates/settings/wizard/index.html:65
 msgid "Preview"
 msgstr "Vorschau"
@@ -3062,6 +3311,107 @@ msgstr "Aktuelles Passwort"
 #: app/templates/tables/user_card.html:241
 msgid "Remove user"
 msgstr "Benutzer entfernen"
+
+#: app/templates/wizard/_content.html:14
+msgid "Please wait"
+msgstr ""
+
+#: app/templates/wizard/_content.html:15
+msgid "seconds"
+msgstr ""
+
+#: app/templates/wizard/_content.html:16
+#, fuzzy
+msgid "second"
+msgstr "Verwendet"
+
+#: app/templates/wizard/_content.html:17
+#, fuzzy
+msgid "All set! Click Next to continue"
+msgstr "Melde dich bitte an, um fortzufahren"
+
+#: app/templates/wizard/_content.html:18
+msgid "Correct!"
+msgstr ""
+
+#: app/templates/wizard/_content.html:19
+msgid "Incorrect."
+msgstr ""
+
+#: app/templates/wizard/_content.html:20
+msgid "Quiz Passed!"
+msgstr ""
+
+#: app/templates/wizard/_content.html:21
+msgid "Quiz Not Passed"
+msgstr ""
+
+#: app/templates/wizard/_content.html:22
+msgid "Try Again"
+msgstr ""
+
+#: app/templates/wizard/_content.html:23
+#, fuzzy
+msgid "You may continue."
+msgstr "Weiter"
+
+#: app/templates/wizard/_content.html:24
+#, fuzzy
+msgid "You got"
+msgstr "Abmelden"
+
+#: app/templates/wizard/_content.html:25
+msgid "out of"
+msgstr ""
+
+#: app/templates/wizard/_content.html:26
+#, fuzzy
+msgid "correct"
+msgstr "Erstellen"
+
+#: app/templates/wizard/_content.html:27
+#, python-brace-format, python-format
+msgid "You need {percent}%% to pass."
+msgstr ""
+
+#: app/templates/wizard/_content.html:28
+#, python-brace-format
+msgid "Question {current} of {total}"
+msgstr ""
+
+#: app/templates/wizard/_content.html:31
+#, fuzzy
+msgid "Check"
+msgstr "Prüfen..."
+
+#: app/templates/wizard/_content.html:32
+msgid "Type your answer..."
+msgstr ""
+
+#: app/templates/wizard/_content.html:33
+msgid "Please scroll to the bottom to enable the checkbox"
+msgstr ""
+
+#: app/templates/wizard/_content.html:34
+msgid "You may now accept the terms"
+msgstr ""
+
+#: app/templates/wizard/_content.html:35
+msgid "This step requires clicking a link or button in the content above."
+msgstr ""
+
+#: app/templates/wizard/_content.html:36
+#, fuzzy
+msgid "Terms of Service content"
+msgstr "Keine aktuellen Inhalte gefunden"
+
+#: app/templates/wizard/_content.html:37
+msgid "I have read and agree to the terms"
+msgstr ""
+
+#: app/templates/wizard/_content.html:38
+msgid "Please answer the question:"
+msgstr ""
 
 #: app/templates/wizard/steps.html:17 app/templates/wizard/steps.html:43
 #: app/templates/wizard/steps.html:83
@@ -3954,4 +4304,49 @@ msgstr "Klicke auf den Link in diesem Schritt, um weitermachen zu können"
 
 #~ msgid "Username must be 3 to 15 characters."
 #~ msgstr "Der Benutzername muss zwischen 3 und 15 Zeichen lang sein."
+
+#~ msgid "Password must be at least 8 characters."
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Password must contain at least one "
+#~ "uppercase letter, one lowercase letter, "
+#~ "and one number."
+#~ msgstr ""
+
+#~ msgid "Passwords must match."
+#~ msgstr "Passwörter stimmen nicht überein"
+
+#~ msgid "Please confirm the new password."
+#~ msgstr "Neues Passwort bestätigen"
+
+#~ msgid "Server Type"
+#~ msgstr "Server"
+
+#~ msgid "Server Name"
+#~ msgstr "Benutzername"
+
+#~ msgid "RomM Username"
+#~ msgstr "Dein Benutzername"
+
+#~ msgid "RomM Password"
+#~ msgstr "Dein Passwort"
+
+#~ msgid "Overseerr/Ombi URL"
+#~ msgstr ""
+
+#~ msgid "Ombi API Key"
+#~ msgstr "Keine API-Schlüssel"
+
+#~ msgid "Discord ID"
+#~ msgstr "Deine Discord-Server-ID"
+
+#~ msgid "External URL"
+#~ msgstr ""
+
+#~ msgid "You need %(percent)s%% to pass."
+#~ msgstr ""
+
+#~ msgid "Question %(current)s of %(total)s"
+#~ msgstr ""
 
