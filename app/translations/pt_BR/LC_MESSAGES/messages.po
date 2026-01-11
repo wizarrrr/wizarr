@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-01-10 04:04+0000\n"
+"POT-Creation-Date: 2026-01-11 04:17+0000\n"
 "PO-Revision-Date: 2025-10-31 16:28+0000\n"
 "Last-Translator: ClankJake <nascimentoaragao@gmail.com>\n"
 "Language: pt_BR\n"
@@ -118,7 +118,9 @@ msgstr ""
 #: app/activity/api/blueprint.py:699
 #, python-brace-format
 msgid "Historical import job #{job_id} started for {server} (last {days} days)."
-msgstr "Trabalho de importação histórica #{job_id} iniciado para {server} (últimos {days} dias)."
+msgstr ""
+"Trabalho de importação histórica #{job_id} iniciado para {server} "
+"(últimos {days} dias)."
 
 #: app/activity/api/blueprint.py:709
 #, python-brace-format
@@ -376,7 +378,9 @@ msgstr ""
 
 #: app/blueprints/wizard/routes.py:626
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
-msgstr "Não foi possível carregar as etapas do assistente. Prosseguindo para aceitação do convite."
+msgstr ""
+"Não foi possível carregar as etapas do assistente. Prosseguindo para "
+"aceitação do convite."
 
 #: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:961
 #: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:21
@@ -390,7 +394,9 @@ msgstr "Por favor, faça login para continuar"
 
 #: app/blueprints/wizard/routes.py:815
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
-msgstr "Não foi possível carregar as etapas do assistente. Configuração concluída! Bem-vindo ao seu servidor de mídia."
+msgstr ""
+"Não foi possível carregar as etapas do assistente. Configuração "
+"concluída! Bem-vindo ao seu servidor de mídia."
 
 #: app/blueprints/wizard/routes.py:848
 msgid "Setup complete! Welcome to your media server."
@@ -398,15 +404,21 @@ msgstr "Configuração concluída! Bem-vindo ao seu servidor de mídia."
 
 #: app/blueprints/wizard/routes.py:946
 msgid "Unable to load wizard configuration. Please try again."
-msgstr "Não foi possível carregar a configuração do assistente. Por favor, tente novamente."
+msgstr ""
+"Não foi possível carregar a configuração do assistente. Por favor, tente "
+"novamente."
 
 #: app/blueprints/wizard/routes.py:1094
 msgid "Unable to load wizard bundle. Please try again."
-msgstr "Não foi possível carregar o pacote do assistente. Por favor, tente novamente."
+msgstr ""
+"Não foi possível carregar o pacote do assistente. Por favor, tente "
+"novamente."
 
 #: app/blueprints/wizard/routes.py:1145
 msgid "Unable to load wizard steps. Please try again."
-msgstr "Não foi possível carregar as etapas do assistente. Por favor, tente novamente."
+msgstr ""
+"Não foi possível carregar as etapas do assistente. Por favor, tente "
+"novamente."
 
 #: app/blueprints/wizard/routes.py:1338
 msgid "This bundle has no steps to preview."
@@ -513,8 +525,8 @@ msgid ""
 "Password must contain at least one uppercase letter, one lowercase "
 "letter, and one number."
 msgstr ""
-"A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula "
-"e um número."
+"A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula e"
+" um número."
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
 #: app/templates/admin/user_details_modal.html:66
@@ -634,17 +646,15 @@ msgid ""
 "Connection to %(server_type)s server timed out. Please check if the "
 "server is running and accessible."
 msgstr ""
-"A conexão com o servidor %(server_type)s expirou. Por favor, verifique "
-"se o servidor está funcionando e acessível."
+"A conexão com o servidor %(server_type)s expirou. Por favor, verifique se"
+" o servidor está funcionando e acessível."
 
 #: app/services/servers.py:46
 #, python-format
 msgid ""
 "An error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
-msgstr ""
-"Ocorreu um erro ao conectar ao servidor %(server_type)s: "
-"%(error)s"
+msgstr "Ocorreu um erro ao conectar ao servidor %(server_type)s: %(error)s"
 
 #: app/services/servers.py:53
 #, python-format
@@ -835,7 +845,9 @@ msgstr "Esta senha será usada para criar contas nos seus servidores locais"
 
 #: app/templates/hybrid-password-form.html:205
 msgid "You'll be redirected to the setup wizard to complete configuration"
-msgstr "Você será redirecionado para o assistente de configuração para concluir a configuração"
+msgstr ""
+"Você será redirecionado para o assistente de configuração para concluir a"
+" configuração"
 
 #: app/templates/hybrid-password-form.html:211
 msgid "Only want to use Plex?"
@@ -876,7 +888,9 @@ msgstr "Convite Inválido"
 
 #: app/templates/invalid-invite.html:19
 msgid "This invitation link is no longer valid. Please request a new invitation."
-msgstr "Este link de convite não é mais válido. Por favor, solicite um novo convite."
+msgstr ""
+"Este link de convite não é mais válido. Por favor, solicite um novo "
+"convite."
 
 #: app/templates/login.html:14
 msgid "Two-Factor Authentication"
@@ -929,7 +943,9 @@ msgstr "Falha ao concluir login 2FA"
 
 #: app/templates/login.html:253
 msgid "Passkey authentication failed. Please try again or use your password."
-msgstr "Autenticação com chave de acesso falhou. Por favor, tente novamente ou use sua senha."
+msgstr ""
+"Autenticação com chave de acesso falhou. Por favor, tente novamente ou "
+"use sua senha."
 
 #: app/templates/password-reset-error.html:25
 #, fuzzy
@@ -1050,7 +1066,9 @@ msgstr "foi redefinida com sucesso."
 
 #: app/templates/password-reset-success.html:31
 msgid "You can now use your new password to log in to your media server."
-msgstr "Agora você pode usar sua nova senha para fazer login no seu servidor de mídia."
+msgstr ""
+"Agora você pode usar sua nova senha para fazer login no seu servidor de "
+"mídia."
 
 #: app/templates/password-reset-success.html:36
 msgid "What's next?"
@@ -1500,11 +1518,15 @@ msgstr "Nenhuma biblioteca disponível"
 
 #: app/templates/admin/user_modal.html:173
 msgid "Scan libraries from the invitation page to enable library restrictions"
-msgstr "Verifique as bibliotecas na página de convites para habilitar restrições de biblioteca"
+msgstr ""
+"Verifique as bibliotecas na página de convites para habilitar restrições "
+"de biblioteca"
 
 #: app/templates/admin/user_modal.html:205
 msgid "Click to toggle library access. Updates save automatically."
-msgstr "Clique para alternar o acesso à biblioteca. As atualizações são salvas automaticamente."
+msgstr ""
+"Clique para alternar o acesso à biblioteca. As atualizações são salvas "
+"automaticamente."
 
 #: app/templates/admin/user_modal.html:211
 #, fuzzy
@@ -1703,7 +1725,9 @@ msgstr "Criando chave de acesso para"
 
 #: app/templates/components/passkey_register.html:11
 msgid "Please follow your device's prompts to complete setup"
-msgstr "Por favor, siga as instruções do seu dispositivo para concluir a configuração"
+msgstr ""
+"Por favor, siga as instruções do seu dispositivo para concluir a "
+"configuração"
 
 #: app/templates/components/passkey_register.html:111
 msgid "Failed to register passkey"
@@ -1784,8 +1808,8 @@ msgid ""
 "Overseerr and Jellyseerr automatically import new users by default. No "
 "API connection is required for Wizarr integration."
 msgstr ""
-"Overseerr e Jellyseerr importam novos usuários automaticamente por padrão. "
-"Nenhuma conexão de API é necessária para integração com o Wizarr."
+"Overseerr e Jellyseerr importam novos usuários automaticamente por "
+"padrão. Nenhuma conexão de API é necessária para integração com o Wizarr."
 
 #: app/templates/modals/connection-form.html:82
 #: app/templates/settings/connections/form.html:130
@@ -1798,7 +1822,8 @@ msgid ""
 "new users' and 'Import Jellyfin/Plex users'"
 msgstr ""
 "Vá para as Configurações do Overseerr/Jellyseerr → Usuários → Habilite "
-"'Aprovar automaticamente novos usuários' e 'Importar usuários do Jellyfin/Plex'"
+"'Aprovar automaticamente novos usuários' e 'Importar usuários do "
+"Jellyfin/Plex'"
 
 #: app/templates/modals/connection-form.html:139
 msgid "Testing connection..."
@@ -2102,7 +2127,9 @@ msgstr "dispositivos simultâneos"
 
 #: app/templates/modals/invite.html:261
 msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
-msgstr "Número de dispositivos que podem transmitir simultaneamente. Defina como 0 para ilimitado."
+msgstr ""
+"Número de dispositivos que podem transmitir simultaneamente. Defina como "
+"0 para ilimitado."
 
 #: app/templates/modals/invite.html:336
 #, fuzzy
@@ -2166,7 +2193,9 @@ msgstr "Link de redefinição (Clique para copiar)"
 
 #: app/templates/modals/password-reset-link.html:85
 msgid "Send this link to the user. They can use it once to reset their password."
-msgstr "Envie este link para o usuário. Ele pode ser usado para redefinir a senha uma única vez."
+msgstr ""
+"Envie este link para o usuário. Ele pode ser usado para redefinir a senha"
+" uma única vez."
 
 #: app/templates/modals/password-reset-link.html:90
 msgid "Reset Code"
@@ -2250,8 +2279,8 @@ msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
 "steps will be merged with existing ones."
 msgstr ""
-"Quando marcado, as etapas existentes serão substituídas. Quando desmarcado, "
-"as etapas importadas serão mescladas com as existentes."
+"Quando marcado, as etapas existentes serão substituídas. Quando "
+"desmarcado, as etapas importadas serão mescladas com as existentes."
 
 #: app/templates/modals/wizard-import-form.html:90
 msgid "Important Notice"
@@ -2262,8 +2291,9 @@ msgid ""
 "This action will modify your wizard steps configuration. Make sure to "
 "backup your current steps before importing if you want to preserve them."
 msgstr ""
-"Esta ação modificará a configuração das etapas do assistente. Certifique-se "
-"de fazer backup das etapas atuais antes de importar se quiser preservá-las."
+"Esta ação modificará a configuração das etapas do assistente. Certifique-"
+"se de fazer backup das etapas atuais antes de importar se quiser "
+"preservá-las."
 
 #: app/templates/modals/wizard-import-form.html:111
 msgid "Import Steps"
@@ -2415,7 +2445,9 @@ msgstr "Conexões"
 
 #: app/templates/settings/connections.html:9
 msgid "Manage external service connections for automated user invitations"
-msgstr "Gerencie conexões de serviços externos para convites automáticos de usuários"
+msgstr ""
+"Gerencie conexões de serviços externos para convites automáticos de "
+"usuários"
 
 #: app/templates/settings/connections.html:23
 #: app/templates/settings/connections/form.html:49
@@ -2461,8 +2493,8 @@ msgid ""
 "Connect your external services to automate user invitations when invites "
 "are created for specific media servers."
 msgstr ""
-"Conecte seus serviços externos para automatizar convites de usuários quando "
-"convites forem criados para servidores de mídia específicos."
+"Conecte seus serviços externos para automatizar convites de usuários "
+"quando convites forem criados para servidores de mídia específicos."
 
 #: app/templates/settings/connections.html:171
 msgid "Add Your First Connection"
@@ -2530,8 +2562,8 @@ msgid ""
 "If 'Disable User' is selected but the server does not support it, the "
 "user will be deleted instead."
 msgstr ""
-"Se 'Desativar usuário' for selecionado mas o servidor não tiver suporte, o "
-"usuário será excluído."
+"Se 'Desativar usuário' for selecionado mas o servidor não tiver suporte, "
+"o usuário será excluído."
 
 #: app/templates/settings/general.html:159
 msgid "Choose what happens to users when their invitation expires"
@@ -2539,7 +2571,9 @@ msgstr "Escolha o que acontece com os usuários quando seus convites expiram"
 
 #: app/templates/settings/general.html:169
 msgid "Immediately process all expired users based on the expiry action above"
-msgstr "Processar imediatamente todos os usuários expirados com base na ação de expiração acima"
+msgstr ""
+"Processar imediatamente todos os usuários expirados com base na ação de "
+"expiração acima"
 
 #: app/templates/settings/general.html:220
 msgid "API Key Management"
@@ -2664,7 +2698,9 @@ msgstr "Verificando..."
 
 #: app/templates/settings/connections/form.html:68
 msgid "Create a new external service connection for automated user invitations"
-msgstr "Crie uma nova conexão de serviço externo para convites automáticos de usuários"
+msgstr ""
+"Crie uma nova conexão de serviço externo para convites automáticos de "
+"usuários"
 
 #: app/templates/settings/connections/form.html:70
 msgid "Update the connection settings"
@@ -2871,8 +2907,8 @@ msgid ""
 "Import wizard steps or bundles from a JSON file to quickly set up or "
 "restore your wizard configuration."
 msgstr ""
-"Importe etapas ou pacotes do assistente de um arquivo JSON para configurar "
-"rapidamente ou restaurar sua configuração do assistente."
+"Importe etapas ou pacotes do assistente de um arquivo JSON para "
+"configurar rapidamente ou restaurar sua configuração do assistente."
 
 #: app/templates/settings/wizard/import_form.html:13
 msgid "Select JSON File"
@@ -2889,8 +2925,8 @@ msgid ""
 "will be added alongside existing ones."
 msgstr ""
 "Quando marcado, todas as etapas e pacotes existentes do assistente serão "
-"removidos e substituídos pela configuração importada. Quando desmarcado, os "
-"itens importados serão adicionados junto aos existentes."
+"removidos e substituídos pela configuração importada. Quando desmarcado, "
+"os itens importados serão adicionados junto aos existentes."
 
 #: app/templates/settings/wizard/import_form.html:82
 msgid "Important: Backup Recommended"
@@ -2957,8 +2993,8 @@ msgid ""
 "This will permanently replace all existing wizard configuration (steps "
 "and bundles). Are you sure you want to continue?"
 msgstr ""
-"Isso substituirá permanentemente toda a configuração existente do assistente "
-"(etapas e pacotes). Tem certeza de que deseja continuar?"
+"Isso substituirá permanentemente toda a configuração existente do "
+"assistente (etapas e pacotes). Tem certeza de que deseja continuar?"
 
 #: app/templates/settings/wizard/index.html:13
 msgid "Wizard Steps"
@@ -3016,7 +3052,8 @@ msgid ""
 " will delete all custom steps and reimport the default ones."
 msgstr ""
 "Tem certeza de que deseja redefinir todas as etapas para %(server)s ao "
-"padrão? Isso excluirá todas as etapas personalizadas e reimportará as padrão."
+"padrão? Isso excluirá todas as etapas personalizadas e reimportará as "
+"padrão."
 
 #: app/templates/settings/wizard/steps.html:26
 #, python-format
