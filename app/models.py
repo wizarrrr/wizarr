@@ -143,6 +143,9 @@ class Invitation(db.Model):
     # Jellyfin options
     max_active_sessions = db.Column(db.Integer, nullable=True)  # 0 = unlimited/infinity
 
+    # LDAP integration (2025-12)
+    create_ldap_user = db.Column(db.Boolean, default=False, nullable=True)
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
@@ -196,6 +199,9 @@ class User(db.Model, UserMixin):
     identity = db.relationship("Identity", backref=db.backref("accounts", lazy=True))
     notes = db.Column(db.Text, nullable=True)
     is_disabled = db.Column(db.Boolean, nullable=False, default=False)
+
+    # LDAP integration (2025-12)
+    is_ldap_user = db.Column(db.Boolean, default=False, nullable=False)
 
     # Standardized metadata columns
     is_admin = db.Column(db.Boolean, nullable=True, default=False)
@@ -322,6 +328,10 @@ class AdminAccount(db.Model, UserMixin):
     created_at = db.Column(
         db.DateTime, default=lambda: datetime.now(UTC), nullable=False
     )
+
+    # LDAP/OIDC authentication fields (2025-12)
+    auth_source = db.Column(db.String, nullable=False, default="local")
+    external_id = db.Column(db.String, nullable=True)
 
     # ── helpers ────────────────────────────────────────────────────────────
     def set_password(self, raw_password: str):
@@ -1079,3 +1089,78 @@ class ActivitySnapshot(db.Model):
             "position_minutes": self.position_minutes,
             "created_at": self.created_at.isoformat() if self.created_at else None,
         }
+
+
+# ────────────────────────────────────────────────────────────────────────────
+# LDAP/OIDC Integration Models (2025-12)
+# ────────────────────────────────────────────────────────────────────────────
+
+
+class LDAPConfiguration(db.Model):
+    """LDAP server configuration for authentication and user management."""
+
+    __tablename__ = "ldap_configuration"
+
+    id = db.Column(db.Integer, primary_key=True)
+    enabled = db.Column(db.Boolean, default=False, nullable=False)
+
+    # Connection settings
+    server_url = db.Column(db.String, nullable=False)
+    use_tls = db.Column(db.Boolean, default=True, nullable=False)
+    verify_cert = db.Column(db.Boolean, default=True, nullable=False)
+
+    # Service account for user creation
+    service_account_dn = db.Column(db.String, nullable=True)
+    service_account_password_encrypted = db.Column(db.String, nullable=True)
+
+    # User search settings
+    user_base_dn = db.Column(db.String, nullable=False)
+    user_search_filter = db.Column(
+        db.String, nullable=False, default="(uid={username})"
+    )
+    user_object_class = db.Column(db.String, nullable=False, default="inetOrgPerson")
+
+    # User attribute mappings
+    username_attribute = db.Column(db.String, nullable=False, default="uid")
+    email_attribute = db.Column(db.String, nullable=False, default="mail")
+
+    # Group settings
+    group_base_dn = db.Column(db.String, nullable=True)
+    group_object_class = db.Column(db.String, nullable=False, default="groupOfNames")
+    group_member_attribute = db.Column(db.String, nullable=False, default="member")
+
+    # Admin authentication settings
+    admin_group_dn = db.Column(db.String, nullable=True)
+    allow_admin_bind = db.Column(db.Boolean, default=False, nullable=False)
+
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+    updated_at = db.Column(
+        db.DateTime,
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
+        nullable=False,
+    )
+
+
+class LDAPGroup(db.Model):
+    """LDAP groups available for invitation assignment."""
+
+    __tablename__ = "ldap_group"
+
+    id = db.Column(db.Integer, primary_key=True)
+    dn = db.Column(db.String, nullable=False, unique=True)
+    cn = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=True)
+    enabled = db.Column(db.Boolean, default=True, nullable=False)
+
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+    updated_at = db.Column(
+        db.DateTime,
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
+        nullable=False,
+    )
