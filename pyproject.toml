@@ -7,6 +7,7 @@ requires-python = ">=3.13"
 dependencies = [
     "apprise>=1.9.3",
     "cachetools>=5.5.2",
+    "cryptography>=42.0.0",
     "email-validator>=2.2.0",
     "flask>=3.1.1",
     "flask-apscheduler>=1.13.1",
@@ -20,6 +21,7 @@ dependencies = [
     "flask-sqlalchemy>=3.1.1",
     "flask-wtf>=1.2.2",
     "gunicorn>=23.0.0",
+    "ldap3>=2.9.1",
     "markdown>=3.8",
     "packaging>=25.0",
     "plexapi>=4.17.0",
