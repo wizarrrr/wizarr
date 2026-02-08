@@ -146,6 +146,31 @@
                            class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
                   </div>
                 </div>
+                <!-- LDAP User Creation Section -->
+                {% if ldap_enabled %}
+                  <div class="space-y-4 mt-6 border-t border-gray-200 pt-6 dark:border-gray-700"
+                       x-data="{ createLdapUser: true }">
+                    <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ _("LDAP Integration") }}</h2>
+                    <!-- Create LDAP User Toggle -->
+                    <label class="flex items-center cursor-pointer">
+                      <input id="create_ldap_user"
+                             name="create_ldap_user"
+                             type="checkbox"
+                             value="true"
+                             checked
+                             x-model="createLdapUser"
+                             class="sr-only peer">
+                      <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
+                      </div>
+                      <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">
+                        {{ _("Create LDAP User") }}
+                      </span>
+                    </label>
+                    <p class="text-xs text-gray-500 dark:text-gray-400 -mt-2">
+                      {{ _("Automatically create an LDAP user when this invitation is accepted") }}
+                    </p>
+                  </div>
+                {% endif %}
               </div>
               <!-- Server Selection OUTSIDE advanced -->
               <div class="space-y-2 mt-6">

@@ -314,6 +314,37 @@ def password_prompt(code):
                 secrets.choice(string.ascii_letters + string.digits) for _ in range(16)
             )
 
+        # Determine username and email for all account creations
+        if plex_user:
+            username = plex_user.username
+            email = plex_user.email
+        else:
+            username = "wizarr"
+            email = f"{username}@ldap.local"
+
+        # Create LDAP user if configured
+        from app.services.ldap.invitation_ldap import InvitationLDAPHandler
+
+        ldap_handler = InvitationLDAPHandler(invitation)
+        is_ldap_user = False
+
+        if ldap_handler.should_create_ldap_user():
+            ldap_success, ldap_result = ldap_handler.create_ldap_user(
+                username=username,
+                email=email,
+                password=pw,
+            )
+
+            if not ldap_success:
+                return render_template(
+                    "choose-password.html",
+                    code=code,
+                    error=f"Failed to create LDAP user: {ldap_result}",
+                )
+
+            # Mark that this is an LDAP user
+            is_ldap_user = True
+
         # Provision accounts on remaining servers
         from app.services.expiry import calculate_user_expiry
         from app.services.invites import mark_server_used
@@ -326,13 +357,6 @@ def password_prompt(code):
                 continue  # already done
 
             client = get_client_for_media_server(srv)
-
-            username = (
-                plex_user.username
-                if plex_user
-                else (plex_user.email.split("@")[0] if plex_user else "wizarr")
-            )
-            email = plex_user.email if plex_user else "user@example.com"
 
             try:
                 if srv.server_type in ("jellyfin", "emby"):
@@ -355,6 +379,7 @@ def password_prompt(code):
                 new_user.code = code
                 new_user.server_id = srv.id
                 new_user.expires = user_expires  # Set expiry based on invitation duration (server-specific)
+                new_user.is_ldap_user = is_ldap_user
                 db.session.add(new_user)
                 db.session.commit()
 
