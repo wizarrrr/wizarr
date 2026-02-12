@@ -68,9 +68,6 @@ COPY --chown=1000:1000 --from=builder /app/app /app/app
 # Create data directory for database (backward compatibility)
 RUN mkdir -p /data/database
 
-# Create wizard steps config directory
-RUN mkdir -p /etc/wizarr/wizard_steps
-
 # Create directories that need to be writable
 RUN mkdir -p /.cache
 
