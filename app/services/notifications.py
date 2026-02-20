@@ -111,6 +111,25 @@ def _notifiarr(
     return _send(url, data, headers)
 
 
+def _telegram(
+    msg: str,
+    title: str,
+    baseUrl: str,
+    bot_token: str,
+    chat_id: str,
+) -> bool:
+    baseUrl = baseUrl.rstrip("/")
+    url = f"{baseUrl}/bot{bot_token}/sendMessage"
+    data = json.dumps(
+        {
+            "chat_id": chat_id,
+            "text": f"{title}\n{msg}",
+        }
+    )
+    headers = {"Content-Type": "application/json"}
+    return _send(url, data, headers)
+
+
 def notify(
     title: str,
     message: str,
@@ -136,3 +155,5 @@ def notify(
             _apprise(message, title, tags, agent.url)
         elif agent.type == "notifiarr":
             _notifiarr(message, title, agent.url, agent.channel_id)
+        elif agent.type == "telegram":
+            _telegram(message, title, agent.url, agent.telegram_bot_token, agent.telegram_chat_id)
