@@ -79,6 +79,7 @@ def init_extensions(app):
         scheduler.init_app(app)
 
         # Register tasks with the scheduler
+        from app.tasks.ldap_sync import _get_ldap_sync_interval, sync_ldap_users
         from app.tasks.maintenance import (
             _get_expiry_check_interval,
             check_expiring,
@@ -100,6 +101,15 @@ def init_extensions(app):
             func=lambda: fetch_and_cache_manifest(app),
             trigger="interval",
             hours=24,
+            replace_existing=True,
+        )
+
+        # Add LDAP user sync task to automatically import new users
+        scheduler.add_job(
+            id="sync_ldap_users",
+            func=lambda: sync_ldap_users(app),
+            trigger="interval",
+            minutes=_get_ldap_sync_interval(),
             replace_existing=True,
         )
 

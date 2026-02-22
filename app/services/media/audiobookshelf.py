@@ -738,7 +738,13 @@ class AudiobookshelfClient(RestApiMixin):
             logging.exception("ABS: failed to update permissions for %s", user_id)
 
     def _do_join(
-        self, username: str, password: str, confirm: str, email: str, code: str
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
+        is_ldap_user: bool = False,  # noqa: ARG002
     ):
         """Public invite flow for Audiobookshelf users."""
         if not self.EMAIL_RE.fullmatch(email):
