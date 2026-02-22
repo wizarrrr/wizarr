@@ -748,7 +748,7 @@ def update_user_libraries(db_id: int):
 def invite_scan_libraries():
     """Scan libraries for one or multiple selected servers and return grouped checkboxes."""
 
-    from app.models import Library, MediaServer
+    from app.models import Library, MediaServer, invite_libraries
 
     # Accept either multi-select checkboxes (server_ids) or legacy single server_id
     ids = request.form.getlist("server_ids") or []
@@ -772,19 +772,47 @@ def invite_scan_libraries():
             logging.warning("Library scan failed for %s: %s", server.name, exc)
             items = []
 
-        # Delete all old libraries for this server and insert fresh ones
-        Library.query.filter_by(server_id=server.id).delete()
-        db.session.flush()
+        # Upsert libraries: update existing rows, insert new ones, and preserve invite associations.
+        existing_libs = {
+            lib.external_id: lib
+            for lib in Library.query.filter_by(server_id=server.id).all()
+        }
 
-        # Insert fresh libraries with correct external IDs
+        incoming_ids: set[str] = set()
         for fid, name in items:
-            lib = Library()
-            lib.external_id = fid
-            lib.name = name
-            lib.server_id = server.id
-            lib.enabled = True
-            db.session.add(lib)
+            fid = str(fid)
+            incoming_ids.add(fid)
+            if fid in existing_libs:
+                # Update existing row (preserve primary key so invites keep referencing it)
+                lib = existing_libs[fid]
+                lib.name = name
+                lib.enabled = True
+            else:
+                # New library - insert
+                lib = Library(
+                    external_id=fid,
+                    name=name,
+                    server_id=server.id,
+                    enabled=True,
+                )
+                db.session.add(lib)
 
+        # Handle libraries that used to exist but weren't returned by the server
+        for ext, lib in existing_libs.items():
+            if ext not in incoming_ids:
+                # If this library is referenced by any invitation, disable it to preserve associations
+                referenced = db.session.execute(
+                    invite_libraries.select().where(
+                        invite_libraries.c.library_id == lib.id
+                    )
+                ).first()
+                if referenced:
+                    lib.enabled = False
+                else:
+                    # Safe to remove since no invites reference it
+                    db.session.delete(lib)
+
+        # Flush so the temporary changes are visible for listing
         db.session.flush()
         server_libs[server.id] = (
             Library.query.filter_by(server_id=server.id).order_by(Library.name).all()
