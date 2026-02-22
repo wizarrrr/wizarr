@@ -77,14 +77,14 @@ ENV APP_VERSION=${APP_VERSION}
 # Set Flask environment to production
 ENV FLASK_ENV=production
 
-# Healthcheck: curl to localhost:5690/health
+# Healthcheck: curl to localhost:$PORT/health
 # Increased start-period to 60s to account for:
 # - Database migrations
 # - Library scanning
 # - Wizard step imports
 # - Worker initialization (4 workers * ~10s each)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-  CMD curl -fs http://localhost:5690/health || exit 1
+  CMD ["sh", "-c", "curl -fs http://localhost:$PORT/health || exit 1"]
 
 # Expose port 5690
 EXPOSE 5690
@@ -102,6 +102,5 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 # By default we run Gunicorn under wizarruser
 CMD ["uv", "run", "--frozen", "--no-dev", "gunicorn", \
      "--config", "gunicorn.conf.py", \
-     "--bind", "0.0.0.0:5690", \
      "--umask", "007", \
      "run:app"]
