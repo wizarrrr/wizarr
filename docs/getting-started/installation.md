@@ -55,6 +55,8 @@ Then, restart all services defined in the Compose file:
 </strong>  --name wizarr \
   -e DISABLE_BUILTIN_AUTH=false \
   -e PUID=1000 -e PGID=1000 \
+  -e HOST=0.0.0.0 \
+  -e PORT=5690 \
   -e TZ=Europe/London \
   -p 5690:5690 \
   -v /path/to/appdata:/data \
