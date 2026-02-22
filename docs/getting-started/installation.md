@@ -29,6 +29,8 @@ services:
     environment:
       - PUID=1000 #Set UID
       - PGID=1000 #Set GID
+      - HOST=0.0.0.0 #Set a custom address for wizarr to serve on (e.g `[::]` for IPv6), defaults to `0.0.0.0`
+      - PORT=5690 #Set the port on which wizarr will listen (must match published port mapping), defaults to `5690`
       - DISABLE_BUILTIN_AUTH=false #Set to true ONLY if you are using another auth provider (Authelia, Authentik, etc)
       - TZ=Europe/London #Set your timezone here
 ```
