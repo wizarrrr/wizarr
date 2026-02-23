@@ -56,11 +56,15 @@ def is_invite_valid(code: str) -> tuple[bool, str]:
             srv_expired = False
             srv_used = bool(row.used)
 
-            if row.expires:
+            # Use per-server expiry if set, otherwise fall back to global expiry
+            effective_expires = (
+                row.expires if row.expires is not None else invitation.expires
+            )
+            if effective_expires:
                 exp_aware = (
-                    row.expires.replace(tzinfo=datetime.UTC)
-                    if row.expires.tzinfo is None
-                    else row.expires
+                    effective_expires.replace(tzinfo=datetime.UTC)
+                    if effective_expires.tzinfo is None
+                    else effective_expires
                 )
                 srv_expired = exp_aware <= now
 
@@ -70,21 +74,22 @@ def is_invite_valid(code: str) -> tuple[bool, str]:
                 break
 
         if not has_any_valid_server:
-            # Check if all servers expired vs all used
-            all_expired = all(
-                (
-                    row.expires
-                    and (
-                        row.expires.replace(tzinfo=datetime.UTC)
-                        if row.expires.tzinfo is None
-                        else row.expires
-                    )
-                    <= now
+            # Check if expiry is the reason (vs all used)
+            has_expired = False
+            for row in server_rows:
+                effective_expires = (
+                    row.expires if row.expires is not None else invitation.expires
                 )
-                for row in server_rows
-                if row.expires
-            )
-            if all_expired and any(row.expires for row in server_rows):
+                if effective_expires:
+                    exp_aware = (
+                        effective_expires.replace(tzinfo=datetime.UTC)
+                        if effective_expires.tzinfo is None
+                        else effective_expires
+                    )
+                    if exp_aware <= now:
+                        has_expired = True
+                        break
+            if has_expired:
                 return False, "Invitation has expired."
     # Legacy path: no per-server rows, fall back to global expiry
     elif invitation.expires:
