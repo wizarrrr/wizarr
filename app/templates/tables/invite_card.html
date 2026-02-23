@@ -118,7 +118,11 @@
                     <div class="text-xs mt-0.5 space-y-1">
                       {% for srv in invite.servers %}
                         {% set srv_exp = invite.server_expiry_map.get(srv.id, {}) %}
-                        <div class="{% if srv_exp.get('expired') %}text-red-600 dark:text-red-400{% else %}text-gray-700 dark:text-gray-300{% endif %}">
+                        <div class="{% if srv_exp.get('expired') %}
+                                      text-red-600 dark:text-red-400
+                                    {% else %}
+                                      text-gray-700 dark:text-gray-300
+                                    {% endif %}">
                           <span class="font-medium">{{ srv.name }}</span>:
                           {% if srv_exp.get('expires') %}
                             {{ srv_exp['expires']|local_date("%b %-d, %Y at %-I:%M %p") }}
