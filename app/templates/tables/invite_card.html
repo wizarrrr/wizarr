@@ -1,8 +1,12 @@
 {# Invitation Card Grid - Redesigned to match user card layout #}
 {% macro relative_expiry_badge(invite) -%}
-  {% if invite.expired %}
+  {% if invite.expired or (invite.has_per_server_expiry and invite.all_servers_expired) %}
     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400 border border-red-200 dark:border-red-800">
       {{ _("Expired") }}
+    </span>
+  {% elif invite.has_per_server_expiry and invite.any_server_expired %}
+    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400 border border-yellow-200 dark:border-yellow-800">
+      {{ _("Partial") }}
     </span>
   {% elif invite.unlimited %}
     <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400">
@@ -100,21 +104,41 @@
                 <span>{{ _("Created") }}: {{ invite.created|local_date("%b %-d, %Y at %-I:%M %p") }}</span>
               </div>
               <!-- Expiration information -->
-              <div class="flex items-center text-sm text-muted-foreground dark:text-gray-400">
-                <svg class="h-4 w-4 mr-2"
+              <div class="flex items-start text-sm text-muted-foreground dark:text-gray-400">
+                <svg class="h-4 w-4 mr-2 mt-0.5"
                      fill="currentColor"
                      viewBox="0 0 20 20"
                      xmlns="http://www.w3.org/2000/svg">
                   <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd">
                   </path>
                 </svg>
-                <span>
-                  {% if invite.expires %}
-                    {{ _("Expires") }}: {{ invite.expires|local_date("%b %-d, %Y at %-I:%M %p") }}
-                  {% else %}
-                    {{ _("Expires") }}: {{ _("Never") }}
-                  {% endif %}
-                </span>
+                {% if invite.has_per_server_expiry %}
+                  <div class="flex-1">
+                    <span>{{ _("Expires") }}:</span>
+                    <div class="text-xs mt-0.5 space-y-1">
+                      {% for srv in invite.servers %}
+                        {% set srv_exp = invite.server_expiry_map.get(srv.id, {}) %}
+                        <div class="{% if srv_exp.get('expired') %}text-red-600 dark:text-red-400{% else %}text-gray-700 dark:text-gray-300{% endif %}">
+                          <span class="font-medium">{{ srv.name }}</span>:
+                          {% if srv_exp.get('expires') %}
+                            {{ srv_exp['expires']|local_date("%b %-d, %Y at %-I:%M %p") }}
+                            <span class="text-gray-500 dark:text-gray-400">({{ srv_exp['rel_expiry'] }})</span>
+                          {% else %}
+                            {{ _("Never") }}
+                          {% endif %}
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                {% else %}
+                  <span>
+                    {% if invite.expires %}
+                      {{ _("Expires") }}: {{ invite.expires|local_date("%b %-d, %Y at %-I:%M %p") }}
+                    {% else %}
+                      {{ _("Expires") }}: {{ _("Never") }}
+                    {% endif %}
+                  </span>
+                {% endif %}
               </div>
               <!-- Duration if set -->
               {% if invite.duration %}

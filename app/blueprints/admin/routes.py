@@ -284,7 +284,13 @@ def invite_table():
     # 3. Build quick lookup: (invite_id, server_id) -> used bool
     # ------------------------------------------------------------------
     raw_flags = db.session.execute(invitation_servers.select()).fetchall()
-    flags = {(r.invite_id, r.server_id): bool(r.used) for r in raw_flags}
+    flags = {
+        (r.invite_id, r.server_id): {
+            "used": bool(r.used),
+            "expires": r.expires,
+        }
+        for r in raw_flags
+    }
 
     # ------------------------------------------------------------------
     # 4. Time context (timezone aware strongly recommended)
@@ -346,14 +352,51 @@ def invite_table():
         # ---- annotate child servers & compute rollups ----
         any_used = False
         all_used = True
+        server_expiry_map: dict[int, dict] = {}
+        has_per_server_expiry = False
+        any_server_expired = False
+        all_servers_expired = True
         for srv in inv.servers:
-            used = flags.get((inv.id, srv.id), False)
+            flag_data = flags.get((inv.id, srv.id), {"used": False, "expires": None})
+            used = flag_data["used"]
+            srv_expires = flag_data["expires"]
+
             srv.used_flag = used  # keep legacy
-            srv.used = used  # NEW: normalised for template
+            srv.used = used  # normalised for template
             if used:
                 any_used = True
             else:
                 all_used = False
+
+            # Per-server expiry annotation
+            if srv_expires:
+                has_per_server_expiry = True
+                # Ensure timezone-aware comparison
+                if isinstance(srv_expires, datetime.datetime):
+                    expires_aware = (
+                        srv_expires
+                        if srv_expires.tzinfo
+                        else srv_expires.replace(tzinfo=datetime.UTC)
+                    )
+                    srv_expired = expires_aware < now
+                    srv_rel_expiry = _rel_string(expires_aware, now)
+                else:
+                    srv_expired = False
+                    srv_rel_expiry = _("Unknown")
+            else:
+                srv_expired = False
+                srv_rel_expiry = _("Never")
+
+            if srv_expired:
+                any_server_expired = True
+            else:
+                all_servers_expired = False
+
+            server_expiry_map[srv.id] = {
+                "expires": srv_expires,
+                "expired": srv_expired,
+                "rel_expiry": srv_rel_expiry,
+            }
 
             # Don't modify the shared server object - store on invitation instead
             # The template will use inv.server_library_map[srv.id]
@@ -369,11 +412,12 @@ def invite_table():
             # normalise type attr (template looks at srv.type)
             srv.type = srv.server_type
 
-            # Optional: if you track per-server user redemption, attach here.
-            # setattr(srv, "used_by", <User or None>)
-
         inv.used = any_used
         inv.all_used = all_used
+        inv.server_expiry_map = server_expiry_map
+        inv.has_per_server_expiry = has_per_server_expiry
+        inv.any_server_expired = any_server_expired
+        inv.all_servers_expired = all_servers_expired if inv.servers else False
 
         # ---- top-level status dot ----
         if inv.expired or inv.all_used:

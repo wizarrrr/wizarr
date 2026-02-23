@@ -41,11 +41,57 @@ def is_invite_valid(code: str) -> tuple[bool, str]:
     if not invitation:
         return False, "Invalid code"
     now = datetime.datetime.now(datetime.UTC)
-    # Make database datetime timezone-aware (assumes UTC) for comparison
-    if invitation.expires:
+
+    # Check per-server expiry: invitation is valid if at least one server
+    # is unexpired and unused (for limited invitations)
+    server_rows = db.session.execute(
+        invitation_servers.select().where(
+            invitation_servers.c.invite_id == invitation.id
+        )
+    ).fetchall()
+
+    if server_rows:
+        has_any_valid_server = False
+        for row in server_rows:
+            srv_expired = False
+            srv_used = bool(row.used)
+
+            if row.expires:
+                exp_aware = (
+                    row.expires.replace(tzinfo=datetime.UTC)
+                    if row.expires.tzinfo is None
+                    else row.expires
+                )
+                srv_expired = exp_aware <= now
+
+            # A server is valid if it's not expired and (not used or invitation is unlimited)
+            if not srv_expired and (not srv_used or invitation.unlimited):
+                has_any_valid_server = True
+                break
+
+        if not has_any_valid_server:
+            # Check if all servers expired vs all used
+            all_expired = all(
+                (
+                    row.expires
+                    and (
+                        row.expires.replace(tzinfo=datetime.UTC)
+                        if row.expires.tzinfo is None
+                        else row.expires
+                    )
+                    <= now
+                )
+                for row in server_rows
+                if row.expires
+            )
+            if all_expired and any(row.expires for row in server_rows):
+                return False, "Invitation has expired."
+    # Legacy path: no per-server rows, fall back to global expiry
+    elif invitation.expires:
         expires_aware = invitation.expires.replace(tzinfo=datetime.UTC)
         if expires_aware <= now:
             return False, "Invitation has expired."
+
     if invitation.used is True and invitation.unlimited is not True:
         return False, "Invitation has already been used."
     return True, "okay"
@@ -148,6 +194,30 @@ def create_invite(form: Any) -> Invitation:
         db.session.flush()  # Ensure the delete is committed before adding new records
 
         invite.servers.extend(servers)
+        db.session.flush()  # ensure association rows exist before updating
+
+        # ── per-server expiry ─────────────────────────────────────────────
+        per_server_expires: list[datetime.datetime] = []
+        for srv in servers:
+            exp_key = f"server_expires_{srv.id}"
+            exp_val = form.get(exp_key)
+            srv_expires = expires_lookup.get(exp_val) if exp_val else None
+            if srv_expires:
+                db.session.execute(
+                    invitation_servers.update()
+                    .where(
+                        and_(
+                            invitation_servers.c.invite_id == invite.id,
+                            invitation_servers.c.server_id == srv.id,
+                        )
+                    )
+                    .values(expires=srv_expires)
+                )
+                per_server_expires.append(srv_expires)
+
+        # Set global invite.expires to the earliest per-server expiry for backward compat
+        if per_server_expires:
+            invite.expires = min(per_server_expires)
 
     # Wire up library associations
     selected = _get_form_list(
