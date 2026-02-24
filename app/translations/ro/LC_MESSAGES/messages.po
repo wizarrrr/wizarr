@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Wizarr\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-02-23 05:08+0000\n"
+"POT-Creation-Date: 2026-02-24 05:02+0000\n"
 "PO-Revision-Date: 2025-12-04 21:35+0000\n"
 "Last-Translator: Stepan Curuci <stepan@curuci.eu>\n"
 "Language: ro\n"
@@ -18,7 +18,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.18.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 msgid "Failed to load settings"
@@ -142,41 +142,43 @@ msgstr "Nu poți elimina o sarcină care este încă în coadă sau în desfăș
 msgid "An internal error has occurred."
 msgstr "A apărut o eroare internă."
 
-#: app/blueprints/admin/routes.py:325
+#: app/blueprints/admin/routes.py:331 app/blueprints/admin/routes.py:385
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr "Necunoscut"
 
-#: app/blueprints/admin/routes.py:328 app/templates/modals/invite.html:69
-#: app/templates/tables/invite_card.html:115
+#: app/blueprints/admin/routes.py:334 app/blueprints/admin/routes.py:388
+#: app/templates/modals/invite.html:322
+#: app/templates/tables/invite_card.html:131
+#: app/templates/tables/invite_card.html:142
 #: app/templates/tables/user_card.html:90
 msgid "Never"
 msgstr "Niciodată"
 
-#: app/blueprints/admin/routes.py:401 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:445 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr "Expirat"
 
-#: app/blueprints/admin/routes.py:409
+#: app/blueprints/admin/routes.py:453
 #, python-format
 msgid "in %(n)d d"
 msgstr "în %(n)d zile"
 
-#: app/blueprints/admin/routes.py:411
+#: app/blueprints/admin/routes.py:455
 msgid "in 1 d"
 msgstr "în 1 zi"
 
-#: app/blueprints/admin/routes.py:413
+#: app/blueprints/admin/routes.py:457
 #, python-format
 msgid "in %(n)d h"
 msgstr "în %(n)d ore"
 
-#: app/blueprints/admin/routes.py:415
+#: app/blueprints/admin/routes.py:459
 #, python-format
 msgid "in %(n)d m"
 msgstr "în %(n)d minute"
 
-#: app/blueprints/admin/routes.py:416
+#: app/blueprints/admin/routes.py:460
 msgid "soon"
 msgstr "în curând"
 
@@ -556,14 +558,14 @@ msgid "RomM Password"
 msgstr "Parola RomM"
 
 #: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:70
-#: app/templates/tables/invite_card.html:143
+#: app/templates/tables/invite_card.html:171
 msgid "Libraries"
 msgstr "Biblioteci"
 
 #: app/forms/settings.py:30 app/forms/settings.py:46
-#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
-#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:274
-#: app/templates/modals/invite.html:308 app/templates/modals/invite.html:320
+#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:184
+#: app/templates/modals/invite.html:218 app/templates/modals/invite.html:261
+#: app/templates/modals/invite.html:295 app/templates/modals/invite.html:307
 msgid "Allow Downloads"
 msgstr "Permite descărcări"
 
@@ -1277,7 +1279,7 @@ msgstr "Deconectat"
 #: app/templates/admin/server_health_card.html:60
 #: app/templates/admin/server_stats_card.html:29
 #: app/templates/settings/notifications.html:75
-#: app/templates/tables/invite_card.html:13
+#: app/templates/tables/invite_card.html:17
 msgid "Active"
 msgstr "Activ"
 
@@ -1379,7 +1381,7 @@ msgstr "Acces de bază"
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
-#: app/templates/modals/invite.html:414
+#: app/templates/modals/invite.html:416
 #: app/templates/modals/password-reset-link.html:143
 msgid "Close"
 msgstr "Închide"
@@ -1498,7 +1500,7 @@ msgid "Passkeys for {}"
 msgstr "Passkey-uri pentru {}"
 
 #: app/templates/components/admin_passkeys.html:30
-#: app/templates/tables/invite_card.html:100
+#: app/templates/tables/invite_card.html:104
 msgid "Created"
 msgstr "Creat"
 
@@ -1572,7 +1574,7 @@ msgstr "ex.: iPhone-ul meu, laptopul de serviciu"
 #: app/templates/modals/edit-identity.html:49
 #: app/templates/modals/edit-notification-agent.html:142
 #: app/templates/modals/edit-server.html:178
-#: app/templates/modals/invite.html:365
+#: app/templates/modals/invite.html:367
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
 #: app/templates/modals/wizard-preset-form.html:59
@@ -1895,7 +1897,7 @@ msgstr "Testează și salvează modificările"
 msgid "Edit Server"
 msgstr "Editează serverul"
 
-#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:360
+#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:362
 msgid "Create Invitation"
 msgstr "Creează Invitație"
 
@@ -1915,56 +1917,40 @@ msgstr "(opțional)"
 msgid "E.g. XMFGEJIKNQ"
 msgstr "Ex.: XMFGEJIKNQ"
 
-#: app/templates/modals/invite.html:61
-msgid "Expiration"
-msgstr "Expirare"
-
-#: app/templates/modals/invite.html:66
-msgid "1 day"
-msgstr "1 zi"
-
-#: app/templates/modals/invite.html:67
-msgid "1 week"
-msgstr "1 săptămână"
-
-#: app/templates/modals/invite.html:68
-msgid "1 month"
-msgstr "1 lună"
-
-#: app/templates/modals/invite.html:77
+#: app/templates/modals/invite.html:64
 msgid "Wizard bundle"
 msgstr "Pachet de pași"
 
-#: app/templates/modals/invite.html:82
+#: app/templates/modals/invite.html:69
 msgid "Automatic"
 msgstr "Automat"
 
-#: app/templates/modals/invite.html:91
+#: app/templates/modals/invite.html:78
 msgid "Advanced Options"
 msgstr "Opțiuni avansate"
 
-#: app/templates/modals/invite.html:98
+#: app/templates/modals/invite.html:85
 msgid "Invite Settings"
 msgstr "Setări invitație"
 
-#: app/templates/modals/invite.html:108
+#: app/templates/modals/invite.html:95
 msgid "Unlimited Usages"
 msgstr "Utilizări nelimitate"
 
-#: app/templates/modals/invite.html:114 app/templates/modals/invite.html:136
-#: app/templates/tables/invite_card.html:129
+#: app/templates/modals/invite.html:101 app/templates/modals/invite.html:123
+#: app/templates/tables/invite_card.html:157
 msgid "Duration"
 msgstr "Durată"
 
-#: app/templates/modals/invite.html:115
+#: app/templates/modals/invite.html:102
 msgid "in days"
 msgstr "(în zile)"
 
-#: app/templates/modals/invite.html:128
+#: app/templates/modals/invite.html:115
 msgid "Show Information"
 msgstr "Arată informația"
 
-#: app/templates/modals/invite.html:137
+#: app/templates/modals/invite.html:124
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
@@ -1972,65 +1958,81 @@ msgstr ""
 "Când este activată, persoanele invitate vor fi eliminate de pe serverul "
 "Plex după un anumit număr de zile (1-999)."
 
-#: app/templates/modals/invite.html:152
+#: app/templates/modals/invite.html:139
 msgid "Target servers"
 msgstr "Servere țintă"
 
-#: app/templates/modals/invite.html:186
+#: app/templates/modals/invite.html:173
 msgid "Invite to Plex Home"
 msgstr "Invită în Plex Home"
 
-#: app/templates/modals/invite.html:208 app/templates/modals/invite.html:242
-#: app/templates/modals/invite.html:285
+#: app/templates/modals/invite.html:195 app/templates/modals/invite.html:229
+#: app/templates/modals/invite.html:272
 msgid "Allow Live TV Access"
 msgstr "Permite acces la TV în direct"
 
-#: app/templates/modals/invite.html:219 app/templates/modals/invite.html:296
+#: app/templates/modals/invite.html:206 app/templates/modals/invite.html:283
 msgid "Allow Mobile Uploads"
 msgstr "Permite încărcări mobile"
 
-#: app/templates/modals/invite.html:250
+#: app/templates/modals/invite.html:237
 msgid "Max Active Sessions"
 msgstr "Număr maxim de sesiuni active"
 
-#: app/templates/modals/invite.html:251
+#: app/templates/modals/invite.html:238
 msgid "simultaneous devices"
 msgstr "dispozitive simultane"
 
-#: app/templates/modals/invite.html:261
+#: app/templates/modals/invite.html:248
 msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr "Numărul de dispozitive care pot reda simultan. Setează 0 pentru nelimitat."
 
-#: app/templates/modals/invite.html:336
+#: app/templates/modals/invite.html:314
+msgid "Expiration"
+msgstr "Expirare"
+
+#: app/templates/modals/invite.html:319
+msgid "1 day"
+msgstr "1 zi"
+
+#: app/templates/modals/invite.html:320
+msgid "1 week"
+msgstr "1 săptămână"
+
+#: app/templates/modals/invite.html:321
+msgid "1 month"
+msgstr "1 lună"
+
+#: app/templates/modals/invite.html:338
 msgid "Select Libraries"
 msgstr "Selectează bibliotecile"
 
-#: app/templates/modals/invite.html:349 app/templates/modals/invite.html:453
+#: app/templates/modals/invite.html:351 app/templates/modals/invite.html:455
 msgid "Loading…"
 msgstr "Se încarcă…"
 
-#: app/templates/modals/invite.html:380
+#: app/templates/modals/invite.html:382
 msgid "Successfully generated an Invitation!"
 msgstr "Invitație generată cu succes!"
 
-#: app/templates/modals/invite.html:386
+#: app/templates/modals/invite.html:388
 msgid "Invitation Link"
 msgstr "Link invitație"
 
-#: app/templates/modals/invite.html:398
+#: app/templates/modals/invite.html:400
 #: app/templates/modals/password-reset-link.html:81
 msgid "Copy"
 msgstr "Copiază"
 
-#: app/templates/modals/invite.html:403
+#: app/templates/modals/invite.html:405
 msgid "Link has been copied to clipboard!"
 msgstr "Link-ul a fost copiat cu succes în clipboard!"
 
-#: app/templates/modals/invite.html:409
+#: app/templates/modals/invite.html:411
 msgid "Create Another"
 msgstr "Creează altă invitație"
 
-#: app/templates/modals/invite.html:463
+#: app/templates/modals/invite.html:465
 msgid "Please select at least one server for the invitation."
 msgstr "Selectează cel puțin un server pentru invitație."
 
@@ -2902,49 +2904,55 @@ msgid "Create an account"
 msgstr "Creează un cont"
 
 #: app/templates/tables/invite_card.html:9
+#, fuzzy
+msgid "Partial"
+msgstr "(opțional)"
+
+#: app/templates/tables/invite_card.html:13
 msgid "Unlimited"
 msgstr "Nelimitat"
 
-#: app/templates/tables/invite_card.html:21
+#: app/templates/tables/invite_card.html:25
 msgid "There are currently no invitations."
 msgstr "Momentan nu există invitații."
 
-#: app/templates/tables/invite_card.html:61
+#: app/templates/tables/invite_card.html:65
 msgid "Used by"
 msgstr "Folosit de"
 
-#: app/templates/tables/invite_card.html:63
+#: app/templates/tables/invite_card.html:67
 msgid "Used"
 msgstr "Folosit"
 
-#: app/templates/tables/invite_card.html:66
+#: app/templates/tables/invite_card.html:70
 msgid "Not used yet"
 msgstr "Neutilizat încă"
 
-#: app/templates/tables/invite_card.html:71
+#: app/templates/tables/invite_card.html:75
 msgid "Bundle"
 msgstr "Pachet"
 
-#: app/templates/tables/invite_card.html:113
-#: app/templates/tables/invite_card.html:115
+#: app/templates/tables/invite_card.html:117
+#: app/templates/tables/invite_card.html:140
+#: app/templates/tables/invite_card.html:142
 #: app/templates/tables/user_card.html:88
 #: app/templates/tables/user_card.html:90
 msgid "Expires"
 msgstr "Expiră"
 
-#: app/templates/tables/invite_card.html:129
+#: app/templates/tables/invite_card.html:157
 msgid "days"
 msgstr "zile"
 
-#: app/templates/tables/invite_card.html:151
+#: app/templates/tables/invite_card.html:179
 msgid "Default"
 msgstr "Implicit"
 
-#: app/templates/tables/invite_card.html:168
+#: app/templates/tables/invite_card.html:196
 msgid "Copy invite link"
 msgstr "Copiază link-ul invitației"
 
-#: app/templates/tables/invite_card.html:188
+#: app/templates/tables/invite_card.html:216
 msgid "Delete invite"
 msgstr "Șterge invitația"
 
