@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-02-24 05:02+0000\n"
+"POT-Creation-Date: 2026-02-25 05:03+0000\n"
 "PO-Revision-Date: 2025-10-31 16:06+0000\n"
 "Last-Translator: Ben Avermate <weblate@benavermate.be>\n"
 "Language: nl\n"
@@ -151,43 +151,44 @@ msgstr ""
 msgid "An internal error has occurred."
 msgstr "Er is een onbekende fout opgetreden"
 
-#: app/blueprints/admin/routes.py:331 app/blueprints/admin/routes.py:385
+#: app/blueprints/admin/routes.py:325
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: app/blueprints/admin/routes.py:334 app/blueprints/admin/routes.py:388
-#: app/templates/modals/invite.html:322
-#: app/templates/tables/invite_card.html:131
-#: app/templates/tables/invite_card.html:142
-#: app/templates/tables/user_card.html:90
+#: app/blueprints/admin/routes.py:328
+#: app/templates/admin/user_details_modal.html:70
+#: app/templates/modals/invite.html:69
+#: app/templates/tables/invite_card.html:115
+#: app/templates/tables/user_card.html:96
+#: app/templates/tables/user_card.html:115
 msgid "Never"
 msgstr "Nooit"
 
-#: app/blueprints/admin/routes.py:445 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:401 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr "Vervallen"
 
-#: app/blueprints/admin/routes.py:453
+#: app/blueprints/admin/routes.py:409
 #, python-format
 msgid "in %(n)d d"
 msgstr "in %(n)d d"
 
-#: app/blueprints/admin/routes.py:455
+#: app/blueprints/admin/routes.py:411
 msgid "in 1 d"
 msgstr "in 1 d"
 
-#: app/blueprints/admin/routes.py:457
+#: app/blueprints/admin/routes.py:413
 #, python-format
 msgid "in %(n)d h"
 msgstr "in %(n)d u"
 
-#: app/blueprints/admin/routes.py:459
+#: app/blueprints/admin/routes.py:415
 #, python-format
 msgid "in %(n)d m"
 msgstr "in %(n)d m"
 
-#: app/blueprints/admin/routes.py:460
+#: app/blueprints/admin/routes.py:416
 msgid "soon"
 msgstr "binnenkort"
 
@@ -221,16 +222,16 @@ msgstr ""
 msgid "API key deleted successfully"
 msgstr "API sleutel succesvol verwijderd"
 
-#: app/blueprints/auth/routes.py:85
+#: app/blueprints/auth/routes.py:88
 msgid "Invalid username or password"
 msgstr "Ongeldige gebruikersnaam of wachtwoord"
 
-#: app/blueprints/auth/routes.py:105
+#: app/blueprints/auth/routes.py:108
 msgid "No pending 2FA authentication"
 msgstr "Geen openstaande 2FA authenicatie"
 
-#: app/blueprints/auth/routes.py:119 app/templates/login.html:179
-#: app/templates/login.html:244 app/templates/login.html:248
+#: app/blueprints/auth/routes.py:122 app/templates/login.html:188
+#: app/templates/login.html:253 app/templates/login.html:257
 msgid "Authentication failed"
 msgstr "Authenticatie gefaald"
 
@@ -344,21 +345,21 @@ msgid ""
 "invitation."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1215
-#: app/blueprints/wizard/routes.py:1378
+#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1241
+#: app/blueprints/wizard/routes.py:1404
 msgid "Error Loading Step"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1218
-#: app/blueprints/wizard/routes.py:1381
+#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1244
+#: app/blueprints/wizard/routes.py:1407
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
-#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1116
-#: app/blueprints/wizard/routes.py:1124
+#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1142
+#: app/blueprints/wizard/routes.py:1150
 #, fuzzy
 msgid "Invalid or expired invitation"
 msgstr "Ongeldige Uitnodiging"
@@ -373,8 +374,8 @@ msgstr ""
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:961
-#: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:21
+#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:987
+#: app/blueprints/wizard/routes.py:1263 app/templates/wizard/steps.html:21
 #, fuzzy
 msgid "Continue to Invite"
 msgstr "Nieuwe uitnodiging"
@@ -387,26 +388,26 @@ msgstr ""
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:848
+#: app/blueprints/wizard/routes.py:863
 msgid "Setup complete! Welcome to your media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:946
+#: app/blueprints/wizard/routes.py:972
 #, fuzzy
 msgid "Unable to load wizard configuration. Please try again."
 msgstr "Kan nu afspelen niet laden"
 
-#: app/blueprints/wizard/routes.py:1094
+#: app/blueprints/wizard/routes.py:1120
 #, fuzzy
 msgid "Unable to load wizard bundle. Please try again."
 msgstr "Kan nu afspelen niet laden"
 
-#: app/blueprints/wizard/routes.py:1145
+#: app/blueprints/wizard/routes.py:1171
 #, fuzzy
 msgid "Unable to load wizard steps. Please try again."
 msgstr "Kan nu afspelen niet laden"
 
-#: app/blueprints/wizard/routes.py:1338
+#: app/blueprints/wizard/routes.py:1364
 msgid "This bundle has no steps to preview."
 msgstr ""
 
@@ -510,7 +511,7 @@ msgstr ""
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
 #: app/templates/admin/user_details_modal.html:66
-#: app/templates/hybrid-password-form.html:102 app/templates/login.html:48
+#: app/templates/hybrid-password-form.html:102 app/templates/login.html:57
 #: app/templates/modals/create-admin.html:22
 #: app/templates/modals/edit-admin.html:22
 #: app/templates/welcome-jellyfin.html:117
@@ -518,7 +519,7 @@ msgid "Username"
 msgstr "Gebruikersnaam"
 
 #: app/forms/admin.py:45 app/templates/choose-password.html:22
-#: app/templates/hybrid-password-form.html:134 app/templates/login.html:60
+#: app/templates/hybrid-password-form.html:134 app/templates/login.html:69
 #: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
 #: app/templates/welcome-jellyfin.html:155
 msgid "Password"
@@ -565,15 +566,15 @@ msgstr "Je gebruikersnaam"
 msgid "RomM Password"
 msgstr "Je wachtwoord"
 
-#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:70
-#: app/templates/tables/invite_card.html:171
+#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:74
+#: app/templates/tables/invite_card.html:143
 msgid "Libraries"
 msgstr "Bibliotheken"
 
 #: app/forms/settings.py:30 app/forms/settings.py:46
-#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:184
-#: app/templates/modals/invite.html:218 app/templates/modals/invite.html:261
-#: app/templates/modals/invite.html:295 app/templates/modals/invite.html:307
+#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
+#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:274
+#: app/templates/modals/invite.html:308 app/templates/modals/invite.html:320
 msgid "Allow Downloads"
 msgstr "Downloads Toestaan"
 
@@ -707,7 +708,7 @@ msgstr "Drop"
 msgid "No default steps found for server type: {}"
 msgstr "Geen stappen gevonden voor server type: {}"
 
-#: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:100
+#: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:104
 msgid "Admin"
 msgstr "Administrator"
 
@@ -874,48 +875,57 @@ msgstr "Twee-Factor Authenticatie"
 msgid "Login"
 msgstr "Inloggen"
 
-#: app/templates/login.html:33
+#: app/templates/login.html:21
+msgid "This is the administrator login page."
+msgstr ""
+
+#: app/templates/login.html:24
+#, fuzzy
+msgid "Go to your media server instead"
+msgstr "Je Discord server ID"
+
+#: app/templates/login.html:42
 #, python-brace-format
 msgid "Welcome back, {}!"
 msgstr "Welkom terug, {}!"
 
-#: app/templates/login.html:35
+#: app/templates/login.html:44
 msgid "Please authenticate with your passkey to complete login."
 msgstr "Meld je aan met je passkey om het inloggen te voltooien."
 
-#: app/templates/login.html:79
+#: app/templates/login.html:88
 msgid "Remember me"
 msgstr "Onthoud mij"
 
-#: app/templates/login.html:86
+#: app/templates/login.html:95
 msgid "Sign in"
 msgstr "Log in"
 
-#: app/templates/login.html:104
+#: app/templates/login.html:113
 msgid "Authenticate with Passkey"
 msgstr "Authenticeer met Passkey"
 
-#: app/templates/login.html:116
+#: app/templates/login.html:125
 msgid "Back to Login"
 msgstr "Terug naar Inloggen"
 
-#: app/templates/login.html:125
+#: app/templates/login.html:134
 msgid "Or"
 msgstr "Of"
 
-#: app/templates/login.html:138 app/templates/login.html:260
+#: app/templates/login.html:147 app/templates/login.html:269
 msgid "Sign in with Passkey"
 msgstr "Log in met Passkey"
 
-#: app/templates/login.html:165
+#: app/templates/login.html:174
 msgid "Authenticating..."
 msgstr "Authenticeren..."
 
-#: app/templates/login.html:238
+#: app/templates/login.html:247
 msgid "Failed to complete 2FA login"
 msgstr "Het voltooien van de 2FA-aanmelding is mislukt"
 
-#: app/templates/login.html:253
+#: app/templates/login.html:262
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr "Passkey authenticatie gefaald. Probeer opnieuw of gebruik je wachtwoord."
 
@@ -1148,7 +1158,7 @@ msgstr "Vul je email in"
 msgid "Create a password"
 msgstr "Maak een wachtwoord"
 
-#: app/templates/tables/user_card.html:116
+#: app/templates/tables/user_card.html:142
 #: app/templates/welcome-jellyfin.html:193
 msgid "Invite Code"
 msgstr "Uitnodigingscode"
@@ -1300,7 +1310,7 @@ msgstr "Offline"
 #: app/templates/admin/server_health_card.html:60
 #: app/templates/admin/server_stats_card.html:29
 #: app/templates/settings/notifications.html:75
-#: app/templates/tables/invite_card.html:17
+#: app/templates/tables/invite_card.html:13
 msgid "Active"
 msgstr "Actief"
 
@@ -1374,35 +1384,44 @@ msgstr "Lid geworden"
 msgid "Account Details"
 msgstr "Accountgegevens"
 
-#: app/templates/admin/user_details_modal.html:87
+#: app/templates/admin/user_details_modal.html:69
+#: app/templates/tables/invite_card.html:113
+#: app/templates/tables/invite_card.html:115
+#: app/templates/tables/user_card.html:91
+#: app/templates/tables/user_card.html:113
+#: app/templates/tables/user_card.html:115
+msgid "Expires"
+msgstr "Verloopt"
+
+#: app/templates/admin/user_details_modal.html:91
 msgid "All libraries"
 msgstr "Alle bibliotheken"
 
-#: app/templates/admin/user_details_modal.html:93
+#: app/templates/admin/user_details_modal.html:97
 msgid "Permissions"
 msgstr "Rechten"
 
-#: app/templates/admin/user_details_modal.html:108
+#: app/templates/admin/user_details_modal.html:112
 msgid "Downloads"
 msgstr "Downloads"
 
-#: app/templates/admin/user_details_modal.html:116
+#: app/templates/admin/user_details_modal.html:120
 msgid "Live TV"
 msgstr "Live TV"
 
-#: app/templates/admin/user_details_modal.html:124
+#: app/templates/admin/user_details_modal.html:128
 msgid "Camera Upload"
 msgstr "Camera Upload"
 
-#: app/templates/admin/user_details_modal.html:132
+#: app/templates/admin/user_details_modal.html:136
 msgid "Basic Access"
 msgstr "Basis toegang"
 
-#: app/templates/admin/user_details_modal.html:144
+#: app/templates/admin/user_details_modal.html:148
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
-#: app/templates/modals/invite.html:416
+#: app/templates/modals/invite.html:414
 #: app/templates/modals/password-reset-link.html:143
 msgid "Close"
 msgstr "Sluiten"
@@ -1425,12 +1444,13 @@ msgid "Tabs"
 msgstr "Status"
 
 #: app/templates/admin/user_modal.html:42
+#: app/templates/tables/user_card.html:95
 msgid "Local"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:52
 #: app/templates/admin/user_modal.html:249
-#: app/templates/tables/user_card.html:130
+#: app/templates/tables/user_card.html:156
 msgid "Notes"
 msgstr "Notities"
 
@@ -1527,7 +1547,7 @@ msgid "Passkeys for {}"
 msgstr "Passkeys voor {}"
 
 #: app/templates/components/admin_passkeys.html:30
-#: app/templates/tables/invite_card.html:104
+#: app/templates/tables/invite_card.html:100
 msgid "Created"
 msgstr "Aangemaakt"
 
@@ -1601,7 +1621,7 @@ msgstr "bijv, Mijn iPhone, Werk Laptop"
 #: app/templates/modals/edit-identity.html:49
 #: app/templates/modals/edit-notification-agent.html:142
 #: app/templates/modals/edit-server.html:178
-#: app/templates/modals/invite.html:367
+#: app/templates/modals/invite.html:365
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
 #: app/templates/modals/wizard-preset-form.html:59
@@ -1934,7 +1954,7 @@ msgstr "Test & Creëer Agent"
 msgid "Edit Server"
 msgstr "Wijzig Server"
 
-#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:362
+#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:360
 msgid "Create Invitation"
 msgstr "Maak Uitnodiging"
 
@@ -1954,40 +1974,56 @@ msgstr "optioneel"
 msgid "E.g. XMFGEJIKNQ"
 msgstr "Bijv. XMFGEJIKNQ"
 
-#: app/templates/modals/invite.html:64
+#: app/templates/modals/invite.html:61
+msgid "Expiration"
+msgstr "Vervaltijd"
+
+#: app/templates/modals/invite.html:66
+msgid "1 day"
+msgstr "1 dag"
+
+#: app/templates/modals/invite.html:67
+msgid "1 week"
+msgstr "1 week"
+
+#: app/templates/modals/invite.html:68
+msgid "1 month"
+msgstr "1 maand"
+
+#: app/templates/modals/invite.html:77
 msgid "Wizard bundle"
 msgstr "Wizard bundel"
 
-#: app/templates/modals/invite.html:69
+#: app/templates/modals/invite.html:82
 msgid "Automatic"
 msgstr "Automatisch"
 
-#: app/templates/modals/invite.html:78
+#: app/templates/modals/invite.html:91
 msgid "Advanced Options"
 msgstr "Geadvanceerde Opties"
 
-#: app/templates/modals/invite.html:85
+#: app/templates/modals/invite.html:98
 msgid "Invite Settings"
 msgstr "Uitnodigings Instellingen"
 
-#: app/templates/modals/invite.html:95
+#: app/templates/modals/invite.html:108
 msgid "Unlimited Usages"
 msgstr "Ongelimiteerd Gebruiksmogelijkheden"
 
-#: app/templates/modals/invite.html:101 app/templates/modals/invite.html:123
-#: app/templates/tables/invite_card.html:157
+#: app/templates/modals/invite.html:114 app/templates/modals/invite.html:136
+#: app/templates/tables/invite_card.html:129
 msgid "Duration"
 msgstr "Duur"
 
-#: app/templates/modals/invite.html:102
+#: app/templates/modals/invite.html:115
 msgid "in days"
 msgstr "in dagen"
 
-#: app/templates/modals/invite.html:115
+#: app/templates/modals/invite.html:128
 msgid "Show Information"
 msgstr "Toon Informatie"
 
-#: app/templates/modals/invite.html:124
+#: app/templates/modals/invite.html:137
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
@@ -1995,82 +2031,66 @@ msgstr ""
 "Indien ingevuld, uitgenodigde gebruiker(s) worden verwijderd van de Plex "
 "server na een aantal dagen. (1-999)"
 
-#: app/templates/modals/invite.html:139
+#: app/templates/modals/invite.html:152
 msgid "Target servers"
 msgstr "Doel servers"
 
-#: app/templates/modals/invite.html:173
+#: app/templates/modals/invite.html:186
 msgid "Invite to Plex Home"
 msgstr "Uitnodiging voor Plex Home"
 
-#: app/templates/modals/invite.html:195 app/templates/modals/invite.html:229
-#: app/templates/modals/invite.html:272
+#: app/templates/modals/invite.html:208 app/templates/modals/invite.html:242
+#: app/templates/modals/invite.html:285
 msgid "Allow Live TV Access"
 msgstr "Live TV Toegang Toestaan"
 
-#: app/templates/modals/invite.html:206 app/templates/modals/invite.html:283
+#: app/templates/modals/invite.html:219 app/templates/modals/invite.html:296
 msgid "Allow Mobile Uploads"
 msgstr "Mobiele Uploads Toestaan"
 
-#: app/templates/modals/invite.html:237
+#: app/templates/modals/invite.html:250
 #, fuzzy
 msgid "Max Active Sessions"
 msgstr "Actieve sessies"
 
-#: app/templates/modals/invite.html:238
+#: app/templates/modals/invite.html:251
 msgid "simultaneous devices"
 msgstr ""
 
-#: app/templates/modals/invite.html:248
+#: app/templates/modals/invite.html:261
 msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
 
-#: app/templates/modals/invite.html:314
-msgid "Expiration"
-msgstr "Vervaltijd"
-
-#: app/templates/modals/invite.html:319
-msgid "1 day"
-msgstr "1 dag"
-
-#: app/templates/modals/invite.html:320
-msgid "1 week"
-msgstr "1 week"
-
-#: app/templates/modals/invite.html:321
-msgid "1 month"
-msgstr "1 maand"
-
-#: app/templates/modals/invite.html:338
+#: app/templates/modals/invite.html:336
 msgid "Select Libraries"
 msgstr "Selecteer Bibliotheken"
 
-#: app/templates/modals/invite.html:351 app/templates/modals/invite.html:455
+#: app/templates/modals/invite.html:349 app/templates/modals/invite.html:453
 msgid "Loading…"
 msgstr "Laden…"
 
-#: app/templates/modals/invite.html:382
+#: app/templates/modals/invite.html:380
 msgid "Successfully generated an Invitation!"
 msgstr "Uitnodiging succesvol gegenereerd!"
 
-#: app/templates/modals/invite.html:388
+#: app/templates/modals/invite.html:386
 msgid "Invitation Link"
 msgstr "Uitnodiging Link"
 
-#: app/templates/modals/invite.html:400
+#: app/templates/modals/invite.html:398
 #: app/templates/modals/password-reset-link.html:81
 msgid "Copy"
 msgstr "Kopiëren"
 
-#: app/templates/modals/invite.html:405
+#: app/templates/modals/invite.html:403
 msgid "Link has been copied to clipboard!"
 msgstr "De link is gekopieerd naar het klembord!"
 
-#: app/templates/modals/invite.html:411
+#: app/templates/modals/invite.html:409
 msgid "Create Another"
 msgstr "Maak nog een"
 
-#: app/templates/modals/invite.html:465
+#: app/templates/modals/invite.html:463
 msgid "Please select at least one server for the invitation."
 msgstr "Selecteer op zn minst een server voor de uitnodiging."
 
@@ -2957,57 +2977,44 @@ msgid "Create an account"
 msgstr "Maak een account"
 
 #: app/templates/tables/invite_card.html:9
-#, fuzzy
-msgid "Partial"
-msgstr "optioneel"
-
-#: app/templates/tables/invite_card.html:13
 msgid "Unlimited"
 msgstr "Ongelimiteerd"
 
-#: app/templates/tables/invite_card.html:25
+#: app/templates/tables/invite_card.html:21
 msgid "There are currently no invitations."
 msgstr "Er zijn momenteel geen uitnodigingen."
 
-#: app/templates/tables/invite_card.html:65
+#: app/templates/tables/invite_card.html:61
 msgid "Used by"
 msgstr "Gebruikt door"
 
-#: app/templates/tables/invite_card.html:67
+#: app/templates/tables/invite_card.html:63
 msgid "Used"
 msgstr "Gebruikt"
 
-#: app/templates/tables/invite_card.html:70
+#: app/templates/tables/invite_card.html:66
 #, fuzzy
 msgid "Not used yet"
 msgstr "Gebruikt door"
 
-#: app/templates/tables/invite_card.html:75
+#: app/templates/tables/invite_card.html:71
 #, fuzzy
 msgid "Bundle"
 msgstr "Wizard bundel"
 
-#: app/templates/tables/invite_card.html:117
-#: app/templates/tables/invite_card.html:140
-#: app/templates/tables/invite_card.html:142
-#: app/templates/tables/user_card.html:88
-#: app/templates/tables/user_card.html:90
-msgid "Expires"
-msgstr "Verloopt"
-
-#: app/templates/tables/invite_card.html:157
+#: app/templates/tables/invite_card.html:129
 msgid "days"
 msgstr "dagen"
 
-#: app/templates/tables/invite_card.html:179
+#: app/templates/tables/invite_card.html:151
 msgid "Default"
 msgstr "Standaard"
 
-#: app/templates/tables/invite_card.html:196
+#: app/templates/tables/invite_card.html:168
 msgid "Copy invite link"
 msgstr "Kopieer uitnodigingslink"
 
-#: app/templates/tables/invite_card.html:216
+#: app/templates/tables/invite_card.html:188
 msgid "Delete invite"
 msgstr "Verwijder uitnodiging"
 
@@ -3024,39 +3031,39 @@ msgstr "Wijzig bijnaam"
 msgid "Home User"
 msgstr "Verwijder gebruiker"
 
-#: app/templates/tables/user_card.html:104
+#: app/templates/tables/user_card.html:130
 msgid "Invited"
 msgstr "Uitgenodigd"
 
-#: app/templates/tables/user_card.html:143
+#: app/templates/tables/user_card.html:169
 #, fuzzy
 msgid "Disabled"
 msgstr "Live TV uitgeschakeld"
 
-#: app/templates/tables/user_card.html:149
+#: app/templates/tables/user_card.html:175
 msgid "Downloads enabled"
 msgstr "Downloaden toegestaan"
 
-#: app/templates/tables/user_card.html:163
+#: app/templates/tables/user_card.html:189
 msgid "Live TV enabled"
 msgstr "Live TV ingeschakeld"
 
-#: app/templates/tables/user_card.html:182
+#: app/templates/tables/user_card.html:208
 #, fuzzy
 msgid "View details"
 msgstr "Gebruikersgegevens"
 
-#: app/templates/tables/user_card.html:200
+#: app/templates/tables/user_card.html:226
 #, fuzzy
 msgid "Edit user"
 msgstr "Wijzig Server"
 
-#: app/templates/tables/user_card.html:221
+#: app/templates/tables/user_card.html:247
 #, fuzzy
 msgid "Reset password"
 msgstr "Huidige Wachtwoord"
 
-#: app/templates/tables/user_card.html:241
+#: app/templates/tables/user_card.html:267
 msgid "Remove user"
 msgstr "Verwijder gebruiker"
 
@@ -3911,4 +3918,7 @@ msgstr "Klik de link in deze stap om door te gaan"
 
 #~ msgid "Username must be 3 to 15 characters."
 #~ msgstr ""
+
+#~ msgid "Partial"
+#~ msgstr "optioneel"
 
