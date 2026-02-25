@@ -54,8 +54,21 @@
                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary"
                        placeholder="{{ _('E.g. XMFGEJIKNQ') }}">
               </div>
-              <!-- Hidden fallback for backward compat (per-server expiry is set below) -->
-              <input type="hidden" name="expires" value="never">
+              <!-- Expiration Dropdown -->
+              <div>
+                <label for="expires"
+                       class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">
+                  {{ _("Expiration") }}
+                </label>
+                <select id="expires"
+                        name="expires"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
+                  <option value="day">{{ _("1 day") }}</option>
+                  <option value="week">{{ _("1 week") }}</option>
+                  <option value="month">{{ _("1 month") }}</option>
+                  <option value="never">{{ _("Never") }}</option>
+                </select>
+              </div>
               {# Wizard bundle selection #}
               {% if bundles %}
                 <div>
@@ -307,21 +320,6 @@
                             <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Allow Downloads") }}</span>
                           </label>
                         {% endif %}
-                        <!-- Per-server expiry dropdown -->
-                        <div class="mt-3">
-                          <label for="server_expires_{{ s.id }}"
-                                 class="block mb-1 text-sm font-medium text-gray-900 dark:text-white">
-                            {{ _("Expiration") }}
-                          </label>
-                          <select id="server_expires_{{ s.id }}"
-                                  name="server_expires_{{ s.id }}"
-                                  class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
-                            <option value="day">{{ _("1 day") }}</option>
-                            <option value="week">{{ _("1 week") }}</option>
-                            <option value="month">{{ _("1 month") }}</option>
-                            <option value="never" selected>{{ _("Never") }}</option>
-                          </select>
-                        </div>
                         <!-- Library dropdown-search -->
                         <div class="mt-3 w-full relative">
                           <button id="libBtn{{ s.id }}"

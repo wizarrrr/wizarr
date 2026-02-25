@@ -23,6 +23,7 @@ class AccountInfo:
     allow_downloads: bool
     allow_live_tv: bool
     allow_camera_upload: bool
+    expires: datetime | None = None
 
 
 @dataclass(frozen=True)
@@ -88,6 +89,7 @@ class UserDetailsService:
                         allow_downloads=False,
                         allow_live_tv=False,
                         allow_camera_upload=False,
+                        expires=account.expires,
                     )
                 )
 
@@ -107,6 +109,7 @@ class UserDetailsService:
                 allow_downloads=False,
                 allow_live_tv=False,
                 allow_camera_upload=False,
+                expires=account.expires,
             )
 
         # Use standardized metadata if available
@@ -121,6 +124,7 @@ class UserDetailsService:
                 allow_downloads=account.allow_downloads or False,
                 allow_live_tv=account.allow_live_tv or False,
                 allow_camera_upload=account.allow_camera_upload or False,
+                expires=account.expires,
             )
 
         # No standardized metadata available, fetch from API
@@ -144,6 +148,7 @@ class UserDetailsService:
             allow_downloads=details.allow_downloads,
             allow_live_tv=details.allow_live_tv,
             allow_camera_upload=details.allow_camera_upload,
+            expires=account.expires,
         )
 
     def _extract_libraries_from_cached_data(
