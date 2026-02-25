@@ -24,7 +24,10 @@ def login():
         from app.models import WebAuthnCredential
 
         has_passkeys = WebAuthnCredential.query.first() is not None
-        return render_template("login.html", has_passkeys=has_passkeys)
+        media_server_url = request.cookies.get("wizarr_media_server_url")
+        return render_template(
+            "login.html", has_passkeys=has_passkeys, media_server_url=media_server_url
+        )
 
     username = request.form.get("username")
     password = request.form.get("password")
