@@ -9,8 +9,8 @@ from app.services import notifications as notification_service
 def test_smtp_starttls_send_success(monkeypatch):
     payload_seen = {}
 
-    def fake_run(command, input, text, capture_output, timeout):
-        payload_seen.update(json.loads(input))
+    def fake_run(command, **kwargs):
+        payload_seen.update(json.loads(kwargs["input"]))
         return subprocess.CompletedProcess(command, 0, stdout='{"ok":true}\n')
 
     monkeypatch.setattr(notification_service.shutil, "which", lambda _cmd: "/usr/bin/node")
@@ -40,8 +40,8 @@ def test_smtp_starttls_send_success(monkeypatch):
 def test_smtp_ssl_send_success(monkeypatch):
     payload_seen = {}
 
-    def fake_run(command, input, text, capture_output, timeout):
-        payload_seen.update(json.loads(input))
+    def fake_run(command, **kwargs):
+        payload_seen.update(json.loads(kwargs["input"]))
         return subprocess.CompletedProcess(command, 0, stdout='{"ok":true}\n')
 
     monkeypatch.setattr(notification_service.shutil, "which", lambda _cmd: "/usr/bin/node")
@@ -68,8 +68,8 @@ def test_smtp_ssl_send_success(monkeypatch):
 def test_smtp_accepts_host_port_input(monkeypatch):
     payload_seen = {}
 
-    def fake_run(command, input, text, capture_output, timeout):
-        payload_seen.update(json.loads(input))
+    def fake_run(command, **kwargs):
+        payload_seen.update(json.loads(kwargs["input"]))
         return subprocess.CompletedProcess(command, 0, stdout='{"ok":true}\n')
 
     monkeypatch.setattr(notification_service.shutil, "which", lambda _cmd: "/usr/bin/node")
