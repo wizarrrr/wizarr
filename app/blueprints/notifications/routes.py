@@ -102,7 +102,7 @@ def _test_connection(form: dict) -> tuple[bool, str | None]:
     if service_type == "smtp":
         if not url:
             return False, "SMTP host is required."
-        smtp_result = _smtp(
+        return _smtp(
             "Wizarr test message",
             "Wizarr Test Notification",
             url,
@@ -114,7 +114,6 @@ def _test_connection(form: dict) -> tuple[bool, str | None]:
             form.get("smtp_encryption"),
             return_error=True,
         )
-        return smtp_result
 
     return False, "Unsupported notification service."
 

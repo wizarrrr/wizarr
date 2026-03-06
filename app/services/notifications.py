@@ -225,7 +225,7 @@ def _smtp(
     }
 
     try:
-        result = subprocess.run(
+        result = subprocess.run(  # noqa: S603 - command path is resolved locally and arguments are fixed
             [node_executable, str(script_path)],
             input=json.dumps(payload),
             text=True,
