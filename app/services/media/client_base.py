@@ -528,6 +528,27 @@ class MediaClient(ABC):
             except Exception as e:
                 logging.warning(f"Failed to send join notification: {e}")
 
+            try:
+                from app.services.user_email_notifications import (
+                    send_user_lifecycle_email,
+                )
+
+                user_query = User.query.filter_by(email=email, code=code)
+                server_id = getattr(self, "server_id", None)
+                if server_id:
+                    user_query = user_query.filter_by(server_id=server_id)
+                created_user = user_query.order_by(User.id.desc()).first()
+
+                if created_user:
+                    send_user_lifecycle_email(
+                        "user_created_confirmation",
+                        created_user.email,
+                        created_user.username,
+                        created_user.expires,
+                    )
+            except Exception as e:
+                logging.warning(f"Failed to send user confirmation email: {e}")
+
         return success, message
 
     @abstractmethod

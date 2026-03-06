@@ -64,6 +64,7 @@
                 <option value="discord">Discord</option>
                 <option value="notifiarr">Notifiarr</option>
                 <option value="ntfy">Ntfy</option>
+                <option value="smtp">SMTP</option>
               </select>
             </div>
             <div id="notifiarrSection"
@@ -96,8 +97,53 @@
                      id="password"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
+                 <div id="smtpSection"
+                 class="notificationAgentInfo"
+                 style="display: none">
+              <label for="smtp_port"
+                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                {{ _("SMTP Port") }}
+              </label>
+              <input type="number"
+                name="smtp_port"
+                id="smtp_port"
+                min="1"
+                max="65535"
+                value="587"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="smtp_encryption"
+                class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                {{ _("Encryption") }}
+              </label>
+              <select name="smtp_encryption"
+                 id="smtp_encryption"
+                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                <option value="starttls" selected>STARTTLS</option>
+                <option value="ssl">SSL/TLS</option>
+                <option value="none">None</option>
+              </select>
+              <label for="smtp_from_email"
+                class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                {{ _("From Email") }}
+              </label>
+              <input type="email"
+                name="smtp_from_email"
+                id="smtp_from_email"
+                placeholder="sender@example.com"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="smtp_to_emails"
+                class="block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                {{ _("Recipient Emails") }}
+              </label>
+              <input type="text"
+                name="smtp_to_emails"
+                id="smtp_to_emails"
+                placeholder="admin@example.com,ops@example.com"
+                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                 </div>
             <div>
               <label for="url"
+                id="urlLabel"
                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent URL") }}</label>
               <input type="text"
                      name="url"
@@ -133,6 +179,50 @@
                     {{ _("Update Available") }}
                   </label>
                 </div>
+                <div class="flex items-center">
+                  <input type="checkbox"
+                         name="event_user_created_confirmation"
+                         id="event_user_created_confirmation"
+                         value="user_created_confirmation"
+                         class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                  <label for="event_user_created_confirmation"
+                         class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    {{ _("User Created Email") }}
+                  </label>
+                </div>
+                <div class="flex items-center">
+                  <input type="checkbox"
+                         name="event_user_expired_notification"
+                         id="event_user_expired_notification"
+                         value="user_expired_notification"
+                         class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                  <label for="event_user_expired_notification"
+                         class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    {{ _("User Expired Email") }}
+                  </label>
+                </div>
+                <div class="flex items-center">
+                  <input type="checkbox"
+                         name="event_user_manually_deleted_notification"
+                         id="event_user_manually_deleted_notification"
+                         value="user_manually_deleted_notification"
+                         class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                  <label for="event_user_manually_deleted_notification"
+                         class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    {{ _("Manual Delete Email") }}
+                  </label>
+                </div>
+                <div class="flex items-center">
+                  <input type="checkbox"
+                         name="event_user_manually_disabled_notification"
+                         id="event_user_manually_disabled_notification"
+                         value="user_manually_disabled_notification"
+                         class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:focus:ring-primary dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                  <label for="event_user_manually_disabled_notification"
+                         class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    {{ _("Manual Disable Email") }}
+                  </label>
+                </div>
               </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">
@@ -161,16 +251,23 @@
 
     function toggleService(value) {
         const notificationAgentInfo = document.getElementsByClassName('notificationAgentInfo')
+      const credentialsSection = document.getElementById('credentialsSection');
+      const notifiarrSection = document.getElementById('notifiarrSection');
+      const smtpSection = document.getElementById('smtpSection');
 
         for (let i = 0; i < notificationAgentInfo.length; i++) {
             notificationAgentInfo[i].style.display = 'none';
         }
 
         // Trigger sections
-        if (value === 'ntfy') {
+        if (value === 'ntfy' || value === 'smtp') {
             credentialsSection.style.display = 'block';
         } else if (value === "notifiarr") {
             notifiarrSection.style.display = 'block';
+        }
+
+        if (value === 'smtp') {
+          smtpSection.style.display = 'block';
         }
 
         // Trigger required channel_id
@@ -180,13 +277,30 @@
             document.getElementById("channel_id").required = false
         }
 
+        const smtpFromEmailEle = document.getElementById("smtp_from_email");
+        const smtpToEmailsEle = document.getElementById("smtp_to_emails");
+
+        if (value === 'smtp') {
+          smtpFromEmailEle.required = true
+          smtpToEmailsEle.required = true
+        } else {
+          smtpFromEmailEle.required = false
+          smtpToEmailsEle.required = false
+        }
+
         // Adjust placeholder text
         const urlEle = document.getElementById('url');
+        const urlLabel = document.getElementById('urlLabel');
 
         if (value === 'apprise') {
             urlEle.placeholder = "e.g. apprise://hostname/token";
+          urlLabel.textContent = "{{ _('Agent URL') }}";
+        } else if (value === 'smtp') {
+          urlEle.placeholder = "e.g. smtp.mailprovider.com";
+          urlLabel.textContent = "{{ _('SMTP Host') }}";
         } else {
             urlEle.placeholder = "e.g. https://example.com";
+          urlLabel.textContent = "{{ _('Agent URL') }}";
         }
     }
 </script>
