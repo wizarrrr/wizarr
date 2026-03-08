@@ -353,6 +353,10 @@ class Notification(db.Model):
     username = db.Column(db.String, nullable=True)
     password = db.Column(db.String, nullable=True)
     channel_id = db.Column(db.Integer, nullable=True)
+    smtp_port = db.Column(db.Integer, nullable=True)
+    smtp_from_email = db.Column(db.String, nullable=True)
+    smtp_to_emails = db.Column(db.String, nullable=True)
+    smtp_encryption = db.Column(db.String, nullable=True)
     notification_events = db.Column(
         db.String, nullable=False, default="user_joined,update_available"
     )

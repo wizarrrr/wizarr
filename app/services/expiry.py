@@ -7,6 +7,20 @@ from app.models import ExpiredUser, Invitation, User, invitation_servers
 from app.services.media.service import delete_user, disable_user
 
 
+def _send_expiry_email(user: User) -> None:
+    try:
+        from app.services.user_email_notifications import send_user_lifecycle_email
+
+        send_user_lifecycle_email(
+            "user_expired_notification",
+            user.email,
+            user.username,
+            user.expires,
+        )
+    except Exception as exc:
+        logging.warning("Failed to send expiry email for user %s: %s", user.id, exc)
+
+
 def calculate_user_expiry(
     invitation: Invitation, server_id: int | None = None
 ) -> datetime.datetime | None:
@@ -123,6 +137,7 @@ def delete_user_if_expired() -> list[int]:
 
             # Delete the user (handles server-specific deletion internally)
             delete_user(user.id)
+            _send_expiry_email(user)
 
             deleted.append(user.id)
             logging.info(
@@ -238,6 +253,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
                     )
                     # Fallback to deletion using service function
                     delete_user(user.id)
+                    _send_expiry_email(user)
                     processed.append(user.id)
                     logging.info(
                         "🗑️ Expired user %s (%s) deleted (disable fallback)",
@@ -250,6 +266,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
             else:
                 # Delete the user (either by setting or server doesn't support disable)
                 delete_user(user.id)
+                _send_expiry_email(user)
                 processed.append(user.id)
                 action_reason = (
                     "setting" if expiry_action == "delete" else "unsupported"

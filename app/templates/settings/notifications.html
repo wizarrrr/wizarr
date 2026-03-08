@@ -89,6 +89,26 @@
                           {{ _("Update Available") }}
                         </span>
                       {% endif %}
+                      {% if 'user_created_confirmation' in events %}
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">
+                          {{ _("User Created Email") }}
+                        </span>
+                      {% endif %}
+                      {% if 'user_expired_notification' in events %}
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200">
+                          {{ _("User Expired Email") }}
+                        </span>
+                      {% endif %}
+                      {% if 'user_manually_deleted_notification' in events %}
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-rose-100 text-rose-800 dark:bg-rose-900 dark:text-rose-200">
+                          {{ _("Manual Delete Email") }}
+                        </span>
+                      {% endif %}
+                      {% if 'user_manually_disabled_notification' in events %}
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200">
+                          {{ _("Manual Disable Email") }}
+                        </span>
+                      {% endif %}
                     </div>
                   </div>
                 </div>

@@ -34,6 +34,7 @@ from app.services.invites import create_invite
 from app.services.media.service import (
     EMAIL_RE,
     delete_user,
+    disable_user,
     get_now_playing_all_servers,
     list_users_all_servers,
     list_users_for_server,
@@ -959,13 +960,45 @@ def delete_user_modal(user_id: int):
 def process_user_deletion():
     """Process the user deletion based on selected server accounts."""
     selected_accounts = request.form.getlist("server_accounts")
+    manual_action = (request.form.get("manual_action") or "delete").strip().lower()
+    manual_reason = (request.form.get("manual_reason") or "").strip()
 
     if not selected_accounts:
         return Response("No accounts selected", status=400)
+    if manual_action not in {"delete", "disable"}:
+        return Response("Invalid action", status=400)
+    if not manual_reason:
+        return Response("Reason is required", status=400)
 
-    # Remove users from their respective servers
+    from app.services.user_email_notifications import send_user_lifecycle_email
+
+    # Apply action to users on their respective servers
     for account_id in selected_accounts:
-        delete_user(int(account_id))
+        user = db.session.get(User, int(account_id))
+        if not user:
+            continue
+
+        if manual_action == "disable":
+            if disable_user(user.id):
+                user.is_disabled = True
+                db.session.commit()
+                send_user_lifecycle_email(
+                    "user_manually_disabled_notification",
+                    user.email,
+                    user.username,
+                    user.expires,
+                    reason=manual_reason,
+                )
+            continue
+
+        send_user_lifecycle_email(
+            "user_manually_deleted_notification",
+            user.email,
+            user.username,
+            user.expires,
+            reason=manual_reason,
+        )
+        delete_user(user.id)
 
     # Trigger user table refresh
     response = Response("")
