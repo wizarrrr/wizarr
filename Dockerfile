@@ -15,11 +15,14 @@ ENV UV_LINK_MODE=copy
 
 # Copy dependency files first for better caching
 COPY pyproject.toml uv.lock ./
+COPY package*.json ./
 
 # Install Python dependencies only (not project) with cache mount for speed
 # Use --frozen to ensure reproducible builds from uv.lock
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-install-project --no-dev
+
+RUN npm ci --cache /tmp/npm-cache
 
 # Copy npm dependency files and install with cache
 COPY app/static/package*.json ./app/static/
@@ -51,13 +54,14 @@ ENV PUID=1000
 ENV PGID=1000
 
 # Install runtime dependencies only
-RUN apk add --no-cache curl tzdata su-exec
+RUN apk add --no-cache curl tzdata su-exec nodejs
 
 # Set application working directory
 WORKDIR /app
 
 # Copy Python environment from builder stage (includes project)
 COPY --chown=1000:1000 --from=builder /app/.venv /app/.venv
+COPY --chown=1000:1000 --from=deps /app/node_modules /app/node_modules
 
 # Copy source files first (run.py, gunicorn.conf.py, migrations/, etc.)
 COPY --chown=1000:1000 . /app
