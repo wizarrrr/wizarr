@@ -15,11 +15,12 @@ from flask import (
 from flask_babel import _
 from flask_login import login_required
 
+from app.services.email import get_smtp_settings, save_smtp_settings
 from app.services.expiry import disable_or_delete_user_if_expired
 from app.services.media.service import scan_libraries as scan_media
 
 from ...extensions import db
-from ...forms.general import GeneralSettingsForm
+from ...forms.general import GeneralSettingsForm, MailingSettingsForm
 from ...forms.settings import SettingsForm
 from ...models import Library, MediaServer, Settings
 from ...services.servers import (
@@ -276,6 +277,32 @@ def general_settings():
     if request.headers.get("HX-Request"):
         return render_template(
             "settings/general.html", form=form, app_version=app_version
+        )
+    return redirect(url_for("settings.page"))
+
+
+@settings_bp.route("/mailing", methods=["GET", "POST"])
+@login_required
+def mailing_settings():
+    current = get_smtp_settings(include_password=True)
+    form = MailingSettingsForm(
+        formdata=request.form if request.method == "POST" else None, data=current
+    )
+    has_saved_password = bool(current.get("smtp_password"))
+
+    if form.validate_on_submit():
+        data = form.data.copy()
+        save_smtp_settings(data)
+        flash(_("Mailing settings saved successfully!"), "success")
+        current = get_smtp_settings(include_password=True)
+        form = MailingSettingsForm(data=current)
+        has_saved_password = bool(current.get("smtp_password"))
+
+    if request.headers.get("HX-Request"):
+        return render_template(
+            "settings/mailing.html",
+            form=form,
+            has_saved_password=has_saved_password,
         )
     return redirect(url_for("settings.page"))
 

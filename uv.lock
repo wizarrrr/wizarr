@@ -525,6 +525,19 @@ wheels = [
 ]
 
 [[package]]
+name = "flask-mail"
+version = "0.10.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "blinker" },
+    { name = "flask" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ba/29/e92dc84c675d1e8d260d5768eb3fb65c70cbd33addecf424187587bee862/flask_mail-0.10.0.tar.gz", hash = "sha256:44083e7b02bbcce792209c06252f8569dd5a325a7aaa76afe7330422bd97881d", size = 8152, upload-time = "2024-05-23T22:30:12.612Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e4/c0/a81083da779f482494d49195d8b6c9fde21072558253e4a9fb2ec969c3c1/flask_mail-0.10.0-py3-none-any.whl", hash = "sha256:a451e490931bb3441d9b11ebab6812a16bfa81855792ae1bf9c1e1e22c4e51e7", size = 8529, upload-time = "2024-05-23T22:30:10.962Z" },
+]
+
+[[package]]
 name = "flask-migrate"
 version = "4.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -1675,6 +1688,7 @@ dependencies = [
     { name = "flask-htmx" },
     { name = "flask-limiter" },
     { name = "flask-login" },
+    { name = "flask-mail" },
     { name = "flask-migrate" },
     { name = "flask-restx" },
     { name = "flask-session" },
@@ -1723,6 +1737,7 @@ requires-dist = [
     { name = "flask-htmx", specifier = ">=0.4.0" },
     { name = "flask-limiter", specifier = ">=3.8.0" },
     { name = "flask-login", specifier = ">=0.6.3" },
+    { name = "flask-mail", specifier = ">=0.10.0" },
     { name = "flask-migrate", specifier = ">=4.1.0" },
     { name = "flask-restx", specifier = ">=1.3.0" },
     { name = "flask-session", specifier = ">=0.8.0" },
