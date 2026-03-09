@@ -18,6 +18,7 @@ import requests
 
 from app.extensions import db
 from app.models import MediaServer, Settings, User
+from app.services.email import send_user_lifecycle_email
 from app.services.notifications import notify
 
 if TYPE_CHECKING:
@@ -527,6 +528,22 @@ class MediaClient(ABC):
                 )
             except Exception as e:
                 logging.warning(f"Failed to send join notification: {e}")
+
+            try:
+                user = (
+                    User.query.filter_by(code=code, server_id=getattr(self, "server_id", None))
+                    .order_by(User.id.desc())
+                    .first()
+                )
+                if user:
+                    send_user_lifecycle_email(
+                        user,
+                        event_type="activated",
+                        server_name=user.server.name if user.server else None,
+                        expires_at=user.expires,
+                    )
+            except Exception as e:
+                logging.warning(f"Failed to send activation email: {e}")
 
         return success, message
 

@@ -14,6 +14,7 @@ from typing import Any
 
 from app.extensions import db
 from app.models import Identity, MediaServer, Settings, User
+from app.services.email import send_user_lifecycle_email
 
 from .client_base import CLIENTS
 
@@ -140,7 +141,7 @@ def list_users_for_server(server: MediaServer):
     return get_client_for_media_server(server).list_users()
 
 
-def delete_user(db_id: int) -> None:
+def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
     """Delete a user from its associated MediaServer and local DB.
 
     Foreign key relationships are handled automatically by SQLite CASCADE/SET NULL:
@@ -150,6 +151,16 @@ def delete_user(db_id: int) -> None:
     """
     if not (user := db.session.get(User, db_id)):
         return
+
+    try:
+        send_user_lifecycle_email(
+            user,
+            event_type=email_event,
+            server_name=user.server.name if user.server else None,
+            expires_at=user.expires,
+        )
+    except Exception as exc:
+        logging.warning("Failed to send deletion email for user %s: %s", db_id, exc)
 
     # Delete from remote media server if user has one
     if user.server:
@@ -193,6 +204,21 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
 
     if not user or not server or user.server_id != server_id:
         return False
+
+    try:
+        send_user_lifecycle_email(
+            user,
+            event_type="deleted",
+            server_name=server.name,
+            expires_at=user.expires,
+        )
+    except Exception as exc:
+        logging.warning(
+            "Failed to send server-removal email for user %s on %s: %s",
+            user_id,
+            server_id,
+            exc,
+        )
 
     # Remove from remote media server
     try:
