@@ -73,10 +73,25 @@ def upgrade():
     # webauthn_credential and api_key have FKs pointing at admin_account,
     # so the DROP fails when PRAGMA foreign_keys=ON.  Temporarily disable
     # FK enforcement for this operation.
+    #
+    # Also clean up any _alembic_tmp_* tables left by prior failed runs
+    # (SQLite has no transactional DDL, so these persist after crashes).
     conn.execute(sa.text("PRAGMA foreign_keys=OFF"))
     try:
-        with op.batch_alter_table("admin_account", schema=None) as batch_op:
-            if not _has_column(inspector, "admin_account", "auth_source"):
+        for tmp_table in [
+            t for t in inspector.get_table_names() if t.startswith("_alembic_tmp_")
+        ]:
+            conn.execute(sa.text(f"DROP TABLE IF EXISTS [{tmp_table}]"))
+
+        if _has_column(inspector, "admin_account", "auth_source"):
+            # Already has the new columns (prior partial run succeeded here).
+            # Just ensure password_hash is nullable.
+            with op.batch_alter_table("admin_account", schema=None) as batch_op:
+                batch_op.alter_column(
+                    "password_hash", existing_type=sa.String(), nullable=True
+                )
+        else:
+            with op.batch_alter_table("admin_account", schema=None) as batch_op:
                 batch_op.add_column(
                     sa.Column(
                         "auth_source",
@@ -85,13 +100,12 @@ def upgrade():
                         server_default="local",
                     )
                 )
-            if not _has_column(inspector, "admin_account", "external_id"):
                 batch_op.add_column(
                     sa.Column("external_id", sa.String(), nullable=True)
                 )
-            batch_op.alter_column(
-                "password_hash", existing_type=sa.String(), nullable=True
-            )
+                batch_op.alter_column(
+                    "password_hash", existing_type=sa.String(), nullable=True
+                )
     finally:
         conn.execute(sa.text("PRAGMA foreign_keys=ON"))
 
