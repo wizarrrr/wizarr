@@ -371,8 +371,8 @@ class UsersListResource(Resource):
                             "expires": user.expires.isoformat()
                             if user.expires
                             else None,
-                            "created": user.created.isoformat()
-                            if hasattr(user, "created") and user.created
+                            "created_at": user.created_at.isoformat()
+                            if hasattr(user, "created_at") and user.created_at
                             else None,
                         }
                     )

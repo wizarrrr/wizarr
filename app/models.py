@@ -206,6 +206,10 @@ class User(db.Model, UserMixin):
         db.Text, nullable=True
     )  # JSON array of library names
 
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=True
+    )
+
     # Legacy metadata caching fields (will be phased out)
     library_access_json = db.Column(db.Text, nullable=True)
 
