@@ -4,7 +4,10 @@
     <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("LDAP Settings") }}</h1>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+            {{ _("LDAP Settings") }}
+            <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300">{{ _("Experimental") }}</span>
+          </h1>
           <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
             {{ _("Configure LDAP for user authentication and management") }}
           </p>
