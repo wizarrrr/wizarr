@@ -169,8 +169,7 @@ def delete_user(db_id: int) -> None:
                     from app.services.ldap.client import LDAPClient
 
                     ldap_client = LDAPClient(ldap_config)
-                    # Reconstruct DN from username
-                    user_dn = f"{ldap_config.username_attribute}={user.username},{ldap_config.user_base_dn}"
+                    user_dn = ldap_client.build_user_dn(user.username)
                     success, message = ldap_client.delete_user(user_dn)
 
                     if not success:
@@ -317,8 +316,7 @@ def reset_user_password(db_id: int, new_password: str) -> bool:
                 from app.services.ldap.client import LDAPClient
 
                 ldap_client = LDAPClient(ldap_config)
-                # Reconstruct DN from username
-                user_dn = f"{ldap_config.username_attribute}={user.username},{ldap_config.user_base_dn}"
+                user_dn = ldap_client.build_user_dn(user.username)
                 success, message = ldap_client.change_password(user_dn, new_password)
 
                 if success:

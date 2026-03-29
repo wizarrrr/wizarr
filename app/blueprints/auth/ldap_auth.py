@@ -24,14 +24,14 @@ def handle_ldap_login(username: str, password: str) -> tuple[bool, str]:
 
         if not success:
             current_app.logger.warning(
-                f"LDAP authentication failed for user: {username}"
+                "LDAP authentication failed for user: %s", username
             )
             return False, "Invalid LDAP credentials"
 
         # Get user DN and attributes
         user_dn = user_attrs.get("dn")
         if not user_dn:
-            current_app.logger.warning(f"LDAP user DN not found for user: {username}")
+            current_app.logger.warning("LDAP user DN not found for user: %s", username)
             return False, "User DN not found in LDAP response"
         # Check admin group membership if required
         if ldap_config.admin_group_dn:
@@ -43,9 +43,10 @@ def handle_ldap_login(username: str, password: str) -> tuple[bool, str]:
 
             if admin_group_dn_lower not in group_dns:
                 current_app.logger.warning(
-                    f"User {username} not in admin group. "
-                    f"Required: {ldap_config.admin_group_dn}, "
-                    f"User groups: {[g.get('dn') for g in groups]}"
+                    "User %s not in admin group. Required: %s, User groups: %s",
+                    username,
+                    ldap_config.admin_group_dn,
+                    [g.get("dn") for g in groups],
                 )
                 return False, "User is not authorized as an administrator"
 
@@ -63,16 +64,17 @@ def handle_ldap_login(username: str, password: str) -> tuple[bool, str]:
 
             db.session.add(admin)
             db.session.commit()
-            current_app.logger.info(
-                f"Created new admin account '{username}' via LDAP (supports both auth methods)"
-            )
+            current_app.logger.info("Created new admin account '%s' via LDAP", username)
         # Update existing account with LDAP attributes
         # This syncs the external_id and email on every LDAP login
         else:
             needs_update = False
             if admin.external_id != user_dn:
                 current_app.logger.info(
-                    f"Updating LDAP DN for account '{username}': {admin.external_id} -> {user_dn}"
+                    "Updating LDAP DN for account '%s': %s -> %s",
+                    username,
+                    admin.external_id,
+                    user_dn,
                 )
                 admin.external_id = user_dn
                 needs_update = True
@@ -90,12 +92,12 @@ def handle_ldap_login(username: str, password: str) -> tuple[bool, str]:
         session.permanent = True
 
         current_app.logger.info(
-            f"LDAP admin login successful: {username} (DN: {user_dn})"
+            "LDAP admin login successful: %s (DN: %s)", username, user_dn
         )
         return True, "Login successful"
 
     except Exception as e:
-        current_app.logger.error(f"LDAP authentication error: {e}")
+        current_app.logger.error("LDAP authentication error: %s", e)
         # Rollback any pending transaction
         db.session.rollback()
         return False, "LDAP authentication failed"

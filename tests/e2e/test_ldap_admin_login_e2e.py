@@ -42,14 +42,14 @@ def setup_lldap_test_data(app):
     try:
         # Delete if exists
         try:
-            conn = client._service_connection()
+            conn = client.service_connection()
             conn.delete("uid=testadmin,ou=people,dc=wizarr,dc=test")
             conn.unbind()
         except Exception:
             pass  # User doesn't exist
 
         # Create test admin user - LLDAP needs manual user creation
-        conn = client._service_connection()
+        conn = client.service_connection()
         user_dn = "uid=testadmin,ou=people,dc=wizarr,dc=test"
 
         # Create user with minimal attributes that LLDAP supports
@@ -75,7 +75,7 @@ def setup_lldap_test_data(app):
 
     # Create wizarr_admins group and add test user
     try:
-        conn = client._service_connection()
+        conn = client.service_connection()
         # Delete group if exists
         with contextlib.suppress(Exception):
             conn.delete("cn=wizarr_admins,ou=groups,dc=wizarr,dc=test")
@@ -157,7 +157,7 @@ def test_ldap_admin_login_flow(page, live_server, app):
                 from app.services.ldap.client import LDAPClient
 
                 client = LDAPClient(config)
-                conn = client._service_connection()
+                conn = client.service_connection()
                 conn.delete("cn=wizarr_admins,ou=groups,dc=wizarr,dc=test")
                 conn.delete("uid=testadmin,ou=people,dc=wizarr,dc=test")
                 conn.unbind()
@@ -209,7 +209,7 @@ def test_ldap_admin_login_invalid_credentials(page, live_server, app):
                 from app.services.ldap.client import LDAPClient
 
                 client = LDAPClient(config)
-                conn = client._service_connection()
+                conn = client.service_connection()
                 conn.delete("cn=wizarr_admins,ou=groups,dc=wizarr,dc=test")
                 conn.delete("uid=testadmin,ou=people,dc=wizarr,dc=test")
                 conn.unbind()

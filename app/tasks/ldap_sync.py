@@ -24,9 +24,9 @@ def _get_ldap_sync_interval():
             )
 
     # Use 15 minutes for development, 60 minutes (1 hour) for production
-    if os.getenv("WIZARR_ENABLE_SCHEDULER") == "true":
-        return 15  # Development mode: every 15 minutes
-    return 60  # Production mode: every hour
+    if os.getenv("FLASK_ENV") == "development":
+        return 15
+    return 60
 
 
 def sync_ldap_users(app=None):
@@ -95,14 +95,14 @@ def sync_ldap_users(app=None):
         # Log summary
         if imported_count > 0:
             logger.info(
-                "🔄 LDAP sync: Imported %d new user(s), skipped %d existing, %d error(s)",
+                "LDAP sync: Imported %d new user(s), skipped %d existing, %d error(s)",
                 imported_count,
                 skipped_count,
                 error_count,
             )
-        elif os.getenv("WIZARR_ENABLE_SCHEDULER") == "true":
+        elif os.getenv("FLASK_ENV") == "development":
             # Only log in development mode to avoid spam
-            logger.info(
-                "🔄 LDAP sync: No new users (checked %d LDAP users)",
+            logger.debug(
+                "LDAP sync: No new users (checked %d LDAP users)",
                 len(ldap_users),
             )

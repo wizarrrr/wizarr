@@ -20,9 +20,8 @@ class InvitationLDAPHandler:
         if not self.config or not self.config.enabled:
             return False
 
-        # Check the invitation's create_ldap_user flag (defaults to True in UI)
-        # If None or True, create the user; only skip if explicitly False
-        return self.invitation.create_ldap_user is not False
+        # Only create LDAP user if explicitly opted in on the invitation
+        return self.invitation.create_ldap_user is True
 
     def create_ldap_user(
         self,

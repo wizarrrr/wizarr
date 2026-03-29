@@ -11,7 +11,7 @@ from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = "20251226_add_ldap"
-down_revision = "eecad7c18ac3"
+down_revision = "e6155a91eb50"
 branch_labels = None
 depends_on = None
 

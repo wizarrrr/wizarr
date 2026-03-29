@@ -15,9 +15,7 @@ from flask import (
 from flask_babel import _
 from flask_login import login_required
 
-from app.forms.ldap import LDAPSettingsForm
 from app.services.expiry import disable_or_delete_user_if_expired
-from app.services.ldap.encryption import encrypt_credential
 from app.services.media.service import scan_libraries as scan_media
 
 from ...extensions import db
@@ -434,8 +432,10 @@ def ldap_settings():
 @login_required
 def test_ldap_connection():
     """Test LDAP connection (HTMX endpoint)."""
+    from app.forms.ldap import LDAPSettingsForm
     from app.models import LDAPConfiguration
     from app.services.ldap.client import LDAPClient
+    from app.services.ldap.encryption import encrypt_credential
 
     # Try to get existing config for password fallback
     existing_config = LDAPConfiguration.query.first()
@@ -462,17 +462,8 @@ def test_ldap_connection():
     client = LDAPClient(config)
     success, message = client.test_connection()
 
-    if success:
-        return f"""
-        <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-            <p class="text-sm text-green-800 dark:text-green-200">✓ {message}</p>
-        </div>
-        """
-    return f"""
-    <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-        <p class="text-sm text-red-800 dark:text-red-200">✗ {message}</p>
-    </div>
-    """
+    level = "success" if success else "error"
+    return render_template("_partials/ldap_alert.html", level=level, message=message)
 
 
 @settings_bp.route("/ldap/groups/sync", methods=["POST"])
@@ -484,21 +475,21 @@ def sync_ldap_groups():
 
     config = LDAPConfiguration.query.first()
     if not config or not config.enabled:
-        return """
-        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-            <p class="text-sm text-red-800 dark:text-red-200">LDAP not configured or disabled</p>
-        </div>
-        """
+        return render_template(
+            "_partials/ldap_alert.html",
+            level="error",
+            message=_("LDAP not configured or disabled"),
+        )
 
     client = LDAPClient(config)
     groups = client.search_groups()
 
     if not groups:
-        return """
-        <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
-            <p class="text-sm text-yellow-800 dark:text-yellow-200">No groups found in LDAP</p>
-        </div>
-        """
+        return render_template(
+            "_partials/ldap_alert.html",
+            level="warning",
+            message=_("No groups found in LDAP"),
+        )
 
     synced_count = 0
     for group_data in groups:
@@ -514,27 +505,15 @@ def sync_ldap_groups():
 
     db.session.commit()
 
-    # Get updated groups for admin dropdown
+    # Get updated groups for admin dropdown (OOB swap)
     all_groups = LDAPGroup.query.order_by(LDAPGroup.cn).all()
-    group_options = '<option value="">-- None --</option>'
-    for g in all_groups:
-        group_options += f'<option value="{g.dn}">{g.cn}</option>'
 
-    # Return status message + OOB update for admin group dropdown
-    return f"""
-    <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-        <p class="text-sm text-green-800 dark:text-green-200">
-            ✓ Synchronized {synced_count} new group{"s" if synced_count != 1 else ""}
-            (Total: {len(groups)} group{"s" if len(groups) != 1 else ""} in LDAP)
-        </p>
-    </div>
-    <select id="admin_group_dn_select"
-            name="admin_group_dn"
-            hx-swap-oob="true"
-            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-        {group_options}
-    </select>
-    """
+    return render_template(
+        "_partials/ldap_group_sync_result.html",
+        synced_count=synced_count,
+        total_count=len(groups),
+        groups=all_groups,
+    )
 
 
 @settings_bp.route("/ldap/users/sync-all", methods=["POST"])
@@ -550,27 +529,27 @@ def sync_all_ldap_users():
 
     ldap_config = LDAPConfiguration.query.filter_by(enabled=True).first()
     if not ldap_config:
-        return """
-        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-            <p class="text-sm text-red-800 dark:text-red-200">✗ LDAP is not configured</p>
-        </div>
-        """
+        return render_template(
+            "_partials/ldap_alert.html",
+            level="error",
+            message=_("LDAP is not configured"),
+        )
 
     # Get all LDAP users
     success, result = list_ldap_users()
     if not success:
-        return f"""
-        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-            <p class="text-sm text-red-800 dark:text-red-200">✗ Failed to list LDAP users: {result}</p>
-        </div>
-        """
+        return render_template(
+            "_partials/ldap_alert.html",
+            level="error",
+            message=_("Failed to list LDAP users: %(error)s", error=result),
+        )
 
     ldap_users = result
 
     # Import each user that doesn't exist yet
     imported_count = 0
     skipped_count = 0
-    errors = []
+    errors: list[str] = []
 
     for ldap_user in ldap_users:
         username = ldap_user["username"]
@@ -588,44 +567,9 @@ def sync_all_ldap_users():
         else:
             errors.append(f"{username}: {import_msg}")
 
-    # Build success/error message
-    msg_html = '<div class="space-y-2 mb-4">'
-
-    if imported_count > 0:
-        msg_html += f"""
-        <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
-            <p class="text-sm text-green-800 dark:text-green-200">
-                ✓ Imported {imported_count} new user{"s" if imported_count != 1 else ""} from LDAP
-            </p>
-        </div>
-        """
-
-    if skipped_count > 0:
-        msg_html += f"""
-        <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-            <p class="text-sm text-blue-800 dark:text-blue-200">
-                ℹ Skipped {skipped_count} user{"s" if skipped_count != 1 else ""} (already in Wizarr)
-            </p>
-        </div>
-        """
-
-    if errors:
-        msg_html += f"""
-        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-            <p class="text-sm text-red-800 dark:text-red-200">✗ Errors during import:</p>
-            <ul class="mt-2 text-xs text-red-700 dark:text-red-300 list-disc list-inside">
-                {"".join(f"<li>{err}</li>" for err in errors)}
-            </ul>
-        </div>
-        """
-
-    if imported_count == 0 and skipped_count == 0 and not errors:
-        msg_html += """
-        <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-            <p class="text-sm text-gray-600 dark:text-gray-400">No users to import</p>
-        </div>
-        """
-
-    msg_html += "</div>"
-
-    return msg_html
+    return render_template(
+        "_partials/ldap_user_sync_result.html",
+        imported_count=imported_count,
+        skipped_count=skipped_count,
+        errors=errors,
+    )

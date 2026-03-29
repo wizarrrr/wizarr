@@ -1,6 +1,7 @@
 """LDAP user synchronization and conversion utilities."""
 
 import logging
+import uuid
 from typing import Any
 
 from app.extensions import db
@@ -11,13 +12,14 @@ logger = logging.getLogger(__name__)
 
 
 def list_ldap_users() -> tuple[bool, list[dict[str, Any]] | str]:
+    conn = None
     try:
         ldap_config = LDAPConfiguration.query.filter_by(enabled=True).first()
         if not ldap_config:
             return False, "LDAP is not configured"
 
         client = LDAPClient(ldap_config)
-        conn = client._service_connection()
+        conn = client.service_connection()
         if not conn:
             return False, "Cannot connect to LDAP server"
 
@@ -33,7 +35,6 @@ def list_ldap_users() -> tuple[bool, list[dict[str, Any]] | str]:
         )
 
         if not success:
-            conn.unbind()
             return False, f"LDAP search failed: {conn.result}"
 
         users = []
@@ -54,13 +55,15 @@ def list_ldap_users() -> tuple[bool, list[dict[str, Any]] | str]:
                     }
                 )
 
-        conn.unbind()
         logger.info("Found %d users in LDAP", len(users))
         return True, users
 
     except Exception as e:
         logger.exception("Error listing LDAP users")
         return False, f"Error: {e}"
+    finally:
+        if conn:
+            conn.unbind()
 
 
 def import_ldap_user(username: str) -> tuple[bool, str]:
@@ -74,44 +77,42 @@ def import_ldap_user(username: str) -> tuple[bool, str]:
         if existing_user:
             return False, f"User {username} already exists in Wizarr"
 
-        # Verify user exists in LDAP
+        # Verify user exists in LDAP and fetch attributes
         client = LDAPClient(ldap_config)
-        user_dn = client._find_user_dn(username)
+        user_dn = client.find_user_dn(username)
         if not user_dn:
             return False, f"User {username} not found in LDAP"
 
-        # Fetch user attributes
-        conn = client._service_connection()
+        conn = client.service_connection()
         if not conn:
             return False, "Cannot connect to LDAP server"
 
-        conn.search(
-            search_base=user_dn,
-            search_filter="(objectClass=*)",
-            attributes=[ldap_config.username_attribute, ldap_config.email_attribute],
-        )
+        try:
+            conn.search(
+                search_base=user_dn,
+                search_filter="(objectClass=*)",
+                attributes=[
+                    ldap_config.username_attribute,
+                    ldap_config.email_attribute,
+                ],
+            )
 
-        if not conn.entries:
+            if not conn.entries:
+                return False, f"Could not fetch user details for {username}"
+
+            entry = conn.entries[0]
+            email_attr = getattr(entry, ldap_config.email_attribute, None)
+            email = email_attr.value if hasattr(email_attr, "value") else email_attr
+        finally:
             conn.unbind()
-            return False, f"Could not fetch user details for {username}"
-
-        entry = conn.entries[0]
-        email_attr = getattr(entry, ldap_config.email_attribute, None)
-        email = email_attr.value if hasattr(email_attr, "value") else email_attr
-        conn.unbind()
 
         # Create User record without server association
-        # This user won't have media server access until admin assigns them
-        # Generate a placeholder token (UUID) since token is required but user has no server yet
-        import uuid
-
         new_user = User(
             username=username,
             email=str(email) if email else f"{username}@ldap.local",
-            token=str(uuid.uuid4()),  # Placeholder token until assigned to server
-            code="",  # No invitation code for direct LDAP imports
+            token=str(uuid.uuid4()),
+            code="",
             is_ldap_user=True,
-            # No server_id - admin must manually assign to servers
         )
         db.session.add(new_user)
         db.session.commit()
@@ -144,13 +145,9 @@ def convert_user_to_ldap(user_id: int, create_in_ldap: bool = True) -> tuple[boo
             return False, "LDAP is not configured"
 
         if create_in_ldap:
-            # Create user in LDAP
-            # Note: We can't migrate the password, user must reset it
-            client = LDAPClient(ldap_config)
-
-            # Generate a temporary random password
             import secrets
 
+            client = LDAPClient(ldap_config)
             temp_password = secrets.token_urlsafe(32)
 
             success, result = client.create_user(

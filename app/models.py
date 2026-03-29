@@ -324,7 +324,7 @@ class AdminAccount(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, unique=True, nullable=False)
-    password_hash = db.Column(db.String, nullable=False)
+    password_hash = db.Column(db.String, nullable=True)
     created_at = db.Column(
         db.DateTime, default=lambda: datetime.now(UTC), nullable=False
     )
@@ -347,6 +347,9 @@ class AdminAccount(db.Model, UserMixin):
 
     def check_password(self, raw_password: str) -> bool:
         """Validate *raw_password* against the stored *password_hash*."""
+        if not self.password_hash:
+            return False
+
         from werkzeug.security import (
             check_password_hash,  # local import to avoid circular
         )

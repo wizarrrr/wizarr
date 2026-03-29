@@ -1,7 +1,8 @@
 import logging
+import ssl
 from typing import Any
 
-from ldap3 import ALL, BASE, MODIFY_REPLACE, SUBTREE, Connection, Server
+from ldap3 import ALL, BASE, MODIFY_REPLACE, SUBTREE, Connection, Server, Tls
 from ldap3.core.exceptions import (
     LDAPBindError,
     LDAPException,
@@ -9,6 +10,7 @@ from ldap3.core.exceptions import (
     LDAPSocketOpenError,
 )
 from ldap3.utils.conv import escape_filter_chars
+from ldap3.utils.dn import escape_rdn
 
 from app.models import LDAPConfiguration
 
@@ -23,16 +25,28 @@ class LDAPClient:
         self._server = self._create_server()
 
     def _create_server(self) -> Server:
+        tls_config = None
+        if self.config.use_tls:
+            validate = ssl.CERT_REQUIRED if self.config.verify_cert else ssl.CERT_NONE
+            tls_config = Tls(validate=validate)
+
         return Server(
             self.config.server_url,
             use_ssl=self.config.use_tls,
+            tls=tls_config,
             get_info=ALL,
         )
+
+    def build_user_dn(self, username: str) -> str:
+        """Build a user DN from a username, escaping special characters."""
+        escaped_name = escape_rdn(username)
+        return f"{self.config.username_attribute}={escaped_name},{self.config.user_base_dn}"
 
     def test_connection(self) -> tuple[bool, str]:
         if not self.config.service_account_dn:
             return False, "Service account DN not configured"
 
+        conn = None
         try:
             password = decrypt_credential(
                 self.config.service_account_password_encrypted or ""
@@ -46,7 +60,6 @@ class LDAPClient:
                 password=password,
                 auto_bind=True,
             )
-            conn.unbind()
             return True, "Connection successful"
 
         except LDAPSocketOpenError as e:
@@ -61,11 +74,15 @@ class LDAPClient:
         except Exception as e:
             logger.exception("Unexpected error testing LDAP connection")
             return False, f"Unexpected error: {e}"
+        finally:
+            if conn:
+                conn.unbind()
 
     def authenticate_user(self, username: str, password: str) -> tuple[bool, dict]:
+        conn = None
         try:
             # Search for user DN first
-            user_dn = self._find_user_dn(username)
+            user_dn = self.find_user_dn(username)
             if not user_dn:
                 return False, {}
 
@@ -79,8 +96,6 @@ class LDAPClient:
 
             # Fetch user attributes
             attrs = self._fetch_user_attributes(conn, user_dn)
-            conn.unbind()
-
             return True, attrs
 
         except LDAPBindError:
@@ -89,10 +104,15 @@ class LDAPClient:
         except LDAPException:
             logger.exception("LDAP authentication error for user: %s", username)
             return False, {}
+        finally:
+            if conn:
+                conn.unbind()
 
-    def _find_user_dn(self, username: str) -> str | None:
+    def find_user_dn(self, username: str) -> str | None:
+        """Search for a user's DN by username."""
+        conn = None
         try:
-            conn = self._service_connection()
+            conn = self.service_connection()
             if not conn:
                 return None
 
@@ -110,16 +130,16 @@ class LDAPClient:
             )
 
             if conn.entries:
-                user_dn = str(conn.entries[0].entry_dn)
+                return str(conn.entries[0].entry_dn)
+
+            return None
+
+        except LDAPException:
+            logger.exception("Error searching for user DN")
+            return None
+        finally:
+            if conn:
                 conn.unbind()
-                return user_dn
-
-            conn.unbind()
-            return None
-
-        except LDAPException as e:
-            logger.exception("Error searching for user DN", exc_info=e)
-            return None
 
     def _fetch_user_attributes(self, conn: Connection, user_dn: str) -> dict:
         attributes = [
@@ -154,13 +174,13 @@ class LDAPClient:
         email: str,
         password: str,
     ) -> tuple[bool, str]:
+        conn = None
         try:
-            conn = self._service_connection()
+            conn = self.service_connection()
             if not conn:
                 return False, "Cannot connect to LDAP server"
 
-            # Construct user DN
-            user_dn = f"{self.config.username_attribute}={username},{self.config.user_base_dn}"
+            user_dn = self.build_user_dn(username)
 
             # Check if user already exists
             conn.search(
@@ -169,82 +189,10 @@ class LDAPClient:
                 search_scope=BASE,
             )
 
-            user_exists = bool(conn.entries)
+            if conn.entries:
+                return self._update_existing_user(conn, user_dn, email, password)
 
-            if user_exists:
-                # Update existing user
-                logger.info("User %s already exists, updating attributes", user_dn)
-
-                changes = {
-                    self.config.email_attribute: [(MODIFY_REPLACE, [email])],
-                }
-
-                success = conn.modify(user_dn, changes)
-
-                if not success:
-                    conn.unbind()
-                    return False, f"Failed to update user attributes: {conn.result}"
-
-                # Update password using LDAP Password Modify Extended Operation (RFC 3062)
-                # Required for LLDAP - service account must be in lldap_password_manager group
-                try:
-                    password_success = conn.extend.standard.modify_password(
-                        user_dn, None, password
-                    )
-                    if password_success:
-                        logger.info("Updated LDAP user password: %s", user_dn)
-                    else:
-                        logger.warning(
-                            "Failed to update password for %s. Ensure service account is in lldap_password_manager group. Result: %s",
-                            user_dn,
-                            conn.result,
-                        )
-                except Exception as e:
-                    logger.warning("Password update failed for %s: %s", user_dn, e)
-
-                conn.unbind()
-                return True, user_dn
-
-            # Create new user without password (LLDAP doesn't support userPassword in ADD)
-            attrs: dict[str, Any] = {
-                "objectClass": [self.config.user_object_class],
-                self.config.username_attribute: username,
-                self.config.email_attribute: email,
-            }
-
-            # Create the user entry
-            success = conn.add(user_dn, attributes=attrs)
-
-            if not success:
-                conn.unbind()
-                return False, f"Failed to create user: {conn.result}"
-
-            # Set password using LDAP Password Modify Extended Operation (RFC 3062)
-            # Required for LLDAP - service account must be in lldap_password_manager group
-            try:
-                password_success = conn.extend.standard.modify_password(
-                    user_dn, None, password
-                )
-                if not password_success:
-                    logger.error(
-                        "Failed to set password for new user %s. "
-                        "Ensure service account is in lldap_password_manager group. Result: %s",
-                        user_dn,
-                        conn.result,
-                    )
-                    conn.unbind()
-                    return (
-                        False,
-                        f"User created but password not set. Service account needs lldap_password_manager group membership: {conn.result}",
-                    )
-            except Exception as e:
-                logger.exception("Password set failed for new user %s", user_dn)
-                conn.unbind()
-                return False, f"User created but password set failed: {e}"
-
-            conn.unbind()
-            logger.info("Created LDAP user with password: %s", user_dn)
-            return True, user_dn
+            return self._create_new_user(conn, user_dn, username, email, password)
 
         except LDAPInvalidDnError as e:
             logger.exception("Invalid DN when creating/updating user")
@@ -252,26 +200,103 @@ class LDAPClient:
         except LDAPException as e:
             logger.exception("Error creating/updating LDAP user")
             return False, f"LDAP error: {e}"
+        finally:
+            if conn:
+                conn.unbind()
+
+    def _update_existing_user(
+        self,
+        conn: Connection,
+        user_dn: str,
+        email: str,
+        password: str,
+    ) -> tuple[bool, str]:
+        logger.info("User %s already exists, updating attributes", user_dn)
+
+        changes = {
+            self.config.email_attribute: [(MODIFY_REPLACE, [email])],
+        }
+        success = conn.modify(user_dn, changes)
+        if not success:
+            return False, f"Failed to update user attributes: {conn.result}"
+
+        # Update password via RFC 3062 extended operation
+        try:
+            password_success = conn.extend.standard.modify_password(
+                user_dn, None, password
+            )
+            if password_success:
+                logger.info("Updated LDAP user password: %s", user_dn)
+            else:
+                logger.warning(
+                    "Failed to update password for %s. "
+                    "Ensure service account is in lldap_password_manager group. Result: %s",
+                    user_dn,
+                    conn.result,
+                )
+        except Exception as e:
+            logger.warning("Password update failed for %s: %s", user_dn, e)
+
+        return True, user_dn
+
+    def _create_new_user(
+        self,
+        conn: Connection,
+        user_dn: str,
+        username: str,
+        email: str,
+        password: str,
+    ) -> tuple[bool, str]:
+        attrs: dict[str, Any] = {
+            "objectClass": [self.config.user_object_class],
+            self.config.username_attribute: username,
+            self.config.email_attribute: email,
+        }
+
+        success = conn.add(user_dn, attributes=attrs)
+        if not success:
+            return False, f"Failed to create user: {conn.result}"
+
+        # Set password via RFC 3062 extended operation
+        try:
+            password_success = conn.extend.standard.modify_password(
+                user_dn, None, password
+            )
+            if not password_success:
+                logger.error(
+                    "Failed to set password for new user %s. "
+                    "Ensure service account is in lldap_password_manager group. Result: %s",
+                    user_dn,
+                    conn.result,
+                )
+                return (
+                    False,
+                    f"User created but password not set: {conn.result}",
+                )
+        except Exception as e:
+            logger.exception("Password set failed for new user %s", user_dn)
+            return False, f"User created but password set failed: {e}"
+
+        logger.info("Created LDAP user with password: %s", user_dn)
+        return True, user_dn
 
     def delete_user(self, user_dn: str) -> tuple[bool, str]:
         if not user_dn:
             return False, "User DN is required"
 
+        conn = None
         try:
-            conn = self._service_connection()
+            conn = self.service_connection()
             if not conn:
                 return False, "Cannot connect to LDAP server"
 
-            # Attempt to delete the user
             success = conn.delete(user_dn)
 
             if not success:
                 error_msg = f"Failed to delete LDAP user: {conn.result}"
                 logger.error(error_msg)
-                conn.unbind()
                 return False, error_msg
 
-            conn.unbind()
             logger.info("Deleted LDAP user: %s", user_dn)
             return True, "User deleted successfully"
 
@@ -281,9 +306,9 @@ class LDAPClient:
         except LDAPException as e:
             logger.exception("Error deleting LDAP user: %s", user_dn)
             return False, f"LDAP error: {e}"
-        except Exception as e:
-            logger.exception("Unexpected error deleting LDAP user: %s", user_dn)
-            return False, f"Unexpected error: {e}"
+        finally:
+            if conn:
+                conn.unbind()
 
     def change_password(self, user_dn: str, new_password: str) -> tuple[bool, str]:
         if not user_dn:
@@ -292,48 +317,48 @@ class LDAPClient:
         if not new_password:
             return False, "New password is required"
 
+        conn = None
         try:
-            conn = self._service_connection()
+            conn = self.service_connection()
             if not conn:
                 return False, "Cannot connect to LDAP server"
 
-            # Use LDAP Password Modify Extended Operation (RFC 3062)
-            # Required for LLDAP - service account must be in lldap_password_manager group
             success = conn.extend.standard.modify_password(user_dn, None, new_password)
 
             if not success:
-                error_msg = f"Failed to change password. Ensure service account is in lldap_password_manager group. Result: {conn.result}"
+                error_msg = (
+                    "Failed to change password. "
+                    "Ensure service account is in lldap_password_manager group. "
+                    f"Result: {conn.result}"
+                )
                 logger.error(error_msg)
-                conn.unbind()
                 return False, error_msg
 
-            conn.unbind()
             logger.info("Changed password for LDAP user: %s", user_dn)
             return True, "Password changed successfully"
 
         except LDAPException as e:
             logger.exception("Error changing LDAP user password: %s", user_dn)
             return False, f"LDAP error: {e}"
-        except Exception as e:
-            logger.exception("Unexpected error changing password: %s", user_dn)
-            return False, f"Unexpected error: {e}"
+        finally:
+            if conn:
+                conn.unbind()
 
-    def search_groups(self, search_filter: str | None = None) -> list[dict]:
+    def search_groups(self) -> list[dict]:
         if not self.config.group_base_dn:
             logger.warning("group_base_dn not configured - cannot search for groups")
             return []
 
+        conn = None
         try:
-            conn = self._service_connection()
+            conn = self.service_connection()
             if not conn:
                 logger.error(
                     "Failed to establish service account connection for group search"
                 )
                 return []
 
-            filter_str = (
-                search_filter or f"(objectClass={self.config.group_object_class})"
-            )
+            filter_str = f"(objectClass={self.config.group_object_class})"
 
             logger.info(
                 "Searching for LDAP groups: base_dn=%s, filter=%s",
@@ -354,12 +379,11 @@ class LDAPClient:
                     conn.result.get("description", "Unknown error"),
                     conn.result,
                 )
-                conn.unbind()
                 return []
 
             logger.info("Found %d group entries", len(conn.entries))
 
-            groups = [
+            return [
                 {
                     "dn": str(entry.entry_dn),
                     "cn": str(entry.cn.value) if hasattr(entry, "cn") else "",
@@ -368,12 +392,12 @@ class LDAPClient:
                 for entry in conn.entries
             ]
 
-            conn.unbind()
-            return groups
-
         except LDAPException as e:
             logger.exception("Error searching LDAP groups: %s", e)
             return []
+        finally:
+            if conn:
+                conn.unbind()
 
     def get_user_groups(self, user_dn: str) -> list[dict]:
         """Get groups where user is a member. Requires group_base_dn."""
@@ -384,13 +408,12 @@ class LDAPClient:
             )
             return []
 
+        conn = None
         try:
-            conn = self._service_connection()
+            conn = self.service_connection()
             if not conn:
                 return []
 
-            # Search for groups where user is a member
-            # For LLDAP: objectClass=groupOfUniqueNames, member attribute=uniqueMember
             member_filter = f"({self.config.group_member_attribute}={user_dn})"
             object_class_filter = f"(objectClass={self.config.group_object_class})"
             search_filter = f"(&{object_class_filter}{member_filter})"
@@ -410,15 +433,18 @@ class LDAPClient:
                 for entry in conn.entries
             ]
 
-            logger.info(f"Found {len(groups)} groups for user {user_dn}")
-            conn.unbind()
+            logger.info("Found %d groups for user %s", len(groups), user_dn)
             return groups
 
         except LDAPException:
             logger.exception("Error fetching user groups")
             return []
+        finally:
+            if conn:
+                conn.unbind()
 
-    def _service_connection(self) -> Connection | None:
+    def service_connection(self) -> Connection | None:
+        """Create an authenticated connection using the service account."""
         try:
             if not self.config.service_account_dn:
                 logger.error("Service account DN not configured")
