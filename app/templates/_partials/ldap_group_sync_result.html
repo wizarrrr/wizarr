@@ -11,7 +11,5 @@
         hx-swap-oob="true"
         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
   <option value="">-- None --</option>
-  {% for g in groups %}
-    <option value="{{ g.dn }}">{{ g.cn }}</option>
-  {% endfor %}
+  {% for g in groups %}<option value="{{ g.dn }}">{{ g.cn }}</option>{% endfor %}
 </select>

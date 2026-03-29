@@ -20,9 +20,7 @@
     <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
       <p class="text-sm text-red-800 dark:text-red-200">✗ {{ _("Errors during import:") }}</p>
       <ul class="mt-2 text-xs text-red-700 dark:text-red-300 list-disc list-inside">
-        {% for err in errors %}
-          <li>{{ err }}</li>
-        {% endfor %}
+        {% for err in errors %}<li>{{ err }}</li>{% endfor %}
       </ul>
     </div>
   {% endif %}
