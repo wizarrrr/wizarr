@@ -2,6 +2,11 @@
 
 This service handles scanning and synchronizing library metadata from media servers
 into the local database during application startup.
+
+This implementation performs an upsert (update existing, insert new) and soft-deletes
+(or removes) libraries that no longer exist on the remote server. Libraries that are
+referenced by invitations are preserved (disabled) instead of being hard-deleted so
+invite<->library associations remain intact.
 """
 
 import logging
@@ -27,7 +32,7 @@ def scan_all_server_libraries(show_logs: bool = True) -> tuple[int, list[str]]:
     from sqlalchemy import inspect
 
     from app.extensions import db
-    from app.models import Library, MediaServer
+    from app.models import Library, MediaServer, invite_libraries
     from app.services.media.service import get_client_for_media_server
 
     # Check if the library table exists (in case migrations haven't run yet)
@@ -46,29 +51,75 @@ def scan_all_server_libraries(show_logs: bool = True) -> tuple[int, list[str]]:
             client = get_client_for_media_server(server)
             libraries_dict = client.libraries()  # {external_id: name}
 
-            # Delete ALL old libraries for this server to avoid conflicts
-            # This ensures a clean slate for the new external_id format
-            old_count = Library.query.filter_by(server_id=server.id).count()
-            Library.query.filter_by(server_id=server.id).delete()
-            db.session.flush()
+            # Normalize to dict if client returned list-like
+            if not isinstance(libraries_dict, dict):
+                libraries_dict = {
+                    str(k): str(v)
+                    for k, v in (
+                        libraries_dict.items()
+                        if hasattr(libraries_dict, "items")
+                        else libraries_dict
+                    )
+                }
 
-            # Insert fresh libraries with correct global IDs
+            # Load existing libraries for this server keyed by external_id
+            existing_libs = {
+                lib.external_id: lib
+                for lib in Library.query.filter_by(server_id=server.id).all()
+            }
+            old_count = len(existing_libs)
+
+            incoming_ids = set()
+            updated_count = 0
+            inserted_count = 0
+            disabled_count = 0
+            deleted_count = 0
+
+            # Upsert incoming libraries: update existing, insert new
             for external_id, name in libraries_dict.items():
-                lib = Library(
-                    external_id=external_id,
-                    name=name,
-                    server_id=server.id,
-                    enabled=True,
-                )
-                db.session.add(lib)
+                incoming_ids.add(str(external_id))
+                if external_id in existing_libs:
+                    lib = existing_libs[external_id]
+                    # Update mutable attributes while preserving primary key
+                    lib.name = name
+                    lib.enabled = True
+                    updated_count += 1
+                else:
+                    lib = Library(
+                        external_id=external_id,
+                        name=name,
+                        server_id=server.id,
+                        enabled=True,
+                    )
+                    db.session.add(lib)
+                    inserted_count += 1
                 total_scanned += 1
+
+            # Handle libraries that used to exist but weren't returned by the server
+            for ext, lib in existing_libs.items():
+                if ext not in incoming_ids:
+                    # If this library is referenced by any invitation, disable it to preserve associations
+                    referenced = db.session.execute(
+                        invite_libraries.select().where(
+                            invite_libraries.c.library_id == lib.id
+                        )
+                    ).first()
+                    if referenced:
+                        if lib.enabled:
+                            lib.enabled = False
+                            disabled_count += 1
+                    else:
+                        # Safe to remove since no invites reference it
+                        db.session.delete(lib)
+                        deleted_count += 1
 
             db.session.commit()
 
             if show_logs:
                 logger.info(
                     f"Refreshed {len(libraries_dict)} libraries for {server.name} "
-                    f"(removed {old_count} old entries)"
+                    f"(existing={old_count}, updated={updated_count}, inserted={inserted_count}, "
+                    f"disabled={disabled_count}, deleted={deleted_count})"
                 )
         except Exception as server_exc:
             # Rollback on error to keep session clean

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-26 04:04+0000\n"
+"POT-Creation-Date: 2026-03-29 05:19+0000\n"
 "PO-Revision-Date: 2025-10-31 16:51+0000\n"
 "Last-Translator: 刘付苏 <liufusucc@gmail.com>\n"
 "Language: zh_Hans\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.18.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 msgid "Failed to load settings"
@@ -143,9 +143,12 @@ msgstr "发生了一个内部错误。"
 msgid "Unknown"
 msgstr "未知"
 
-#: app/blueprints/admin/routes.py:328 app/templates/modals/invite.html:69
+#: app/blueprints/admin/routes.py:328
+#: app/templates/admin/user_details_modal.html:70
+#: app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:90
+#: app/templates/tables/user_card.html:96
+#: app/templates/tables/user_card.html:115
 msgid "Never"
 msgstr "从不"
 
@@ -204,16 +207,16 @@ msgstr "API 密钥创建成功。请立即复制，此密钥后续将不再显�
 msgid "API key deleted successfully"
 msgstr "API 密钥删除成功"
 
-#: app/blueprints/auth/routes.py:85
+#: app/blueprints/auth/routes.py:88
 msgid "Invalid username or password"
 msgstr "用户名或密码无效"
 
-#: app/blueprints/auth/routes.py:105
+#: app/blueprints/auth/routes.py:108
 msgid "No pending 2FA authentication"
 msgstr "无待处理的双重身份验证"
 
-#: app/blueprints/auth/routes.py:119 app/templates/login.html:179
-#: app/templates/login.html:244 app/templates/login.html:248
+#: app/blueprints/auth/routes.py:122 app/templates/login.html:188
+#: app/templates/login.html:253 app/templates/login.html:257
 msgid "Authentication failed"
 msgstr "认证失败"
 
@@ -327,21 +330,21 @@ msgid ""
 "invitation."
 msgstr "您的邀请已过期或不再有效。请请求一个新的邀请。"
 
-#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1215
-#: app/blueprints/wizard/routes.py:1378
+#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1241
+#: app/blueprints/wizard/routes.py:1404
 msgid "Error Loading Step"
 msgstr "加载步骤时出错"
 
-#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1218
-#: app/blueprints/wizard/routes.py:1381
+#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1244
+#: app/blueprints/wizard/routes.py:1407
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
 msgstr "无法加载此步骤。请联系管理员或跳到下一步。"
 
 #: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
-#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1116
-#: app/blueprints/wizard/routes.py:1124
+#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1142
+#: app/blueprints/wizard/routes.py:1150
 msgid "Invalid or expired invitation"
 msgstr "邀请无效或已过期"
 
@@ -355,8 +358,8 @@ msgstr "未配置媒体服务器。请联系管理员设置媒体服务器。"
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr "无法加载向导步骤。正在继续进行邀请接受。"
 
-#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:961
-#: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:21
+#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:987
+#: app/blueprints/wizard/routes.py:1263 app/templates/wizard/steps.html:21
 msgid "Continue to Invite"
 msgstr "继续邀请"
 
@@ -368,23 +371,23 @@ msgstr "请登录以继续操作"
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr "无法加载向导步骤。设置已完成！欢迎使用您的媒体服务器。"
 
-#: app/blueprints/wizard/routes.py:848
+#: app/blueprints/wizard/routes.py:863
 msgid "Setup complete! Welcome to your media server."
 msgstr "设置已完成！欢迎使用您的媒体服务器。"
 
-#: app/blueprints/wizard/routes.py:946
+#: app/blueprints/wizard/routes.py:972
 msgid "Unable to load wizard configuration. Please try again."
 msgstr "无法加载向导配置。请重试。"
 
-#: app/blueprints/wizard/routes.py:1094
+#: app/blueprints/wizard/routes.py:1120
 msgid "Unable to load wizard bundle. Please try again."
 msgstr "无法加载向导组合包。请重试。"
 
-#: app/blueprints/wizard/routes.py:1145
+#: app/blueprints/wizard/routes.py:1171
 msgid "Unable to load wizard steps. Please try again."
 msgstr "无法加载向导步骤。请重试。"
 
-#: app/blueprints/wizard/routes.py:1338
+#: app/blueprints/wizard/routes.py:1364
 msgid "This bundle has no steps to preview."
 msgstr ""
 
@@ -488,7 +491,7 @@ msgstr "密码必须至少包含一个大写字母、一个小写字母和一个
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
 #: app/templates/admin/user_details_modal.html:66
-#: app/templates/hybrid-password-form.html:102 app/templates/login.html:48
+#: app/templates/hybrid-password-form.html:102 app/templates/login.html:57
 #: app/templates/modals/create-admin.html:22
 #: app/templates/modals/edit-admin.html:22
 #: app/templates/welcome-jellyfin.html:117
@@ -496,7 +499,7 @@ msgid "Username"
 msgstr "用户名"
 
 #: app/forms/admin.py:45 app/templates/choose-password.html:22
-#: app/templates/hybrid-password-form.html:134 app/templates/login.html:60
+#: app/templates/hybrid-password-form.html:134 app/templates/login.html:69
 #: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
 #: app/templates/welcome-jellyfin.html:155
 msgid "Password"
@@ -537,7 +540,7 @@ msgstr "RomM 用户名"
 msgid "RomM Password"
 msgstr "RomM 密码"
 
-#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:70
+#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:74
 #: app/templates/tables/invite_card.html:143
 msgid "Libraries"
 msgstr "媒体库"
@@ -668,7 +671,7 @@ msgstr "Drop"
 msgid "No default steps found for server type: {}"
 msgstr "没有找到服务器类型 {} 的默认步骤"
 
-#: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:100
+#: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:104
 msgid "Admin"
 msgstr "管理员"
 
@@ -830,48 +833,57 @@ msgstr "双重身份验证"
 msgid "Login"
 msgstr "登录"
 
-#: app/templates/login.html:33
+#: app/templates/login.html:21
+msgid "This is the administrator login page."
+msgstr ""
+
+#: app/templates/login.html:24
+#, fuzzy
+msgid "Go to your media server instead"
+msgstr "您的Discord服务器ID"
+
+#: app/templates/login.html:42
 #, python-brace-format
 msgid "Welcome back, {}!"
 msgstr "欢迎回来，{}！"
 
-#: app/templates/login.html:35
+#: app/templates/login.html:44
 msgid "Please authenticate with your passkey to complete login."
 msgstr "请使用您的通行密钥进行身份验证以完成登录。"
 
-#: app/templates/login.html:79
+#: app/templates/login.html:88
 msgid "Remember me"
 msgstr "记住我"
 
-#: app/templates/login.html:86
+#: app/templates/login.html:95
 msgid "Sign in"
 msgstr "登录"
 
-#: app/templates/login.html:104
+#: app/templates/login.html:113
 msgid "Authenticate with Passkey"
 msgstr "使用通行密钥进行身份验证"
 
-#: app/templates/login.html:116
+#: app/templates/login.html:125
 msgid "Back to Login"
 msgstr "返回登录页面"
 
-#: app/templates/login.html:125
+#: app/templates/login.html:134
 msgid "Or"
 msgstr "或"
 
-#: app/templates/login.html:138 app/templates/login.html:260
+#: app/templates/login.html:147 app/templates/login.html:269
 msgid "Sign in with Passkey"
 msgstr "使用通行密钥登录"
 
-#: app/templates/login.html:165
+#: app/templates/login.html:174
 msgid "Authenticating..."
 msgstr "正在验证中..."
 
-#: app/templates/login.html:238
+#: app/templates/login.html:247
 msgid "Failed to complete 2FA login"
 msgstr "无法完成双重认证登录"
 
-#: app/templates/login.html:253
+#: app/templates/login.html:262
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr "密钥认证失败。请重试或使用您的密码。"
 
@@ -1104,7 +1116,7 @@ msgstr "输入您的邮箱地址"
 msgid "Create a password"
 msgstr "创建一个密码"
 
-#: app/templates/tables/user_card.html:116
+#: app/templates/tables/user_card.html:142
 #: app/templates/welcome-jellyfin.html:193
 msgid "Invite Code"
 msgstr "邀请代码"
@@ -1210,7 +1222,8 @@ msgid "There was an error connecting to your media servers"
 msgstr "连接到您的媒体服务器时发生错误"
 
 #: app/templates/admin/now_playing_cards.html:25
-msgid "No one is watching"
+#, fuzzy
+msgid "No one is streaming"
 msgstr "没有人正在观看"
 
 #: app/templates/admin/now_playing_cards.html:26
@@ -1327,31 +1340,40 @@ msgstr "加入时间"
 msgid "Account Details"
 msgstr "账户详情"
 
-#: app/templates/admin/user_details_modal.html:87
+#: app/templates/admin/user_details_modal.html:69
+#: app/templates/tables/invite_card.html:113
+#: app/templates/tables/invite_card.html:115
+#: app/templates/tables/user_card.html:91
+#: app/templates/tables/user_card.html:113
+#: app/templates/tables/user_card.html:115
+msgid "Expires"
+msgstr "到期时间"
+
+#: app/templates/admin/user_details_modal.html:91
 msgid "All libraries"
 msgstr "所有媒体库"
 
-#: app/templates/admin/user_details_modal.html:93
+#: app/templates/admin/user_details_modal.html:97
 msgid "Permissions"
 msgstr "权限"
 
-#: app/templates/admin/user_details_modal.html:108
+#: app/templates/admin/user_details_modal.html:112
 msgid "Downloads"
 msgstr "下载"
 
-#: app/templates/admin/user_details_modal.html:116
+#: app/templates/admin/user_details_modal.html:120
 msgid "Live TV"
 msgstr "直播电视"
 
-#: app/templates/admin/user_details_modal.html:124
+#: app/templates/admin/user_details_modal.html:128
 msgid "Camera Upload"
 msgstr "照片上传"
 
-#: app/templates/admin/user_details_modal.html:132
+#: app/templates/admin/user_details_modal.html:136
 msgid "Basic Access"
 msgstr "基本权限"
 
-#: app/templates/admin/user_details_modal.html:144
+#: app/templates/admin/user_details_modal.html:148
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
@@ -1378,12 +1400,13 @@ msgid "Tabs"
 msgstr "状态"
 
 #: app/templates/admin/user_modal.html:42
+#: app/templates/tables/user_card.html:95
 msgid "Local"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:52
 #: app/templates/admin/user_modal.html:249
-#: app/templates/tables/user_card.html:130
+#: app/templates/tables/user_card.html:156
 msgid "Notes"
 msgstr "备注"
 
@@ -2877,13 +2900,6 @@ msgstr "尚未使用"
 msgid "Bundle"
 msgstr "向导页面合集"
 
-#: app/templates/tables/invite_card.html:113
-#: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:88
-#: app/templates/tables/user_card.html:90
-msgid "Expires"
-msgstr "到期时间"
-
 #: app/templates/tables/invite_card.html:129
 msgid "days"
 msgstr "天"
@@ -2912,36 +2928,36 @@ msgstr "编辑昵称"
 msgid "Home User"
 msgstr "家庭用户"
 
-#: app/templates/tables/user_card.html:104
+#: app/templates/tables/user_card.html:130
 msgid "Invited"
 msgstr "已邀请"
 
-#: app/templates/tables/user_card.html:143
+#: app/templates/tables/user_card.html:169
 msgid "Disabled"
 msgstr "已禁用"
 
-#: app/templates/tables/user_card.html:149
+#: app/templates/tables/user_card.html:175
 msgid "Downloads enabled"
 msgstr "已启用下载功能"
 
-#: app/templates/tables/user_card.html:163
+#: app/templates/tables/user_card.html:189
 msgid "Live TV enabled"
 msgstr "已启用直播电视功能"
 
-#: app/templates/tables/user_card.html:182
+#: app/templates/tables/user_card.html:208
 msgid "View details"
 msgstr "查看详情"
 
-#: app/templates/tables/user_card.html:200
+#: app/templates/tables/user_card.html:226
 msgid "Edit user"
 msgstr "编辑用户"
 
-#: app/templates/tables/user_card.html:221
+#: app/templates/tables/user_card.html:247
 #, fuzzy
 msgid "Reset password"
 msgstr "当前密码"
 
-#: app/templates/tables/user_card.html:241
+#: app/templates/tables/user_card.html:267
 msgid "Remove user"
 msgstr "移除用户"
 
@@ -3512,4 +3528,7 @@ msgstr "点击此步骤中的链接以继续进行操作"
 
 #~ msgid "Username must be 3 to 15 characters."
 #~ msgstr "用户名必须为3到15个字符。"
+
+#~ msgid "Partial"
+#~ msgstr "可选"
 

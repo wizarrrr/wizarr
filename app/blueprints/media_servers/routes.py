@@ -166,19 +166,46 @@ def scan_server_libraries(server_id):
         items.items() if isinstance(items, dict) else [(name, name) for name in items]
     )
 
-    # Delete all old libraries for this server and insert fresh ones
-    # This avoids conflicts during migration from name-based to ID-based external_id
-    Library.query.filter_by(server_id=server.id).delete()
-    db.session.flush()
+    # Upsert libraries: update existing rows, insert new ones, and preserve invite associations.
+    from app.models import invite_libraries
 
-    # Insert fresh libraries with correct external IDs
+    # Load existing libraries for this server keyed by external_id
+    existing_libs = {
+        lib.external_id: lib
+        for lib in Library.query.filter_by(server_id=server.id).all()
+    }
+
+    incoming_ids: set[str] = set()
     for fid, name in pairs:
-        lib = Library()
-        lib.external_id = fid
-        lib.name = name
-        lib.server_id = server.id
-        lib.enabled = True
-        db.session.add(lib)
+        fid_key = str(fid)
+        incoming_ids.add(fid_key)
+        if fid_key in existing_libs:
+            # Update existing row (preserve primary key so invites keep referencing it)
+            lib = existing_libs[fid_key]
+            lib.name = name
+            lib.enabled = True
+        else:
+            # New library - insert
+            lib = Library(
+                external_id=fid,
+                name=name,
+                server_id=server.id,
+                enabled=True,
+            )
+            db.session.add(lib)
+
+    # Handle libraries that used to exist but weren't returned by the server
+    for ext, lib in existing_libs.items():
+        if str(ext) not in incoming_ids:
+            # If this library is referenced by any invitation, disable it to preserve associations
+            referenced = db.session.execute(
+                invite_libraries.select().where(invite_libraries.c.library_id == lib.id)
+            ).first()
+            if referenced:
+                lib.enabled = False
+            else:
+                # Safe to remove since no invites reference it
+                db.session.delete(lib)
 
     db.session.commit()
 

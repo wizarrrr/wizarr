@@ -837,7 +837,22 @@ def complete():
     - Success message confirming setup is complete
     - Clear call-to-action to proceed to the application
     - Automatic cleanup of all invitation-related session data
+    - Cookie with media server URL for login page redirect
     """
+    # Grab media server URL before clearing session data
+    invite_code = InviteCodeManager.get_invite_code()
+    media_server_url = None
+    if invite_code:
+        _, invitation = InviteCodeManager.validate_invite_code(invite_code)
+        if invitation:
+            # Prefer multi-server list, fall back to single server
+            servers = invitation.servers or (
+                [invitation.server] if invitation.server else []
+            )
+            if servers:
+                srv = servers[0]
+                media_server_url = srv.external_url or srv.url
+
     # Clear all invitation-related session data
     InviteCodeManager.clear_invite_data()
     session.pop("wizard_access", None)
@@ -848,7 +863,18 @@ def complete():
     flash(_("Setup complete! Welcome to your media server."), "success")
 
     # Redirect to home page (which will redirect to admin dashboard)
-    return redirect(url_for("public.root"))
+    resp = redirect(url_for("public.root"))
+
+    # Set a long-lived cookie so the login page can offer a media server link
+    if media_server_url:
+        resp.set_cookie(
+            "wizarr_media_server_url",
+            media_server_url,
+            max_age=60 * 60 * 24 * 365,  # 1 year
+            samesite="Lax",
+        )
+
+    return resp
 
 
 @wizard_bp.route("/")

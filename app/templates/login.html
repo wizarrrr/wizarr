@@ -16,6 +16,15 @@
               {{ _("Login") }}
             {% endif %}
           </h1>
+          {% if not show_2fa %}
+            <p class="text-sm text-gray-500 dark:text-gray-400">
+              {{ _("This is the administrator login page.") }}
+              {% if media_server_url %}
+                <a href="{{ media_server_url }}"
+                   class="text-primary hover:underline">{{ _("Go to your media server instead") }}</a>
+              {% endif %}
+            </p>
+          {% endif %}
           {% if error %}
             <p class="mt-2 text-sm text-red-600 dark:text-red-500">
               <span class="font-medium">{{ error }}</span>

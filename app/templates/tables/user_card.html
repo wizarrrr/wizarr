@@ -83,22 +83,48 @@
             <!-- User Info -->
             <div class="space-y-2 flex-1 mt-4">
               <!-- Expires information -->
-              <div class="flex items-center text-sm text-muted-foreground dark:text-gray-400">
-                <svg class="h-4 w-4 mr-2"
-                     fill="currentColor"
-                     viewBox="0 0 20 20"
-                     xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd">
-                  </path>
-                </svg>
-                <span>
-                  {% if user.expires %}
-                    {{ _("Expires") }}: {{ user.expires|human_date }}
-                  {% else %}
-                    {{ _("Expires") }}: {{ _("Never") }}
-                  {% endif %}
-                </span>
-              </div>
+              {% set accs = user.accounts if user.accounts is defined else [user] %}
+              {% set expiry_values = accs|map(attribute='expires')|list %}
+              {% set has_mixed_expiry = expiry_values|unique|list|length > 1 and accs|length > 1 %}
+              {% if has_mixed_expiry %}
+                <div class="flex items-start text-sm text-muted-foreground dark:text-gray-400">
+                  <svg class="h-4 w-4 mr-2 mt-0.5"
+                       fill="currentColor"
+                       viewBox="0 0 20 20"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd">
+                    </path>
+                  </svg>
+                  <div class="flex-1">
+                    <span>{{ _("Expires") }}:</span>
+                    <div class="text-xs mt-0.5 space-y-0.5">
+                      {% for acct in accs %}
+                        <div>
+                          <span class="font-medium">{{ acct.server.name if acct.server else _("Local") }}</span>:
+                          {{ acct.expires|human_date if acct.expires else _("Never") }}
+                        </div>
+                      {% endfor %}
+                    </div>
+                  </div>
+                </div>
+              {% else %}
+                <div class="flex items-center text-sm text-muted-foreground dark:text-gray-400">
+                  <svg class="h-4 w-4 mr-2"
+                       fill="currentColor"
+                       viewBox="0 0 20 20"
+                       xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd">
+                    </path>
+                  </svg>
+                  <span>
+                    {% if user.expires %}
+                      {{ _("Expires") }}: {{ user.expires|human_date }}
+                    {% else %}
+                      {{ _("Expires") }}: {{ _("Never") }}
+                    {% endif %}
+                  </span>
+                </div>
+              {% endif %}
               <!-- Invited date -->
               {% if user.invited_date %}
                 <div class="flex items-center text-sm text-muted-foreground dark:text-gray-400">

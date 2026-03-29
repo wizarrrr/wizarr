@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-26 04:04+0000\n"
+"POT-Creation-Date: 2026-03-29 05:19+0000\n"
 "PO-Revision-Date: 2025-10-31 15:33+0000\n"
 "Last-Translator: איתם לוין <eyt.lev@gmail.com>\n"
 "Language: he\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.18.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 #, fuzzy
@@ -150,9 +150,12 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:328 app/templates/modals/invite.html:69
+#: app/blueprints/admin/routes.py:328
+#: app/templates/admin/user_details_modal.html:70
+#: app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:90
+#: app/templates/tables/user_card.html:96
+#: app/templates/tables/user_card.html:115
 msgid "Never"
 msgstr "אף פעם"
 
@@ -212,16 +215,16 @@ msgstr ""
 msgid "API key deleted successfully"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:85
+#: app/blueprints/auth/routes.py:88
 msgid "Invalid username or password"
 msgstr "שם משתמש או ססמא שגוים"
 
-#: app/blueprints/auth/routes.py:105
+#: app/blueprints/auth/routes.py:108
 msgid "No pending 2FA authentication"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:119 app/templates/login.html:179
-#: app/templates/login.html:244 app/templates/login.html:248
+#: app/blueprints/auth/routes.py:122 app/templates/login.html:188
+#: app/templates/login.html:253 app/templates/login.html:257
 #, fuzzy
 msgid "Authentication failed"
 msgstr "שירותי התראות"
@@ -336,21 +339,21 @@ msgid ""
 "invitation."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1215
-#: app/blueprints/wizard/routes.py:1378
+#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1241
+#: app/blueprints/wizard/routes.py:1404
 msgid "Error Loading Step"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1218
-#: app/blueprints/wizard/routes.py:1381
+#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1244
+#: app/blueprints/wizard/routes.py:1407
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
-#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1116
-#: app/blueprints/wizard/routes.py:1124
+#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1142
+#: app/blueprints/wizard/routes.py:1150
 #, fuzzy
 msgid "Invalid or expired invitation"
 msgstr "הזמנה פגומה"
@@ -365,8 +368,8 @@ msgstr ""
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:961
-#: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:21
+#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:987
+#: app/blueprints/wizard/routes.py:1263 app/templates/wizard/steps.html:21
 #, fuzzy
 msgid "Continue to Invite"
 msgstr "הזמנה מהירה"
@@ -379,23 +382,23 @@ msgstr ""
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:848
+#: app/blueprints/wizard/routes.py:863
 msgid "Setup complete! Welcome to your media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:946
+#: app/blueprints/wizard/routes.py:972
 msgid "Unable to load wizard configuration. Please try again."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:1094
+#: app/blueprints/wizard/routes.py:1120
 msgid "Unable to load wizard bundle. Please try again."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:1145
+#: app/blueprints/wizard/routes.py:1171
 msgid "Unable to load wizard steps. Please try again."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:1338
+#: app/blueprints/wizard/routes.py:1364
 msgid "This bundle has no steps to preview."
 msgstr ""
 
@@ -503,7 +506,7 @@ msgstr ""
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
 #: app/templates/admin/user_details_modal.html:66
-#: app/templates/hybrid-password-form.html:102 app/templates/login.html:48
+#: app/templates/hybrid-password-form.html:102 app/templates/login.html:57
 #: app/templates/modals/create-admin.html:22
 #: app/templates/modals/edit-admin.html:22
 #: app/templates/welcome-jellyfin.html:117
@@ -511,7 +514,7 @@ msgid "Username"
 msgstr "שם משתמש"
 
 #: app/forms/admin.py:45 app/templates/choose-password.html:22
-#: app/templates/hybrid-password-form.html:134 app/templates/login.html:60
+#: app/templates/hybrid-password-form.html:134 app/templates/login.html:69
 #: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
 #: app/templates/welcome-jellyfin.html:155
 msgid "Password"
@@ -560,7 +563,7 @@ msgstr "שם משתמש"
 msgid "RomM Password"
 msgstr "ססמא"
 
-#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:70
+#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:74
 #: app/templates/tables/invite_card.html:143
 msgid "Libraries"
 msgstr "ספריות"
@@ -692,7 +695,7 @@ msgstr ""
 msgid "No default steps found for server type: {}"
 msgstr ""
 
-#: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:100
+#: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:104
 msgid "Admin"
 msgstr "מנהל"
 
@@ -861,48 +864,56 @@ msgstr ""
 msgid "Login"
 msgstr "התחברות"
 
-#: app/templates/login.html:33
+#: app/templates/login.html:21
+msgid "This is the administrator login page."
+msgstr ""
+
+#: app/templates/login.html:24
+msgid "Go to your media server instead"
+msgstr ""
+
+#: app/templates/login.html:42
 #, python-brace-format
 msgid "Welcome back, {}!"
 msgstr ""
 
-#: app/templates/login.html:35
+#: app/templates/login.html:44
 msgid "Please authenticate with your passkey to complete login."
 msgstr ""
 
-#: app/templates/login.html:79
+#: app/templates/login.html:88
 msgid "Remember me"
 msgstr "תזכור אותי"
 
-#: app/templates/login.html:86
+#: app/templates/login.html:95
 msgid "Sign in"
 msgstr "התחברות"
 
-#: app/templates/login.html:104
+#: app/templates/login.html:113
 msgid "Authenticate with Passkey"
 msgstr ""
 
-#: app/templates/login.html:116
+#: app/templates/login.html:125
 msgid "Back to Login"
 msgstr ""
 
-#: app/templates/login.html:125
+#: app/templates/login.html:134
 msgid "Or"
 msgstr ""
 
-#: app/templates/login.html:138 app/templates/login.html:260
+#: app/templates/login.html:147 app/templates/login.html:269
 msgid "Sign in with Passkey"
 msgstr ""
 
-#: app/templates/login.html:165
+#: app/templates/login.html:174
 msgid "Authenticating..."
 msgstr ""
 
-#: app/templates/login.html:238
+#: app/templates/login.html:247
 msgid "Failed to complete 2FA login"
 msgstr ""
 
-#: app/templates/login.html:253
+#: app/templates/login.html:262
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
 
@@ -1140,7 +1151,7 @@ msgstr ""
 msgid "Create a password"
 msgstr "צור חשבון"
 
-#: app/templates/tables/user_card.html:116
+#: app/templates/tables/user_card.html:142
 #: app/templates/welcome-jellyfin.html:193
 msgid "Invite Code"
 msgstr "קוד הזמנה"
@@ -1253,7 +1264,7 @@ msgid "There was an error connecting to your media servers"
 msgstr ""
 
 #: app/templates/admin/now_playing_cards.html:25
-msgid "No one is watching"
+msgid "No one is streaming"
 msgstr ""
 
 #: app/templates/admin/now_playing_cards.html:26
@@ -1377,34 +1388,43 @@ msgstr "הצטרפות"
 msgid "Account Details"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:87
+#: app/templates/admin/user_details_modal.html:69
+#: app/templates/tables/invite_card.html:113
+#: app/templates/tables/invite_card.html:115
+#: app/templates/tables/user_card.html:91
+#: app/templates/tables/user_card.html:113
+#: app/templates/tables/user_card.html:115
+msgid "Expires"
+msgstr "פג תוקף ב"
+
+#: app/templates/admin/user_details_modal.html:91
 #, fuzzy
 msgid "All libraries"
 msgstr "ספריות"
 
-#: app/templates/admin/user_details_modal.html:93
+#: app/templates/admin/user_details_modal.html:97
 #, fuzzy
 msgid "Permissions"
 msgstr "הגישה אסורה."
 
-#: app/templates/admin/user_details_modal.html:108
+#: app/templates/admin/user_details_modal.html:112
 #, fuzzy
 msgid "Downloads"
 msgstr "לאפשר הורדות"
 
-#: app/templates/admin/user_details_modal.html:116
+#: app/templates/admin/user_details_modal.html:120
 msgid "Live TV"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:124
+#: app/templates/admin/user_details_modal.html:128
 msgid "Camera Upload"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:132
+#: app/templates/admin/user_details_modal.html:136
 msgid "Basic Access"
 msgstr ""
 
-#: app/templates/admin/user_details_modal.html:144
+#: app/templates/admin/user_details_modal.html:148
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
@@ -1430,12 +1450,13 @@ msgid "Tabs"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:42
+#: app/templates/tables/user_card.html:95
 msgid "Local"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:52
 #: app/templates/admin/user_modal.html:249
-#: app/templates/tables/user_card.html:130
+#: app/templates/tables/user_card.html:156
 msgid "Notes"
 msgstr ""
 
@@ -2998,13 +3019,6 @@ msgstr "נוצל"
 msgid "Bundle"
 msgstr "נוצר"
 
-#: app/templates/tables/invite_card.html:113
-#: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:88
-#: app/templates/tables/user_card.html:90
-msgid "Expires"
-msgstr "פג תוקף ב"
-
 #: app/templates/tables/invite_card.html:129
 msgid "days"
 msgstr "ימים"
@@ -3035,39 +3049,39 @@ msgstr ""
 msgid "Home User"
 msgstr "משתמש בית"
 
-#: app/templates/tables/user_card.html:104
+#: app/templates/tables/user_card.html:130
 #, fuzzy
 msgid "Invited"
 msgstr "קוד הזמנה"
 
-#: app/templates/tables/user_card.html:143
+#: app/templates/tables/user_card.html:169
 msgid "Disabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:149
+#: app/templates/tables/user_card.html:175
 msgid "Downloads enabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:163
+#: app/templates/tables/user_card.html:189
 msgid "Live TV enabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:182
+#: app/templates/tables/user_card.html:208
 #, fuzzy
 msgid "View details"
 msgstr "הזמנות"
 
-#: app/templates/tables/user_card.html:200
+#: app/templates/tables/user_card.html:226
 #, fuzzy
 msgid "Edit user"
 msgstr "שרת"
 
-#: app/templates/tables/user_card.html:221
+#: app/templates/tables/user_card.html:247
 #, fuzzy
 msgid "Reset password"
 msgstr "ססמא"
 
-#: app/templates/tables/user_card.html:241
+#: app/templates/tables/user_card.html:267
 #, fuzzy
 msgid "Remove user"
 msgstr "משתמש בית"
@@ -3493,4 +3507,10 @@ msgstr ""
 
 #~ msgid "Username must be 3 to 15 characters."
 #~ msgstr ""
+
+#~ msgid "No one is watching"
+#~ msgstr ""
+
+#~ msgid "Partial"
+#~ msgstr "(אופציונלי)"
 

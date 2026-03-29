@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-12-26 04:04+0000\n"
+"POT-Creation-Date: 2026-03-29 05:19+0000\n"
 "PO-Revision-Date: 2025-10-31 15:10+0000\n"
 "Last-Translator: retardgerman <jan.cebulla@icloud.com>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.18.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 msgid "Failed to load settings"
@@ -149,9 +149,12 @@ msgstr "Unbekannter Fehler aufgetreten."
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#: app/blueprints/admin/routes.py:328 app/templates/modals/invite.html:69
+#: app/blueprints/admin/routes.py:328
+#: app/templates/admin/user_details_modal.html:70
+#: app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:90
+#: app/templates/tables/user_card.html:96
+#: app/templates/tables/user_card.html:115
 msgid "Never"
 msgstr "Niemals"
 
@@ -212,16 +215,16 @@ msgstr ""
 msgid "API key deleted successfully"
 msgstr "API-Schlüssel erfolgreich gelöscht"
 
-#: app/blueprints/auth/routes.py:85
+#: app/blueprints/auth/routes.py:88
 msgid "Invalid username or password"
 msgstr "Ungültiger Benutzername oder Passwort"
 
-#: app/blueprints/auth/routes.py:105
+#: app/blueprints/auth/routes.py:108
 msgid "No pending 2FA authentication"
 msgstr "Keine ausstehende 2FA-Authentifizierung"
 
-#: app/blueprints/auth/routes.py:119 app/templates/login.html:179
-#: app/templates/login.html:244 app/templates/login.html:248
+#: app/blueprints/auth/routes.py:122 app/templates/login.html:188
+#: app/templates/login.html:253 app/templates/login.html:257
 msgid "Authentication failed"
 msgstr "Authentifizierung fehlgeschlagen"
 
@@ -339,13 +342,13 @@ msgstr ""
 "Deine Einladung ist abgelaufen oder nicht mehr gültig. Bitte fordere eine"
 " neue Einladung an."
 
-#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1215
-#: app/blueprints/wizard/routes.py:1378
+#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1241
+#: app/blueprints/wizard/routes.py:1404
 msgid "Error Loading Step"
 msgstr "Fehler beim Laden des Schritts"
 
-#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1218
-#: app/blueprints/wizard/routes.py:1381
+#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1244
+#: app/blueprints/wizard/routes.py:1407
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
@@ -354,8 +357,8 @@ msgstr ""
 "Administrator oder mach einfach mit dem nächsten Schritt weiter."
 
 #: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
-#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1116
-#: app/blueprints/wizard/routes.py:1124
+#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1142
+#: app/blueprints/wizard/routes.py:1150
 msgid "Invalid or expired invitation"
 msgstr "Ungültige oder abgelaufene Einladung"
 
@@ -373,8 +376,8 @@ msgstr ""
 "Die Schritte des Wizards können nicht geladen werden. Weiter zur Annahme "
 "der Einladung."
 
-#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:961
-#: app/blueprints/wizard/routes.py:1237 app/templates/wizard/steps.html:21
+#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:987
+#: app/blueprints/wizard/routes.py:1263 app/templates/wizard/steps.html:21
 msgid "Continue to Invite"
 msgstr "Weiter zur Einladung"
 
@@ -388,23 +391,23 @@ msgstr ""
 "Schritte des Wizards können nicht geladen werden. Einrichtung "
 "abgeschlossen! Willkommen auf deinem Medienserver."
 
-#: app/blueprints/wizard/routes.py:848
+#: app/blueprints/wizard/routes.py:863
 msgid "Setup complete! Welcome to your media server."
 msgstr "Einrichtung fertig! Willkommen auf deinem Medienserver."
 
-#: app/blueprints/wizard/routes.py:946
+#: app/blueprints/wizard/routes.py:972
 msgid "Unable to load wizard configuration. Please try again."
 msgstr "Konfiguration des Wizards kann nicht geladen werden. Versuche es nochmal."
 
-#: app/blueprints/wizard/routes.py:1094
+#: app/blueprints/wizard/routes.py:1120
 msgid "Unable to load wizard bundle. Please try again."
 msgstr "Das Wizard-Bundle kann nicht geladen werden. Versuche es nochmal."
 
-#: app/blueprints/wizard/routes.py:1145
+#: app/blueprints/wizard/routes.py:1171
 msgid "Unable to load wizard steps. Please try again."
 msgstr "Schritte des Wizards können nicht geladen werden. Versuche es nochmal."
 
-#: app/blueprints/wizard/routes.py:1338
+#: app/blueprints/wizard/routes.py:1364
 msgid "This bundle has no steps to preview."
 msgstr ""
 
@@ -508,7 +511,7 @@ msgstr ""
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
 #: app/templates/admin/user_details_modal.html:66
-#: app/templates/hybrid-password-form.html:102 app/templates/login.html:48
+#: app/templates/hybrid-password-form.html:102 app/templates/login.html:57
 #: app/templates/modals/create-admin.html:22
 #: app/templates/modals/edit-admin.html:22
 #: app/templates/welcome-jellyfin.html:117
@@ -516,7 +519,7 @@ msgid "Username"
 msgstr "Benutzername"
 
 #: app/forms/admin.py:45 app/templates/choose-password.html:22
-#: app/templates/hybrid-password-form.html:134 app/templates/login.html:60
+#: app/templates/hybrid-password-form.html:134 app/templates/login.html:69
 #: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
 #: app/templates/welcome-jellyfin.html:155
 msgid "Password"
@@ -563,7 +566,7 @@ msgstr "Dein Benutzername"
 msgid "RomM Password"
 msgstr "Dein Passwort"
 
-#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:70
+#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:74
 #: app/templates/tables/invite_card.html:143
 msgid "Libraries"
 msgstr "Bibliotheken"
@@ -705,7 +708,7 @@ msgstr "Drop"
 msgid "No default steps found for server type: {}"
 msgstr "Keine Schritte für Servertyp gefunden: {}"
 
-#: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:100
+#: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:104
 msgid "Admin"
 msgstr "Admin"
 
@@ -872,48 +875,57 @@ msgstr "Zwei-Faktoren Authentifizierung"
 msgid "Login"
 msgstr "Login"
 
-#: app/templates/login.html:33
+#: app/templates/login.html:21
+msgid "This is the administrator login page."
+msgstr ""
+
+#: app/templates/login.html:24
+#, fuzzy
+msgid "Go to your media server instead"
+msgstr "Deine Discord-Server-ID"
+
+#: app/templates/login.html:42
 #, python-brace-format
 msgid "Welcome back, {}!"
 msgstr "Willkommen zurück, {}!"
 
-#: app/templates/login.html:35
+#: app/templates/login.html:44
 msgid "Please authenticate with your passkey to complete login."
 msgstr "Bitte logg dich mit deinem Passkey ein, um die Anmeldung abzuschließen."
 
-#: app/templates/login.html:79
+#: app/templates/login.html:88
 msgid "Remember me"
 msgstr "Angemeldet bleiben"
 
-#: app/templates/login.html:86
+#: app/templates/login.html:95
 msgid "Sign in"
 msgstr "Anmelden"
 
-#: app/templates/login.html:104
+#: app/templates/login.html:113
 msgid "Authenticate with Passkey"
 msgstr "Authentifizierung mit Passkey"
 
-#: app/templates/login.html:116
+#: app/templates/login.html:125
 msgid "Back to Login"
 msgstr "Zurück zur Anmeldung"
 
-#: app/templates/login.html:125
+#: app/templates/login.html:134
 msgid "Or"
 msgstr "oder"
 
-#: app/templates/login.html:138 app/templates/login.html:260
+#: app/templates/login.html:147 app/templates/login.html:269
 msgid "Sign in with Passkey"
 msgstr "Mit Passkey anmelden"
 
-#: app/templates/login.html:165
+#: app/templates/login.html:174
 msgid "Authenticating..."
 msgstr "Authentifizierung..."
 
-#: app/templates/login.html:238
+#: app/templates/login.html:247
 msgid "Failed to complete 2FA login"
 msgstr "Die 2FA-Anmeldung schlägt fehl"
 
-#: app/templates/login.html:253
+#: app/templates/login.html:262
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
 "Die Passkey-Authentifizierung ist fehlgeschlagen. Versuch es erneut oder "
@@ -1148,7 +1160,7 @@ msgstr "E-Mail eingeben"
 msgid "Create a password"
 msgstr "Erstelle ein Passwort"
 
-#: app/templates/tables/user_card.html:116
+#: app/templates/tables/user_card.html:142
 #: app/templates/welcome-jellyfin.html:193
 msgid "Invite Code"
 msgstr "Einladungscode"
@@ -1258,7 +1270,8 @@ msgid "There was an error connecting to your media servers"
 msgstr "Beim Verbinden mit deinen Medienservern ist ein Fehler aufgetreten"
 
 #: app/templates/admin/now_playing_cards.html:25
-msgid "No one is watching"
+#, fuzzy
+msgid "No one is streaming"
 msgstr "Aktuell wird nichts gestreamt"
 
 #: app/templates/admin/now_playing_cards.html:26
@@ -1375,31 +1388,40 @@ msgstr "Beigetreten"
 msgid "Account Details"
 msgstr "Konto Details"
 
-#: app/templates/admin/user_details_modal.html:87
+#: app/templates/admin/user_details_modal.html:69
+#: app/templates/tables/invite_card.html:113
+#: app/templates/tables/invite_card.html:115
+#: app/templates/tables/user_card.html:91
+#: app/templates/tables/user_card.html:113
+#: app/templates/tables/user_card.html:115
+msgid "Expires"
+msgstr "Verfällt"
+
+#: app/templates/admin/user_details_modal.html:91
 msgid "All libraries"
 msgstr "Alle Bibliotheken"
 
-#: app/templates/admin/user_details_modal.html:93
+#: app/templates/admin/user_details_modal.html:97
 msgid "Permissions"
 msgstr "Berechtigungen"
 
-#: app/templates/admin/user_details_modal.html:108
+#: app/templates/admin/user_details_modal.html:112
 msgid "Downloads"
 msgstr "Downloads"
 
-#: app/templates/admin/user_details_modal.html:116
+#: app/templates/admin/user_details_modal.html:120
 msgid "Live TV"
 msgstr "Live TV"
 
-#: app/templates/admin/user_details_modal.html:124
+#: app/templates/admin/user_details_modal.html:128
 msgid "Camera Upload"
 msgstr "Kamera Upload"
 
-#: app/templates/admin/user_details_modal.html:132
+#: app/templates/admin/user_details_modal.html:136
 msgid "Basic Access"
 msgstr "Standardzugang"
 
-#: app/templates/admin/user_details_modal.html:144
+#: app/templates/admin/user_details_modal.html:148
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
@@ -1426,12 +1448,13 @@ msgid "Tabs"
 msgstr "Status"
 
 #: app/templates/admin/user_modal.html:42
+#: app/templates/tables/user_card.html:95
 msgid "Local"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:52
 #: app/templates/admin/user_modal.html:249
-#: app/templates/tables/user_card.html:130
+#: app/templates/tables/user_card.html:156
 msgid "Notes"
 msgstr "Notizen"
 
@@ -2990,13 +3013,6 @@ msgstr "Verwendet von"
 msgid "Bundle"
 msgstr "Wizard Bündel"
 
-#: app/templates/tables/invite_card.html:113
-#: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:88
-#: app/templates/tables/user_card.html:90
-msgid "Expires"
-msgstr "Verfällt"
-
 #: app/templates/tables/invite_card.html:129
 msgid "days"
 msgstr "Tage"
@@ -3027,39 +3043,39 @@ msgstr "Edit nickname"
 msgid "Home User"
 msgstr "Benutzer"
 
-#: app/templates/tables/user_card.html:104
+#: app/templates/tables/user_card.html:130
 msgid "Invited"
 msgstr "Eingeladen"
 
-#: app/templates/tables/user_card.html:143
+#: app/templates/tables/user_card.html:169
 #, fuzzy
 msgid "Disabled"
 msgstr "Live-TV deaktiviert"
 
-#: app/templates/tables/user_card.html:149
+#: app/templates/tables/user_card.html:175
 msgid "Downloads enabled"
 msgstr "Downloads aktiviert"
 
-#: app/templates/tables/user_card.html:163
+#: app/templates/tables/user_card.html:189
 msgid "Live TV enabled"
 msgstr "Live-TV aktiviert"
 
-#: app/templates/tables/user_card.html:182
+#: app/templates/tables/user_card.html:208
 #, fuzzy
 msgid "View details"
 msgstr "Benutzerdetails"
 
-#: app/templates/tables/user_card.html:200
+#: app/templates/tables/user_card.html:226
 #, fuzzy
 msgid "Edit user"
 msgstr "Server bearbeiten"
 
-#: app/templates/tables/user_card.html:221
+#: app/templates/tables/user_card.html:247
 #, fuzzy
 msgid "Reset password"
 msgstr "Aktuelles Passwort"
 
-#: app/templates/tables/user_card.html:241
+#: app/templates/tables/user_card.html:267
 msgid "Remove user"
 msgstr "Benutzer entfernen"
 
@@ -3954,4 +3970,7 @@ msgstr "Klicke auf den Link in diesem Schritt, um weitermachen zu können"
 
 #~ msgid "Username must be 3 to 15 characters."
 #~ msgstr "Der Benutzername muss zwischen 3 und 15 Zeichen lang sein."
+
+#~ msgid "Partial"
+#~ msgstr "(Optional)"
 

@@ -1,0 +1,16 @@
+{# Reusable alert partial for LDAP HTMX responses.
+   Expects: level ("success"|"error"|"warning"|"info"|"neutral"), message (str).
+   Optional: extra_html (markup to append after the alert).
+#}
+{% set colors = {
+  "success": ("green", "✓"),
+  "error":   ("red",   "✗"),
+  "warning": ("yellow","⚠"),
+  "info":    ("blue",  "ℹ"),
+  "neutral": ("gray",  ""),
+} %}
+{% set color, icon = colors.get(level, colors["neutral"]) %}
+<div class="bg-{{ color }}-50 dark:bg-{{ color }}-900/20 border border-{{ color }}-200 dark:border-{{ color }}-800 rounded-lg p-4">
+  <p class="text-sm text-{{ color }}-800 dark:text-{{ color }}-200">{{ icon }} {{ message }}</p>
+</div>
+{{ extra_html|default("", true) }}
