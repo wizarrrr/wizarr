@@ -109,8 +109,8 @@
                     </path>
                   </svg>
                   <span>
-                    {% if user.expires %}
-                      {{ _("Expires") }}: {{ user.expires|human_date }}
+                    {% if user.earliest_expires %}
+                      {{ _("Expires") }}: {{ user.earliest_expires|human_date }}
                     {% else %}
                       {{ _("Expires") }}: {{ _("Never") }}
                     {% endif %}
