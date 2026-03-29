@@ -17,16 +17,17 @@ depends_on = None
 
 
 def upgrade():
-    op.add_column(
-        "user",
-        sa.Column(
-            "created_at",
-            sa.DateTime(),
-            nullable=True,
-            server_default=sa.text("(datetime('now'))"),
-        ),
-    )
+    with op.batch_alter_table("user", schema=None) as batch_op:
+        batch_op.add_column(
+            sa.Column(
+                "created_at",
+                sa.DateTime(),
+                nullable=True,
+                server_default=sa.text("(datetime('now'))"),
+            ),
+        )
 
 
 def downgrade():
-    op.drop_column("user", "created_at")
+    with op.batch_alter_table("user", schema=None) as batch_op:
+        batch_op.drop_column("created_at")
