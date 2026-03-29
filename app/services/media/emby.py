@@ -3,6 +3,7 @@ import re
 from typing import TYPE_CHECKING
 
 import requests
+import structlog
 from sqlalchemy import or_
 
 from app.extensions import db
@@ -17,18 +18,24 @@ if TYPE_CHECKING:
 # Reuse the same email regex as jellyfin
 EMAIL_RE = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
+log = structlog.get_logger(__name__)
+
 
 @register_media_client("emby")
 class EmbyClient(JellyfinClient):
     """Wrapper around the Emby REST API using credentials from Settings."""
 
     def libraries(self) -> dict[str, str]:
-        """Return mapping of library GUIDs to names."""
+        """Return mapping of library Id to names.
+
+        Uses ``Id`` (not ``Guid``) so that ``Library.external_id`` stores the
+        value that Emby's ``EnabledFolders`` policy field actually expects.
+        """
         try:
             items = self.get("/Library/MediaFolders").json()["Items"]
-            return {item["Guid"]: item["Name"] for item in items}
+            return {item["Id"]: item["Name"] for item in items}
         except Exception as exc:
-            logging.warning("Emby: failed to fetch libraries – %s", exc)
+            log.warning("emby.libraries.failed", error=str(exc))
             return {}
 
     def scan_libraries(
@@ -41,7 +48,7 @@ class EmbyClient(JellyfinClient):
             token: Optional API token override
 
         Returns:
-            dict: Library name -> library GUID mapping
+            dict: Library name -> library Id mapping (uses ``Id``, not ``Guid``)
         """
         try:
             if url and token:
@@ -56,9 +63,9 @@ class EmbyClient(JellyfinClient):
             else:
                 items = self.get("/Library/MediaFolders").json()["Items"]
 
-            return {item["Name"]: item["Guid"] for item in items}
+            return {item["Name"]: item["Id"] for item in items}
         except Exception as exc:
-            logging.warning("Emby: failed to scan libraries – %s", exc)
+            log.warning("emby.scan_libraries.failed", error=str(exc))
             return {}
 
     def statistics(self):
@@ -185,31 +192,59 @@ class EmbyClient(JellyfinClient):
         """Return placeholder password for local DB."""
         return "emby-user"
 
-    def _set_specific_folders(self, user_id: str, names: list[str]):
-        """Set library access for a user and ensure playback permissions."""
-        items = self.get("/Library/MediaFolders").json()["Items"]
-        mapping = {i["Name"]: i["Guid"] for i in items}
+    def _set_specific_folders(self, user_id: str, names: list[str]) -> None:
+        """Set library access for a user and ensure playback permissions.
 
-        # Debug logging
-        logging.info(f"EMBY: _set_specific_folders called with names: {names}")
-        logging.info(f"EMBY: mapping: {mapping}")
+        Builds a mapping of ``{Name: Id, Id: Id}`` so that lookups succeed
+        whether ``names`` contains library names or already-resolved Ids.
+        """
+        items = self.get("/Library/MediaFolders").json()["Items"]
+        # Primary mapping: Name -> Id
+        mapping: dict[str, str] = {i["Name"]: i["Id"] for i in items}
+        # Also allow Id passthrough and Guid -> Id for backwards compatibility
+        mapping.update({i["Id"]: i["Id"] for i in items})
+        mapping.update({i["Guid"]: i["Id"] for i in items if "Guid" in i})
+
+        log.debug("emby._set_specific_folders", user_id=user_id, requested=names)
 
         folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
         folder_ids = [fid for fid in folder_ids if fid]
 
-        logging.info(f"EMBY: folder_ids after mapping: {folder_ids}")
+        if names and not folder_ids:
+            log.warning(
+                "emby._set_specific_folders.no_libraries_resolved",
+                user_id=user_id,
+                requested=names,
+                hint="No requested libraries could be mapped to an Emby folder Id. "
+                "Re-scan libraries on the server settings page to refresh external IDs.",
+            )
+            # Restrict to nothing rather than silently granting everything.
+            policy_patch = {
+                "EnableAllFolders": False,
+                "EnabledFolders": [],
+                "EnableMediaPlayback": True,
+                "EnableAudioPlaybackTranscoding": True,
+                "EnableVideoPlaybackTranscoding": True,
+                "EnablePlaybackRemuxing": True,
+                "EnableRemoteAccess": True,
+            }
+        else:
+            policy_patch = {
+                "EnableAllFolders": not folder_ids,
+                "EnabledFolders": folder_ids,
+                "EnableMediaPlayback": True,
+                "EnableAudioPlaybackTranscoding": True,
+                "EnableVideoPlaybackTranscoding": True,
+                "EnablePlaybackRemuxing": True,
+                "EnableRemoteAccess": True,
+            }
 
-        policy_patch = {
-            "EnableAllFolders": not folder_ids,
-            "EnabledFolders": folder_ids,
-            "EnableMediaPlayback": True,
-            "EnableAudioPlaybackTranscoding": True,
-            "EnableVideoPlaybackTranscoding": True,
-            "EnablePlaybackRemuxing": True,
-            "EnableRemoteAccess": True,
-        }
-
-        logging.info(f"EMBY: Setting policy patch for user {user_id}: {policy_patch}")
+        log.debug(
+            "emby._set_specific_folders.applying",
+            user_id=user_id,
+            enable_all=policy_patch["EnableAllFolders"],
+            folder_ids=folder_ids,
+        )
 
         current = self.get(f"/Users/{user_id}").json()["Policy"]
         current.update(policy_patch)

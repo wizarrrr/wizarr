@@ -464,44 +464,46 @@ class JellyfinClient(RestApiMixin):
             return name
         return cache.get(name)
 
-    def _set_specific_folders(self, user_id: str, names: list[str]):
-        mapping = {
-            item["Name"]: item["Id"]
-            for item in self.get("/Library/MediaFolders").json()["Items"]
-        }
-
-        # Also map IDs directly for convenience
+    def _set_specific_folders(self, user_id: str, names: list[str]) -> None:
+        log = structlog.get_logger(__name__)
+        items = self.get("/Library/MediaFolders").json()["Items"]
+        mapping = {item["Name"]: item["Id"] for item in items}
+        # Also map IDs directly so callers may pass either a name or an Id.
         mapping.update({v: v for v in mapping.values()})
+
+        log.debug("jellyfin._set_specific_folders", user_id=user_id, requested=names)
 
         folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
         folder_ids = [fid for fid in folder_ids if fid]
 
-        # Debug logging
-        import logging
+        if names and not folder_ids:
+            log.warning(
+                "jellyfin._set_specific_folders.no_libraries_resolved",
+                user_id=user_id,
+                requested=names,
+                hint="No requested libraries could be mapped to a Jellyfin folder Id. "
+                "Re-scan libraries on the server settings page to refresh external IDs.",
+            )
+            # Restrict to nothing rather than silently granting access to all libraries.
+            policy_patch = {
+                "EnableAllFolders": False,
+                "EnabledFolders": [],
+            }
+        else:
+            policy_patch = {
+                "EnableAllFolders": not folder_ids,
+                "EnabledFolders": folder_ids,
+            }
 
-        logging.info(f"JELLYFIN: _set_specific_folders called with names: {names}")
-        logging.info(f"JELLYFIN: mapping: {mapping}")
-        logging.info(f"JELLYFIN: folder_ids after mapping: {folder_ids}")
-
-        policy_patch = {
-            "EnableAllFolders": not folder_ids,
-            "EnabledFolders": folder_ids,
-        }
-
-        logging.info(
-            f"JELLYFIN: Setting policy patch for user {user_id}: {policy_patch}"
+        log.debug(
+            "jellyfin._set_specific_folders.applying",
+            user_id=user_id,
+            enable_all=policy_patch["EnableAllFolders"],
+            folder_ids=folder_ids,
         )
 
         current = self.get(f"/Users/{user_id}").json()["Policy"]
-        logging.info(
-            f"JELLYFIN: Current policy before update: EnableAllFolders={current.get('EnableAllFolders')}, EnabledFolders={current.get('EnabledFolders')}"
-        )
-
         current.update(policy_patch)
-        logging.info(
-            f"JELLYFIN: Final policy to be set: EnableAllFolders={current.get('EnableAllFolders')}, EnabledFolders={current.get('EnabledFolders')}"
-        )
-
         self.set_policy(user_id, current)
 
     # --- public sign-up ---------------------------------------------
