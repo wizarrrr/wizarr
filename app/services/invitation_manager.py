@@ -177,7 +177,7 @@ class InvitationManager:
                         if user and (
                             not invitation.unlimited or not invitation.used_by
                         ):
-                            invitation.used_by = user  # type: ignore[assignment]
+                            invitation.used_by = user  # type: ignore
                         mark_server_used(invitation, server.id, user)
                 else:
                     errors.append(f"{server.name} ({server.server_type}): {msg}")

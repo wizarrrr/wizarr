@@ -62,13 +62,15 @@ class DropClient(RestApiMixin):
             return {}
 
     def scan_libraries(
-        self, _url: str | None = None, _token: str | None = None
+        self,
+        url: str | None = None,  # noqa: ARG002
+        token: str | None = None,  # noqa: ARG002
     ) -> dict[str, str]:
         """Scan available libraries on this Drop server.
 
         Args:
-            _url: Optional server URL override (unused - Drop doesn't have libraries)
-            _token: Optional API token override (unused - Drop doesn't have libraries)
+            url: Optional server URL override (unused - Drop doesn't have libraries)
+            token: Optional API token override (unused - Drop doesn't have libraries)
 
         Returns:
             dict: Empty dict since Drop doesn't have traditional libraries
@@ -234,11 +236,11 @@ class DropClient(RestApiMixin):
             logging.error("Drop: failed to update user – %s", exc)
             raise
 
-    def enable_user(self, _user_id: str) -> bool:
+    def enable_user(self, user_id: str) -> bool:  # noqa: ARG002
         """Enable a user account on Drop.
 
         Args:
-            _user_id: The user's Drop ID (unused - Drop doesn't support enable/disable)
+            user_id: The user's Drop ID (unused - Drop doesn't support enable/disable)
 
         Returns:
             bool: True if the user was successfully enabled, False otherwise
@@ -254,11 +256,11 @@ class DropClient(RestApiMixin):
             structlog.get_logger().error(f"Failed to enable Drop user: {e}")
             return False
 
-    def disable_user(self, _user_id: str) -> bool:
+    def disable_user(self, user_id: str) -> bool:  # noqa: ARG002
         """Disable a user account on Drop.
 
         Args:
-            _user_id: The user's Drop ID (unused - Drop doesn't support enable/disable)
+            user_id: The user's Drop ID (unused - Drop doesn't support enable/disable)
 
         Returns:
             bool: True if the user was successfully disabled, False otherwise
@@ -295,17 +297,17 @@ class DropClient(RestApiMixin):
             else None,
         }
 
-    def get_user_details(self, user_id: str) -> "MediaUserDetails":
+    def get_user_details(self, user_identifier: str | int) -> "MediaUserDetails":
         """Get detailed user information in standardized format."""
         from app.services.media.user_details import MediaUserDetails
 
         try:
             # Get raw user data from Drop API
-            response = self.get(f"/api/v1/admin/users/{user_id}")
+            response = self.get(f"/api/v1/admin/users/{user_identifier}")
             raw_user = response.json()
 
             return MediaUserDetails(
-                user_id=str(raw_user.get("id", user_id)),
+                user_id=str(raw_user.get("id", user_identifier)),
                 username=raw_user.get("username", "Unknown"),
                 email=raw_user.get("email"),
                 is_admin=raw_user.get("admin", False),

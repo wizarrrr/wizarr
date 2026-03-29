@@ -99,11 +99,11 @@ class KomgaClient(RestApiMixin):
         response = self.patch(f"/api/v2/users/{user_id}", json=updates)
         return response.json()
 
-    def enable_user(self, _user_id: str) -> bool:
+    def enable_user(self, user_id: str) -> bool:  # noqa: ARG002
         """Enable a user account on Komga.
 
         Args:
-            _user_id: The user's Komga ID (unused - Komga doesn't support enable/disable)
+            user_id: The user's Komga ID (unused - Komga doesn't support enable/disable)
 
         Returns:
             bool: True if the user was successfully enabled, False otherwise
@@ -158,8 +158,9 @@ class KomgaClient(RestApiMixin):
             else None,
         }
 
-    def get_user_details(self, user_id: str) -> "MediaUserDetails":
+    def get_user_details(self, user_identifier: str | int) -> "MediaUserDetails":
         """Get detailed user information in standardized format."""
+        user_id = str(user_identifier)
         from app.services.media.utils import (
             DateHelper,
             LibraryAccessHelper,
@@ -610,11 +611,14 @@ class KomgaClient(RestApiMixin):
                 "error": str(e),
             }
 
-    def get_recent_items(self, limit: int = 6) -> list[dict[str, str]]:
+    def get_recent_items(
+        self, _library_id: str | None = None, _limit: int = 6
+    ) -> list[dict[str, str]]:
         """Get recently added books from Komga for the wizard widget.
 
         Args:
-            limit: Maximum number of items to return
+            _library_id: Optional library ID to filter by (unused)
+            _limit: Maximum number of items to return
 
         Returns:
             list: List of dicts with 'title' and 'thumb' keys
@@ -624,7 +628,7 @@ class KomgaClient(RestApiMixin):
 
         try:
             # Get latest books from Komga API
-            response = self.get(f"/api/v1/books/latest?size={limit}")
+            response = self.get(f"/api/v1/books/latest?size={_limit}")
             books = response.json().get("content", [])
 
             items = []

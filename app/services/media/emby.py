@@ -181,7 +181,7 @@ class EmbyClient(JellyfinClient):
 
         return user_id
 
-    def _password_for_db(self, _password: str) -> str:
+    def _password_for_db(self, password: str) -> str:  # noqa: ARG002
         """Return placeholder password for local DB."""
         return "emby-user"
 

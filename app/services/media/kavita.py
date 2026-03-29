@@ -424,8 +424,9 @@ class KavitaClient(RestApiMixin):
         except ValueError:
             return None
 
-    def get_user_details(self, username: str) -> "MediaUserDetails":
+    def get_user_details(self, user_identifier: str | int) -> "MediaUserDetails":
         """Get detailed user information in standardized format."""
+        username = str(user_identifier)
         try:
             all_users = self.get("/api/Users").json()
         except Exception as exc:
@@ -535,11 +536,11 @@ class KavitaClient(RestApiMixin):
             logging.error(f"Failed to update Kavita user {username}: {e}")
             return None
 
-    def enable_user(self, _user_id: str) -> bool:
+    def enable_user(self, user_id: str) -> bool:  # noqa: ARG002
         """Enable a user account on Kavita.
 
         Args:
-            _user_id: The user's Kavita ID (unused - Kavita doesn't support enable/disable)
+            user_id: The user's Kavita ID (unused - Kavita doesn't support enable/disable)
 
         Returns:
             bool: Always False - Kavita doesn't support this operation

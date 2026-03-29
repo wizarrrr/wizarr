@@ -15,7 +15,6 @@ from unittest.mock import patch
 
 from app.extensions import db
 from app.models import Invitation, MediaServer, WizardStep
-from app.services.invite_code_manager import InviteCodeManager
 
 
 class TestInvalidInviteCodeHandling:
@@ -29,8 +28,8 @@ class TestInvalidInviteCodeHandling:
 
     def test_pre_wizard_with_invalid_invite_code(self, app, client):
         """Test pre-wizard redirects to home with invalid invite code."""
-        with client.session_transaction():
-            InviteCodeManager.store_invite_code("INVALID123")
+        with client.session_transaction() as sess:
+            sess["wizarr_invite_code"] = "INVALID123"
 
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
         assert response.status_code == 302
@@ -39,8 +38,8 @@ class TestInvalidInviteCodeHandling:
 
     def test_pre_wizard_with_nonexistent_invite_code(self, app, client):
         """Test pre-wizard handles nonexistent invite code gracefully."""
-        with client.session_transaction():
-            InviteCodeManager.store_invite_code("NOTEXIST999")
+        with client.session_transaction() as sess:
+            sess["wizarr_invite_code"] = "NOTEXIST999"
 
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
         assert response.status_code == 302
@@ -73,8 +72,8 @@ class TestExpiredInviteCodeHandling:
             db.session.add(invitation)
             db.session.commit()
 
-        with client.session_transaction():
-            InviteCodeManager.store_invite_code("EXPIRED123")
+        with client.session_transaction() as sess:
+            sess["wizarr_invite_code"] = "EXPIRED123"
 
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
         assert response.status_code == 302
@@ -103,8 +102,8 @@ class TestExpiredInviteCodeHandling:
             db.session.add(invitation)
             db.session.commit()
 
-        with client.session_transaction():
-            InviteCodeManager.store_invite_code("USED123")
+        with client.session_transaction() as sess:
+            sess["wizarr_invite_code"] = "USED123"
 
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
         assert response.status_code == 302
@@ -144,8 +143,8 @@ class TestSessionExpirationHandling:
             db.session.add(invitation)
             db.session.commit()
 
-        with client.session_transaction():
-            InviteCodeManager.store_invite_code("VALID123")
+        with client.session_transaction() as sess:
+            sess["wizarr_invite_code"] = "VALID123"
 
         # First request should work
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
@@ -189,8 +188,8 @@ class TestDatabaseErrorHandling:
             db.session.add(invitation)
             db.session.commit()
 
-        with client.session_transaction():
-            InviteCodeManager.store_invite_code("VALID123")
+        with client.session_transaction() as sess:
+            sess["wizarr_invite_code"] = "VALID123"
 
         # Mock database error when querying wizard steps
         with patch("app.blueprints.wizard.routes.WizardStep") as mock_wizard_step:
@@ -229,8 +228,8 @@ class TestGracefulDegradation:
             db.session.add(invitation)
             db.session.commit()
 
-        with client.session_transaction():
-            InviteCodeManager.store_invite_code("NOSERVER123")
+        with client.session_transaction() as sess:
+            sess["wizarr_invite_code"] = "NOSERVER123"
 
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
         assert response.status_code == 302
@@ -258,8 +257,8 @@ class TestGracefulDegradation:
             db.session.add(invitation)
             db.session.commit()
 
-        with client.session_transaction():
-            InviteCodeManager.store_invite_code("NOSTEPS123")
+        with client.session_transaction() as sess:
+            sess["wizarr_invite_code"] = "NOSTEPS123"
 
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
         assert response.status_code == 302
@@ -332,8 +331,8 @@ class TestStepRenderingErrors:
             db.session.add(step)
             db.session.commit()
 
-        with client.session_transaction():
-            InviteCodeManager.store_invite_code("BROKEN123")
+        with client.session_transaction() as sess:
+            sess["wizarr_invite_code"] = "BROKEN123"
 
         response = client.get("/wizard/pre-wizard", follow_redirects=True)
         assert response.status_code == 200
@@ -411,8 +410,8 @@ class TestErrorLogging:
             db.session.add(invitation)
             db.session.commit()
 
-        with client.session_transaction():
-            InviteCodeManager.store_invite_code("VALID123")
+        with client.session_transaction() as sess:
+            sess["wizarr_invite_code"] = "VALID123"
 
         # Mock database error
         with patch("app.blueprints.wizard.routes.WizardStep") as mock_wizard_step:

@@ -635,7 +635,7 @@ def update_user_permissions(db_id: int):
 
         # Update media server via API (with graceful error handling)
         try:
-            client = get_client_for_media_server(user.server)
+            client = get_client_for_media_server(user.server)  # type: ignore
 
             # Use the generic interface - all clients support this now
             user_identifier = (
@@ -711,7 +711,7 @@ def update_user_libraries(db_id: int):
 
         # Update media server via API (with graceful error handling)
         try:
-            client = get_client_for_media_server(user.server)
+            client = get_client_for_media_server(user.server)  # type: ignore
 
             # Use the generic interface - all clients support this now
             user_identifier = (
