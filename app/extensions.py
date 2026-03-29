@@ -121,7 +121,7 @@ def init_extensions(app):
     # Continue with remaining extensions
     htmx.init_app(app)
     login_manager.init_app(app)
-    login_manager.login_view = "auth.login"  # type: ignore[assignment]
+    login_manager.login_view = "auth.login"  # type: ignore
     db.init_app(app)
 
     # Enable SQLite WAL mode for concurrent writes

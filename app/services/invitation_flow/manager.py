@@ -207,7 +207,7 @@ class InvitationFlowManager:
         plex_servers = [s for s in servers if s.server_type == "plex"]
         other_servers = [s for s in servers if s.server_type != "plex"]
 
-        return plex_servers + other_servers
+        return plex_servers + other_servers  # type: ignore
 
     def _check_pre_invite_steps_exist(
         self, invitation: Invitation, servers: list[MediaServer]
@@ -226,7 +226,7 @@ class InvitationFlowManager:
         bundle_id = getattr(invitation, "wizard_bundle_id", None)
         if bundle_id:
             bundle_steps = (
-                WizardBundleStep.query.options(joinedload(WizardBundleStep.step))
+                WizardBundleStep.query.options(joinedload(WizardBundleStep.step))  # type: ignore
                 .filter(WizardBundleStep.bundle_id == bundle_id)
                 .order_by(WizardBundleStep.position)
                 .all()

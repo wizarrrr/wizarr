@@ -17,13 +17,13 @@ try:
         MediaServer,
     )
 except ImportError:
-    MediaServer = None  # type: ignore[assignment]
-    db = None  # type: ignore[assignment]
-    HistoricalImportJob = None  # type: ignore[assignment]
-    ActivitySession = None  # type: ignore[assignment]
-    ActivitySnapshot = None  # type: ignore[assignment]
+    MediaServer = None  # type: ignore
+    db = None  # type: ignore
+    HistoricalImportJob = None  # type: ignore
+    ActivitySession = None  # type: ignore
+    ActivitySnapshot = None  # type: ignore
 
-    def _(x):  # type: ignore[no-redef]
+    def _(x):  # type: ignore
         return x
 
 
@@ -141,7 +141,7 @@ def render_historical_jobs_partial(server_id: int | None):
         jobs: list = []
     else:
         query = HistoricalImportJob.query.options(
-            joinedload(HistoricalImportJob.server)
+            joinedload(HistoricalImportJob.server)  # type: ignore
         ).order_by(HistoricalImportJob.created_at.desc())
 
         if server_id:

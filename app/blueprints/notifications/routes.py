@@ -15,7 +15,7 @@ from app.services.notifications import (  # your existing helpers
     _discord,
     _notifiarr,
     _ntfy,
-    _telegram
+    _telegram,
 )
 
 notify_bp = Blueprint("notify", __name__, url_prefix="/settings/notifications")

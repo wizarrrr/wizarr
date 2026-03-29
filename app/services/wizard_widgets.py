@@ -121,9 +121,10 @@ class RecentlyAddedMediaWidget(WizardWidget):
         """
         super().__init__("recently_added_media", template)
 
-    def get_data(self, server_type: str, **kwargs) -> dict[str, Any]:
+    def get_data(self, _server_type: str, **_kwargs) -> dict[str, Any]:
         """Fetch recently added media from the server."""
-        limit = kwargs.get("limit", 6)
+        server_type = _server_type
+        limit = _kwargs.get("limit", 6)
 
         try:
             # Get media client for the server type
@@ -188,7 +189,7 @@ class CardWidget(WizardWidget):
         # Placeholder - cards are handled by process_card_delimiters
         super().__init__("card", "")
 
-    def render(self, _server_type: str, **_kwargs) -> str:
+    def render(self, server_type: str, _context: dict | None = None, **kwargs) -> str:  # noqa: ARG002
         """Cards should use delimiter syntax instead."""
         return '\n\n<div class="text-sm text-yellow-500 italic">Use ||| delimiter syntax for cards instead</div>\n\n'
 
@@ -200,14 +201,14 @@ class ButtonWidget(WizardWidget):
         # Empty template since we'll override render
         super().__init__("button", "")
 
-    def render(self, _server_type: str, context: dict | None = None, **kwargs) -> str:
+    def render(self, server_type: str, _context: dict | None = None, **kwargs) -> str:  # noqa: ARG002
         """Render the button widget with direct HTML generation."""
         try:
             import html
 
             url = kwargs.get("url", "")
             text = kwargs.get("text", "Click Here")
-            context = context or {}
+            context = _context or {}
 
             # If URL is a Jinja variable name (no protocol and no slashes), try to resolve it from context
             if (

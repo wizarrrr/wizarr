@@ -771,7 +771,7 @@ class InvitationsListResource(Resource):
 
             # Map expires_in_days to the format expected by create_invite
             expires_mapping = {1: "day", 7: "week", 30: "month"}
-            expires_key = expires_mapping.get(data.get("expires_in_days"), "never")
+            expires_key = expires_mapping.get(data.get("expires_in_days"), "never")  # type: ignore
 
             form_data = FormLike(
                 {

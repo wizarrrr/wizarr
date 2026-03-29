@@ -36,7 +36,7 @@ def migration_app(temp_db):
     config = MigrationTestConfig()
     config.SQLALCHEMY_DATABASE_URI = temp_db
 
-    app = create_app(config)  # type: ignore[arg-type]
+    app = create_app(config)  # type: ignore
     yield app
 
 
@@ -399,7 +399,9 @@ def test_wizard_step_category_migration_upgrade(migration_app, temp_db):
                     "SELECT sql FROM sqlite_master WHERE type='table' AND name='wizard_step'"
                 )
             )
-            table_sql = result.fetchone()[0]
+            row = result.fetchone()
+            assert row is not None
+            table_sql = row[0]
             assert "uq_step_server_category_pos" in table_sql, (
                 "New unique constraint not found"
             )
@@ -432,7 +434,9 @@ def test_wizard_step_category_migration_downgrade(migration_app, temp_db):
 
             # Verify both steps exist
             result = conn.execute(text("SELECT COUNT(*) FROM wizard_step"))
-            assert result.fetchone()[0] == 2, "Should have 2 test steps"
+            row = result.fetchone()
+            assert row is not None
+            assert row[0] == 2, "Should have 2 test steps"
 
         # Now downgrade
         downgrade(revision="fd5a34530162")
@@ -450,7 +454,9 @@ def test_wizard_step_category_migration_downgrade(migration_app, temp_db):
                     "SELECT sql FROM sqlite_master WHERE type='table' AND name='wizard_step'"
                 )
             )
-            table_sql = result.fetchone()[0]
+            row = result.fetchone()
+            assert row is not None
+            table_sql = row[0]
             assert "uq_step_server_pos" in table_sql, (
                 "Old unique constraint not restored"
             )
@@ -470,7 +476,9 @@ def test_wizard_step_category_migration_downgrade(migration_app, temp_db):
 
             # Verify only one step remains (pre_invite step should be dropped)
             result = conn.execute(text("SELECT COUNT(*) FROM wizard_step"))
-            count = result.fetchone()[0]
+            row = result.fetchone()
+            assert row is not None
+            count = row[0]
             assert count == 1, (
                 f"Should have 1 step after downgrade (post_invite only), got {count}"
             )
@@ -502,9 +510,9 @@ def test_wizard_step_category_unique_constraint(migration_app, temp_db):
             result = conn.execute(
                 text("SELECT COUNT(*) FROM wizard_step WHERE position = 0")
             )
-            assert result.fetchone()[0] == 2, (
-                "Should allow same position with different categories"
-            )
+            row = result.fetchone()
+            assert row is not None
+            assert row[0] == 2, "Should allow same position with different categories"
 
             # Test 2: Cannot insert duplicate (server_type, category, position)
             try:
@@ -545,4 +553,6 @@ def test_wizard_step_category_unique_constraint(migration_app, temp_db):
 
             # Verify all steps exist
             result = conn.execute(text("SELECT COUNT(*) FROM wizard_step"))
-            assert result.fetchone()[0] == 4, "Should have 4 total steps"
+            row = result.fetchone()
+            assert row is not None
+            assert row[0] == 4, "Should have 4 total steps"

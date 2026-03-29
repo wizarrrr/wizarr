@@ -178,7 +178,7 @@ title: Introduction
 
     def test_reset_server_steps_with_post_invite_category(self, app, tmp_path):
         """Test resetting server steps with post_invite category (default)."""
-        with app.app_context():
+        with app.app_context(), app.test_request_context():
             # Clean up any existing steps first
             WizardStep.query.delete()
             db.session.commit()
@@ -245,7 +245,7 @@ title: Setup
 
     def test_reset_server_steps_with_pre_invite_category(self, app, tmp_path):
         """Test resetting server steps with pre_invite category."""
-        with app.app_context():
+        with app.app_context(), app.test_request_context():
             # Create existing custom pre-invite steps
             custom_step = WizardStep(
                 server_type="jellyfin",
@@ -291,7 +291,7 @@ title: Introduction
 
     def test_reset_only_affects_specified_category(self, app, tmp_path):
         """Test that resetting one category doesn't affect the other."""
-        with app.app_context():
+        with app.app_context(), app.test_request_context():
             # Clean up any existing steps first
             WizardStep.query.delete()
             db.session.commit()
@@ -352,7 +352,7 @@ title: Welcome
 
     def test_reset_server_steps_with_no_default_steps(self, app, tmp_path):
         """Test resetting when no default steps exist."""
-        with app.app_context():
+        with app.app_context(), app.test_request_context():
             # Create existing custom step
             custom_step = WizardStep(
                 server_type="emby",
@@ -384,7 +384,7 @@ title: Welcome
 
     def test_reset_server_steps_handles_database_error(self, app, tmp_path):
         """Test that database errors are handled gracefully."""
-        with app.app_context():
+        with app.app_context(), app.test_request_context():
             # Create mock wizard steps directory
             plex_dir = tmp_path / "plex"
             plex_dir.mkdir()
@@ -410,7 +410,7 @@ title: Welcome
 
     def test_reset_preserves_unique_constraint(self, app, tmp_path):
         """Test that reset respects unique constraint (server_type, category, position)."""
-        with app.app_context():
+        with app.app_context(), app.test_request_context():
             # Clean up any existing steps first
             WizardStep.query.delete()
             db.session.commit()
@@ -472,7 +472,7 @@ title: Setup
 
     def test_reset_with_multiple_server_types(self, app, tmp_path):
         """Test that resetting one server type doesn't affect others."""
-        with app.app_context():
+        with app.app_context(), app.test_request_context():
             # Clean up any existing steps first
             WizardStep.query.delete()
             db.session.commit()

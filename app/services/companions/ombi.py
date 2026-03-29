@@ -24,7 +24,11 @@ class OmbiClient(CompanionClient):
         return "Ombi"
 
     def invite_user(
-        self, username: str, email: str, connection: Connection, _password: str = ""
+        self,
+        username: str,
+        email: str,
+        connection: Connection,
+        password: str = "",  # noqa: ARG002
     ) -> dict[str, str]:
         """
         Invite a user to Ombi.
@@ -33,7 +37,7 @@ class OmbiClient(CompanionClient):
             username: Username to invite
             email: Email address
             connection: Connection object with URL and API key
-            _password: Password for the user (unused - Ombi generates passwords)
+            password: Password for the user (unused - Ombi generates passwords)
 
         Returns:
             Dict with 'status' and 'message' keys

@@ -59,7 +59,7 @@ class PlexHistoricalImporter:
             )
 
             # Get history from Plex
-            history_kwargs = {"mindate": min_date}
+            history_kwargs: dict[str, Any] = {"mindate": min_date}
             if max_results:
                 history_kwargs["maxresults"] = max_results
 

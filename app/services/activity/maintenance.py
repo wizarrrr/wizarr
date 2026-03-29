@@ -32,18 +32,18 @@ class ActivityMaintenanceService:
         try:
             cutoff_date = datetime.now(UTC) - timedelta(days=retention_days)
             deleted_count = (
-                db.session.query(ActivitySession)  # type: ignore[union-attr]
+                db.session.query(ActivitySession)  # type: ignore
                 .filter(ActivitySession.started_at < cutoff_date)
                 .delete()
             )
 
-            db.session.commit()  # type: ignore[union-attr]
+            db.session.commit()  # type: ignore
             self.logger.info("Cleaned up %s old activity sessions", deleted_count)
             return deleted_count
 
         except Exception as exc:  # pragma: no cover - log and rollback
             self.logger.error("Failed to cleanup old activity: %s", exc, exc_info=True)
-            db.session.rollback()  # type: ignore[union-attr]
+            db.session.rollback()  # type: ignore
             return 0
 
     def end_stale_sessions(self, timeout_hours: int = 24) -> int:
@@ -55,7 +55,7 @@ class ActivityMaintenanceService:
             cutoff_time = datetime.now(UTC) - timedelta(hours=timeout_hours)
 
             stale_sessions = (
-                db.session.query(ActivitySession)  # type: ignore[union-attr]
+                db.session.query(ActivitySession)  # type: ignore
                 .filter(
                     ActivitySession.active.is_(True),
                     ActivitySession.updated_at < cutoff_time,
@@ -74,14 +74,14 @@ class ActivityMaintenanceService:
                 ended_count += 1
 
             if ended_count:
-                db.session.commit()  # type: ignore[union-attr]
+                db.session.commit()  # type: ignore
 
             self.logger.info("Ended %s stale activity sessions", ended_count)
             return ended_count
 
         except Exception as exc:  # pragma: no cover - log and rollback
             self.logger.error("Failed to end stale sessions: %s", exc, exc_info=True)
-            db.session.rollback()  # type: ignore[union-attr]
+            db.session.rollback()  # type: ignore
             return 0
 
     def recover_sessions_on_startup(self) -> int:
@@ -91,7 +91,7 @@ class ActivityMaintenanceService:
 
         try:
             active_sessions = (
-                db.session.query(ActivitySession)  # type: ignore[union-attr]
+                db.session.query(ActivitySession)  # type: ignore
                 .filter(ActivitySession.active.is_(True))
                 .all()
             )
@@ -126,7 +126,7 @@ class ActivityMaintenanceService:
                         ended_count += 1
 
             if ended_count or recovered_count:
-                db.session.commit()  # type: ignore[union-attr]
+                db.session.commit()  # type: ignore
                 self.logger.info(
                     "Session recovery completed: %s recovered, %s ended",
                     recovered_count,
@@ -137,7 +137,7 @@ class ActivityMaintenanceService:
 
         except Exception as exc:  # pragma: no cover
             self.logger.error("Failed to recover sessions: %s", exc, exc_info=True)
-            db.session.rollback()  # type: ignore[union-attr]
+            db.session.rollback()  # type: ignore
             return 0
 
     # ------------------------------------------------------------------
@@ -156,7 +156,7 @@ class ActivityMaintenanceService:
         recovered_count = 0
 
         try:
-            server = db.session.query(MediaServer).filter_by(id=server_id).first()  # type: ignore[union-attr]
+            server = db.session.query(MediaServer).filter_by(id=server_id).first()  # type: ignore
             if not server:
                 self.logger.warning(
                     "Server %s not found during validation. Ending sessions.", server_id
@@ -185,8 +185,8 @@ class ActivityMaintenanceService:
                 cutoff_time = datetime.now(UTC) - timedelta(hours=1)
                 for session in sessions:
                     updated_at = session.updated_at
-                    if updated_at.tzinfo is None:  # type: ignore[union-attr]
-                        updated_at = updated_at.replace(tzinfo=UTC)  # type: ignore[union-attr]
+                    if updated_at.tzinfo is None:  # type: ignore
+                        updated_at = updated_at.replace(tzinfo=UTC)  # type: ignore
                     if updated_at < cutoff_time:
                         self._end_session_gracefully(session)
                         ended_count += 1
@@ -215,8 +215,8 @@ class ActivityMaintenanceService:
             cutoff_time = datetime.now(UTC) - timedelta(hours=1)
             for session in sessions:
                 updated_at = session.updated_at
-                if updated_at.tzinfo is None:  # type: ignore[union-attr]
-                    updated_at = updated_at.replace(tzinfo=UTC)  # type: ignore[union-attr]
+                if updated_at.tzinfo is None:  # type: ignore
+                    updated_at = updated_at.replace(tzinfo=UTC)  # type: ignore
                 if updated_at < cutoff_time:
                     self._end_session_gracefully(session)
                     ended_count += 1

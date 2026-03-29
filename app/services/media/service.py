@@ -61,8 +61,8 @@ def _set_user_enabled_state(db_id: int, enabled: bool) -> bool:
         return False
 
     try:
-        client = get_client_for_media_server(user.server)
-        user_identifier = _get_user_identifier(user, user.server)
+        client = get_client_for_media_server(user.server)  # type: ignore
+        user_identifier = _get_user_identifier(user, user.server)  # type: ignore
         method = client.enable_user if enabled else client.disable_user
         result = method(user_identifier)
 
@@ -154,8 +154,8 @@ def delete_user(db_id: int) -> None:
     # Delete from remote media server if user has one
     if user.server:
         try:
-            client = get_client_for_media_server(user.server)
-            user_identifier = _get_user_identifier(user, user.server)
+            client = get_client_for_media_server(user.server)  # type: ignore
+            user_identifier = _get_user_identifier(user, user.server)  # type: ignore
             client.delete_user(user_identifier)
         except Exception as exc:
             logging.error("Remote deletion failed: %s", exc)
@@ -277,8 +277,8 @@ def reset_user_password(db_id: int, new_password: str) -> bool:
         return False
 
     try:
-        client = get_client_for_media_server(user.server)
-        user_identifier = _get_user_identifier(user, user.server)
+        client = get_client_for_media_server(user.server)  # type: ignore
+        user_identifier = _get_user_identifier(user, user.server)  # type: ignore
         result = client.reset_password(user_identifier, new_password)
 
         if result:

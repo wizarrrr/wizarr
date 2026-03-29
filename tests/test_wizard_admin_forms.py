@@ -1,7 +1,6 @@
 """Tests for wizard admin form handling with category field."""
 
 import pytest
-from flask import url_for
 
 from app.extensions import db
 from app.models import AdminAccount, Library, MediaServer, User, WizardStep
@@ -76,7 +75,7 @@ def test_create_step_with_pre_invite_category(
 ):
     """Test creating a wizard step with pre_invite category."""
     response = authenticated_client.post(
-        url_for("wizard_admin.create_step"),
+        "/settings/wizard/create",
         data={
             "server_type": "plex",
             "category": "pre_invite",
@@ -106,7 +105,7 @@ def test_create_step_with_post_invite_category(
 ):
     """Test creating a wizard step with post_invite category."""
     response = authenticated_client.post(
-        url_for("wizard_admin.create_step"),
+        "/settings/wizard/create",
         data={
             "server_type": "plex",
             "category": "post_invite",
@@ -132,7 +131,7 @@ def test_create_step_with_post_invite_category(
 def test_create_step_default_category(authenticated_client, session, plex_server):
     """Test that category defaults to post_invite when not specified."""
     response = authenticated_client.post(
-        url_for("wizard_admin.create_step"),
+        "/settings/wizard/create",
         data={
             "server_type": "plex",
             "title": "Default Category Step",
@@ -170,7 +169,7 @@ def test_edit_step_category_from_post_to_pre(
 
     # Edit to change category
     response = authenticated_client.post(
-        url_for("wizard_admin.edit_step", step_id=step_id),
+        f"/settings/wizard/{step_id}/edit",
         data={
             "server_type": "plex",
             "category": "pre_invite",
@@ -209,7 +208,7 @@ def test_edit_step_category_from_pre_to_post(
 
     # Edit to change category
     response = authenticated_client.post(
-        url_for("wizard_admin.edit_step", step_id=step_id),
+        f"/settings/wizard/{step_id}/edit",
         data={
             "server_type": "plex",
             "category": "post_invite",
@@ -248,7 +247,7 @@ def test_edit_step_preserves_category_when_not_changed(
 
     # Edit only the title, keeping category the same
     response = authenticated_client.post(
-        url_for("wizard_admin.edit_step", step_id=step_id),
+        f"/settings/wizard/{step_id}/edit",
         data={
             "server_type": "plex",
             "category": "pre_invite",
@@ -279,7 +278,7 @@ def test_create_preset_with_pre_invite_category(
     from app.models import WizardStep
 
     response = authenticated_client.post(
-        url_for("wizard_admin.create_preset"),
+        "/settings/wizard/create-preset",
         data={
             "preset_id": "discord_community",
             "server_type": "plex",
@@ -308,7 +307,7 @@ def test_create_preset_with_post_invite_category(
     from app.models import WizardStep
 
     response = authenticated_client.post(
-        url_for("wizard_admin.create_preset"),
+        "/settings/wizard/create-preset",
         data={
             "preset_id": "overseerr_requests",
             "server_type": "plex",
@@ -355,7 +354,7 @@ def test_position_calculation_respects_category(
 
     # Create post_invite step via API
     response = authenticated_client.post(
-        url_for("wizard_admin.create_step"),
+        "/settings/wizard/create",
         data={
             "server_type": "plex",
             "category": "post_invite",
@@ -393,7 +392,8 @@ def test_position_calculation_respects_category(
 def test_create_simple_step_with_pre_invite_category(authenticated_client, session):
     """Test creating a simple (bundle) step with pre_invite category."""
     response = authenticated_client.post(
-        url_for("wizard_admin.create_step", simple=1),
+        "/settings/wizard/create",
+        query_string={"simple": 1},
         data={
             "category": "pre_invite",
             "title": "Bundle Pre Step",
@@ -417,7 +417,8 @@ def test_create_simple_step_with_pre_invite_category(authenticated_client, sessi
 def test_create_simple_step_with_post_invite_category(authenticated_client, session):
     """Test creating a simple (bundle) step with post_invite category."""
     response = authenticated_client.post(
-        url_for("wizard_admin.create_step", simple=1),
+        "/settings/wizard/create",
+        query_string={"simple": 1},
         data={
             "category": "post_invite",
             "title": "Bundle Post Step",
@@ -453,7 +454,7 @@ def test_edit_simple_step_category(authenticated_client, session):
 
     # Edit to change category to pre_invite
     response = authenticated_client.post(
-        url_for("wizard_admin.edit_step", step_id=step_id),
+        f"/settings/wizard/{step_id}/edit",
         data={
             "category": "pre_invite",
             "title": "Simple Step Updated",
@@ -482,7 +483,7 @@ def test_multiple_steps_same_position_different_categories(
     """Test that multiple steps can have the same position if in different categories."""
     # Create pre_invite step
     response1 = authenticated_client.post(
-        url_for("wizard_admin.create_step"),
+        "/settings/wizard/create",
         data={
             "server_type": "plex",
             "category": "pre_invite",
@@ -496,7 +497,7 @@ def test_multiple_steps_same_position_different_categories(
 
     # Create post_invite step
     response2 = authenticated_client.post(
-        url_for("wizard_admin.create_step"),
+        "/settings/wizard/create",
         data={
             "server_type": "plex",
             "category": "post_invite",
@@ -530,7 +531,7 @@ def test_create_step_requires_category(authenticated_client, session, plex_serve
     """Test that category field is required (has default value)."""
     # Even without explicit category, it should default to post_invite
     response = authenticated_client.post(
-        url_for("wizard_admin.create_step"),
+        "/settings/wizard/create",
         data={
             "server_type": "plex",
             "title": "No Category Specified",
@@ -553,7 +554,7 @@ def test_create_step_invalid_category_rejected(
 ):
     """Test that invalid category values are rejected by form validation."""
     response = authenticated_client.post(
-        url_for("wizard_admin.create_step"),
+        "/settings/wizard/create",
         data={
             "server_type": "plex",
             "category": "invalid_category",
@@ -593,7 +594,7 @@ def test_category_persists_after_multiple_edits(
 
     # Edit 1: Change title only
     authenticated_client.post(
-        url_for("wizard_admin.edit_step", step_id=step_id),
+        f"/settings/wizard/{step_id}/edit",
         data={
             "server_type": "plex",
             "category": "pre_invite",
@@ -610,7 +611,7 @@ def test_category_persists_after_multiple_edits(
 
     # Edit 2: Change markdown only
     authenticated_client.post(
-        url_for("wizard_admin.edit_step", step_id=step_id),
+        f"/settings/wizard/{step_id}/edit",
         data={
             "server_type": "plex",
             "category": "pre_invite",
@@ -627,7 +628,7 @@ def test_category_persists_after_multiple_edits(
 
     # Edit 3: Change category to post_invite
     authenticated_client.post(
-        url_for("wizard_admin.edit_step", step_id=step_id),
+        f"/settings/wizard/{step_id}/edit",
         data={
             "server_type": "plex",
             "category": "post_invite",

@@ -71,10 +71,10 @@ class RobustFileSystemCache(FileSystemCache):
             # Return None for stale file handle errors (session will be recreated)
             return None
 
-    def delete(self, key):
+    def delete(self, key, mgmt_element=False):
         """Delete a cache value with stale file handle error recovery."""
         try:
-            return super().delete(key)
+            return super().delete(key, mgmt_element=mgmt_element)
         except OSError as e:
             filename = self._get_filename(key)
             self._handle_stale_file_error("delete", filename, e)
