@@ -1359,9 +1359,23 @@ def _invite_user(email: str, code: str, _user_id: int, server: MediaServer) -> N
             client.invite_home(email, libs, allow_sync, allow_tv, allow_camera_upload)
         else:
             client.invite_friend(email, libs, allow_sync, allow_tv, allow_camera_upload)
-    except PlexInvitationError:
-        # Re-raise PlexInvitationError to preserve the user-friendly message
-        raise
+    except PlexInvitationError as e:
+        if "already sharing" in e.message.lower():
+            # User already has a share — update libraries and permissions instead
+            structlog.get_logger().info(
+                "User already has share, updating libraries and permissions",
+                email=email,
+            )
+            permissions = {
+                "allow_downloads": allow_sync,
+                "allow_live_tv": allow_tv,
+                "allow_camera_upload": allow_camera_upload,
+            }
+            client.update_user_libraries(email, libs if libs else None)
+            client.update_user_permissions(email, permissions)
+        else:
+            # Re-raise PlexInvitationError to preserve the user-friendly message
+            raise
     except Exception as e:
         # Handle any other unexpected errors
         error_message = extract_plex_error_message(e)
