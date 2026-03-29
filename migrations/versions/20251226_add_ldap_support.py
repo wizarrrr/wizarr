@@ -55,14 +55,25 @@ def upgrade():
     )
 
     # ── Alter admin_account ───────────────────────────────────────────────
-    with op.batch_alter_table("admin_account", schema=None) as batch_op:
-        batch_op.add_column(
-            sa.Column(
-                "auth_source", sa.String(), nullable=False, server_default="local"
+    # SQLite batch_alter_table recreates the table via DROP + CREATE.
+    # webauthn_credential and api_key have FKs pointing at admin_account,
+    # so the DROP fails when PRAGMA foreign_keys=ON.  Temporarily disable
+    # FK enforcement for this operation.
+    conn = op.get_bind()
+    conn.execute(sa.text("PRAGMA foreign_keys=OFF"))
+    try:
+        with op.batch_alter_table("admin_account", schema=None) as batch_op:
+            batch_op.add_column(
+                sa.Column(
+                    "auth_source", sa.String(), nullable=False, server_default="local"
+                )
             )
-        )
-        batch_op.add_column(sa.Column("external_id", sa.String(), nullable=True))
-        batch_op.alter_column("password_hash", existing_type=sa.String(), nullable=True)
+            batch_op.add_column(sa.Column("external_id", sa.String(), nullable=True))
+            batch_op.alter_column(
+                "password_hash", existing_type=sa.String(), nullable=True
+            )
+    finally:
+        conn.execute(sa.text("PRAGMA foreign_keys=ON"))
 
     # ── Alter invitation ──────────────────────────────────────────────────
     with op.batch_alter_table("invitation", schema=None) as batch_op:
@@ -86,12 +97,17 @@ def downgrade():
     with op.batch_alter_table("invitation", schema=None) as batch_op:
         batch_op.drop_column("create_ldap_user")
 
-    with op.batch_alter_table("admin_account", schema=None) as batch_op:
-        batch_op.alter_column(
-            "password_hash", existing_type=sa.String(), nullable=False
-        )
-        batch_op.drop_column("external_id")
-        batch_op.drop_column("auth_source")
+    conn = op.get_bind()
+    conn.execute(sa.text("PRAGMA foreign_keys=OFF"))
+    try:
+        with op.batch_alter_table("admin_account", schema=None) as batch_op:
+            batch_op.alter_column(
+                "password_hash", existing_type=sa.String(), nullable=False
+            )
+            batch_op.drop_column("external_id")
+            batch_op.drop_column("auth_source")
+    finally:
+        conn.execute(sa.text("PRAGMA foreign_keys=ON"))
 
     op.drop_table("ldap_group")
     op.drop_table("ldap_configuration")
