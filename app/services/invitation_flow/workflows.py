@@ -289,8 +289,35 @@ class FormBasedWorkflow(InvitationWorkflow):
         if not auth_success:
             return self._create_auth_error_result(invitation, servers, auth_message)
 
+        # Create LDAP user if configured
+        from app.services.ldap.invitation_ldap import InvitationLDAPHandler
+
+        ldap_handler = InvitationLDAPHandler(invitation)
+
+        if ldap_handler.should_create_ldap_user():
+            ldap_success, ldap_result = ldap_handler.create_ldap_user(
+                username=form_data.get("username", ""),
+                email=form_data.get("email", ""),
+                password=form_data.get("password", ""),
+            )
+
+            if not ldap_success:
+                return self._create_auth_error_result(
+                    invitation, servers, f"Failed to create LDAP user: {ldap_result}"
+                )
+
         # Process servers
         successful, failed = self._process_servers(servers, form_data, invitation.code)
+
+        # Mark newly created users as LDAP users if LDAP user was created
+        if successful and ldap_handler.should_create_ldap_user():
+            from app.extensions import db
+            from app.models import User
+
+            User.query.filter_by(code=invitation.code).update(
+                {"is_ldap_user": True}, synchronize_session=False
+            )
+            db.session.commit()
 
         if successful:
             return self._create_success_result(invitation, successful, failed)

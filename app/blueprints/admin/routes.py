@@ -21,6 +21,7 @@ from app.extensions import db, limiter
 from app.models import (
     Identity,
     Invitation,
+    LDAPConfiguration,
     Library,
     MediaServer,
     PasswordResetToken,
@@ -150,6 +151,10 @@ def invite():
     allow_downloads = bool(getattr(target_server, "allow_downloads", False))
     allow_live_tv = bool(getattr(target_server, "allow_live_tv", False))
 
+    # Check LDAP configuration
+    ldap_config = LDAPConfiguration.query.first()
+    ldap_enabled = ldap_config and ldap_config.enabled
+
     if request.method == "POST":
         from app.models import WizardBundle
 
@@ -169,6 +174,7 @@ def invite():
                 servers=servers,
                 chosen_server_id=target_server.id if target_server else None,
                 bundles=bundles,
+                ldap_enabled=ldap_enabled,
             ), 400
 
         current_url = request.headers.get("HX-Current-URL")
@@ -187,6 +193,7 @@ def invite():
             servers=servers,
             chosen_server_id=target_server.id if target_server else None,
             bundles=bundles,
+            ldap_enabled=ldap_enabled,
         )
 
     # GET → initial render
@@ -201,6 +208,7 @@ def invite():
         servers=servers,
         chosen_server_id=target_server.id if target_server else None,
         bundles=bundles,
+        ldap_enabled=ldap_enabled,
     )
 
 

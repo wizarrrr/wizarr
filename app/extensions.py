@@ -103,6 +103,24 @@ def init_extensions(app):
             replace_existing=True,
         )
 
+        # Add LDAP user sync task (only if LDAP is configured)
+        from app.tasks.ldap_sync import _get_ldap_sync_interval, sync_ldap_users
+
+        try:
+            from app.models import LDAPConfiguration
+
+            if LDAPConfiguration.query.filter_by(enabled=True).first():
+                scheduler.add_job(
+                    id="sync_ldap_users",
+                    func=lambda: sync_ldap_users(app),
+                    trigger="interval",
+                    minutes=_get_ldap_sync_interval(),
+                    replace_existing=True,
+                )
+        except Exception:
+            # Table may not exist yet if migrations haven't run
+            app.logger.debug("LDAP sync job not registered (table may not exist yet)")
+
         # Note: WAL auto-checkpoints every 1000 pages (~4MB) automatically.
         # Manual checkpoint jobs can be added here if needed for large .db-wal files.
 

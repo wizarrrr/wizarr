@@ -717,7 +717,12 @@ class KavitaClient(RestApiMixin):
     # --- public sign-up ---------------------------------------------
 
     def _do_join(
-        self, username: str, password: str, confirm: str, email: str, code: str
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
     ) -> tuple[bool, str]:
         if email and not EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."

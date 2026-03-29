@@ -497,7 +497,14 @@ class MediaClient(ABC):
             "content_stats": {},  # Minimal for health cards
         }
 
-    def join(self, username: str, password: str, confirm: str, email: str, code: str):
+    def join(
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
+    ):
         """Process user invitation for this media server.
 
         This is a template method that handles notifications after successful user creation.
@@ -532,7 +539,12 @@ class MediaClient(ABC):
 
     @abstractmethod
     def _do_join(
-        self, username: str, password: str, confirm: str, email: str, code: str
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
     ):
         """Process user invitation for this media server (implementation method).
 

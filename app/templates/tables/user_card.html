@@ -54,15 +54,23 @@
                   <p class="text-sm text-muted-foreground dark:text-gray-400 truncate">{{ user.email or _("Home User") }}</p>
                 </div>
               </div>
-              <!-- Status Badge -->
-              {% set accs = user.accounts if user.accounts is defined else [user] %}
-              {% for acct in accs %}
-                {% if acct.server %}
-                  {{ acct.server.server_type|server_name_tag(acct.server.name) }}
-                {% else %}
-                  {{ 'local'|server_type_tag }}
+              <!-- Status Badges -->
+              <div class="flex flex-col gap-1 items-end">
+                {% set accs = user.accounts if user.accounts is defined else [user] %}
+                {% for acct in accs %}
+                  {% if acct.server %}
+                    {{ acct.server.server_type|server_name_tag(acct.server.name) }}
+                  {% else %}
+                    {{ 'local'|server_type_tag }}
+                  {% endif %}
+                {% endfor %}
+                <!-- LDAP Auth Badge -->
+                {% if user.is_ldap_user %}
+                  <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400">
+                    LDAP
+                  </span>
                 {% endif %}
-              {% endfor %}
+              </div>
               <!-- Checkmark icon shown when selected -->
               <svg class="absolute top-2 right-2 w-5 h-5 text-primary opacity-0 peer-checked:opacity-100"
                    xmlns="http://www.w3.org/2000/svg"
