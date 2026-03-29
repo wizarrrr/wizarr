@@ -15,6 +15,7 @@ from app.services.notifications import (  # your existing helpers
     _discord,
     _notifiarr,
     _ntfy,
+    _telegram
 )
 
 notify_bp = Blueprint("notify", __name__, url_prefix="/settings/notifications")
@@ -46,6 +47,8 @@ def create():
             "username": request.form.get("username") or None,
             "password": request.form.get("password") or None,
             "channel_id": request.form.get("channel_id") or None,
+            "telegram_bot_token": request.form.get("telegram_bot_token") or None,
+            "telegram_chat_id": request.form.get("telegram_chat_id") or None,
             "notification_events": ",".join(events)
             if events
             else "user_joined,update_available",
@@ -83,6 +86,19 @@ def create():
                     "Test successful!",
                     url,
                     channel_id,
+                )
+        elif form["type"] == "telegram":
+            url = form.get("url")
+            telegram_bot_token = form.get("telegram_bot_token")
+            telegram_chat_id = form.get("telegram_chat_id")
+
+            if url and telegram_bot_token and telegram_chat_id:
+                ok = _telegram(
+                    "Wizarr test message",
+                    "Wizarr",
+                    url,
+                    telegram_bot_token,
+                    telegram_chat_id,
                 )
 
         if ok:
@@ -126,6 +142,8 @@ def edit(agent_id):
             "username": request.form.get("username") or None,
             "password": request.form.get("password") or None,
             "channel_id": request.form.get("channel_id") or None,
+            "telegram_bot_token": request.form.get("telegram_bot_token") or None,
+            "telegram_chat_id": request.form.get("telegram_chat_id") or None,
             "notification_events": ",".join(events)
             if events
             else "user_joined,update_available",
@@ -164,6 +182,19 @@ def edit(agent_id):
                     url,
                     channel_id,
                 )
+        elif form["type"] == "telegram":
+            url = form.get("url")
+            telegram_bot_token = form.get("telegram_bot_token")
+            telegram_chat_id = form.get("telegram_chat_id")
+
+            if url and telegram_bot_token and telegram_chat_id:
+                ok = _telegram(
+                    "Wizarr test message",
+                    "Wizarr",
+                    url,
+                    telegram_bot_token,
+                    telegram_chat_id,
+                )
 
         if ok:
             # Update the agent with new values
@@ -173,6 +204,8 @@ def edit(agent_id):
             agent.username = form["username"]
             agent.password = form["password"]
             agent.channel_id = form["channel_id"]
+            agent.telegram_bot_token = form["telegram_bot_token"]
+            agent.telegram_chat_id = form["telegram_chat_id"]
             agent.notification_events = form["notification_events"]
             db.session.commit()
             return redirect(url_for(".list_agents"))
