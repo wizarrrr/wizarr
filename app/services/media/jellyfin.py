@@ -513,7 +513,6 @@ class JellyfinClient(RestApiMixin):
         confirm: str,
         email: str,
         code: str,
-        is_ldap_user: bool = False,
     ) -> tuple[bool, str]:
         if not EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."
@@ -605,7 +604,6 @@ class JellyfinClient(RestApiMixin):
                     "code": code,
                     "expires": expires,
                     "server_id": server_id,
-                    "is_ldap_user": is_ldap_user,
                 }
             )
             db.session.commit()

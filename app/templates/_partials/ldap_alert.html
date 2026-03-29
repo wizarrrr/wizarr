@@ -2,15 +2,25 @@
    Expects: level ("success"|"error"|"warning"|"info"|"neutral"), message (str).
    Optional: extra_html (markup to append after the alert).
 #}
-{% set colors = {
-  "success": ("green", "✓"),
-  "error":   ("red",   "✗"),
-  "warning": ("yellow","⚠"),
-  "info":    ("blue",  "ℹ"),
-  "neutral": ("gray",  ""),
-} %}
-{% set color, icon = colors.get(level, colors["neutral"]) %}
-<div class="bg-{{ color }}-50 dark:bg-{{ color }}-900/20 border border-{{ color }}-200 dark:border-{{ color }}-800 rounded-lg p-4">
-  <p class="text-sm text-{{ color }}-800 dark:text-{{ color }}-200">{{ icon }} {{ message }}</p>
-</div>
+{% if level == "success" %}
+  <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+    <p class="text-sm text-green-800 dark:text-green-200">✓ {{ message }}</p>
+  </div>
+{% elif level == "error" %}
+  <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+    <p class="text-sm text-red-800 dark:text-red-200">✗ {{ message }}</p>
+  </div>
+{% elif level == "warning" %}
+  <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+    <p class="text-sm text-yellow-800 dark:text-yellow-200">⚠ {{ message }}</p>
+  </div>
+{% elif level == "info" %}
+  <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+    <p class="text-sm text-blue-800 dark:text-blue-200">ℹ {{ message }}</p>
+  </div>
+{% else %}
+  <div class="bg-gray-50 dark:bg-gray-900/20 border border-gray-200 dark:border-gray-800 rounded-lg p-4">
+    <p class="text-sm text-gray-800 dark:text-gray-200">{{ message }}</p>
+  </div>
+{% endif %}
 {{ extra_html|default("", true) }}

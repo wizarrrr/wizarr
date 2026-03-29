@@ -319,8 +319,11 @@ def password_prompt(code):
             username = plex_user.username
             email = plex_user.email
         else:
-            username = "wizarr"
-            email = f"{username}@ldap.local"
+            # For non-Plex flows, use form data or generate a unique username
+            import uuid
+
+            username = request.form.get("username") or f"user-{uuid.uuid4().hex[:8]}"
+            email = request.form.get("email") or ""
 
         # Create LDAP user if configured
         from app.services.ldap.invitation_ldap import InvitationLDAPHandler

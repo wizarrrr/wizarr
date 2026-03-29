@@ -101,7 +101,6 @@ class InvitationWorkflow(ABC):
                     confirm=form_data.get("confirm_password", ""),
                     email=form_data.get("email", ""),
                     code=invitation_code,
-                    is_ldap_user=form_data.get("is_ldap_user", False),
                 )
 
                 result = ServerResult(
@@ -307,11 +306,18 @@ class FormBasedWorkflow(InvitationWorkflow):
                     invitation, servers, f"Failed to create LDAP user: {ldap_result}"
                 )
 
-            # Mark that this is an LDAP user
-            form_data["is_ldap_user"] = True
-
         # Process servers
         successful, failed = self._process_servers(servers, form_data, invitation.code)
+
+        # Mark newly created users as LDAP users if LDAP user was created
+        if successful and ldap_handler.should_create_ldap_user():
+            from app.extensions import db
+            from app.models import User
+
+            User.query.filter_by(code=invitation.code).update(
+                {"is_ldap_user": True}, synchronize_session=False
+            )
+            db.session.commit()
 
         if successful:
             return self._create_success_result(invitation, successful, failed)

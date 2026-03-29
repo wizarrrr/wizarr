@@ -462,7 +462,6 @@ class DropClient(RestApiMixin):
         confirm: str,
         email: str,
         code: str,
-        is_ldap_user: bool = False,
     ) -> tuple[bool, str]:
         """Handle public sign-up via invite for Drop servers."""
 
@@ -507,7 +506,6 @@ class DropClient(RestApiMixin):
                     "code": code,
                     "expires": expires,
                     "server_id": getattr(self, "server_id", None),
-                    "is_ldap_user": is_ldap_user,
                 }
             )
             db.session.commit()

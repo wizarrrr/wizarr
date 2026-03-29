@@ -744,7 +744,6 @@ class AudiobookshelfClient(RestApiMixin):
         confirm: str,
         email: str,
         code: str,
-        is_ldap_user: bool = False,  # noqa: ARG002
     ):
         """Public invite flow for Audiobookshelf users."""
         if not self.EMAIL_RE.fullmatch(email):

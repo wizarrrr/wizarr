@@ -368,7 +368,6 @@ class NavidromeClient(RestApiMixin):
         confirm: str,
         email: str,
         code: str,
-        _: bool = False,
     ):
         """Public invite flow for Navidrome users."""
         if not 1 <= len(username) <= 50:

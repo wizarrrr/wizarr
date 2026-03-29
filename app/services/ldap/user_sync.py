@@ -50,7 +50,7 @@ def list_ldap_users() -> tuple[bool, list[dict[str, Any]] | str]:
                 users.append(
                     {
                         "username": str(username),
-                        "email": str(email) if email else f"{username}@ldap.local",
+                        "email": str(email) if email else "",
                         "dn": str(entry.entry_dn),
                     }
                 )
@@ -109,7 +109,7 @@ def import_ldap_user(username: str) -> tuple[bool, str]:
         # Create User record without server association
         new_user = User(
             username=username,
-            email=str(email) if email else f"{username}@ldap.local",
+            email=str(email) if email else "",
             token=str(uuid.uuid4()),
             code="",
             is_ldap_user=True,

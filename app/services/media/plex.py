@@ -395,7 +395,6 @@ class PlexClient(MediaClient):
         _confirm: str,
         _email: str,
         _code: str,
-        _is_ldap_user: bool = False,
     ) -> tuple[bool, str]:
         """Interface method - not implemented for Plex (uses OAuth instead)."""
         return (

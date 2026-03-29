@@ -150,7 +150,7 @@ class LDAPClient:
         conn.search(
             search_base=user_dn,
             search_filter="(objectClass=*)",
-            search_scope=SUBTREE,
+            search_scope=BASE,
             attributes=attributes,
         )
 
@@ -228,14 +228,15 @@ class LDAPClient:
             if password_success:
                 logger.info("Updated LDAP user password: %s", user_dn)
             else:
-                logger.warning(
-                    "Failed to update password for %s. "
-                    "Ensure service account is in lldap_password_manager group. Result: %s",
-                    user_dn,
-                    conn.result,
+                error_msg = (
+                    f"Failed to update password for {user_dn}. "
+                    f"Ensure service account is in lldap_password_manager group. Result: {conn.result}"
                 )
+                logger.error(error_msg)
+                return False, error_msg
         except Exception as e:
-            logger.warning("Password update failed for %s: %s", user_dn, e)
+            logger.exception("Password update failed for %s", user_dn)
+            return False, f"Password update failed: {e}"
 
         return True, user_dn
 

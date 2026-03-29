@@ -504,7 +504,6 @@ class MediaClient(ABC):
         confirm: str,
         email: str,
         code: str,
-        is_ldap_user: bool = False,
     ):
         """Process user invitation for this media server.
 
@@ -517,15 +516,12 @@ class MediaClient(ABC):
             confirm: Password confirmation
             email: Email address for the new account
             code: Invitation code being used
-            is_ldap_user: Whether this user was created in LDAP
 
         Returns:
             tuple: (success: bool, message: str)
         """
         # Call the concrete implementation
-        success, message = self._do_join(
-            username, password, confirm, email, code, is_ldap_user
-        )
+        success, message = self._do_join(username, password, confirm, email, code)
 
         # Send notification on successful join
         if success:
@@ -549,7 +545,6 @@ class MediaClient(ABC):
         confirm: str,
         email: str,
         code: str,
-        is_ldap_user: bool = False,
     ):
         """Process user invitation for this media server (implementation method).
 
@@ -562,7 +557,6 @@ class MediaClient(ABC):
             confirm: Password confirmation
             email: Email address for the new account
             code: Invitation code being used
-            is_ldap_user: Whether this user was created in LDAP
 
         Returns:
             tuple: (success: bool, message: str)

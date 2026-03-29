@@ -491,10 +491,22 @@ def sync_ldap_groups():
             message=_("No groups found in LDAP"),
         )
 
+    # Collect DNs from LDAP for stale detection
+    ldap_dns = {g["dn"] for g in groups}
+
+    # Remove stale groups no longer in LDAP
+    stale_groups = LDAPGroup.query.filter(~LDAPGroup.dn.in_(ldap_dns)).all()
+    for stale in stale_groups:
+        db.session.delete(stale)
+
+    # Upsert groups from LDAP
     synced_count = 0
     for group_data in groups:
         existing = LDAPGroup.query.filter_by(dn=group_data["dn"]).first()
-        if not existing:
+        if existing:
+            existing.cn = group_data["cn"]
+            existing.description = group_data.get("description")
+        else:
             group = LDAPGroup(
                 dn=group_data["dn"],
                 cn=group_data["cn"],

@@ -1,4 +1,5 @@
 from flask import current_app, session
+from flask_babel import gettext as _
 from flask_login import login_user
 
 from app.extensions import db
@@ -11,10 +12,10 @@ def handle_ldap_login(username: str, password: str) -> tuple[bool, str]:
     ldap_config = LDAPConfiguration.query.first()
 
     if not ldap_config or not ldap_config.enabled:
-        return False, "LDAP authentication is not enabled"
+        return False, _("LDAP authentication is not enabled")
 
     if not ldap_config.allow_admin_bind:
-        return False, "LDAP admin authentication is not allowed"
+        return False, _("LDAP admin authentication is not allowed")
 
     # Authenticate via LDAP
     client = LDAPClient(ldap_config)
@@ -26,13 +27,13 @@ def handle_ldap_login(username: str, password: str) -> tuple[bool, str]:
             current_app.logger.warning(
                 "LDAP authentication failed for user: %s", username
             )
-            return False, "Invalid LDAP credentials"
+            return False, _("Invalid LDAP credentials")
 
         # Get user DN and attributes
         user_dn = user_attrs.get("dn")
         if not user_dn:
             current_app.logger.warning("LDAP user DN not found for user: %s", username)
-            return False, "User DN not found in LDAP response"
+            return False, _("User DN not found in LDAP response")
         # Check admin group membership if required
         if ldap_config.admin_group_dn:
             groups = client.get_user_groups(user_dn)
@@ -48,7 +49,7 @@ def handle_ldap_login(username: str, password: str) -> tuple[bool, str]:
                     ldap_config.admin_group_dn,
                     [g.get("dn") for g in groups],
                 )
-                return False, "User is not authorized as an administrator"
+                return False, _("User is not authorized as an administrator")
 
         # Find existing admin account by username
         # LDAP authentication allows logging into existing local accounts
@@ -94,10 +95,10 @@ def handle_ldap_login(username: str, password: str) -> tuple[bool, str]:
         current_app.logger.info(
             "LDAP admin login successful: %s (DN: %s)", username, user_dn
         )
-        return True, "Login successful"
+        return True, _("Login successful")
 
     except Exception as e:
         current_app.logger.error("LDAP authentication error: %s", e)
         # Rollback any pending transaction
         db.session.rollback()
-        return False, "LDAP authentication failed"
+        return False, _("LDAP authentication failed")

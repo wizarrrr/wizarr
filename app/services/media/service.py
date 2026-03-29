@@ -169,15 +169,20 @@ def delete_user(db_id: int) -> None:
                     from app.services.ldap.client import LDAPClient
 
                     ldap_client = LDAPClient(ldap_config)
-                    user_dn = ldap_client.build_user_dn(user.username)
-                    success, message = ldap_client.delete_user(user_dn)
-
-                    if not success:
-                        logging.error(
-                            "LDAP deletion failed for %s: %s", user_dn, message
+                    user_dn = ldap_client.find_user_dn(user.username)
+                    if not user_dn:
+                        logging.warning(
+                            "LDAP user DN not found for %s, skipping deletion",
+                            user.username,
                         )
                     else:
-                        logging.info("Deleted LDAP user: %s", user_dn)
+                        success, message = ldap_client.delete_user(user_dn)
+                        if not success:
+                            logging.error(
+                                "LDAP deletion failed for %s: %s", user_dn, message
+                            )
+                        else:
+                            logging.info("Deleted LDAP user: %s", user_dn)
         except Exception as exc:
             logging.error("LDAP deletion error: %s", exc)
 
@@ -316,18 +321,30 @@ def reset_user_password(db_id: int, new_password: str) -> bool:
                 from app.services.ldap.client import LDAPClient
 
                 ldap_client = LDAPClient(ldap_config)
-                user_dn = ldap_client.build_user_dn(user.username)
-                success, message = ldap_client.change_password(user_dn, new_password)
-
-                if success:
-                    logging.info(
-                        f"Successfully reset LDAP password for {user_dn} (user {user.username}, id={db_id})"
-                    )
-                    ldap_success = True
-                else:
+                user_dn = ldap_client.find_user_dn(user.username)
+                if not user_dn:
                     logging.error(
-                        f"Failed to reset LDAP password for {user_dn}: {message}"
+                        "LDAP user DN not found for %s, cannot reset password",
+                        user.username,
                     )
+                else:
+                    success, message = ldap_client.change_password(
+                        user_dn, new_password
+                    )
+                    if success:
+                        logging.info(
+                            "Successfully reset LDAP password for %s (user %s, id=%s)",
+                            user_dn,
+                            user.username,
+                            db_id,
+                        )
+                        ldap_success = True
+                    else:
+                        logging.error(
+                            "Failed to reset LDAP password for %s: %s",
+                            user_dn,
+                            message,
+                        )
         except Exception as exc:
             logging.error(f"LDAP password reset error: {exc}")
 
