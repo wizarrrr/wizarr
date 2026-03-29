@@ -227,7 +227,7 @@ def mark_server_used(
     row = db.session.execute(
         invitation_servers.select().where(invitation_servers.c.invite_id == inv.id)
     ).all()
-    if row and all(r.used for r in row) and not inv.unlimited:  # type: ignore[attr-defined]
+    if row and all(r.used for r in row) and not inv.unlimited:  # type: ignore
         # For limited invitations, mark as fully used when all servers are used
         # For unlimited invitations, this should already be True from the first usage
         inv.used = True

@@ -152,20 +152,20 @@ class Invitation(db.Model):
     # Helper methods for the new many-to-many relationship
     def get_all_users(self):
         """Get all users who have used this invitation."""
-        return list(self.users)
+        return list(self.users)  # type: ignore
 
     def get_user_count(self):
         """Get the total number of users who have used this invitation."""
-        return len(list(self.users))
+        return len(list(self.users))  # type: ignore
 
     def get_first_user(self):
         """Get the first user who used this invitation (for backward compatibility)."""
-        users_list = list(self.users)
+        users_list = list(self.users)  # type: ignore
         return users_list[0] if users_list else None
 
     def has_user(self, user):
         """Check if a specific user has used this invitation."""
-        return user in list(self.users)
+        return user in list(self.users)  # type: ignore
 
 
 class Settings(db.Model):
@@ -211,6 +211,10 @@ class User(db.Model, UserMixin):
     accessible_libraries = db.Column(
         db.Text, nullable=True
     )  # JSON array of library names
+
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=True
+    )
 
     # Legacy metadata caching fields (will be phased out)
     library_access_json = db.Column(db.Text, nullable=True)

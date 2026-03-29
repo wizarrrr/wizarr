@@ -268,11 +268,11 @@ class NavidromeClient(RestApiMixin):
             logging.error("Navidrome: failed to update user %s – %s", username, exc)
             raise
 
-    def enable_user(self, _user_id: str) -> bool:
+    def enable_user(self, user_id: str) -> bool:  # noqa: ARG002
         """Enable a user account on Navidrome.
 
         Args:
-            _user_id: The user's Navidrome ID (unused - Navidrome doesn't support enable/disable)
+            user_id: The user's Navidrome ID (unused - Navidrome doesn't support enable/disable)
 
         Returns:
             bool: True if the user was successfully enabled, False otherwise
@@ -288,7 +288,7 @@ class NavidromeClient(RestApiMixin):
             structlog.get_logger().error(f"Failed to enable Navidrome user: {e}")
             return False
 
-    def disable_user(self, _user_id: str) -> bool:
+    def disable_user(self, user_id: str) -> bool:  # noqa: ARG002
         """Disable a user account on Navidrome.
 
         Args:
@@ -332,8 +332,9 @@ class NavidromeClient(RestApiMixin):
             "permissions": {"admin": details.is_admin},
         }
 
-    def get_user_details(self, username: str) -> MediaUserDetails:
+    def get_user_details(self, user_identifier: str | int) -> MediaUserDetails:
         """Get detailed user information in standardized format."""
+        username = str(user_identifier)
         from app.services.media.utils import (
             LibraryAccessHelper,
             StandardizedPermissions,

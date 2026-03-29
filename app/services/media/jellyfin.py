@@ -1,6 +1,6 @@
 import logging
 import re
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import requests
 import structlog
@@ -27,7 +27,7 @@ class JellyfinClient(RestApiMixin):
         kwargs.setdefault("token_key", "api_key")
         super().__init__(*args, **kwargs)
 
-    def _headers(self) -> dict[str, str]:  # type: ignore[override]
+    def _headers(self) -> dict[str, str]:  # type: ignore
         """Return default headers including X-Emby-Token if available."""
         headers = {"Accept": "application/json"}
         if self.token:
@@ -100,10 +100,11 @@ class JellyfinClient(RestApiMixin):
             "Configuration": {},
         }
 
-    def get_user_details(self, jf_id: str) -> "MediaUserDetails":
+    def get_user_details(self, user_identifier: str | int) -> "MediaUserDetails":
         """Get detailed user information from database (no API calls)."""
         from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
 
+        jf_id = str(user_identifier)
         if not (
             user := User.query.filter_by(token=jf_id, server_id=self.server_id).first()
         ):
@@ -165,78 +166,82 @@ class JellyfinClient(RestApiMixin):
         return self.post(f"/Users/{jf_id}", json=current).json()
 
     def update_user_permissions(
-        self, user_id: str, permissions: dict[str, bool]
+        self, _user_identifier: str, _permissions: dict[str, bool]
     ) -> bool:
         """Update user permissions on Jellyfin.
 
         Args:
-            user_id: User's Jellyfin ID (external_id from database)
-            permissions: Dict with keys: allow_downloads, allow_live_tv, allow_camera_upload
+            _user_identifier: User's Jellyfin ID (external_id from database)
+            _permissions: Dict with keys: allow_downloads, allow_live_tv, allow_camera_upload
 
         Returns:
             bool: True if successful, False otherwise
         """
         try:
             # Get current policy
-            raw_user = self.get(f"/Users/{user_id}").json()
+            raw_user = self.get(f"/Users/{_user_identifier}").json()
             if not raw_user:
-                logging.error(f"Jellyfin: User {user_id} not found")
+                logging.error(f"Jellyfin: User {_user_identifier} not found")
                 return False
 
             current_policy = raw_user.get("Policy", {})
 
             # Update permissions
-            current_policy["EnableContentDownloading"] = permissions.get(
+            current_policy["EnableContentDownloading"] = _permissions.get(
                 "allow_downloads", False
             )
-            current_policy["EnableLiveTvAccess"] = permissions.get(
+            current_policy["EnableLiveTvAccess"] = _permissions.get(
                 "allow_live_tv", False
             )
             # Jellyfin doesn't have a direct camera upload setting, but we keep the interface consistent
             # Store it in a comment field if needed in the future
 
             # Update policy
-            response = self.post(f"/Users/{user_id}/Policy", json=current_policy)
+            response = self.post(
+                f"/Users/{_user_identifier}/Policy", json=current_policy
+            )
             success = response.status_code in {204, 200}
 
             if success:
                 logging.info(
-                    f"Successfully updated permissions for Jellyfin user {user_id}"
+                    f"Successfully updated permissions for Jellyfin user {_user_identifier}"
                 )
             return success
 
         except Exception as e:
-            logging.error(f"Failed to update Jellyfin permissions for {user_id}: {e}")
+            logging.error(
+                f"Failed to update Jellyfin permissions for {_user_identifier}: {e}"
+            )
             return False
 
     def update_user_libraries(
-        self, user_id: str, library_names: list[str] | None
+        self, _user_identifier: str, _library_names: list[str] | None
     ) -> bool:
         """Update user's library access on Jellyfin.
 
         Args:
-            user_id: User's Jellyfin ID (external_id from database)
-            library_names: List of library names to grant access to, or None for all libraries
+            _user_identifier: User's Jellyfin ID (external_id from database)
+            _library_names: List of library names to grant access to, or None for all libraries
 
         Returns:
             bool: True if successful, False otherwise
         """
         try:
             # Get current policy
-            raw_user = self.get(f"/Users/{user_id}").json()
+            raw_user = self.get(f"/Users/{_user_identifier}").json()
             if not raw_user:
-                logging.error(f"Jellyfin: User {user_id} not found")
+                logging.error(f"Jellyfin: User {_user_identifier} not found")
                 return False
 
             current_policy = raw_user.get("Policy", {})
 
             # Get library external IDs from database
             folder_ids = []
-            if library_names is not None:
-                logging.info(f"JELLYFIN: Requested libraries: {library_names}")
+            if _library_names is not None:
+                logging.info(f"JELLYFIN: Requested libraries: {_library_names}")
                 libraries = (
                     Library.query.filter_by(server_id=self.server_id)
-                    .filter(Library.name.in_(library_names))
+                    .filter(Library.name.in_(_library_names))
                     .all()
                 )
 
@@ -246,7 +251,7 @@ class JellyfinClient(RestApiMixin):
 
                 # Check for missing libraries
                 found_names = {lib.name for lib in libraries}
-                missing = set(library_names) - found_names
+                missing = set(_library_names) - found_names
                 for name in missing:
                     logging.warning(
                         f"  ✗ Library '{name}' not found in database (scan libraries to fix)"
@@ -262,32 +267,34 @@ class JellyfinClient(RestApiMixin):
                 logging.info(f"JELLYFIN: Using all library IDs: {folder_ids}")
 
             # Update policy with library access
-            current_policy["EnableAllFolders"] = library_names is None
+            current_policy["EnableAllFolders"] = _library_names is None
             current_policy["EnabledFolders"] = (
-                folder_ids if library_names is not None else []
+                folder_ids if _library_names is not None else []
             )
 
             # Update policy
-            response = self.post(f"/Users/{user_id}/Policy", json=current_policy)
+            response = self.post(
+                f"/Users/{_user_identifier}/Policy", json=current_policy
+            )
             success = response.status_code in {204, 200}
 
             if success:
                 logging.info(
-                    f"Successfully updated library access for Jellyfin user {user_id}"
+                    f"Successfully updated library access for Jellyfin user {_user_identifier}"
                 )
             return success
 
         except Exception as e:
             logging.error(
-                f"Failed to update Jellyfin library access for {user_id}: {e}"
+                f"Failed to update Jellyfin library access for {_user_identifier}: {e}"
             )
             return False
 
-    def reset_password(self, user_id: str, new_password: str) -> bool:
+    def reset_password(self, user_identifier: str, new_password: str) -> bool:
         """Reset a Jellyfin user's password using the REST API.
 
         Args:
-            user_id: Jellyfin user ID
+            user_identifier: Jellyfin user ID
             new_password: The new password to set
 
         Returns:
@@ -301,17 +308,19 @@ class JellyfinClient(RestApiMixin):
                 "CurrentPw": "",
                 "ResetPassword": False,
             }
-            resp = self.post(f"/Users/{user_id}/Password", json=payload)
+            resp = self.post(f"/Users/{user_identifier}/Password", json=payload)
             success = resp.status_code in {200, 204}
             if success:
-                logging.info(f"Password reset for Jellyfin user {user_id}")
+                logging.info(f"Password reset for Jellyfin user {user_identifier}")
             else:
                 logging.warning(
-                    f"Failed to reset Jellyfin password for {user_id}: HTTP {resp.status_code}"
+                    f"Failed to reset Jellyfin password for {user_identifier}: HTTP {resp.status_code}"
                 )
             return success
         except Exception as e:
-            logging.error(f"Error resetting Jellyfin password for {user_id}: {e}")
+            logging.error(
+                f"Error resetting Jellyfin password for {user_identifier}: {e}"
+            )
             return False
 
     def enable_user(self, user_id: str) -> bool:
@@ -464,44 +473,46 @@ class JellyfinClient(RestApiMixin):
             return name
         return cache.get(name)
 
-    def _set_specific_folders(self, user_id: str, names: list[str]):
-        mapping = {
-            item["Name"]: item["Id"]
-            for item in self.get("/Library/MediaFolders").json()["Items"]
-        }
-
-        # Also map IDs directly for convenience
+    def _set_specific_folders(self, user_id: str, names: list[str]) -> None:
+        log = structlog.get_logger(__name__)
+        items = self.get("/Library/MediaFolders").json()["Items"]
+        mapping = {item["Name"]: item["Id"] for item in items}
+        # Also map IDs directly so callers may pass either a name or an Id.
         mapping.update({v: v for v in mapping.values()})
+
+        log.debug("jellyfin._set_specific_folders", user_id=user_id, requested=names)
 
         folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
         folder_ids = [fid for fid in folder_ids if fid]
 
-        # Debug logging
-        import logging
+        if names and not folder_ids:
+            log.warning(
+                "jellyfin._set_specific_folders.no_libraries_resolved",
+                user_id=user_id,
+                requested=names,
+                hint="No requested libraries could be mapped to a Jellyfin folder Id. "
+                "Re-scan libraries on the server settings page to refresh external IDs.",
+            )
+            # Restrict to nothing rather than silently granting access to all libraries.
+            policy_patch = {
+                "EnableAllFolders": False,
+                "EnabledFolders": [],
+            }
+        else:
+            policy_patch = {
+                "EnableAllFolders": not folder_ids,
+                "EnabledFolders": folder_ids,
+            }
 
-        logging.info(f"JELLYFIN: _set_specific_folders called with names: {names}")
-        logging.info(f"JELLYFIN: mapping: {mapping}")
-        logging.info(f"JELLYFIN: folder_ids after mapping: {folder_ids}")
-
-        policy_patch = {
-            "EnableAllFolders": not folder_ids,
-            "EnabledFolders": folder_ids,
-        }
-
-        logging.info(
-            f"JELLYFIN: Setting policy patch for user {user_id}: {policy_patch}"
+        log.debug(
+            "jellyfin._set_specific_folders.applying",
+            user_id=user_id,
+            enable_all=policy_patch["EnableAllFolders"],
+            folder_ids=folder_ids,
         )
 
         current = self.get(f"/Users/{user_id}").json()["Policy"]
-        logging.info(
-            f"JELLYFIN: Current policy before update: EnableAllFolders={current.get('EnableAllFolders')}, EnabledFolders={current.get('EnabledFolders')}"
-        )
-
         current.update(policy_patch)
-        logging.info(
-            f"JELLYFIN: Final policy to be set: EnableAllFolders={current.get('EnableAllFolders')}, EnabledFolders={current.get('EnabledFolders')}"
-        )
-
         self.set_policy(user_id, current)
 
     # --- public sign-up ---------------------------------------------
@@ -751,7 +762,7 @@ class JellyfinClient(RestApiMixin):
                 series_id = now_playing_item.get("SeriesId")
                 artwork_info = self._get_artwork_urls(item_id, media_type, series_id)
 
-                transcoding_info = {
+                transcoding_info: dict[str, Any] = {
                     "is_transcoding": False,
                     "video_codec": None,
                     "audio_codec": None,
@@ -850,7 +861,7 @@ class JellyfinClient(RestApiMixin):
             return []
 
     def get_recent_items(
-        self, library_id: str | None = None, limit: int = 10
+        self, _library_id: str | None = None, _limit: int = 10
     ) -> list[dict]:
         """Get recently added items from Jellyfin server."""
         try:
@@ -859,7 +870,7 @@ class JellyfinClient(RestApiMixin):
             params = {
                 "SortBy": "DateCreated",
                 "SortOrder": "Descending",
-                "Limit": limit * 2,  # Request more items since we'll filter some out
+                "Limit": _limit * 2,  # Request more items since we'll filter some out
                 "Fields": "Overview,Genres,DateCreated,ProductionYear",
                 "ImageTypeLimit": 1,
                 "EnableImageTypes": "Primary",
@@ -867,8 +878,8 @@ class JellyfinClient(RestApiMixin):
                 "IncludeItemTypes": "Movie,Series,MusicAlbum",  # Only types with vertical posters
             }
 
-            if library_id:
-                params["ParentId"] = library_id
+            if _library_id:
+                params["ParentId"] = _library_id
 
             response = self.get("/Items", params=params)
             response_data = response.json()
@@ -879,7 +890,7 @@ class JellyfinClient(RestApiMixin):
             items = []
             for item in response_data["Items"]:
                 # Stop if we've reached the limit
-                if len(items) >= limit:
+                if len(items) >= _limit:
                     break
 
                 # Only show items that have actual poster images (Primary for movies/series)

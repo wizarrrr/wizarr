@@ -849,7 +849,7 @@ class SessionManager:
                     self.logger.warning(f"No valid client for server {server_id}")
                     return {}
 
-                sessions = client.server.sessions()  # type: ignore[attr-defined]
+                sessions = client.server.sessions()  # type: ignore
 
                 target_session = None
                 for session in sessions:

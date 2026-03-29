@@ -29,11 +29,11 @@ try:
     from app.models import HistoricalImportJob, MediaServer
 except ImportError:
     # For testing without Flask app context
-    MediaServer = None  # type: ignore[assignment]
-    db = None  # type: ignore[assignment]
-    HistoricalImportJob = None  # type: ignore[assignment]
+    MediaServer = None  # type: ignore
+    db = None  # type: ignore
+    HistoricalImportJob = None  # type: ignore
 
-    def _(x):  # type: ignore[no-redef]
+    def _(x):  # type: ignore
         return x
 
 
@@ -170,7 +170,7 @@ def _render_historical_jobs_partial(server_id: int | None):
         jobs: list = []
     else:
         query = HistoricalImportJob.query.options(
-            joinedload(HistoricalImportJob.server)
+            joinedload(HistoricalImportJob.server)  # type: ignore
         ).order_by(HistoricalImportJob.created_at.desc())
 
         if server_id:
@@ -568,7 +568,7 @@ def activity_export():
         logger = structlog.get_logger(__name__)
         logger.error("Failed to export activity data: %s", e, exc_info=True)
         return (
-            jsonify({"error": _("Failed to export activity data")}),  # type: ignore[misc]
+            jsonify({"error": _("Failed to export activity data")}),  # type: ignore
             500,
         )
 

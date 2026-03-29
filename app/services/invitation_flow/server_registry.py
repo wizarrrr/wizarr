@@ -32,7 +32,11 @@ class PlexAccountManager(ServerAccountManager):
     """Account manager for Plex servers."""
 
     def create_account(
-        self, username: str, _password: str, email: str, **kwargs
+        self,
+        username: str,
+        password: str,  # noqa: ARG002
+        email: str,
+        **kwargs,
     ) -> tuple[bool, str]:
         """Create Plex account using OAuth token."""
         try:

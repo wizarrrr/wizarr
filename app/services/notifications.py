@@ -1,6 +1,7 @@
 import base64
 import json
 import logging
+from typing import Any
 
 import apprise
 import requests
@@ -31,7 +32,7 @@ def _discord(
     previous_version: str | None = None,
     new_version: str | None = None,
 ) -> bool:
-    embed = {
+    embed: dict[str, Any] = {
         "title": title,
         "description": msg,
         "author": {
@@ -156,4 +157,10 @@ def notify(
         elif agent.type == "notifiarr":
             _notifiarr(message, title, agent.url, agent.channel_id)
         elif agent.type == "telegram":
-            _telegram(message, title, agent.url, agent.telegram_bot_token, agent.telegram_chat_id)
+            _telegram(
+                message,
+                title,
+                agent.url,
+                agent.telegram_bot_token,
+                agent.telegram_chat_id,
+            )

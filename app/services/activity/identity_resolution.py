@@ -50,7 +50,7 @@ def resolve_user_identity(
     query = (
         db.session.query(User)
         .filter(User.server_id == server_id)
-        .options(joinedload(User.identity))
+        .options(joinedload(User.identity))  # type: ignore
     )
 
     match: User | None = None
@@ -66,7 +66,7 @@ def resolve_user_identity(
 
     if not match and normalised_name:
         match = (
-            query.join(Identity, User.identity, isouter=True)
+            query.join(Identity, User.identity, isouter=True)  # type: ignore
             .filter(func.lower(Identity.nickname) == normalised_name)
             .order_by(User.id.asc())
             .first()
@@ -74,7 +74,7 @@ def resolve_user_identity(
 
     if not match and normalised_name:
         match = (
-            query.join(Identity, User.identity, isouter=True)
+            query.join(Identity, User.identity, isouter=True)  # type: ignore
             .filter(func.lower(Identity.primary_username) == normalised_name)
             .order_by(User.id.asc())
             .first()
@@ -87,7 +87,7 @@ def resolve_user_identity(
     if match:
         wizarr_user_id = match.id
         identity_id = match.identity_id if match.identity_id else None
-        display_name = _identity_display_name(match.identity, match.username)
+        display_name = _identity_display_name(match.identity, match.username)  # type: ignore
 
     if not display_name:
         display_name = external_user_name

@@ -186,15 +186,15 @@ class AudiobookshelfClient(RestApiMixin):
             return {"results": [], "total": 0, "limit": limit, "page": page}
 
     def get_recent_items(
-        self, library_id: str | None = None, limit: int = 10
+        self, _library_id: str | None = None, _limit: int = 10
     ) -> list[dict]:
         """Get recently added items from AudiobookShelf server."""
         try:
             items = []
 
             # Get all libraries or specific library if provided
-            if library_id:
-                libraries = [{"id": library_id}]
+            if _library_id:
+                libraries = [{"id": _library_id}]
             else:
                 try:
                     libs_response = self.libraries()
@@ -203,7 +203,7 @@ class AudiobookshelfClient(RestApiMixin):
                     libraries = []
 
             for library in libraries:
-                if len(items) >= limit:
+                if len(items) >= _limit:
                     break
 
                 try:
@@ -223,7 +223,7 @@ class AudiobookshelfClient(RestApiMixin):
                             entities = view.get("entities", [])
 
                             for entity in entities:
-                                if len(items) >= limit:
+                                if len(items) >= _limit:
                                     break
 
                                 # Only include items with cover images (posters)
@@ -469,13 +469,13 @@ class AudiobookshelfClient(RestApiMixin):
             raise
 
     def update_user_permissions(
-        self, user_id: str, permissions: dict[str, bool]
+        self, _user_identifier: str, _permissions: dict[str, bool]
     ) -> bool:
         """Update user permissions on Audiobookshelf.
 
         Args:
-            user_id: User's Audiobookshelf ID (external_id from database)
-            permissions: Dict with keys: allow_downloads, allow_live_tv, allow_camera_upload
+            _user_identifier: User's Audiobookshelf ID (external_id from database)
+            _permissions: Dict with keys: allow_downloads, allow_live_tv, allow_camera_upload
 
         Returns:
             bool: True if successful, False otherwise
@@ -483,44 +483,46 @@ class AudiobookshelfClient(RestApiMixin):
         try:
             # Get current user to preserve existing settings
             try:
-                current = self.get_user(user_id)
+                current = self.get_user(_user_identifier)
             except Exception as exc:
-                logging.error(f"ABS: Failed to get user {user_id} – {exc}")
+                logging.error(f"ABS: Failed to get user {_user_identifier} – {exc}")
                 return False
 
             # Get current permissions or create new ones
             current_perms = current.get("permissions", {}) or {}
 
             # Update only the download permission (ABS doesn't have live TV or camera upload)
-            current_perms["download"] = permissions.get("allow_downloads", False)
+            current_perms["download"] = _permissions.get("allow_downloads", False)
 
             # Prepare payload with updated permissions
             payload = {"permissions": current_perms}
 
             # Update user
-            response = self.patch(f"{self.API_PREFIX}/users/{user_id}", json=payload)
+            response = self.patch(
+                f"{self.API_PREFIX}/users/{_user_identifier}", json=payload
+            )
             success = response.status_code == 200
 
             if success:
                 logging.info(
-                    f"Successfully updated permissions for Audiobookshelf user {user_id}"
+                    f"Successfully updated permissions for Audiobookshelf user {_user_identifier}"
                 )
             return success
 
         except Exception as e:
             logging.error(
-                f"Failed to update Audiobookshelf permissions for {user_id}: {e}"
+                f"Failed to update Audiobookshelf permissions for {_user_identifier}: {e}"
             )
             return False
 
     def update_user_libraries(
-        self, user_id: str, library_names: list[str] | None
+        self, _user_identifier: str, _library_names: list[str] | None
     ) -> bool:
         """Update user's library access on Audiobookshelf.
 
         Args:
-            user_id: User's Audiobookshelf ID (external_id from database)
-            library_names: List of library names to grant access to, or None for all libraries
+            _user_identifier: User's Audiobookshelf ID (external_id from database)
+            _library_names: List of library names to grant access to, or None for all libraries
 
         Returns:
             bool: True if successful, False otherwise
@@ -528,20 +530,20 @@ class AudiobookshelfClient(RestApiMixin):
         try:
             # Get current user to preserve existing settings
             try:
-                current = self.get_user(user_id)
+                current = self.get_user(_user_identifier)
             except Exception as exc:
-                logging.error(f"ABS: Failed to get user {user_id} – {exc}")
+                logging.error(f"ABS: Failed to get user {_user_identifier} – {exc}")
                 return False
 
             current_perms = current.get("permissions", {}) or {}
 
             # Get library external IDs from database
             library_ids = []
-            if library_names is not None:
-                logging.info(f"AUDIOBOOKSHELF: Requested libraries: {library_names}")
+            if _library_names is not None:
+                logging.info(f"AUDIOBOOKSHELF: Requested libraries: {_library_names}")
                 libraries = (
                     Library.query.filter_by(server_id=self.server_id)
-                    .filter(Library.name.in_(library_names))
+                    .filter(Library.name.in_(_library_names))
                     .all()
                 )
 
@@ -551,7 +553,7 @@ class AudiobookshelfClient(RestApiMixin):
 
                 # Check for missing libraries
                 found_names = {lib.name for lib in libraries}
-                missing = set(library_names) - found_names
+                missing = set(_library_names) - found_names
                 for name in missing:
                     logging.warning(
                         f"  ✗ Library '{name}' not found in database (scan libraries to fix)"
@@ -563,27 +565,31 @@ class AudiobookshelfClient(RestApiMixin):
                 logging.info("AUDIOBOOKSHELF: Granting access to all libraries")
 
             # Update permissions with library access settings
-            current_perms["accessAllLibraries"] = library_names is None
+            current_perms["accessAllLibraries"] = _library_names is None
 
             # Prepare payload
             payload = {
                 "permissions": current_perms,
-                "librariesAccessible": library_ids if library_names is not None else [],
+                "librariesAccessible": library_ids
+                if _library_names is not None
+                else [],
             }
 
             # Update user
-            response = self.patch(f"{self.API_PREFIX}/users/{user_id}", json=payload)
+            response = self.patch(
+                f"{self.API_PREFIX}/users/{_user_identifier}", json=payload
+            )
             success = response.status_code == 200
 
             if success:
                 logging.info(
-                    f"Successfully updated library access for Audiobookshelf user {user_id}"
+                    f"Successfully updated library access for Audiobookshelf user {_user_identifier}"
                 )
             return success
 
         except Exception as e:
             logging.error(
-                f"Failed to update Audiobookshelf library access for {user_id}: {e}"
+                f"Failed to update Audiobookshelf library access for {_user_identifier}: {e}"
             )
             return False
 
@@ -648,10 +654,11 @@ class AudiobookshelfClient(RestApiMixin):
             },
         }
 
-    def get_user_details(self, user_id: str) -> MediaUserDetails:
+    def get_user_details(self, user_identifier: str | int) -> MediaUserDetails:
         """Get detailed user information from database (no API calls)."""
         from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
 
+        user_id = str(user_identifier)
         if not (
             user := User.query.filter_by(
                 token=user_id, server_id=self.server_id
@@ -1304,7 +1311,7 @@ class AudiobookshelfClient(RestApiMixin):
 
     # RestApiMixin overrides -------------------------------------------------
 
-    def _headers(self) -> dict[str, str]:  # type: ignore[override]
+    def _headers(self) -> dict[str, str]:  # type: ignore
         """Return default headers including Authorization if a token is set."""
         headers: dict[str, str] = {
             "Accept": "application/json",

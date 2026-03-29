@@ -462,7 +462,7 @@ def _get_server_type_from_invitation(invitation: Invitation) -> str | None:
     """
     # Priority 1: Check new many-to-many relationship
     if hasattr(invitation, "servers") and invitation.servers:
-        return invitation.servers[0].server_type
+        return invitation.servers[0].server_type  # type: ignore
 
     # Priority 2: Check legacy single server relationship (backward compatibility)
     if hasattr(invitation, "server") and invitation.server:
@@ -516,7 +516,7 @@ def _get_server_colors(server_type: str | None) -> dict[str, str]:
     }
 
     # Return server-specific colors or default to Plex colors
-    return color_schemes.get(
+    return color_schemes.get(  # type: ignore
         server_type,
         color_schemes["plex"],
     )
@@ -843,14 +843,14 @@ def complete():
     invite_code = InviteCodeManager.get_invite_code()
     media_server_url = None
     if invite_code:
-        _, invitation = InviteCodeManager.validate_invite_code(invite_code)
+        _valid, invitation = InviteCodeManager.validate_invite_code(invite_code)
         if invitation:
             # Prefer multi-server list, fall back to single server
             servers = invitation.servers or (
                 [invitation.server] if invitation.server else []
             )
             if servers:
-                srv = servers[0]
+                srv = servers[0]  # type: ignore
                 media_server_url = srv.external_url or srv.url
 
     # Clear all invitation-related session data
@@ -1160,7 +1160,7 @@ def bundle_view(idx: int):
     try:
         ordered = (
             WizardBundleStep.query.filter_by(bundle_id=bundle_id)
-            .options(joinedload(WizardBundleStep.step))
+            .options(joinedload(WizardBundleStep.step))  # type: ignore
             .order_by(WizardBundleStep.position)
             .all()
         )
@@ -1331,7 +1331,7 @@ def bundle_preview(bundle_id: int, idx: int):
     try:
         ordered = (
             WizardBundleStep.query.filter_by(bundle_id=bundle_id)
-            .options(joinedload(WizardBundleStep.step))
+            .options(joinedload(WizardBundleStep.step))  # type: ignore
             .order_by(WizardBundleStep.position)
             .all()
         )

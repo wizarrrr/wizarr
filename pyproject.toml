@@ -136,6 +136,10 @@ max-complexity = 15  # Aligns with CLAUDE.md "15 logical lines" guideline
 known-first-party = ["app"]
 known-third-party = ["flask_session"]
 
+[tool.ty.rules]
+# Flask-SQLAlchemy db.Model is dynamic and unresolvable by ty
+unsupported-base = "ignore"
+
 [tool.pyright]
 include = ["app", "tests"]
 exclude = ["migrations"]

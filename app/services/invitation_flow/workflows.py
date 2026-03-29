@@ -55,7 +55,7 @@ def _get_server_colors(server_type: str | None) -> dict[str, str]:
     }
 
     # Return server-specific colors or default to Plex colors
-    return color_schemes.get(
+    return color_schemes.get(  # type: ignore
         server_type,
         color_schemes["plex"],
     )
@@ -150,7 +150,7 @@ class InvitationWorkflow(ABC):
                         if user and (
                             not invitation.unlimited or not invitation.used_by
                         ):
-                            invitation.used_by = user  # type: ignore[assignment]
+                            invitation.used_by = user  # type: ignore
                         mark_server_used(invitation, server.id, user)
 
                     # Invite user to connected external services (Ombi/Overseerr)

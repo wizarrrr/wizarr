@@ -150,7 +150,7 @@ class TestServeWizardFunction:
         """Test that _serve_wizard returns full page for non-HTMX requests."""
         from app.blueprints.wizard.routes import _serve_wizard, _settings, _steps
 
-        with app.app_context(), client:
+        with app.app_context(), client, client.application.test_request_context():
             cfg = _settings()
             steps = _steps("plex", cfg, category="pre_invite")
 
@@ -171,6 +171,7 @@ class TestServeWizardFunction:
         with (
             app.app_context(),
             client,
+            client.application.test_request_context(),
         ):
             cfg = _settings()
             steps = _steps("plex", cfg, category="pre_invite")
@@ -196,6 +197,7 @@ class TestServeWizardFunction:
         with (
             app.app_context(),
             client,
+            client.application.test_request_context(),
         ):
             cfg = _settings()
             steps = _steps("plex", cfg, category="pre_invite")
@@ -223,6 +225,7 @@ class TestServeWizardFunction:
         with (
             app.app_context(),
             client,
+            client.application.test_request_context(),
         ):
             cfg = _settings()
             pre_steps = _steps("plex", cfg, category="pre_invite")
@@ -264,6 +267,7 @@ class TestServeWizardFunction:
         with (
             app.app_context(),
             client,
+            client.application.test_request_context(),
         ):
             cfg = _settings()
             steps = _steps("plex", cfg, category="pre_invite")

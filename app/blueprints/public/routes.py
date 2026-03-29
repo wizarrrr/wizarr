@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import requests
+import structlog
 from flask import (
     Blueprint,
     Response,
@@ -13,6 +14,7 @@ from flask import (
     session,
     url_for,
 )
+from flask_babel import gettext as _
 
 from app.extensions import db, limiter
 from app.models import Invitation, MediaServer, Settings, User
@@ -123,7 +125,11 @@ def join():
             try:
                 handle_oauth_token(current_app, token, code)
             except PlexInvitationError as e:
-                # Show user-friendly error message from Plex API
+                structlog.get_logger().error(
+                    "Plex invitation failed",
+                    code=code,
+                    error=e.message,
+                )
                 name_setting = Settings.query.filter_by(key="server_name").first()
                 server_name = name_setting.value if name_setting else None
 
@@ -131,14 +137,16 @@ def join():
                     "user-plex-login.html",
                     server_name=server_name,
                     code=code,
-                    code_error=f"Plex invitation failed: {e.message}",
+                    code_error=_(
+                        "There was an issue setting up your access. Please contact your server admin."
+                    ),
                 )
             except Exception as e:
-                # Handle any other unexpected errors
-                import logging
-
-                logging.error(f"Unexpected error during Plex OAuth: {e}")
-
+                structlog.get_logger().error(
+                    "Unexpected error during Plex OAuth",
+                    code=code,
+                    error=str(e),
+                )
                 name_setting = Settings.query.filter_by(key="server_name").first()
                 server_name = name_setting.value if name_setting else None
 
@@ -146,7 +154,9 @@ def join():
                     "user-plex-login.html",
                     server_name=server_name,
                     code=code,
-                    code_error="An unexpected error occurred during invitation. Please try again or contact support.",
+                    code_error=_(
+                        "There was an issue setting up your access. Please contact your server admin."
+                    ),
                 )
 
         # Determine if there are additional servers attached to the invite
