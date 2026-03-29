@@ -217,8 +217,27 @@ class JellyfinHistoricalImporter:
         if viewed_at < cutoff:
             return "exhausted"
 
-        duration_ms = ticks_to_ms(item.get("RunTimeTicks"))
+        runtime_ms = ticks_to_ms(item.get("RunTimeTicks"))
         position_ms = ticks_to_ms(user_data.get("PlaybackPositionTicks"))
+        fully_played: bool = bool(user_data.get("Played", False))
+
+        # Use the actual playback position for partially-watched items so that
+        # watch time reflects how much the user actually watched rather than the
+        # total file duration.  For fully-played items the runtime is a safe
+        # proxy (position resets to 0 on Jellyfin/Emby once marked played).
+        if fully_played:
+            duration_ms = runtime_ms
+        else:
+            duration_ms = position_ms if position_ms else runtime_ms
+
+        logger.debug(
+            "jellyfin_item_duration_resolved",
+            media_title=item.get("Name"),
+            fully_played=fully_played,
+            runtime_ms=runtime_ms,
+            position_ms=position_ms,
+            resolved_duration_ms=duration_ms,
+        )
 
         started_at = viewed_at
         if duration_ms and duration_ms > 0:
@@ -238,6 +257,13 @@ class JellyfinHistoricalImporter:
             f"{media_id}_{user_id}_{int(viewed_at.timestamp())}"
         )
 
+        if fully_played:
+            duration_source = "runtime_ticks"
+        elif position_ms:
+            duration_source = "playback_position_ticks"
+        else:
+            duration_source = "runtime_ticks_fallback"
+
         metadata = {
             "imported_from": f"{self.media_server.server_type}_history",
             "historical_viewed_at": viewed_at.isoformat(),
@@ -245,7 +271,7 @@ class JellyfinHistoricalImporter:
             "historical_play_count": user_data.get("PlayCount"),
             "historical_position_ms": position_ms or None,
             "media_source_id": media_id,
-            "historical_duration_source": "runtime_ticks" if duration_ms else None,
+            "historical_duration_source": duration_source,
             "historical_user_id": str(user_id),
         }
 
