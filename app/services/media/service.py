@@ -21,9 +21,6 @@ from .client_base import CLIENTS
 _NOW_PLAYING_CACHE_TTL = 5.0  # seconds
 _now_playing_cache: dict[str, Any] = {"timestamp": 0.0, "sessions": []}
 
-if not hasattr(User, "is_ldap_user"):
-    User.is_ldap_user = False
-
 
 def _get_user_identifier(user: User, server: MediaServer) -> str:
     """Get user identifier for API calls (email for Plex, token for others)."""
@@ -157,7 +154,7 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
 
     # Delete from LDAP if user is an LDAP user
     # Only delete from LDAP if this is the last User record with the same username
-    if user.is_ldap_user:
+    if getattr(user, "is_ldap_user", False):
         try:
             from app.models import LDAPConfiguration
 
