@@ -152,19 +152,11 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
     if not (user := db.session.get(User, db_id)):
         return
 
-    try:
-        send_user_lifecycle_email(
-            user,
-            event_type=email_event,
-            server_name=user.server.name if user.server else None,
-            expires_at=user.expires,
-        )
-    except Exception as exc:
-        logging.warning("Failed to send deletion email for user %s: %s", db_id, exc)
-
     # Delete from LDAP if user is an LDAP user
     # Only delete from LDAP if this is the last User record with the same username
-    if getattr(user, "is_ldap_user", False):
+    if not hasattr(user, "is_ldap_user"):
+        user.is_ldap_user = False
+    if user.is_ldap_user:
         try:
             from app.models import LDAPConfiguration
 
@@ -196,6 +188,16 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
                             logging.info("Deleted LDAP user: %s", user_dn)
         except Exception as exc:
             logging.error("LDAP deletion error: %s", exc)
+
+    try:
+        send_user_lifecycle_email(
+            user,
+            event_type=email_event,
+            server_name=user.server.name if user.server else None,
+            expires_at=user.expires,
+        )
+    except Exception as exc:
+        logging.warning("Failed to send deletion email for user %s: %s", db_id, exc)
 
     # Delete from remote media server if user has one
     if user.server:
