@@ -150,10 +150,10 @@ def create_app(config_object=DevelopmentConfig):
         try:
             import plus
 
-            plus.enable_plus_features()
+            plus.enable_plus_features()  # type: ignore
 
             with app.app_context():
-                plus.initialize_plus_features(app)
+                plus.initialize_plus_features(app)  # type: ignore
 
             if show_startup:
                 logger.success("Plus features enabled")

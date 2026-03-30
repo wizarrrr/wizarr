@@ -56,7 +56,7 @@ class RommClient(RestApiMixin):
         kwargs.setdefault("token_key", "api_key")
         super().__init__(*args, **kwargs)
 
-    def _headers(self) -> dict[str, str]:  # type: ignore[override]
+    def _headers(self) -> dict[str, str]:  # type: ignore
         headers: dict[str, str] = {"Accept": "application/json"}
         if self.token:
             headers["Authorization"] = f"Basic {self.token}"
@@ -132,7 +132,7 @@ class RommClient(RestApiMixin):
                 batch: list[dict[str, Any]] = r.json()
                 # Some RomM versions wrap the list in {"items": [...]} – handle both.
                 if isinstance(batch, dict) and "items" in batch:
-                    batch = batch["items"]  # type: ignore[assignment]
+                    batch = batch["items"]  # type: ignore
 
                 if not isinstance(batch, list):
                     logging.warning("ROMM: unexpected /users payload: %s", batch)
@@ -225,7 +225,7 @@ class RommClient(RestApiMixin):
         try:
             r = self.post(f"{self.API_PREFIX}/users", params=payload)
         except requests.HTTPError as exc:
-            r = exc.response  # type: ignore[assignment]
+            r = exc.response  # type: ignore
 
         # If the server expects JSON body instead, fall back once
         if r is not None and r.status_code == 422:
@@ -245,7 +245,7 @@ class RommClient(RestApiMixin):
             try:
                 r = self.post(f"{self.API_PREFIX}/users", json=alt)
             except requests.HTTPError as exc:
-                r = exc.response  # type: ignore[assignment]
+                r = exc.response  # type: ignore
 
         data: dict[str, Any] = {}
         try:
@@ -254,7 +254,7 @@ class RommClient(RestApiMixin):
         except Exception as exc:
             logging.debug(f"Failed to parse RomM user creation response: {exc}")
 
-        return data.get("id") or data.get("user", {}).get("id")  # type: ignore[return-value]
+        return data.get("id") or data.get("user", {}).get("id")  # type: ignore
 
     def update_user(self, user_id: str, patch: dict[str, Any]):
         """PATCH selected fields on a RomM user object."""
@@ -315,8 +315,9 @@ class RommClient(RestApiMixin):
             else None,
         }
 
-    def get_user_details(self, user_id: str) -> MediaUserDetails:
+    def get_user_details(self, user_identifier: str | int) -> MediaUserDetails:
         """Get detailed user information in standardized format."""
+        user_id = str(user_identifier)
         from app.services.media.utils import (
             DateHelper,
             LibraryAccessHelper,

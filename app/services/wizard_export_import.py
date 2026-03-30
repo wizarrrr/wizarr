@@ -82,7 +82,7 @@ class WizardExportDTO:
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON serialization."""
-        result = {
+        result: dict[str, Any] = {
             "export_date": self.export_date,
             "export_type": self.export_type,
         }
@@ -265,7 +265,7 @@ class WizardExportImportService:
 
         return errors
 
-    def _validate_step_data(self, step: dict[str, Any], index: int) -> list[str]:
+    def _validate_step_data(self, step: Any, index: int) -> list[str]:
         """Validate individual step data."""
         errors = []
 

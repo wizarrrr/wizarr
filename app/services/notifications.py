@@ -1,6 +1,7 @@
 import base64
 import json
 import logging
+from typing import Any
 
 import apprise
 import requests
@@ -31,7 +32,7 @@ def _discord(
     previous_version: str | None = None,
     new_version: str | None = None,
 ) -> bool:
-    embed = {
+    embed: dict[str, Any] = {
         "title": title,
         "description": msg,
         "author": {
@@ -111,6 +112,25 @@ def _notifiarr(
     return _send(url, data, headers)
 
 
+def _telegram(
+    msg: str,
+    title: str,
+    baseUrl: str,
+    bot_token: str,
+    chat_id: str,
+) -> bool:
+    baseUrl = baseUrl.rstrip("/")
+    url = f"{baseUrl}/bot{bot_token}/sendMessage"
+    data = json.dumps(
+        {
+            "chat_id": chat_id,
+            "text": f"{title}\n{msg}",
+        }
+    )
+    headers = {"Content-Type": "application/json"}
+    return _send(url, data, headers)
+
+
 def notify(
     title: str,
     message: str,
@@ -136,3 +156,11 @@ def notify(
             _apprise(message, title, tags, agent.url)
         elif agent.type == "notifiarr":
             _notifiarr(message, title, agent.url, agent.channel_id)
+        elif agent.type == "telegram":
+            _telegram(
+                message,
+                title,
+                agent.url,
+                agent.telegram_bot_token,
+                agent.telegram_chat_id,
+            )

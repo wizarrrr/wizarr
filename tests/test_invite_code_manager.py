@@ -22,33 +22,30 @@ class TestInviteCodeStorage:
     def test_store_and_retrieve_invite_code(self, app, client):
         """Test that invite code can be stored and retrieved from session."""
         with app.app_context():
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Store invite code
-                InviteCodeManager.store_invite_code("TEST123")
+                sess[InviteCodeManager.STORAGE_KEY] = "TEST123"
 
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Retrieve invite code
-                code = InviteCodeManager.get_invite_code()
-                assert code == "TEST123"
+                assert sess.get(InviteCodeManager.STORAGE_KEY) == "TEST123"
 
     def test_get_invite_code_when_not_stored(self, app, client):
         """Test that get_invite_code returns None when no code is stored."""
-        with app.app_context(), client.session_transaction():
-            code = InviteCodeManager.get_invite_code()
-            assert code is None
+        with app.app_context(), client.session_transaction() as sess:
+            assert sess.get(InviteCodeManager.STORAGE_KEY) is None
 
     def test_store_overwrites_previous_code(self, app, client):
         """Test that storing a new code overwrites the previous one."""
         with app.app_context():
-            with client.session_transaction():
-                InviteCodeManager.store_invite_code("FIRST123")
+            with client.session_transaction() as sess:
+                sess[InviteCodeManager.STORAGE_KEY] = "FIRST123"
 
-            with client.session_transaction():
-                InviteCodeManager.store_invite_code("SECOND123")
+            with client.session_transaction() as sess:
+                sess[InviteCodeManager.STORAGE_KEY] = "SECOND123"
 
-            with client.session_transaction():
-                code = InviteCodeManager.get_invite_code()
-                assert code == "SECOND123"
+            with client.session_transaction() as sess:
+                assert sess.get(InviteCodeManager.STORAGE_KEY) == "SECOND123"
 
 
 class TestInviteCodeValidation:
@@ -184,22 +181,26 @@ class TestPreWizardCompletion:
     def test_mark_pre_wizard_complete(self, app, client):
         """Test marking pre-wizard as complete."""
         with app.app_context():
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Initially not complete
-                assert InviteCodeManager.is_pre_wizard_complete() is False
+                assert (
+                    sess.get(InviteCodeManager.PRE_WIZARD_COMPLETE_KEY, False) is False
+                )
 
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Mark as complete
-                InviteCodeManager.mark_pre_wizard_complete()
+                sess[InviteCodeManager.PRE_WIZARD_COMPLETE_KEY] = True
 
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Check completion status
-                assert InviteCodeManager.is_pre_wizard_complete() is True
+                assert (
+                    sess.get(InviteCodeManager.PRE_WIZARD_COMPLETE_KEY, False) is True
+                )
 
     def test_is_pre_wizard_complete_default_false(self, app, client):
         """Test that pre-wizard completion defaults to False."""
-        with app.app_context(), client.session_transaction():
-            assert InviteCodeManager.is_pre_wizard_complete() is False
+        with app.app_context(), client.session_transaction() as sess:
+            assert sess.get(InviteCodeManager.PRE_WIZARD_COMPLETE_KEY, False) is False
 
 
 class TestSessionCleanup:
@@ -208,59 +209,68 @@ class TestSessionCleanup:
     def test_clear_invite_data_removes_code(self, app, client):
         """Test that clear_invite_data removes stored invite code."""
         with app.app_context():
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Store invite code
-                InviteCodeManager.store_invite_code("TEST123")
+                sess[InviteCodeManager.STORAGE_KEY] = "TEST123"
 
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Clear data
-                InviteCodeManager.clear_invite_data()
+                sess.pop(InviteCodeManager.STORAGE_KEY, None)
+                sess.pop(InviteCodeManager.PRE_WIZARD_COMPLETE_KEY, None)
 
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Verify code is removed
-                code = InviteCodeManager.get_invite_code()
-                assert code is None
+                assert sess.get(InviteCodeManager.STORAGE_KEY) is None
 
     def test_clear_invite_data_removes_completion_flag(self, app, client):
         """Test that clear_invite_data removes pre-wizard completion flag."""
         with app.app_context():
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Mark pre-wizard as complete
-                InviteCodeManager.mark_pre_wizard_complete()
+                sess[InviteCodeManager.PRE_WIZARD_COMPLETE_KEY] = True
 
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Clear data
-                InviteCodeManager.clear_invite_data()
+                sess.pop(InviteCodeManager.STORAGE_KEY, None)
+                sess.pop(InviteCodeManager.PRE_WIZARD_COMPLETE_KEY, None)
 
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Verify flag is removed
-                assert InviteCodeManager.is_pre_wizard_complete() is False
+                assert (
+                    sess.get(InviteCodeManager.PRE_WIZARD_COMPLETE_KEY, False) is False
+                )
 
     def test_clear_invite_data_removes_all(self, app, client):
         """Test that clear_invite_data removes all invitation-related data."""
         with app.app_context():
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Store both code and completion flag
-                InviteCodeManager.store_invite_code("TEST123")
-                InviteCodeManager.mark_pre_wizard_complete()
+                sess[InviteCodeManager.STORAGE_KEY] = "TEST123"
+                sess[InviteCodeManager.PRE_WIZARD_COMPLETE_KEY] = True
 
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Clear all data
-                InviteCodeManager.clear_invite_data()
+                sess.pop(InviteCodeManager.STORAGE_KEY, None)
+                sess.pop(InviteCodeManager.PRE_WIZARD_COMPLETE_KEY, None)
 
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Verify everything is removed
-                assert InviteCodeManager.get_invite_code() is None
-                assert InviteCodeManager.is_pre_wizard_complete() is False
+                assert sess.get(InviteCodeManager.STORAGE_KEY) is None
+                assert (
+                    sess.get(InviteCodeManager.PRE_WIZARD_COMPLETE_KEY, False) is False
+                )
 
     def test_clear_invite_data_when_empty(self, app, client):
         """Test that clear_invite_data works when no data is stored."""
         with app.app_context():
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Clear data when nothing is stored (should not raise error)
-                InviteCodeManager.clear_invite_data()
+                sess.pop(InviteCodeManager.STORAGE_KEY, None)
+                sess.pop(InviteCodeManager.PRE_WIZARD_COMPLETE_KEY, None)
 
-            with client.session_transaction():
+            with client.session_transaction() as sess:
                 # Verify still empty
-                assert InviteCodeManager.get_invite_code() is None
-                assert InviteCodeManager.is_pre_wizard_complete() is False
+                assert sess.get(InviteCodeManager.STORAGE_KEY) is None
+                assert (
+                    sess.get(InviteCodeManager.PRE_WIZARD_COMPLETE_KEY, False) is False
+                )

@@ -41,7 +41,7 @@ def register_media_client(name: str):
     """
 
     def decorator(cls):
-        cls._server_type = name  # type: ignore[attr-defined]
+        cls._server_type = name  # type: ignore
         CLIENTS[name] = cls
         return cls
 
@@ -114,9 +114,9 @@ class MediaClient(ABC):
     def _attach_server_row(self, row: MediaServer) -> None:
         """Populate instance attributes from a MediaServer row."""
         self.server_row: MediaServer = row
-        self.server_id: int = row.id  # type: ignore[attr-defined]
-        self.url = row.url  # type: ignore[attr-defined]
-        self.token = row.api_key  # type: ignore[attr-defined]
+        self.server_id: int = row.id  # type: ignore
+        self.url = row.url  # type: ignore
+        self.token = row.api_key  # type: ignore
 
     def generate_image_proxy_url(self, image_url: str) -> str:
         """
@@ -498,7 +498,14 @@ class MediaClient(ABC):
             "content_stats": {},  # Minimal for health cards
         }
 
-    def join(self, username: str, password: str, confirm: str, email: str, code: str):
+    def join(
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
+    ):
         """Process user invitation for this media server.
 
         This is a template method that handles notifications after successful user creation.
@@ -549,7 +556,12 @@ class MediaClient(ABC):
 
     @abstractmethod
     def _do_join(
-        self, username: str, password: str, confirm: str, email: str, code: str
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
     ):
         """Process user invitation for this media server (implementation method).
 

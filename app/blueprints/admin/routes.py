@@ -21,6 +21,7 @@ from app.extensions import db, limiter
 from app.models import (
     Identity,
     Invitation,
+    LDAPConfiguration,
     Library,
     MediaServer,
     PasswordResetToken,
@@ -150,6 +151,10 @@ def invite():
     allow_downloads = bool(getattr(target_server, "allow_downloads", False))
     allow_live_tv = bool(getattr(target_server, "allow_live_tv", False))
 
+    # Check LDAP configuration
+    ldap_config = LDAPConfiguration.query.first()
+    ldap_enabled = ldap_config and ldap_config.enabled
+
     if request.method == "POST":
         from app.models import WizardBundle
 
@@ -169,6 +174,7 @@ def invite():
                 servers=servers,
                 chosen_server_id=target_server.id if target_server else None,
                 bundles=bundles,
+                ldap_enabled=ldap_enabled,
             ), 400
 
         current_url = request.headers.get("HX-Current-URL")
@@ -187,6 +193,7 @@ def invite():
             servers=servers,
             chosen_server_id=target_server.id if target_server else None,
             bundles=bundles,
+            ldap_enabled=ldap_enabled,
         )
 
     # GET → initial render
@@ -201,6 +208,7 @@ def invite():
         servers=servers,
         chosen_server_id=target_server.id if target_server else None,
         bundles=bundles,
+        ldap_enabled=ldap_enabled,
     )
 
 
@@ -635,7 +643,7 @@ def update_user_permissions(db_id: int):
 
         # Update media server via API (with graceful error handling)
         try:
-            client = get_client_for_media_server(user.server)
+            client = get_client_for_media_server(user.server)  # type: ignore
 
             # Use the generic interface - all clients support this now
             user_identifier = (
@@ -711,7 +719,7 @@ def update_user_libraries(db_id: int):
 
         # Update media server via API (with graceful error handling)
         try:
-            client = get_client_for_media_server(user.server)
+            client = get_client_for_media_server(user.server)  # type: ignore
 
             # Use the generic interface - all clients support this now
             user_identifier = (
@@ -1093,7 +1101,7 @@ def _group_users_for_display(user_list):
 
     cards = []
     for lst in groups.values():
-        primary = min(lst, key=lambda x: (x.username or ""))
+        primary = min(lst, key=lambda x: x.username or "")
         photo = next((a.photo for a in lst if a.photo), None)
         expire_dates = [a.expires for a in lst if a.expires]
         expires = min(expire_dates) if expire_dates else None
@@ -1116,7 +1124,7 @@ def _group_users_for_display(user_list):
 
         primary.accounts = lst
         primary.photo = photo or primary.photo
-        primary.expires = expires
+        primary.earliest_expires = expires
         primary.code = code
         primary.allowSync = allow_sync
         primary.invited_date = invited_date

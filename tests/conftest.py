@@ -39,7 +39,7 @@ def app():
             with contextlib.suppress(Exception):
                 os.unlink(db_file)
 
-    app = create_app(TestConfig)  # type: ignore[arg-type]
+    app = create_app(TestConfig)  # type: ignore
     with app.app_context():
         # Use Alembic migrations instead of db.create_all()
         # This ensures the test database schema matches production

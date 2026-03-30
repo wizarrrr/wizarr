@@ -19,18 +19,45 @@ def login():
         login_user(AdminUser(), remember=bool(request.form.get("remember")))
         return redirect("/")
 
-    if request.method == "GET":
-        # Check if there are any passkeys registered in the system
-        from app.models import WebAuthnCredential
+    # Pre-compute shared template context
+    from app.models import LDAPConfiguration, WebAuthnCredential
 
-        has_passkeys = WebAuthnCredential.query.first() is not None
-        media_server_url = request.cookies.get("wizarr_media_server_url")
+    has_passkeys = WebAuthnCredential.query.first() is not None
+    ldap_config = LDAPConfiguration.query.first()
+    ldap_enabled = bool(
+        ldap_config and ldap_config.enabled and ldap_config.allow_admin_bind
+    )
+    media_server_url = request.cookies.get("wizarr_media_server_url")
+
+    if request.method == "GET":
         return render_template(
-            "login.html", has_passkeys=has_passkeys, media_server_url=media_server_url
+            "login.html",
+            has_passkeys=has_passkeys,
+            ldap_enabled=ldap_enabled,
+            media_server_url=media_server_url,
+            error=request.args.get("error"),
         )
 
     username = request.form.get("username")
     password = request.form.get("password")
+    auth_method = request.form.get("auth_method", "local")
+
+    # ── Handle LDAP authentication ─────────────────────────────────────
+    if auth_method == "ldap":
+        from .ldap_auth import handle_ldap_login
+
+        success, message = handle_ldap_login(username, password)
+        if success:
+            return redirect("/")
+
+        return render_template(
+            "login.html",
+            error=message,
+            has_passkeys=has_passkeys,
+            ldap_enabled=ldap_enabled,
+            media_server_url=media_server_url,
+            selected_auth_method=auth_method,
+        )
 
     # ── 1) Multi-admin accounts (preferred) ────────────────────────────
     if (
@@ -80,12 +107,13 @@ def login():
     # Log failed login with IP
     logging.warning(f"AUTH FAIL: Failed login for user '{username}' from {client_ip}")
 
-    # Check if there are any passkeys registered for error page
-    from app.models import WebAuthnCredential
-
-    has_passkeys = WebAuthnCredential.query.first() is not None
     return render_template(
-        "login.html", error=_("Invalid username or password"), has_passkeys=has_passkeys
+        "login.html",
+        error=_("Invalid username or password"),
+        has_passkeys=has_passkeys,
+        ldap_enabled=ldap_enabled,
+        media_server_url=media_server_url,
+        selected_auth_method=auth_method,
     )
 
 

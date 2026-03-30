@@ -1,18 +1,18 @@
 import hashlib
-import logging
 import secrets
 
+import structlog
 from flask import Blueprint, flash, redirect, render_template, request, url_for
 from flask_babel import _
 from flask_login import current_user, login_required
 
 from app.extensions import db
 from app.forms.api_keys import ApiKeyCreateForm
-from app.models import ApiKey
+from app.models import AdminAccount, AdminUser, ApiKey
 
 api_keys_bp = Blueprint("api_keys", __name__, url_prefix="/settings/api-keys")
 
-logger = logging.getLogger("wizarr.api_keys")
+logger = structlog.get_logger("wizarr.api_keys")
 
 
 @api_keys_bp.route("", methods=["GET"])
@@ -44,6 +44,23 @@ def create_api_key():
                 "API key with this name already exists.",
             ]
         else:
+            # Resolve the integer FK for created_by_id.
+            # The legacy AdminUser has id="admin" (a string) and is not an
+            # ORM row, so we must look up the first real AdminAccount instead.
+            if isinstance(current_user, AdminUser):
+                admin_account = AdminAccount.query.first()
+                if admin_account is None:
+                    flash(
+                        _(
+                            "No admin account found. Please set up a proper admin account before creating API keys."
+                        ),
+                        "error",
+                    )
+                    return redirect(url_for("api_keys.list_api_keys"))
+                created_by_id: int = admin_account.id
+            else:
+                created_by_id = current_user.id
+
             # Generate a secure random API key
             raw_key = secrets.token_urlsafe(32)
             key_hash = hashlib.sha256(raw_key.encode()).hexdigest()
@@ -52,17 +69,27 @@ def create_api_key():
             api_key = ApiKey(
                 name=form.name.data,
                 key_hash=key_hash,
-                created_by_id=current_user.id,
+                created_by_id=created_by_id,
                 is_active=True,
             )
 
-            db.session.add(api_key)
-            db.session.commit()
+            try:
+                db.session.add(api_key)
+                db.session.commit()
+            except Exception:
+                db.session.rollback()
+                logger.exception(
+                    "Failed to create API key",
+                    name=form.name.data,
+                    admin=current_user.username,
+                )
+                flash(_("Failed to create API key due to a database error."), "error")
+                return redirect(url_for("api_keys.list_api_keys"))
 
             logger.info(
-                "Created new API key '%s' by admin %s",
-                form.name.data,
-                current_user.username,
+                "Created new API key",
+                name=form.name.data,
+                admin=current_user.username,
             )
             flash(
                 _(

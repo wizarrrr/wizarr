@@ -81,7 +81,9 @@ def upgrade():
                 created_at=datetime.datetime.now(datetime.UTC),
             )
         )
-        server_id = res.inserted_primary_key[0]
+        row = res.inserted_primary_key
+        assert row is not None
+        server_id = row[0]
 
         # Update related tables where server_id is NULL
         conn.execute(

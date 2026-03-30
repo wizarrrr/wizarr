@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
 
 # Patch PlexAPI's acceptInvite method with our custom v2 implementation
-MyPlexAccount.acceptInvite = accept_invite_v2  # type: ignore[assignment]
+MyPlexAccount.acceptInvite = accept_invite_v2  # type: ignore
 
 
 def extract_plex_error_message(exception) -> str:
@@ -280,7 +280,7 @@ class PlexClient(MediaClient):
         return poster_urls[:limit]
 
     def get_recent_items(
-        self, library_id: str | None = None, limit: int = 10
+        self, _library_id: str | None = None, _limit: int = 10
     ) -> list[dict]:
         """Get recently added items from Plex server."""
         if not self.url:
@@ -290,9 +290,9 @@ class PlexClient(MediaClient):
             items = []
 
             # Get all library sections or specific library if provided
-            if library_id:
+            if _library_id:
                 try:
-                    library = self.server.library.sectionByID(library_id)
+                    library = self.server.library.sectionByID(_library_id)
                     libraries = [library] if library else []
                 except Exception:
                     libraries = []
@@ -300,15 +300,15 @@ class PlexClient(MediaClient):
                 libraries = list(self.server.library.sections())
 
             for library in libraries:
-                if len(items) >= limit:
+                if len(items) >= _limit:
                     break
 
                 try:
                     # Get recently added items from this library
-                    recent_items = library.recentlyAdded(maxresults=limit - len(items))
+                    recent_items = library.recentlyAdded(maxresults=_limit - len(items))
 
                     for item in recent_items:
-                        if len(items) >= limit:
+                        if len(items) >= _limit:
                             break
 
                         # Only use posterUrl - skip items without proper posters
@@ -389,7 +389,12 @@ class PlexClient(MediaClient):
         )
 
     def _do_join(
-        self, _username: str, _password: str, _confirm: str, _email: str, _code: str
+        self,
+        username: str,  # noqa: ARG002
+        password: str,  # noqa: ARG002
+        confirm: str,  # noqa: ARG002
+        email: str,  # noqa: ARG002
+        code: str,  # noqa: ARG002
     ) -> tuple[bool, str]:
         """Interface method - not implemented for Plex (uses OAuth instead)."""
         return (
@@ -460,13 +465,13 @@ class PlexClient(MediaClient):
             "Policy": {},
         }
 
-    def get_user_details(self, db_id: int) -> "MediaUserDetails":
+    def get_user_details(self, user_identifier: str | int) -> "MediaUserDetails":
         """Get detailed user information from database (no API calls)."""
         from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
 
-        user = db.session.get(User, db_id)
+        user = db.session.get(User, user_identifier)
         if not user:
-            raise ValueError(f"No user found with id {db_id}")
+            raise ValueError(f"No user found with id {user_identifier}")
 
         # Build library access from stored names
         library_names = user.get_accessible_libraries()
@@ -679,37 +684,39 @@ class PlexClient(MediaClient):
 
         return permissions, sections
 
-    def update_user_permissions(self, email: str, permissions: dict[str, bool]) -> bool:
+    def update_user_permissions(
+        self, _user_identifier: str, _permissions: dict[str, bool]
+    ) -> bool:
         """Update user permissions on Plex using the shared_servers API.
 
         Args:
-            email: User's email address
-            permissions: Dict with keys: allow_downloads, allow_live_tv, allow_camera_upload
+            _user_identifier: User's email address
+            _permissions: Dict with keys: allow_downloads, allow_live_tv, allow_camera_upload
 
         Returns:
             bool: True if successful, False otherwise
         """
         try:
             # Get the shared_server ID
-            shared_server_id = self._get_shared_server_id(email)
+            shared_server_id = self._get_shared_server_id(_user_identifier)
             if not shared_server_id:
-                logging.error(f"Could not find shared_server ID for {email}")
+                logging.error(f"Could not find shared_server ID for {_user_identifier}")
                 return False
 
             # Get current library section IDs to preserve them
             # Use share data to get the global library IDs
-            share = self._get_share_data(email)
+            share = self._get_share_data(_user_identifier)
             if not share:
-                logging.error(f"Could not get share data for {email}")
+                logging.error(f"Could not get share data for {_user_identifier}")
                 return False
 
             section_ids = [lib["id"] for lib in share.get("libraries", [])]
 
             # Build settings with new permissions
             settings = {
-                "allowSync": permissions.get("allow_downloads", False),
-                "allowChannels": permissions.get("allow_live_tv", False),
-                "allowCameraUpload": permissions.get("allow_camera_upload", False),
+                "allowSync": _permissions.get("allow_downloads", False),
+                "allowChannels": _permissions.get("allow_live_tv", False),
+                "allowCameraUpload": _permissions.get("allow_camera_upload", False),
                 "filterMovies": "",
                 "filterMusic": "",
                 "filterPhotos": None,
@@ -726,40 +733,40 @@ class PlexClient(MediaClient):
 
             if success:
                 logging.info(
-                    f"Successfully updated permissions for {email} via shared_servers API"
+                    f"Successfully updated permissions for {_user_identifier} via shared_servers API"
                 )
 
             return success
         except Exception as e:
-            logging.error(f"Failed to update permissions for {email}: {e}")
+            logging.error(f"Failed to update permissions for {_user_identifier}: {e}")
             return False
 
     def update_user_libraries(
-        self, email: str, library_names: list[str] | None
+        self, _user_identifier: str, _library_names: list[str] | None
     ) -> bool:
         """Update user's library access on Plex using the shared_servers API.
 
         Args:
-            email: User's email address
-            library_names: List of library names to grant access to, or None for all libraries
+            _user_identifier: User's email address
+            _library_names: List of library names to grant access to, or None for all libraries
 
         Returns:
             bool: True if successful, False otherwise
         """
         try:
             # Get the shared_server ID
-            shared_server_id = self._get_shared_server_id(email)
+            shared_server_id = self._get_shared_server_id(_user_identifier)
             if not shared_server_id:
-                logging.error(f"Could not find shared_server ID for {email}")
+                logging.error(f"Could not find shared_server ID for {_user_identifier}")
                 return False
 
             # Get current permissions to preserve them
-            current_perms, _ = self._get_current_plex_state(email)
+            current_perms, _ = self._get_current_plex_state(_user_identifier)
 
             # Get the share data to access library ID mappings
-            share = self._get_share_data(email)
+            share = self._get_share_data(_user_identifier)
             if not share:
-                logging.error(f"Could not get share data for {email}")
+                logging.error(f"Could not get share data for {_user_identifier}")
                 return False
 
             # Log current share state
@@ -776,11 +783,11 @@ class PlexClient(MediaClient):
             from app.models import Library
 
             section_ids = []
-            if library_names is not None:
-                logging.info(f"Requested libraries: {library_names}")
+            if _library_names is not None:
+                logging.info(f"Requested libraries: {_library_names}")
                 libraries = (
                     Library.query.filter_by(server_id=self.server_id)
-                    .filter(Library.name.in_(library_names))
+                    .filter(Library.name.in_(_library_names))
                     .all()
                 )
 
@@ -790,7 +797,7 @@ class PlexClient(MediaClient):
 
                 # Check for missing libraries
                 found_names = {lib.name for lib in libraries}
-                missing = set(library_names) - found_names
+                missing = set(_library_names) - found_names
                 for name in missing:
                     logging.warning(
                         f"  ✗ Library '{name}' not found in database (scan libraries to fix)"
@@ -826,19 +833,21 @@ class PlexClient(MediaClient):
 
             if success:
                 logging.info(
-                    f"Successfully updated library access for {email} via shared_servers API"
+                    f"Successfully updated library access for {_user_identifier} via shared_servers API"
                 )
 
             return success
         except Exception as e:
-            logging.error(f"Failed to update library access for {email}: {e}")
+            logging.error(
+                f"Failed to update library access for {_user_identifier}: {e}"
+            )
             return False
 
-    def enable_user(self, _user_id: str) -> bool:
+    def enable_user(self, user_id: str) -> bool:  # noqa: ARG002
         """Enable a user account on Plex.
 
         Args:
-            _user_id: The user's Plex ID (unused - Plex doesn't support enable/disable)
+            user_id: The user's Plex ID (unused - Plex doesn't support enable/disable)
 
         Returns:
             bool: True if the user was successfully enabled, False otherwise
@@ -1350,9 +1359,23 @@ def _invite_user(email: str, code: str, _user_id: int, server: MediaServer) -> N
             client.invite_home(email, libs, allow_sync, allow_tv, allow_camera_upload)
         else:
             client.invite_friend(email, libs, allow_sync, allow_tv, allow_camera_upload)
-    except PlexInvitationError:
-        # Re-raise PlexInvitationError to preserve the user-friendly message
-        raise
+    except PlexInvitationError as e:
+        if "already sharing" in e.message.lower():
+            # User already has a share — update libraries and permissions instead
+            structlog.get_logger().info(
+                "User already has share, updating libraries and permissions",
+                email=email,
+            )
+            permissions = {
+                "allow_downloads": allow_sync,
+                "allow_live_tv": allow_tv,
+                "allow_camera_upload": allow_camera_upload,
+            }
+            client.update_user_libraries(email, libs if libs else None)
+            client.update_user_permissions(email, permissions)
+        else:
+            # Re-raise PlexInvitationError to preserve the user-friendly message
+            raise
     except Exception as e:
         # Handle any other unexpected errors
         error_message = extract_plex_error_message(e)

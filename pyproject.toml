@@ -1,12 +1,13 @@
 [project]
 name = "wizarr"
-version = "2026.2.1"
+version = "2026.3.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "apprise>=1.9.3",
     "cachetools>=5.5.2",
+    "cryptography>=42.0.0",
     "email-validator>=2.2.0",
     "flask>=3.1.1",
     "flask-apscheduler>=1.13.1",
@@ -21,6 +22,7 @@ dependencies = [
     "flask-sqlalchemy>=3.1.1",
     "flask-wtf>=1.2.2",
     "gunicorn>=23.0.0",
+    "ldap3>=2.9.1",
     "markdown>=3.8",
     "packaging>=25.0",
     "plexapi>=4.17.0",
@@ -135,6 +137,10 @@ max-complexity = 15  # Aligns with CLAUDE.md "15 logical lines" guideline
 known-first-party = ["app"]
 known-third-party = ["flask_session"]
 
+[tool.ty.rules]
+# Flask-SQLAlchemy db.Model is dynamic and unresolvable by ty
+unsupported-base = "ignore"
+
 [tool.pyright]
 include = ["app", "tests"]
 exclude = ["migrations"]
@@ -149,7 +155,7 @@ reportUnusedVariable = true
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "2026.2.1"
+version = "2026.3.0"
 version_files = [
     "pyproject.toml:version"
 ]

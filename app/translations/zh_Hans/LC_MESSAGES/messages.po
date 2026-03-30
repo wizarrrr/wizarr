@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-03-21 04:46+0000\n"
+"POT-Creation-Date: 2026-03-30 05:33+0000\n"
 "PO-Revision-Date: 2025-10-31 16:51+0000\n"
 "Last-Translator: 刘付苏 <liufusucc@gmail.com>\n"
 "Language: zh_Hans\n"
@@ -138,44 +138,44 @@ msgstr "无法删除仍在队列中或正在运行的任务。"
 msgid "An internal error has occurred."
 msgstr "发生了一个内部错误。"
 
-#: app/blueprints/admin/routes.py:325
+#: app/blueprints/admin/routes.py:333
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr "未知"
 
-#: app/blueprints/admin/routes.py:328
+#: app/blueprints/admin/routes.py:336
 #: app/templates/admin/user_details_modal.html:70
 #: app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:96
-#: app/templates/tables/user_card.html:115
+#: app/templates/tables/user_card.html:104
+#: app/templates/tables/user_card.html:123
 msgid "Never"
 msgstr "从不"
 
-#: app/blueprints/admin/routes.py:401 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:409 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr "已到期"
 
-#: app/blueprints/admin/routes.py:409
+#: app/blueprints/admin/routes.py:417
 #, python-format
 msgid "in %(n)d d"
 msgstr "还有 %(n)d 天"
 
-#: app/blueprints/admin/routes.py:411
+#: app/blueprints/admin/routes.py:419
 msgid "in 1 d"
 msgstr "还有 1 天"
 
-#: app/blueprints/admin/routes.py:413
+#: app/blueprints/admin/routes.py:421
 #, python-format
 msgid "in %(n)d h"
 msgstr "还有%(n)d小时"
 
-#: app/blueprints/admin/routes.py:415
+#: app/blueprints/admin/routes.py:423
 #, python-format
 msgid "in %(n)d m"
 msgstr "还有%(n)d分钟"
 
-#: app/blueprints/admin/routes.py:416
+#: app/blueprints/admin/routes.py:424
 msgid "soon"
 msgstr "很快"
 
@@ -197,26 +197,69 @@ msgstr "{} 的所有密钥已重置"
 msgid "Failed to reset passkeys for {}"
 msgstr "{} 的密钥重置失败"
 
-#: app/blueprints/api_keys/routes.py:69
+#: app/blueprints/api_keys/routes.py:55
+msgid ""
+"No admin account found. Please set up a proper admin account before "
+"creating API keys."
+msgstr ""
+
+#: app/blueprints/api_keys/routes.py:86
+#, fuzzy, python-brace-format
+msgid "Failed to create API key due to a database error."
+msgstr "重置步骤失败：{}"
+
+#: app/blueprints/api_keys/routes.py:96
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
 msgstr "API 密钥创建成功。请立即复制，此密钥后续将不再显示。"
 
-#: app/blueprints/api_keys/routes.py:111
+#: app/blueprints/api_keys/routes.py:138
 msgid "API key deleted successfully"
 msgstr "API 密钥删除成功"
 
-#: app/blueprints/auth/routes.py:88
+#: app/blueprints/auth/ldap_auth.py:15
+#, fuzzy
+msgid "LDAP authentication is not enabled"
+msgstr "认证失败"
+
+#: app/blueprints/auth/ldap_auth.py:18
+#, fuzzy
+msgid "LDAP admin authentication is not allowed"
+msgstr "认证失败"
+
+#: app/blueprints/auth/ldap_auth.py:30
+msgid "Invalid LDAP credentials"
+msgstr ""
+
+#: app/blueprints/auth/ldap_auth.py:36
+msgid "User DN not found in LDAP response"
+msgstr ""
+
+#: app/blueprints/auth/ldap_auth.py:52
+msgid "User is not authorized as an administrator"
+msgstr ""
+
+#: app/blueprints/auth/ldap_auth.py:98
+#, fuzzy
+msgid "Login successful"
+msgstr "连接测试成功！"
+
+#: app/blueprints/auth/ldap_auth.py:104
+#, fuzzy
+msgid "LDAP authentication failed"
+msgstr "认证失败"
+
+#: app/blueprints/auth/routes.py:112
 msgid "Invalid username or password"
 msgstr "用户名或密码无效"
 
-#: app/blueprints/auth/routes.py:108
+#: app/blueprints/auth/routes.py:136
 msgid "No pending 2FA authentication"
 msgstr "无待处理的双重身份验证"
 
-#: app/blueprints/auth/routes.py:122 app/templates/login.html:188
-#: app/templates/login.html:253 app/templates/login.html:257
+#: app/blueprints/auth/routes.py:150 app/templates/login.html:203
+#: app/templates/login.html:268 app/templates/login.html:272
 msgid "Authentication failed"
 msgstr "认证失败"
 
@@ -259,6 +302,12 @@ msgstr "请刷新页面并重试（CSRF 令牌已过期）"
 #, python-format
 msgid "Invalid form data: %(errors)s"
 msgstr "表单数据无效：%(errors)s"
+
+#: app/blueprints/public/routes.py:141 app/blueprints/public/routes.py:158
+msgid ""
+"There was an issue setting up your access. Please contact your server "
+"admin."
+msgstr ""
 
 #: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
 msgid "Settings saved successfully!"
@@ -318,6 +367,29 @@ msgstr "未设置有效期"
 #: app/blueprints/settings/routes.py:328
 #, fuzzy, python-brace-format
 msgid "Failed to clean expired users: {error}"
+msgstr "重置步骤失败：{}"
+
+#: app/blueprints/settings/routes.py:407
+#, fuzzy
+msgid "LDAP configuration saved successfully"
+msgstr "连接更新成功！"
+
+#: app/blueprints/settings/routes.py:481
+msgid "LDAP not configured or disabled"
+msgstr ""
+
+#: app/blueprints/settings/routes.py:491
+msgid "No groups found in LDAP"
+msgstr ""
+
+#: app/blueprints/settings/routes.py:547
+#, fuzzy
+msgid "LDAP is not configured"
+msgstr "已配置的步骤"
+
+#: app/blueprints/settings/routes.py:556
+#, fuzzy, python-brace-format, python-format
+msgid "Failed to list LDAP users: %(error)s"
 msgstr "重置步骤失败：{}"
 
 #: app/blueprints/setup/routes.py:74
@@ -491,7 +563,7 @@ msgstr "密码必须至少包含一个大写字母、一个小写字母和一个
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
 #: app/templates/admin/user_details_modal.html:66
-#: app/templates/hybrid-password-form.html:102 app/templates/login.html:57
+#: app/templates/hybrid-password-form.html:102 app/templates/login.html:75
 #: app/templates/modals/create-admin.html:22
 #: app/templates/modals/edit-admin.html:22
 #: app/templates/welcome-jellyfin.html:117
@@ -499,7 +571,7 @@ msgid "Username"
 msgstr "用户名"
 
 #: app/forms/admin.py:45 app/templates/choose-password.html:22
-#: app/templates/hybrid-password-form.html:134 app/templates/login.html:69
+#: app/templates/hybrid-password-form.html:134 app/templates/login.html:85
 #: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
 #: app/templates/welcome-jellyfin.html:155
 msgid "Password"
@@ -546,9 +618,9 @@ msgid "Libraries"
 msgstr "媒体库"
 
 #: app/forms/settings.py:30 app/forms/settings.py:46
-#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
-#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:274
-#: app/templates/modals/invite.html:308 app/templates/modals/invite.html:320
+#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:220
+#: app/templates/modals/invite.html:254 app/templates/modals/invite.html:297
+#: app/templates/modals/invite.html:331 app/templates/modals/invite.html:343
 msgid "Allow Downloads"
 msgstr "允许下载"
 
@@ -837,53 +909,67 @@ msgstr "登录"
 msgid "This is the administrator login page."
 msgstr ""
 
-#: app/templates/login.html:24
+#: app/templates/login.html:23
 #, fuzzy
 msgid "Go to your media server instead"
 msgstr "您的Discord服务器ID"
 
-#: app/templates/login.html:42
+#: app/templates/login.html:43
 #, python-brace-format
 msgid "Welcome back, {}!"
 msgstr "欢迎回来，{}！"
 
-#: app/templates/login.html:44
+#: app/templates/login.html:45
 msgid "Please authenticate with your passkey to complete login."
 msgstr "请使用您的通行密钥进行身份验证以完成登录。"
 
-#: app/templates/login.html:88
+#: app/templates/login.html:60
+#, fuzzy
+msgid "Authentication Method"
+msgstr "认证失败"
+
+#: app/templates/login.html:66
+#, fuzzy
+msgid "Local Account"
+msgstr "创建账户"
+
+#: app/templates/login.html:67 app/templates/settings/index.html:125
+msgid "LDAP"
+msgstr ""
+
+#: app/templates/login.html:103
 msgid "Remember me"
 msgstr "记住我"
 
-#: app/templates/login.html:95
+#: app/templates/login.html:110
 msgid "Sign in"
 msgstr "登录"
 
-#: app/templates/login.html:113
+#: app/templates/login.html:128
 msgid "Authenticate with Passkey"
 msgstr "使用通行密钥进行身份验证"
 
-#: app/templates/login.html:125
+#: app/templates/login.html:140
 msgid "Back to Login"
 msgstr "返回登录页面"
 
-#: app/templates/login.html:134
+#: app/templates/login.html:149
 msgid "Or"
 msgstr "或"
 
-#: app/templates/login.html:147 app/templates/login.html:269
+#: app/templates/login.html:162 app/templates/login.html:284
 msgid "Sign in with Passkey"
 msgstr "使用通行密钥登录"
 
-#: app/templates/login.html:174
+#: app/templates/login.html:189
 msgid "Authenticating..."
 msgstr "正在验证中..."
 
-#: app/templates/login.html:247
+#: app/templates/login.html:262
 msgid "Failed to complete 2FA login"
 msgstr "无法完成双重认证登录"
 
-#: app/templates/login.html:262
+#: app/templates/login.html:277
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr "密钥认证失败。请重试或使用您的密码。"
 
@@ -1116,7 +1202,7 @@ msgstr "输入您的邮箱地址"
 msgid "Create a password"
 msgstr "创建一个密码"
 
-#: app/templates/tables/user_card.html:142
+#: app/templates/tables/user_card.html:150
 #: app/templates/welcome-jellyfin.html:193
 msgid "Invite Code"
 msgstr "邀请代码"
@@ -1277,6 +1363,7 @@ msgstr "转码播放"
 
 #: app/templates/admin/server_health_card.html:71
 #: app/templates/admin/server_stats_card.html:24
+#: app/templates/settings/ldap.html:197
 msgid "Users"
 msgstr "用户"
 
@@ -1343,9 +1430,9 @@ msgstr "账户详情"
 #: app/templates/admin/user_details_modal.html:69
 #: app/templates/tables/invite_card.html:113
 #: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:91
-#: app/templates/tables/user_card.html:113
-#: app/templates/tables/user_card.html:115
+#: app/templates/tables/user_card.html:99
+#: app/templates/tables/user_card.html:121
+#: app/templates/tables/user_card.html:123
 msgid "Expires"
 msgstr "到期时间"
 
@@ -1377,7 +1464,7 @@ msgstr "基本权限"
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
-#: app/templates/modals/invite.html:414
+#: app/templates/modals/invite.html:437
 #: app/templates/modals/password-reset-link.html:143
 msgid "Close"
 msgstr "关闭"
@@ -1400,13 +1487,13 @@ msgid "Tabs"
 msgstr "状态"
 
 #: app/templates/admin/user_modal.html:42
-#: app/templates/tables/user_card.html:95
+#: app/templates/tables/user_card.html:103
 msgid "Local"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:52
 #: app/templates/admin/user_modal.html:249
-#: app/templates/tables/user_card.html:156
+#: app/templates/tables/user_card.html:164
 msgid "Notes"
 msgstr "备注"
 
@@ -1571,13 +1658,13 @@ msgstr "例如，我的iPhone，工作笔记本电脑"
 #: app/templates/modals/connection-form.html:162
 #: app/templates/modals/create-admin.html:48
 #: app/templates/modals/create-api-key.html:82
-#: app/templates/modals/create-notification-agent.html:146
+#: app/templates/modals/create-notification-agent.html:163
 #: app/templates/modals/create-server.html:168
 #: app/templates/modals/edit-admin.html:50
 #: app/templates/modals/edit-identity.html:49
-#: app/templates/modals/edit-notification-agent.html:142
+#: app/templates/modals/edit-notification-agent.html:168
 #: app/templates/modals/edit-server.html:178
-#: app/templates/modals/invite.html:365
+#: app/templates/modals/invite.html:388
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
 #: app/templates/modals/wizard-preset-form.html:59
@@ -1641,11 +1728,11 @@ msgstr "正在创建通行密钥为"
 msgid "Please follow your device's prompts to complete setup"
 msgstr "请按照您设备上的提示完成设置"
 
-#: app/templates/components/passkey_register.html:111
+#: app/templates/components/passkey_register.html:107
 msgid "Failed to register passkey"
 msgstr "注册通行密钥失败"
 
-#: app/templates/components/passkey_register.html:116
+#: app/templates/components/passkey_register.html:112
 msgid "Failed to complete passkey registration"
 msgstr "完成通行密钥注册失败"
 
@@ -1746,6 +1833,7 @@ msgid "Update Connection"
 msgstr "更新连接"
 
 #: app/templates/modals/connection-form.html:158
+#: app/templates/settings/ldap.html:99
 msgid "Test Connection"
 msgstr "测试连接"
 
@@ -1797,44 +1885,56 @@ msgstr "输入一个描述性的名称，以便您以后能更容易识别这个
 msgid "New Agent"
 msgstr "新代理"
 
-#: app/templates/modals/create-notification-agent.html:73
-#: app/templates/modals/edit-notification-agent.html:58
+#: app/templates/modals/create-notification-agent.html:74
+#: app/templates/modals/edit-notification-agent.html:59
 msgid "Channel ID"
 msgstr "频道 ID"
 
 #: app/templates/modals/create-notification-agent.html:84
 #: app/templates/modals/edit-notification-agent.html:76
+#, fuzzy
+msgid "Bot Token"
+msgstr "按钮"
+
+#: app/templates/modals/create-notification-agent.html:90
+#: app/templates/modals/edit-notification-agent.html:84
+#, fuzzy
+msgid "Chat ID"
+msgstr "频道 ID"
+
+#: app/templates/modals/create-notification-agent.html:101
+#: app/templates/modals/edit-notification-agent.html:102
 msgid "Username (optional)"
 msgstr "用户名（可选）"
 
-#: app/templates/modals/create-notification-agent.html:92
-#: app/templates/modals/edit-notification-agent.html:85
+#: app/templates/modals/create-notification-agent.html:109
+#: app/templates/modals/edit-notification-agent.html:111
 msgid "Password (optional)"
 msgstr "密码（可选）"
 
-#: app/templates/modals/create-notification-agent.html:101
-#: app/templates/modals/edit-notification-agent.html:95
+#: app/templates/modals/create-notification-agent.html:118
+#: app/templates/modals/edit-notification-agent.html:121
 msgid "Agent URL"
 msgstr "代理URL"
 
-#: app/templates/modals/create-notification-agent.html:110
-#: app/templates/modals/edit-notification-agent.html:105
+#: app/templates/modals/create-notification-agent.html:127
+#: app/templates/modals/edit-notification-agent.html:131
 msgid "Notification Events"
 msgstr "通知事件"
 
-#: app/templates/modals/create-notification-agent.html:121
-#: app/templates/modals/edit-notification-agent.html:117
+#: app/templates/modals/create-notification-agent.html:138
+#: app/templates/modals/edit-notification-agent.html:143
 #: app/templates/settings/notifications.html:84
 msgid "User Joined"
 msgstr "用户加入"
 
-#: app/templates/modals/create-notification-agent.html:133
-#: app/templates/modals/edit-notification-agent.html:129
+#: app/templates/modals/create-notification-agent.html:150
+#: app/templates/modals/edit-notification-agent.html:155
 #: app/templates/settings/notifications.html:89
 msgid "Update Available"
 msgstr "有更新可用"
 
-#: app/templates/modals/create-notification-agent.html:141
+#: app/templates/modals/create-notification-agent.html:158
 msgid "Test & Create Agent"
 msgstr "测试并创建代理"
 
@@ -1888,7 +1988,7 @@ msgstr "名称"
 msgid "Notification Service"
 msgstr "通知服务"
 
-#: app/templates/modals/edit-notification-agent.html:137
+#: app/templates/modals/edit-notification-agent.html:163
 msgid "Test & Save Changes"
 msgstr "测试并保存更改"
 
@@ -1896,7 +1996,7 @@ msgstr "测试并保存更改"
 msgid "Edit Server"
 msgstr "编辑服务器"
 
-#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:360
+#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:383
 msgid "Create Invitation"
 msgstr "创建邀请"
 
@@ -1971,66 +2071,80 @@ msgid ""
 "number of days. (1-999)"
 msgstr "设置后，受邀用户将在若干天后从 Plex 服务器中移除。（1-999 天）"
 
-#: app/templates/modals/invite.html:152
+#: app/templates/modals/invite.html:153
+#, fuzzy
+msgid "LDAP Integration"
+msgstr "接受邀请"
+
+#: app/templates/modals/invite.html:165
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "创建API密钥"
+
+#: app/templates/modals/invite.html:168
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
+
+#: app/templates/modals/invite.html:175
 msgid "Target servers"
 msgstr "目标服务器"
 
-#: app/templates/modals/invite.html:186
+#: app/templates/modals/invite.html:209
 msgid "Invite to Plex Home"
 msgstr "邀请加入 Plex 家庭"
 
-#: app/templates/modals/invite.html:208 app/templates/modals/invite.html:242
-#: app/templates/modals/invite.html:285
+#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:265
+#: app/templates/modals/invite.html:308
 msgid "Allow Live TV Access"
 msgstr "允许访问直播电视"
 
-#: app/templates/modals/invite.html:219 app/templates/modals/invite.html:296
+#: app/templates/modals/invite.html:242 app/templates/modals/invite.html:319
 msgid "Allow Mobile Uploads"
 msgstr "允许移动设备上传"
 
-#: app/templates/modals/invite.html:250
+#: app/templates/modals/invite.html:273
 #, fuzzy
 msgid "Max Active Sessions"
 msgstr "活跃会话"
 
-#: app/templates/modals/invite.html:251
+#: app/templates/modals/invite.html:274
 msgid "simultaneous devices"
 msgstr ""
 
-#: app/templates/modals/invite.html:261
+#: app/templates/modals/invite.html:284
 msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
 
-#: app/templates/modals/invite.html:336
+#: app/templates/modals/invite.html:359
 msgid "Select Libraries"
 msgstr "选择媒体库"
 
-#: app/templates/modals/invite.html:349 app/templates/modals/invite.html:453
+#: app/templates/modals/invite.html:372 app/templates/modals/invite.html:476
 msgid "Loading…"
 msgstr "加载中……"
 
-#: app/templates/modals/invite.html:380
+#: app/templates/modals/invite.html:403
 msgid "Successfully generated an Invitation!"
 msgstr "已成功生成邀请！"
 
-#: app/templates/modals/invite.html:386
+#: app/templates/modals/invite.html:409
 msgid "Invitation Link"
 msgstr "邀请链接"
 
-#: app/templates/modals/invite.html:398
+#: app/templates/modals/invite.html:421
 #: app/templates/modals/password-reset-link.html:81
 msgid "Copy"
 msgstr "复制"
 
-#: app/templates/modals/invite.html:403
+#: app/templates/modals/invite.html:426
 msgid "Link has been copied to clipboard!"
 msgstr "链接已复制到剪贴板！"
 
-#: app/templates/modals/invite.html:409
+#: app/templates/modals/invite.html:432
 msgid "Create Another"
 msgstr "创建另一个"
 
-#: app/templates/modals/invite.html:463
+#: app/templates/modals/invite.html:486
 msgid "Please select at least one server for the invitation."
 msgstr "请至少选择一个服务器进行邀请。"
 
@@ -2433,7 +2547,7 @@ msgstr "为外部应用程序创建和管理API密钥"
 msgid "Loading API keys..."
 msgstr "正在加载API密钥..."
 
-#: app/templates/settings/general.html:271
+#: app/templates/settings/general.html:271 app/templates/settings/ldap.html:260
 msgid "Save Settings"
 msgstr "保存设置"
 
@@ -2466,13 +2580,131 @@ msgstr "活动"
 msgid "Admins"
 msgstr "管理员设置"
 
-#: app/templates/settings/index.html:124
+#: app/templates/settings/index.html:141
 msgid "Wizard"
 msgstr "向导设置"
 
-#: app/templates/settings/index.html:142
+#: app/templates/settings/index.html:159
 msgid "Audit"
 msgstr "审计"
+
+#: app/templates/settings/ldap.html:8
+#, fuzzy
+msgid "LDAP Settings"
+msgstr "保存设置"
+
+#: app/templates/settings/ldap.html:9
+#, fuzzy
+msgid "Experimental"
+msgstr "元素"
+
+#: app/templates/settings/ldap.html:12
+msgid "Configure LDAP for user authentication and management"
+msgstr ""
+
+#: app/templates/settings/ldap.html:31
+msgid "Enable LDAP"
+msgstr ""
+
+#: app/templates/settings/ldap.html:32
+msgid "Turn on LDAP integration"
+msgstr ""
+
+#: app/templates/settings/ldap.html:44
+#, fuzzy
+msgid "Connection"
+msgstr "连接"
+
+#: app/templates/settings/ldap.html:45
+#, fuzzy
+msgid "LDAP server connection"
+msgstr "更新连接"
+
+#: app/templates/settings/ldap.html:50
+msgid "e.g., ldap://server:3890 or ldaps://server:6360"
+msgstr ""
+
+#: app/templates/settings/ldap.html:56
+#, fuzzy
+msgid "Use TLS"
+msgstr "用户详情"
+
+#: app/templates/settings/ldap.html:66
+#, fuzzy
+msgid "Verify Cert"
+msgstr "已验证"
+
+#: app/templates/settings/ldap.html:83
+msgid "Encrypted before storage"
+msgstr ""
+
+#: app/templates/settings/ldap.html:107
+#, fuzzy
+msgid "User & Group Settings"
+msgstr "保存设置"
+
+#: app/templates/settings/ldap.html:108
+msgid "Where to find users and groups"
+msgstr ""
+
+#: app/templates/settings/ldap.html:119
+msgid "Optional - only needed for admin group restriction"
+msgstr ""
+
+#: app/templates/settings/ldap.html:137
+msgid "Sync Groups"
+msgstr ""
+
+#: app/templates/settings/ldap.html:140
+msgid "Sync LDAP groups to populate admin group selection"
+msgstr ""
+
+#: app/templates/settings/ldap.html:157
+#, fuzzy
+msgid "Advanced Settings"
+msgstr "保存设置"
+
+#: app/templates/settings/ldap.html:162
+msgid ""
+"Defaults are optimized for LLDAP. Only change if using a different LDAP "
+"server."
+msgstr ""
+
+#: app/templates/settings/ldap.html:199
+#, fuzzy
+msgid "Manage all users - both LDAP and local authentication"
+msgstr "管理您的通行密钥以实现无密码认证。"
+
+#: app/templates/settings/ldap.html:215
+msgid "Sync from LDAP"
+msgstr ""
+
+#: app/templates/settings/ldap.html:219
+msgid ""
+"Users can authenticate via LDAP or locally. Sync automatically imports "
+"new users from LDAP."
+msgstr ""
+
+#: app/templates/settings/ldap.html:226
+#, fuzzy
+msgid "Admin Authentication"
+msgstr "无待处理的双重身份验证"
+
+#: app/templates/settings/ldap.html:227
+msgid "Allow administrators to log in using LDAP"
+msgstr ""
+
+#: app/templates/settings/ldap.html:232
+msgid "Allow Admin Login via LDAP"
+msgstr ""
+
+#: app/templates/settings/ldap.html:233
+msgid "Enable admin login using LDAP credentials"
+msgstr ""
+
+#: app/templates/settings/ldap.html:246
+msgid "Optional: Restrict admin access to members of this LDAP group"
+msgstr ""
 
 #: app/templates/settings/notifications.html:8
 msgid "Notification Agents"
@@ -2928,36 +3160,36 @@ msgstr "编辑昵称"
 msgid "Home User"
 msgstr "家庭用户"
 
-#: app/templates/tables/user_card.html:130
+#: app/templates/tables/user_card.html:138
 msgid "Invited"
 msgstr "已邀请"
 
-#: app/templates/tables/user_card.html:169
+#: app/templates/tables/user_card.html:177
 msgid "Disabled"
 msgstr "已禁用"
 
-#: app/templates/tables/user_card.html:175
+#: app/templates/tables/user_card.html:183
 msgid "Downloads enabled"
 msgstr "已启用下载功能"
 
-#: app/templates/tables/user_card.html:189
+#: app/templates/tables/user_card.html:197
 msgid "Live TV enabled"
 msgstr "已启用直播电视功能"
 
-#: app/templates/tables/user_card.html:208
+#: app/templates/tables/user_card.html:216
 msgid "View details"
 msgstr "查看详情"
 
-#: app/templates/tables/user_card.html:226
+#: app/templates/tables/user_card.html:234
 msgid "Edit user"
 msgstr "编辑用户"
 
-#: app/templates/tables/user_card.html:247
+#: app/templates/tables/user_card.html:255
 #, fuzzy
 msgid "Reset password"
 msgstr "当前密码"
 
-#: app/templates/tables/user_card.html:267
+#: app/templates/tables/user_card.html:275
 msgid "Remove user"
 msgstr "移除用户"
 

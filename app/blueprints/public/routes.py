@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import requests
+import structlog
 from flask import (
     Blueprint,
     Response,
@@ -13,6 +14,7 @@ from flask import (
     session,
     url_for,
 )
+from flask_babel import gettext as _
 
 from app.extensions import db, limiter
 from app.models import Invitation, MediaServer, Settings, User
@@ -123,7 +125,11 @@ def join():
             try:
                 handle_oauth_token(current_app, token, code)
             except PlexInvitationError as e:
-                # Show user-friendly error message from Plex API
+                structlog.get_logger().error(
+                    "Plex invitation failed",
+                    code=code,
+                    error=e.message,
+                )
                 name_setting = Settings.query.filter_by(key="server_name").first()
                 server_name = name_setting.value if name_setting else None
 
@@ -131,14 +137,16 @@ def join():
                     "user-plex-login.html",
                     server_name=server_name,
                     code=code,
-                    code_error=f"Plex invitation failed: {e.message}",
+                    code_error=_(
+                        "There was an issue setting up your access. Please contact your server admin."
+                    ),
                 )
             except Exception as e:
-                # Handle any other unexpected errors
-                import logging
-
-                logging.error(f"Unexpected error during Plex OAuth: {e}")
-
+                structlog.get_logger().error(
+                    "Unexpected error during Plex OAuth",
+                    code=code,
+                    error=str(e),
+                )
                 name_setting = Settings.query.filter_by(key="server_name").first()
                 server_name = name_setting.value if name_setting else None
 
@@ -146,7 +154,9 @@ def join():
                     "user-plex-login.html",
                     server_name=server_name,
                     code=code,
-                    code_error="An unexpected error occurred during invitation. Please try again or contact support.",
+                    code_error=_(
+                        "There was an issue setting up your access. Please contact your server admin."
+                    ),
                 )
 
         # Determine if there are additional servers attached to the invite
@@ -314,6 +324,40 @@ def password_prompt(code):
                 secrets.choice(string.ascii_letters + string.digits) for _ in range(16)
             )
 
+        # Determine username and email for all account creations
+        if plex_user:
+            username = plex_user.username
+            email = plex_user.email
+        else:
+            # For non-Plex flows, use form data or generate a unique username
+            import uuid
+
+            username = request.form.get("username") or f"user-{uuid.uuid4().hex[:8]}"
+            email = request.form.get("email") or ""
+
+        # Create LDAP user if configured
+        from app.services.ldap.invitation_ldap import InvitationLDAPHandler
+
+        ldap_handler = InvitationLDAPHandler(invitation)
+        is_ldap_user = False
+
+        if ldap_handler.should_create_ldap_user():
+            ldap_success, ldap_result = ldap_handler.create_ldap_user(
+                username=username,
+                email=email,
+                password=pw,
+            )
+
+            if not ldap_success:
+                return render_template(
+                    "choose-password.html",
+                    code=code,
+                    error=f"Failed to create LDAP user: {ldap_result}",
+                )
+
+            # Mark that this is an LDAP user
+            is_ldap_user = True
+
         # Provision accounts on remaining servers
         from app.services.expiry import calculate_user_expiry
         from app.services.invites import mark_server_used
@@ -326,13 +370,6 @@ def password_prompt(code):
                 continue  # already done
 
             client = get_client_for_media_server(srv)
-
-            username = (
-                plex_user.username
-                if plex_user
-                else (plex_user.email.split("@")[0] if plex_user else "wizarr")
-            )
-            email = plex_user.email if plex_user else "user@example.com"
 
             try:
                 if srv.server_type in ("jellyfin", "emby"):
@@ -355,6 +392,7 @@ def password_prompt(code):
                 new_user.code = code
                 new_user.server_id = srv.id
                 new_user.expires = user_expires  # Set expiry based on invitation duration (server-specific)
+                new_user.is_ldap_user = is_ldap_user
                 db.session.add(new_user)
                 db.session.commit()
 

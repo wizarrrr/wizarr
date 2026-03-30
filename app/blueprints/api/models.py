@@ -46,7 +46,7 @@ user_model = api.model(
             description="Type of media server (plex, jellyfin, etc.)"
         ),
         "expires": fields.DateTime(description="Expiration date (ISO format)"),
-        "created": fields.DateTime(description="Creation date (ISO format)"),
+        "created_at": fields.DateTime(description="Creation date (ISO format)"),
     },
 )
 
