@@ -21,6 +21,9 @@ from .client_base import CLIENTS
 _NOW_PLAYING_CACHE_TTL = 5.0  # seconds
 _now_playing_cache: dict[str, Any] = {"timestamp": 0.0, "sessions": []}
 
+if not hasattr(User, "is_ldap_user"):
+    User.is_ldap_user = False
+
 
 def _get_user_identifier(user: User, server: MediaServer) -> str:
     """Get user identifier for API calls (email for Plex, token for others)."""
@@ -154,8 +157,6 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
 
     # Delete from LDAP if user is an LDAP user
     # Only delete from LDAP if this is the last User record with the same username
-    if not hasattr(user, "is_ldap_user"):
-        user.is_ldap_user = False
     if user.is_ldap_user:
         try:
             from app.models import LDAPConfiguration
@@ -189,16 +190,6 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
         except Exception as exc:
             logging.error("LDAP deletion error: %s", exc)
 
-    try:
-        send_user_lifecycle_email(
-            user,
-            event_type=email_event,
-            server_name=user.server.name if user.server else None,
-            expires_at=user.expires,
-        )
-    except Exception as exc:
-        logging.warning("Failed to send deletion email for user %s: %s", db_id, exc)
-
     # Delete from remote media server if user has one
     if user.server:
         try:
@@ -210,6 +201,16 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
 
     # Delete from companion apps
     _delete_from_companion_apps(user)
+
+    try:
+        send_user_lifecycle_email(
+            user,
+            event_type=email_event,
+            server_name=user.server.name if user.server else None,
+            expires_at=user.expires,
+        )
+    except Exception as exc:
+        logging.warning("Failed to send deletion email for user %s: %s", db_id, exc)
 
     # Delete the user - SQLite handles all foreign key cascades automatically
     db.session.delete(user)
