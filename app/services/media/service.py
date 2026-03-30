@@ -21,6 +21,9 @@ from .client_base import CLIENTS
 _NOW_PLAYING_CACHE_TTL = 5.0  # seconds
 _now_playing_cache: dict[str, Any] = {"timestamp": 0.0, "sessions": []}
 
+if not hasattr(User, "is_ldap_user"):
+    User.is_ldap_user = False
+
 
 def _get_user_identifier(user: User, server: MediaServer) -> str:
     """Get user identifier for API calls (email for Plex, token for others)."""
@@ -152,15 +155,40 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
     if not (user := db.session.get(User, db_id)):
         return
 
-    try:
-        send_user_lifecycle_email(
-            user,
-            event_type=email_event,
-            server_name=user.server.name if user.server else None,
-            expires_at=user.expires,
-        )
-    except Exception as exc:
-        logging.warning("Failed to send deletion email for user %s: %s", db_id, exc)
+    # Delete from LDAP if user is an LDAP user
+    # Only delete from LDAP if this is the last User record with the same username
+    if user.is_ldap_user:
+        try:
+            from app.models import LDAPConfiguration
+
+            # Check if there are other User records with the same username
+            other_users_count = User.query.filter(
+                User.username == user.username, User.is_ldap_user, User.id != user.id
+            ).count()
+
+            # Only delete from LDAP if this is the last user with this username
+            if other_users_count == 0:
+                ldap_config = LDAPConfiguration.query.filter_by(enabled=True).first()
+                if ldap_config:
+                    from app.services.ldap.client import LDAPClient
+
+                    ldap_client = LDAPClient(ldap_config)
+                    user_dn = ldap_client.find_user_dn(user.username)
+                    if not user_dn:
+                        logging.warning(
+                            "LDAP user DN not found for %s, skipping deletion",
+                            user.username,
+                        )
+                    else:
+                        success, message = ldap_client.delete_user(user_dn)
+                        if not success:
+                            logging.error(
+                                "LDAP deletion failed for %s: %s", user_dn, message
+                            )
+                        else:
+                            logging.info("Deleted LDAP user: %s", user_dn)
+        except Exception as exc:
+            logging.error("LDAP deletion error: %s", exc)
 
     # Delete from remote media server if user has one
     if user.server:
@@ -173,6 +201,16 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
 
     # Delete from companion apps
     _delete_from_companion_apps(user)
+
+    try:
+        send_user_lifecycle_email(
+            user,
+            event_type=email_event,
+            server_name=user.server.name if user.server else None,
+            expires_at=user.expires,
+        )
+    except Exception as exc:
+        logging.warning("Failed to send deletion email for user %s: %s", db_id, exc)
 
     # Delete the user - SQLite handles all foreign key cascades automatically
     db.session.delete(user)
