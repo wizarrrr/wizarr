@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-03-29 05:19+0000\n"
+"POT-Creation-Date: 2026-03-30 05:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -135,44 +135,44 @@ msgstr ""
 msgid "An internal error has occurred."
 msgstr ""
 
-#: app/blueprints/admin/routes.py:325
+#: app/blueprints/admin/routes.py:333
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:328
+#: app/blueprints/admin/routes.py:336
 #: app/templates/admin/user_details_modal.html:70
 #: app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:96
-#: app/templates/tables/user_card.html:115
+#: app/templates/tables/user_card.html:104
+#: app/templates/tables/user_card.html:123
 msgid "Never"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:401 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:409 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:409
+#: app/blueprints/admin/routes.py:417
 #, python-format
 msgid "in %(n)d d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:411
+#: app/blueprints/admin/routes.py:419
 msgid "in 1 d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:413
+#: app/blueprints/admin/routes.py:421
 #, python-format
 msgid "in %(n)d h"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:415
+#: app/blueprints/admin/routes.py:423
 #, python-format
 msgid "in %(n)d m"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:416
+#: app/blueprints/admin/routes.py:424
 msgid "soon"
 msgstr ""
 
@@ -194,26 +194,64 @@ msgstr ""
 msgid "Failed to reset passkeys for {}"
 msgstr ""
 
-#: app/blueprints/api_keys/routes.py:69
+#: app/blueprints/api_keys/routes.py:55
+msgid ""
+"No admin account found. Please set up a proper admin account before "
+"creating API keys."
+msgstr ""
+
+#: app/blueprints/api_keys/routes.py:86
+msgid "Failed to create API key due to a database error."
+msgstr ""
+
+#: app/blueprints/api_keys/routes.py:96
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown "
 "again."
 msgstr ""
 
-#: app/blueprints/api_keys/routes.py:111
+#: app/blueprints/api_keys/routes.py:138
 msgid "API key deleted successfully"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:88
+#: app/blueprints/auth/ldap_auth.py:15
+msgid "LDAP authentication is not enabled"
+msgstr ""
+
+#: app/blueprints/auth/ldap_auth.py:18
+msgid "LDAP admin authentication is not allowed"
+msgstr ""
+
+#: app/blueprints/auth/ldap_auth.py:30
+msgid "Invalid LDAP credentials"
+msgstr ""
+
+#: app/blueprints/auth/ldap_auth.py:36
+msgid "User DN not found in LDAP response"
+msgstr ""
+
+#: app/blueprints/auth/ldap_auth.py:52
+msgid "User is not authorized as an administrator"
+msgstr ""
+
+#: app/blueprints/auth/ldap_auth.py:98
+msgid "Login successful"
+msgstr ""
+
+#: app/blueprints/auth/ldap_auth.py:104
+msgid "LDAP authentication failed"
+msgstr ""
+
+#: app/blueprints/auth/routes.py:112
 msgid "Invalid username or password"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:108
+#: app/blueprints/auth/routes.py:136
 msgid "No pending 2FA authentication"
 msgstr ""
 
-#: app/blueprints/auth/routes.py:122 app/templates/login.html:188
-#: app/templates/login.html:253 app/templates/login.html:257
+#: app/blueprints/auth/routes.py:150 app/templates/login.html:203
+#: app/templates/login.html:268 app/templates/login.html:272
 msgid "Authentication failed"
 msgstr ""
 
@@ -255,6 +293,12 @@ msgstr ""
 #: app/blueprints/connections/routes.py:170
 #, python-format
 msgid "Invalid form data: %(errors)s"
+msgstr ""
+
+#: app/blueprints/public/routes.py:141 app/blueprints/public/routes.py:158
+msgid ""
+"There was an issue setting up your access. Please contact your server "
+"admin."
 msgstr ""
 
 #: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
@@ -312,6 +356,27 @@ msgstr ""
 #: app/blueprints/settings/routes.py:328
 #, python-brace-format
 msgid "Failed to clean expired users: {error}"
+msgstr ""
+
+#: app/blueprints/settings/routes.py:407
+msgid "LDAP configuration saved successfully"
+msgstr ""
+
+#: app/blueprints/settings/routes.py:481
+msgid "LDAP not configured or disabled"
+msgstr ""
+
+#: app/blueprints/settings/routes.py:491
+msgid "No groups found in LDAP"
+msgstr ""
+
+#: app/blueprints/settings/routes.py:547
+msgid "LDAP is not configured"
+msgstr ""
+
+#: app/blueprints/settings/routes.py:556
+#, python-format
+msgid "Failed to list LDAP users: %(error)s"
 msgstr ""
 
 #: app/blueprints/setup/routes.py:74
@@ -485,7 +550,7 @@ msgstr ""
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
 #: app/templates/admin/user_details_modal.html:66
-#: app/templates/hybrid-password-form.html:102 app/templates/login.html:57
+#: app/templates/hybrid-password-form.html:102 app/templates/login.html:75
 #: app/templates/modals/create-admin.html:22
 #: app/templates/modals/edit-admin.html:22
 #: app/templates/welcome-jellyfin.html:117
@@ -493,7 +558,7 @@ msgid "Username"
 msgstr ""
 
 #: app/forms/admin.py:45 app/templates/choose-password.html:22
-#: app/templates/hybrid-password-form.html:134 app/templates/login.html:69
+#: app/templates/hybrid-password-form.html:134 app/templates/login.html:85
 #: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
 #: app/templates/welcome-jellyfin.html:155
 msgid "Password"
@@ -540,9 +605,9 @@ msgid "Libraries"
 msgstr ""
 
 #: app/forms/settings.py:30 app/forms/settings.py:46
-#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:197
-#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:274
-#: app/templates/modals/invite.html:308 app/templates/modals/invite.html:320
+#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:220
+#: app/templates/modals/invite.html:254 app/templates/modals/invite.html:297
+#: app/templates/modals/invite.html:331 app/templates/modals/invite.html:343
 msgid "Allow Downloads"
 msgstr ""
 
@@ -831,52 +896,64 @@ msgstr ""
 msgid "This is the administrator login page."
 msgstr ""
 
-#: app/templates/login.html:24
+#: app/templates/login.html:23
 msgid "Go to your media server instead"
 msgstr ""
 
-#: app/templates/login.html:42
+#: app/templates/login.html:43
 #, python-brace-format
 msgid "Welcome back, {}!"
 msgstr ""
 
-#: app/templates/login.html:44
+#: app/templates/login.html:45
 msgid "Please authenticate with your passkey to complete login."
 msgstr ""
 
-#: app/templates/login.html:88
+#: app/templates/login.html:60
+msgid "Authentication Method"
+msgstr ""
+
+#: app/templates/login.html:66
+msgid "Local Account"
+msgstr ""
+
+#: app/templates/login.html:67 app/templates/settings/index.html:125
+msgid "LDAP"
+msgstr ""
+
+#: app/templates/login.html:103
 msgid "Remember me"
 msgstr ""
 
-#: app/templates/login.html:95
+#: app/templates/login.html:110
 msgid "Sign in"
 msgstr ""
 
-#: app/templates/login.html:113
+#: app/templates/login.html:128
 msgid "Authenticate with Passkey"
 msgstr ""
 
-#: app/templates/login.html:125
+#: app/templates/login.html:140
 msgid "Back to Login"
 msgstr ""
 
-#: app/templates/login.html:134
+#: app/templates/login.html:149
 msgid "Or"
 msgstr ""
 
-#: app/templates/login.html:147 app/templates/login.html:269
+#: app/templates/login.html:162 app/templates/login.html:284
 msgid "Sign in with Passkey"
 msgstr ""
 
-#: app/templates/login.html:174
+#: app/templates/login.html:189
 msgid "Authenticating..."
 msgstr ""
 
-#: app/templates/login.html:247
+#: app/templates/login.html:262
 msgid "Failed to complete 2FA login"
 msgstr ""
 
-#: app/templates/login.html:262
+#: app/templates/login.html:277
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
 
@@ -1095,7 +1172,7 @@ msgstr ""
 msgid "Create a password"
 msgstr ""
 
-#: app/templates/tables/user_card.html:142
+#: app/templates/tables/user_card.html:150
 #: app/templates/welcome-jellyfin.html:193
 msgid "Invite Code"
 msgstr ""
@@ -1255,6 +1332,7 @@ msgstr ""
 
 #: app/templates/admin/server_health_card.html:71
 #: app/templates/admin/server_stats_card.html:24
+#: app/templates/settings/ldap.html:197
 msgid "Users"
 msgstr ""
 
@@ -1321,9 +1399,9 @@ msgstr ""
 #: app/templates/admin/user_details_modal.html:69
 #: app/templates/tables/invite_card.html:113
 #: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:91
-#: app/templates/tables/user_card.html:113
-#: app/templates/tables/user_card.html:115
+#: app/templates/tables/user_card.html:99
+#: app/templates/tables/user_card.html:121
+#: app/templates/tables/user_card.html:123
 msgid "Expires"
 msgstr ""
 
@@ -1355,7 +1433,7 @@ msgstr ""
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
-#: app/templates/modals/invite.html:414
+#: app/templates/modals/invite.html:437
 #: app/templates/modals/password-reset-link.html:143
 msgid "Close"
 msgstr ""
@@ -1376,13 +1454,13 @@ msgid "Tabs"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:42
-#: app/templates/tables/user_card.html:95
+#: app/templates/tables/user_card.html:103
 msgid "Local"
 msgstr ""
 
 #: app/templates/admin/user_modal.html:52
 #: app/templates/admin/user_modal.html:249
-#: app/templates/tables/user_card.html:156
+#: app/templates/tables/user_card.html:164
 msgid "Notes"
 msgstr ""
 
@@ -1541,13 +1619,13 @@ msgstr ""
 #: app/templates/modals/connection-form.html:162
 #: app/templates/modals/create-admin.html:48
 #: app/templates/modals/create-api-key.html:82
-#: app/templates/modals/create-notification-agent.html:146
+#: app/templates/modals/create-notification-agent.html:163
 #: app/templates/modals/create-server.html:168
 #: app/templates/modals/edit-admin.html:50
 #: app/templates/modals/edit-identity.html:49
-#: app/templates/modals/edit-notification-agent.html:142
+#: app/templates/modals/edit-notification-agent.html:168
 #: app/templates/modals/edit-server.html:178
-#: app/templates/modals/invite.html:365
+#: app/templates/modals/invite.html:388
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
 #: app/templates/modals/wizard-preset-form.html:59
@@ -1611,11 +1689,11 @@ msgstr ""
 msgid "Please follow your device's prompts to complete setup"
 msgstr ""
 
-#: app/templates/components/passkey_register.html:111
+#: app/templates/components/passkey_register.html:107
 msgid "Failed to register passkey"
 msgstr ""
 
-#: app/templates/components/passkey_register.html:116
+#: app/templates/components/passkey_register.html:112
 msgid "Failed to complete passkey registration"
 msgstr ""
 
@@ -1716,6 +1794,7 @@ msgid "Update Connection"
 msgstr ""
 
 #: app/templates/modals/connection-form.html:158
+#: app/templates/settings/ldap.html:99
 msgid "Test Connection"
 msgstr ""
 
@@ -1767,44 +1846,54 @@ msgstr ""
 msgid "New Agent"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:73
-#: app/templates/modals/edit-notification-agent.html:58
+#: app/templates/modals/create-notification-agent.html:74
+#: app/templates/modals/edit-notification-agent.html:59
 msgid "Channel ID"
 msgstr ""
 
 #: app/templates/modals/create-notification-agent.html:84
 #: app/templates/modals/edit-notification-agent.html:76
-msgid "Username (optional)"
+msgid "Bot Token"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:92
-#: app/templates/modals/edit-notification-agent.html:85
-msgid "Password (optional)"
+#: app/templates/modals/create-notification-agent.html:90
+#: app/templates/modals/edit-notification-agent.html:84
+msgid "Chat ID"
 msgstr ""
 
 #: app/templates/modals/create-notification-agent.html:101
-#: app/templates/modals/edit-notification-agent.html:95
+#: app/templates/modals/edit-notification-agent.html:102
+msgid "Username (optional)"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:109
+#: app/templates/modals/edit-notification-agent.html:111
+msgid "Password (optional)"
+msgstr ""
+
+#: app/templates/modals/create-notification-agent.html:118
+#: app/templates/modals/edit-notification-agent.html:121
 msgid "Agent URL"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:110
-#: app/templates/modals/edit-notification-agent.html:105
+#: app/templates/modals/create-notification-agent.html:127
+#: app/templates/modals/edit-notification-agent.html:131
 msgid "Notification Events"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:121
-#: app/templates/modals/edit-notification-agent.html:117
+#: app/templates/modals/create-notification-agent.html:138
+#: app/templates/modals/edit-notification-agent.html:143
 #: app/templates/settings/notifications.html:84
 msgid "User Joined"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:133
-#: app/templates/modals/edit-notification-agent.html:129
+#: app/templates/modals/create-notification-agent.html:150
+#: app/templates/modals/edit-notification-agent.html:155
 #: app/templates/settings/notifications.html:89
 msgid "Update Available"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:141
+#: app/templates/modals/create-notification-agent.html:158
 msgid "Test & Create Agent"
 msgstr ""
 
@@ -1858,7 +1947,7 @@ msgstr ""
 msgid "Notification Service"
 msgstr ""
 
-#: app/templates/modals/edit-notification-agent.html:137
+#: app/templates/modals/edit-notification-agent.html:163
 msgid "Test & Save Changes"
 msgstr ""
 
@@ -1866,7 +1955,7 @@ msgstr ""
 msgid "Edit Server"
 msgstr ""
 
-#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:360
+#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:383
 msgid "Create Invitation"
 msgstr ""
 
@@ -1941,65 +2030,77 @@ msgid ""
 "number of days. (1-999)"
 msgstr ""
 
-#: app/templates/modals/invite.html:152
+#: app/templates/modals/invite.html:153
+msgid "LDAP Integration"
+msgstr ""
+
+#: app/templates/modals/invite.html:165
+msgid "Create LDAP User"
+msgstr ""
+
+#: app/templates/modals/invite.html:168
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
+
+#: app/templates/modals/invite.html:175
 msgid "Target servers"
 msgstr ""
 
-#: app/templates/modals/invite.html:186
+#: app/templates/modals/invite.html:209
 msgid "Invite to Plex Home"
 msgstr ""
 
-#: app/templates/modals/invite.html:208 app/templates/modals/invite.html:242
-#: app/templates/modals/invite.html:285
+#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:265
+#: app/templates/modals/invite.html:308
 msgid "Allow Live TV Access"
 msgstr ""
 
-#: app/templates/modals/invite.html:219 app/templates/modals/invite.html:296
+#: app/templates/modals/invite.html:242 app/templates/modals/invite.html:319
 msgid "Allow Mobile Uploads"
 msgstr ""
 
-#: app/templates/modals/invite.html:250
+#: app/templates/modals/invite.html:273
 msgid "Max Active Sessions"
 msgstr ""
 
-#: app/templates/modals/invite.html:251
+#: app/templates/modals/invite.html:274
 msgid "simultaneous devices"
 msgstr ""
 
-#: app/templates/modals/invite.html:261
+#: app/templates/modals/invite.html:284
 msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
 
-#: app/templates/modals/invite.html:336
+#: app/templates/modals/invite.html:359
 msgid "Select Libraries"
 msgstr ""
 
-#: app/templates/modals/invite.html:349 app/templates/modals/invite.html:453
+#: app/templates/modals/invite.html:372 app/templates/modals/invite.html:476
 msgid "Loading…"
 msgstr ""
 
-#: app/templates/modals/invite.html:380
+#: app/templates/modals/invite.html:403
 msgid "Successfully generated an Invitation!"
 msgstr ""
 
-#: app/templates/modals/invite.html:386
+#: app/templates/modals/invite.html:409
 msgid "Invitation Link"
 msgstr ""
 
-#: app/templates/modals/invite.html:398
+#: app/templates/modals/invite.html:421
 #: app/templates/modals/password-reset-link.html:81
 msgid "Copy"
 msgstr ""
 
-#: app/templates/modals/invite.html:403
+#: app/templates/modals/invite.html:426
 msgid "Link has been copied to clipboard!"
 msgstr ""
 
-#: app/templates/modals/invite.html:409
+#: app/templates/modals/invite.html:432
 msgid "Create Another"
 msgstr ""
 
-#: app/templates/modals/invite.html:463
+#: app/templates/modals/invite.html:486
 msgid "Please select at least one server for the invitation."
 msgstr ""
 
@@ -2392,7 +2493,7 @@ msgstr ""
 msgid "Loading API keys..."
 msgstr ""
 
-#: app/templates/settings/general.html:271
+#: app/templates/settings/general.html:271 app/templates/settings/ldap.html:260
 msgid "Save Settings"
 msgstr ""
 
@@ -2425,12 +2526,120 @@ msgstr ""
 msgid "Admins"
 msgstr ""
 
-#: app/templates/settings/index.html:124
+#: app/templates/settings/index.html:141
 msgid "Wizard"
 msgstr ""
 
-#: app/templates/settings/index.html:142
+#: app/templates/settings/index.html:159
 msgid "Audit"
+msgstr ""
+
+#: app/templates/settings/ldap.html:8
+msgid "LDAP Settings"
+msgstr ""
+
+#: app/templates/settings/ldap.html:9
+msgid "Experimental"
+msgstr ""
+
+#: app/templates/settings/ldap.html:12
+msgid "Configure LDAP for user authentication and management"
+msgstr ""
+
+#: app/templates/settings/ldap.html:31
+msgid "Enable LDAP"
+msgstr ""
+
+#: app/templates/settings/ldap.html:32
+msgid "Turn on LDAP integration"
+msgstr ""
+
+#: app/templates/settings/ldap.html:44
+msgid "Connection"
+msgstr ""
+
+#: app/templates/settings/ldap.html:45
+msgid "LDAP server connection"
+msgstr ""
+
+#: app/templates/settings/ldap.html:50
+msgid "e.g., ldap://server:3890 or ldaps://server:6360"
+msgstr ""
+
+#: app/templates/settings/ldap.html:56
+msgid "Use TLS"
+msgstr ""
+
+#: app/templates/settings/ldap.html:66
+msgid "Verify Cert"
+msgstr ""
+
+#: app/templates/settings/ldap.html:83
+msgid "Encrypted before storage"
+msgstr ""
+
+#: app/templates/settings/ldap.html:107
+msgid "User & Group Settings"
+msgstr ""
+
+#: app/templates/settings/ldap.html:108
+msgid "Where to find users and groups"
+msgstr ""
+
+#: app/templates/settings/ldap.html:119
+msgid "Optional - only needed for admin group restriction"
+msgstr ""
+
+#: app/templates/settings/ldap.html:137
+msgid "Sync Groups"
+msgstr ""
+
+#: app/templates/settings/ldap.html:140
+msgid "Sync LDAP groups to populate admin group selection"
+msgstr ""
+
+#: app/templates/settings/ldap.html:157
+msgid "Advanced Settings"
+msgstr ""
+
+#: app/templates/settings/ldap.html:162
+msgid ""
+"Defaults are optimized for LLDAP. Only change if using a different LDAP "
+"server."
+msgstr ""
+
+#: app/templates/settings/ldap.html:199
+msgid "Manage all users - both LDAP and local authentication"
+msgstr ""
+
+#: app/templates/settings/ldap.html:215
+msgid "Sync from LDAP"
+msgstr ""
+
+#: app/templates/settings/ldap.html:219
+msgid ""
+"Users can authenticate via LDAP or locally. Sync automatically imports "
+"new users from LDAP."
+msgstr ""
+
+#: app/templates/settings/ldap.html:226
+msgid "Admin Authentication"
+msgstr ""
+
+#: app/templates/settings/ldap.html:227
+msgid "Allow administrators to log in using LDAP"
+msgstr ""
+
+#: app/templates/settings/ldap.html:232
+msgid "Allow Admin Login via LDAP"
+msgstr ""
+
+#: app/templates/settings/ldap.html:233
+msgid "Enable admin login using LDAP credentials"
+msgstr ""
+
+#: app/templates/settings/ldap.html:246
+msgid "Optional: Restrict admin access to members of this LDAP group"
 msgstr ""
 
 #: app/templates/settings/notifications.html:8
@@ -2884,35 +3093,35 @@ msgstr ""
 msgid "Home User"
 msgstr ""
 
-#: app/templates/tables/user_card.html:130
+#: app/templates/tables/user_card.html:138
 msgid "Invited"
 msgstr ""
 
-#: app/templates/tables/user_card.html:169
+#: app/templates/tables/user_card.html:177
 msgid "Disabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:175
+#: app/templates/tables/user_card.html:183
 msgid "Downloads enabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:189
+#: app/templates/tables/user_card.html:197
 msgid "Live TV enabled"
 msgstr ""
 
-#: app/templates/tables/user_card.html:208
+#: app/templates/tables/user_card.html:216
 msgid "View details"
 msgstr ""
 
-#: app/templates/tables/user_card.html:226
+#: app/templates/tables/user_card.html:234
 msgid "Edit user"
 msgstr ""
 
-#: app/templates/tables/user_card.html:247
+#: app/templates/tables/user_card.html:255
 msgid "Reset password"
 msgstr ""
 
-#: app/templates/tables/user_card.html:267
+#: app/templates/tables/user_card.html:275
 msgid "Remove user"
 msgstr ""
 
