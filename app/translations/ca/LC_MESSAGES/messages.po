@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-04-01 05:31+0000\n"
-"PO-Revision-Date: 2025-10-31 14:52+0000\n"
+"PO-Revision-Date: 2025-11-03 20:03+0000\n"
 "Last-Translator: DoeJoohn <oorca@tuta.io>\n"
+"Language-Team: Catalan <https://hosted.weblate.org/projects/wizarr/wizarr-"
+"universal/ca/>\n"
 "Language: ca\n"
-"Language-Team: Catalan <https://hosted.weblate.org/projects/wizarr"
-"/wizarr-universal/ca/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.18.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
+"Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 #, fuzzy
@@ -109,13 +110,14 @@ msgstr "Mai"
 
 #: app/activity/api/blueprint.py:688
 msgid ""
-"Historical data import is currently only supported for Plex, Jellyfin, "
-"Emby, and AudiobookShelf servers."
+"Historical data import is currently only supported for Plex, Jellyfin, Emby, "
+"and AudiobookShelf servers."
 msgstr ""
 
 #: app/activity/api/blueprint.py:699
 #, python-brace-format
-msgid "Historical import job #{job_id} started for {server} (last {days} days)."
+msgid ""
+"Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
 
 #: app/activity/api/blueprint.py:709
@@ -207,8 +209,8 @@ msgstr ""
 
 #: app/blueprints/api_keys/routes.py:55
 msgid ""
-"No admin account found. Please set up a proper admin account before "
-"creating API keys."
+"No admin account found. Please set up a proper admin account before creating "
+"API keys."
 msgstr ""
 
 #: app/blueprints/api_keys/routes.py:86
@@ -217,8 +219,7 @@ msgstr ""
 
 #: app/blueprints/api_keys/routes.py:96
 msgid ""
-"API key created successfully. Please copy it now as it won't be shown "
-"again."
+"API key created successfully. Please copy it now as it won't be shown again."
 msgstr ""
 
 #: app/blueprints/api_keys/routes.py:138
@@ -313,8 +314,7 @@ msgstr ""
 
 #: app/blueprints/public/routes.py:141 app/blueprints/public/routes.py:158
 msgid ""
-"There was an issue setting up your access. Please contact your server "
-"admin."
+"There was an issue setting up your access. Please contact your server admin."
 msgstr ""
 
 #: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
@@ -322,9 +322,8 @@ msgid "Settings saved successfully!"
 msgstr ""
 
 #: app/blueprints/settings/routes.py:217 app/forms/settings.py:24
-#, fuzzy
 msgid "Server URL"
-msgstr "Mai"
+msgstr "URL del servidor"
 
 #: app/blueprints/settings/routes.py:220 app/forms/settings.py:25
 msgid "API Key"
@@ -416,8 +415,8 @@ msgstr ""
 #: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1244
 #: app/blueprints/wizard/routes.py:1407
 msgid ""
-"This step could not be loaded. Please contact the administrator or skip "
-"to the next step."
+"This step could not be loaded. Please contact the administrator or skip to "
+"the next step."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
@@ -429,8 +428,8 @@ msgstr "Invitació no vàlida"
 
 #: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:775
 msgid ""
-"No media servers are configured. Please contact the administrator to set "
-"up a media server."
+"No media servers are configured. Please contact the administrator to set up "
+"a media server."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:626
@@ -448,7 +447,8 @@ msgid "Please log in to continue"
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:815
-msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
+msgid ""
+"Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:863
@@ -569,8 +569,8 @@ msgstr ""
 
 #: app/forms/admin.py:34
 msgid ""
-"Password must contain at least one uppercase letter, one lowercase "
-"letter, and one number."
+"Password must contain at least one uppercase letter, one lowercase letter, "
+"and one number."
 msgstr ""
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
@@ -592,9 +592,8 @@ msgstr "Contrassenya"
 #: app/forms/admin.py:47 app/forms/admin.py:65
 #: app/templates/modals/create-admin.html:35
 #: app/templates/modals/edit-admin.html:37
-#, fuzzy
 msgid "Confirm password"
-msgstr "Contrassenya"
+msgstr "Confirma la contrassenya"
 
 #: app/forms/admin.py:50 app/forms/admin.py:68
 #, fuzzy
@@ -678,29 +677,28 @@ msgstr ""
 #: app/services/servers.py:34
 #, python-format
 msgid ""
-"Could not connect to the %(server_type)s server. Please check if the "
-"server is running and the URL is correct."
+"Could not connect to the %(server_type)s server. Please check if the server "
+"is running and the URL is correct."
 msgstr ""
 
 #: app/services/servers.py:40
 #, python-format
 msgid ""
-"Connection to %(server_type)s server timed out. Please check if the "
-"server is running and accessible."
+"Connection to %(server_type)s server timed out. Please check if the server "
+"is running and accessible."
 msgstr ""
 
 #: app/services/servers.py:46
 #, python-format
 msgid ""
-"An error occurred while connecting to the %(server_type)s server: "
-"%(error)s"
+"An error occurred while connecting to the %(server_type)s server: %(error)s"
 msgstr ""
 
 #: app/services/servers.py:53
 #, python-format
 msgid ""
-"An unexpected error occurred while connecting to the %(server_type)s "
-"server: %(error)s"
+"An unexpected error occurred while connecting to the %(server_type)s server: "
+"%(error)s"
 msgstr ""
 
 #: app/services/servers.py:66
@@ -922,7 +920,8 @@ msgid "Invalid Invitation"
 msgstr "Invitació no vàlida"
 
 #: app/templates/invalid-invite.html:19
-msgid "This invitation link is no longer valid. Please request a new invitation."
+msgid ""
+"This invitation link is no longer valid. Please request a new invitation."
 msgstr ""
 
 #: app/templates/login.html:14
@@ -1198,9 +1197,8 @@ msgstr "Convidar l'usuari"
 
 #: app/templates/welcome-jellyfin.html:73
 #: app/templates/welcome-jellyfin.html:78
-#, fuzzy
 msgid "Accept Invitation"
-msgstr "Crear Invitació"
+msgstr "Accepta la invitació"
 
 #: app/templates/welcome-jellyfin.html:74
 msgid "Get ready to join the magic"
@@ -1859,8 +1857,8 @@ msgstr ""
 #: app/templates/modals/connection-form.html:78
 #: app/templates/settings/connections/form.html:127
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No "
-"API connection is required for Wizarr integration."
+"Overseerr and Jellyseerr automatically import new users by default. No API "
+"connection is required for Wizarr integration."
 msgstr ""
 
 #: app/templates/modals/connection-form.html:82
@@ -1870,8 +1868,8 @@ msgstr ""
 
 #: app/templates/modals/connection-form.html:84
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
-"new users' and 'Import Jellyfin/Plex users'"
+"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
+"users' and 'Import Jellyfin/Plex users'"
 msgstr ""
 
 #: app/templates/modals/connection-form.html:139
@@ -1916,8 +1914,8 @@ msgstr ""
 
 #: app/templates/modals/create-api-key.html:33
 msgid ""
-"Your API key has been created. Please copy it now as it will not be shown"
-" again."
+"Your API key has been created. Please copy it now as it will not be shown "
+"again."
 msgstr ""
 
 #: app/templates/modals/create-api-key.html:40
@@ -2049,9 +2047,8 @@ msgstr "Nou agent"
 
 #: app/templates/modals/edit-notification-agent.html:24
 #: app/templates/servers/index.html:10
-#, fuzzy
 msgid "Name"
-msgstr "Nom d'usuari"
+msgstr "Nom"
 
 #: app/templates/modals/edit-notification-agent.html:36
 #, fuzzy
@@ -2147,8 +2144,8 @@ msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
 msgstr ""
-"Quan configurat, els usuaris convidats seran eliminats del servidor de "
-"Plex després d'un\n"
+"Quan configurat, els usuaris convidats seran eliminats del servidor de Plex "
+"després d'un\n"
 "nombre de\n"
 "dies. (1-999)"
 
@@ -2194,7 +2191,8 @@ msgid "simultaneous devices"
 msgstr ""
 
 #: app/templates/modals/invite.html:284
-msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgid ""
+"Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
 
 #: app/templates/modals/invite.html:359
@@ -2258,7 +2256,8 @@ msgid "Reset Link (Click to copy)"
 msgstr ""
 
 #: app/templates/modals/password-reset-link.html:85
-msgid "Send this link to the user. They can use it once to reset their password."
+msgid ""
+"Send this link to the user. They can use it once to reset their password."
 msgstr ""
 
 #: app/templates/modals/password-reset-link.html:90
@@ -2350,8 +2349,8 @@ msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:92
 msgid ""
-"This action will modify your wizard steps configuration. Make sure to "
-"backup your current steps before importing if you want to preserve them."
+"This action will modify your wizard steps configuration. Make sure to backup "
+"your current steps before importing if you want to preserve them."
 msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:111
@@ -2457,9 +2456,8 @@ msgstr ""
 
 #: app/templates/servers/index.html:14
 #: app/templates/settings/connections.html:39
-#, fuzzy
 msgid "Actions"
-msgstr "Invitacions"
+msgstr "Accions"
 
 #: app/templates/servers/index.html:26
 #: app/templates/settings/connections.html:122
@@ -2547,8 +2545,8 @@ msgstr ""
 
 #: app/templates/settings/connections.html:159
 msgid ""
-"Connect your external services to automate user invitations when invites "
-"are created for specific media servers."
+"Connect your external services to automate user invitations when invites are "
+"created for specific media servers."
 msgstr ""
 
 #: app/templates/settings/connections.html:171
@@ -2614,8 +2612,8 @@ msgstr "Crea un compte"
 
 #: app/templates/settings/general.html:150
 msgid ""
-"If 'Disable User' is selected but the server does not support it, the "
-"user will be deleted instead."
+"If 'Disable User' is selected but the server does not support it, the user "
+"will be deleted instead."
 msgstr ""
 
 #: app/templates/settings/general.html:159
@@ -2783,8 +2781,8 @@ msgstr ""
 
 #: app/templates/settings/ldap.html:219
 msgid ""
-"Users can authenticate via LDAP or locally. Sync automatically imports "
-"new users from LDAP."
+"Users can authenticate via LDAP or locally. Sync automatically imports new "
+"users from LDAP."
 msgstr ""
 
 #: app/templates/settings/ldap.html:226
@@ -3067,8 +3065,8 @@ msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:6
 msgid ""
-"Import wizard steps or bundles from a JSON file to quickly set up or "
-"restore your wizard configuration."
+"Import wizard steps or bundles from a JSON file to quickly set up or restore "
+"your wizard configuration."
 msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:13
@@ -3091,7 +3089,8 @@ msgid "Important: Backup Recommended"
 msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:84
-msgid "This action will modify your wizard configuration. Consider the following:"
+msgid ""
+"This action will modify your wizard configuration. Consider the following:"
 msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:86
@@ -3108,8 +3107,8 @@ msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:89
 msgid ""
-"If replacing existing configuration, all current steps and bundles will "
-"be permanently removed"
+"If replacing existing configuration, all current steps and bundles will be "
+"permanently removed"
 msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:90
@@ -3146,8 +3145,8 @@ msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:251
 msgid ""
-"This will permanently replace all existing wizard configuration (steps "
-"and bundles). Are you sure you want to continue?"
+"This will permanently replace all existing wizard configuration (steps and "
+"bundles). Are you sure you want to continue?"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:13
@@ -3167,9 +3166,8 @@ msgid "Get started by creating your first wizard step"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:53
-#, fuzzy
 msgid "Server"
-msgstr "Mai"
+msgstr "Servidor"
 
 #: app/templates/settings/wizard/index.html:54
 msgid "steps configured"
@@ -3202,8 +3200,8 @@ msgstr ""
 #: app/templates/settings/wizard/steps.html:23
 #, python-format
 msgid ""
-"Are you sure you want to reset all steps for %(server)s to defaults? This"
-" will delete all custom steps and reimport the default ones."
+"Are you sure you want to reset all steps for %(server)s to defaults? This "
+"will delete all custom steps and reimport the default ones."
 msgstr ""
 
 #: app/templates/settings/wizard/steps.html:26
@@ -3278,9 +3276,8 @@ msgid "Edit nickname"
 msgstr ""
 
 #: app/templates/tables/user_card.html:54
-#, fuzzy
 msgid "Home User"
-msgstr "Inici"
+msgstr "Usuari local"
 
 #: app/templates/tables/user_card.html:138
 #, fuzzy
@@ -3339,8 +3336,17 @@ msgstr "Anterior"
 msgid "Click the link in this step to be able to continue"
 msgstr ""
 
-#~ msgid "Accept Invitation"
-#~ msgstr "Accepta la invitació"
+#~ msgid "Edit expiry"
+#~ msgstr "Edita la caducitat"
+
+#~ msgid "Expiry date (leave blank for never)"
+#~ msgstr "Data de caducitat (deixa en blanc si no caduca mai)"
+
+#~ msgid "Invitation Details"
+#~ msgstr "Invitacions"
+
+#~ msgid "Invitation expires"
+#~ msgstr "Invitacions"
 
 #~ msgid "Accept our invitation"
 #~ msgstr "Accepta la nostra invitació"
@@ -3349,19 +3355,14 @@ msgstr ""
 #~ msgstr "Hem enviat una invitació al teu compte de Plex! Ja gairebé estem!"
 
 #~ msgid ""
-#~ "Click the button below to be taken"
-#~ " to Plex, here you will see an"
-#~ " invitation from us."
+#~ "Click the button below to be taken to Plex, here you will see an "
+#~ "invitation from us."
 #~ msgstr ""
-#~ "Fes clic al botó següent per ser"
-#~ " portat a Plex, allà veuràs una "
-#~ "invitació nostra."
+#~ "Fes clic al botó següent per ser portat a Plex, allà veuràs una invitació "
+#~ "nostra."
 
 #~ msgid "Accept"
 #~ msgstr "Acceptar"
-
-#~ msgid "Next"
-#~ msgstr "Següent"
 
 #~ msgid "Great! Now, let's get you invited!"
 #~ msgstr "Genial! Ara, anem a convidar-te!"
@@ -3392,14 +3393,12 @@ msgstr ""
 
 #~ msgid ""
 #~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n"
-#~ ""
+#~ "                    deprecated and replaced by a secure sign-up. Please "
+#~ "visit \n"
 #~ "\n"
 #~ msgstr ""
-#~ "Les Variables d'Entorn estan sent "
-#~ "obsoletes i substituïdes per un registre"
-#~ " segur. Si us plau, visiteu "
+#~ "Les Variables d'Entorn estan sent obsoletes i substituïdes per un "
+#~ "registre segur. Si us plau, visiteu "
 
 #~ msgid ""
 #~ "/settings.\n"
@@ -3462,9 +3461,6 @@ msgstr ""
 #~ msgid "User"
 #~ msgstr "Usuari"
 
-#~ msgid "Home User"
-#~ msgstr "Usuari local"
-
 #~ msgid "Passwords do not match."
 #~ msgstr "Les contrassenyes no coincideixen."
 
@@ -3480,17 +3476,14 @@ msgstr ""
 #~ msgid "It is likely that your token does not work."
 #~ msgstr "És probable que el teu token no funcioni."
 
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgid ""
+#~ "Unable to connect to your Plex server. See Logs for more information."
 #~ msgstr ""
-#~ "Impossible conectar-se al teu servidor"
-#~ " de Plex. Mira els Logs per a"
-#~ " més informació."
+#~ "Impossible conectar-se al teu servidor de Plex. Mira els Logs per a més "
+#~ "informació."
 
 #~ msgid "Unable to connect to your Jellyfin server."
 #~ msgstr "Impossible conectar-se al teu servidor de Jellyfin."
-
-#~ msgid "Confirm password"
-#~ msgstr "Confirma la contrassenya"
 
 #~ msgid ""
 #~ "Server Display\n"
@@ -3498,12 +3491,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Nom públic\n"
 #~ "del servidor"
-
-#~ msgid "Server"
-#~ msgstr "Servidor"
-
-#~ msgid "Server URL"
-#~ msgstr "URL del servidor"
 
 #~ msgid ""
 #~ "Server\n"
@@ -3553,21 +3540,15 @@ msgstr ""
 #~ msgstr "Sol·licituds automàtiques de mitjans"
 
 #~ msgid ""
-#~ "We are excited to offer you a "
-#~ "wide selection of media to choose "
-#~ "from. If you're having trouble finding"
-#~ "\n"
-#~ "    something you like, don't worry! "
-#~ "We have a user-friendly request "
-#~ "system that can automatically search for"
-#~ " the\n"
+#~ "We are excited to offer you a wide selection of media to choose from. If "
+#~ "you're having trouble finding\n"
+#~ "    something you like, don't worry! We have a user-friendly request "
+#~ "system that can automatically search for the\n"
 #~ "    media you're looking for. "
 #~ msgstr ""
-#~ "Ens complau oferir-vos una àmplia "
-#~ "selecció de mitjans per triar. Si "
-#~ "teniu problemes per trobar\n"
-#~ "alguna cosa que us agradi, no us"
-#~ " preocupeu! Disposem d'un sistema de "
+#~ "Ens complau oferir-vos una àmplia selecció de mitjans per triar. Si teniu "
+#~ "problemes per trobar\n"
+#~ "alguna cosa que us agradi, no us preocupeu! Disposem d'un sistema de "
 #~ "sol·licitud fàcil d'utilitzar que pot\n"
 #~ "cercar automàticament els mitjans que busqueu. "
 
@@ -3575,12 +3556,10 @@ msgstr ""
 #~ msgstr "Sol·licita qualsevol pel·lícula o programa de televisió disponible"
 
 #~ msgid ""
-#~ "Requested media will be automatically "
-#~ "downloaded and added to the library "
+#~ "Requested media will be automatically downloaded and added to the library "
 #~ "(if available)"
 #~ msgstr ""
-#~ "Els mitjans sol·licitats es baixaran "
-#~ "automàticament i s'afegiran a la "
+#~ "Els mitjans sol·licitats es baixaran automàticament i s'afegiran a la "
 #~ "biblioteca (si estan disponibles)"
 
 #~ msgid "If enabled, receive notifications"
@@ -3597,26 +3576,20 @@ msgstr ""
 #~ "per a aquest dispositiu"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Jellyfin."
 #~ msgstr ""
-#~ "Bones notícies! Ara tens accés a "
-#~ "la col·lecció de mitjans del nostre "
-#~ "servidor. Assegurem-nos que saps com"
-#~ "\n"
+#~ "Bones notícies! Ara tens accés a la col·lecció de mitjans del nostre "
+#~ "servidor. Assegurem-nos que saps com\n"
 #~ "utilitzar-la amb Jellyfin."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Jellyfin for this "
+#~ "Planning on watching Movies on this device? Download Jellyfin for this "
 #~ "device."
 #~ msgstr ""
-#~ "Estàs pensant en veure pel·lícules en"
-#~ " aquest dispositiu? Baixa Jellyfin per "
-#~ "a aquest dispositiu."
+#~ "Estàs pensant en veure pel·lícules en aquest dispositiu? Baixa Jellyfin "
+#~ "per a aquest dispositiu."
 
 #~ msgid "Download"
 #~ msgstr "Baixa"
@@ -3625,61 +3598,40 @@ msgstr ""
 #~ msgstr "Eh, doncs, què és exactament Jellyfin?"
 
 #~ msgid ""
-#~ "Jellyfin is a platform that lets "
-#~ "you stream all your favorite movies, "
-#~ "TV shows, and music in one place."
-#~ "\n"
-#~ "        It's like having your own "
-#~ "personal movie theater right at your "
-#~ "fingertips! Think of it as a "
-#~ "digital library of\n"
-#~ "        your favorite content that you"
-#~ " can access from anywhere, on any "
-#~ "device - your phone, tablet, laptop, "
-#~ "smart TV,\n"
+#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
+#~ "shows, and music in one place.\n"
+#~ "        It's like having your own personal movie theater right at your "
+#~ "fingertips! Think of it as a digital library of\n"
+#~ "        your favorite content that you can access from anywhere, on any "
+#~ "device - your phone, tablet, laptop, smart TV,\n"
 #~ "        you name it."
 #~ msgstr ""
-#~ "Jellyfin és una plataforma que et "
-#~ "permet reproduir totes les teves "
-#~ "pel·lícules, sèries de TV i música "
-#~ "preferides en un sol lloc.\n"
-#~ "És com tenir la teva pròpia sala"
-#~ " de cinema personal al teu abast! "
-#~ "Penseu com a una llibreria digital "
-#~ "del\n"
-#~ "teu contingut preferit a la que "
-#~ "pots accedir des de qualsevol lloc, "
-#~ "en qualsevol dispositiu - el teu "
-#~ "mòbil, tauleta, portàtil, Smart TV,\n"
+#~ "Jellyfin és una plataforma que et permet reproduir totes les teves "
+#~ "pel·lícules, sèries de TV i música preferides en un sol lloc.\n"
+#~ "És com tenir la teva pròpia sala de cinema personal al teu abast! Penseu "
+#~ "com a una llibreria digital del\n"
+#~ "teu contingut preferit a la que pots accedir des de qualsevol lloc, en "
+#~ "qualsevol dispositiu - el teu mòbil, tauleta, portàtil, Smart TV,\n"
 #~ "el que vulguis."
 
 #~ msgid "Right, so how do I watch stuff?"
 #~ msgstr "D'acord, llavors, com puc veure coses?"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Jellyfin is "
-#~ "available on a wide variety of "
+#~ "It couldn't be simpler! Jellyfin is available on a wide variety of "
 #~ "devices including laptops, tablets,\n"
-#~ "        smartphones, and TVs. All you"
-#~ " need to do is download the "
-#~ "Jellyfin app on your device, sign "
-#~ "in with your account,\n"
+#~ "        smartphones, and TVs. All you need to do is download the Jellyfin "
+#~ "app on your device, sign in with your account,\n"
 #~ "        and\n"
 #~ "        you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "No podria ser més senzill! Plex "
-#~ "està disponible en una gran varietat "
-#~ "de dispositius, com ara ordinadors "
-#~ "portàtils,\n"
-#~ "tauletes, telèfons intel·ligents i televisors."
-#~ " Tot el que has de fer és "
-#~ "descarregar l'aplicació Jellyfin al vostre "
-#~ "dispositiu, iniciar sessió amb el vostre"
-#~ " compte\n"
+#~ "No podria ser més senzill! Plex està disponible en una gran varietat de "
+#~ "dispositius, com ara ordinadors portàtils,\n"
+#~ "tauletes, telèfons intel·ligents i televisors. Tot el que has de fer és "
+#~ "descarregar l'aplicació Jellyfin al vostre dispositiu, iniciar sessió amb "
+#~ "el vostre compte\n"
 #~ "i\n"
-#~ "ja estaràs preparat per començar a "
-#~ "veure els teus mitjans. Així de "
-#~ "fàcil!"
+#~ "ja estaràs preparat per començar a veure els teus mitjans. Així de fàcil!"
 
 #~ msgid "Open Jellyfin"
 #~ msgstr "Obrir Jellyfin"
@@ -3692,94 +3644,65 @@ msgstr ""
 #~ "per a aquest dispositiu"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Plex."
 #~ msgstr ""
-#~ "Bones notícies! Ara tens accés a "
-#~ "la col·lecció de mitjans del nostre "
-#~ "servidor. Assegurem-nos que saps com"
-#~ "\n"
+#~ "Bones notícies! Ara tens accés a la col·lecció de mitjans del nostre "
+#~ "servidor. Assegurem-nos que saps com\n"
 #~ "utilitzar-la amb Plex."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Plex for this device."
+#~ "Planning on watching Movies on this device? Download Plex for this device."
 #~ msgstr ""
-#~ "Estàs pensant en veure pel·lícules en"
-#~ " aquest dispositiu? Baixa Plex per a"
-#~ " aquest dispositiu."
+#~ "Estàs pensant en veure pel·lícules en aquest dispositiu? Baixa Plex per a "
+#~ "aquest dispositiu."
 
 #~ msgid "Eh, So, What is Plex exactly?"
 #~ msgstr "Eh, doncs, què és exactament Plex?"
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "    you've received this invitation, it"
-#~ " means someone wants to share their"
-#~ " library with you. With Plex, you'll"
-#~ " have\n"
-#~ "    access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "    you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "    access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "Gran pregunta! Plex és un programari "
-#~ "que permet a les persones compartir "
-#~ "les seves col·leccions multimèdia amb "
-#~ "altres persones.\n"
-#~ "Si has rebut aquesta invitació, vol "
-#~ "dir que algú vol compartir la seva"
-#~ " biblioteca amb tu. Amb Plex, tindràs"
-#~ " accés a totes\n"
-#~ "les pel·lícules, programes de televisió, "
-#~ "música i fotos que s'emmagatzemen al "
-#~ "seu servidor. Gaudeix!"
+#~ "Gran pregunta! Plex és un programari que permet a les persones compartir "
+#~ "les seves col·leccions multimèdia amb altres persones.\n"
+#~ "Si has rebut aquesta invitació, vol dir que algú vol compartir la seva "
+#~ "biblioteca amb tu. Amb Plex, tindràs accés a totes\n"
+#~ "les pel·lícules, programes de televisió, música i fotos que "
+#~ "s'emmagatzemen al seu servidor. Gaudeix!"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "    smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you need to do is download the Plex app on "
+#~ "your device, sign in with your account, and\n"
 #~ "    you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "No podria ser més senzill! Plex "
-#~ "està disponible en una gran varietat "
-#~ "de dispositius, com ara ordinadors "
-#~ "portàtils,\n"
-#~ "tauletes, telèfons intel·ligents i televisors."
-#~ " Tot el que has de fer és "
-#~ "descarregar l'aplicació Plex al vostre "
-#~ "dispositiu, iniciar\n"
-#~ "sessió amb el vostre compte i ja"
-#~ " estaràs preparat per començar a "
-#~ "veure els teus mitjans. Així de "
-#~ "fàcil!"
+#~ "No podria ser més senzill! Plex està disponible en una gran varietat de "
+#~ "dispositius, com ara ordinadors portàtils,\n"
+#~ "tauletes, telèfons intel·ligents i televisors. Tot el que has de fer és "
+#~ "descarregar l'aplicació Plex al vostre dispositiu, iniciar\n"
+#~ "sessió amb el vostre compte i ja estaràs preparat per començar a veure "
+#~ "els teus mitjans. Així de fàcil!"
 
 #~ msgid "How can I make sure to have the best experience?"
 #~ msgstr "Com puc assegurar-me de tenir la millor experiència?"
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "    sharing with you - they also,"
-#~ " by default, play content at a "
-#~ "lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the "
+#~ "awesome content your friend is now\n"
+#~ "    sharing with you - they also, by default, play content at a lower "
+#~ "quality. "
 #~ msgstr ""
-#~ "Com que Plex és un servei gratuït,"
-#~ " promocionen el seu propi contingut "
+#~ "Com que Plex és un servei gratuït, promocionen el seu propi contingut "
 #~ "abans que el contingut fantàstic\n"
-#~ "que el teu amic està compartint "
-#~ "amb tu; també, per defecte, reprodueixen"
-#~ " contingut a una qualitat inferior. "
+#~ "que el teu amic està compartint amb tu; també, per defecte, reprodueixen "
+#~ "contingut a una qualitat inferior. "
 
 #~ msgid "No need to worry though, this can be easily resolved"
 #~ msgstr "No cal que et preocupis, això es pot resoldre fàcilment"
@@ -3796,8 +3719,8 @@ msgstr ""
 
 #~ msgid "Configure Plex's app on your computer, mobile device or TV"
 #~ msgstr ""
-#~ "Configureu l'aplicació de Plex al vostre"
-#~ " ordinador, dispositiu mòbil o televisor"
+#~ "Configureu l'aplicació de Plex al vostre ordinador, dispositiu mòbil o "
+#~ "televisor"
 
 #~ msgid "Open Plex"
 #~ msgstr "Obre Plex"
@@ -3807,12 +3730,6 @@ msgstr ""
 
 #~ msgid "User Policy"
 #~ msgstr "Política d'usuari"
-
-#~ msgid "Name"
-#~ msgstr "Nom"
-
-#~ msgid "Actions"
-#~ msgstr "Accions"
 
 #~ msgid "Home"
 #~ msgstr "Inici"
@@ -3883,54 +3800,11 @@ msgstr ""
 #~ msgid "libs"
 #~ msgstr "Biblioteques"
 
-#~ msgid "Downloads disabled"
-#~ msgstr ""
-
-#~ msgid "Live TV disabled"
-#~ msgstr ""
-
-#~ msgid "This wizard bundle has no steps configured."
-#~ msgstr ""
-
 #~ msgid "Pre-Invite"
 #~ msgstr "Anterior"
 
 #~ msgid "Post-Invite"
 #~ msgstr "Codi d'invitació"
 
-#~ msgid "Add step"
-#~ msgstr ""
-
-#~ msgid "Edit expiry"
-#~ msgstr "Edita la caducitat"
-
-#~ msgid "Server-specific Expiry Management"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "This user exists on multiple servers."
-#~ " You can set different expiry dates"
-#~ " for each server."
-#~ msgstr ""
-
-#~ msgid "Expiry date (leave blank for never)"
-#~ msgstr "Data de caducitat (deixa en blanc si no caduca mai)"
-
-#~ msgid "Invitation Details"
-#~ msgstr "Invitacions"
-
-#~ msgid "Code"
-#~ msgstr ""
-
-#~ msgid "Invitation expires"
-#~ msgstr "Invitacions"
-
-#~ msgid "Username must be 3 to 15 characters."
-#~ msgstr ""
-
-#~ msgid "No one is watching"
-#~ msgstr ""
-
 #~ msgid "Partial"
 #~ msgstr "(opcional)"
-

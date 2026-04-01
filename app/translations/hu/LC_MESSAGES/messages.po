@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-04-01 05:31+0000\n"
-"PO-Revision-Date: 2025-10-31 15:34+0000\n"
+"PO-Revision-Date: 2025-11-03 20:07+0000\n"
 "Last-Translator: hyperMBz <hypermb@ymail.com>\n"
+"Language-Team: Hungarian <https://hosted.weblate.org/projects/wizarr/wizarr-"
+"universal/hu/>\n"
 "Language: hu\n"
-"Language-Team: Hungarian <https://hosted.weblate.org/projects/wizarr"
-"/wizarr-universal/hu/>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.18.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
+"Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 #, fuzzy
@@ -112,13 +113,14 @@ msgstr "Szerver"
 
 #: app/activity/api/blueprint.py:688
 msgid ""
-"Historical data import is currently only supported for Plex, Jellyfin, "
-"Emby, and AudiobookShelf servers."
+"Historical data import is currently only supported for Plex, Jellyfin, Emby, "
+"and AudiobookShelf servers."
 msgstr ""
 
 #: app/activity/api/blueprint.py:699
 #, python-brace-format
-msgid "Historical import job #{job_id} started for {server} (last {days} days)."
+msgid ""
+"Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
 
 #: app/activity/api/blueprint.py:709
@@ -211,8 +213,8 @@ msgstr "{} kulcsainak alaphelyzetbe állítása sikertelen"
 
 #: app/blueprints/api_keys/routes.py:55
 msgid ""
-"No admin account found. Please set up a proper admin account before "
-"creating API keys."
+"No admin account found. Please set up a proper admin account before creating "
+"API keys."
 msgstr ""
 
 #: app/blueprints/api_keys/routes.py:86
@@ -222,11 +224,9 @@ msgstr "{} kulcsainak alaphelyzetbe állítása sikertelen"
 
 #: app/blueprints/api_keys/routes.py:96
 msgid ""
-"API key created successfully. Please copy it now as it won't be shown "
-"again."
+"API key created successfully. Please copy it now as it won't be shown again."
 msgstr ""
-"API kulcs létrehozva. Másold ki most, mert többször nem tudod "
-"megtekinteni."
+"API kulcs létrehozva. Másold ki most, mert többször nem tudod megtekinteni."
 
 #: app/blueprints/api_keys/routes.py:138
 msgid "API key deleted successfully"
@@ -319,8 +319,7 @@ msgstr "Érvénytelen űrlap adat: %(errors)s"
 
 #: app/blueprints/public/routes.py:141 app/blueprints/public/routes.py:158
 msgid ""
-"There was an issue setting up your access. Please contact your server "
-"admin."
+"There was an issue setting up your access. Please contact your server admin."
 msgstr ""
 
 #: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
@@ -422,8 +421,8 @@ msgstr ""
 #: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1244
 #: app/blueprints/wizard/routes.py:1407
 msgid ""
-"This step could not be loaded. Please contact the administrator or skip "
-"to the next step."
+"This step could not be loaded. Please contact the administrator or skip to "
+"the next step."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
@@ -435,8 +434,8 @@ msgstr "Érvénytelen meghívó"
 
 #: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:775
 msgid ""
-"No media servers are configured. Please contact the administrator to set "
-"up a media server."
+"No media servers are configured. Please contact the administrator to set up "
+"a media server."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:626
@@ -454,7 +453,8 @@ msgid "Please log in to continue"
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:815
-msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
+msgid ""
+"Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:863
@@ -574,8 +574,8 @@ msgstr ""
 
 #: app/forms/admin.py:34
 msgid ""
-"Password must contain at least one uppercase letter, one lowercase "
-"letter, and one number."
+"Password must contain at least one uppercase letter, one lowercase letter, "
+"and one number."
 msgstr ""
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
@@ -597,9 +597,8 @@ msgstr "Jelszó"
 #: app/forms/admin.py:47 app/forms/admin.py:65
 #: app/templates/modals/create-admin.html:35
 #: app/templates/modals/edit-admin.html:37
-#, fuzzy
 msgid "Confirm password"
-msgstr "Jelszó"
+msgstr "Jelszó megerősítése"
 
 #: app/forms/admin.py:50 app/forms/admin.py:68
 #, fuzzy
@@ -684,8 +683,8 @@ msgstr "%(server_type)s szerver %(error)s hibával tért vissza"
 #: app/services/servers.py:34
 #, python-format
 msgid ""
-"Could not connect to the %(server_type)s server. Please check if the "
-"server is running and the URL is correct."
+"Could not connect to the %(server_type)s server. Please check if the server "
+"is running and the URL is correct."
 msgstr ""
 "Sikertelen csatlakozás a %(server_type)s szerverhez. Ellenőrizd, hogy a "
 "szerver valóban fut és az URL helyes."
@@ -693,17 +692,16 @@ msgstr ""
 #: app/services/servers.py:40
 #, python-format
 msgid ""
-"Connection to %(server_type)s server timed out. Please check if the "
-"server is running and accessible."
+"Connection to %(server_type)s server timed out. Please check if the server "
+"is running and accessible."
 msgstr ""
-"A %(server_type)s szerverhez sikertelen a csatlakozás, időtúllépés miatt."
-" Kérlek ellenőrizd, hogy a szerver fut és elérhető."
+"A %(server_type)s szerverhez sikertelen a csatlakozás, időtúllépés miatt. "
+"Kérlek ellenőrizd, hogy a szerver fut és elérhető."
 
 #: app/services/servers.py:46
 #, python-format
 msgid ""
-"An error occurred while connecting to the %(server_type)s server: "
-"%(error)s"
+"An error occurred while connecting to the %(server_type)s server: %(error)s"
 msgstr ""
 "Hiba lépett fel a %(server_type)s szerverhez való csatlakozás közben: "
 "%(error)s"
@@ -711,11 +709,11 @@ msgstr ""
 #: app/services/servers.py:53
 #, python-format
 msgid ""
-"An unexpected error occurred while connecting to the %(server_type)s "
-"server: %(error)s"
+"An unexpected error occurred while connecting to the %(server_type)s server: "
+"%(error)s"
 msgstr ""
-"Váratlan hiba lépett fel a %(server_type)s szervhez való csatlakozás "
-"közben: %(error)s"
+"Váratlan hiba lépett fel a %(server_type)s szervhez való csatlakozás közben: "
+"%(error)s"
 
 #: app/services/servers.py:66
 msgid "Plex"
@@ -935,7 +933,8 @@ msgid "Invalid Invitation"
 msgstr "Érvénytelen meghívó"
 
 #: app/templates/invalid-invite.html:19
-msgid "This invitation link is no longer valid. Please request a new invitation."
+msgid ""
+"This invitation link is no longer valid. Please request a new invitation."
 msgstr ""
 
 #: app/templates/login.html:14
@@ -1676,8 +1675,8 @@ msgstr "Hiba történt a hozzáférési kulcs törlésekor"
 #, python-brace-format
 msgid "Are you sure you want to reset ALL passkeys for {}?"
 msgstr ""
-"Biztos vagy benne, hogy MINDEN hozzáférési kulcsot szeretnél törölni "
-"ehhez {}?"
+"Biztos vagy benne, hogy MINDEN hozzáférési kulcsot szeretnél törölni ehhez "
+"{}?"
 
 #: app/templates/components/admin_passkeys.html:107
 msgid "This action cannot be undone."
@@ -1765,7 +1764,8 @@ msgstr "Hozzáférési kulcs hozzáadása"
 
 #: app/templates/components/passkey_management.html:40
 msgid "To use passkeys, please access this page over HTTPS."
-msgstr "A hozzáférési kulcs használatához, nyisd meg az oldalt HTTPS-en keresztül."
+msgstr ""
+"A hozzáférési kulcs használatához, nyisd meg az oldalt HTTPS-en keresztül."
 
 #: app/templates/components/passkey_management.html:44
 msgid "Manage your passkeys for passwordless authentication."
@@ -1859,8 +1859,8 @@ msgstr ""
 #: app/templates/modals/connection-form.html:78
 #: app/templates/settings/connections/form.html:127
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No "
-"API connection is required for Wizarr integration."
+"Overseerr and Jellyseerr automatically import new users by default. No API "
+"connection is required for Wizarr integration."
 msgstr ""
 
 #: app/templates/modals/connection-form.html:82
@@ -1870,8 +1870,8 @@ msgstr ""
 
 #: app/templates/modals/connection-form.html:84
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
-"new users' and 'Import Jellyfin/Plex users'"
+"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
+"users' and 'Import Jellyfin/Plex users'"
 msgstr ""
 
 #: app/templates/modals/connection-form.html:139
@@ -1916,8 +1916,8 @@ msgstr ""
 
 #: app/templates/modals/create-api-key.html:33
 msgid ""
-"Your API key has been created. Please copy it now as it will not be shown"
-" again."
+"Your API key has been created. Please copy it now as it will not be shown "
+"again."
 msgstr ""
 
 #: app/templates/modals/create-api-key.html:40
@@ -2147,8 +2147,8 @@ msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
 msgstr ""
-"Ha be van állítva, akkor a meghívott felhasználó(k) eltávolításra "
-"kerülnek a Plex kiszolgálóról, miután a\n"
+"Ha be van állítva, akkor a meghívott felhasználó(k) eltávolításra kerülnek a "
+"Plex kiszolgálóról, miután a\n"
 "                                        szám után\n"
 "                                        nap után. (1-999)"
 
@@ -2195,7 +2195,8 @@ msgid "simultaneous devices"
 msgstr ""
 
 #: app/templates/modals/invite.html:284
-msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgid ""
+"Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
 
 #: app/templates/modals/invite.html:359
@@ -2259,7 +2260,8 @@ msgid "Reset Link (Click to copy)"
 msgstr ""
 
 #: app/templates/modals/password-reset-link.html:85
-msgid "Send this link to the user. They can use it once to reset their password."
+msgid ""
+"Send this link to the user. They can use it once to reset their password."
 msgstr ""
 
 #: app/templates/modals/password-reset-link.html:90
@@ -2353,8 +2355,8 @@ msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:92
 msgid ""
-"This action will modify your wizard steps configuration. Make sure to "
-"backup your current steps before importing if you want to preserve them."
+"This action will modify your wizard steps configuration. Make sure to backup "
+"your current steps before importing if you want to preserve them."
 msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:111
@@ -2552,8 +2554,8 @@ msgstr ""
 
 #: app/templates/settings/connections.html:159
 msgid ""
-"Connect your external services to automate user invitations when invites "
-"are created for specific media servers."
+"Connect your external services to automate user invitations when invites are "
+"created for specific media servers."
 msgstr ""
 
 #: app/templates/settings/connections.html:171
@@ -2619,8 +2621,8 @@ msgstr "Ügynök Létrehozása"
 
 #: app/templates/settings/general.html:150
 msgid ""
-"If 'Disable User' is selected but the server does not support it, the "
-"user will be deleted instead."
+"If 'Disable User' is selected but the server does not support it, the user "
+"will be deleted instead."
 msgstr ""
 
 #: app/templates/settings/general.html:159
@@ -2788,8 +2790,8 @@ msgstr ""
 
 #: app/templates/settings/ldap.html:219
 msgid ""
-"Users can authenticate via LDAP or locally. Sync automatically imports "
-"new users from LDAP."
+"Users can authenticate via LDAP or locally. Sync automatically imports new "
+"users from LDAP."
 msgstr ""
 
 #: app/templates/settings/ldap.html:226
@@ -3075,8 +3077,8 @@ msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:6
 msgid ""
-"Import wizard steps or bundles from a JSON file to quickly set up or "
-"restore your wizard configuration."
+"Import wizard steps or bundles from a JSON file to quickly set up or restore "
+"your wizard configuration."
 msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:13
@@ -3099,7 +3101,8 @@ msgid "Important: Backup Recommended"
 msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:84
-msgid "This action will modify your wizard configuration. Consider the following:"
+msgid ""
+"This action will modify your wizard configuration. Consider the following:"
 msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:86
@@ -3116,8 +3119,8 @@ msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:89
 msgid ""
-"If replacing existing configuration, all current steps and bundles will "
-"be permanently removed"
+"If replacing existing configuration, all current steps and bundles will be "
+"permanently removed"
 msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:90
@@ -3154,8 +3157,8 @@ msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:251
 msgid ""
-"This will permanently replace all existing wizard configuration (steps "
-"and bundles). Are you sure you want to continue?"
+"This will permanently replace all existing wizard configuration (steps and "
+"bundles). Are you sure you want to continue?"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:13
@@ -3209,8 +3212,8 @@ msgstr ""
 #: app/templates/settings/wizard/steps.html:23
 #, python-format
 msgid ""
-"Are you sure you want to reset all steps for %(server)s to defaults? This"
-" will delete all custom steps and reimport the default ones."
+"Are you sure you want to reset all steps for %(server)s to defaults? This "
+"will delete all custom steps and reimport the default ones."
 msgstr ""
 
 #: app/templates/settings/wizard/steps.html:26
@@ -3345,17 +3348,33 @@ msgstr "Előző"
 msgid "Click the link in this step to be able to continue"
 msgstr ""
 
-#~ msgid "Change Server Settings"
-#~ msgstr ""
+#~ msgid "No one is watching"
+#~ msgstr "Senki nem néz éppen semmit"
 
-#~ msgid "Invite Used"
-#~ msgstr ""
+#~ msgid "Edit expiry"
+#~ msgstr "Szerkesztés lejárat"
 
-#~ msgid "User"
-#~ msgstr ""
+#~ msgid "Server-specific Expiry Management"
+#~ msgstr "Szerver specifikus lejárat beállítása"
 
-#~ msgid "Home User"
+#~ msgid ""
+#~ "This user exists on multiple servers. You can set different expiry dates "
+#~ "for each server."
 #~ msgstr ""
+#~ "Ez a felhasználó több szerveren létezik. Különböző lejárati dátumot tudsz "
+#~ "beállítani neki minden szerveren."
+
+#~ msgid "Expiry date (leave blank for never)"
+#~ msgstr "Lejárati idő (hagyd üresen, ha nincs)"
+
+#~ msgid "Invitation Details"
+#~ msgstr "Meghívás részletek"
+
+#~ msgid "Code"
+#~ msgstr "Kód"
+
+#~ msgid "Invitation expires"
+#~ msgstr "Meghívás lejár"
 
 #~ msgid "Passwords do not match."
 #~ msgstr "A jelszók nem egyeznek."
@@ -3372,16 +3391,13 @@ msgstr ""
 #~ msgid "It is likely that your token does not work."
 #~ msgstr "Valószínű, hogy nem működik a tokened."
 
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgid ""
+#~ "Unable to connect to your Plex server. See Logs for more information."
 #~ msgstr ""
-#~ "Nincs kapcsolat a Plex szervereddel. "
-#~ "További információ a naplófájlokban."
+#~ "Nincs kapcsolat a Plex szervereddel. További információ a naplófájlokban."
 
 #~ msgid "Unable to connect to your Jellyfin server."
 #~ msgstr "Nincs kapcsolat a Jellyfin szervereddel."
-
-#~ msgid "Confirm password"
-#~ msgstr "Jelszó megerősítése"
 
 #~ msgid ""
 #~ "Server Display\n"
@@ -3389,12 +3405,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Szerver megjelenjtési\n"
 #~ "                 neve"
-
-#~ msgid "Server"
-#~ msgstr "Szerver"
-
-#~ msgid "Server URL"
-#~ msgstr "Szerver URL"
 
 #~ msgid ""
 #~ "Server\n"
@@ -3416,201 +3426,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Kérés\n"
 #~ "                példány (Ombi, Overseerr...)"
-
-#~ msgid "Ombi API Key (Only used for user import currently.)"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Discord\n"
-#~ "                Server ID"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "                HTML"
-#~ msgstr ""
-
-#~ msgid "Attention!"
-#~ msgstr ""
-
-#~ msgid "Update available. Click here."
-#~ msgstr ""
-
-#~ msgid "Automatic Media Requests"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "We are excited to offer you a "
-#~ "wide selection of media to choose "
-#~ "from. If you're having trouble finding"
-#~ "\n"
-#~ "    something you like, don't worry! "
-#~ "We have a user-friendly request "
-#~ "system that can automatically search for"
-#~ " the\n"
-#~ "    media you're looking for. "
-#~ msgstr ""
-
-#~ msgid "Request any available Movie or TV Show"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Requested media will be automatically "
-#~ "downloaded and added to the library "
-#~ "(if available)"
-#~ msgstr ""
-
-#~ msgid "If enabled, receive notifications"
-#~ msgstr ""
-
-#~ msgid "Check it Out"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Join & Download Jellyfin\n"
-#~ "            for this device"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use\n"
-#~ ""
-#~ "        it with Jellyfin."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Jellyfin for this "
-#~ "device."
-#~ msgstr ""
-
-#~ msgid "Download"
-#~ msgstr ""
-
-#~ msgid "Eh, So, What is Jellyfin exactly?"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Jellyfin is a platform that lets "
-#~ "you stream all your favorite movies, "
-#~ "TV shows, and music in one place."
-#~ "\n"
-#~ "        It's like having your own "
-#~ "personal movie theater right at your "
-#~ "fingertips! Think of it as a "
-#~ "digital library of\n"
-#~ "        your favorite content that you"
-#~ " can access from anywhere, on any "
-#~ "device - your phone, tablet, laptop, "
-#~ "smart TV,\n"
-#~ "        you name it."
-#~ msgstr ""
-
-#~ msgid "Right, so how do I watch stuff?"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "It couldn't be simpler! Jellyfin is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "        smartphones, and TVs. All you"
-#~ " need to do is download the "
-#~ "Jellyfin app on your device, sign "
-#~ "in with your account,\n"
-#~ "        and\n"
-#~ "        you're ready to start streaming your media. It's that easy!"
-#~ msgstr ""
-
-#~ msgid "Open Jellyfin"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Join & Download Plex\n"
-#~ "            for this device"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use\n"
-#~ ""
-#~ "        it with Plex."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Plex for this device."
-#~ msgstr ""
-
-#~ msgid "Eh, So, What is Plex exactly?"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "    you've received this invitation, it"
-#~ " means someone wants to share their"
-#~ " library with you. With Plex, you'll"
-#~ " have\n"
-#~ "    access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "    smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
-#~ "    you're ready to start streaming your media. It's that easy!"
-#~ msgstr ""
-
-#~ msgid "How can I make sure to have the best experience?"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "    sharing with you - they also,"
-#~ " by default, play content at a "
-#~ "lower quality. "
-#~ msgstr ""
-
-#~ msgid "No need to worry though, this can be easily resolved"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "We highly\n"
-#~ "      recommend you to go through those steps first!"
-#~ msgstr ""
-
-#~ msgid "Configure Plex in your browser"
-#~ msgstr ""
-
-#~ msgid "Configure Plex's app on your computer, mobile device or TV"
-#~ msgstr ""
-
-#~ msgid "Open Plex"
-#~ msgstr ""
-
-#~ msgid "User Configuration"
-#~ msgstr ""
-
-#~ msgid "User Policy"
-#~ msgstr ""
-
-#~ msgid "Name"
-#~ msgstr ""
-
-#~ msgid "Actions"
-#~ msgstr ""
 
 #~ msgid "Home"
 #~ msgstr "Kezdőlap"
@@ -3683,54 +3498,11 @@ msgstr ""
 #~ msgid "libs"
 #~ msgstr "Könyvtárak"
 
-#~ msgid "Downloads disabled"
-#~ msgstr ""
-
-#~ msgid "Live TV disabled"
-#~ msgstr ""
-
-#~ msgid "This wizard bundle has no steps configured."
-#~ msgstr ""
-
 #~ msgid "Pre-Invite"
 #~ msgstr "Előző"
 
 #~ msgid "Post-Invite"
 #~ msgstr "Meghívó kód"
 
-#~ msgid "Add step"
-#~ msgstr ""
-
-#~ msgid "Edit expiry"
-#~ msgstr "Szerkesztés lejárat"
-
-#~ msgid "Server-specific Expiry Management"
-#~ msgstr "Szerver specifikus lejárat beállítása"
-
-#~ msgid ""
-#~ "This user exists on multiple servers."
-#~ " You can set different expiry dates"
-#~ " for each server."
-#~ msgstr ""
-#~ "Ez a felhasználó több szerveren létezik."
-#~ " Különböző lejárati dátumot tudsz "
-#~ "beállítani neki minden szerveren."
-
-#~ msgid "Expiry date (leave blank for never)"
-#~ msgstr "Lejárati idő (hagyd üresen, ha nincs)"
-
-#~ msgid "Invitation Details"
-#~ msgstr "Meghívás részletek"
-
-#~ msgid "Code"
-#~ msgstr "Kód"
-
-#~ msgid "Invitation expires"
-#~ msgstr "Meghívás lejár"
-
-#~ msgid "Username must be 3 to 15 characters."
-#~ msgstr ""
-
 #~ msgid "Partial"
 #~ msgstr "(opcionális)"
-

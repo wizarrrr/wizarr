@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-04-01 05:31+0000\n"
-"PO-Revision-Date: 2025-10-31 16:01+0000\n"
+"PO-Revision-Date: 2025-11-03 20:08+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/wizarr/"
+"wizarr-universal/nb_NO/>\n"
 "Language: nb_NO\n"
-"Language-Team: Norwegian Bokmål "
-"<https://hosted.weblate.org/projects/wizarr/wizarr-universal/nb_NO/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.18.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
+"Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 #, fuzzy
@@ -109,13 +110,14 @@ msgstr "Aldri"
 
 #: app/activity/api/blueprint.py:688
 msgid ""
-"Historical data import is currently only supported for Plex, Jellyfin, "
-"Emby, and AudiobookShelf servers."
+"Historical data import is currently only supported for Plex, Jellyfin, Emby, "
+"and AudiobookShelf servers."
 msgstr ""
 
 #: app/activity/api/blueprint.py:699
 #, python-brace-format
-msgid "Historical import job #{job_id} started for {server} (last {days} days)."
+msgid ""
+"Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
 
 #: app/activity/api/blueprint.py:709
@@ -208,8 +210,8 @@ msgstr ""
 
 #: app/blueprints/api_keys/routes.py:55
 msgid ""
-"No admin account found. Please set up a proper admin account before "
-"creating API keys."
+"No admin account found. Please set up a proper admin account before creating "
+"API keys."
 msgstr ""
 
 #: app/blueprints/api_keys/routes.py:86
@@ -218,8 +220,7 @@ msgstr ""
 
 #: app/blueprints/api_keys/routes.py:96
 msgid ""
-"API key created successfully. Please copy it now as it won't be shown "
-"again."
+"API key created successfully. Please copy it now as it won't be shown again."
 msgstr ""
 
 #: app/blueprints/api_keys/routes.py:138
@@ -310,8 +311,7 @@ msgstr ""
 
 #: app/blueprints/public/routes.py:141 app/blueprints/public/routes.py:158
 msgid ""
-"There was an issue setting up your access. Please contact your server "
-"admin."
+"There was an issue setting up your access. Please contact your server admin."
 msgstr ""
 
 #: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
@@ -413,8 +413,8 @@ msgstr ""
 #: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1244
 #: app/blueprints/wizard/routes.py:1407
 msgid ""
-"This step could not be loaded. Please contact the administrator or skip "
-"to the next step."
+"This step could not be loaded. Please contact the administrator or skip to "
+"the next step."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
@@ -426,8 +426,8 @@ msgstr "Invitasjoner"
 
 #: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:775
 msgid ""
-"No media servers are configured. Please contact the administrator to set "
-"up a media server."
+"No media servers are configured. Please contact the administrator to set up "
+"a media server."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:626
@@ -445,7 +445,8 @@ msgid "Please log in to continue"
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:815
-msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
+msgid ""
+"Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:863
@@ -564,8 +565,8 @@ msgstr ""
 
 #: app/forms/admin.py:34
 msgid ""
-"Password must contain at least one uppercase letter, one lowercase "
-"letter, and one number."
+"Password must contain at least one uppercase letter, one lowercase letter, "
+"and one number."
 msgstr ""
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
@@ -587,9 +588,8 @@ msgstr "Passord"
 #: app/forms/admin.py:47 app/forms/admin.py:65
 #: app/templates/modals/create-admin.html:35
 #: app/templates/modals/edit-admin.html:37
-#, fuzzy
 msgid "Confirm password"
-msgstr "Passord"
+msgstr "Bekreft passord"
 
 #: app/forms/admin.py:50 app/forms/admin.py:68
 #, fuzzy
@@ -675,29 +675,28 @@ msgstr ""
 #: app/services/servers.py:34
 #, python-format
 msgid ""
-"Could not connect to the %(server_type)s server. Please check if the "
-"server is running and the URL is correct."
+"Could not connect to the %(server_type)s server. Please check if the server "
+"is running and the URL is correct."
 msgstr ""
 
 #: app/services/servers.py:40
 #, python-format
 msgid ""
-"Connection to %(server_type)s server timed out. Please check if the "
-"server is running and accessible."
+"Connection to %(server_type)s server timed out. Please check if the server "
+"is running and accessible."
 msgstr ""
 
 #: app/services/servers.py:46
 #, python-format
 msgid ""
-"An error occurred while connecting to the %(server_type)s server: "
-"%(error)s"
+"An error occurred while connecting to the %(server_type)s server: %(error)s"
 msgstr ""
 
 #: app/services/servers.py:53
 #, python-format
 msgid ""
-"An unexpected error occurred while connecting to the %(server_type)s "
-"server: %(error)s"
+"An unexpected error occurred while connecting to the %(server_type)s server: "
+"%(error)s"
 msgstr ""
 
 #: app/services/servers.py:66
@@ -920,7 +919,8 @@ msgid "Invalid Invitation"
 msgstr "Invitasjoner"
 
 #: app/templates/invalid-invite.html:19
-msgid "This invitation link is no longer valid. Please request a new invitation."
+msgid ""
+"This invitation link is no longer valid. Please request a new invitation."
 msgstr ""
 
 #: app/templates/login.html:14
@@ -1196,9 +1196,8 @@ msgstr "Inviter bruker"
 
 #: app/templates/welcome-jellyfin.html:73
 #: app/templates/welcome-jellyfin.html:78
-#, fuzzy
 msgid "Accept Invitation"
-msgstr "Opprett invitasjon"
+msgstr "Godta invitasjon"
 
 #: app/templates/welcome-jellyfin.html:74
 msgid "Get ready to join the magic"
@@ -1277,7 +1276,7 @@ msgstr ""
 #: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:22
 #: app/templates/wizard/steps.html:243 app/templates/wizard/steps.html:253
 msgid "Next"
-msgstr ""
+msgstr "Neste"
 
 #: app/templates/admin/accepted_invites_card.html:137
 msgid "No recent invitations accepted"
@@ -1629,7 +1628,7 @@ msgstr ""
 #: app/templates/admin/users.html:204 app/templates/servers/index.html:31
 #: app/templates/settings/connections.html:137
 msgid "Delete"
-msgstr ""
+msgstr "Slett"
 
 #: app/templates/components/admin_passkeys.html:4
 #, python-brace-format
@@ -1855,8 +1854,8 @@ msgstr ""
 #: app/templates/modals/connection-form.html:78
 #: app/templates/settings/connections/form.html:127
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No "
-"API connection is required for Wizarr integration."
+"Overseerr and Jellyseerr automatically import new users by default. No API "
+"connection is required for Wizarr integration."
 msgstr ""
 
 #: app/templates/modals/connection-form.html:82
@@ -1866,8 +1865,8 @@ msgstr ""
 
 #: app/templates/modals/connection-form.html:84
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
-"new users' and 'Import Jellyfin/Plex users'"
+"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
+"users' and 'Import Jellyfin/Plex users'"
 msgstr ""
 
 #: app/templates/modals/connection-form.html:139
@@ -1912,8 +1911,8 @@ msgstr ""
 
 #: app/templates/modals/create-api-key.html:33
 msgid ""
-"Your API key has been created. Please copy it now as it will not be shown"
-" again."
+"Your API key has been created. Please copy it now as it will not be shown "
+"again."
 msgstr ""
 
 #: app/templates/modals/create-api-key.html:40
@@ -2043,7 +2042,6 @@ msgstr "Opprett en konto"
 
 #: app/templates/modals/edit-notification-agent.html:24
 #: app/templates/servers/index.html:10
-#, fuzzy
 msgid "Name"
 msgstr "Brukernavn"
 
@@ -2184,7 +2182,8 @@ msgid "simultaneous devices"
 msgstr ""
 
 #: app/templates/modals/invite.html:284
-msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgid ""
+"Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
 
 #: app/templates/modals/invite.html:359
@@ -2209,7 +2208,7 @@ msgstr "Invitasjoner"
 #: app/templates/modals/invite.html:421
 #: app/templates/modals/password-reset-link.html:81
 msgid "Copy"
-msgstr ""
+msgstr "Kopier"
 
 #: app/templates/modals/invite.html:426
 msgid "Link has been copied to clipboard!"
@@ -2248,7 +2247,8 @@ msgid "Reset Link (Click to copy)"
 msgstr ""
 
 #: app/templates/modals/password-reset-link.html:85
-msgid "Send this link to the user. They can use it once to reset their password."
+msgid ""
+"Send this link to the user. They can use it once to reset their password."
 msgstr ""
 
 #: app/templates/modals/password-reset-link.html:90
@@ -2340,8 +2340,8 @@ msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:92
 msgid ""
-"This action will modify your wizard steps configuration. Make sure to "
-"backup your current steps before importing if you want to preserve them."
+"This action will modify your wizard steps configuration. Make sure to backup "
+"your current steps before importing if you want to preserve them."
 msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:111
@@ -2446,7 +2446,6 @@ msgstr ""
 
 #: app/templates/servers/index.html:14
 #: app/templates/settings/connections.html:39
-#, fuzzy
 msgid "Actions"
 msgstr "Invitasjoner"
 
@@ -2535,8 +2534,8 @@ msgstr ""
 
 #: app/templates/settings/connections.html:159
 msgid ""
-"Connect your external services to automate user invitations when invites "
-"are created for specific media servers."
+"Connect your external services to automate user invitations when invites are "
+"created for specific media servers."
 msgstr ""
 
 #: app/templates/settings/connections.html:171
@@ -2602,8 +2601,8 @@ msgstr "Opprett en konto"
 
 #: app/templates/settings/general.html:150
 msgid ""
-"If 'Disable User' is selected but the server does not support it, the "
-"user will be deleted instead."
+"If 'Disable User' is selected but the server does not support it, the user "
+"will be deleted instead."
 msgstr ""
 
 #: app/templates/settings/general.html:159
@@ -2769,8 +2768,8 @@ msgstr ""
 
 #: app/templates/settings/ldap.html:219
 msgid ""
-"Users can authenticate via LDAP or locally. Sync automatically imports "
-"new users from LDAP."
+"Users can authenticate via LDAP or locally. Sync automatically imports new "
+"users from LDAP."
 msgstr ""
 
 #: app/templates/settings/ldap.html:226
@@ -3049,8 +3048,8 @@ msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:6
 msgid ""
-"Import wizard steps or bundles from a JSON file to quickly set up or "
-"restore your wizard configuration."
+"Import wizard steps or bundles from a JSON file to quickly set up or restore "
+"your wizard configuration."
 msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:13
@@ -3073,7 +3072,8 @@ msgid "Important: Backup Recommended"
 msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:84
-msgid "This action will modify your wizard configuration. Consider the following:"
+msgid ""
+"This action will modify your wizard configuration. Consider the following:"
 msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:86
@@ -3090,8 +3090,8 @@ msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:89
 msgid ""
-"If replacing existing configuration, all current steps and bundles will "
-"be permanently removed"
+"If replacing existing configuration, all current steps and bundles will be "
+"permanently removed"
 msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:90
@@ -3128,8 +3128,8 @@ msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:251
 msgid ""
-"This will permanently replace all existing wizard configuration (steps "
-"and bundles). Are you sure you want to continue?"
+"This will permanently replace all existing wizard configuration (steps and "
+"bundles). Are you sure you want to continue?"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:13
@@ -3149,7 +3149,6 @@ msgid "Get started by creating your first wizard step"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:53
-#, fuzzy
 msgid "Server"
 msgstr "Aldri"
 
@@ -3182,8 +3181,8 @@ msgstr ""
 #: app/templates/settings/wizard/steps.html:23
 #, python-format
 msgid ""
-"Are you sure you want to reset all steps for %(server)s to defaults? This"
-" will delete all custom steps and reimport the default ones."
+"Are you sure you want to reset all steps for %(server)s to defaults? This "
+"will delete all custom steps and reimport the default ones."
 msgstr ""
 
 #: app/templates/settings/wizard/steps.html:26
@@ -3258,9 +3257,8 @@ msgid "Edit nickname"
 msgstr ""
 
 #: app/templates/tables/user_card.html:54
-#, fuzzy
 msgid "Home User"
-msgstr "Hjem"
+msgstr "Inviter bruker"
 
 #: app/templates/tables/user_card.html:138
 #, fuzzy
@@ -3319,30 +3317,16 @@ msgstr ""
 msgid "Click the link in this step to be able to continue"
 msgstr ""
 
-#~ msgid ""
-#~ "Plex Display\n"
-#~ "              Name"
-#~ msgstr ""
+#~ msgid "Invitation Details"
+#~ msgstr "Invitasjoner"
 
-#~ msgid ""
-#~ "Plex\n"
-#~ "              Token"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Plex\n"
-#~ "              Libraries"
-#~ msgstr ""
+#~ msgid "Invitation expires"
+#~ msgstr "Invitasjoner"
 
 #~ msgid ""
 #~ "Request\n"
 #~ "              instance (Ombi, Overseerr...)"
 #~ msgstr "Forespørselsinstans (Ombi, Overseerr …)"
-
-#~ msgid ""
-#~ "Discord\n"
-#~ "              Server ID"
-#~ msgstr ""
 
 #~ msgid "Server Settings"
 #~ msgstr "Tjenerinnstillinger"
@@ -3351,7 +3335,8 @@ msgstr ""
 #~ msgstr "*Avhengig av tilgjengelighet"
 
 #~ msgid "That email does not match any Plex account. Please try again."
-#~ msgstr "Denne e-postadressen samsvarer ikke med noen Plex-konto. Prøv igjen."
+#~ msgstr ""
+#~ "Denne e-postadressen samsvarer ikke med noen Plex-konto. Prøv igjen."
 
 #~ msgid "This user is already invited to this server."
 #~ msgstr "Denne brukeren er allerede invitert til denne tjeneren."
@@ -3366,48 +3351,36 @@ msgstr ""
 #~ msgstr "Jeg er innlogget, men det er så mye innhold."
 
 #~ msgid ""
-#~ "While Plex is a free service, they"
-#~ " do have to generate revenue in "
-#~ "order to continue providing the "
-#~ "platform. One way they do this is"
-#~ " by displaying their own content "
-#~ "before the content of the server "
-#~ "you are joining."
+#~ "While Plex is a free service, they do have to generate revenue in order "
+#~ "to continue providing the platform. One way they do this is by displaying "
+#~ "their own content before the content of the server you are joining."
 #~ msgstr ""
-#~ "Plex er en gratis-tjeneste, men de"
-#~ " må generere overskudd for å "
-#~ "fortsette å tilby plattformen. En måte"
-#~ " å gjøre dette på er å vise "
-#~ "deres innhold før innholdet på tjeneren"
-#~ " du tar del i."
+#~ "Plex er en gratis-tjeneste, men de må generere overskudd for å fortsette "
+#~ "å tilby plattformen. En måte å gjøre dette på er å vise deres innhold før "
+#~ "innholdet på tjeneren du tar del i."
 
-#~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
+#~ msgid ""
+#~ "On the left-hand side of your screen, you'll see a menu. Click on the "
 #~ msgstr "På venstresiden av skjermen har du en meny. Klikk på "
 
 #~ msgid "More"
 #~ msgstr "Utvid"
 
-#~ msgid "button to reveal all the different types of media you have access to."
+#~ msgid ""
+#~ "button to reveal all the different types of media you have access to."
 #~ msgstr ""
-#~ "-knappen for å avsløre alle de "
-#~ "forskjellige typene media du har tilgang"
-#~ " til."
+#~ "-knappen for å avsløre alle de forskjellige typene media du har tilgang "
+#~ "til."
 
 #~ msgid ""
-#~ "To avoid seeing Plex's content first,"
-#~ " we recommend hiding it. To do "
-#~ "this, select all the content types "
-#~ "you don't want (such as 'Movies "
-#~ "and TV on Plex') and 'Unpin' them"
-#~ " from your home screen. This way "
-#~ "you'll only see the content that "
-#~ "you really want to watch!"
+#~ "To avoid seeing Plex's content first, we recommend hiding it. To do this, "
+#~ "select all the content types you don't want (such as 'Movies and TV on "
+#~ "Plex') and 'Unpin' them from your home screen. This way you'll only see "
+#~ "the content that you really want to watch!"
 #~ msgstr ""
-#~ "Unngå å se Plex sitt eget innhold"
-#~ " først ved å skru av alle "
-#~ "innholdstypene du ikke vil ha (som "
-#~ "f.eks. «Filmer og TV på Plex» og"
-#~ " løsne dem fra hjemmeskjermen."
+#~ "Unngå å se Plex sitt eget innhold først ved å skru av alle innholdstypene "
+#~ "du ikke vil ha (som f.eks. «Filmer og TV på Plex» og løsne dem fra "
+#~ "hjemmeskjermen."
 
 #~ msgid "Now that everything we"
 #~ msgstr "Nå som alt vi"
@@ -3424,20 +3397,13 @@ msgstr ""
 #~ msgid " want!"
 #~ msgstr " ha."
 
-#~ msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
-#~ msgstr ""
-
 #~ msgid ""
-#~ "By default, Plex plays all content "
-#~ "at a lower quality. This can be"
-#~ " a bit of a disappointment. But "
-#~ "don't worry, it's a simple fix! "
-#~ "You can easily change the settings "
-#~ "to increase the quality of the "
-#~ "media that you're streaming."
+#~ "By default, Plex plays all content at a lower quality. This can be a bit "
+#~ "of a disappointment. But don't worry, it's a simple fix! You can easily "
+#~ "change the settings to increase the quality of the media that you're "
+#~ "streaming."
 #~ msgstr ""
-#~ "Plex spiller som forvalg innhold i "
-#~ "lavere kvalitet. Øk den i "
+#~ "Plex spiller som forvalg innhold i lavere kvalitet. Øk den i "
 #~ "innstillingene."
 
 #~ msgid "Go to the Plex "
@@ -3447,12 +3413,10 @@ msgstr ""
 #~ msgstr "innstillings "
 
 #~ msgid ""
-#~ "page. This is usually in the top"
-#~ " right hand corner, depending on the"
-#~ " device you are on."
+#~ "page. This is usually in the top right hand corner, depending on the "
+#~ "device you are on."
 #~ msgstr ""
-#~ "siden. Dette er vanligvis i hjørnet "
-#~ "oppe til høyre, avhengig av enheten "
+#~ "siden. Dette er vanligvis i hjørnet oppe til høyre, avhengig av enheten "
 #~ "du er på."
 
 #~ msgid "Go to the "
@@ -3486,36 +3450,12 @@ msgstr ""
 #~ msgstr "Lokal strømming "
 
 #~ msgid ""
-#~ "And there you have it! In case "
-#~ "you encounter buffering issues, remember "
-#~ "that you can always adjust the "
-#~ "playback quality just like you do "
-#~ "in YouTube. This way you can get"
-#~ " the best streaming experience possible."
+#~ "And there you have it! In case you encounter buffering issues, remember "
+#~ "that you can always adjust the playback quality just like you do in "
+#~ "YouTube. This way you can get the best streaming experience possible."
 #~ msgstr ""
-#~ "Hvis du ikke kan spille av "
-#~ "kontinuerlig kan du justere ned "
-#~ "kvaliteten igjen."
-
-#~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now sharing with you - they "
-#~ "also, by default, play content at "
-#~ "a lower quality. "
-#~ msgstr ""
-
-#~ msgid "We highly recommend you to go through those steps first!"
-#~ msgstr ""
-
-#~ msgid "Join our Discord Server"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Join Our Discord\n"
-#~ "                Server!"
-#~ msgstr ""
+#~ "Hvis du ikke kan spille av kontinuerlig kan du justere ned kvaliteten "
+#~ "igjen."
 
 #~ msgid "How to Use Plex?"
 #~ msgstr "Hvordan bruker man Plex?"
@@ -3527,92 +3467,56 @@ msgstr ""
 #~ msgstr "Ta del og last ned Plex for denne enheten"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use "
-#~ "it with Plex."
+#~ "Great news! You now have access to our server's media collection. Let's "
+#~ "make sure you know how to use it with Plex."
 #~ msgstr ""
-#~ "Godt nytt. Du har nå tilgang til"
-#~ " tjenerens mediasamling. La oss forsikre"
-#~ " at du vet hvordan du bruker "
-#~ "den med Plex."
+#~ "Godt nytt. Du har nå tilgang til tjenerens mediasamling. La oss forsikre "
+#~ "at du vet hvordan du bruker den med Plex."
 
 #~ msgid "Skip"
 #~ msgstr "Hopp over"
 
 #~ msgid ""
-#~ "Congratulations on joining %(name)s! You're"
-#~ " now one step closer to enjoying "
-#~ "all kinds of amazing\n"
+#~ "Congratulations on joining %(name)s! You're now one step closer to "
+#~ "enjoying all kinds of amazing\n"
 #~ "        content."
 #~ msgstr ""
-#~ "Du har godtatt invitasjonen fra Plex."
-#~ " Du vil snart kunne spille innholdet"
-#~ " på tjeneren vår. "
+#~ "Du har godtatt invitasjonen fra Plex. Du vil snart kunne spille innholdet "
+#~ "på tjeneren vår. "
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "      you've received this invitation, "
-#~ "it means someone wants to share "
-#~ "their library with you. With Plex, "
-#~ "you'll have\n"
-#~ "      access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "      you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "      access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "Plex lar brukere dele media-samlingene"
-#~ " sine med andre. Hvis du har "
-#~ "fått en invitasjon betyr det at "
-#~ "noen vil dele biblioteket sitt med "
-#~ "deg. Du har tilgang til alle "
-#~ "filmer, TV-programmer, og bilder som "
-#~ "er lagret på tjeneren deres."
+#~ "Plex lar brukere dele media-samlingene sine med andre. Hvis du har fått "
+#~ "en invitasjon betyr det at noen vil dele biblioteket sitt med deg. Du har "
+#~ "tilgang til alle filmer, TV-programmer, og bilder som er lagret på "
+#~ "tjeneren deres."
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "      smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "      smartphones, and TVs. All you need to do is download the Plex app "
+#~ "on your device, sign in with your account, and\n"
 #~ "      you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "Plex fungerer på bærbare, nettbrett, "
-#~ "smarttelefoner, og TV-er. Du trenger "
-#~ "Plex-programmet på din enhet, og "
-#~ "en konto for å logge inn slik "
-#~ "at du kan strømme media."
-
-#~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "      sharing with you - they "
-#~ "also, by default, play content at "
-#~ "a lower quality. "
-#~ msgstr ""
-
-#~ msgid ""
-#~ "We highly\n"
-#~ "        recommend you to go through those steps first!"
-#~ msgstr ""
+#~ "Plex fungerer på bærbare, nettbrett, smarttelefoner, og TV-er. Du trenger "
+#~ "Plex-programmet på din enhet, og en konto for å logge inn slik at du kan "
+#~ "strømme media."
 
 #~ msgid "You've been invited to join %(name)s!"
 #~ msgstr "Du har blitt invitert til %(name)!"
 
 #~ msgid ""
-#~ "To join our Plex server, create a"
-#~ " Plex account! Once you're done, come"
-#~ " back here!"
+#~ "To join our Plex server, create a Plex account! Once you're done, come "
+#~ "back here!"
 #~ msgstr ""
-#~ "For å ta del i vår Plex-"
-#~ "tjener må du ha en Plex-konto. "
-#~ "Når du har dette kan du komme "
-#~ "tilbake hit."
+#~ "For å ta del i vår Plex-tjener må du ha en Plex-konto. Når du har dette "
+#~ "kan du komme tilbake hit."
 
 #~ msgid "Create Plex Account"
 #~ msgstr "Opprett Plex-konto"
@@ -3623,15 +3527,6 @@ msgstr ""
 #~ msgid "Used At"
 #~ msgstr "Brukt"
 
-#~ msgid "Copy"
-#~ msgstr "Kopier"
-
-#~ msgid "Delete"
-#~ msgstr "Slett"
-
-#~ msgid "Accept Invitation"
-#~ msgstr "Godta invitasjon"
-
 #~ msgid "Accept our invitation"
 #~ msgstr "Godta vår invitasjon"
 
@@ -3639,19 +3534,14 @@ msgstr ""
 #~ msgstr "En invitasjon har blitt sendt til din Plex-konto. Snart klar."
 
 #~ msgid ""
-#~ "Click the button below to be taken"
-#~ " to Plex, here you will see an"
-#~ " invitation from us."
+#~ "Click the button below to be taken to Plex, here you will see an "
+#~ "invitation from us."
 #~ msgstr ""
-#~ "Klikk på knappen nedenfor slik at "
-#~ "du kommer til Plex. Der vil du "
-#~ "finne en invitasjon fra oss."
+#~ "Klikk på knappen nedenfor slik at du kommer til Plex. Der vil du finne en "
+#~ "invitasjon fra oss."
 
 #~ msgid "Accept"
 #~ msgstr "Godta"
-
-#~ msgid "Next"
-#~ msgstr "Neste"
 
 #~ msgid "Great! Now, let's get you invited!"
 #~ msgstr "Flott. La oss fikse en invitasjon for deg."
@@ -3677,26 +3567,18 @@ msgstr ""
 #~ msgid "Request instance (Ombi, Overseerr...)"
 #~ msgstr "Forespørselsinstans (Ombi, Overseerr …)"
 
-#~ msgid "Discord Server ID"
-#~ msgstr ""
-
 #~ msgid ""
 #~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n"
-#~ ""
+#~ "                    deprecated and replaced by a secure sign-up. Please "
+#~ "visit \n"
 #~ "\n"
-#~ msgstr "Miljøvariabler er foreldet og erstattet av sikker innlogging. Besøk "
+#~ msgstr ""
+#~ "Miljøvariabler er foreldet og erstattet av sikker innlogging. Besøk "
 
 #~ msgid ""
 #~ "/settings.\n"
 #~ "                        See Repo for more info"
 #~ msgstr "/settings. Sjekk kodelageret for mer info"
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "              HTML"
-#~ msgstr ""
 
 #~ msgid "Plex Requests"
 #~ msgstr "Plex-forespørsler"
@@ -3740,9 +3622,6 @@ msgstr ""
 #~ msgid "User"
 #~ msgstr "Bruker"
 
-#~ msgid "Home User"
-#~ msgstr "Inviter bruker"
-
 #~ msgid "Passwords do not match."
 #~ msgstr "Passordene samsvarer ikke."
 
@@ -3758,16 +3637,14 @@ msgstr ""
 #~ msgid "It is likely that your token does not work."
 #~ msgstr "Det er sannsynlig at symbolet ditt ikke virker."
 
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
-#~ msgstr "Kunne ikke koble til din Plex-tjener. Sjekk loggføringen for mer info."
+#~ msgid ""
+#~ "Unable to connect to your Plex server. See Logs for more information."
+#~ msgstr ""
+#~ "Kunne ikke koble til din Plex-tjener. Sjekk loggføringen for mer info."
 
 #~ msgid "Unable to connect to your Jellyfin server."
 #~ msgstr ""
-#~ "Kunne ikke koble til din Jellyfin-"
-#~ "tjener. Sjekk loggføringen for mer info."
-
-#~ msgid "Confirm password"
-#~ msgstr "Bekreft passord"
+#~ "Kunne ikke koble til din Jellyfin-tjener. Sjekk loggføringen for mer info."
 
 #~ msgid ""
 #~ "Server Display\n"
@@ -3775,12 +3652,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Plex Bruker\n"
 #~ "              Navn"
-
-#~ msgid "Server"
-#~ msgstr "Aldri"
-
-#~ msgid "Server URL"
-#~ msgstr ""
 
 #~ msgid ""
 #~ "Server\n"
@@ -3801,58 +3672,33 @@ msgstr ""
 #~ "                instance (Ombi, Overseerr...) URL"
 #~ msgstr "Forespørselsinstans (Ombi, Overseerr …)"
 
-#~ msgid "Ombi API Key (Only used for user import currently.)"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Discord\n"
-#~ "                Server ID"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "                HTML"
-#~ msgstr ""
-
 #~ msgid "Attention!"
 #~ msgstr "Merk."
 
 #~ msgid "Update available. Click here."
 #~ msgstr "Oppdatering tilgjengelig. Klikk her."
 
-#~ msgid "Automatic Media Requests"
-#~ msgstr ""
-
 #~ msgid ""
-#~ "We are excited to offer you a "
-#~ "wide selection of media to choose "
-#~ "from. If you're having trouble finding"
-#~ "\n"
-#~ "    something you like, don't worry! "
-#~ "We have a user-friendly request "
-#~ "system that can automatically search for"
-#~ " the\n"
+#~ "We are excited to offer you a wide selection of media to choose from. If "
+#~ "you're having trouble finding\n"
+#~ "    something you like, don't worry! We have a user-friendly request "
+#~ "system that can automatically search for the\n"
 #~ "    media you're looking for. "
 #~ msgstr ""
-#~ "Her har du et bredt spekter av "
-#~ "media å velge mellom. Hvis du ikke"
-#~ " finner noe du liker kan du "
-#~ "bruke forespørselssystemet for å automatisk"
-#~ " søke etter media du ser etter. \n"
-#~ ""
+#~ "Her har du et bredt spekter av media å velge mellom. Hvis du ikke finner "
+#~ "noe du liker kan du bruke forespørselssystemet for å automatisk søke "
+#~ "etter media du ser etter. \n"
 #~ "\n"
 
 #~ msgid "Request any available Movie or TV Show"
 #~ msgstr "Forespør alle tilgjengelige filmer eller TV-programmer"
 
 #~ msgid ""
-#~ "Requested media will be automatically "
-#~ "downloaded and added to the library "
+#~ "Requested media will be automatically downloaded and added to the library "
 #~ "(if available)"
 #~ msgstr ""
-#~ "Forespurt media vil lastes ned "
-#~ "automatisk og legges til biblioteket "
-#~ "(hvis tilgjengelig)"
+#~ "Forespurt media vil lastes ned automatisk og legges til biblioteket (hvis "
+#~ "tilgjengelig)"
 
 #~ msgid "If enabled, receive notifications"
 #~ msgstr "Motta merknader"
@@ -3868,21 +3714,16 @@ msgstr ""
 #~ "for denne enheten"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Jellyfin."
 #~ msgstr ""
-#~ "Godt nytt. Du har nå tilgang til"
-#~ " tjenerens mediasamling. La oss forsikre"
-#~ " oss at du vet hvordan du "
-#~ "bruker \n"
+#~ "Godt nytt. Du har nå tilgang til tjenerens mediasamling. La oss forsikre "
+#~ "oss at du vet hvordan du bruker \n"
 #~ "den med Plex."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Jellyfin for this "
+#~ "Planning on watching Movies on this device? Download Jellyfin for this "
 #~ "device."
 #~ msgstr "Planlegger du å se filmer på denne enheten? Last ned Plex."
 
@@ -3892,41 +3733,20 @@ msgstr ""
 #~ msgid "Eh, So, What is Jellyfin exactly?"
 #~ msgstr "Hva er egentlig Plex?"
 
-#~ msgid ""
-#~ "Jellyfin is a platform that lets "
-#~ "you stream all your favorite movies, "
-#~ "TV shows, and music in one place."
-#~ "\n"
-#~ "        It's like having your own "
-#~ "personal movie theater right at your "
-#~ "fingertips! Think of it as a "
-#~ "digital library of\n"
-#~ "        your favorite content that you"
-#~ " can access from anywhere, on any "
-#~ "device - your phone, tablet, laptop, "
-#~ "smart TV,\n"
-#~ "        you name it."
-#~ msgstr ""
-
 #~ msgid "Right, so how do I watch stuff?"
 #~ msgstr "OK, så hvordan spiller jeg av ting?"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Jellyfin is "
-#~ "available on a wide variety of "
+#~ "It couldn't be simpler! Jellyfin is available on a wide variety of "
 #~ "devices including laptops, tablets,\n"
-#~ "        smartphones, and TVs. All you"
-#~ " need to do is download the "
-#~ "Jellyfin app on your device, sign "
-#~ "in with your account,\n"
+#~ "        smartphones, and TVs. All you need to do is download the Jellyfin "
+#~ "app on your device, sign in with your account,\n"
 #~ "        and\n"
 #~ "        you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "Plex fungerer på bærbare, nettbrett, "
-#~ "smarttelefoner, og TV-er. Du trenger "
-#~ "Plex-programmet på din enhet, og "
-#~ "en konto for å logge inn slik "
-#~ "at du kan strømme media."
+#~ "Plex fungerer på bærbare, nettbrett, smarttelefoner, og TV-er. Du trenger "
+#~ "Plex-programmet på din enhet, og en konto for å logge inn slik at du kan "
+#~ "strømme media."
 
 #~ msgid "Open Jellyfin"
 #~ msgstr "Åpne Jellyfin"
@@ -3939,74 +3759,47 @@ msgstr ""
 #~ "for denne enheten"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Plex."
 #~ msgstr ""
-#~ "Godt nytt. Du har nå tilgang til"
-#~ " tjenerens mediasamling. La oss forsikre"
-#~ " oss at du vet hvordan du "
-#~ "bruker \n"
+#~ "Godt nytt. Du har nå tilgang til tjenerens mediasamling. La oss forsikre "
+#~ "oss at du vet hvordan du bruker \n"
 #~ "den med Plex."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Plex for this device."
+#~ "Planning on watching Movies on this device? Download Plex for this device."
 #~ msgstr "Planlegger du å se filmer på denne enheten? Last ned Plex."
 
 #~ msgid "Eh, So, What is Plex exactly?"
 #~ msgstr "Hva er egentlig Plex?"
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "    you've received this invitation, it"
-#~ " means someone wants to share their"
-#~ " library with you. With Plex, you'll"
-#~ " have\n"
-#~ "    access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "    you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "    access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "Plex lar brukere dele media-samlingene"
-#~ " sine med andre. Hvis du har "
-#~ "fått en invitasjon betyr det at "
-#~ "noen vil dele biblioteket sitt med "
-#~ "deg. Du har tilgang til alle "
-#~ "filmer, TV-programmer, og bilder som "
-#~ "er lagret på tjeneren deres."
+#~ "Plex lar brukere dele media-samlingene sine med andre. Hvis du har fått "
+#~ "en invitasjon betyr det at noen vil dele biblioteket sitt med deg. Du har "
+#~ "tilgang til alle filmer, TV-programmer, og bilder som er lagret på "
+#~ "tjeneren deres."
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "    smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you need to do is download the Plex app on "
+#~ "your device, sign in with your account, and\n"
 #~ "    you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "Plex fungerer på bærbare, nettbrett, "
-#~ "smarttelefoner, og TV-er. Du trenger "
-#~ "Plex-programmet på din enhet, og "
-#~ "en konto for å logge inn slik "
-#~ "at du kan strømme media."
+#~ "Plex fungerer på bærbare, nettbrett, smarttelefoner, og TV-er. Du trenger "
+#~ "Plex-programmet på din enhet, og en konto for å logge inn slik at du kan "
+#~ "strømme media."
 
 #~ msgid "How can I make sure to have the best experience?"
 #~ msgstr "Hvordan kan jeg tilpasse opplevelsen?"
-
-#~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "    sharing with you - they also,"
-#~ " by default, play content at a "
-#~ "lower quality. "
-#~ msgstr ""
 
 #~ msgid "No need to worry though, this can be easily resolved"
 #~ msgstr "Frykt ikke, dette kan fikses enkelt."
@@ -4018,62 +3811,17 @@ msgstr ""
 #~ "Vi anbefaler\n"
 #~ "       på det sterkeste at du går gjennom de stegene først!"
 
-#~ msgid "Configure Plex in your browser"
-#~ msgstr ""
-
-#~ msgid "Configure Plex's app on your computer, mobile device or TV"
-#~ msgstr ""
-
-#~ msgid "Open Plex"
-#~ msgstr ""
-
-#~ msgid "User Configuration"
-#~ msgstr ""
-
-#~ msgid "User Policy"
-#~ msgstr ""
-
-#~ msgid "Name"
-#~ msgstr "Brukernavn"
-
-#~ msgid "Actions"
-#~ msgstr "Invitasjoner"
-
 #~ msgid "Home"
 #~ msgstr "Hjem"
 
 #~ msgid "Server settings"
 #~ msgstr "Endre tjenerinnstillinger"
 
-#~ msgid "Notification agents"
-#~ msgstr ""
-
 #~ msgid "Oops!"
 #~ msgstr "Oida!"
 
-#~ msgid ""
-#~ "Confirm\n"
-#~ "                                password"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Invite\n"
-#~ "                                Code"
-#~ msgstr ""
-
 #~ msgid "Invite user"
 #~ msgstr "Inviter bruker"
-
-#~ msgid "(in days)"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "When set, invited user(s) will be "
-#~ "removed from the Plex server after "
-#~ "a\n"
-#~ "                                        number of\n"
-#~ "                                        days. (1-999)"
-#~ msgstr ""
 
 #~ msgid ""
 #~ "Specific\n"
@@ -4102,26 +3850,11 @@ msgstr ""
 #~ "Plex\n"
 #~ "              Bibliotek"
 
-#~ msgid "Optional, leave empty to disable"
-#~ msgstr ""
-
-#~ msgid "Available"
-#~ msgstr ""
-
 #~ msgid "Limit"
 #~ msgstr "Ubegrenset"
 
 #~ msgid "libs"
 #~ msgstr "Plex-bibliotek"
-
-#~ msgid "Downloads disabled"
-#~ msgstr ""
-
-#~ msgid "Live TV disabled"
-#~ msgstr ""
-
-#~ msgid "This wizard bundle has no steps configured."
-#~ msgstr ""
 
 #~ msgid "Pre-Invite"
 #~ msgstr "Invitasjonskode"
@@ -4129,39 +3862,5 @@ msgstr ""
 #~ msgid "Post-Invite"
 #~ msgstr "Invitasjonskode"
 
-#~ msgid "Add step"
-#~ msgstr ""
-
-#~ msgid "Edit expiry"
-#~ msgstr ""
-
-#~ msgid "Server-specific Expiry Management"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "This user exists on multiple servers."
-#~ " You can set different expiry dates"
-#~ " for each server."
-#~ msgstr ""
-
-#~ msgid "Expiry date (leave blank for never)"
-#~ msgstr ""
-
-#~ msgid "Invitation Details"
-#~ msgstr "Invitasjoner"
-
-#~ msgid "Code"
-#~ msgstr ""
-
-#~ msgid "Invitation expires"
-#~ msgstr "Invitasjoner"
-
-#~ msgid "Username must be 3 to 15 characters."
-#~ msgstr ""
-
-#~ msgid "No one is watching"
-#~ msgstr ""
-
 #~ msgid "Partial"
 #~ msgstr "(valgfritt)"
-

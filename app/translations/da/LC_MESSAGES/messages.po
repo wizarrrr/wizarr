@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-04-01 05:31+0000\n"
-"PO-Revision-Date: 2025-10-31 15:05+0000\n"
+"PO-Revision-Date: 2025-11-03 20:04+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
-"Language: da\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/da/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.18.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
+"Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 #, fuzzy
@@ -113,13 +114,14 @@ msgstr "Aldrig"
 
 #: app/activity/api/blueprint.py:688
 msgid ""
-"Historical data import is currently only supported for Plex, Jellyfin, "
-"Emby, and AudiobookShelf servers."
+"Historical data import is currently only supported for Plex, Jellyfin, Emby, "
+"and AudiobookShelf servers."
 msgstr ""
 
 #: app/activity/api/blueprint.py:699
 #, python-brace-format
-msgid "Historical import job #{job_id} started for {server} (last {days} days)."
+msgid ""
+"Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
 
 #: app/activity/api/blueprint.py:709
@@ -212,8 +214,8 @@ msgstr "Nulstilling af adgangsnøgler for {} fejlede"
 
 #: app/blueprints/api_keys/routes.py:55
 msgid ""
-"No admin account found. Please set up a proper admin account before "
-"creating API keys."
+"No admin account found. Please set up a proper admin account before creating "
+"API keys."
 msgstr ""
 
 #: app/blueprints/api_keys/routes.py:86
@@ -223,8 +225,7 @@ msgstr "Nulstilling af adgangsnøgler for {} fejlede"
 
 #: app/blueprints/api_keys/routes.py:96
 msgid ""
-"API key created successfully. Please copy it now as it won't be shown "
-"again."
+"API key created successfully. Please copy it now as it won't be shown again."
 msgstr "API-nøgle skabt med succes. Kopier det nu, da det ikke vises igen."
 
 #: app/blueprints/api_keys/routes.py:138
@@ -318,8 +319,7 @@ msgstr "Ugyldige formulardata: %(errors)s"
 
 #: app/blueprints/public/routes.py:141 app/blueprints/public/routes.py:158
 msgid ""
-"There was an issue setting up your access. Please contact your server "
-"admin."
+"There was an issue setting up your access. Please contact your server admin."
 msgstr ""
 
 #: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
@@ -422,8 +422,8 @@ msgstr ""
 #: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1244
 #: app/blueprints/wizard/routes.py:1407
 msgid ""
-"This step could not be loaded. Please contact the administrator or skip "
-"to the next step."
+"This step could not be loaded. Please contact the administrator or skip to "
+"the next step."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
@@ -435,8 +435,8 @@ msgstr "Ugyldig Invitation"
 
 #: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:775
 msgid ""
-"No media servers are configured. Please contact the administrator to set "
-"up a media server."
+"No media servers are configured. Please contact the administrator to set up "
+"a media server."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:626
@@ -454,7 +454,8 @@ msgid "Please log in to continue"
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:815
-msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
+msgid ""
+"Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 
 #: app/blueprints/wizard/routes.py:863
@@ -574,8 +575,8 @@ msgstr ""
 
 #: app/forms/admin.py:34
 msgid ""
-"Password must contain at least one uppercase letter, one lowercase "
-"letter, and one number."
+"Password must contain at least one uppercase letter, one lowercase letter, "
+"and one number."
 msgstr ""
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
@@ -684,33 +685,33 @@ msgstr "%(server_type)s serveren returnerede en fejl: %(error)s"
 #: app/services/servers.py:34
 #, python-format
 msgid ""
-"Could not connect to the %(server_type)s server. Please check if the "
-"server is running and the URL is correct."
+"Could not connect to the %(server_type)s server. Please check if the server "
+"is running and the URL is correct."
 msgstr ""
-"Kan ikke oprette forbindelse til serveren %(server_type)s. Kontrollér, om"
-" serveren kører, og webadressen er korrekt."
+"Kan ikke oprette forbindelse til serveren %(server_type)s. Kontrollér, om "
+"serveren kører, og webadressen er korrekt."
 
 #: app/services/servers.py:40
 #, python-format
 msgid ""
-"Connection to %(server_type)s server timed out. Please check if the "
-"server is running and accessible."
+"Connection to %(server_type)s server timed out. Please check if the server "
+"is running and accessible."
 msgstr ""
-"Tilslutning til %(server_type)s serveren timed ud. Kontrollér, om "
-"serveren kører og er tilgængelig."
+"Tilslutning til %(server_type)s serveren timed ud. Kontrollér, om serveren "
+"kører og er tilgængelig."
 
 #: app/services/servers.py:46
 #, python-format
 msgid ""
-"An error occurred while connecting to the %(server_type)s server: "
-"%(error)s"
-msgstr "En fejl opstod, mens du tilslutter til %(server_type)s-serveren: %(error)s"
+"An error occurred while connecting to the %(server_type)s server: %(error)s"
+msgstr ""
+"En fejl opstod, mens du tilslutter til %(server_type)s-serveren: %(error)s"
 
 #: app/services/servers.py:53
 #, python-format
 msgid ""
-"An unexpected error occurred while connecting to the %(server_type)s "
-"server: %(error)s"
+"An unexpected error occurred while connecting to the %(server_type)s server: "
+"%(error)s"
 msgstr ""
 "En uventet fejl opstod, mens du tilslutter til %(server_type)s-serveren: "
 "%(error)s"
@@ -887,12 +888,12 @@ msgstr "Din Plex-konto er allerede konfigureret og klar til brug"
 #: app/templates/hybrid-password-form.html:204
 msgid "This password will be used to create accounts on your local servers"
 msgstr ""
-"Denne adgangskode vil blive brugt til at oprette konti på dine lokale "
-"servere"
+"Denne adgangskode vil blive brugt til at oprette konti på dine lokale servere"
 
 #: app/templates/hybrid-password-form.html:205
 msgid "You'll be redirected to the setup wizard to complete configuration"
-msgstr "Du bliver viderestillet til opsætningsguiden for at fuldføre konfiguration"
+msgstr ""
+"Du bliver viderestillet til opsætningsguiden for at fuldføre konfiguration"
 
 #: app/templates/hybrid-password-form.html:211
 msgid "Only want to use Plex?"
@@ -930,7 +931,8 @@ msgid "Invalid Invitation"
 msgstr "Ugyldig Invitation"
 
 #: app/templates/invalid-invite.html:19
-msgid "This invitation link is no longer valid. Please request a new invitation."
+msgid ""
+"This invitation link is no longer valid. Please request a new invitation."
 msgstr ""
 
 #: app/templates/login.html:14
@@ -1804,7 +1806,8 @@ msgstr "Der er noget, der mangler."
 
 #: app/templates/error/404.html:18
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Vi kan desværre ikke finde den side. Den eksisterer tilsyneladende ikke!"
+msgstr ""
+"Vi kan desværre ikke finde den side. Den eksisterer tilsyneladende ikke!"
 
 #: app/templates/error/500.html:15
 msgid "Internal Server Error."
@@ -1858,8 +1861,8 @@ msgstr "Oplysninger om Overseerr/Jellyseerr"
 #: app/templates/settings/connections/form.html:127
 #, fuzzy
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No "
-"API connection is required for Wizarr integration."
+"Overseerr and Jellyseerr automatically import new users by default. No API "
+"connection is required for Wizarr integration."
 msgstr ""
 "Overseerr og Jellyseerr importerer automatisk nye brugere som standard. "
 "Ingen API-forbindelse er nødvendig for Wizarr integration."
@@ -1871,8 +1874,8 @@ msgstr "For at aktivere automatisk import:"
 
 #: app/templates/modals/connection-form.html:84
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
-"new users' and 'Import Jellyfin/Plex users'"
+"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
+"users' and 'Import Jellyfin/Plex users'"
 msgstr ""
 "Gå til dine Overseerr/Jellyseerr-indstillinger → Brugere → Aktivér 'Auto-"
 "godkend nye brugere' og 'Importer Jellyfin/Plex-brugere'"
@@ -1916,11 +1919,11 @@ msgstr "API Nøgle oprettet succesfuldt"
 
 #: app/templates/modals/create-api-key.html:33
 msgid ""
-"Your API key has been created. Please copy it now as it will not be shown"
-" again."
+"Your API key has been created. Please copy it now as it will not be shown "
+"again."
 msgstr ""
-"Din API-nøgle er blevet oprettet. Kopier det nu, da det ikke vil blive "
-"vist igen."
+"Din API-nøgle er blevet oprettet. Kopier det nu, da det ikke vil blive vist "
+"igen."
 
 #: app/templates/modals/create-api-key.html:40
 msgid "Copy to clipboard"
@@ -1941,8 +1944,8 @@ msgstr "API-Nøgle Navn"
 #: app/templates/modals/create-api-key.html:74
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
-"Indtast et beskrivende navn for at hjælpe dig med at identificere denne "
-"API-nøgle senere."
+"Indtast et beskrivende navn for at hjælpe dig med at identificere denne API-"
+"nøgle senere."
 
 #: app/templates/modals/create-notification-agent.html:32
 msgid "New Agent"
@@ -2181,7 +2184,8 @@ msgid "simultaneous devices"
 msgstr ""
 
 #: app/templates/modals/invite.html:284
-msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgid ""
+"Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
 
 #: app/templates/modals/invite.html:359
@@ -2244,7 +2248,8 @@ msgid "Reset Link (Click to copy)"
 msgstr ""
 
 #: app/templates/modals/password-reset-link.html:85
-msgid "Send this link to the user. They can use it once to reset their password."
+msgid ""
+"Send this link to the user. They can use it once to reset their password."
 msgstr ""
 
 #: app/templates/modals/password-reset-link.html:90
@@ -2340,8 +2345,8 @@ msgstr "Vigtig meddelelse"
 
 #: app/templates/modals/wizard-import-form.html:92
 msgid ""
-"This action will modify your wizard steps configuration. Make sure to "
-"backup your current steps before importing if you want to preserve them."
+"This action will modify your wizard steps configuration. Make sure to backup "
+"your current steps before importing if you want to preserve them."
 msgstr ""
 
 #: app/templates/modals/wizard-import-form.html:111
@@ -2540,8 +2545,8 @@ msgstr "Ingen forbindelser konfigureret"
 
 #: app/templates/settings/connections.html:159
 msgid ""
-"Connect your external services to automate user invitations when invites "
-"are created for specific media servers."
+"Connect your external services to automate user invitations when invites are "
+"created for specific media servers."
 msgstr ""
 "Opret forbindelse til dine eksterne tjenester for at automatisere "
 "brugerinvitationer, når der oprettes invitationer til specifikke "
@@ -2610,8 +2615,8 @@ msgstr "Opret en konto"
 
 #: app/templates/settings/general.html:150
 msgid ""
-"If 'Disable User' is selected but the server does not support it, the "
-"user will be deleted instead."
+"If 'Disable User' is selected but the server does not support it, the user "
+"will be deleted instead."
 msgstr ""
 
 #: app/templates/settings/general.html:159
@@ -2779,8 +2784,8 @@ msgstr ""
 
 #: app/templates/settings/ldap.html:219
 msgid ""
-"Users can authenticate via LDAP or locally. Sync automatically imports "
-"new users from LDAP."
+"Users can authenticate via LDAP or locally. Sync automatically imports new "
+"users from LDAP."
 msgstr ""
 
 #: app/templates/settings/ldap.html:226
@@ -2861,8 +2866,7 @@ msgstr "Tjekker..."
 #: app/templates/settings/connections/form.html:68
 msgid "Create a new external service connection for automated user invitations"
 msgstr ""
-"Opret en ny ekstern tjenesteforbindelse til automatiserede "
-"brugerinvitationer"
+"Opret en ny ekstern tjenesteforbindelse til automatiserede brugerinvitationer"
 
 #: app/templates/settings/connections/form.html:70
 msgid "Update the connection settings"
@@ -2878,7 +2882,8 @@ msgstr "Et venligt navn til at identificere denne forbindelse"
 
 #: app/templates/settings/connections/form.html:111
 msgid "Which media server should trigger invitations to this external service"
-msgstr "Hvilken medieserver skal udløse invitationer til denne eksterne tjeneste"
+msgstr ""
+"Hvilken medieserver skal udløse invitationer til denne eksterne tjeneste"
 
 #: app/templates/settings/connections/form.html:132
 msgid "Open your Overseerr/Jellyseerr admin panel"
@@ -3065,8 +3070,8 @@ msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:6
 msgid ""
-"Import wizard steps or bundles from a JSON file to quickly set up or "
-"restore your wizard configuration."
+"Import wizard steps or bundles from a JSON file to quickly set up or restore "
+"your wizard configuration."
 msgstr ""
 
 #: app/templates/settings/wizard/import_form.html:13
@@ -3089,7 +3094,8 @@ msgid "Important: Backup Recommended"
 msgstr "Vigtigt: Backup anbefalet"
 
 #: app/templates/settings/wizard/import_form.html:84
-msgid "This action will modify your wizard configuration. Consider the following:"
+msgid ""
+"This action will modify your wizard configuration. Consider the following:"
 msgstr "Denne handling vil ændre din guide konfiguration. Overvej følgende:"
 
 #: app/templates/settings/wizard/import_form.html:86
@@ -3106,11 +3112,11 @@ msgstr "Importerede bundter bevarer deres trintilknytninger og rækkefølge"
 
 #: app/templates/settings/wizard/import_form.html:89
 msgid ""
-"If replacing existing configuration, all current steps and bundles will "
-"be permanently removed"
+"If replacing existing configuration, all current steps and bundles will be "
+"permanently removed"
 msgstr ""
-"Hvis du udskifter eksisterende konfiguration, fjernes alle aktuelle trin "
-"og bundter permanent"
+"Hvis du udskifter eksisterende konfiguration, fjernes alle aktuelle trin og "
+"bundter permanent"
 
 #: app/templates/settings/wizard/import_form.html:90
 msgid "Invalid or malformed JSON files will be rejected"
@@ -3146,8 +3152,8 @@ msgstr "Vælg en gyldig JSON-fil."
 
 #: app/templates/settings/wizard/import_form.html:251
 msgid ""
-"This will permanently replace all existing wizard configuration (steps "
-"and bundles). Are you sure you want to continue?"
+"This will permanently replace all existing wizard configuration (steps and "
+"bundles). Are you sure you want to continue?"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:13
@@ -3200,8 +3206,8 @@ msgstr "Ingen trin fundet."
 #: app/templates/settings/wizard/steps.html:23
 #, python-format
 msgid ""
-"Are you sure you want to reset all steps for %(server)s to defaults? This"
-" will delete all custom steps and reimport the default ones."
+"Are you sure you want to reset all steps for %(server)s to defaults? This "
+"will delete all custom steps and reimport the default ones."
 msgstr ""
 
 #: app/templates/settings/wizard/steps.html:26
@@ -3275,9 +3281,8 @@ msgid "Edit nickname"
 msgstr "Rediger kaldenavn"
 
 #: app/templates/tables/user_card.html:54
-#, fuzzy
 msgid "Home User"
-msgstr "Hjem"
+msgstr "Hjemmebruger"
 
 #: app/templates/tables/user_card.html:138
 msgid "Invited"
@@ -3336,6 +3341,34 @@ msgstr "Tidligere"
 msgid "Click the link in this step to be able to continue"
 msgstr "Klik på linket i dette trin for at kunne fortsætte"
 
+#~ msgid "No one is watching"
+#~ msgstr "Ingen ser noget"
+
+#~ msgid "Edit expiry"
+#~ msgstr "Ændre udløb"
+
+#~ msgid "Server-specific Expiry Management"
+#~ msgstr "Serverspecifik Udløbsstyring"
+
+#~ msgid ""
+#~ "This user exists on multiple servers. You can set different expiry dates "
+#~ "for each server."
+#~ msgstr ""
+#~ "Denne bruger findes på flere servere. Du kan indstille forskellige "
+#~ "udløbsdatoer for hver server."
+
+#~ msgid "Expiry date (leave blank for never)"
+#~ msgstr "Udløbsdato (blank for aldrig)"
+
+#~ msgid "Invitation Details"
+#~ msgstr "Invitations Detaljer"
+
+#~ msgid "Code"
+#~ msgstr "Kode"
+
+#~ msgid "Invitation expires"
+#~ msgstr "Invitations udløb"
+
 #~ msgid "Change Server Settings"
 #~ msgstr "Ændre serverindstillingerne"
 
@@ -3344,9 +3377,6 @@ msgstr "Klik på linket i dette trin for at kunne fortsætte"
 
 #~ msgid "User"
 #~ msgstr "Bruger"
-
-#~ msgid "Home User"
-#~ msgstr "Hjemmebruger"
 
 #~ msgid "Passwords do not match."
 #~ msgstr "Adgangskoderne stemmer ikke overens."
@@ -3363,17 +3393,14 @@ msgstr "Klik på linket i dette trin for at kunne fortsætte"
 #~ msgid "It is likely that your token does not work."
 #~ msgstr "Det er sandsynligt, at din token ikke virker."
 
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgid ""
+#~ "Unable to connect to your Plex server. See Logs for more information."
 #~ msgstr ""
-#~ "Det er ikke muligt at oprette "
-#~ "forbindelse til din Plex-server. Se "
+#~ "Det er ikke muligt at oprette forbindelse til din Plex-server. Se "
 #~ "Logfiler for at få flere oplysninger."
 
 #~ msgid "Unable to connect to your Jellyfin server."
 #~ msgstr "Det er ikke muligt at oprette forbindelse til din Jellyfin-server."
-
-#~ msgid "Confirm password"
-#~ msgstr "Bekræft adgangskode"
 
 #~ msgid ""
 #~ "Server Display\n"
@@ -3381,12 +3408,6 @@ msgstr "Klik på linket i dette trin for at kunne fortsætte"
 #~ msgstr ""
 #~ "Navnet på\n"
 #~ "                serveren"
-
-#~ msgid "Server"
-#~ msgstr "Server"
-
-#~ msgid "Server URL"
-#~ msgstr "Server URL"
 
 #~ msgid ""
 #~ "Server\n"
@@ -3436,37 +3457,27 @@ msgstr "Klik på linket i dette trin for at kunne fortsætte"
 #~ msgstr "Automatiske medieanmodninger"
 
 #~ msgid ""
-#~ "We are excited to offer you a "
-#~ "wide selection of media to choose "
-#~ "from. If you're having trouble finding"
-#~ "\n"
-#~ "    something you like, don't worry! "
-#~ "We have a user-friendly request "
-#~ "system that can automatically search for"
-#~ " the\n"
+#~ "We are excited to offer you a wide selection of media to choose from. If "
+#~ "you're having trouble finding\n"
+#~ "    something you like, don't worry! We have a user-friendly request "
+#~ "system that can automatically search for the\n"
 #~ "    media you're looking for. "
 #~ msgstr ""
-#~ "Vi er glade for at kunne tilbyde"
-#~ " dig et bredt udvalg af medier "
-#~ "at vælge imellem. Hvis du har "
-#~ "problemer med at finde\n"
-#~ "    noget, du kan lide, skal du"
-#~ " ikke bekymre dig! Vi har et "
-#~ "brugervenligt anmodningssystem, der automatisk "
-#~ "kan søge efter det\n"
+#~ "Vi er glade for at kunne tilbyde dig et bredt udvalg af medier at vælge "
+#~ "imellem. Hvis du har problemer med at finde\n"
+#~ "    noget, du kan lide, skal du ikke bekymre dig! Vi har et brugervenligt "
+#~ "anmodningssystem, der automatisk kan søge efter det\n"
 #~ "    medier, du leder efter. "
 
 #~ msgid "Request any available Movie or TV Show"
 #~ msgstr "Anmodning om enhver tilgængelig film eller tv-serie"
 
 #~ msgid ""
-#~ "Requested media will be automatically "
-#~ "downloaded and added to the library "
+#~ "Requested media will be automatically downloaded and added to the library "
 #~ "(if available)"
 #~ msgstr ""
-#~ "De ønskede medier vil automatisk blive"
-#~ " downloadet og tilføjet til biblioteket "
-#~ "(hvis de er tilgængelige)"
+#~ "De ønskede medier vil automatisk blive downloadet og tilføjet til "
+#~ "biblioteket (hvis de er tilgængelige)"
 
 #~ msgid "If enabled, receive notifications"
 #~ msgstr "Hvis aktiveret, modtager du notifikationer"
@@ -3482,26 +3493,20 @@ msgstr "Klik på linket i dette trin for at kunne fortsætte"
 #~ "            til denne enhed"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Jellyfin."
 #~ msgstr ""
-#~ "Gode nyheder! Du har nu adgang til"
-#~ " vores servers mediesamling. Lad os "
-#~ "sørge for, at du ved, hvordan du"
-#~ " skal bruge\n"
+#~ "Gode nyheder! Du har nu adgang til vores servers mediesamling. Lad os "
+#~ "sørge for, at du ved, hvordan du skal bruge\n"
 #~ "        den med Jellyfin."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Jellyfin for this "
+#~ "Planning on watching Movies on this device? Download Jellyfin for this "
 #~ "device."
 #~ msgstr ""
-#~ "Har du planer om at se film "
-#~ "på denne enhed? Download Jellyfin til"
-#~ " denne enhed."
+#~ "Har du planer om at se film på denne enhed? Download Jellyfin til denne "
+#~ "enhed."
 
 #~ msgid "Download"
 #~ msgstr "Download"
@@ -3510,61 +3515,40 @@ msgstr "Klik på linket i dette trin for at kunne fortsætte"
 #~ msgstr "Hvad er Jellyfin egentlig?"
 
 #~ msgid ""
-#~ "Jellyfin is a platform that lets "
-#~ "you stream all your favorite movies, "
-#~ "TV shows, and music in one place."
-#~ "\n"
-#~ "        It's like having your own "
-#~ "personal movie theater right at your "
-#~ "fingertips! Think of it as a "
-#~ "digital library of\n"
-#~ "        your favorite content that you"
-#~ " can access from anywhere, on any "
-#~ "device - your phone, tablet, laptop, "
-#~ "smart TV,\n"
+#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
+#~ "shows, and music in one place.\n"
+#~ "        It's like having your own personal movie theater right at your "
+#~ "fingertips! Think of it as a digital library of\n"
+#~ "        your favorite content that you can access from anywhere, on any "
+#~ "device - your phone, tablet, laptop, smart TV,\n"
 #~ "        you name it."
 #~ msgstr ""
-#~ "Jellyfin er en platform, hvor du "
-#~ "kan streame alle dine yndlingsfilm, "
-#~ "tv-serier og musik på ét sted.\n"
-#~ ""
-#~ "        Det er som at have din "
-#~ "egen personlige biograf lige ved hånden!"
-#~ " Tænk på det som et digitalt "
-#~ "bibliotek med\n"
-#~ "        dit yndlingsindhold, som du kan"
-#~ " få adgang til hvor som helst "
-#~ "og på hvilken som helst enhed -"
-#~ " din telefon, tablet, bærbare computer, "
-#~ "smart-tv,\n"
+#~ "Jellyfin er en platform, hvor du kan streame alle dine yndlingsfilm, tv-"
+#~ "serier og musik på ét sted.\n"
+#~ "        Det er som at have din egen personlige biograf lige ved hånden! "
+#~ "Tænk på det som et digitalt bibliotek med\n"
+#~ "        dit yndlingsindhold, som du kan få adgang til hvor som helst og "
+#~ "på hvilken som helst enhed - din telefon, tablet, bærbare computer, smart-"
+#~ "tv,\n"
 #~ "        du kan selv vælge."
 
 #~ msgid "Right, so how do I watch stuff?"
 #~ msgstr "Okay, hvordan ser jeg så ting?"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Jellyfin is "
-#~ "available on a wide variety of "
+#~ "It couldn't be simpler! Jellyfin is available on a wide variety of "
 #~ "devices including laptops, tablets,\n"
-#~ "        smartphones, and TVs. All you"
-#~ " need to do is download the "
-#~ "Jellyfin app on your device, sign "
-#~ "in with your account,\n"
+#~ "        smartphones, and TVs. All you need to do is download the Jellyfin "
+#~ "app on your device, sign in with your account,\n"
 #~ "        and\n"
 #~ "        you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "Det kunne ikke være nemmere! Jellyfin"
-#~ " er tilgængelig på en lang række "
-#~ "forskellige enheder, herunder bærbare "
-#~ "computere, tablets,\n"
-#~ "        smartphones og tv'er. Det eneste"
-#~ " du skal gøre er at downloade "
-#~ "Jellyfin-appen på din enhed, logge "
-#~ "ind med din konto,\n"
+#~ "Det kunne ikke være nemmere! Jellyfin er tilgængelig på en lang række "
+#~ "forskellige enheder, herunder bærbare computere, tablets,\n"
+#~ "        smartphones og tv'er. Det eneste du skal gøre er at downloade "
+#~ "Jellyfin-appen på din enhed, logge ind med din konto,\n"
 #~ "        og\n"
-#~ "         du er klar til at begynde"
-#~ " at streame dine medier. Så nemt "
-#~ "er det!"
+#~ "         du er klar til at begynde at streame dine medier. Så nemt er det!"
 
 #~ msgid "Open Jellyfin"
 #~ msgstr "Åben Jellyfin"
@@ -3577,94 +3561,63 @@ msgstr "Klik på linket i dette trin for at kunne fortsætte"
 #~ "            til denne enhed"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Plex."
 #~ msgstr ""
-#~ "Gode nyheder! Du har nu adgang til"
-#~ " vores servers mediesamling. Lad os "
-#~ "sørge for, at du ved, hvordan du"
-#~ " skal bruge\n"
+#~ "Gode nyheder! Du har nu adgang til vores servers mediesamling. Lad os "
+#~ "sørge for, at du ved, hvordan du skal bruge\n"
 #~ "        den med Plex."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Plex for this device."
+#~ "Planning on watching Movies on this device? Download Plex for this device."
 #~ msgstr ""
-#~ "Har du planer om at se film "
-#~ "på denne enhed? Download Plex til "
-#~ "denne enhed."
+#~ "Har du planer om at se film på denne enhed? Download Plex til denne enhed."
 
 #~ msgid "Eh, So, What is Plex exactly?"
 #~ msgstr "Hvad er Plex egentlig?"
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "    you've received this invitation, it"
-#~ " means someone wants to share their"
-#~ " library with you. With Plex, you'll"
-#~ " have\n"
-#~ "    access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "    you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "    access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "Godt spørgsmål! Plex er en software, "
-#~ "der gør det muligt for enkeltpersoner"
-#~ " at dele deres mediesamlinger med "
-#~ "andre. Hvis\n"
-#~ "    du har modtaget denne invitation,"
-#~ " betyder det, at nogen ønsker at "
-#~ "dele deres bibliotek med dig. Med "
-#~ "Plex har du\n"
-#~ "    adgang til alle de film, "
-#~ "tv-serier, musik og fotos, der er "
-#~ "gemt på deres server. God fornøjelse!"
+#~ "Godt spørgsmål! Plex er en software, der gør det muligt for "
+#~ "enkeltpersoner at dele deres mediesamlinger med andre. Hvis\n"
+#~ "    du har modtaget denne invitation, betyder det, at nogen ønsker at "
+#~ "dele deres bibliotek med dig. Med Plex har du\n"
+#~ "    adgang til alle de film, tv-serier, musik og fotos, der er gemt på "
+#~ "deres server. God fornøjelse!"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "    smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you need to do is download the Plex app on "
+#~ "your device, sign in with your account, and\n"
 #~ "    you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "Det kunne ikke være nemmere! Plex "
-#~ "er tilgængelig på en lang række "
-#~ "forskellige enheder, herunder bærbare "
-#~ "computere, tablets,\n"
-#~ "    smartphones og tv'er. Det eneste "
-#~ "du skal gøre er at downloade "
-#~ "Plex-appen på din enhed, logge ind"
-#~ " med din konto, og\n"
-#~ "    og du er klar til at "
-#~ "begynde at streame dine medier. Så "
-#~ "nemt er det!"
+#~ "Det kunne ikke være nemmere! Plex er tilgængelig på en lang række "
+#~ "forskellige enheder, herunder bærbare computere, tablets,\n"
+#~ "    smartphones og tv'er. Det eneste du skal gøre er at downloade Plex-"
+#~ "appen på din enhed, logge ind med din konto, og\n"
+#~ "    og du er klar til at begynde at streame dine medier. Så nemt er det!"
 
 #~ msgid "How can I make sure to have the best experience?"
 #~ msgstr "Hvordan kan jeg sikre mig, at jeg får den bedste oplevelse?"
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "    sharing with you - they also,"
-#~ " by default, play content at a "
-#~ "lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the "
+#~ "awesome content your friend is now\n"
+#~ "    sharing with you - they also, by default, play content at a lower "
+#~ "quality. "
 #~ msgstr ""
-#~ "Fordi Plex er en gratis tjeneste, "
-#~ "promoverer de deres eget indhold før "
-#~ "det fantastiske indhold, som din ven "
-#~ "nu er\n"
-#~ "    deler med dig - de afspiller"
-#~ " også som standard indhold i en "
-#~ "lavere kvalitet. "
+#~ "Fordi Plex er en gratis tjeneste, promoverer de deres eget indhold før "
+#~ "det fantastiske indhold, som din ven nu er\n"
+#~ "    deler med dig - de afspiller også som standard indhold i en lavere "
+#~ "kvalitet. "
 
 #~ msgid "No need to worry though, this can be easily resolved"
 #~ msgstr "Du skal dog ikke være bekymret, det kan nemt løses"
@@ -3691,20 +3644,11 @@ msgstr "Klik på linket i dette trin for at kunne fortsætte"
 #~ msgid "User Policy"
 #~ msgstr "Brugerpolitik"
 
-#~ msgid "Name"
-#~ msgstr "Navn"
-
-#~ msgid "Actions"
-#~ msgstr "Handlinger"
-
 #~ msgid "Home"
 #~ msgstr "Hjem"
 
 #~ msgid "Server settings"
 #~ msgstr "Serverindstillinger"
-
-#~ msgid "Notification agents"
-#~ msgstr ""
 
 #~ msgid "Oops!"
 #~ msgstr "Ups!"
@@ -3753,9 +3697,6 @@ msgstr "Klik på linket i dette trin for at kunne fortsætte"
 #~ "Invatiations\n"
 #~ "                                kode"
 
-#~ msgid "Optional, leave empty to disable"
-#~ msgstr ""
-
 #~ msgid "Available"
 #~ msgstr "Tilgængelige"
 
@@ -3768,9 +3709,6 @@ msgstr "Klik på linket i dette trin for at kunne fortsætte"
 #~ msgid "Downloads disabled"
 #~ msgstr "Downloads deaktiveret"
 
-#~ msgid "This wizard bundle has no steps configured."
-#~ msgstr ""
-
 #~ msgid "Pre-Invite"
 #~ msgstr "Forhåndsvisning"
 
@@ -3780,36 +3718,5 @@ msgstr "Klik på linket i dette trin for at kunne fortsætte"
 #~ msgid "Add step"
 #~ msgstr "Tilføj trin"
 
-#~ msgid "Edit expiry"
-#~ msgstr "Ændre udløb"
-
-#~ msgid "Server-specific Expiry Management"
-#~ msgstr "Serverspecifik Udløbsstyring"
-
-#~ msgid ""
-#~ "This user exists on multiple servers."
-#~ " You can set different expiry dates"
-#~ " for each server."
-#~ msgstr ""
-#~ "Denne bruger findes på flere servere."
-#~ " Du kan indstille forskellige udløbsdatoer"
-#~ " for hver server."
-
-#~ msgid "Expiry date (leave blank for never)"
-#~ msgstr "Udløbsdato (blank for aldrig)"
-
-#~ msgid "Invitation Details"
-#~ msgstr "Invitations Detaljer"
-
-#~ msgid "Code"
-#~ msgstr "Kode"
-
-#~ msgid "Invitation expires"
-#~ msgstr "Invitations udløb"
-
-#~ msgid "Username must be 3 to 15 characters."
-#~ msgstr ""
-
 #~ msgid "Partial"
 #~ msgstr "valgfrit"
-

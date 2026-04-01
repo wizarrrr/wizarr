@@ -1,24 +1,25 @@
-# Romanian translations for .
+# Romanian translations for PROJECT.
 # Copyright (C) 2025 ORGANIZATION
-# This file is distributed under the same license as the  project.
+# This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version:  Wizarr\n"
+"Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-04-01 05:31+0000\n"
-"PO-Revision-Date: 2025-12-04 21:35+0000\n"
-"Last-Translator: Stepan Curuci <stepan@curuci.eu>\n"
+"PO-Revision-Date: 2025-11-03 20:09+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Romanian <https://hosted.weblate.org/projects/wizarr/wizarr-"
+"universal/ro/>\n"
 "Language: ro\n"
-"Language-Team: Romanian <https://hosted.weblate.org/projects/wizarr"
-"/wizarr-universal/ro/>\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 "
-"< 20)) ? 1 : 2;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.18.0\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
+"Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 msgid "Failed to load settings"
@@ -102,15 +103,16 @@ msgstr "Serverul media nu a fost găsit."
 
 #: app/activity/api/blueprint.py:688
 msgid ""
-"Historical data import is currently only supported for Plex, Jellyfin, "
-"Emby, and AudiobookShelf servers."
+"Historical data import is currently only supported for Plex, Jellyfin, Emby, "
+"and AudiobookShelf servers."
 msgstr ""
 "Importul de date istorice este disponibil momentan doar pentru serverele "
 "Plex, Jellyfin, Emby și AudiobookShelf."
 
 #: app/activity/api/blueprint.py:699
 #, python-brace-format
-msgid "Historical import job #{job_id} started for {server} (last {days} days)."
+msgid ""
+"Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
 "Sarcina de import istoric #{job_id} a pornit pentru {server} (ultimele "
 "{days} zile)."
@@ -203,8 +205,8 @@ msgstr "Nu s-au putut reseta cheile de acces pentru {}"
 
 #: app/blueprints/api_keys/routes.py:55
 msgid ""
-"No admin account found. Please set up a proper admin account before "
-"creating API keys."
+"No admin account found. Please set up a proper admin account before creating "
+"API keys."
 msgstr ""
 
 #: app/blueprints/api_keys/routes.py:86
@@ -214,11 +216,10 @@ msgstr "Nu s-au putut reseta pașii: {}"
 
 #: app/blueprints/api_keys/routes.py:96
 msgid ""
-"API key created successfully. Please copy it now as it won't be shown "
-"again."
+"API key created successfully. Please copy it now as it won't be shown again."
 msgstr ""
-"Cheia API a fost creată cu succes. Te rugăm să o copiezi acum deoarece nu"
-" va mai fi afișată."
+"Cheia API a fost creată cu succes. Te rugăm să o copiezi acum deoarece nu va "
+"mai fi afișată."
 
 #: app/blueprints/api_keys/routes.py:138
 msgid "API key deleted successfully"
@@ -311,8 +312,7 @@ msgstr "Date de formular nevalide: %(errors)s"
 
 #: app/blueprints/public/routes.py:141 app/blueprints/public/routes.py:158
 msgid ""
-"There was an issue setting up your access. Please contact your server "
-"admin."
+"There was an issue setting up your access. Please contact your server admin."
 msgstr ""
 
 #: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
@@ -321,7 +321,7 @@ msgstr "Setările au fost salvate cu succes!"
 
 #: app/blueprints/settings/routes.py:217 app/forms/settings.py:24
 msgid "Server URL"
-msgstr "URL-ul serverului"
+msgstr "URL Server"
 
 #: app/blueprints/settings/routes.py:220 app/forms/settings.py:25
 msgid "API Key"
@@ -407,8 +407,7 @@ msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
 msgstr ""
-"Invitația ta a expirat sau nu mai este valabilă. Solicită o invitație "
-"nouă."
+"Invitația ta a expirat sau nu mai este valabilă. Solicită o invitație nouă."
 
 #: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1241
 #: app/blueprints/wizard/routes.py:1404
@@ -418,11 +417,11 @@ msgstr "Eroare la încărcarea pasului"
 #: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1244
 #: app/blueprints/wizard/routes.py:1407
 msgid ""
-"This step could not be loaded. Please contact the administrator or skip "
-"to the next step."
+"This step could not be loaded. Please contact the administrator or skip to "
+"the next step."
 msgstr ""
-"Acest pas nu a putut fi încărcat. Contactează administratorul sau treci "
-"la pasul următor."
+"Acest pas nu a putut fi încărcat. Contactează administratorul sau treci la "
+"pasul următor."
 
 #: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
 #: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1142
@@ -432,17 +431,16 @@ msgstr "Invitație invalidă sau expirată"
 
 #: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:775
 msgid ""
-"No media servers are configured. Please contact the administrator to set "
-"up a media server."
+"No media servers are configured. Please contact the administrator to set up "
+"a media server."
 msgstr ""
-"Nu este configurat niciun server media. Contactează administratorul "
-"pentru a configura un server."
+"Nu este configurat niciun server media. Contactează administratorul pentru a "
+"configura un server."
 
 #: app/blueprints/wizard/routes.py:626
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
-"Pașii expertului nu pot fi încărcați. Se continuă cu acceptarea "
-"invitației."
+"Pașii expertului nu pot fi încărcați. Se continuă cu acceptarea invitației."
 
 #: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:987
 #: app/blueprints/wizard/routes.py:1263 app/templates/wizard/steps.html:21
@@ -454,7 +452,8 @@ msgid "Please log in to continue"
 msgstr "Autentifică-te pentru a continua"
 
 #: app/blueprints/wizard/routes.py:815
-msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
+msgid ""
+"Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 "Pașii expertului nu pot fi încărcați. Configurarea este finalizată! Bun "
 "venit pe serverul tău media."
@@ -465,7 +464,8 @@ msgstr "Configurarea este completă! Bun venit pe serverul tău media."
 
 #: app/blueprints/wizard/routes.py:972
 msgid "Unable to load wizard configuration. Please try again."
-msgstr "Nu se poate încărca configurația expertului. Te rugăm să încerci din nou."
+msgstr ""
+"Nu se poate încărca configurația expertului. Te rugăm să încerci din nou."
 
 #: app/blueprints/wizard/routes.py:1120
 msgid "Unable to load wizard bundle. Please try again."
@@ -573,11 +573,10 @@ msgstr "Parola trebuie să aibă cel puțin 8 caractere."
 
 #: app/forms/admin.py:34
 msgid ""
-"Password must contain at least one uppercase letter, one lowercase "
-"letter, and one number."
+"Password must contain at least one uppercase letter, one lowercase letter, "
+"and one number."
 msgstr ""
-"Parola trebuie să conțină cel puțin o literă mare, o literă mică și o "
-"cifră."
+"Parola trebuie să conțină cel puțin o literă mare, o literă mică și o cifră."
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
 #: app/templates/admin/user_details_modal.html:66
@@ -675,17 +674,17 @@ msgstr "Serverul %(server_type)s a returnat o eroare: %(error)s"
 #: app/services/servers.py:34
 #, python-format
 msgid ""
-"Could not connect to the %(server_type)s server. Please check if the "
-"server is running and the URL is correct."
+"Could not connect to the %(server_type)s server. Please check if the server "
+"is running and the URL is correct."
 msgstr ""
-"Nu s-a putut realiza conexiunea la serverul %(server_type)s. Verifică "
-"dacă serverul rulează și dacă URL-ul este corect."
+"Nu s-a putut realiza conexiunea la serverul %(server_type)s. Verifică dacă "
+"serverul rulează și dacă URL-ul este corect."
 
 #: app/services/servers.py:40
 #, python-format
 msgid ""
-"Connection to %(server_type)s server timed out. Please check if the "
-"server is running and accessible."
+"Connection to %(server_type)s server timed out. Please check if the server "
+"is running and accessible."
 msgstr ""
 "Conexiunea la serverul %(server_type)s a expirat. Verifică dacă serverul "
 "rulează și este accesibil."
@@ -693,15 +692,14 @@ msgstr ""
 #: app/services/servers.py:46
 #, python-format
 msgid ""
-"An error occurred while connecting to the %(server_type)s server: "
-"%(error)s"
+"An error occurred while connecting to the %(server_type)s server: %(error)s"
 msgstr "A apărut o eroare la conectarea la serverul %(server_type)s: %(error)s"
 
 #: app/services/servers.py:53
 #, python-format
 msgid ""
-"An unexpected error occurred while connecting to the %(server_type)s "
-"server: %(error)s"
+"An unexpected error occurred while connecting to the %(server_type)s server: "
+"%(error)s"
 msgstr ""
 "A apărut o eroare neașteptată la conectarea la serverul %(server_type)s: "
 "%(error)s"
@@ -878,14 +876,12 @@ msgstr "Contul tău Plex este deja configurat și gata de utilizare"
 #: app/templates/hybrid-password-form.html:204
 msgid "This password will be used to create accounts on your local servers"
 msgstr ""
-"Această parolă va fi folosită pentru a crea conturi pe serverele tale "
-"locale"
+"Această parolă va fi folosită pentru a crea conturi pe serverele tale locale"
 
 #: app/templates/hybrid-password-form.html:205
 msgid "You'll be redirected to the setup wizard to complete configuration"
 msgstr ""
-"Vei fi redirecționat către expertul de configurare pentru a finaliza "
-"setările"
+"Vei fi redirecționat către expertul de configurare pentru a finaliza setările"
 
 #: app/templates/hybrid-password-form.html:211
 msgid "Only want to use Plex?"
@@ -916,15 +912,17 @@ msgstr "Parolele nu coincid"
 #: app/templates/password-reset-success.html:9
 #, fuzzy
 msgid "Wizarr"
-msgstr "Expert"
+msgstr "Configurează Wizarr"
 
 #: app/templates/invalid-invite.html:15
 msgid "Invalid Invitation"
 msgstr "Invitație invalidă"
 
 #: app/templates/invalid-invite.html:19
-msgid "This invitation link is no longer valid. Please request a new invitation."
-msgstr "Acest link de invitație nu mai este valabil. Solicită o invitație nouă."
+msgid ""
+"This invitation link is no longer valid. Please request a new invitation."
+msgstr ""
+"Acest link de invitație nu mai este valabil. Solicită o invitație nouă."
 
 #: app/templates/login.html:14
 msgid "Two-Factor Authentication"
@@ -1000,7 +998,8 @@ msgstr "Autentificarea 2FA nu a putut fi finalizată"
 
 #: app/templates/login.html:277
 msgid "Passkey authentication failed. Please try again or use your password."
-msgstr "Autentificarea cu passkey a eșuat. Încearcă din nou sau folosește parola."
+msgstr ""
+"Autentificarea cu passkey a eșuat. Încearcă din nou sau folosește parola."
 
 #: app/templates/password-reset-error.html:25
 #, fuzzy
@@ -1548,7 +1547,8 @@ msgstr "Nu există biblioteci disponibile"
 
 #: app/templates/admin/user_modal.html:173
 msgid "Scan libraries from the invitation page to enable library restrictions"
-msgstr "Scanează bibliotecile din pagina de invitație pentru a activa restricțiile"
+msgstr ""
+"Scanează bibliotecile din pagina de invitație pentru a activa restricțiile"
 
 #: app/templates/admin/user_modal.html:205
 msgid "Click to toggle library access. Updates save automatically."
@@ -1820,11 +1820,11 @@ msgstr "Informații Overseerr/Jellyseerr"
 #: app/templates/modals/connection-form.html:78
 #: app/templates/settings/connections/form.html:127
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No "
-"API connection is required for Wizarr integration."
+"Overseerr and Jellyseerr automatically import new users by default. No API "
+"connection is required for Wizarr integration."
 msgstr ""
-"Overseerr și Jellyseerr importă automat utilizatorii noi. Nu este "
-"necesară o conexiune API pentru integrarea cu Wizarr."
+"Overseerr și Jellyseerr importă automat utilizatorii noi. Nu este necesară o "
+"conexiune API pentru integrarea cu Wizarr."
 
 #: app/templates/modals/connection-form.html:82
 #: app/templates/settings/connections/form.html:130
@@ -1833,11 +1833,11 @@ msgstr "Pentru a activa importul automat:"
 
 #: app/templates/modals/connection-form.html:84
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
-"new users' and 'Import Jellyfin/Plex users'"
+"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
+"users' and 'Import Jellyfin/Plex users'"
 msgstr ""
-"Accesează Overseerr/Jellyseerr → Settings → Users → activează „Auto-"
-"approve new users” și „Import Jellyfin/Plex users”"
+"Accesează Overseerr/Jellyseerr → Settings → Users → activează „Auto-approve "
+"new users” și „Import Jellyfin/Plex users”"
 
 #: app/templates/modals/connection-form.html:139
 msgid "Testing connection..."
@@ -1878,8 +1878,8 @@ msgstr "Cheia API a fost creată cu succes"
 
 #: app/templates/modals/create-api-key.html:33
 msgid ""
-"Your API key has been created. Please copy it now as it will not be shown"
-" again."
+"Your API key has been created. Please copy it now as it will not be shown "
+"again."
 msgstr "Cheia API a fost creată. Copiaz-o acum deoarece nu va mai fi afișată."
 
 #: app/templates/modals/create-api-key.html:40
@@ -1900,7 +1900,8 @@ msgstr "Numele cheii API"
 
 #: app/templates/modals/create-api-key.html:74
 msgid "Enter a descriptive name to help you identify this API key later."
-msgstr "Introdu un nume descriptiv pentru a identifica ulterior această cheie API."
+msgstr ""
+"Introdu un nume descriptiv pentru a identifica ulterior această cheie API."
 
 #: app/templates/modals/create-notification-agent.html:32
 msgid "New Agent"
@@ -2084,15 +2085,15 @@ msgstr "(în zile)"
 
 #: app/templates/modals/invite.html:128
 msgid "Show Information"
-msgstr "Arată informația"
+msgstr "Arată informața"
 
 #: app/templates/modals/invite.html:137
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
 msgstr ""
-"Când este activată, persoanele invitate vor fi eliminate de pe serverul "
-"Plex după un anumit număr de zile (1-999)."
+"Când este activată, persoanele invitate vor fi eliminate de pe serverul Plex "
+"după un anumit număr de zile (1-999)."
 
 #: app/templates/modals/invite.html:153
 #, fuzzy
@@ -2134,8 +2135,10 @@ msgid "simultaneous devices"
 msgstr "dispozitive simultane"
 
 #: app/templates/modals/invite.html:284
-msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
-msgstr "Numărul de dispozitive care pot reda simultan. Setează 0 pentru nelimitat."
+msgid ""
+"Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgstr ""
+"Numărul de dispozitive care pot reda simultan. Setează 0 pentru nelimitat."
 
 #: app/templates/modals/invite.html:359
 msgid "Select Libraries"
@@ -2194,7 +2197,8 @@ msgid "Reset Link (Click to copy)"
 msgstr ""
 
 #: app/templates/modals/password-reset-link.html:85
-msgid "Send this link to the user. They can use it once to reset their password."
+msgid ""
+"Send this link to the user. They can use it once to reset their password."
 msgstr ""
 
 #: app/templates/modals/password-reset-link.html:90
@@ -2278,8 +2282,8 @@ msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
 "steps will be merged with existing ones."
 msgstr ""
-"Dacă este bifat, pașii existenți vor fi înlocuiți. Dacă este debifat, "
-"pașii importați vor fi îmbinați cu cei existenți."
+"Dacă este bifat, pașii existenți vor fi înlocuiți. Dacă este debifat, pașii "
+"importați vor fi îmbinați cu cei existenți."
 
 #: app/templates/modals/wizard-import-form.html:90
 msgid "Important Notice"
@@ -2287,11 +2291,11 @@ msgstr "Atenție importantă"
 
 #: app/templates/modals/wizard-import-form.html:92
 msgid ""
-"This action will modify your wizard steps configuration. Make sure to "
-"backup your current steps before importing if you want to preserve them."
+"This action will modify your wizard steps configuration. Make sure to backup "
+"your current steps before importing if you want to preserve them."
 msgstr ""
-"Această acțiune va modifica configurarea pașilor. Fă backup pașilor "
-"actuali înainte de import dacă dorești să-i păstrezi."
+"Această acțiune va modifica configurarea pașilor. Fă backup pașilor actuali "
+"înainte de import dacă dorești să-i păstrezi."
 
 #: app/templates/modals/wizard-import-form.html:111
 msgid "Import Steps"
@@ -2477,11 +2481,11 @@ msgstr "Nu există conexiuni configurate"
 
 #: app/templates/settings/connections.html:159
 msgid ""
-"Connect your external services to automate user invitations when invites "
-"are created for specific media servers."
+"Connect your external services to automate user invitations when invites are "
+"created for specific media servers."
 msgstr ""
-"Conectează-ți serviciile externe pentru a automatiza invitațiile, în "
-"funcție de serverele media selectate."
+"Conectează-ți serviciile externe pentru a automatiza invitațiile, în funcție "
+"de serverele media selectate."
 
 #: app/templates/settings/connections.html:171
 msgid "Add Your First Connection"
@@ -2543,11 +2547,11 @@ msgstr "Doar ștergere:"
 
 #: app/templates/settings/general.html:150
 msgid ""
-"If 'Disable User' is selected but the server does not support it, the "
-"user will be deleted instead."
+"If 'Disable User' is selected but the server does not support it, the user "
+"will be deleted instead."
 msgstr ""
-"Dacă serverul nu suportă opțiunea „Dezactivează utilizatorul”, acesta va "
-"fi șters."
+"Dacă serverul nu suportă opțiunea „Dezactivează utilizatorul”, acesta va fi "
+"șters."
 
 #: app/templates/settings/general.html:159
 msgid "Choose what happens to users when their invitation expires"
@@ -2711,8 +2715,8 @@ msgstr ""
 
 #: app/templates/settings/ldap.html:219
 msgid ""
-"Users can authenticate via LDAP or locally. Sync automatically imports "
-"new users from LDAP."
+"Users can authenticate via LDAP or locally. Sync automatically imports new "
+"users from LDAP."
 msgstr ""
 
 #: app/templates/settings/ldap.html:226
@@ -2743,8 +2747,8 @@ msgstr "Agenți de notificare"
 #: app/templates/settings/notifications.html:10
 msgid "Configure notification services to alert you about important events"
 msgstr ""
-"Configurează serviciile de notificare pentru a fi alertat despre "
-"evenimente importante"
+"Configurează serviciile de notificare pentru a fi alertat despre evenimente "
+"importante"
 
 #: app/templates/settings/notifications.html:21
 #: app/templates/settings/notifications.html:125
@@ -2789,7 +2793,8 @@ msgstr "Se verifică..."
 
 #: app/templates/settings/connections/form.html:68
 msgid "Create a new external service connection for automated user invitations"
-msgstr "Creează o nouă conexiune cu un serviciu extern pentru invitații automate"
+msgstr ""
+"Creează o nouă conexiune cu un serviciu extern pentru invitații automate"
 
 #: app/templates/settings/connections/form.html:70
 msgid "Update the connection settings"
@@ -2805,7 +2810,8 @@ msgstr "Un nume prietenos pentru a identifica această conexiune"
 
 #: app/templates/settings/connections/form.html:111
 msgid "Which media server should trigger invitations to this external service"
-msgstr "Ce server media ar trebui să trimită invitații către acest serviciu extern"
+msgstr ""
+"Ce server media ar trebui să trimită invitații către acest serviciu extern"
 
 #: app/templates/settings/connections/form.html:132
 msgid "Open your Overseerr/Jellyseerr admin panel"
@@ -2949,7 +2955,8 @@ msgstr "Categorii adiționale"
 
 #: app/templates/settings/wizard/bundles.html:249
 msgid "Steps that use custom categories keep their order here."
-msgstr "Pașii care folosesc categorii personalizate își păstrează ordinea aici."
+msgstr ""
+"Pașii care folosesc categorii personalizate își păstrează ordinea aici."
 
 #: app/templates/settings/wizard/bundles.html:317
 msgid "Orphaned Steps"
@@ -2960,8 +2967,8 @@ msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
 msgstr ""
-"Aceste intrări nu mai au un pas asociat. Elimină-le pentru a păstra "
-"pachetul ordonat."
+"Aceste intrări nu mai au un pas asociat. Elimină-le pentru a păstra pachetul "
+"ordonat."
 
 #: app/templates/settings/wizard/bundles.html:324
 msgid "Step deleted (orphaned)"
@@ -2986,8 +2993,8 @@ msgstr "Importă configurația expertului"
 
 #: app/templates/settings/wizard/import_form.html:6
 msgid ""
-"Import wizard steps or bundles from a JSON file to quickly set up or "
-"restore your wizard configuration."
+"Import wizard steps or bundles from a JSON file to quickly set up or restore "
+"your wizard configuration."
 msgstr ""
 "Importă pași sau pachete dintr-un fișier JSON pentru a configura sau "
 "restaura rapid expertul."
@@ -3015,7 +3022,8 @@ msgid "Important: Backup Recommended"
 msgstr "Important: recomandăm backup"
 
 #: app/templates/settings/wizard/import_form.html:84
-msgid "This action will modify your wizard configuration. Consider the following:"
+msgid ""
+"This action will modify your wizard configuration. Consider the following:"
 msgstr ""
 "Această acțiune îți va modifica configurația expertului. Ține cont de "
 "următoarele:"
@@ -3034,11 +3042,11 @@ msgstr "Pachetele importate își păstrează asocierile și ordinea pașilor"
 
 #: app/templates/settings/wizard/import_form.html:89
 msgid ""
-"If replacing existing configuration, all current steps and bundles will "
-"be permanently removed"
+"If replacing existing configuration, all current steps and bundles will be "
+"permanently removed"
 msgstr ""
-"Dacă alegi înlocuirea configurației, toți pașii și pachetele curente vor "
-"fi eliminați definitiv"
+"Dacă alegi înlocuirea configurației, toți pașii și pachetele curente vor fi "
+"eliminați definitiv"
 
 #: app/templates/settings/wizard/import_form.html:90
 msgid "Invalid or malformed JSON files will be rejected"
@@ -3074,11 +3082,11 @@ msgstr "Selectează un fișier JSON valid."
 
 #: app/templates/settings/wizard/import_form.html:251
 msgid ""
-"This will permanently replace all existing wizard configuration (steps "
-"and bundles). Are you sure you want to continue?"
+"This will permanently replace all existing wizard configuration (steps and "
+"bundles). Are you sure you want to continue?"
 msgstr ""
-"Aceasta va înlocui definitiv configurația actuală (pași și pachete). "
-"Sigur dorești să continui?"
+"Aceasta va înlocui definitiv configurația actuală (pași și pachete). Sigur "
+"dorești să continui?"
 
 #: app/templates/settings/wizard/index.html:13
 msgid "Wizard Steps"
@@ -3087,8 +3095,7 @@ msgstr "Pași ai expertului"
 #: app/templates/settings/wizard/index.html:15
 msgid "Manage your wizard steps and bundles for user onboarding"
 msgstr ""
-"Gestionează pașii și pachetele expertului pentru onboarding-ul "
-"utilizatorilor"
+"Gestionează pașii și pachetele expertului pentru onboarding-ul utilizatorilor"
 
 #: app/templates/settings/wizard/index.html:36
 msgid "No wizard steps found"
@@ -3130,12 +3137,12 @@ msgstr "Nu s-au găsit pași."
 #: app/templates/settings/wizard/steps.html:23
 #, python-format
 msgid ""
-"Are you sure you want to reset all steps for %(server)s to defaults? This"
-" will delete all custom steps and reimport the default ones."
+"Are you sure you want to reset all steps for %(server)s to defaults? This "
+"will delete all custom steps and reimport the default ones."
 msgstr ""
 "Sigur dorești să resetezi toți pașii pentru %(server)s la valorile "
-"implicite? Pașii personalizați vor fi șterși și vor fi importate valorile"
-" implicite."
+"implicite? Pașii personalizați vor fi șterși și vor fi importate valorile "
+"implicite."
 
 #: app/templates/settings/wizard/steps.html:26
 #, python-format
@@ -3205,7 +3212,7 @@ msgstr "Editează porecla"
 
 #: app/templates/tables/user_card.html:54
 msgid "Home User"
-msgstr "Utilizator Home"
+msgstr "Utilizator al casei"
 
 #: app/templates/tables/user_card.html:138
 msgid "Invited"
@@ -3258,6 +3265,361 @@ msgstr "Înapoi"
 msgid "Click the link in this step to be able to continue"
 msgstr "Apasă linkul din acest pas pentru a putea continua"
 
+#, fuzzy
+#~ msgid "Invitation Details"
+#~ msgstr "Invitații"
+
+#, fuzzy
+#~ msgid "Invitation expires"
+#~ msgstr "Invitații"
+
+#~ msgid "Change Server Settings"
+#~ msgstr "Schimbă setările server-ului"
+
+#~ msgid "Invite Used"
+#~ msgstr "Invitație utilizată"
+
+#~ msgid "User"
+#~ msgstr "Utilizator"
+
+#~ msgid "Passwords do not match."
+#~ msgstr "Parolele nu coincid."
+
+#~ msgid "Username must be between 3 and 15 characters."
+#~ msgstr "Numele de utilizator trebuie să conțină între 3 și 15 caractere."
+
+#~ msgid "Password must be between 3 and 40 characters."
+#~ msgstr "Parola trebuie să conțină între 3 și 40 de caractere."
+
+#~ msgid "You must select at least one library."
+#~ msgstr "Cel puțin o bibliotecă trebuie selectată."
+
+#~ msgid "It is likely that your token does not work."
+#~ msgstr "Este posibil ca tokenul să nu funcționeze."
+
+#~ msgid ""
+#~ "Unable to connect to your Plex server. See Logs for more information."
+#~ msgstr ""
+#~ "Nu sa putut conecta la serverul Plex. Vedeți logo-urile pentru mai multe "
+#~ "informații."
+
+#~ msgid "Unable to connect to your Jellyfin server."
+#~ msgstr "Nu sa putut conecta la serverul Jellyfin."
+
+#~ msgid ""
+#~ "Server Display\n"
+#~ "                Name"
+#~ msgstr ""
+#~ "Afișaj server\n"
+#~ "                Nume"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Token / API Key"
+#~ msgstr ""
+#~ "Server\n"
+#~ "                   Token / API Key"
+
+#~ msgid ""
+#~ "Server\n"
+#~ "                Libraries"
+#~ msgstr ""
+#~ "Bibliotecile\n"
+#~ "                server-ului"
+
+#~ msgid ""
+#~ "Request\n"
+#~ "                instance (Ombi, Overseerr...) URL"
+#~ msgstr ""
+#~ "Cerere\n"
+#~ "                instanță (Ombi, Overseerr...)"
+
+#~ msgid "Ombi API Key (Only used for user import currently.)"
+#~ msgstr ""
+#~ "Ombi API Key (Momentan folosit doar pentru importarea de utilizatori.)"
+
+#~ msgid ""
+#~ "Discord\n"
+#~ "                Server ID"
+#~ msgstr ""
+#~ "Discord\n"
+#~ "                ID Server"
+
+#~ msgid ""
+#~ "Custom\n"
+#~ "                HTML"
+#~ msgstr ""
+#~ "Personalizat\n"
+#~ "                HTML"
+
+#~ msgid "Attention!"
+#~ msgstr "Atenție!"
+
+#~ msgid "Update available. Click here."
+#~ msgstr "Actualizare disponibilă. Click aici."
+
+#~ msgid "Automatic Media Requests"
+#~ msgstr "Cereri media automate"
+
+#~ msgid ""
+#~ "We are excited to offer you a wide selection of media to choose from. If "
+#~ "you're having trouble finding\n"
+#~ "    something you like, don't worry! We have a user-friendly request "
+#~ "system that can automatically search for the\n"
+#~ "    media you're looking for. "
+#~ msgstr ""
+#~ "Suntem încântați să vă oferim o gamă largă de media din care puteți "
+#~ "alege. Dacă aveți dificultăți în a găsi\n"
+#~ "   ceva ce vă place, nu vă temeți! Avem un sistem de cereri ușor de "
+#~ "utilizat care poate căuta automat\n"
+#~ "    media pe care le dorești. "
+
+#~ msgid "Request any available Movie or TV Show"
+#~ msgstr "Cere orice Film sau Serial disponibil"
+
+#~ msgid ""
+#~ "Requested media will be automatically downloaded and added to the library "
+#~ "(if available)"
+#~ msgstr ""
+#~ "Media cerute vor fii descărcate și adăugate îl bibliotecă automat (dacă "
+#~ "sunt disponibile)"
+
+#~ msgid "If enabled, receive notifications"
+#~ msgstr "Primește notificări, dacă este activat"
+
+#~ msgid "Check it Out"
+#~ msgstr "Verifică"
+
+#~ msgid ""
+#~ "Join & Download Jellyfin\n"
+#~ "            for this device"
+#~ msgstr ""
+#~ "Alătură-te & descarcă Jellyfin\n"
+#~ "            pentru acest dispozitiv"
+
+#~ msgid ""
+#~ "Great news! You now have access to our server's media collection. Let's "
+#~ "make sure you know how to use\n"
+#~ "        it with Jellyfin."
+#~ msgstr ""
+#~ "Vești bune! Ai acces la colecția media a server-ului nostru. Hai să ne "
+#~ "asigurăm că știi cum să o folosești\n"
+#~ "         cu Jellyfin."
+
+#~ msgid ""
+#~ "Planning on watching Movies on this device? Download Jellyfin for this "
+#~ "device."
+#~ msgstr ""
+#~ "Ai de gând sa vizionezi filme pe acest dispozitiv? Descarcă Jellyfin "
+#~ "pentru acest dispozitiv."
+
+#~ msgid "Download"
+#~ msgstr "Descarcă"
+
+#~ msgid "Eh, So, What is Jellyfin exactly?"
+#~ msgstr "Eh, deci, ce este mai exact Jellyfin?"
+
+#~ msgid ""
+#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
+#~ "shows, and music in one place.\n"
+#~ "        It's like having your own personal movie theater right at your "
+#~ "fingertips! Think of it as a digital library of\n"
+#~ "        your favorite content that you can access from anywhere, on any "
+#~ "device - your phone, tablet, laptop, smart TV,\n"
+#~ "        you name it."
+#~ msgstr ""
+#~ "Jellyfin este o platformă care îți permite sa redai filmele, serialele și "
+#~ "muzica ta preferată într-un singur loc.\n"
+#~ "         Este ca și cum ai avea propriul cinema la vârful degetelor! Îl "
+#~ "poți considera o bibliotecă digitală\n"
+#~ "        cu conținutul tău favorit pe care îl poți accesa de oriunde, de "
+#~ "pe orice dispozitiv - telefon, tabletă, laptop, smart TV         ."
+
+#~ msgid "Right, so how do I watch stuff?"
+#~ msgstr "Ok, deci cum pot viziona chestii?"
+
+#~ msgid ""
+#~ "It couldn't be simpler! Jellyfin is available on a wide variety of "
+#~ "devices including laptops, tablets,\n"
+#~ "        smartphones, and TVs. All you need to do is download the Jellyfin "
+#~ "app on your device, sign in with your account,\n"
+#~ "        and\n"
+#~ "        you're ready to start streaming your media. It's that easy!"
+#~ msgstr ""
+#~ "Nimic mai ușor! Jellyfin este disponibil pe o gamă largă de dispozitive "
+#~ "cum ar fii laptopuri, tablete,\n"
+#~ "        smartphoneuri, si televizoare. Tot ce trebuie să faci este să "
+#~ "descarci aplicația Jellyfin pe dispozitiv, să te autentifici cu propriul "
+#~ "cont,\n"
+#~ "        și\n"
+#~ "        ești gata să începi să vizionezi conținutul tău. Este atât de "
+#~ "ușor!"
+
+#~ msgid "Open Jellyfin"
+#~ msgstr "Deschide Jellyfin"
+
+#~ msgid ""
+#~ "Join & Download Plex\n"
+#~ "            for this device"
+#~ msgstr ""
+#~ "Alătură-te & descarcă Plex\n"
+#~ "            pentru acest dispozitiv"
+
+#~ msgid ""
+#~ "Great news! You now have access to our server's media collection. Let's "
+#~ "make sure you know how to use\n"
+#~ "        it with Plex."
+#~ msgstr ""
+#~ "Vești bune! Ai acum acces la colecția media de pe serverul nostru. Hai să "
+#~ "ne asigurăm că știi să o folosești\n"
+#~ "\tcu Plex."
+
+#~ msgid ""
+#~ "Planning on watching Movies on this device? Download Plex for this device."
+#~ msgstr ""
+#~ "Ai de gând să vizionezi filme pe acest dispozitiv? Descarcă Plex pentru "
+#~ "acest dispozitiv."
+
+#~ msgid "Eh, So, What is Plex exactly?"
+#~ msgstr "Eh, deci, ce este Plex defapt?"
+
+#~ msgid ""
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "    you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "    access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
+#~ msgstr ""
+#~ "Bună întrebare! Plex este un soft care permite indivizilor să-și "
+#~ "partajeze colecțiile media cu alții. Dacă \n"
+#~ "ai primit această invitație, înseamnă că cineva vrea să-și partajeze "
+#~ "biblioteca cu tine. Cu Plex, vei avea\n"
+#~ "     acces la toate filmele, serialele, muzica și pozele care sunt "
+#~ "stocate pe serverul lor. Savurează!"
+
+#~ msgid ""
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you need to do is download the Plex app on "
+#~ "your device, sign in with your account, and\n"
+#~ "    you're ready to start streaming your media. It's that easy!"
+#~ msgstr ""
+#~ "Nimic mai ușor! Plex este disponibil pe o gamă largă de dispozitive cum "
+#~ "ar fii laptopuri, tablete,\n"
+#~ "        smartphoneuri, si televizoare. Tot ce trebuie să faci este să "
+#~ "descarci aplicația Jellyfin pe dispozitiv, să te autentifici cu propriul "
+#~ "cont, și\n"
+#~ "        ești gata să începi să vizionezi conținutul tău. Este atât de "
+#~ "ușor!"
+
+#~ msgid "How can I make sure to have the best experience?"
+#~ msgstr "Cum mă pot asigura că am parte de cea mai bună experiență?"
+
+#~ msgid ""
+#~ "Because Plex is a free service, they promote their own content before the "
+#~ "awesome content your friend is now\n"
+#~ "    sharing with you - they also, by default, play content at a lower "
+#~ "quality. "
+#~ msgstr ""
+#~ "Pentru că Plex este un serviciu gratuit, ei își promovează propriul "
+#~ "conținut înaintea conținutului pe care prietenul tău \n"
+#~ "    îl partajează acum cu tine - ei de asemenea, în mod implicit, redau "
+#~ "conținutul la o calitate inferioară. "
+
+#~ msgid "No need to worry though, this can be easily resolved"
+#~ msgstr "Nu trebuie să te îngrijorezi, se poate rezolva ușor"
+
+#~ msgid ""
+#~ "We highly\n"
+#~ "      recommend you to go through those steps first!"
+#~ msgstr ""
+#~ "Recomandăm\n"
+#~ "     să parcurgeți acești pași mai întâi!"
+
+#~ msgid "Configure Plex in your browser"
+#~ msgstr "Configureaza Plex pentru browserul tău"
+
+#~ msgid "Configure Plex's app on your computer, mobile device or TV"
+#~ msgstr ""
+#~ "Configurează aplicația Plex pe calculatorul tău, dispozitiv mobil sau TV"
+
+#~ msgid "Open Plex"
+#~ msgstr "Deschide Plex"
+
+#~ msgid "User Configuration"
+#~ msgstr "Configurațiile utilizatorului"
+
+#~ msgid "User Policy"
+#~ msgstr "Politica utilizatorului"
+
+#~ msgid "Home"
+#~ msgstr "Acasă"
+
+#~ msgid "Server settings"
+#~ msgstr "Setări server"
+
+#~ msgid "Oops!"
+#~ msgstr "Oops!"
+
+#~ msgid ""
+#~ "Confirm\n"
+#~ "                                password"
+#~ msgstr ""
+#~ "Confirmă\n"
+#~ "                                parolă"
+
+#~ msgid ""
+#~ "Invite\n"
+#~ "                                Code"
+#~ msgstr ""
+#~ "Cod de\n"
+#~ "                                invitație"
+
+#~ msgid "Invite user"
+#~ msgstr "Invită utilizator"
+
+#~ msgid ""
+#~ "Specific\n"
+#~ "                                Libraries"
+#~ msgstr ""
+#~ "Biblioteci\n"
+#~ "                                Specifice"
+
+#~ msgid "Back"
+#~ msgstr "Înapoi"
+
+#~ msgid "Share"
+#~ msgstr "Partajează"
+
+#~ msgid ""
+#~ "Username\n"
+#~ "                                (optional)"
+#~ msgstr ""
+#~ "Cod de\n"
+#~ "                                invitație"
+
+#~ msgid ""
+#~ "Agent\n"
+#~ "                                URL"
+#~ msgstr ""
+#~ "Cod de\n"
+#~ "                                invitație"
+
+#~ msgid "Available"
+#~ msgstr "Disponibil"
+
+#~ msgid "Limit"
+#~ msgstr "Nelimitat"
+
+#~ msgid "libs"
+#~ msgstr "Biblioteci"
+
+#~ msgid "Pre-Invite"
+#~ msgstr "Cod de invitație"
+
+#~ msgid "Post-Invite"
+#~ msgstr "Cod de invitație"
+
 #~ msgid "Partial"
 #~ msgstr "(opțional)"
-

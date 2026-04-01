@@ -8,16 +8,17 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-04-01 05:31+0000\n"
-"PO-Revision-Date: 2025-10-31 16:51+0000\n"
+"PO-Revision-Date: 2025-11-03 20:10+0000\n"
 "Last-Translator: 刘付苏 <liufusucc@gmail.com>\n"
+"Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
+"projects/wizarr/wizarr-universal/zh_Hans/>\n"
 "Language: zh_Hans\n"
-"Language-Team: Chinese (Simplified Han script) "
-"<https://hosted.weblate.org/projects/wizarr/wizarr-universal/zh_Hans/>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.18.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
+"Generated-By: Babel 2.17.0\n"
 
 #: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 msgid "Failed to load settings"
@@ -102,13 +103,15 @@ msgstr "未找到媒体服务器。"
 
 #: app/activity/api/blueprint.py:688
 msgid ""
-"Historical data import is currently only supported for Plex, Jellyfin, "
-"Emby, and AudiobookShelf servers."
-msgstr "目前仅支持 Plex、Jellyfin、Emby 和 AudiobookShelf 服务器的历史数据导入。"
+"Historical data import is currently only supported for Plex, Jellyfin, Emby, "
+"and AudiobookShelf servers."
+msgstr ""
+"目前仅支持 Plex、Jellyfin、Emby 和 AudiobookShelf 服务器的历史数据导入。"
 
 #: app/activity/api/blueprint.py:699
 #, python-brace-format
-msgid "Historical import job #{job_id} started for {server} (last {days} days)."
+msgid ""
+"Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr "历史导入任务 #{job_id} 已为 {server} 启动（最近 {days} 天）。"
 
 #: app/activity/api/blueprint.py:709
@@ -199,8 +202,8 @@ msgstr "{} 的密钥重置失败"
 
 #: app/blueprints/api_keys/routes.py:55
 msgid ""
-"No admin account found. Please set up a proper admin account before "
-"creating API keys."
+"No admin account found. Please set up a proper admin account before creating "
+"API keys."
 msgstr ""
 
 #: app/blueprints/api_keys/routes.py:86
@@ -210,8 +213,7 @@ msgstr "重置步骤失败：{}"
 
 #: app/blueprints/api_keys/routes.py:96
 msgid ""
-"API key created successfully. Please copy it now as it won't be shown "
-"again."
+"API key created successfully. Please copy it now as it won't be shown again."
 msgstr "API 密钥创建成功。请立即复制，此密钥后续将不再显示。"
 
 #: app/blueprints/api_keys/routes.py:138
@@ -305,8 +307,7 @@ msgstr "表单数据无效：%(errors)s"
 
 #: app/blueprints/public/routes.py:141 app/blueprints/public/routes.py:158
 msgid ""
-"There was an issue setting up your access. Please contact your server "
-"admin."
+"There was an issue setting up your access. Please contact your server admin."
 msgstr ""
 
 #: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
@@ -410,8 +411,8 @@ msgstr "加载步骤时出错"
 #: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1244
 #: app/blueprints/wizard/routes.py:1407
 msgid ""
-"This step could not be loaded. Please contact the administrator or skip "
-"to the next step."
+"This step could not be loaded. Please contact the administrator or skip to "
+"the next step."
 msgstr "无法加载此步骤。请联系管理员或跳到下一步。"
 
 #: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
@@ -422,8 +423,8 @@ msgstr "邀请无效或已过期"
 
 #: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:775
 msgid ""
-"No media servers are configured. Please contact the administrator to set "
-"up a media server."
+"No media servers are configured. Please contact the administrator to set up "
+"a media server."
 msgstr "未配置媒体服务器。请联系管理员设置媒体服务器。"
 
 #: app/blueprints/wizard/routes.py:626
@@ -440,7 +441,8 @@ msgid "Please log in to continue"
 msgstr "请登录以继续操作"
 
 #: app/blueprints/wizard/routes.py:815
-msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
+msgid ""
+"Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr "无法加载向导步骤。设置已完成！欢迎使用您的媒体服务器。"
 
 #: app/blueprints/wizard/routes.py:863
@@ -557,8 +559,8 @@ msgstr "密码必须至少为8个字符。"
 
 #: app/forms/admin.py:34
 msgid ""
-"Password must contain at least one uppercase letter, one lowercase "
-"letter, and one number."
+"Password must contain at least one uppercase letter, one lowercase letter, "
+"and one number."
 msgstr "密码必须至少包含一个大写字母、一个小写字母和一个数字。"
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
@@ -657,29 +659,30 @@ msgstr "%(server_type)s 服务器返回错误：%(error)s"
 #: app/services/servers.py:34
 #, python-format
 msgid ""
-"Could not connect to the %(server_type)s server. Please check if the "
-"server is running and the URL is correct."
-msgstr "无法连接到 %(server_type)s 服务器。请检查服务器是否正在运行以及 URL 是否正确。"
+"Could not connect to the %(server_type)s server. Please check if the server "
+"is running and the URL is correct."
+msgstr ""
+"无法连接到 %(server_type)s 服务器。请检查服务器是否正在运行以及 URL 是否正"
+"确。"
 
 #: app/services/servers.py:40
 #, python-format
 msgid ""
-"Connection to %(server_type)s server timed out. Please check if the "
-"server is running and accessible."
+"Connection to %(server_type)s server timed out. Please check if the server "
+"is running and accessible."
 msgstr "连接到 %(server_type)s 服务器超时。请检查服务器是否正在运行且可访问。"
 
 #: app/services/servers.py:46
 #, python-format
 msgid ""
-"An error occurred while connecting to the %(server_type)s server: "
-"%(error)s"
+"An error occurred while connecting to the %(server_type)s server: %(error)s"
 msgstr "连接到 %(server_type)s 服务器时发生错误：%(error)s"
 
 #: app/services/servers.py:53
 #, python-format
 msgid ""
-"An unexpected error occurred while connecting to the %(server_type)s "
-"server: %(error)s"
+"An unexpected error occurred while connecting to the %(server_type)s server: "
+"%(error)s"
 msgstr "连接到 %(server_type)s 服务器时发生意外错误：%(error)s"
 
 #: app/services/servers.py:66
@@ -894,7 +897,8 @@ msgid "Invalid Invitation"
 msgstr "无效的邀请"
 
 #: app/templates/invalid-invite.html:19
-msgid "This invitation link is no longer valid. Please request a new invitation."
+msgid ""
+"This invitation link is no longer valid. Please request a new invitation."
 msgstr "此邀请链接已失效。请申请一个新的邀请。"
 
 #: app/templates/login.html:14
@@ -1803,9 +1807,10 @@ msgstr "Overseerr/Jellyseerr 信息"
 #: app/templates/modals/connection-form.html:78
 #: app/templates/settings/connections/form.html:127
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No "
-"API connection is required for Wizarr integration."
-msgstr "Overseerr 和 Jellyseerr 默认会自动导入新用户。Wizarr 集成不需要 API 连接。"
+"Overseerr and Jellyseerr automatically import new users by default. No API "
+"connection is required for Wizarr integration."
+msgstr ""
+"Overseerr 和 Jellyseerr 默认会自动导入新用户。Wizarr 集成不需要 API 连接。"
 
 #: app/templates/modals/connection-form.html:82
 #: app/templates/settings/connections/form.html:130
@@ -1814,9 +1819,11 @@ msgstr "要启用自动导入："
 
 #: app/templates/modals/connection-form.html:84
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
-"new users' and 'Import Jellyfin/Plex users'"
-msgstr "前往您的 Overseerr/Jellyseerr 设置 → 用户 → 启用“自动批准新用户”和“导入 Jellyfin/Plex 用户”"
+"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
+"users' and 'Import Jellyfin/Plex users'"
+msgstr ""
+"前往您的 Overseerr/Jellyseerr 设置 → 用户 → 启用“自动批准新用户”和“导入 "
+"Jellyfin/Plex 用户”"
 
 #: app/templates/modals/connection-form.html:139
 msgid "Testing connection..."
@@ -1857,8 +1864,8 @@ msgstr "API密钥创建成功"
 
 #: app/templates/modals/create-api-key.html:33
 msgid ""
-"Your API key has been created. Please copy it now as it will not be shown"
-" again."
+"Your API key has been created. Please copy it now as it will not be shown "
+"again."
 msgstr "您的API密钥已创建。请现在复制它，因为之后将不会再次显示。"
 
 #: app/templates/modals/create-api-key.html:40
@@ -2112,7 +2119,8 @@ msgid "simultaneous devices"
 msgstr ""
 
 #: app/templates/modals/invite.html:284
-msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgid ""
+"Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
 
 #: app/templates/modals/invite.html:359
@@ -2172,7 +2180,8 @@ msgid "Reset Link (Click to copy)"
 msgstr ""
 
 #: app/templates/modals/password-reset-link.html:85
-msgid "Send this link to the user. They can use it once to reset their password."
+msgid ""
+"Send this link to the user. They can use it once to reset their password."
 msgstr ""
 
 #: app/templates/modals/password-reset-link.html:90
@@ -2265,9 +2274,10 @@ msgstr "重要通知"
 
 #: app/templates/modals/wizard-import-form.html:92
 msgid ""
-"This action will modify your wizard steps configuration. Make sure to "
-"backup your current steps before importing if you want to preserve them."
-msgstr "此操作将修改您的向导步骤配置。如果您希望保留当前步骤，请在导入前务必备份。"
+"This action will modify your wizard steps configuration. Make sure to backup "
+"your current steps before importing if you want to preserve them."
+msgstr ""
+"此操作将修改您的向导步骤配置。如果您希望保留当前步骤，请在导入前务必备份。"
 
 #: app/templates/modals/wizard-import-form.html:111
 msgid "Import Steps"
@@ -2453,8 +2463,8 @@ msgstr "未配置任何连接"
 
 #: app/templates/settings/connections.html:159
 msgid ""
-"Connect your external services to automate user invitations when invites "
-"are created for specific media servers."
+"Connect your external services to automate user invitations when invites are "
+"created for specific media servers."
 msgstr "连接您的外部服务，以便在为特定媒体服务器创建邀请时自动发送用户邀请。"
 
 #: app/templates/settings/connections.html:171
@@ -2515,8 +2525,8 @@ msgstr "仅删除："
 
 #: app/templates/settings/general.html:150
 msgid ""
-"If 'Disable User' is selected but the server does not support it, the "
-"user will be deleted instead."
+"If 'Disable User' is selected but the server does not support it, the user "
+"will be deleted instead."
 msgstr "如果选择了“禁用用户”但服务器不支持此功能，则用户将被删除。"
 
 #: app/templates/settings/general.html:159
@@ -2681,8 +2691,8 @@ msgstr ""
 
 #: app/templates/settings/ldap.html:219
 msgid ""
-"Users can authenticate via LDAP or locally. Sync automatically imports "
-"new users from LDAP."
+"Users can authenticate via LDAP or locally. Sync automatically imports new "
+"users from LDAP."
 msgstr ""
 
 #: app/templates/settings/ldap.html:226
@@ -2830,13 +2840,12 @@ msgid "Add a new wizard step"
 msgstr "添加新的向导步骤"
 
 #: app/templates/settings/wizard/_sub_nav.html:130
-#, fuzzy
 msgid "Add Step to Bundle"
-msgstr "将步骤添加到捆绑包中"
+msgstr "将步骤添加到向导组合包中"
 
 #: app/templates/settings/wizard/_sub_nav.html:152
 msgid "No bundles available yet"
-msgstr ""
+msgstr "目前还没有可用的向导组合包"
 
 #: app/templates/settings/wizard/_sub_nav.html:169
 msgid "Add Preset"
@@ -2914,22 +2923,21 @@ msgstr "未配置邀请后的步骤"
 
 #: app/templates/settings/wizard/bundles.html:247
 msgid "Additional Categories"
-msgstr ""
+msgstr "附加类别"
 
 #: app/templates/settings/wizard/bundles.html:249
 msgid "Steps that use custom categories keep their order here."
-msgstr ""
+msgstr "使用自定义类别的步骤会在这里保持其顺序。"
 
 #: app/templates/settings/wizard/bundles.html:317
-#, fuzzy
 msgid "Orphaned Steps"
-msgstr "移除孤立步骤"
+msgstr "孤立步骤"
 
 #: app/templates/settings/wizard/bundles.html:319
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
-msgstr ""
+msgstr "这些条目不再有相关的步骤。删除它们以保持组合包的整洁。"
 
 #: app/templates/settings/wizard/bundles.html:324
 msgid "Step deleted (orphaned)"
@@ -2954,8 +2962,8 @@ msgstr "导入向导配置"
 
 #: app/templates/settings/wizard/import_form.html:6
 msgid ""
-"Import wizard steps or bundles from a JSON file to quickly set up or "
-"restore your wizard configuration."
+"Import wizard steps or bundles from a JSON file to quickly set up or restore "
+"your wizard configuration."
 msgstr "从 JSON 文件导入向导步骤或组合包，以快速设置或恢复您的向导配置。"
 
 #: app/templates/settings/wizard/import_form.html:13
@@ -2971,14 +2979,17 @@ msgid ""
 "When checked, all existing wizard steps and bundles will be removed and "
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
-msgstr "选中时，所有现有的向导步骤和组合包将被移除，并替换为导入的配置。不选中时，导入的项目将与现有项目一起添加。"
+msgstr ""
+"选中时，所有现有的向导步骤和组合包将被移除，并替换为导入的配置。不选中时，导"
+"入的项目将与现有项目一起添加。"
 
 #: app/templates/settings/wizard/import_form.html:82
 msgid "Important: Backup Recommended"
 msgstr "重要：建议备份"
 
 #: app/templates/settings/wizard/import_form.html:84
-msgid "This action will modify your wizard configuration. Consider the following:"
+msgid ""
+"This action will modify your wizard configuration. Consider the following:"
 msgstr "此操作将修改您的向导配置。请考虑以下事项："
 
 #: app/templates/settings/wizard/import_form.html:86
@@ -2995,8 +3006,8 @@ msgstr "导入的组合包将保留其步骤关联和顺序"
 
 #: app/templates/settings/wizard/import_form.html:89
 msgid ""
-"If replacing existing configuration, all current steps and bundles will "
-"be permanently removed"
+"If replacing existing configuration, all current steps and bundles will be "
+"permanently removed"
 msgstr "如果替换现有配置，所有当前步骤和组合包将被永久删除"
 
 #: app/templates/settings/wizard/import_form.html:90
@@ -3033,8 +3044,8 @@ msgstr "请选择一个有效的 JSON 文件。"
 
 #: app/templates/settings/wizard/import_form.html:251
 msgid ""
-"This will permanently replace all existing wizard configuration (steps "
-"and bundles). Are you sure you want to continue?"
+"This will permanently replace all existing wizard configuration (steps and "
+"bundles). Are you sure you want to continue?"
 msgstr "这将永久替换所有现有的向导配置（步骤和组合包）。您确定要继续吗？"
 
 #: app/templates/settings/wizard/index.html:13
@@ -3085,9 +3096,11 @@ msgstr "未找到步骤。"
 #: app/templates/settings/wizard/steps.html:23
 #, python-format
 msgid ""
-"Are you sure you want to reset all steps for %(server)s to defaults? This"
-" will delete all custom steps and reimport the default ones."
-msgstr "您确定要将 %(server)s 的所有步骤重置为默认值吗？这将删除所有自定义步骤并重新导入默认步骤。"
+"Are you sure you want to reset all steps for %(server)s to defaults? This "
+"will delete all custom steps and reimport the default ones."
+msgstr ""
+"您确定要将 %(server)s 的所有步骤重置为默认值吗？这将删除所有自定义步骤并重新"
+"导入默认步骤。"
 
 #: app/templates/settings/wizard/steps.html:26
 #, python-format
@@ -3128,9 +3141,8 @@ msgid "Not used yet"
 msgstr "尚未使用"
 
 #: app/templates/tables/invite_card.html:71
-#, fuzzy
 msgid "Bundle"
-msgstr "向导页面合集"
+msgstr "向导组合包"
 
 #: app/templates/tables/invite_card.html:129
 msgid "days"
@@ -3211,106 +3223,34 @@ msgstr "上一步"
 msgid "Click the link in this step to be able to continue"
 msgstr "点击此步骤中的链接以继续进行操作"
 
-#~ msgid "Accept Invitation"
-#~ msgstr ""
+#~ msgid "Username must be 3 to 15 characters."
+#~ msgstr "用户名必须为3到15个字符。"
 
-#~ msgid "Accept our invitation"
-#~ msgstr ""
+#~ msgid "No one is watching"
+#~ msgstr "没有人正在观看"
 
-#~ msgid "We have sent an invitation to your Plex Account! Almost there!"
-#~ msgstr ""
+#~ msgid "Edit expiry"
+#~ msgstr "编辑有效期"
 
-#~ msgid ""
-#~ "Click the button below to be taken"
-#~ " to Plex, here you will see an"
-#~ " invitation from us."
-#~ msgstr ""
-
-#~ msgid "Accept"
-#~ msgstr ""
-
-#~ msgid "Next"
-#~ msgstr ""
+#~ msgid "Server-specific Expiry Management"
+#~ msgstr "服务器特定的有效期管理"
 
 #~ msgid ""
-#~ "Environment Variables are being deprecated "
-#~ "and replaced by a secure sign-up."
-#~ " Please visit "
-#~ msgstr ""
+#~ "This user exists on multiple servers. You can set different expiry dates "
+#~ "for each server."
+#~ msgstr "此用户存在于多个服务器上。您可以为每个服务器设置不同的有效期日期。"
 
-#~ msgid "/settings. See Repo for more info"
-#~ msgstr ""
+#~ msgid "Expiry date (leave blank for never)"
+#~ msgstr "过期日期（如果永不过期，请留空）"
 
-#~ msgid "Great! Now, let's get you invited!"
-#~ msgstr ""
+#~ msgid "Invitation Details"
+#~ msgstr "邀请详情"
 
-#~ msgid "Your Plex email"
-#~ msgstr ""
+#~ msgid "Code"
+#~ msgstr "邀请码"
 
-#~ msgid "Don't have a Plex account, yet?"
-#~ msgstr ""
-
-#~ msgid "Get one here."
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Plex Display\n"
-#~ "              Name"
-#~ msgstr ""
-
-#~ msgid "Plex URL"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Plex\n"
-#~ "              Token"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Plex\n"
-#~ "              Libraries"
-#~ msgstr ""
-
-#~ msgid "Plex Display Name"
-#~ msgstr ""
-
-#~ msgid "Plex Token"
-#~ msgstr ""
-
-#~ msgid "Plex Libraries"
-#~ msgstr ""
-
-#~ msgid "Request instance (Ombi, Overseerr...)"
-#~ msgstr ""
-
-#~ msgid "Discord Server ID"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n"
-#~ ""
-#~ "\n"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "/settings.\n"
-#~ "                        See Repo for more info"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Server\n"
-#~ "              Libraries"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "              HTML"
-#~ msgstr ""
-
-#~ msgid "Plex Requests"
-#~ msgstr ""
+#~ msgid "Invitation expires"
+#~ msgstr "邀请码过期"
 
 #~ msgid ""
 #~ "Server Display\n"
@@ -3362,9 +3302,6 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ msgid "User"
 #~ msgstr "用户"
 
-#~ msgid "Home User"
-#~ msgstr "家庭用户"
-
 #~ msgid "Passwords do not match."
 #~ msgstr "密码不正确。"
 
@@ -3380,14 +3317,12 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ msgid "It is likely that your token does not work."
 #~ msgstr "您的令牌很可能不起作用。"
 
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgid ""
+#~ "Unable to connect to your Plex server. See Logs for more information."
 #~ msgstr "无法连接到Plex服务器。有关详细信息，请参阅日志。"
 
 #~ msgid "Unable to connect to your Jellyfin server."
 #~ msgstr "无法连接到你的Jellyfin服务器。"
-
-#~ msgid "Confirm password"
-#~ msgstr "确认密码"
 
 #~ msgid ""
 #~ "Server Display\n"
@@ -3395,12 +3330,6 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ msgstr ""
 #~ "服务器\n"
 #~ "              名称"
-
-#~ msgid "Server"
-#~ msgstr "服务器网址"
-
-#~ msgid "Server URL"
-#~ msgstr "服务器网址"
 
 #~ msgid ""
 #~ "Server\n"
@@ -3422,9 +3351,6 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ msgstr ""
 #~ "请求\n"
 #~ "              实例 (Ombi, Overseerr...)"
-
-#~ msgid "Ombi API Key (Only used for user import currently.)"
-#~ msgstr ""
 
 #~ msgid ""
 #~ "Discord\n"
@@ -3450,14 +3376,10 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ msgstr "自动媒体请求"
 
 #~ msgid ""
-#~ "We are excited to offer you a "
-#~ "wide selection of media to choose "
-#~ "from. If you're having trouble finding"
-#~ "\n"
-#~ "    something you like, don't worry! "
-#~ "We have a user-friendly request "
-#~ "system that can automatically search for"
-#~ " the\n"
+#~ "We are excited to offer you a wide selection of media to choose from. If "
+#~ "you're having trouble finding\n"
+#~ "    something you like, don't worry! We have a user-friendly request "
+#~ "system that can automatically search for the\n"
 #~ "    media you're looking for. "
 #~ msgstr ""
 #~ "我们很高兴能为您提供广泛的媒体选择。如果没找到您想要看的\n"
@@ -3468,8 +3390,7 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ msgstr "请求任何可用的电影或电视剧"
 
 #~ msgid ""
-#~ "Requested media will be automatically "
-#~ "downloaded and added to the library "
+#~ "Requested media will be automatically downloaded and added to the library "
 #~ "(if available)"
 #~ msgstr "请求的媒体将自动下载并添加到库中（如果有资源的话）"
 
@@ -3487,18 +3408,15 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ "            适用于此设备"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Jellyfin."
 #~ msgstr ""
 #~ "好消息!你现在可以访问我们服务器的媒体收藏\n"
 #~ "        让我们确保您知道如何在Jellyfin上使用它。"
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Jellyfin for this "
+#~ "Planning on watching Movies on this device? Download Jellyfin for this "
 #~ "device."
 #~ msgstr "计划在此设备上观看电影？下载适用于此设备的Jellyfin。"
 
@@ -3509,22 +3427,18 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ msgstr "嗯，那么，Jellyfin 到底是什么？"
 
 #~ msgid ""
-#~ "Jellyfin is a platform that lets "
-#~ "you stream all your favorite movies, "
-#~ "TV shows, and music in one place."
-#~ "\n"
-#~ "        It's like having your own "
-#~ "personal movie theater right at your "
-#~ "fingertips! Think of it as a "
-#~ "digital library of\n"
-#~ "        your favorite content that you"
-#~ " can access from anywhere, on any "
-#~ "device - your phone, tablet, laptop, "
-#~ "smart TV,\n"
+#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
+#~ "shows, and music in one place.\n"
+#~ "        It's like having your own personal movie theater right at your "
+#~ "fingertips! Think of it as a digital library of\n"
+#~ "        your favorite content that you can access from anywhere, on any "
+#~ "device - your phone, tablet, laptop, smart TV,\n"
 #~ "        you name it."
 #~ msgstr ""
-#~ "Jellyfin 是一个平台，让你在一个地方播放所有你喜欢的电影、电视节目和音乐。\n"
-#~ "         这就像拥有自己的个人电影院一样触手可及！将其视为您喜爱的内容的数字图书馆， \n"
+#~ "Jellyfin 是一个平台，让你在一个地方播放所有你喜欢的电影、电视节目和音"
+#~ "乐。\n"
+#~ "         这就像拥有自己的个人电影院一样触手可及！将其视为您喜爱的内容的数"
+#~ "字图书馆， \n"
 #~ "        您可以从任何地方在任何设备上访问您最喜欢的内容\n"
 #~ "        （手机、平板电脑、笔记本电脑、智能电视）。"
 
@@ -3532,18 +3446,17 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ msgstr "对，那我该怎么使用它来观看？"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Jellyfin is "
-#~ "available on a wide variety of "
+#~ "It couldn't be simpler! Jellyfin is available on a wide variety of "
 #~ "devices including laptops, tablets,\n"
-#~ "        smartphones, and TVs. All you"
-#~ " need to do is download the "
-#~ "Jellyfin app on your device, sign "
-#~ "in with your account,\n"
+#~ "        smartphones, and TVs. All you need to do is download the Jellyfin "
+#~ "app on your device, sign in with your account,\n"
 #~ "        and\n"
 #~ "        you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "这再简单不过了!Jellyfin可以在各种设备上使用，包括笔记本电脑、平板电脑。 智能手机和电视。\n"
-#~ "        你所需要做的就是在你的设备上下载Jellyfin应用程序，用你的账户登录。 \n"
+#~ "这再简单不过了!Jellyfin可以在各种设备上使用，包括笔记本电脑、平板电脑。 智"
+#~ "能手机和电视。\n"
+#~ "        你所需要做的就是在你的设备上下载Jellyfin应用程序，用你的账户登"
+#~ "录。 \n"
 #~ "        然后\n"
 #~ "        你就已经可以观看流媒体了。就是这么简单！"
 
@@ -3558,50 +3471,42 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ "            用于此设备"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Plex."
 #~ msgstr ""
 #~ "好消息！您现在可以访问我们服务器的媒体列表。\n"
 #~ "         让我们确保您知道如何在plex上 使用它。"
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Plex for this device."
+#~ "Planning on watching Movies on this device? Download Plex for this device."
 #~ msgstr "计划在此设备上观看电影？下载适用于此设备的Plex。"
 
 #~ msgid "Eh, So, What is Plex exactly?"
 #~ msgstr "呃，那么，Plex到底是什么？"
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "    you've received this invitation, it"
-#~ " means someone wants to share their"
-#~ " library with you. With Plex, you'll"
-#~ " have\n"
-#~ "    access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "    you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "    access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
 #~ msgstr ""
 #~ "好问题！Plex是一款允许个人与他人共享媒体库的软件。\n"
 #~ "    如果您收到邀请，这意味着有人想与您共享他们的库。 \n"
-#~ "    使用Plex，您可以访问存储在服务器上的所有电影、电视节目、音乐和照片。享受它吧！"
+#~ "    使用Plex，您可以访问存储在服务器上的所有电影、电视节目、音乐和照片。享"
+#~ "受它吧！"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "    smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you need to do is download the Plex app on "
+#~ "your device, sign in with your account, and\n"
 #~ "    you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "这再简单不过了！Plex可用于各种设备 包括笔记本电脑、平板电脑、智能手机和电视。\n"
+#~ "这再简单不过了！Plex可用于各种设备 包括笔记本电脑、平板电脑、智能手机和电"
+#~ "视。\n"
 #~ "    您需要做的就是 在您的设备上下载Plex应用程序，使用您的帐户登录。\n"
 #~ "    然后你就已经可以观看流媒体了。就是这么简单！"
 
@@ -3609,16 +3514,14 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ msgstr "我如何才能确保获得最佳体验？"
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "    sharing with you - they also,"
-#~ " by default, play content at a "
-#~ "lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the "
+#~ "awesome content your friend is now\n"
+#~ "    sharing with you - they also, by default, play content at a lower "
+#~ "quality. "
 #~ msgstr ""
 #~ "因为Plex是一项免费服务，但是在默认情况下\n"
-#~ "    他们会在你与你的朋友分享精彩内容之前会以较低的质量播放并推广自己的内容。 "
+#~ "    他们会在你与你的朋友分享精彩内容之前会以较低的质量播放并推广自己的内"
+#~ "容。 "
 
 #~ msgid "No need to worry though, this can be easily resolved"
 #~ msgstr "不必担心，这很容易解决"
@@ -3639,26 +3542,11 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ msgid "Open Plex"
 #~ msgstr "打开Plex"
 
-#~ msgid "User Configuration"
-#~ msgstr ""
-
-#~ msgid "User Policy"
-#~ msgstr ""
-
-#~ msgid "Name"
-#~ msgstr "用户名"
-
-#~ msgid "Actions"
-#~ msgstr "邀请"
-
 #~ msgid "Home"
 #~ msgstr "主页"
 
 #~ msgid "Server settings"
 #~ msgstr "更改服务器设置"
-
-#~ msgid "Notification agents"
-#~ msgstr ""
 
 #~ msgid "Oops!"
 #~ msgstr "啊噢！"
@@ -3707,9 +3595,6 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ "邀请\n"
 #~ "                                代码"
 
-#~ msgid "Optional, leave empty to disable"
-#~ msgstr ""
-
 #~ msgid "Available"
 #~ msgstr "允许的"
 
@@ -3722,9 +3607,6 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ msgid "Downloads disabled"
 #~ msgstr "已禁用下载功能"
 
-#~ msgid "This wizard bundle has no steps configured."
-#~ msgstr ""
-
 #~ msgid "Pre-Invite"
 #~ msgstr "预览"
 
@@ -3734,33 +3616,5 @@ msgstr "点击此步骤中的链接以继续进行操作"
 #~ msgid "Add step"
 #~ msgstr "添加步骤"
 
-#~ msgid "Edit expiry"
-#~ msgstr "编辑有效期"
-
-#~ msgid "Server-specific Expiry Management"
-#~ msgstr "服务器特定的有效期管理"
-
-#~ msgid ""
-#~ "This user exists on multiple servers."
-#~ " You can set different expiry dates"
-#~ " for each server."
-#~ msgstr "此用户存在于多个服务器上。您可以为每个服务器设置不同的有效期日期。"
-
-#~ msgid "Expiry date (leave blank for never)"
-#~ msgstr "过期日期（如果永不过期，请留空）"
-
-#~ msgid "Invitation Details"
-#~ msgstr "邀请详情"
-
-#~ msgid "Code"
-#~ msgstr "邀请码"
-
-#~ msgid "Invitation expires"
-#~ msgstr "邀请码过期"
-
-#~ msgid "Username must be 3 to 15 characters."
-#~ msgstr "用户名必须为3到15个字符。"
-
 #~ msgid "Partial"
 #~ msgstr "可选"
-
