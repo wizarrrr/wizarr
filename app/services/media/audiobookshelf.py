@@ -186,15 +186,15 @@ class AudiobookshelfClient(RestApiMixin):
             return {"results": [], "total": 0, "limit": limit, "page": page}
 
     def get_recent_items(
-        self, _library_id: str | None = None, _limit: int = 10
+        self, library_id: str | None = None, limit: int = 10
     ) -> list[dict]:
         """Get recently added items from AudiobookShelf server."""
         try:
             items = []
 
             # Get all libraries or specific library if provided
-            if _library_id:
-                libraries = [{"id": _library_id}]
+            if library_id:
+                libraries = [{"id": library_id}]
             else:
                 try:
                     libs_response = self.libraries()
@@ -203,7 +203,7 @@ class AudiobookshelfClient(RestApiMixin):
                     libraries = []
 
             for library in libraries:
-                if len(items) >= _limit:
+                if len(items) >= limit:
                     break
 
                 try:
@@ -223,7 +223,7 @@ class AudiobookshelfClient(RestApiMixin):
                             entities = view.get("entities", [])
 
                             for entity in entities:
-                                if len(items) >= _limit:
+                                if len(items) >= limit:
                                     break
 
                                 # Only include items with cover images (posters)

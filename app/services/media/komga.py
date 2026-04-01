@@ -617,13 +617,15 @@ class KomgaClient(RestApiMixin):
             }
 
     def get_recent_items(
-        self, _library_id: str | None = None, _limit: int = 6
+        self,
+        library_id: str | None = None,  # noqa: ARG002
+        limit: int = 6,
     ) -> list[dict[str, str]]:
         """Get recently added books from Komga for the wizard widget.
 
         Args:
-            _library_id: Optional library ID to filter by (unused)
-            _limit: Maximum number of items to return
+            library_id: Optional library ID to filter by
+            limit: Maximum number of items to return
 
         Returns:
             list: List of dicts with 'title' and 'thumb' keys
@@ -633,7 +635,7 @@ class KomgaClient(RestApiMixin):
 
         try:
             # Get latest books from Komga API
-            response = self.get(f"/api/v1/books/latest?size={_limit}")
+            response = self.get(f"/api/v1/books/latest?size={limit}")
             books = response.json().get("content", [])
 
             items = []

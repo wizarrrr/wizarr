@@ -397,13 +397,15 @@ class MediaClient(ABC):
         raise NotImplementedError
 
     def get_recent_items(
-        self, _library_id: str | None = None, _limit: int = 10
+        self,
+        library_id: str | None = None,  # noqa: ARG002
+        limit: int = 10,  # noqa: ARG002
     ) -> list[dict]:
         """Get recently added items from the media server.
 
         Args:
-            _library_id: Optional library ID to filter by (unused in base implementation)
-            _limit: Maximum number of items to return (unused in base implementation)
+            library_id: Optional library ID to filter by
+            limit: Maximum number of items to return
 
         Returns:
             list: A list of recently added items with standardized keys:
