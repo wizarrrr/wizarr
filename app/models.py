@@ -88,14 +88,16 @@ class Invitation(db.Model):
     used_at = db.Column(db.DateTime, nullable=True)
     created = db.Column(db.DateTime, default=lambda: datetime.now(UTC), nullable=False)
 
-    # DEPRECATED: Legacy single-user relationship for backward compatibility
-    # Will be removed in Phase 2 - use 'users' relationship instead
+    # CACHE: Tracks the first user who used this invitation.  The canonical
+    # many-to-many relationship is `users` (via invitation_users).  This FK is
+    # kept as a provenance/recovery pointer and for backward-compatible API
+    # responses — it is NOT scheduled for removal.
     used_by_id = db.Column(
         db.Integer, db.ForeignKey("user.id", ondelete="SET NULL"), nullable=True
     )
     used_by = db.relationship("User", foreign_keys=[used_by_id])
 
-    # NEW: Many-to-many relationship to track all users who used this invitation
+    # Many-to-many relationship to track all users who used this invitation
     users = db.relationship(
         "User",
         secondary=invitation_users,
@@ -105,12 +107,15 @@ class Invitation(db.Model):
     expires = db.Column(db.DateTime, nullable=True)
     unlimited = db.Column(db.Boolean, nullable=True)
     duration = db.Column(db.String, nullable=True)
-    # DEPRECATED: Use invitation.libraries relationship instead.
+    # LEGACY: Superseded by invitation.libraries relationship.
     # Kept for migrate_libraries.py which reads this on old installs.
     specific_libraries = db.Column(db.String, nullable=True)
     plex_allow_sync = db.Column(db.Boolean, default=False, nullable=True)
     plex_home = db.Column(db.Boolean, default=False, nullable=True)
     plex_allow_channels = db.Column(db.Boolean, default=False, nullable=True)
+    # CACHE: Legacy single-server FK.  The canonical relationship is `servers`
+    # (via invitation_servers).  This column is kept as a fallback for API
+    # responses and old invitations created before multi-server support.
     server_id = db.Column(
         db.Integer, db.ForeignKey("media_server.id", ondelete="SET NULL"), nullable=True
     )
@@ -190,6 +195,10 @@ class User(db.Model, UserMixin):
     token = db.Column(db.String, nullable=False)
     username = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=True)
+    # PROVENANCE: The invitation code this user was created with.  Used as
+    # the correlation key to find the local User after remote provisioning,
+    # for identity linking, admin display, and data repair.  Do NOT remove
+    # until invitation_users is threaded end-to-end through user creation.
     code = db.Column(db.String, nullable=False)
     photo = db.Column(db.String, nullable=True)
     expires = db.Column(db.DateTime, nullable=True)
