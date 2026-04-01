@@ -27,7 +27,7 @@ wheels = [
 
 [[package]]
 name = "apprise"
-version = "1.9.7"
+version = "1.9.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "certifi" },
@@ -38,9 +38,9 @@ dependencies = [
     { name = "requests-oauthlib" },
     { name = "tzdata", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/bc/f5/97dc06b3401bb67abcef6e8bef7155f192b75795c2a2aa4d59eb5aa7fa66/apprise-1.9.7.tar.gz", hash = "sha256:2f73cc1e0264fb119fdb9b7cde82e8fde40a0f531ac885d8c6f0cf0f6e13aec2", size = 1937173, upload-time = "2026-01-20T18:51:32.975Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/20/f4/be5c7e39b83a2285ab62ae7c19bb10704836f59c0a5b4c471730f54c9f98/apprise-1.9.9.tar.gz", hash = "sha256:fd622c0df16bdc79ed385539735573488cafe2405d25747e87eebd6b09b26012", size = 2032822, upload-time = "2026-03-21T17:49:14.041Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fb/6b/cfa80a13437896eb8f4504ddac6dfa4ef7f1d2b2261057aa4a30003b8de6/apprise-1.9.7-py3-none-any.whl", hash = "sha256:c7640a81a1097685de66e0508e3da89f49235d566cb44bbead1dd98419bf5ee3", size = 1459879, upload-time = "2026-01-20T18:51:30.766Z" },
+    { url = "https://files.pythonhosted.org/packages/e6/2f/54d068d7e011a8b4e0aae3e93b09a30b33bcf780829fe70c6e8876aeb0e0/apprise-1.9.9-py3-none-any.whl", hash = "sha256:55ceb8827a1c783d683881c9f77fa42eb43b3fc91b854419c452d557101c7068", size = 1519940, upload-time = "2026-03-21T17:49:11.847Z" },
 ]
 
 [[package]]
