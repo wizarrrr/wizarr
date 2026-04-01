@@ -987,10 +987,19 @@ def combo(category: str, idx: int = 0):
     completion_label = _("Continue to Invite") if phase == "pre" else None
 
     # Concatenate steps preserving order AND track which server each step belongs to
+    # Deduplicate server types: steps are defined per type, not per instance,
+    # so 2 Plex servers should not produce 2× the default Plex steps.
+    seen_types: set[str] = set()
+    unique_order: list[str] = []
+    for t in order:
+        if t not in seen_types:
+            seen_types.add(t)
+            unique_order.append(t)
+
     steps: list = []
     step_server_mapping: list = []  # Track which server type each step belongs to
 
-    for stype in order:
+    for stype in unique_order:
         # Get steps for this server type with the specified category
         try:
             server_steps = _steps(stype, cfg, category=category)
