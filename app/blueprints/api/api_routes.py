@@ -657,7 +657,13 @@ class InvitationsListResource(Resource):
                 display_info = get_display_name_info(servers)
 
                 # Get library IDs from the normalized relationship
-                specific_libraries = [lib.id for lib in invitation.libraries]
+                # Use external_id (e.g. Plex folder ID) to match the legacy
+                # CSV format that API consumers expect.
+                specific_libraries = [
+                    int(lib.external_id)
+                    for lib in invitation.libraries
+                    if lib.external_id and lib.external_id.isdigit()
+                ]
 
                 invitations_list.append(
                     {
