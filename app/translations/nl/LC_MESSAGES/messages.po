@@ -7,2122 +7,1529 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-03-30 05:33+0000\n"
-"PO-Revision-Date: 2025-10-31 16:06+0000\n"
+"POT-Creation-Date: 2026-04-02 05:13+0000\n"
+"PO-Revision-Date: 2025-11-03 20:08+0000\n"
 "Last-Translator: Ben Avermate <weblate@benavermate.be>\n"
-"Language: nl\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/nl/>\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Language: nl\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.18.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
+"Generated-By: Babel 2.17.0\n"
 
-#: app/activity/api/blueprint.py:118 app/activity/api/helpers.py:89
 #, fuzzy
 msgid "Failed to load settings"
 msgstr "Mislukt om statistieken te laden"
 
-#: app/activity/api/blueprint.py:256
 #, fuzzy
 msgid "Failed to load dashboard data"
 msgstr "Kan de server status niet laden"
 
-#: app/activity/api/blueprint.py:279
 #, fuzzy
 msgid "Failed to load history data"
 msgstr "Kan de server status niet laden"
 
-#: app/activity/api/blueprint.py:390
 #, fuzzy
 msgid "Failed to load activity data"
 msgstr "Kan de server status niet laden"
 
-#: app/activity/api/blueprint.py:445
 #, fuzzy
 msgid "Failed to load activity summary"
 msgstr "Kan de server status niet laden"
 
-#: app/activity/api/blueprint.py:466
 #, fuzzy
 msgid "Failed to get activity statistics"
 msgstr "Mislukt om statistieken te laden"
 
-#: app/activity/api/blueprint.py:475
 msgid "Database not available"
 msgstr ""
 
-#: app/activity/api/blueprint.py:489
 #, fuzzy
 msgid "Failed to get session details"
 msgstr "Mislukt om passkeys opnieuw in te stellen"
 
-#: app/activity/api/blueprint.py:571
 msgid "Failed to export activity data"
 msgstr ""
 
-#: app/activity/api/blueprint.py:590
 #, fuzzy
 msgid "Monitoring restarted"
 msgstr "Beheerder aangemaakt"
 
-#: app/activity/api/blueprint.py:593
 msgid "Monitor not available"
 msgstr ""
 
-#: app/activity/api/blueprint.py:603
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
 msgstr ""
 
-#: app/activity/api/blueprint.py:616
 #, python-brace-format
 msgid "Ended {} stale sessions"
 msgstr ""
 
-#: app/activity/api/blueprint.py:620
 #, fuzzy
 msgid "Unknown action"
 msgstr "Onbekende verbindingstype"
 
-#: app/activity/api/blueprint.py:626
 #, fuzzy
 msgid "Failed to update settings"
 msgstr "Mislukt om statistieken te laden"
 
-#: app/activity/api/blueprint.py:641
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
 msgstr ""
 
-#: app/activity/api/blueprint.py:646
 #, fuzzy, python-brace-format
 msgid "Failed to delete activity data: {}"
 msgstr "Mislukt om passkey te verwijderen"
 
-#: app/activity/api/blueprint.py:666 app/activity/api/blueprint.py:725
 #, fuzzy
 msgid "Please select a media server."
 msgstr "Selecteer op zn minst een server voor de uitnodiging."
 
-#: app/activity/api/blueprint.py:677
 #, fuzzy
 msgid "Media server not found."
 msgstr "Media Server"
 
-#: app/activity/api/blueprint.py:688
 msgid ""
-"Historical data import is currently only supported for Plex, Jellyfin, "
-"Emby, and AudiobookShelf servers."
+"Historical data import is currently only supported for Plex, Jellyfin, Emby, "
+"and AudiobookShelf servers."
 msgstr ""
 
-#: app/activity/api/blueprint.py:699
 #, python-brace-format
-msgid "Historical import job #{job_id} started for {server} (last {days} days)."
+msgid ""
+"Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
 
-#: app/activity/api/blueprint.py:709
 #, python-brace-format
 msgid "Failed to import historical data: {}"
 msgstr ""
 
-#: app/activity/api/blueprint.py:732
 #, fuzzy, python-brace-format
 msgid "Successfully cleared {} historical entries."
 msgstr "Succesvol geïmporteerd {} items"
 
-#: app/activity/api/blueprint.py:739 app/activity/api/blueprint.py:748
 #, fuzzy, python-brace-format
 msgid "Failed to clear historical data: {}"
 msgstr "Mislukt om statistieken te laden"
 
-#: app/activity/api/blueprint.py:740
 #, fuzzy
 msgid "Unknown error"
 msgstr "Er is een onbekende fout opgetreden"
 
-#: app/activity/api/blueprint.py:778
 msgid "Cannot remove a job that is still queued or running."
 msgstr ""
 
-#: app/activity/api/blueprint.py:806
 #, fuzzy
 msgid "An internal error has occurred."
 msgstr "Er is een onbekende fout opgetreden"
 
-#: app/blueprints/admin/routes.py:333
-#: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr "Onbekend"
 
-#: app/blueprints/admin/routes.py:336
-#: app/templates/admin/user_details_modal.html:70
-#: app/templates/modals/invite.html:69
-#: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:104
-#: app/templates/tables/user_card.html:123
 msgid "Never"
 msgstr "Nooit"
 
-#: app/blueprints/admin/routes.py:409 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr "Vervallen"
 
-#: app/blueprints/admin/routes.py:417
 #, python-format
 msgid "in %(n)d d"
 msgstr "in %(n)d d"
 
-#: app/blueprints/admin/routes.py:419
 msgid "in 1 d"
 msgstr "in 1 d"
 
-#: app/blueprints/admin/routes.py:421
 #, python-format
 msgid "in %(n)d h"
 msgstr "in %(n)d u"
 
-#: app/blueprints/admin/routes.py:423
 #, python-format
 msgid "in %(n)d m"
 msgstr "in %(n)d m"
 
-#: app/blueprints/admin/routes.py:424
 msgid "soon"
 msgstr "binnenkort"
 
-#: app/blueprints/admin_accounts/routes.py:41
 msgid "Admin created"
 msgstr "Beheerder aangemaakt"
 
-#: app/blueprints/admin_accounts/routes.py:68
 msgid "Admin updated"
 msgstr "Beheerder bijgewerkt"
 
-#: app/blueprints/admin_accounts/routes.py:168
 #, python-brace-format
 msgid "All passkeys for {} have been reset"
 msgstr "Alle passkeys voor {} zijn gereset"
 
-#: app/blueprints/admin_accounts/routes.py:172
 #, python-brace-format
 msgid "Failed to reset passkeys for {}"
 msgstr "Niet gelukt om de passkeys voor {} opnieuw in te stellen"
 
-#: app/blueprints/api_keys/routes.py:55
 msgid ""
-"No admin account found. Please set up a proper admin account before "
-"creating API keys."
+"No admin account found. Please set up a proper admin account before creating "
+"API keys."
 msgstr ""
 
-#: app/blueprints/api_keys/routes.py:86
-#, fuzzy, python-brace-format
+#, fuzzy
 msgid "Failed to create API key due to a database error."
 msgstr "Niet gelukt om de passkeys voor {} opnieuw in te stellen"
 
-#: app/blueprints/api_keys/routes.py:96
 msgid ""
-"API key created successfully. Please copy it now as it won't be shown "
-"again."
+"API key created successfully. Please copy it now as it won't be shown again."
 msgstr ""
-"API sleutel succesvol aangemaakt. Kopieer dit nu omdat het niet meer "
-"getoond zal worden."
+"API sleutel succesvol aangemaakt. Kopieer dit nu omdat het niet meer getoond "
+"zal worden."
 
-#: app/blueprints/api_keys/routes.py:138
 msgid "API key deleted successfully"
 msgstr "API sleutel succesvol verwijderd"
 
-#: app/blueprints/auth/ldap_auth.py:15
 #, fuzzy
 msgid "LDAP authentication is not enabled"
 msgstr "Authenticatie gefaald"
 
-#: app/blueprints/auth/ldap_auth.py:18
 #, fuzzy
 msgid "LDAP admin authentication is not allowed"
 msgstr "Authenticatie gefaald"
 
-#: app/blueprints/auth/ldap_auth.py:30
 msgid "Invalid LDAP credentials"
 msgstr ""
 
-#: app/blueprints/auth/ldap_auth.py:36
 msgid "User DN not found in LDAP response"
 msgstr ""
 
-#: app/blueprints/auth/ldap_auth.py:52
 msgid "User is not authorized as an administrator"
 msgstr ""
 
-#: app/blueprints/auth/ldap_auth.py:98
 #, fuzzy
 msgid "Login successful"
 msgstr "Verbinding test succesvol!"
 
-#: app/blueprints/auth/ldap_auth.py:104
 #, fuzzy
 msgid "LDAP authentication failed"
 msgstr "Authenticatie gefaald"
 
-#: app/blueprints/auth/routes.py:112
 msgid "Invalid username or password"
 msgstr "Ongeldige gebruikersnaam of wachtwoord"
 
-#: app/blueprints/auth/routes.py:136
 msgid "No pending 2FA authentication"
 msgstr "Geen openstaande 2FA authenicatie"
 
-#: app/blueprints/auth/routes.py:150 app/templates/login.html:203
-#: app/templates/login.html:268 app/templates/login.html:272
 msgid "Authentication failed"
 msgstr "Authenticatie gefaald"
 
-#: app/blueprints/connections/routes.py:52
-#: app/blueprints/connections/routes.py:188
 msgid "Connection type is required"
 msgstr "Verbindingstype is verplicht"
 
-#: app/blueprints/connections/routes.py:65
 #, python-format
 msgid "Connection test failed: %(message)s"
 msgstr "Verbinding test gefaald: %(message)s"
 
-#: app/blueprints/connections/routes.py:75
 msgid "Connection test successful!"
 msgstr "Verbinding test succesvol!"
 
-#: app/blueprints/connections/routes.py:78
-#: app/blueprints/connections/routes.py:204
 msgid "Unknown connection type"
 msgstr "Onbekende verbindingstype"
 
-#: app/blueprints/connections/routes.py:95
 msgid "Connection created successfully!"
 msgstr "Verbinding succesvol aangemaakt!"
 
-#: app/blueprints/connections/routes.py:124
 msgid "Connection updated successfully!"
 msgstr "Verbinding succesvol aangepast!"
 
-#: app/blueprints/connections/routes.py:146
 msgid "Connection deleted successfully!"
 msgstr "Verbinding succesvol verwijderd!"
 
-#: app/blueprints/connections/routes.py:165
 msgid "Please refresh the page and try again (CSRF token expired)"
 msgstr "Ververs de pagina en probeer opnieuw (CSRF token verlopen)"
 
-#: app/blueprints/connections/routes.py:170
 #, python-format
 msgid "Invalid form data: %(errors)s"
 msgstr "Ongeldige formuliergegevens: %(errors)s"
 
-#: app/blueprints/public/routes.py:141 app/blueprints/public/routes.py:158
 msgid ""
-"There was an issue setting up your access. Please contact your server "
-"admin."
+"There was an issue setting up your access. Please contact your server admin."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
 msgid "Settings saved successfully!"
 msgstr "Instellingen succesvol opgeslagen!"
 
-#: app/blueprints/settings/routes.py:217 app/forms/settings.py:24
 msgid "Server URL"
 msgstr "Server URL"
 
-#: app/blueprints/settings/routes.py:220 app/forms/settings.py:25
 msgid "API Key"
 msgstr "API Sleutel"
 
-#: app/blueprints/settings/routes.py:220
 msgid "Username/Password"
 msgstr "Gebruikersnaam/Wachtwoord"
 
-#: app/blueprints/settings/routes.py:223
 #, python-brace-format
 msgid "Missing required fields: {fields}"
 msgstr "Ontbrekende verplichte velden: {fields}"
 
-#: app/blueprints/settings/routes.py:226 app/blueprints/settings/routes.py:236
-#: app/templates/components/passkey_error.html:12
 msgid "Error"
 msgstr "Fout"
 
-#: app/blueprints/settings/routes.py:235
 msgid "Library scan failed"
 msgstr "Bibliotheek scan mislukt"
 
-#: app/blueprints/settings/routes.py:293
 #, python-brace-format
 msgid "Successfully cleaned {count} expired user(s)."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:298
 #, fuzzy
 msgid "No expired users found to clean."
 msgstr "Geen wizard stappen gevonden"
 
-#: app/blueprints/settings/routes.py:321 app/blueprints/settings/routes.py:350
-#: app/templates/settings/general.html:178
 #, fuzzy
 msgid ""
 "Are you sure you want to clean all expired users? This action cannot be "
 "undone."
 msgstr "Weet je zeker dat je deze bundel wilt verwijderen?"
 
-#: app/blueprints/settings/routes.py:323 app/blueprints/settings/routes.py:352
-#: app/templates/settings/general.html:167
-#: app/templates/settings/general.html:195
 #, fuzzy
 msgid "Clean Expired Users"
 msgstr "Geen vervaldatum ingesteld"
 
-#: app/blueprints/settings/routes.py:328
 #, fuzzy, python-brace-format
 msgid "Failed to clean expired users: {error}"
 msgstr "Niet gelukt om de passkeys voor {} opnieuw in te stellen"
 
-#: app/blueprints/settings/routes.py:407
 #, fuzzy
 msgid "LDAP configuration saved successfully"
 msgstr "Verbinding succesvol aangepast!"
 
-#: app/blueprints/settings/routes.py:481
 msgid "LDAP not configured or disabled"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:491
 msgid "No groups found in LDAP"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:547
 #, fuzzy
 msgid "LDAP is not configured"
 msgstr "stappen geconfigureerd"
 
-#: app/blueprints/settings/routes.py:556
-#, fuzzy, python-brace-format, python-format
+#, fuzzy, python-format
 msgid "Failed to list LDAP users: %(error)s"
 msgstr "Niet gelukt om de passkeys voor {} opnieuw in te stellen"
 
-#: app/blueprints/setup/routes.py:74
 msgid "Admin account created – welcome!"
 msgstr "Beheerder account aangemaakt - welkom!"
 
-#: app/blueprints/wizard/routes.py:66
 msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1241
-#: app/blueprints/wizard/routes.py:1404
 msgid "Error Loading Step"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1244
-#: app/blueprints/wizard/routes.py:1407
 msgid ""
-"This step could not be loaded. Please contact the administrator or skip "
-"to the next step."
+"This step could not be loaded. Please contact the administrator or skip to "
+"the next step."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
-#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1142
-#: app/blueprints/wizard/routes.py:1150
 #, fuzzy
 msgid "Invalid or expired invitation"
 msgstr "Ongeldige Uitnodiging"
 
-#: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:775
 msgid ""
-"No media servers are configured. Please contact the administrator to set "
-"up a media server."
+"No media servers are configured. Please contact the administrator to set up "
+"a media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:626
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:987
-#: app/blueprints/wizard/routes.py:1263 app/templates/wizard/steps.html:21
 #, fuzzy
 msgid "Continue to Invite"
 msgstr "Nieuwe uitnodiging"
 
-#: app/blueprints/wizard/routes.py:703
 msgid "Please log in to continue"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:815
-msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
+msgid ""
+"Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:863
 msgid "Setup complete! Welcome to your media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:972
 #, fuzzy
 msgid "Unable to load wizard configuration. Please try again."
 msgstr "Kan nu afspelen niet laden"
 
-#: app/blueprints/wizard/routes.py:1120
 #, fuzzy
 msgid "Unable to load wizard bundle. Please try again."
 msgstr "Kan nu afspelen niet laden"
 
-#: app/blueprints/wizard/routes.py:1171
 #, fuzzy
 msgid "Unable to load wizard steps. Please try again."
 msgstr "Kan nu afspelen niet laden"
 
-#: app/blueprints/wizard/routes.py:1364
 msgid "This bundle has no steps to preview."
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:126
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
 msgstr "Verweesde stap(pen) {} opgeruimd"
 
-#: app/blueprints/wizard_admin/routes.py:199
 msgid "Step created"
 msgstr "Stap aangemaakt"
 
-#: app/blueprints/wizard_admin/routes.py:276
 msgid "Preset step created successfully"
 msgstr "Vooraf ingestelde stap succesvol aangemaakt"
 
-#: app/blueprints/wizard_admin/routes.py:284
 #, python-brace-format
 msgid "Error creating preset: {}"
 msgstr "Fout bij het maken van voorinstelling: {}"
 
-#: app/blueprints/wizard_admin/routes.py:320
 msgid "Step updated"
 msgstr "Stap gewijzigd"
 
-#: app/blueprints/wizard_admin/routes.py:358
 msgid "Step deleted"
 msgstr "Stap verwijderd"
 
-#: app/blueprints/wizard_admin/routes.py:478
 msgid "Bundle created"
 msgstr "Bundel aangemaakt"
 
-#: app/blueprints/wizard_admin/routes.py:508
 msgid "Bundle updated"
 msgstr "Bundel gewijzigd"
 
-#: app/blueprints/wizard_admin/routes.py:532
 msgid "Bundle deleted"
 msgstr "Bundel verwijderd"
 
-#: app/blueprints/wizard_admin/routes.py:684
 msgid "Steps added"
 msgstr "Stappen toegevoegd"
 
-#: app/blueprints/wizard_admin/routes.py:696
 msgid "Orphaned step removed"
 msgstr "Verweesdestap verwijderd"
 
-#: app/blueprints/wizard_admin/routes.py:714
 #, python-brace-format
 msgid "No steps found for server type: {}"
 msgstr "Geen stappen gevonden voor server type: {}"
 
-#: app/blueprints/wizard_admin/routes.py:739
-#: app/blueprints/wizard_admin/routes.py:777
-#: app/blueprints/wizard_admin/routes.py:782
 #, python-brace-format
 msgid "Export failed: {}"
 msgstr "Export gefaald: {}"
 
-#: app/blueprints/wizard_admin/routes.py:827
 #, python-brace-format
 msgid "Successfully imported {} items"
 msgstr "Succesvol geïmporteerd {} items"
 
-#: app/blueprints/wizard_admin/routes.py:831
 #, python-brace-format
 msgid " and updated {} existing items"
 msgstr " en bijgewerkt {} bestaande items"
 
-#: app/blueprints/wizard_admin/routes.py:836
-#: app/blueprints/wizard_admin/routes.py:843
 #, python-brace-format
 msgid "Import failed: {}"
 msgstr "Import gefaald: {}"
 
-#: app/blueprints/wizard_admin/routes.py:841
 msgid "Invalid JSON file"
 msgstr "Foutieve JSON bestand"
 
-#: app/blueprints/wizard_admin/routes.py:906 app/services/wizard_reset.py:119
 #, python-brace-format
 msgid "Reset {} steps for {} (deleted {}, imported {})"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:916 app/services/wizard_reset.py:134
 #, fuzzy, python-brace-format
 msgid "Failed to reset steps: {}"
 msgstr "Niet gelukt om de passkeys voor {} opnieuw in te stellen"
 
-#: app/forms/admin.py:29
 msgid "Password must be at least 8 characters."
 msgstr ""
 
-#: app/forms/admin.py:34
 msgid ""
-"Password must contain at least one uppercase letter, one lowercase "
-"letter, and one number."
+"Password must contain at least one uppercase letter, one lowercase letter, "
+"and one number."
 msgstr ""
 
-#: app/forms/admin.py:43 app/forms/admin.py:57
-#: app/templates/admin/user_details_modal.html:66
-#: app/templates/hybrid-password-form.html:102 app/templates/login.html:75
-#: app/templates/modals/create-admin.html:22
-#: app/templates/modals/edit-admin.html:22
-#: app/templates/welcome-jellyfin.html:117
 msgid "Username"
 msgstr "Gebruikersnaam"
 
-#: app/forms/admin.py:45 app/templates/choose-password.html:22
-#: app/templates/hybrid-password-form.html:134 app/templates/login.html:85
-#: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
-#: app/templates/welcome-jellyfin.html:155
 msgid "Password"
 msgstr "Wachtwoord"
 
-#: app/forms/admin.py:47 app/forms/admin.py:65
-#: app/templates/modals/create-admin.html:35
-#: app/templates/modals/edit-admin.html:37
 msgid "Confirm password"
 msgstr "Bevestig wachtwoord"
 
-#: app/forms/admin.py:50 app/forms/admin.py:68
 #, fuzzy
 msgid "Passwords must match."
 msgstr "Wachtwoorden komen niet overeen"
 
-#: app/forms/admin.py:62 app/templates/password-reset-form.html:36
-#: app/templates/profile.html:53
 msgid "New Password"
 msgstr "Nieuwe Wachtwoord"
 
-#: app/forms/admin.py:79
 #, fuzzy
 msgid "Please confirm the new password."
 msgstr "Bevestig Nieuwe Wachtwoord"
 
-#: app/forms/settings.py:10
 #, fuzzy
 msgid "Server Type"
 msgstr "Server"
 
-#: app/forms/settings.py:23
 #, fuzzy
 msgid "Server Name"
 msgstr "Gebruikersnaam"
 
-#: app/forms/settings.py:26
 #, fuzzy
 msgid "RomM Username"
 msgstr "Je gebruikersnaam"
 
-#: app/forms/settings.py:27
 #, fuzzy
 msgid "RomM Password"
 msgstr "Je wachtwoord"
 
-#: app/forms/settings.py:28 app/templates/admin/user_details_modal.html:74
-#: app/templates/tables/invite_card.html:143
 msgid "Libraries"
 msgstr "Bibliotheken"
 
-#: app/forms/settings.py:30 app/forms/settings.py:46
-#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:220
-#: app/templates/modals/invite.html:254 app/templates/modals/invite.html:297
-#: app/templates/modals/invite.html:331 app/templates/modals/invite.html:343
 msgid "Allow Downloads"
 msgstr "Downloads Toestaan"
 
-#: app/forms/settings.py:33 app/templates/admin/user_modal.html:112
 #, fuzzy
 msgid "Allow Live TV"
 msgstr "Live TV Toegang Toestaan"
 
-#: app/forms/settings.py:36
 msgid "Overseerr/Ombi URL"
 msgstr ""
 
-#: app/forms/settings.py:38
 #, fuzzy
 msgid "Ombi API Key"
 msgstr "Geen API sleutels"
 
-#: app/forms/settings.py:39
 #, fuzzy
 msgid "Discord ID"
 msgstr "Je Discord server ID"
 
-#: app/forms/settings.py:40
 msgid "External URL"
 msgstr ""
 
-#: app/services/servers.py:16
 #, python-format
 msgid "Server returned status code %(status_code)s"
 msgstr "Server geeft status code %(status_code)s"
 
-#: app/services/servers.py:27
 #, python-format
 msgid "%(server_type)s server returned an error: %(error)s"
 msgstr "%(server_type)s server heeft een fout teruggekeerd: %(error)s"
 
-#: app/services/servers.py:34
 #, python-format
 msgid ""
-"Could not connect to the %(server_type)s server. Please check if the "
-"server is running and the URL is correct."
+"Could not connect to the %(server_type)s server. Please check if the server "
+"is running and the URL is correct."
 msgstr ""
-"Kan geen verbinding maken met de %(server_type)s server. Controleer of de"
-" server aan staat en de URL klopt."
+"Kan geen verbinding maken met de %(server_type)s server. Controleer of de "
+"server aan staat en de URL klopt."
 
-#: app/services/servers.py:40
 #, python-format
 msgid ""
-"Connection to %(server_type)s server timed out. Please check if the "
-"server is running and accessible."
+"Connection to %(server_type)s server timed out. Please check if the server "
+"is running and accessible."
 msgstr ""
-"Verbinding met server %(server_type)s is verlopen. Controleer of de "
-"server actief en toegankelijk is."
+"Verbinding met server %(server_type)s is verlopen. Controleer of de server "
+"actief en toegankelijk is."
 
-#: app/services/servers.py:46
 #, python-format
 msgid ""
-"An error occurred while connecting to the %(server_type)s server: "
-"%(error)s"
+"An error occurred while connecting to the %(server_type)s server: %(error)s"
 msgstr ""
 "Een foutmelding is opgetreden tijdens het verbinden met de server "
 "%(server_type)s: %(error)s"
 
-#: app/services/servers.py:53
 #, python-format
 msgid ""
-"An unexpected error occurred while connecting to the %(server_type)s "
-"server: %(error)s"
+"An unexpected error occurred while connecting to the %(server_type)s server: "
+"%(error)s"
 msgstr ""
 "Een onverwachte fout is opgetreden tijdens het verbinden met de server "
 "%(server_type)s : %(error)s"
 
-#: app/services/servers.py:66
 msgid "Plex"
 msgstr "Plex"
 
-#: app/services/servers.py:80
 msgid "Jellyfin"
 msgstr "Jellyfin"
 
-#: app/services/servers.py:87
 msgid "Emby"
 msgstr "Emby"
 
-#: app/services/servers.py:113
 msgid "Audiobookshelf"
 msgstr "Audiobookshelf"
 
-#: app/services/servers.py:143
 msgid "RomM"
 msgstr "RomM"
 
-#: app/services/servers.py:168
 msgid "Komga"
 msgstr "Komga"
 
-#: app/services/servers.py:220
 msgid "Kavita"
 msgstr "Kavita"
 
-#: app/services/servers.py:275
 msgid "Navidrome"
 msgstr "Navidrome"
 
-#: app/services/servers.py:297
 msgid "Invalid API token or insufficient permissions."
 msgstr "Ongeldige API sleutel of onvoldoende rechten."
 
-#: app/services/servers.py:299
 msgid "API token lacks required permissions."
 msgstr "API sleutel mist vereiste rechten."
 
-#: app/services/servers.py:304
 msgid "Could not connect to Drop server."
 msgstr "Kan niet verbinden met Drop server."
 
-#: app/services/servers.py:306
 msgid "Connection to Drop server timed out."
 msgstr "Verbinding met Drop server verbroken."
 
-#: app/services/servers.py:309
 msgid "Drop API not found. Check the server URL."
 msgstr "Drop API niet gevonden. Controleer de server URL."
 
-#: app/services/servers.py:312
 msgid "Drop"
 msgstr "Drop"
 
-#: app/services/wizard_reset.py:99
 #, fuzzy, python-brace-format
 msgid "No default steps found for server type: {}"
 msgstr "Geen stappen gevonden voor server type: {}"
 
-#: app/templates/admin.html:3 app/templates/admin/user_details_modal.html:104
 msgid "Admin"
 msgstr "Administrator"
 
-#: app/templates/admin.html:133
 msgid "Profile"
 msgstr "Profiel"
 
-#: app/templates/admin.html:144
 msgid "Logout"
 msgstr "Uitloggen"
 
-#: app/templates/choose-password.html:10
 msgid "Complete your access"
 msgstr "Maak uw toegang compleet"
 
-#: app/templates/choose-password.html:15
 msgid "Choose a password for the remaining servers"
 msgstr "Kies een wachtwoord voor de overgebleven servers"
 
-#: app/templates/choose-password.html:33
-#: app/templates/hybrid-password-form.html:150
-#: app/templates/password-reset-form.html:50
-#: app/templates/welcome-jellyfin.html:174
 msgid "Confirm Password"
 msgstr "Bevestig wachtwoord"
 
-#: app/templates/choose-password.html:50
 msgid "Generate a strong random password instead"
 msgstr "Genereer in plaats daarvan een sterk willekeurig wachtwoord"
 
-#: app/templates/choose-password.html:55
 msgid "Continue"
 msgstr "Doorgaan"
 
-#: app/templates/hybrid-password-form.html:9
 msgid "Complete your account setup for local servers"
 msgstr "Voltooi uw accountconfiguratie voor lokale servers"
 
-#: app/templates/hybrid-password-form.html:15
 msgid "Complete Your Account Setup"
 msgstr "Voltooi Je Account Configuratie"
 
-#: app/templates/hybrid-password-form.html:30
 msgid "Plex Authentication Complete!"
 msgstr "Plex Authenticatie Compleet!"
 
-#: app/templates/hybrid-password-form.html:31
 msgid "Now please set a password for your local server accounts."
 msgstr "Stel nu een wachtwoord in voor uw lokale serveraccounts."
 
-#: app/templates/hybrid-password-form.html:38
 msgid "Local Servers"
 msgstr "Lokale Servers"
 
-#: app/templates/hybrid-password-form.html:72
 msgid "Set Password for Local Servers"
 msgstr "Stel wachtwoord in voor Lokale Servers"
 
-#: app/templates/hybrid-password-form.html:86
 msgid "Error!"
 msgstr "Fout!"
 
-#: app/templates/hybrid-password-form.html:107
 msgid "Your username"
 msgstr "Je gebruikersnaam"
 
-#: app/templates/hybrid-password-form.html:119
 msgid "Email Address"
 msgstr "Emailadres"
 
-#: app/templates/hybrid-password-form.html:125
 msgid "your.email@example.com"
 msgstr "your.email@example.com"
 
-#: app/templates/hybrid-password-form.html:139
 msgid "Your password"
 msgstr "Je wachtwoord"
 
-#: app/templates/hybrid-password-form.html:156
-#: app/templates/welcome-jellyfin.html:177
 msgid "Confirm your password"
 msgstr "Bevestig je wachtwoord"
 
-#: app/templates/hybrid-password-form.html:174
 msgid "I agree to the"
 msgstr "Ik ga akkoord met de"
 
-#: app/templates/hybrid-password-form.html:177
 msgid "Terms and Conditions"
 msgstr "Algemene Voorwaarden"
 
-#: app/templates/hybrid-password-form.html:185
 msgid "Complete Setup"
 msgstr "Voltooi Configuratie"
 
-#: app/templates/hybrid-password-form.html:195
 msgid "Setting up..."
 msgstr "Instellen..."
 
-#: app/templates/hybrid-password-form.html:201
 msgid "What happens next?"
 msgstr "Wat gebeurt er daarna?"
 
-#: app/templates/hybrid-password-form.html:203
 msgid "Your Plex account is already set up and ready to use"
 msgstr "Je Plex account is al ingesteld en klaar voor gebruik"
 
-#: app/templates/hybrid-password-form.html:204
 msgid "This password will be used to create accounts on your local servers"
 msgstr ""
-"Dit wachtwoord wordt gebruikt om accounts op je lokale servers aan te "
-"maken"
+"Dit wachtwoord wordt gebruikt om accounts op je lokale servers aan te maken"
 
-#: app/templates/hybrid-password-form.html:205
 msgid "You'll be redirected to the setup wizard to complete configuration"
 msgstr ""
 "Je wordt nu doorverwezen naar de installatiewizard om de configuratie te "
 "voltooien"
 
-#: app/templates/hybrid-password-form.html:211
 msgid "Only want to use Plex?"
 msgstr "Alleen Plex gebruiken?"
 
-#: app/templates/hybrid-password-form.html:214
 msgid "Skip local servers"
 msgstr "Lokale servers overslaan"
 
-#: app/templates/hybrid-password-form.html:229
 msgid "Password too short"
 msgstr "Wachtwoord te kort"
 
-#: app/templates/hybrid-password-form.html:232
 msgid "Password strength: Medium"
 msgstr "Wachtwoord sterkte: Middel"
 
-#: app/templates/hybrid-password-form.html:235
 msgid "Password strength: Strong"
 msgstr "Wachtwoord sterkte: Sterk"
 
-#: app/templates/hybrid-password-form.html:247
 msgid "Passwords do not match"
 msgstr "Wachtwoorden komen niet overeen"
 
-#: app/templates/invalid-invite.html:10
-#: app/templates/password-reset-error.html:9
-#: app/templates/password-reset-success.html:9
 #, fuzzy
 msgid "Wizarr"
 msgstr "Wizard"
 
-#: app/templates/invalid-invite.html:15
 msgid "Invalid Invitation"
 msgstr "Ongeldige Uitnodiging"
 
-#: app/templates/invalid-invite.html:19
-msgid "This invitation link is no longer valid. Please request a new invitation."
+msgid ""
+"This invitation link is no longer valid. Please request a new invitation."
 msgstr ""
 
-#: app/templates/login.html:14
 msgid "Two-Factor Authentication"
 msgstr "Twee-Factor Authenticatie"
 
-#: app/templates/login.html:16
 msgid "Login"
 msgstr "Inloggen"
 
-#: app/templates/login.html:21
 msgid "This is the administrator login page."
 msgstr ""
 
-#: app/templates/login.html:23
 #, fuzzy
 msgid "Go to your media server instead"
 msgstr "Je Discord server ID"
 
-#: app/templates/login.html:43
 #, python-brace-format
 msgid "Welcome back, {}!"
 msgstr "Welkom terug, {}!"
 
-#: app/templates/login.html:45
 msgid "Please authenticate with your passkey to complete login."
 msgstr "Meld je aan met je passkey om het inloggen te voltooien."
 
-#: app/templates/login.html:60
 #, fuzzy
 msgid "Authentication Method"
 msgstr "Authenticatie gefaald"
 
-#: app/templates/login.html:66
 #, fuzzy
 msgid "Local Account"
 msgstr "Maak Account"
 
-#: app/templates/login.html:67 app/templates/settings/index.html:125
 msgid "LDAP"
 msgstr ""
 
-#: app/templates/login.html:103
 msgid "Remember me"
 msgstr "Onthoud mij"
 
-#: app/templates/login.html:110
 msgid "Sign in"
 msgstr "Log in"
 
-#: app/templates/login.html:128
 msgid "Authenticate with Passkey"
 msgstr "Authenticeer met Passkey"
 
-#: app/templates/login.html:140
 msgid "Back to Login"
 msgstr "Terug naar Inloggen"
 
-#: app/templates/login.html:149
 msgid "Or"
 msgstr "Of"
 
-#: app/templates/login.html:162 app/templates/login.html:284
 msgid "Sign in with Passkey"
 msgstr "Log in met Passkey"
 
-#: app/templates/login.html:189
 msgid "Authenticating..."
 msgstr "Authenticeren..."
 
-#: app/templates/login.html:262
 msgid "Failed to complete 2FA login"
 msgstr "Het voltooien van de 2FA-aanmelding is mislukt"
 
-#: app/templates/login.html:277
 msgid "Passkey authentication failed. Please try again or use your password."
-msgstr "Passkey authenticatie gefaald. Probeer opnieuw of gebruik je wachtwoord."
+msgstr ""
+"Passkey authenticatie gefaald. Probeer opnieuw of gebruik je wachtwoord."
 
-#: app/templates/password-reset-error.html:25
 #, fuzzy
 msgid "Password Reset Error"
 msgstr "Wachtwoord te kort"
 
-#: app/templates/password-reset-error.html:29
-#: app/templates/password-reset-form.html:29
 #, fuzzy
 msgid "Error:"
 msgstr "Fout"
 
-#: app/templates/password-reset-error.html:32
 msgid "This password reset link is invalid."
 msgstr ""
 
-#: app/templates/password-reset-error.html:34
 msgid "This password reset link has already been used."
 msgstr ""
 
-#: app/templates/password-reset-error.html:36
 msgid "This password reset link has expired."
 msgstr ""
 
-#: app/templates/password-reset-error.html:38
 msgid "This password reset link is malformed."
 msgstr ""
 
-#: app/templates/password-reset-error.html:40
 msgid "This password reset link is no longer valid."
 msgstr ""
 
-#: app/templates/password-reset-error.html:45
 msgid ""
 "Please contact your server administrator to request a new password reset "
 "link."
 msgstr ""
 
-#: app/templates/password-reset-error.html:47
 #, fuzzy
 msgid "Code:"
 msgstr "Sluiten"
 
-#: app/templates/password-reset-error.html:51
 msgid "Common reasons for this error:"
 msgstr ""
 
-#: app/templates/password-reset-error.html:53
 msgid "The link has already been used"
 msgstr ""
 
-#: app/templates/password-reset-error.html:54
 msgid "The link has expired (24 hour limit)"
 msgstr ""
 
-#: app/templates/password-reset-error.html:55
 msgid "The link was not copied correctly"
 msgstr ""
 
-#: app/templates/password-reset-form.html:9
 #, fuzzy
 msgid "Reset Your Password"
 msgstr "Je wachtwoord"
 
-#: app/templates/password-reset-form.html:15
 #, fuzzy
 msgid "Choose a new password"
 msgstr "Wijzig Wachtwoord"
 
-#: app/templates/password-reset-form.html:18
 #, fuzzy
 msgid "For user:"
 msgstr "Verwijder gebruiker"
 
-#: app/templates/password-reset-form.html:22
 msgid "This link expires on"
 msgstr ""
 
-#: app/templates/password-reset-form.html:43
 msgid "Enter new password (8-128 characters)"
 msgstr ""
 
-#: app/templates/password-reset-form.html:57
 #, fuzzy
 msgid "Confirm new password"
 msgstr "Bevestig Nieuwe Wachtwoord"
 
-#: app/templates/password-reset-form.html:62
 #, fuzzy
 msgid "Password must be:"
 msgstr "Wachtwoorden komen niet overeen"
 
-#: app/templates/password-reset-form.html:64
 msgid "Between 8 and 128 characters"
 msgstr ""
 
-#: app/templates/password-reset-form.html:65
 #, fuzzy
 msgid "Match the confirmation"
 msgstr "Importeer Configuratie"
 
-#: app/templates/password-reset-form.html:70
 #, fuzzy
 msgid "Reset Password"
 msgstr "Huidige Wachtwoord"
 
-#: app/templates/password-reset-success.html:24
 #, fuzzy
 msgid "Password Reset Successful!"
 msgstr "Verbinding test succesvol!"
 
-#: app/templates/password-reset-success.html:28
 #, fuzzy
 msgid "The password for"
 msgstr "Nieuwe Wachtwoord"
 
-#: app/templates/password-reset-success.html:28
 #, fuzzy
 msgid "has been successfully reset."
 msgstr "API sleutel succesvol verwijderd"
 
-#: app/templates/password-reset-success.html:31
 msgid "You can now use your new password to log in to your media server."
 msgstr ""
 
-#: app/templates/password-reset-success.html:36
 #, fuzzy
 msgid "What's next?"
 msgstr "Wat gebeurt er daarna?"
 
-#: app/templates/password-reset-success.html:37
 msgid "Log in to your media server with your username and new password."
 msgstr ""
 
-#: app/templates/profile.html:17
 msgid "Administrator"
 msgstr "Administrator"
 
-#: app/templates/profile.html:34
 msgid "Change your account password for security."
 msgstr "Wijzig het wachtwoord van uw account voor de veiligheid."
 
-#: app/templates/profile.html:42
 msgid "Current Password"
 msgstr "Huidige Wachtwoord"
 
-#: app/templates/profile.html:64
 msgid "Confirm New Password"
 msgstr "Bevestig Nieuwe Wachtwoord"
 
-#: app/templates/profile.html:74
 msgid "Change Password"
 msgstr "Wijzig Wachtwoord"
 
-#: app/templates/user-plex-login.html:9 app/templates/welcome-jellyfin.html:9
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Je bent uitgenodigd voor %(name)s server!"
 
-#: app/templates/user-plex-login.html:50 app/templates/welcome-jellyfin.html:40
 msgid "You've been invited!"
 msgstr "Je bent uitgenodigd!"
 
-#: app/templates/user-plex-login.html:54 app/templates/welcome-jellyfin.html:45
 msgid "To join"
 msgstr "Lid worden"
 
-#: app/templates/user-plex-login.html:59 app/templates/welcome-jellyfin.html:51
 msgid "Join the ultimate media server experience."
 msgstr "Wordt lid van de ultieme media server ervaring."
 
-#: app/templates/user-plex-login.html:67
 msgid "Enter Code to Continue"
 msgstr "Voer Code in om door te gaan"
 
-#: app/templates/user-plex-login.html:68
 msgid "Invitation Code"
 msgstr "Uitnodigingscode"
 
-#: app/templates/user-plex-login.html:79 app/templates/user-plex-login.html:94
 msgid "Enter your code"
 msgstr "Voer code in"
 
-#: app/templates/user-plex-login.html:108
 msgid "Join Server"
 msgstr "Deelnemen Server"
 
-#: app/templates/user-plex-login.html:115
-#: app/templates/welcome-jellyfin.html:226
 msgid "Secure invitation system powered by Wizarr"
 msgstr "Veilig uitnodigingssysteem aangestuurd door Wizarr"
 
-#: app/templates/users.html:3
 msgid "Invite User"
 msgstr "Gebruiker uitnodigen"
 
-#: app/templates/welcome-jellyfin.html:73
-#: app/templates/welcome-jellyfin.html:78
 msgid "Accept Invitation"
 msgstr "Accepteer Uitnodiging"
 
-#: app/templates/welcome-jellyfin.html:74
 msgid "Get ready to join the magic"
 msgstr "Maak je klaar om deel te namen aan de magie"
 
-#: app/templates/welcome-jellyfin.html:91
-#: app/templates/welcome-jellyfin.html:206
 msgid "Create Account"
 msgstr "Maak Account"
 
-#: app/templates/welcome-jellyfin.html:92
 msgid "Set up your magical account"
 msgstr "Stel uw magische account in"
 
-#: app/templates/welcome-jellyfin.html:120
 msgid "Enter your username"
 msgstr "Vul je gebruikersnaam in"
 
-#: app/templates/welcome-jellyfin.html:136
 msgid "Email"
 msgstr "Email"
 
-#: app/templates/welcome-jellyfin.html:139
 msgid "Enter your email"
 msgstr "Vul je email in"
 
-#: app/templates/welcome-jellyfin.html:158
 msgid "Create a password"
 msgstr "Maak een wachtwoord"
 
-#: app/templates/tables/user_card.html:150
-#: app/templates/welcome-jellyfin.html:193
 msgid "Invite Code"
 msgstr "Uitnodigingscode"
 
-#: app/templates/welcome-jellyfin.html:196
 msgid "Enter invite code"
 msgstr "Vul je uitnodigingscode in"
 
-#: app/templates/welcome-jellyfin.html:216
 msgid "Creating account..."
 msgstr "Account wordt aangemaakt..."
 
-#: app/templates/admin/accepted_invites_card.html:12
 msgid "Latest Accepted Invites"
 msgstr "Laatste geaccepteerde uitnodigingen"
 
-#: app/templates/admin/accepted_invites_card.html:34
 msgid "Recently joined"
 msgstr "Recent lid geworden"
 
-#: app/templates/admin/accepted_invites_card.html:51
 msgid "Showing"
 msgstr ""
 
-#: app/templates/admin/accepted_invites_card.html:51
-#: app/templates/admin/server_health_card.html:118
-#: app/templates/wizard/steps.html:53 app/templates/wizard/steps.html:93
 msgid "of"
 msgstr "of"
 
-#: app/templates/admin/accepted_invites_card.html:59
 #, fuzzy
 msgid "Prev"
 msgstr "Voorvertoning"
 
-#: app/templates/admin/accepted_invites_card.html:60
 #, fuzzy
 msgid "Page"
 msgstr "Update"
 
-#: app/templates/admin/accepted_invites_card.html:65
-#: app/templates/wizard/steps.html:16 app/templates/wizard/steps.html:22
-#: app/templates/wizard/steps.html:243 app/templates/wizard/steps.html:253
 msgid "Next"
 msgstr "Volgende"
 
-#: app/templates/admin/accepted_invites_card.html:137
 msgid "No recent invitations accepted"
 msgstr "Geen recente uitnodigingen geaccepteerd"
 
-#: app/templates/admin/accepted_invites_card.html:138
 msgid "Accepted invitations will appear here"
 msgstr "Geaccepteerde uitnodigingen verschijnen hier"
 
-#: app/templates/admin/home.html:6
 msgid "Dashboard"
 msgstr "Dashboard"
 
-#: app/templates/admin/home.html:14 app/templates/admin/invites.html:12
 msgid "New Invite"
 msgstr "Nieuwe uitnodiging"
 
-#: app/templates/admin/home.html:33
 msgid "Now Playing"
 msgstr "Nu aan het spelen"
 
-#: app/templates/admin/invites.html:5
 msgid "Invitations"
 msgstr "Uitnodigingen"
 
-#: app/templates/admin/library_breakdown_card.html:11
 msgid "Library Breakdown"
 msgstr "Bibliotheekoverzicht"
 
-#: app/templates/admin/library_breakdown_card.html:80
 msgid "Per Server"
 msgstr "Per Server"
 
-#: app/templates/admin/library_breakdown_card.html:100
-#: app/templates/admin/library_breakdown_card.html:117
 msgid "No libraries found"
 msgstr "Geen bibliotheken gevonden"
 
-#: app/templates/admin/library_breakdown_card.html:118
 msgid "Configure your media servers to see library statistics"
 msgstr "Configureer uw mediaservers om bibliotheekstatistieken te zien"
 
-#: app/templates/admin/library_breakdown_card.html:132
 msgid "Failed to load libraries"
 msgstr "Kon de bibliotheken niet laden"
 
-#: app/templates/admin/library_breakdown_card.html:133
-#: app/templates/admin/recent_content_card.html:130
-#: app/templates/admin/server_health_card.html:155
-#: app/templates/admin/server_stats_card.html:76
 msgid "Unknown error occurred"
 msgstr "Er is een onbekende fout opgetreden"
 
-#: app/templates/admin/now_playing_cards.html:11
 msgid "Unable to load now playing"
 msgstr "Kan nu afspelen niet laden"
 
-#: app/templates/admin/now_playing_cards.html:12
 msgid "There was an error connecting to your media servers"
 msgstr "Er is een fout opgetreden tijdens het verbinden met je mediaservers"
 
-#: app/templates/admin/now_playing_cards.html:25
 #, fuzzy
 msgid "No one is streaming"
 msgstr "Niemand is aan het kijken"
 
-#: app/templates/admin/now_playing_cards.html:26
 msgid "No active media sessions found across your servers"
 msgstr "Geen actieve media sessie gevonden op de servers"
 
-#: app/templates/admin/recent_content_card.html:11
 msgid "Recently Added"
 msgstr "Recent toegevoegd"
 
-#: app/templates/admin/recent_content_card.html:101
 msgid "Showing latest 10 items"
 msgstr "Laatste 10 items weergegeven"
 
-#: app/templates/admin/recent_content_card.html:114
 msgid "No recent content found"
 msgstr "Geen recente content gevonden"
 
-#: app/templates/admin/recent_content_card.html:115
 msgid "Add some content to your media servers to see it here"
 msgstr "Voeg wat content toe aan je media servers om het hier te zien"
 
-#: app/templates/admin/recent_content_card.html:129
 msgid "Failed to load recent content"
 msgstr "Mislukt om recente content te laden"
 
-#: app/templates/admin/server_health_card.html:11
 msgid "Server Health"
 msgstr "Server Health"
 
-#: app/templates/admin/server_health_card.html:44
-#: app/templates/admin/server_stats_card.html:36
 msgid "Online"
 msgstr "Online"
 
-#: app/templates/admin/server_health_card.html:48
 msgid "Offline"
 msgstr "Offline"
 
-#: app/templates/admin/server_health_card.html:60
-#: app/templates/admin/server_stats_card.html:29
-#: app/templates/settings/notifications.html:75
-#: app/templates/tables/invite_card.html:13
 msgid "Active"
 msgstr "Actief"
 
-#: app/templates/admin/server_health_card.html:66
-#: app/templates/admin/server_health_card.html:87
 msgid "Transcoding"
 msgstr "Transcoderen"
 
-#: app/templates/admin/server_health_card.html:71
-#: app/templates/admin/server_stats_card.html:24
-#: app/templates/settings/ldap.html:197
 msgid "Users"
 msgstr "Gebruikers"
 
-#: app/templates/admin/server_health_card.html:81
 msgid "Active Sessions"
 msgstr "Actieve sessies"
 
-#: app/templates/admin/server_health_card.html:104
 msgid "Server is currently unreachable"
 msgstr "Server is momenteel onbereikbaar"
 
-#: app/templates/admin/server_health_card.html:120
 msgid "servers online"
 msgstr "servers online"
 
-#: app/templates/admin/server_health_card.html:124
 msgid "server(s) need attention"
 msgstr "server(s) heeft aandacht nodig"
 
-#: app/templates/admin/server_health_card.html:139
 msgid "No servers configured"
 msgstr "Geen servers geconfigureerd"
 
-#: app/templates/admin/server_health_card.html:140
 msgid "Add media servers to monitor their health"
 msgstr "Voeg mediaservers toe om hun status te controleren"
 
-#: app/templates/admin/server_health_card.html:154
 msgid "Failed to load server health"
 msgstr "Kan de server status niet laden"
 
-#: app/templates/admin/server_stats_card.html:11
 msgid "Server Overview"
 msgstr "Server Overzicht"
 
-#: app/templates/admin/server_stats_card.html:19
 msgid "Items"
 msgstr "Items"
 
-#: app/templates/admin/server_stats_card.html:41
 msgid "Server Breakdown"
 msgstr "Serverstoring"
 
-#: app/templates/admin/server_stats_card.html:62
 msgid "No active servers found"
 msgstr "Geen actieve servers gevonden"
 
-#: app/templates/admin/server_stats_card.html:75
 msgid "Failed to load statistics"
 msgstr "Mislukt om statistieken te laden"
 
-#: app/templates/admin/user_details_modal.html:8
 msgid "User Details"
 msgstr "Gebruikersgegevens"
 
-#: app/templates/admin/user_details_modal.html:55
 msgid "Joined"
 msgstr "Lid geworden"
 
-#: app/templates/admin/user_details_modal.html:62
 msgid "Account Details"
 msgstr "Accountgegevens"
 
-#: app/templates/admin/user_details_modal.html:69
-#: app/templates/tables/invite_card.html:113
-#: app/templates/tables/invite_card.html:115
-#: app/templates/tables/user_card.html:99
-#: app/templates/tables/user_card.html:121
-#: app/templates/tables/user_card.html:123
 msgid "Expires"
 msgstr "Verloopt"
 
-#: app/templates/admin/user_details_modal.html:91
 msgid "All libraries"
 msgstr "Alle bibliotheken"
 
-#: app/templates/admin/user_details_modal.html:97
 msgid "Permissions"
 msgstr "Rechten"
 
-#: app/templates/admin/user_details_modal.html:112
 msgid "Downloads"
 msgstr "Downloads"
 
-#: app/templates/admin/user_details_modal.html:120
 msgid "Live TV"
 msgstr "Live TV"
 
-#: app/templates/admin/user_details_modal.html:128
 msgid "Camera Upload"
 msgstr "Camera Upload"
 
-#: app/templates/admin/user_details_modal.html:136
 msgid "Basic Access"
 msgstr "Basis toegang"
 
-#: app/templates/admin/user_details_modal.html:148
-#: app/templates/components/admin_passkeys.html:61
-#: app/templates/components/admin_passkeys.html:77
-#: app/templates/components/passkey_error.html:19
-#: app/templates/modals/invite.html:437
-#: app/templates/modals/password-reset-link.html:143
 msgid "Close"
 msgstr "Sluiten"
 
-#: app/templates/admin/user_modal.html:11
 #, fuzzy
 msgid "Edit User"
 msgstr "Wijzig Server"
 
-#: app/templates/admin/user_modal.html:16
-#: app/templates/admin/user_modal.html:24
-#: app/templates/modals/connection-form.html:20
-#: app/templates/modals/password-reset-link.html:29
 msgid "Close modal"
 msgstr "Sluiten modaal"
 
-#: app/templates/admin/user_modal.html:30
 #, fuzzy
 msgid "Tabs"
 msgstr "Status"
 
-#: app/templates/admin/user_modal.html:42
-#: app/templates/tables/user_card.html:103
 msgid "Local"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:52
-#: app/templates/admin/user_modal.html:249
-#: app/templates/tables/user_card.html:164
 msgid "Notes"
 msgstr "Notities"
 
-#: app/templates/admin/user_modal.html:81
 #, fuzzy
 msgid "Permission Management"
 msgstr "API Sleutel Beheer"
 
-#: app/templates/admin/user_modal.html:93
 msgid "Toggle downloads permission"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:118
 msgid "Toggle live TV permission"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:138
 #, fuzzy
 msgid "Allow Camera Upload"
 msgstr "Camera Upload"
 
-#: app/templates/admin/user_modal.html:144
 msgid "Toggle camera upload permission"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:169
 #, fuzzy
 msgid "Library Access"
 msgstr "Bibliotheken"
 
-#: app/templates/admin/user_modal.html:172
 #, fuzzy
 msgid "No libraries available"
 msgstr "Geen bibliotheken gevonden"
 
-#: app/templates/admin/user_modal.html:173
 msgid "Scan libraries from the invitation page to enable library restrictions"
 msgstr ""
 
-#: app/templates/admin/user_modal.html:205
 msgid "Click to toggle library access. Updates save automatically."
 msgstr ""
 
-#: app/templates/admin/user_modal.html:211
 #, fuzzy
 msgid "Expiry Management"
 msgstr "API Sleutel Beheer"
 
-#: app/templates/admin/user_modal.html:218
 msgid "Expiry date"
 msgstr "Vervaldatum"
 
-#: app/templates/admin/user_modal.html:228
 msgid "Update"
 msgstr "Update"
 
-#: app/templates/admin/user_modal.html:233
 msgid "Current expiry"
 msgstr "Huidige vervaldatum"
 
-#: app/templates/admin/user_modal.html:235
 msgid "No expiry set"
 msgstr "Geen vervaldatum ingesteld"
 
-#: app/templates/admin/user_modal.html:253
 #, fuzzy
 msgid "User notes"
 msgstr "Update Notities"
 
-#: app/templates/admin/user_modal.html:257
 msgid "Add notes about this user..."
 msgstr "Voeg notities toe over deze gebruiker..."
 
-#: app/templates/admin/user_modal.html:263
 msgid "Update Notes"
 msgstr "Update Notities"
 
-#: app/templates/admin/users.html:192
 msgid "Link"
 msgstr "Koppel"
 
-#: app/templates/admin/users.html:198
 msgid "Unlink"
 msgstr "Ontkoppel"
 
-#: app/templates/admin/users.html:204 app/templates/servers/index.html:31
-#: app/templates/settings/connections.html:137
 msgid "Delete"
 msgstr "Verwijder"
 
-#: app/templates/components/admin_passkeys.html:4
 #, python-brace-format
 msgid "Passkeys for {}"
 msgstr "Passkeys voor {}"
 
-#: app/templates/components/admin_passkeys.html:30
-#: app/templates/tables/invite_card.html:100
 msgid "Created"
 msgstr "Aangemaakt"
 
-#: app/templates/components/admin_passkeys.html:34
-#: app/templates/components/passkey_list.html:22
 msgid "Last used"
 msgstr "Laatst gebruikt"
 
-#: app/templates/components/admin_passkeys.html:56
 msgid "Reset All Passkeys"
 msgstr "Alle passkeys opnieuw instellen"
 
-#: app/templates/components/admin_passkeys.html:73
 msgid "No passkeys registered for this user."
 msgstr "Geen passkeys geregistreerd voor deze gebruiker."
 
-#: app/templates/components/admin_passkeys.html:84
 msgid "Are you sure you want to delete this passkey?"
 msgstr "Weet je zeker dat je deze passkey wilt verwijderen?"
 
-#: app/templates/components/admin_passkeys.html:96
 msgid "Failed to delete passkey"
 msgstr "Mislukt om passkey te verwijderen"
 
-#: app/templates/components/admin_passkeys.html:101
 msgid "An error occurred while deleting the passkey"
 msgstr "Een fout is opgetreden tijdens het verwijderen van de passkey"
 
-#: app/templates/components/admin_passkeys.html:107
 #, python-brace-format
 msgid "Are you sure you want to reset ALL passkeys for {}?"
 msgstr "Weet je zeker dat je ALLE passkeys opnieuw wilt instellen voor {}?"
 
-#: app/templates/components/admin_passkeys.html:107
 msgid "This action cannot be undone."
 msgstr "Deze actie kan niet ongedaan worden gemaakt."
 
-#: app/templates/components/admin_passkeys.html:116
 msgid "All passkeys have been reset"
 msgstr "Alle passkeys zijn opnieuw ingesteld"
 
-#: app/templates/components/admin_passkeys.html:119
 msgid "Failed to reset passkeys"
 msgstr "Mislukt om passkeys opnieuw in te stellen"
 
-#: app/templates/components/admin_passkeys.html:124
 msgid "An error occurred while resetting passkeys"
 msgstr "En fout is opgetreden tijdens het opnieuw instellen van de passkeys"
 
-#: app/templates/components/passkey_add_form.html:4
 msgid "Add New Passkey"
 msgstr "Nieuwe Passkey Toevoegen"
 
-#: app/templates/components/passkey_add_form.html:10
 msgid "Passkey Name"
 msgstr "Passkey naam"
 
-#: app/templates/components/passkey_add_form.html:16
 msgid "e.g., My iPhone, Work Laptop"
 msgstr "bijv, Mijn iPhone, Werk Laptop"
 
-#: app/templates/components/passkey_add_form.html:24
-#: app/templates/components/passkey_register.html:19
-#: app/templates/modals/bundle-add-steps.html:35
-#: app/templates/modals/connection-form.html:162
-#: app/templates/modals/create-admin.html:48
-#: app/templates/modals/create-api-key.html:82
-#: app/templates/modals/create-notification-agent.html:163
-#: app/templates/modals/create-server.html:168
-#: app/templates/modals/edit-admin.html:50
-#: app/templates/modals/edit-identity.html:49
-#: app/templates/modals/edit-notification-agent.html:168
-#: app/templates/modals/edit-server.html:178
-#: app/templates/modals/invite.html:388
-#: app/templates/modals/wizard-bundle-form.html:34
-#: app/templates/modals/wizard-import-form.html:102
-#: app/templates/modals/wizard-preset-form.html:59
-#: app/templates/modals/wizard-simple-step-form.html:48
-#: app/templates/modals/wizard-step-form.html:139
-#: app/templates/settings/connections/form.html:183
-#: app/templates/settings/wizard/bundle_form.html:18
-#: app/templates/settings/wizard/form.html:38
-#: app/templates/settings/wizard/preset_form.html:38
-#: app/templates/settings/wizard/simple_form.html:28
 msgid "Cancel"
 msgstr "Annuleren"
 
-#: app/templates/components/passkey_add_form.html:28
-#: app/templates/components/passkey_register.html:4
 msgid "Create Passkey"
 msgstr "Maak Passkey Aan"
 
-#: app/templates/components/passkey_list.html:20
 msgid "Added"
 msgstr "Toegevoegd"
 
-#: app/templates/components/passkey_list.html:51
 msgid "No passkeys registered"
 msgstr "Geen passkeys geregistreerd"
 
-#: app/templates/components/passkey_list.html:52
 msgid "Add your first passkey for enhanced security"
 msgstr "Voeg je eerste passkey toe voor extra beveiliging"
 
-#: app/templates/components/passkey_management.html:17
 msgid "Passkeys"
 msgstr "Passkeys"
 
-#: app/templates/components/passkey_management.html:25
-#: app/templates/components/passkey_management.html:37
 msgid "Passkeys require HTTPS connection"
 msgstr "Passkeys vereisen een HTTPS connectie"
 
-#: app/templates/components/passkey_management.html:25
 msgid "Add Passkey"
 msgstr "Voeg Passkey Toe"
 
-#: app/templates/components/passkey_management.html:40
 msgid "To use passkeys, please access this page over HTTPS."
 msgstr "Om passkeys te gebruiken, ga naar deze pagina via HTTPS."
 
-#: app/templates/components/passkey_management.html:44
 msgid "Manage your passkeys for passwordless authentication."
 msgstr "Beheer je passkeys voor wachtwoordloos authenticatie."
 
-#: app/templates/components/passkey_management.html:53
 msgid "Loading passkeys..."
 msgstr "Passkeys laden..."
 
-#: app/templates/components/passkey_register.html:8
 msgid "Creating passkey for"
 msgstr "Passkey aanmaken voor"
 
-#: app/templates/components/passkey_register.html:11
 msgid "Please follow your device's prompts to complete setup"
 msgstr "Volg de instructies op uw apparaat om de installatie te voltooien"
 
-#: app/templates/components/passkey_register.html:107
 msgid "Failed to register passkey"
 msgstr "Mislukt om passkey te registreren"
 
-#: app/templates/components/passkey_register.html:112
 msgid "Failed to complete passkey registration"
 msgstr "Registratie van passkey is mislukt"
 
-#: app/templates/error/401.html:15
 msgid "Permission denied."
 msgstr "Toegang geweigerd."
 
-#: app/templates/error/401.html:18
 msgid "You are attempting to do something you shouldn't be doing..."
 msgstr "Je probeert iets te doen wat je niet zou moeten doen..."
 
-#: app/templates/error/404.html:15
 msgid "Something's missing."
 msgstr "Er ontbreekt iets."
 
-#: app/templates/error/404.html:18
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
 msgstr "Sorry, we kunnen deze pagina niet vinden. Deze lijkt niet te bestaan!"
 
-#: app/templates/error/500.html:15
 msgid "Internal Server Error."
 msgstr "Interne serverfout."
 
-#: app/templates/error/500.html:18
 msgid " Something has gone wrong. Please try again later."
 msgstr " Er is iets misgegaan. Probeer later opnieuw."
 
-#: app/templates/modals/bundle-add-steps.html:13
 msgid "Add steps to bundle"
 msgstr "Toevoegen stappen aan bundel"
 
-#: app/templates/modals/bundle-add-steps.html:26
-#: app/templates/settings/wizard/bundles.html:106
-#: app/templates/settings/wizard/bundles.html:188
-#: app/templates/settings/wizard/bundles.html:269
-#: app/templates/settings/wizard/steps.html:86
-#: app/templates/settings/wizard/steps.html:166
 msgid "Untitled"
 msgstr "Ongetiteld"
 
-#: app/templates/modals/bundle-add-steps.html:29
 msgid "All steps are already included."
 msgstr "Alle stappen zijn al inbegrepen."
 
-#: app/templates/modals/bundle-add-steps.html:39
-#: app/templates/modals/create-admin.html:43
 msgid "Add"
 msgstr "Toevoegen"
 
-#: app/templates/modals/connection-form.html:9
-#: app/templates/settings/connections/form.html:4
-#: app/templates/settings/connections/form.html:61
 msgid "Add New Connection"
 msgstr "Toevoegen Nieuwe Verbinding"
 
-#: app/templates/modals/connection-form.html:11
-#: app/templates/settings/connections/form.html:6
-#: app/templates/settings/connections/form.html:51
-#: app/templates/settings/connections/form.html:63
 msgid "Edit Connection"
 msgstr "Wijzig Verbinding"
 
-#: app/templates/modals/connection-form.html:76
-#: app/templates/settings/connections/form.html:125
 msgid "Overseerr/Jellyseerr Information"
 msgstr "Overseerr/Jellyseerr Informatie"
 
-#: app/templates/modals/connection-form.html:78
-#: app/templates/settings/connections/form.html:127
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No "
-"API connection is required for Wizarr integration."
+"Overseerr and Jellyseerr automatically import new users by default. No API "
+"connection is required for Wizarr integration."
 msgstr ""
-"Overseerr and Jellyseer kunnen standaard automatisch gebruikers "
-"importeren. Geen API verbinding nodig voor Wizarr intergratie."
+"Overseerr and Jellyseer kunnen standaard automatisch gebruikers importeren. "
+"Geen API verbinding nodig voor Wizarr intergratie."
 
-#: app/templates/modals/connection-form.html:82
-#: app/templates/settings/connections/form.html:130
 msgid "To enable auto-import:"
 msgstr "Om automatisch importeren in te schakelen:"
 
-#: app/templates/modals/connection-form.html:84
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
-"new users' and 'Import Jellyfin/Plex users'"
+"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
+"users' and 'Import Jellyfin/Plex users'"
 msgstr ""
 "Ga naar je Overseerr/Jellyseerr Instelling → Gebruikers → Schakel "
 "'Automatisch goedkeuren nieuwe gebruikers' en 'Importeer Jellyfin/Plex "
 "gebruikers' in"
 
-#: app/templates/modals/connection-form.html:139
 msgid "Testing connection..."
 msgstr "Verbinding testen..."
 
-#: app/templates/modals/connection-form.html:147
-#: app/templates/settings/connections/form.html:188
 msgid "Create Connection"
 msgstr "Aanmaken Verbinding"
 
-#: app/templates/modals/connection-form.html:149
-#: app/templates/settings/connections/form.html:190
 msgid "Update Connection"
 msgstr "Bijwerken verbinding"
 
-#: app/templates/modals/connection-form.html:158
-#: app/templates/settings/ldap.html:99
 msgid "Test Connection"
 msgstr "Test Verbinding"
 
-#: app/templates/modals/create-admin.html:12
 msgid "Add Administrator"
 msgstr "Administrator Toevoegen"
 
-#: app/templates/modals/create-api-key.html:13
 msgid "API Key Created"
 msgstr "API Sleutel Aangemaakt"
 
-#: app/templates/modals/create-api-key.html:15
-#: app/templates/settings/api_keys.html:17
-#: app/templates/settings/general.html:244
 msgid "Create API Key"
 msgstr "Aanmaken API Sleutel"
 
-#: app/templates/modals/create-api-key.html:30
 msgid "API Key Created Successfully"
 msgstr "API Sleutel Succesvol Aangemaakt"
 
-#: app/templates/modals/create-api-key.html:33
 msgid ""
-"Your API key has been created. Please copy it now as it will not be shown"
-" again."
+"Your API key has been created. Please copy it now as it will not be shown "
+"again."
 msgstr ""
 "Je API sleutel is aangemaakt. Kopieer het nu want het wordt niet meer "
 "weergegeven."
 
-#: app/templates/modals/create-api-key.html:40
 msgid "Copy to clipboard"
 msgstr "Kopiëren naar klembord"
 
-#: app/templates/modals/create-api-key.html:48
 msgid "Name:"
 msgstr "Naam:"
 
-#: app/templates/modals/create-api-key.html:55
 msgid "Done"
 msgstr "Klaar"
 
-#: app/templates/modals/create-api-key.html:69
 msgid "API Key Name"
 msgstr "API Sleutel Naam"
 
-#: app/templates/modals/create-api-key.html:74
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
-"Voer een beschrijvende naam in, zodat u deze API-sleutel later "
-"gemakkelijk kunt herkennen."
+"Voer een beschrijvende naam in, zodat u deze API-sleutel later gemakkelijk "
+"kunt herkennen."
 
-#: app/templates/modals/create-notification-agent.html:32
 msgid "New Agent"
 msgstr "Nieuwe Agent"
 
-#: app/templates/modals/create-notification-agent.html:74
-#: app/templates/modals/edit-notification-agent.html:59
 msgid "Channel ID"
 msgstr "Kanaal ID"
 
-#: app/templates/modals/create-notification-agent.html:84
-#: app/templates/modals/edit-notification-agent.html:76
 msgid "Bot Token"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:90
-#: app/templates/modals/edit-notification-agent.html:84
 #, fuzzy
 msgid "Chat ID"
 msgstr "Kanaal ID"
 
-#: app/templates/modals/create-notification-agent.html:101
-#: app/templates/modals/edit-notification-agent.html:102
 msgid "Username (optional)"
 msgstr "Gebruikersnaam (optioneel)"
 
-#: app/templates/modals/create-notification-agent.html:109
-#: app/templates/modals/edit-notification-agent.html:111
 msgid "Password (optional)"
 msgstr "Wachtwoord (optioneel)"
 
-#: app/templates/modals/create-notification-agent.html:118
-#: app/templates/modals/edit-notification-agent.html:121
 msgid "Agent URL"
 msgstr "Agent URL"
 
-#: app/templates/modals/create-notification-agent.html:127
-#: app/templates/modals/edit-notification-agent.html:131
 #, fuzzy
 msgid "Notification Events"
 msgstr "Meldings Agents"
 
-#: app/templates/modals/create-notification-agent.html:138
-#: app/templates/modals/edit-notification-agent.html:143
-#: app/templates/settings/notifications.html:84
 #, fuzzy
 msgid "User Joined"
 msgstr "Lid geworden"
 
-#: app/templates/modals/create-notification-agent.html:150
-#: app/templates/modals/edit-notification-agent.html:155
-#: app/templates/settings/notifications.html:89
 msgid "Update Available"
 msgstr ""
 
-#: app/templates/modals/create-notification-agent.html:158
 msgid "Test & Create Agent"
 msgstr "Test & Creëer Agent"
 
-#: app/templates/modals/create-server.html:12
-#: app/templates/servers/index.html:6 app/templates/settings/servers.html:107
 msgid "Add Server"
 msgstr "Toevoegen Server"
 
-#: app/templates/modals/create-server.html:163
 msgid "Test & Add"
 msgstr "Test & Toevoegen"
 
-#: app/templates/modals/edit-admin.html:12
 msgid "Edit Administrator"
 msgstr "Wijzig Administrator"
 
-#: app/templates/modals/edit-admin.html:29
 msgid "New Password (optional)"
 msgstr "Nieuwe Wachtwoord (optioneel)"
 
-#: app/templates/modals/edit-admin.html:45
-#: app/templates/modals/edit-identity.html:44
-#: app/templates/modals/edit-server.html:173
-#: app/templates/modals/wizard-bundle-form.html:36
-#: app/templates/modals/wizard-simple-step-form.html:50
-#: app/templates/modals/wizard-step-form.html:141
-#: app/templates/settings/wizard/bundle_form.html:16
-#: app/templates/settings/wizard/form.html:30
-#: app/templates/settings/wizard/simple_form.html:26
 msgid "Save"
 msgstr "Opslaan"
 
-#: app/templates/modals/edit-identity.html:12
 msgid "Edit Identity"
 msgstr "Aanpassen Identiteit"
 
-#: app/templates/modals/edit-identity.html:33
 msgid "Nickname"
 msgstr "Bijnaam"
 
-#: app/templates/modals/edit-notification-agent.html:12
 #, fuzzy
 msgid "Edit Agent"
 msgstr "Nieuwe Agent"
 
-#: app/templates/modals/edit-notification-agent.html:24
-#: app/templates/servers/index.html:10
 msgid "Name"
 msgstr "Naam"
 
-#: app/templates/modals/edit-notification-agent.html:36
 #, fuzzy
 msgid "Notification Service"
 msgstr "Meldings Agents"
 
-#: app/templates/modals/edit-notification-agent.html:163
 #, fuzzy
 msgid "Test & Save Changes"
 msgstr "Test & Creëer Agent"
 
-#: app/templates/modals/edit-server.html:12
 msgid "Edit Server"
 msgstr "Wijzig Server"
 
-#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:383
 msgid "Create Invitation"
 msgstr "Maak Uitnodiging"
 
-#: app/templates/modals/invite.html:16
 msgid "Invitation Created"
 msgstr "Uitnodiging Aangemaakt"
 
-#: app/templates/modals/invite.html:46
 msgid "Invite Code String"
 msgstr "Uitnodigings Code"
 
-#: app/templates/modals/invite.html:47
 msgid "optional"
 msgstr "optioneel"
 
-#: app/templates/modals/invite.html:55
 msgid "E.g. XMFGEJIKNQ"
 msgstr "Bijv. XMFGEJIKNQ"
 
-#: app/templates/modals/invite.html:61
 msgid "Expiration"
 msgstr "Vervaltijd"
 
-#: app/templates/modals/invite.html:66
 msgid "1 day"
 msgstr "1 dag"
 
-#: app/templates/modals/invite.html:67
 msgid "1 week"
 msgstr "1 week"
 
-#: app/templates/modals/invite.html:68
 msgid "1 month"
 msgstr "1 maand"
 
-#: app/templates/modals/invite.html:77
 msgid "Wizard bundle"
 msgstr "Wizard bundel"
 
-#: app/templates/modals/invite.html:82
 msgid "Automatic"
 msgstr "Automatisch"
 
-#: app/templates/modals/invite.html:91
 msgid "Advanced Options"
 msgstr "Geadvanceerde Opties"
 
-#: app/templates/modals/invite.html:98
 msgid "Invite Settings"
 msgstr "Uitnodigings Instellingen"
 
-#: app/templates/modals/invite.html:108
 msgid "Unlimited Usages"
 msgstr "Ongelimiteerd Gebruiksmogelijkheden"
 
-#: app/templates/modals/invite.html:114 app/templates/modals/invite.html:136
-#: app/templates/tables/invite_card.html:129
 msgid "Duration"
 msgstr "Duur"
 
-#: app/templates/modals/invite.html:115
 msgid "in days"
 msgstr "in dagen"
 
-#: app/templates/modals/invite.html:128
 msgid "Show Information"
 msgstr "Toon Informatie"
 
-#: app/templates/modals/invite.html:137
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
@@ -2130,1198 +1537,927 @@ msgstr ""
 "Indien ingevuld, uitgenodigde gebruiker(s) worden verwijderd van de Plex "
 "server na een aantal dagen. (1-999)"
 
-#: app/templates/modals/invite.html:153
 #, fuzzy
 msgid "LDAP Integration"
 msgstr "Accepteer Uitnodiging"
 
-#: app/templates/modals/invite.html:165
 #, fuzzy
 msgid "Create LDAP User"
 msgstr "Aanmaken API Sleutel"
 
-#: app/templates/modals/invite.html:168
 msgid "Automatically create an LDAP user when this invitation is accepted"
 msgstr ""
 
-#: app/templates/modals/invite.html:175
 msgid "Target servers"
 msgstr "Doel servers"
 
-#: app/templates/modals/invite.html:209
 msgid "Invite to Plex Home"
 msgstr "Uitnodiging voor Plex Home"
 
-#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:265
-#: app/templates/modals/invite.html:308
 msgid "Allow Live TV Access"
 msgstr "Live TV Toegang Toestaan"
 
-#: app/templates/modals/invite.html:242 app/templates/modals/invite.html:319
 msgid "Allow Mobile Uploads"
 msgstr "Mobiele Uploads Toestaan"
 
-#: app/templates/modals/invite.html:273
 #, fuzzy
 msgid "Max Active Sessions"
 msgstr "Actieve sessies"
 
-#: app/templates/modals/invite.html:274
 msgid "simultaneous devices"
 msgstr ""
 
-#: app/templates/modals/invite.html:284
-msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgid ""
+"Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
 
-#: app/templates/modals/invite.html:359
 msgid "Select Libraries"
 msgstr "Selecteer Bibliotheken"
 
-#: app/templates/modals/invite.html:372 app/templates/modals/invite.html:476
 msgid "Loading…"
 msgstr "Laden…"
 
-#: app/templates/modals/invite.html:403
 msgid "Successfully generated an Invitation!"
 msgstr "Uitnodiging succesvol gegenereerd!"
 
-#: app/templates/modals/invite.html:409
 msgid "Invitation Link"
 msgstr "Uitnodiging Link"
 
-#: app/templates/modals/invite.html:421
-#: app/templates/modals/password-reset-link.html:81
 msgid "Copy"
 msgstr "Kopiëren"
 
-#: app/templates/modals/invite.html:426
 msgid "Link has been copied to clipboard!"
 msgstr "De link is gekopieerd naar het klembord!"
 
-#: app/templates/modals/invite.html:432
 msgid "Create Another"
 msgstr "Maak nog een"
 
-#: app/templates/modals/invite.html:486
 msgid "Please select at least one server for the invitation."
 msgstr "Selecteer op zn minst een server voor de uitnodiging."
 
-#: app/templates/modals/password-reset-link.html:14
 #, fuzzy
 msgid "Password Reset Link"
 msgstr "Wachtwoord (optioneel)"
 
-#: app/templates/modals/password-reset-link.html:16
 msgid "Generate Password Reset Link"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:59
 #, fuzzy
 msgid "Password reset link for"
 msgstr "Wachtwoord te kort"
 
-#: app/templates/modals/password-reset-link.html:62
 #, fuzzy
 msgid "Link expires:"
 msgstr "Verloopt"
 
-#: app/templates/modals/password-reset-link.html:68
 msgid "Reset Link (Click to copy)"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:85
-msgid "Send this link to the user. They can use it once to reset their password."
+msgid ""
+"Send this link to the user. They can use it once to reset their password."
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:90
 msgid "Reset Code"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:97
 #, fuzzy
 msgid "Security Notes:"
 msgstr "Update Notities"
 
-#: app/templates/modals/password-reset-link.html:99
 #, fuzzy
 msgid "This link can only be used once"
 msgstr "Deze actie kan niet ongedaan worden gemaakt."
 
-#: app/templates/modals/password-reset-link.html:100
 msgid "It expires in 24 hours"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:101
 msgid "Send it securely (email, message, etc.)"
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:108
 #, fuzzy
 msgid "Generate a secure password reset link for"
 msgstr "Genereer in plaats daarvan een sterk willekeurig wachtwoord"
 
-#: app/templates/modals/password-reset-link.html:122
 #, fuzzy
 msgid "Generate Reset Link"
 msgstr "Algemene Instellingen"
 
-#: app/templates/modals/password-reset-link.html:125
 msgid "The link will be valid for 24 hours and can only be used once."
 msgstr ""
 
-#: app/templates/modals/password-reset-link.html:137
 #, fuzzy
 msgid "Copy Link"
 msgstr "Kopieer uitnodigingslink"
 
-#: app/templates/modals/password-reset-link.html:165
 #, fuzzy
 msgid "Copied!"
 msgstr "Lid geworden"
 
-#: app/templates/modals/password-reset-link.html:185
 #, fuzzy
 msgid "Reset link copied to clipboard!"
 msgstr "De link is gekopieerd naar het klembord!"
 
-#: app/templates/modals/password-reset-link.html:187
 msgid "Please manually copy the link"
 msgstr ""
 
-#: app/templates/modals/wizard-import-form.html:13
 msgid "Import Wizard Steps"
 msgstr "Importeer Wizard Stappen"
 
-#: app/templates/modals/wizard-import-form.html:47
-#: app/templates/settings/wizard/import_form.html:28
 msgid "Click to upload"
 msgstr "Klik om te uploaden"
 
-#: app/templates/modals/wizard-import-form.html:47
-#: app/templates/settings/wizard/import_form.html:28
 msgid "or drag and drop"
 msgstr "of sleep en loslaten"
 
-#: app/templates/modals/wizard-import-form.html:49
 msgid "JSON files only"
 msgstr "Alleen JSON-bestanden"
 
-#: app/templates/modals/wizard-import-form.html:62
-#: app/templates/settings/wizard/import_form.html:52
 msgid "Import Options"
 msgstr "Importeer Opties"
 
-#: app/templates/modals/wizard-import-form.html:70
 msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
 "steps will be merged with existing ones."
 msgstr ""
-"Indien aangevinkt, worden bestaande stappen vervangen. Indien uitgevinkt,"
-" worden geïmporteerde stappen samengevoegd met bestaande stappen."
+"Indien aangevinkt, worden bestaande stappen vervangen. Indien uitgevinkt, "
+"worden geïmporteerde stappen samengevoegd met bestaande stappen."
 
-#: app/templates/modals/wizard-import-form.html:90
 msgid "Important Notice"
 msgstr "Belangrijke Mededeling"
 
-#: app/templates/modals/wizard-import-form.html:92
 msgid ""
-"This action will modify your wizard steps configuration. Make sure to "
-"backup your current steps before importing if you want to preserve them."
+"This action will modify your wizard steps configuration. Make sure to backup "
+"your current steps before importing if you want to preserve them."
 msgstr ""
-"Met deze actie wordt de configuratie van uw wizardstappen gewijzigd. Zorg"
-" ervoor dat u een back-up van uw huidige stappen maakt voordat u ze "
+"Met deze actie wordt de configuratie van uw wizardstappen gewijzigd. Zorg "
+"ervoor dat u een back-up van uw huidige stappen maakt voordat u ze "
 "importeert, als u ze wilt behouden."
 
-#: app/templates/modals/wizard-import-form.html:111
 msgid "Import Steps"
 msgstr "Importeer Stappen"
 
-#: app/templates/modals/wizard-preset-form.html:13
-#: app/templates/settings/wizard/preset_form.html:3
 msgid "Add Preset Wizard Step"
 msgstr "Toevoegen Vooringesteld Wizard Stap"
 
-#: app/templates/modals/wizard-preset-form.html:29
-#: app/templates/modals/wizard-simple-step-form.html:24
-#: app/templates/modals/wizard-step-form.html:29
 msgid "Choose when this step should be shown to users"
 msgstr ""
 
-#: app/templates/modals/wizard-preset-form.html:39
-#: app/templates/settings/wizard/preset_form.html:17
 msgid "Your Discord server ID"
 msgstr "Je Discord server ID"
 
-#: app/templates/modals/wizard-preset-form.html:44
-#: app/templates/settings/wizard/preset_form.html:22
 msgid "URL to your Overseerr/Ombi instance"
 msgstr "ULR naar je Overseerr/Ombi omgeving"
 
-#: app/templates/modals/wizard-preset-form.html:61
-#: app/templates/settings/wizard/_sub_nav.html:125
-#: app/templates/settings/wizard/preset_form.html:36
 msgid "Create Step"
 msgstr "Creëer Stap"
 
-#: app/templates/modals/wizard-step-form.html:46
 #, fuzzy
 msgid "Add..."
 msgstr "Toevoegen"
 
-#: app/templates/modals/wizard-step-form.html:66
 msgid "Widgets"
 msgstr ""
 
-#: app/templates/modals/wizard-step-form.html:78
 #, fuzzy
 msgid "Recently Added Media"
 msgstr "Recent toegevoegd"
 
-#: app/templates/modals/wizard-step-form.html:79
 #, fuzzy
 msgid "Show recent content"
 msgstr "Geen recente content gevonden"
 
-#: app/templates/modals/wizard-step-form.html:95
 msgid "Button"
 msgstr ""
 
-#: app/templates/modals/wizard-step-form.html:96
 msgid "Add a clickable link button"
 msgstr ""
 
-#: app/templates/modals/wizard-step-form.html:101
 #, fuzzy
 msgid "Elements"
 msgstr "Verwijder Agent"
 
-#: app/templates/modals/wizard-step-form.html:115
 #, fuzzy
 msgid "Card"
 msgstr "Wizard"
 
-#: app/templates/modals/wizard-step-form.html:116
 msgid "Add a styled content card"
 msgstr ""
 
-#: app/templates/partials/api_keys_grid.html:36
 msgid "Delete API Key"
 msgstr "Verwijder API Sleutel"
 
-#: app/templates/partials/api_keys_grid.html:58
 msgid "No API keys"
 msgstr "Geen API sleutels"
 
-#: app/templates/partials/api_keys_grid.html:59
 msgid "Get started by creating a new API key."
 msgstr "Begin met het maken van een nieuwe API-sleutel."
 
-#: app/templates/servers/index.html:4 app/templates/settings/servers.html:4
 msgid "Media Servers"
 msgstr "Media Servers"
 
-#: app/templates/servers/index.html:11
-#: app/templates/settings/connections.html:36
 msgid "Type"
 msgstr "Soort"
 
-#: app/templates/servers/index.html:12
-#: app/templates/settings/connections.html:38
 msgid "URL"
 msgstr "URL"
 
-#: app/templates/servers/index.html:13 app/templates/settings/servers.html:56
 msgid "Verified"
 msgstr "Geverifieerd"
 
-#: app/templates/servers/index.html:14
-#: app/templates/settings/connections.html:39
 msgid "Actions"
 msgstr "Acties"
 
-#: app/templates/servers/index.html:26
-#: app/templates/settings/connections.html:122
 msgid "Edit"
 msgstr "Wijzig"
 
-#: app/templates/servers/index.html:30
 msgid "Delete this server?"
 msgstr "Verwijder deze server?"
 
-#: app/templates/servers/index.html:37
 msgid "No servers configured yet."
 msgstr "Geen server geconfigureerd nog."
 
-#: app/templates/settings/admins.html:4
 msgid "Administrators"
 msgstr "Administrators"
 
-#: app/templates/settings/admins.html:24
 msgid "Manage Passkeys"
 msgstr "Beheer Passkeys"
 
-#: app/templates/settings/admins.html:59
 msgid "No administrators yet."
 msgstr "Geen administrators nog."
 
-#: app/templates/settings/admins.html:68
 msgid "Add Admin"
 msgstr "Toevoegen Administrator"
 
-#: app/templates/settings/api_keys.html:5
 msgid "API Keys"
 msgstr "API Sleutels"
 
-#: app/templates/settings/connections.html:7
-#: app/templates/settings/connections/form.html:37
-#: app/templates/settings/index.html:93
 msgid "Connections"
 msgstr "Verbindingen"
 
-#: app/templates/settings/connections.html:9
 msgid "Manage external service connections for automated user invitations"
 msgstr ""
-"Beheer externe service verbindngen voor automatisch gebruikers "
-"uitnodigingen"
+"Beheer externe service verbindngen voor automatisch gebruikers uitnodigingen"
 
-#: app/templates/settings/connections.html:23
-#: app/templates/settings/connections/form.html:49
 msgid "Add Connection"
 msgstr "Verbinding Toevoegen"
 
-#: app/templates/settings/connections.html:35
 msgid "Connection Name"
 msgstr "Verbinding Naam"
 
-#: app/templates/settings/connections.html:37
 msgid "Media Server"
 msgstr "Media Server"
 
-#: app/templates/settings/connections.html:53
 msgid "Overseerr (Info)"
 msgstr "Overseerr (Info)"
 
-#: app/templates/settings/connections.html:65
 msgid "Ombi"
 msgstr "Ombi"
 
-#: app/templates/settings/connections.html:77
 msgid "Audiobookrequest"
 msgstr "Audiobookrequest"
 
-#: app/templates/settings/connections.html:107
 msgid "Auto-import enabled"
 msgstr "Automatisch importeren inschakelen"
 
-#: app/templates/settings/connections.html:127
 msgid "Are you sure you want to delete this connection?"
 msgstr "Weet je zeker dat je deze verbinding wilt verwijderen?"
 
-#: app/templates/settings/connections.html:157
 msgid "No connections configured"
 msgstr "Geen verbinding geconfigureerd"
 
-#: app/templates/settings/connections.html:159
 msgid ""
-"Connect your external services to automate user invitations when invites "
-"are created for specific media servers."
+"Connect your external services to automate user invitations when invites are "
+"created for specific media servers."
 msgstr ""
 "Verbind uw externe services om gebruikersuitnodigingen te automatiseren "
 "wanneer er uitnodigingen worden gemaakt voor specifieke mediaservers."
 
-#: app/templates/settings/connections.html:171
 msgid "Add Your First Connection"
 msgstr "Eerste Verbinding Toevoegen"
 
-#: app/templates/settings/general.html:8
 msgid "General Settings"
 msgstr "Algemene Instellingen"
 
-#: app/templates/settings/general.html:10
 msgid "Configure your application's basic settings and preferences"
 msgstr "Configureer je applicatie basis instellingen en voorkeuren"
 
-#: app/templates/settings/general.html:14
 #, fuzzy
 msgid "Version"
 msgstr "Rechten"
 
-#: app/templates/settings/general.html:42
 msgid "Display"
 msgstr "Weergave"
 
-#: app/templates/settings/general.html:43
 msgid "Configure how your application appears to users"
 msgstr "Configureer hoe de applicatie voor gebruikers wordt weergegeven"
 
-#: app/templates/settings/general.html:66
 msgid "Access Control"
 msgstr "Toegangsbeheer"
 
-#: app/templates/settings/general.html:67
 msgid "Manage user access and permissions"
 msgstr "Beheer gebruiker toegang en rechten"
 
-#: app/templates/settings/general.html:75
 msgid "Control access to the wizard setup process"
 msgstr "Beheer toegang tot het wizard-installatieproces"
 
-#: app/templates/settings/general.html:96
 #, fuzzy
 msgid "User Management"
 msgstr "API Sleutel Beheer"
 
-#: app/templates/settings/general.html:98
 msgid "Configure how users are managed when invitations expire"
 msgstr ""
 
-#: app/templates/settings/general.html:125
 #, fuzzy
 msgid "Server Capabilities"
 msgstr "servers online"
 
-#: app/templates/settings/general.html:129
 msgid "Supports Disable:"
 msgstr ""
 
-#: app/templates/settings/general.html:140
 #, fuzzy
 msgid "Delete Only:"
 msgstr "Verwijder Agent"
 
-#: app/templates/settings/general.html:150
 msgid ""
-"If 'Disable User' is selected but the server does not support it, the "
-"user will be deleted instead."
+"If 'Disable User' is selected but the server does not support it, the user "
+"will be deleted instead."
 msgstr ""
 
-#: app/templates/settings/general.html:159
 msgid "Choose what happens to users when their invitation expires"
 msgstr ""
 
-#: app/templates/settings/general.html:169
 msgid "Immediately process all expired users based on the expiry action above"
 msgstr ""
 
-#: app/templates/settings/general.html:220
 msgid "API Key Management"
 msgstr "API Sleutel Beheer"
 
-#: app/templates/settings/general.html:222
 msgid "Manage API keys for accessing Wizarr programmatically"
 msgstr "API-sleutels beheren voor programmatische toegang tot Wizarr"
 
-#: app/templates/settings/general.html:230
 msgid "Your API Keys"
 msgstr "Je API Sleutels"
 
-#: app/templates/settings/general.html:231
 msgid "Create and manage API keys for external applications"
 msgstr "Aanmaken en beheren API sleutel voor externe applicaties"
 
-#: app/templates/settings/general.html:255
 msgid "Loading API keys..."
 msgstr "API sleutels laden..."
 
-#: app/templates/settings/general.html:271 app/templates/settings/ldap.html:260
 msgid "Save Settings"
 msgstr "Instellingen Opslaan"
 
-#: app/templates/settings/connections/form.html:26
-#: app/templates/settings/index.html:3 app/templates/settings/index.html:10
 msgid "Settings"
 msgstr "Instellingen"
 
-#: app/templates/settings/index.html:11
 msgid "Manage your application settings and preferences"
 msgstr "Beheer je applicatie instellingen en voorkeuren"
 
-#: app/templates/settings/index.html:29
 msgid "General"
 msgstr "Algemeen"
 
-#: app/templates/settings/index.html:44
 msgid "Alerts"
 msgstr "Alarmen"
 
-#: app/templates/settings/index.html:59
 msgid "Servers"
 msgstr "Servers"
 
-#: app/templates/settings/index.html:75
 #, fuzzy
 msgid "Activity"
 msgstr "Actief"
 
-#: app/templates/settings/index.html:108
 msgid "Admins"
 msgstr "Beheerders"
 
-#: app/templates/settings/index.html:141
 msgid "Wizard"
 msgstr "Wizard"
 
-#: app/templates/settings/index.html:159
 #, fuzzy
 msgid "Audit"
 msgstr "Wijzig"
 
-#: app/templates/settings/ldap.html:8
 #, fuzzy
 msgid "LDAP Settings"
 msgstr "Instellingen Opslaan"
 
-#: app/templates/settings/ldap.html:9
 #, fuzzy
 msgid "Experimental"
 msgstr "Verwijder Agent"
 
-#: app/templates/settings/ldap.html:12
 msgid "Configure LDAP for user authentication and management"
 msgstr ""
 
-#: app/templates/settings/ldap.html:31
 msgid "Enable LDAP"
 msgstr ""
 
-#: app/templates/settings/ldap.html:32
 msgid "Turn on LDAP integration"
 msgstr ""
 
-#: app/templates/settings/ldap.html:44
 #, fuzzy
 msgid "Connection"
 msgstr "Verbindingen"
 
-#: app/templates/settings/ldap.html:45
 #, fuzzy
 msgid "LDAP server connection"
 msgstr "Bijwerken verbinding"
 
-#: app/templates/settings/ldap.html:50
 msgid "e.g., ldap://server:3890 or ldaps://server:6360"
 msgstr ""
 
-#: app/templates/settings/ldap.html:56
 #, fuzzy
 msgid "Use TLS"
 msgstr "Gebruikersgegevens"
 
-#: app/templates/settings/ldap.html:66
 #, fuzzy
 msgid "Verify Cert"
 msgstr "Geverifieerd"
 
-#: app/templates/settings/ldap.html:83
 msgid "Encrypted before storage"
 msgstr ""
 
-#: app/templates/settings/ldap.html:107
 #, fuzzy
 msgid "User & Group Settings"
 msgstr "Instellingen Opslaan"
 
-#: app/templates/settings/ldap.html:108
 msgid "Where to find users and groups"
 msgstr ""
 
-#: app/templates/settings/ldap.html:119
 msgid "Optional - only needed for admin group restriction"
 msgstr ""
 
-#: app/templates/settings/ldap.html:137
 msgid "Sync Groups"
 msgstr ""
 
-#: app/templates/settings/ldap.html:140
 msgid "Sync LDAP groups to populate admin group selection"
 msgstr ""
 
-#: app/templates/settings/ldap.html:157
 #, fuzzy
 msgid "Advanced Settings"
 msgstr "Instellingen Opslaan"
 
-#: app/templates/settings/ldap.html:162
 msgid ""
 "Defaults are optimized for LLDAP. Only change if using a different LDAP "
 "server."
 msgstr ""
 
-#: app/templates/settings/ldap.html:199
 #, fuzzy
 msgid "Manage all users - both LDAP and local authentication"
 msgstr "Beheer je passkeys voor wachtwoordloos authenticatie."
 
-#: app/templates/settings/ldap.html:215
 msgid "Sync from LDAP"
 msgstr ""
 
-#: app/templates/settings/ldap.html:219
 msgid ""
-"Users can authenticate via LDAP or locally. Sync automatically imports "
-"new users from LDAP."
+"Users can authenticate via LDAP or locally. Sync automatically imports new "
+"users from LDAP."
 msgstr ""
 
-#: app/templates/settings/ldap.html:226
 #, fuzzy
 msgid "Admin Authentication"
 msgstr "Geen openstaande 2FA authenicatie"
 
-#: app/templates/settings/ldap.html:227
 msgid "Allow administrators to log in using LDAP"
 msgstr ""
 
-#: app/templates/settings/ldap.html:232
 msgid "Allow Admin Login via LDAP"
 msgstr ""
 
-#: app/templates/settings/ldap.html:233
 msgid "Enable admin login using LDAP credentials"
 msgstr ""
 
-#: app/templates/settings/ldap.html:246
 msgid "Optional: Restrict admin access to members of this LDAP group"
 msgstr ""
 
-#: app/templates/settings/notifications.html:8
 msgid "Notification Agents"
 msgstr "Meldings Agents"
 
-#: app/templates/settings/notifications.html:10
 msgid "Configure notification services to alert you about important events"
 msgstr ""
 "Configureer meldingsservices om u te waarschuwen voor belangrijke "
 "gebeurtenissen"
 
-#: app/templates/settings/notifications.html:21
-#: app/templates/settings/notifications.html:125
 msgid "Add Agent"
 msgstr "Agent Toevoegen"
 
-#: app/templates/settings/notifications.html:51
 #, fuzzy
 msgid "Edit agent"
 msgstr "Nieuwe Agent"
 
-#: app/templates/settings/notifications.html:60
 msgid "Are you sure you want to delete"
 msgstr "Weet je zeker dat je wilt verwijderen"
 
-#: app/templates/settings/notifications.html:62
 msgid "Delete agent"
 msgstr "Verwijder Agent"
 
-#: app/templates/settings/notifications.html:72
 msgid "Status"
 msgstr "Status"
 
-#: app/templates/settings/notifications.html:79
 #, fuzzy
 msgid "Events"
 msgstr "Servers"
 
-#: app/templates/settings/notifications.html:112
 msgid "No notification agents"
 msgstr "Geen notificatie agents"
 
-#: app/templates/settings/notifications.html:114
 msgid "Get started by creating your first notification agent"
 msgstr "Ga aan de slag met het maken van uw eerste meldingsagent"
 
-#: app/templates/settings/servers.html:56
 msgid "Unverified"
 msgstr "Ongeverifieerd"
 
-#: app/templates/settings/servers.html:62
 msgid "Checking..."
 msgstr "Controleren..."
 
-#: app/templates/settings/connections/form.html:68
 msgid "Create a new external service connection for automated user invitations"
 msgstr ""
 "Nieuwe externe serviceverbinding maken voor geautomatiseerde "
 "gebruikersuitnodigingen"
 
-#: app/templates/settings/connections/form.html:70
 msgid "Update the connection settings"
 msgstr "Verbindinginstellingen bijwerken"
 
-#: app/templates/settings/connections/form.html:88
 msgid "Select the type of connection to configure"
 msgstr "Selecteer het soort verbinding om te configureren"
 
-#: app/templates/settings/connections/form.html:99
 msgid "A friendly name to identify this connection"
 msgstr "Een vriendelijke naam om deze verbinding te identificeren"
 
-#: app/templates/settings/connections/form.html:111
 msgid "Which media server should trigger invitations to this external service"
-msgstr "Welke mediaserver moet uitnodigingen voor deze externe service activeren"
+msgstr ""
+"Welke mediaserver moet uitnodigingen voor deze externe service activeren"
 
-#: app/templates/settings/connections/form.html:132
 msgid "Open your Overseerr/Jellyseerr admin panel"
 msgstr "Open je Overseerr/Jellyseer beheer paneel"
 
-#: app/templates/settings/connections/form.html:133
 msgid "Navigate to Settings → Users"
 msgstr "Navigeer naar Instellingen → Gebruikers"
 
-#: app/templates/settings/connections/form.html:134
 msgid "Enable 'Auto-approve new users'"
 msgstr "Inschakelen 'Automatisch goedkeuren nieuwe gebruikers'"
 
-#: app/templates/settings/connections/form.html:135
 msgid "Enable 'Import Jellyfin/Plex users'"
 msgstr "Inschakelen 'Importeren Jellyfin/Plex gebruikers'"
 
-#: app/templates/settings/connections/form.html:151
 msgid "The full URL to your external service instance"
 msgstr "De volledige URL van je externe service omgeving"
 
-#: app/templates/settings/connections/form.html:176
 msgid "API key from your external service settings"
 msgstr "API sleutel van je externe service instellingen"
 
-#: app/templates/settings/wizard/_sub_nav.html:14
 msgid "Default Steps"
 msgstr "Standaard Stappen"
 
-#: app/templates/settings/wizard/_sub_nav.html:26
 msgid "Custom Bundles"
 msgstr "Aangepaste Bundels"
 
-#: app/templates/settings/wizard/_sub_nav.html:42
-#: app/templates/settings/wizard/_sub_nav.html:62
 msgid "Import"
 msgstr "Importeren"
 
-#: app/templates/settings/wizard/_sub_nav.html:79
-#: app/templates/settings/wizard/import_form.html:163
 msgid "Import Configuration"
 msgstr "Importeer Configuratie"
 
-#: app/templates/settings/wizard/_sub_nav.html:80
 msgid "Import steps or bundles from JSON file"
 msgstr "Importeer stappen of bundels van JSON bestand"
 
-#: app/templates/settings/wizard/_sub_nav.html:95
 msgid "Create"
 msgstr "Aanmaken"
 
-#: app/templates/settings/wizard/_sub_nav.html:126
 msgid "Add a new wizard step"
 msgstr "Nieuwe wizard stap toevoegen"
 
-#: app/templates/settings/wizard/_sub_nav.html:130
 #, fuzzy
 msgid "Add Step to Bundle"
 msgstr "Toevoegen stappen aan bundel"
 
-#: app/templates/settings/wizard/_sub_nav.html:152
 msgid "No bundles available yet"
 msgstr ""
 
-#: app/templates/settings/wizard/_sub_nav.html:169
 msgid "Add Preset"
 msgstr "Voorinstelling Toevoegen"
 
-#: app/templates/settings/wizard/_sub_nav.html:170
 msgid "Create step from template"
 msgstr "Stap aanmaken van sjabloon"
 
-#: app/templates/settings/wizard/_sub_nav.html:186
 msgid "Create Bundle"
 msgstr "Bundel Aanmaken"
 
-#: app/templates/settings/wizard/_sub_nav.html:187
 msgid "Create a collection of steps"
 msgstr "Collectie van stappen aanmaken"
 
-#: app/templates/settings/wizard/bundles.html:10
 msgid "No bundles found."
 msgstr "Geen bundels gevonden."
 
-#: app/templates/settings/wizard/bundles.html:27
-#: app/templates/settings/wizard/index.html:60
-#: app/templates/settings/wizard/steps.html:50
 msgid "Preview Wizard"
 msgstr "Voorvertoning Wizard"
 
-#: app/templates/settings/wizard/bundles.html:38
 #, python-format
 msgid "Export %(bundle_name)s Bundle"
 msgstr "Exporteer %(bundle_name)s Bundel"
 
-#: app/templates/settings/wizard/bundles.html:65
 msgid "Are you sure you want to delete this bundle?"
 msgstr "Weet je zeker dat je deze bundel wilt verwijderen?"
 
-#: app/templates/settings/wizard/bundles.html:82
-#: app/templates/settings/wizard/steps.html:65
 #, fuzzy
 msgid "Before Invite Acceptance"
 msgstr "Geen recente uitnodigingen geaccepteerd"
 
-#: app/templates/settings/wizard/bundles.html:84
-#: app/templates/settings/wizard/steps.html:67
 msgid "Steps shown to users before they accept the invitation"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:127
-#: app/templates/settings/wizard/bundles.html:209
-#: app/templates/settings/wizard/bundles.html:290
-#: app/templates/settings/wizard/index.html:104
-#: app/templates/settings/wizard/steps.html:106
-#: app/templates/settings/wizard/steps.html:186
 msgid "Are you sure you want to delete this step?"
 msgstr "Weet je zeker dat je deze stap wilt verwijderen?"
 
-#: app/templates/settings/wizard/bundles.html:158
-#: app/templates/settings/wizard/steps.html:138
 #, fuzzy
 msgid "No pre-invite steps configured"
 msgstr "stappen geconfigureerd"
 
-#: app/templates/settings/wizard/bundles.html:164
-#: app/templates/settings/wizard/steps.html:145
 #, fuzzy
 msgid "After Invite Acceptance"
 msgstr "Vul je uitnodigingscode in"
 
-#: app/templates/settings/wizard/bundles.html:166
-#: app/templates/settings/wizard/steps.html:147
 msgid "Steps shown to users after they accept the invitation"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:240
-#: app/templates/settings/wizard/steps.html:218
 #, fuzzy
 msgid "No post-invite steps configured"
 msgstr "Geen servers geconfigureerd"
 
-#: app/templates/settings/wizard/bundles.html:247
 msgid "Additional Categories"
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:249
 msgid "Steps that use custom categories keep their order here."
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:317
 #, fuzzy
 msgid "Orphaned Steps"
 msgstr "Verweese stap verwijderen"
 
-#: app/templates/settings/wizard/bundles.html:319
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
 msgstr ""
 
-#: app/templates/settings/wizard/bundles.html:324
 msgid "Step deleted (orphaned)"
 msgstr "Stap verwijderd (verweesd)"
 
-#: app/templates/settings/wizard/bundles.html:331
 msgid "Are you sure you want to remove this orphaned step?"
 msgstr "Weet je zeker dat je deze verweesde stap wilt verwijderen?"
 
-#: app/templates/settings/wizard/bundles.html:334
 msgid "Remove orphaned step"
 msgstr "Verweese stap verwijderen"
 
-#: app/templates/settings/wizard/form.html:36
-#: app/templates/settings/wizard/index.html:65
 msgid "Preview"
 msgstr "Voorvertoning"
 
-#: app/templates/settings/wizard/import_form.html:4
 msgid "Import Wizard Configuration"
 msgstr "Importeer Wizard Configuratie"
 
-#: app/templates/settings/wizard/import_form.html:6
 msgid ""
-"Import wizard steps or bundles from a JSON file to quickly set up or "
-"restore your wizard configuration."
+"Import wizard steps or bundles from a JSON file to quickly set up or restore "
+"your wizard configuration."
 msgstr ""
-"Importeerd wizard stappen of bundels van een JSON bestand om snel je "
-"wizard configuratie op te zetten of herstellen."
+"Importeerd wizard stappen of bundels van een JSON bestand om snel je wizard "
+"configuratie op te zetten of herstellen."
 
-#: app/templates/settings/wizard/import_form.html:13
 msgid "Select JSON File"
 msgstr "Selecteer JSON Bestand"
 
-#: app/templates/settings/wizard/import_form.html:30
 msgid "Steps or Bundle JSON files only (MAX. 10MB)"
 msgstr "Stappen of Bundels alleen JSON bestanden (MAX. 10MB)"
 
-#: app/templates/settings/wizard/import_form.html:61
 msgid ""
 "When checked, all existing wizard steps and bundles will be removed and "
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
 msgstr ""
-"Indien aangevinkt, worden alle bestaande wizardstappen en bundels "
-"verwijderd en vervangen door de geïmporteerde configuratie. Indien niet "
-"aangevinkt, worden geïmporteerde items toegevoegd naast de bestaande."
+"Indien aangevinkt, worden alle bestaande wizardstappen en bundels verwijderd "
+"en vervangen door de geïmporteerde configuratie. Indien niet aangevinkt, "
+"worden geïmporteerde items toegevoegd naast de bestaande."
 
-#: app/templates/settings/wizard/import_form.html:82
 msgid "Important: Backup Recommended"
 msgstr "Belangrijk: Back-up Aangeraden"
 
-#: app/templates/settings/wizard/import_form.html:84
-msgid "This action will modify your wizard configuration. Consider the following:"
-msgstr "Deze actie wijzigd je wizard configuratie. Houd rekening met het volgende:"
+msgid ""
+"This action will modify your wizard configuration. Consider the following:"
+msgstr ""
+"Deze actie wijzigd je wizard configuratie. Houd rekening met het volgende:"
 
-#: app/templates/settings/wizard/import_form.html:86
 msgid "Export your current steps and bundles first as a backup"
 msgstr "Exporteer je huidige stappen en bundels eerst als een back-up"
 
-#: app/templates/settings/wizard/import_form.html:87
 msgid "Imported steps will use the file's step ordering and server types"
 msgstr ""
 "Geïmporteerde stappen gebruiken de stapvolgorde en servertypen van het "
 "bestand"
 
-#: app/templates/settings/wizard/import_form.html:88
 msgid "Imported bundles will preserve their step associations and ordering"
 msgstr "Geïmporteerde bundels behouden hun stapassociaties en volgorde"
 
-#: app/templates/settings/wizard/import_form.html:89
 msgid ""
-"If replacing existing configuration, all current steps and bundles will "
-"be permanently removed"
+"If replacing existing configuration, all current steps and bundles will be "
+"permanently removed"
 msgstr ""
 "Als u de bestaande configuratie vervangt, worden alle huidige stappen en "
 "bundels permanent verwijderd"
 
-#: app/templates/settings/wizard/import_form.html:90
 msgid "Invalid or malformed JSON files will be rejected"
 msgstr "Ongeldige of misvormde JSON-bestanden worden afgewezen"
 
-#: app/templates/settings/wizard/import_form.html:106
 msgid "Expected JSON Format"
 msgstr "Verwachte JSON-indeling"
 
-#: app/templates/settings/wizard/import_form.html:108
 msgid "The JSON file can contain steps or bundles:"
 msgstr "Het JSON-bestand kan stappen of bundels bevatten:"
 
-#: app/templates/settings/wizard/import_form.html:111
 msgid "For steps export:"
 msgstr "Voor stappen exporteren:"
 
-#: app/templates/settings/wizard/import_form.html:123
 msgid "For bundle export:"
 msgstr "Voor bundels exporteren:"
 
-#: app/templates/settings/wizard/import_form.html:152
 msgid "Back to Steps"
 msgstr "Terug naar Stappen"
 
-#: app/templates/settings/wizard/import_form.html:237
 msgid "Please select a JSON file to import."
 msgstr "Selecteer een JSON-bestand om te importeren."
 
-#: app/templates/settings/wizard/import_form.html:244
 msgid "Please select a valid JSON file."
 msgstr "Selecteer een geldig JSON-bestand."
 
-#: app/templates/settings/wizard/import_form.html:251
 msgid ""
-"This will permanently replace all existing wizard configuration (steps "
-"and bundles). Are you sure you want to continue?"
+"This will permanently replace all existing wizard configuration (steps and "
+"bundles). Are you sure you want to continue?"
 msgstr ""
 "Hiermee worden alle bestaande wizardconfiguraties (stappen en bundels) "
 "permanent vervangen. Weet u zeker dat u wilt doorgaan?"
 
-#: app/templates/settings/wizard/index.html:13
 msgid "Wizard Steps"
 msgstr "Wizard Stappen"
 
-#: app/templates/settings/wizard/index.html:15
 msgid "Manage your wizard steps and bundles for user onboarding"
 msgstr "Beheer je wizard stappen en bundels voor toetredende gebruikers"
 
-#: app/templates/settings/wizard/index.html:36
 msgid "No wizard steps found"
 msgstr "Geen wizard stappen gevonden"
 
-#: app/templates/settings/wizard/index.html:37
 msgid "Get started by creating your first wizard step"
 msgstr "Maak je klaar om je eerste wizard stap te maken"
 
-#: app/templates/settings/wizard/index.html:53
 msgid "Server"
 msgstr "Server"
 
-#: app/templates/settings/wizard/index.html:54
 msgid "steps configured"
 msgstr "stappen geconfigureerd"
 
-#: app/templates/settings/wizard/index.html:86
 msgid "Untitled Step"
 msgstr "Ongetitelde Stap"
 
-#: app/templates/settings/wizard/index.html:87
-#: app/templates/wizard/steps.html:53 app/templates/wizard/steps.html:93
 msgid "Step"
 msgstr "Stap"
 
-#: app/templates/settings/wizard/index.html:95
 msgid "Edit step"
 msgstr "Wijzig stap"
 
-#: app/templates/settings/wizard/index.html:106
 msgid "Delete step"
 msgstr "Verwijder stap"
 
-#: app/templates/settings/wizard/steps.html:10
 msgid "No steps found."
 msgstr "Geen stappen gevonden."
 
-#: app/templates/settings/wizard/steps.html:23
 #, python-format
 msgid ""
-"Are you sure you want to reset all steps for %(server)s to defaults? This"
-" will delete all custom steps and reimport the default ones."
+"Are you sure you want to reset all steps for %(server)s to defaults? This "
+"will delete all custom steps and reimport the default ones."
 msgstr ""
 
-#: app/templates/settings/wizard/steps.html:26
 #, fuzzy, python-format
 msgid "Reset %(server)s Steps to Defaults"
 msgstr "Exporteer %(server)s Stappen"
 
-#: app/templates/settings/wizard/steps.html:38
 #, python-format
 msgid "Export %(server)s Steps"
 msgstr "Exporteer %(server)s Stappen"
 
-#: app/templates/setup/admin_account.html:12
 msgid "Setup Wizarr"
 msgstr "Configureer Wizarr"
 
-#: app/templates/setup/admin_account.html:43
 msgid "Create an account"
 msgstr "Maak een account"
 
-#: app/templates/tables/invite_card.html:9
 msgid "Unlimited"
 msgstr "Ongelimiteerd"
 
-#: app/templates/tables/invite_card.html:21
 msgid "There are currently no invitations."
 msgstr "Er zijn momenteel geen uitnodigingen."
 
-#: app/templates/tables/invite_card.html:61
 msgid "Used by"
 msgstr "Gebruikt door"
 
-#: app/templates/tables/invite_card.html:63
 msgid "Used"
 msgstr "Gebruikt"
 
-#: app/templates/tables/invite_card.html:66
 #, fuzzy
 msgid "Not used yet"
 msgstr "Gebruikt door"
 
-#: app/templates/tables/invite_card.html:71
 #, fuzzy
 msgid "Bundle"
 msgstr "Wizard bundel"
 
-#: app/templates/tables/invite_card.html:129
 msgid "days"
 msgstr "dagen"
 
-#: app/templates/tables/invite_card.html:151
 msgid "Default"
 msgstr "Standaard"
 
-#: app/templates/tables/invite_card.html:168
 msgid "Copy invite link"
 msgstr "Kopieer uitnodigingslink"
 
-#: app/templates/tables/invite_card.html:188
 msgid "Delete invite"
 msgstr "Verwijder uitnodiging"
 
-#: app/templates/tables/user_card.html:4
 msgid "There are currently no users."
 msgstr "Er zijn momenteel geen gebruikers."
 
-#: app/templates/tables/user_card.html:42
 msgid "Edit nickname"
 msgstr "Wijzig bijnaam"
 
-#: app/templates/tables/user_card.html:54
-#, fuzzy
 msgid "Home User"
-msgstr "Verwijder gebruiker"
+msgstr "Gebruiker uitnodigen"
 
-#: app/templates/tables/user_card.html:138
 msgid "Invited"
 msgstr "Uitgenodigd"
 
-#: app/templates/tables/user_card.html:177
 #, fuzzy
 msgid "Disabled"
 msgstr "Live TV uitgeschakeld"
 
-#: app/templates/tables/user_card.html:183
 msgid "Downloads enabled"
 msgstr "Downloaden toegestaan"
 
-#: app/templates/tables/user_card.html:197
 msgid "Live TV enabled"
 msgstr "Live TV ingeschakeld"
 
-#: app/templates/tables/user_card.html:216
 #, fuzzy
 msgid "View details"
 msgstr "Gebruikersgegevens"
 
-#: app/templates/tables/user_card.html:234
 #, fuzzy
 msgid "Edit user"
 msgstr "Wijzig Server"
 
-#: app/templates/tables/user_card.html:255
 #, fuzzy
 msgid "Reset password"
 msgstr "Huidige Wachtwoord"
 
-#: app/templates/tables/user_card.html:275
 msgid "Remove user"
 msgstr "Verwijder gebruiker"
 
-#: app/templates/wizard/steps.html:17 app/templates/wizard/steps.html:43
-#: app/templates/wizard/steps.html:83
 #, fuzzy
 msgid "Before Invitation"
 msgstr "Maak Uitnodiging"
 
-#: app/templates/wizard/steps.html:18 app/templates/wizard/steps.html:45
-#: app/templates/wizard/steps.html:85
 #, fuzzy
 msgid "After Invitation"
 msgstr "Maak Uitnodiging"
 
-#: app/templates/wizard/steps.html:146 app/templates/wizard/steps.html:214
 msgid "Previous"
 msgstr "Vorige"
 
-#: app/templates/wizard/steps.html:182 app/templates/wizard/steps.html:248
 msgid "Click the link in this step to be able to continue"
 msgstr "Klik de link in deze stap om door te gaan"
 
+#~ msgid "No one is watching"
+#~ msgstr "Niemand is aan het kijken"
+
+#~ msgid "Edit expiry"
+#~ msgstr "Vervaldatum bewerken"
+
+#~ msgid "Server-specific Expiry Management"
+#~ msgstr "Serverspecifieken vervaldatum beheren"
+
+#~ msgid ""
+#~ "This user exists on multiple servers. You can set different expiry dates "
+#~ "for each server."
+#~ msgstr ""
+#~ "Deze gebruiker bestaat op meerdere server. Je kan per server een "
+#~ "vervaldatum instellen."
+
+#~ msgid "Expiry date (leave blank for never)"
+#~ msgstr "Vervaldatum (laat leeg voor nooit)"
+
+#~ msgid "Invitation Details"
+#~ msgstr "Uitnodigingsgegevens"
+
+#~ msgid "Code"
+#~ msgstr "Code"
+
+#~ msgid "Invitation expires"
+#~ msgstr "Uitnodiging verloopt"
+
 #~ msgid "That email does not match any Plex account. Please try again."
 #~ msgstr ""
-#~ "Het e-mailadres komt niet overeen met"
-#~ " een bestaande Plex account. Probeer "
+#~ "Het e-mailadres komt niet overeen met een bestaande Plex account. Probeer "
 #~ "opnieuw."
 
 #~ msgid "This user is already invited to this server."
@@ -3332,58 +2468,43 @@ msgstr "Klik de link in deze stap om door te gaan"
 
 #~ msgid "Something went wrong. Please try again or contact an administrator."
 #~ msgstr ""
-#~ "Er is iets misgelopen. Probeer opnieuw"
-#~ " of neem contact op met de "
+#~ "Er is iets misgelopen. Probeer opnieuw of neem contact op met de "
 #~ "administrator."
 
 #~ msgid "I've logged in but I am overwhelmed with content!"
 #~ msgstr "Ik ben ingelogd maar word overstelpt met inhoud!"
 
 #~ msgid ""
-#~ "While Plex is a free service, they"
-#~ " do have to generate revenue in "
-#~ "order to continue providing the "
-#~ "platform. One way they do this is"
-#~ " by displaying their own content "
-#~ "before the content of the server "
-#~ "you are joining."
+#~ "While Plex is a free service, they do have to generate revenue in order "
+#~ "to continue providing the platform. One way they do this is by displaying "
+#~ "their own content before the content of the server you are joining."
 #~ msgstr ""
-#~ "Plex is gratis te gebruiken, maar "
-#~ "moet inkomsten genereren voor het "
-#~ "blijven aanbieden van hun platform. Een"
-#~ " manier waarop ze die inkomsten "
-#~ "genereren is door hun eigen content "
-#~ "te tonen vóór deze van de server"
-#~ " waar je lid van wordt."
+#~ "Plex is gratis te gebruiken, maar moet inkomsten genereren voor het "
+#~ "blijven aanbieden van hun platform. Een manier waarop ze die inkomsten "
+#~ "genereren is door hun eigen content te tonen vóór deze van de server waar "
+#~ "je lid van wordt."
 
-#~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
+#~ msgid ""
+#~ "On the left-hand side of your screen, you'll see a menu. Click on the "
 #~ msgstr "Op het linkerdeel van je scherm zie je een menu. Klik op de "
 
 #~ msgid "More"
 #~ msgstr "Meer"
 
-#~ msgid "button to reveal all the different types of media you have access to."
+#~ msgid ""
+#~ "button to reveal all the different types of media you have access to."
 #~ msgstr "knop om alle mediatypes te tonen waartot je toegang hebt."
 
 #~ msgid ""
-#~ "To avoid seeing Plex's content first,"
-#~ " we recommend hiding it. To do "
-#~ "this, select all the content types "
-#~ "you don't want (such as 'Movies "
-#~ "and TV on Plex') and 'Unpin' them"
-#~ " from your home screen. This way "
-#~ "you'll only see the content that "
-#~ "you really want to watch!"
+#~ "To avoid seeing Plex's content first, we recommend hiding it. To do this, "
+#~ "select all the content types you don't want (such as 'Movies and TV on "
+#~ "Plex') and 'Unpin' them from your home screen. This way you'll only see "
+#~ "the content that you really want to watch!"
 #~ msgstr ""
-#~ "Om te vermijden dat je de inhoud"
-#~ " van Plex eerst ziet, raden we "
-#~ "aan deze te verbergen. Om dit te"
-#~ " doen selecteer je alle inhoudstypes "
-#~ "die je niet wenst (zoals 'Movies "
-#~ "and TV on Plex') en 'Ontpin' je"
-#~ " deze van je startscherm. Op deze "
-#~ "manier zie je enkel de inhoud die"
-#~ " je echt wil zien."
+#~ "Om te vermijden dat je de inhoud van Plex eerst ziet, raden we aan deze "
+#~ "te verbergen. Om dit te doen selecteer je alle inhoudstypes die je niet "
+#~ "wenst (zoals 'Movies and TV on Plex') en 'Ontpin' je deze van je "
+#~ "startscherm. Op deze manier zie je enkel de inhoud die je echt wil zien."
 
 #~ msgid "Now that everything we"
 #~ msgstr "Nu dat alles wat we"
@@ -3404,20 +2525,14 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ msgstr "Pin de secties films/tvseries van %(name)s!"
 
 #~ msgid ""
-#~ "By default, Plex plays all content "
-#~ "at a lower quality. This can be"
-#~ " a bit of a disappointment. But "
-#~ "don't worry, it's a simple fix! "
-#~ "You can easily change the settings "
-#~ "to increase the quality of the "
-#~ "media that you're streaming."
+#~ "By default, Plex plays all content at a lower quality. This can be a bit "
+#~ "of a disappointment. But don't worry, it's a simple fix! You can easily "
+#~ "change the settings to increase the quality of the media that you're "
+#~ "streaming."
 #~ msgstr ""
-#~ "Standaard toont Plex alle inhoud op "
-#~ "een lagere kwaliteit. Dit kan een "
-#~ "teleurstelling zijn. Maar maak je geen"
-#~ " zorgen, het is gemakkelijk op te "
-#~ "lossen. Je kan eenvoudig de instelling"
-#~ " wijzigen om de kwaliteit van de "
+#~ "Standaard toont Plex alle inhoud op een lagere kwaliteit. Dit kan een "
+#~ "teleurstelling zijn. Maar maak je geen zorgen, het is gemakkelijk op te "
+#~ "lossen. Je kan eenvoudig de instelling wijzigen om de kwaliteit van de "
 #~ "stream te verhogen."
 
 #~ msgid "Go to the Plex "
@@ -3427,12 +2542,10 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ msgstr "Instellingen "
 
 #~ msgid ""
-#~ "page. This is usually in the top"
-#~ " right hand corner, depending on the"
-#~ " device you are on."
+#~ "page. This is usually in the top right hand corner, depending on the "
+#~ "device you are on."
 #~ msgstr ""
-#~ "pagina. Dit zou in de rechterbovenhoek"
-#~ " zijn, afhankelijk van het toestel "
+#~ "pagina. Dit zou in de rechterbovenhoek zijn, afhankelijk van het toestel "
 #~ "waarop je zit."
 
 #~ msgid "Go to the "
@@ -3466,30 +2579,13 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ msgstr "Thuis streamen "
 
 #~ msgid ""
-#~ "And there you have it! In case "
-#~ "you encounter buffering issues, remember "
-#~ "that you can always adjust the "
-#~ "playback quality just like you do "
-#~ "in YouTube. This way you can get"
-#~ " the best streaming experience possible."
+#~ "And there you have it! In case you encounter buffering issues, remember "
+#~ "that you can always adjust the playback quality just like you do in "
+#~ "YouTube. This way you can get the best streaming experience possible."
 #~ msgstr ""
-#~ "Klaar! Als je problemen ondervindt met"
-#~ " het bufferen, kan je altijd de "
-#~ "kwaliteit verlagen zoals je bij YouTube"
-#~ " doet. Zo heb je steeds de "
-#~ "beste streamingervaring."
-
-#~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now sharing with you - they "
-#~ "also, by default, play content at "
-#~ "a lower quality. "
-#~ msgstr ""
-
-#~ msgid "We highly recommend you to go through those steps first!"
-#~ msgstr ""
+#~ "Klaar! Als je problemen ondervindt met het bufferen, kan je altijd de "
+#~ "kwaliteit verlagen zoals je bij YouTube doet. Zo heb je steeds de beste "
+#~ "streamingervaring."
 
 #~ msgid "Join our Discord Server"
 #~ msgstr "Word lid van de Discord server"
@@ -3504,97 +2600,57 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ msgstr "Doe mee en download Plex voor dit apparaat"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use "
-#~ "it with Plex."
+#~ "Great news! You now have access to our server's media collection. Let's "
+#~ "make sure you know how to use it with Plex."
 #~ msgstr ""
-#~ "Goed nieuws! Je hebt nu toegang "
-#~ "tot de mediacollectie van deze server."
-#~ " Laten we even tonen hoe je "
-#~ "deze gebruikt met Plex."
+#~ "Goed nieuws! Je hebt nu toegang tot de mediacollectie van deze server. "
+#~ "Laten we even tonen hoe je deze gebruikt met Plex."
 
 #~ msgid "Skip"
 #~ msgstr "Overslaan"
 
 #~ msgid ""
-#~ "Congratulations on joining %(name)s! You're"
-#~ " now one step closer to enjoying "
-#~ "all kinds of amazing\n"
+#~ "Congratulations on joining %(name)s! You're now one step closer to "
+#~ "enjoying all kinds of amazing\n"
 #~ "        content."
 #~ msgstr ""
-#~ "Bedankt om de uitnodiging van Plex "
-#~ "te accepteren! Je bent nu één stap"
-#~ " dichter om de inhoud van deze "
-#~ "mediaserver te bekijken. "
+#~ "Bedankt om de uitnodiging van Plex te accepteren! Je bent nu één stap "
+#~ "dichter om de inhoud van deze mediaserver te bekijken. "
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "      you've received this invitation, "
-#~ "it means someone wants to share "
-#~ "their library with you. With Plex, "
-#~ "you'll have\n"
-#~ "      access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "      you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "      access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "Goede vraag! Plex is software waarmee"
-#~ " het mogelijk is om je mediacollectie"
-#~ " met anderen te delen. Wanneer je "
-#~ "een uitnodiging ontvangt, betekent dat "
-#~ "dat iemand haar mediabibliotheek met je"
-#~ " wil delen. Met Plex heb je "
-#~ "toegang tot alle films, series, muziek"
-#~ " of foto's dat op deze server "
-#~ "staat. Veel plezier!"
+#~ "Goede vraag! Plex is software waarmee het mogelijk is om je "
+#~ "mediacollectie met anderen te delen. Wanneer je een uitnodiging ontvangt, "
+#~ "betekent dat dat iemand haar mediabibliotheek met je wil delen. Met Plex "
+#~ "heb je toegang tot alle films, series, muziek of foto's dat op deze "
+#~ "server staat. Veel plezier!"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "      smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "      smartphones, and TVs. All you need to do is download the Plex app "
+#~ "on your device, sign in with your account, and\n"
 #~ "      you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "Plex is beschikbaar voor laptops, "
-#~ "tablets, smartphones en TV's. Het enige"
-#~ " dat je moet doen is de Plex"
-#~ " applicatie op je toestel downloaden "
-#~ "en inloggen met je account. Nu ben"
-#~ " je klaar om te kijken, zo "
-#~ "simpel is het!"
-
-#~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "      sharing with you - they "
-#~ "also, by default, play content at "
-#~ "a lower quality. "
-#~ msgstr ""
-
-#~ msgid ""
-#~ "We highly\n"
-#~ "        recommend you to go through those steps first!"
-#~ msgstr ""
+#~ "Plex is beschikbaar voor laptops, tablets, smartphones en TV's. Het enige "
+#~ "dat je moet doen is de Plex applicatie op je toestel downloaden en "
+#~ "inloggen met je account. Nu ben je klaar om te kijken, zo simpel is het!"
 
 #~ msgid "You've been invited to join %(name)s!"
 #~ msgstr "Je bent uitgenodigd voor %(name)s!"
 
 #~ msgid ""
-#~ "To join our Plex server, create a"
-#~ " Plex account! Once you're done, come"
-#~ " back here!"
+#~ "To join our Plex server, create a Plex account! Once you're done, come "
+#~ "back here!"
 #~ msgstr ""
-#~ "Om toegang tot de Plex server te"
-#~ " verkrijgen, heb je een Plex account"
-#~ " nodig. Zodra je dit hebt, kan "
-#~ "je terug naar hier komen!"
+#~ "Om toegang tot de Plex server te verkrijgen, heb je een Plex account "
+#~ "nodig. Zodra je dit hebt, kan je terug naar hier komen!"
 
 #~ msgid "Create Plex Account"
 #~ msgstr "Maak een Plex account"
@@ -3605,38 +2661,23 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ msgid "Used At"
 #~ msgstr "Gebruikt op"
 
-#~ msgid "Copy"
-#~ msgstr "Kopieer"
-
-#~ msgid "Delete"
-#~ msgstr "Verwijder"
-
-#~ msgid "Accept Invitation"
-#~ msgstr "Accepteer uitnodiging"
-
 #~ msgid "Accept our invitation"
 #~ msgstr "Accepteer onze uitnodiging"
 
 #~ msgid "We have sent an invitation to your Plex Account! Almost there!"
 #~ msgstr ""
-#~ "We hebben een uitnodiging verstuurd naar"
-#~ " je Plex account! Je bent er "
+#~ "We hebben een uitnodiging verstuurd naar je Plex account! Je bent er "
 #~ "bijna!"
 
 #~ msgid ""
-#~ "Click the button below to be taken"
-#~ " to Plex, here you will see an"
-#~ " invitation from us."
+#~ "Click the button below to be taken to Plex, here you will see an "
+#~ "invitation from us."
 #~ msgstr ""
-#~ "Klik op de onderstaande knop om "
-#~ "naar Plex te gaan. Hier zal je "
-#~ "een uitnodiging vinden."
+#~ "Klik op de onderstaande knop om naar Plex te gaan. Hier zal je een "
+#~ "uitnodiging vinden."
 
 #~ msgid "Accept"
 #~ msgstr "Accepteer"
-
-#~ msgid "Next"
-#~ msgstr "Volgende"
 
 #~ msgid "Great! Now, let's get you invited!"
 #~ msgstr "Geweldig! Laten we je nu een uitnodiging sturen!"
@@ -3667,23 +2708,17 @@ msgstr "Klik de link in deze stap om door te gaan"
 
 #~ msgid ""
 #~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n"
-#~ ""
+#~ "                    deprecated and replaced by a secure sign-up. Please "
+#~ "visit \n"
 #~ "\n"
 #~ msgstr ""
-#~ "Environment Variables worden stopgezet en "
-#~ "vervangen door veilig aanmelden. Bezoek "
+#~ "Environment Variables worden stopgezet en vervangen door veilig "
+#~ "aanmelden. Bezoek "
 
 #~ msgid ""
 #~ "/settings.\n"
 #~ "                        See Repo for more info"
 #~ msgstr "/instellingen. Bekijk Repo voor meer informatie"
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "              HTML"
-#~ msgstr ""
 
 #~ msgid "Plex Requests"
 #~ msgstr "Plex verzoeken"
@@ -3733,9 +2768,6 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ msgid "User"
 #~ msgstr "Gebruiker"
 
-#~ msgid "Home User"
-#~ msgstr "Gebruiker uitnodigen"
-
 #~ msgid "Passwords do not match."
 #~ msgstr "Wachtwoorden komen niet overeen."
 
@@ -3751,28 +2783,19 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ msgid "It is likely that your token does not work."
 #~ msgstr "Mogelijk werkt je toegangstoken niet."
 
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgid ""
+#~ "Unable to connect to your Plex server. See Logs for more information."
 #~ msgstr ""
-#~ "De verbinding met je Plex server "
-#~ "is onderbroken. Bekijk de Logs voor "
-#~ "meer informatie."
+#~ "De verbinding met je Plex server is onderbroken. Bekijk de Logs voor meer "
+#~ "informatie."
 
 #~ msgid "Unable to connect to your Jellyfin server."
 #~ msgstr "Er is geen verbinding mogelijk met de Jellyfin server."
-
-#~ msgid "Confirm password"
-#~ msgstr "Bevestig wachtwoord"
 
 #~ msgid ""
 #~ "Server Display\n"
 #~ "                Name"
 #~ msgstr "Plex weergavenaam"
-
-#~ msgid "Server"
-#~ msgstr "Server"
-
-#~ msgid "Server URL"
-#~ msgstr "Server URL"
 
 #~ msgid ""
 #~ "Server\n"
@@ -3788,9 +2811,6 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ "Request\n"
 #~ "                instance (Ombi, Overseerr...) URL"
 #~ msgstr "URL verzoeksysteem (Ombi, Overseerr...)"
-
-#~ msgid "Ombi API Key (Only used for user import currently.)"
-#~ msgstr ""
 
 #~ msgid ""
 #~ "Discord\n"
@@ -3812,37 +2832,25 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ msgid "Update available. Click here."
 #~ msgstr "Update beschikbaar. Klik hier."
 
-#~ msgid "Automatic Media Requests"
-#~ msgstr ""
-
 #~ msgid ""
-#~ "We are excited to offer you a "
-#~ "wide selection of media to choose "
-#~ "from. If you're having trouble finding"
-#~ "\n"
-#~ "    something you like, don't worry! "
-#~ "We have a user-friendly request "
-#~ "system that can automatically search for"
-#~ " the\n"
+#~ "We are excited to offer you a wide selection of media to choose from. If "
+#~ "you're having trouble finding\n"
+#~ "    something you like, don't worry! We have a user-friendly request "
+#~ "system that can automatically search for the\n"
 #~ "    media you're looking for. "
 #~ msgstr ""
-#~ "Je hebt de keuze uit een "
-#~ "uitgebreide mediacollectie. Als je niet "
-#~ "meteen vindt wat je zoekt, is er"
-#~ " een gebruiksvriendelijk verzoeksysteem dat "
-#~ "automatisch de media die je zoekt "
-#~ "kan tonen. "
+#~ "Je hebt de keuze uit een uitgebreide mediacollectie. Als je niet meteen "
+#~ "vindt wat je zoekt, is er een gebruiksvriendelijk verzoeksysteem dat "
+#~ "automatisch de media die je zoekt kan tonen. "
 
 #~ msgid "Request any available Movie or TV Show"
 #~ msgstr "Maak een verzoek voor eender welke beschikbare film of tvserie"
 
 #~ msgid ""
-#~ "Requested media will be automatically "
-#~ "downloaded and added to the library "
+#~ "Requested media will be automatically downloaded and added to the library "
 #~ "(if available)"
 #~ msgstr ""
-#~ "Aangevraagde media zal automatisch worden "
-#~ "gedownload en toegevoegd aan de "
+#~ "Aangevraagde media zal automatisch worden gedownload en toegevoegd aan de "
 #~ "bibliotheek (indien beschikbaar)"
 
 #~ msgid "If enabled, receive notifications"
@@ -3857,25 +2865,19 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ msgstr "Doe mee en download Plex voor dit apparaat"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Jellyfin."
 #~ msgstr ""
-#~ "Goed nieuws! Je hebt nu toegang "
-#~ "tot de mediacollectie van deze server."
-#~ " Laten we even tonen hoe je "
-#~ "deze gebruikt met Plex."
+#~ "Goed nieuws! Je hebt nu toegang tot de mediacollectie van deze server. "
+#~ "Laten we even tonen hoe je deze gebruikt met Plex."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Jellyfin for this "
+#~ "Planning on watching Movies on this device? Download Jellyfin for this "
 #~ "device."
 #~ msgstr ""
-#~ "Ben je van plan om media te "
-#~ "bekijken op dit toestel? Download dan"
-#~ " Plex voor dit toestel."
+#~ "Ben je van plan om media te bekijken op dit toestel? Download dan Plex "
+#~ "voor dit toestel."
 
 #~ msgid "Download"
 #~ msgstr "Download"
@@ -3883,46 +2885,20 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ msgid "Eh, So, What is Jellyfin exactly?"
 #~ msgstr "Ok, maar wat is Plex nu precies?"
 
-#~ msgid ""
-#~ "Jellyfin is a platform that lets "
-#~ "you stream all your favorite movies, "
-#~ "TV shows, and music in one place."
-#~ "\n"
-#~ "        It's like having your own "
-#~ "personal movie theater right at your "
-#~ "fingertips! Think of it as a "
-#~ "digital library of\n"
-#~ "        your favorite content that you"
-#~ " can access from anywhere, on any "
-#~ "device - your phone, tablet, laptop, "
-#~ "smart TV,\n"
-#~ "        you name it."
-#~ msgstr ""
-
 #~ msgid "Right, so how do I watch stuff?"
 #~ msgstr "Goed, hoe bekijk je iets?"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Jellyfin is "
-#~ "available on a wide variety of "
+#~ "It couldn't be simpler! Jellyfin is available on a wide variety of "
 #~ "devices including laptops, tablets,\n"
-#~ "        smartphones, and TVs. All you"
-#~ " need to do is download the "
-#~ "Jellyfin app on your device, sign "
-#~ "in with your account,\n"
+#~ "        smartphones, and TVs. All you need to do is download the Jellyfin "
+#~ "app on your device, sign in with your account,\n"
 #~ "        and\n"
 #~ "        you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "Plex is beschikbaar voor laptops, "
-#~ "tablets, smartphones en TV's. Het enige"
-#~ " dat je moet doen is de Plex"
-#~ " applicatie op je toestel downloaden "
-#~ "en inloggen met je account. Nu ben"
-#~ " je klaar om te kijken, zo "
-#~ "simpel is het!"
-
-#~ msgid "Open Jellyfin"
-#~ msgstr ""
+#~ "Plex is beschikbaar voor laptops, tablets, smartphones en TV's. Het enige "
+#~ "dat je moet doen is de Plex applicatie op je toestel downloaden en "
+#~ "inloggen met je account. Nu ben je klaar om te kijken, zo simpel is het!"
 
 #~ msgid ""
 #~ "Join & Download Plex\n"
@@ -3930,109 +2906,52 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ msgstr "Doe mee en download Plex voor dit apparaat"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Plex."
 #~ msgstr ""
-#~ "Goed nieuws! Je hebt nu toegang "
-#~ "tot de mediacollectie van deze server."
-#~ " Laten we even tonen hoe je "
-#~ "deze gebruikt met Plex."
+#~ "Goed nieuws! Je hebt nu toegang tot de mediacollectie van deze server. "
+#~ "Laten we even tonen hoe je deze gebruikt met Plex."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Plex for this device."
+#~ "Planning on watching Movies on this device? Download Plex for this device."
 #~ msgstr ""
-#~ "Ben je van plan om media te "
-#~ "bekijken op dit toestel? Download dan"
-#~ " Plex voor dit toestel."
+#~ "Ben je van plan om media te bekijken op dit toestel? Download dan Plex "
+#~ "voor dit toestel."
 
 #~ msgid "Eh, So, What is Plex exactly?"
 #~ msgstr "Ok, maar wat is Plex nu precies?"
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "    you've received this invitation, it"
-#~ " means someone wants to share their"
-#~ " library with you. With Plex, you'll"
-#~ " have\n"
-#~ "    access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "    you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "    access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "Goede vraag! Plex is software waarmee"
-#~ " het mogelijk is om je mediacollectie"
-#~ " met anderen te delen. Wanneer je "
-#~ "een uitnodiging ontvangt, betekent dat "
-#~ "dat iemand haar mediabibliotheek met je"
-#~ " wil delen. Met Plex heb je "
-#~ "toegang tot alle films, series, muziek"
-#~ " of foto's dat op deze server "
-#~ "staat. Veel plezier!"
+#~ "Goede vraag! Plex is software waarmee het mogelijk is om je "
+#~ "mediacollectie met anderen te delen. Wanneer je een uitnodiging ontvangt, "
+#~ "betekent dat dat iemand haar mediabibliotheek met je wil delen. Met Plex "
+#~ "heb je toegang tot alle films, series, muziek of foto's dat op deze "
+#~ "server staat. Veel plezier!"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "    smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you need to do is download the Plex app on "
+#~ "your device, sign in with your account, and\n"
 #~ "    you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "Plex is beschikbaar voor laptops, "
-#~ "tablets, smartphones en TV's. Het enige"
-#~ " dat je moet doen is de Plex"
-#~ " applicatie op je toestel downloaden "
-#~ "en inloggen met je account. Nu ben"
-#~ " je klaar om te kijken, zo "
-#~ "simpel is het!"
+#~ "Plex is beschikbaar voor laptops, tablets, smartphones en TV's. Het enige "
+#~ "dat je moet doen is de Plex applicatie op je toestel downloaden en "
+#~ "inloggen met je account. Nu ben je klaar om te kijken, zo simpel is het!"
 
 #~ msgid "How can I make sure to have the best experience?"
 #~ msgstr "Hoe zorg ik voor de beste kijkervaring?"
 
-#~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "    sharing with you - they also,"
-#~ " by default, play content at a "
-#~ "lower quality. "
-#~ msgstr ""
-
 #~ msgid "No need to worry though, this can be easily resolved"
 #~ msgstr "Maar geen probleem, dit is gemakkelijk op te lossen!"
-
-#~ msgid ""
-#~ "We highly\n"
-#~ "      recommend you to go through those steps first!"
-#~ msgstr ""
-
-#~ msgid "Configure Plex in your browser"
-#~ msgstr ""
-
-#~ msgid "Configure Plex's app on your computer, mobile device or TV"
-#~ msgstr ""
-
-#~ msgid "Open Plex"
-#~ msgstr ""
-
-#~ msgid "User Configuration"
-#~ msgstr ""
-
-#~ msgid "User Policy"
-#~ msgstr ""
-
-#~ msgid "Name"
-#~ msgstr "Gebruikersnaam"
-
-#~ msgid "Actions"
-#~ msgstr "Uitnodigingen"
 
 #~ msgid "Home"
 #~ msgstr "Home"
@@ -4108,9 +3027,6 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ msgid "Downloads disabled"
 #~ msgstr "Downloaden uitgeschakeld"
 
-#~ msgid "This wizard bundle has no steps configured."
-#~ msgstr ""
-
 #~ msgid "Pre-Invite"
 #~ msgstr "Voorvertoning"
 
@@ -4120,36 +3036,5 @@ msgstr "Klik de link in deze stap om door te gaan"
 #~ msgid "Add step"
 #~ msgstr "Stap toevoegen"
 
-#~ msgid "Edit expiry"
-#~ msgstr "Vervaldatum bewerken"
-
-#~ msgid "Server-specific Expiry Management"
-#~ msgstr "Serverspecifieken vervaldatum beheren"
-
-#~ msgid ""
-#~ "This user exists on multiple servers."
-#~ " You can set different expiry dates"
-#~ " for each server."
-#~ msgstr ""
-#~ "Deze gebruiker bestaat op meerdere "
-#~ "server. Je kan per server een "
-#~ "vervaldatum instellen."
-
-#~ msgid "Expiry date (leave blank for never)"
-#~ msgstr "Vervaldatum (laat leeg voor nooit)"
-
-#~ msgid "Invitation Details"
-#~ msgstr "Uitnodigingsgegevens"
-
-#~ msgid "Code"
-#~ msgstr "Code"
-
-#~ msgid "Invitation expires"
-#~ msgstr "Uitnodiging verloopt"
-
-#~ msgid "Username must be 3 to 15 characters."
-#~ msgstr ""
-
 #~ msgid "Partial"
 #~ msgstr "optioneel"
-

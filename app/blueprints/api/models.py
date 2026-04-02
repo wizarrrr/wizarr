@@ -165,6 +165,10 @@ invitation_create_request = api.model(
         "allow_mobile_uploads": fields.Boolean(
             description="Allow mobile uploads", default=False
         ),
+        "wizard_bundle_id": fields.Integer(
+            required=False,
+            description="Wizard bundle ID to use for this invitation (omit for automatic selection)",
+        ),
     },
 )
 

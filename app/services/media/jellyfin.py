@@ -861,7 +861,7 @@ class JellyfinClient(RestApiMixin):
             return []
 
     def get_recent_items(
-        self, _library_id: str | None = None, _limit: int = 10
+        self, library_id: str | None = None, limit: int = 10
     ) -> list[dict]:
         """Get recently added items from Jellyfin server."""
         try:
@@ -870,7 +870,7 @@ class JellyfinClient(RestApiMixin):
             params = {
                 "SortBy": "DateCreated",
                 "SortOrder": "Descending",
-                "Limit": _limit * 2,  # Request more items since we'll filter some out
+                "Limit": limit * 2,  # Request more items since we'll filter some out
                 "Fields": "Overview,Genres,DateCreated,ProductionYear",
                 "ImageTypeLimit": 1,
                 "EnableImageTypes": "Primary",
@@ -878,8 +878,8 @@ class JellyfinClient(RestApiMixin):
                 "IncludeItemTypes": "Movie,Series,MusicAlbum",  # Only types with vertical posters
             }
 
-            if _library_id:
-                params["ParentId"] = _library_id
+            if library_id:
+                params["ParentId"] = library_id
 
             response = self.get("/Items", params=params)
             response_data = response.json()
@@ -890,7 +890,7 @@ class JellyfinClient(RestApiMixin):
             items = []
             for item in response_data["Items"]:
                 # Stop if we've reached the limit
-                if len(items) >= _limit:
+                if len(items) >= limit:
                     break
 
                 # Only show items that have actual poster images (Primary for movies/series)

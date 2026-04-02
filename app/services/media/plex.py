@@ -280,7 +280,7 @@ class PlexClient(MediaClient):
         return poster_urls[:limit]
 
     def get_recent_items(
-        self, _library_id: str | None = None, _limit: int = 10
+        self, library_id: str | None = None, limit: int = 10
     ) -> list[dict]:
         """Get recently added items from Plex server."""
         if not self.url:
@@ -290,9 +290,9 @@ class PlexClient(MediaClient):
             items = []
 
             # Get all library sections or specific library if provided
-            if _library_id:
+            if library_id:
                 try:
-                    library = self.server.library.sectionByID(_library_id)
+                    library = self.server.library.sectionByID(library_id)
                     libraries = [library] if library else []
                 except Exception:
                     libraries = []
@@ -300,15 +300,15 @@ class PlexClient(MediaClient):
                 libraries = list(self.server.library.sections())
 
             for library in libraries:
-                if len(items) >= _limit:
+                if len(items) >= limit:
                     break
 
                 try:
                     # Get recently added items from this library
-                    recent_items = library.recentlyAdded(maxresults=_limit - len(items))
+                    recent_items = library.recentlyAdded(maxresults=limit - len(items))
 
                     for item in recent_items:
-                        if len(items) >= _limit:
+                        if len(items) >= limit:
                             break
 
                         # Only use posterUrl - skip items without proper posters

@@ -68,11 +68,12 @@ def upgrade():
             sa.UniqueConstraint("dn"),
         )
 
-    # ── Alter admin_account ───────────────────────────────────────────────
-    # SQLite batch_alter_table recreates the table via DROP + CREATE.
-    # webauthn_credential and api_key have FKs pointing at admin_account,
-    # so the DROP fails when PRAGMA foreign_keys=ON.  Temporarily disable
-    # FK enforcement for this operation.
+    # ── Alter existing tables ─────────────────────────────────────────────
+    # SQLite batch_alter_table recreates tables via DROP + CREATE.
+    # With PRAGMA foreign_keys=ON, DROP TABLE triggers an implicit
+    # DELETE FROM which fires ON DELETE CASCADE — wiping child tables
+    # (e.g. invitation_user, invitation_server).  Disable FK enforcement
+    # for ALL batch_alter_table operations to prevent data loss.
     #
     # Also clean up any _alembic_tmp_* tables left by prior failed runs
     # (SQLite has no transactional DDL, so these persist after crashes).
@@ -83,6 +84,7 @@ def upgrade():
         ]:
             conn.execute(sa.text(f"DROP TABLE IF EXISTS [{tmp_table}]"))
 
+        # ── admin_account ─────────────────────────────────────────────
         if _has_column(inspector, "admin_account", "auth_source"):
             # Already has the new columns (prior partial run succeeded here).
             # Just ensure password_hash is nullable.
@@ -106,41 +108,41 @@ def upgrade():
                 batch_op.alter_column(
                     "password_hash", existing_type=sa.String(), nullable=True
                 )
+
+        # ── invitation ────────────────────────────────────────────────
+        if not _has_column(inspector, "invitation", "create_ldap_user"):
+            with op.batch_alter_table("invitation", schema=None) as batch_op:
+                batch_op.add_column(
+                    sa.Column(
+                        "create_ldap_user",
+                        sa.Boolean(),
+                        nullable=False,
+                        server_default="0",
+                    )
+                )
+
+        # ── user ──────────────────────────────────────────────────────
+        if not _has_column(inspector, "user", "is_ldap_user"):
+            with op.batch_alter_table("user", schema=None) as batch_op:
+                batch_op.add_column(
+                    sa.Column(
+                        "is_ldap_user", sa.Boolean(), nullable=False, server_default="0"
+                    )
+                )
     finally:
         conn.execute(sa.text("PRAGMA foreign_keys=ON"))
 
-    # ── Alter invitation ──────────────────────────────────────────────────
-    if not _has_column(inspector, "invitation", "create_ldap_user"):
-        with op.batch_alter_table("invitation", schema=None) as batch_op:
-            batch_op.add_column(
-                sa.Column(
-                    "create_ldap_user",
-                    sa.Boolean(),
-                    nullable=False,
-                    server_default="0",
-                )
-            )
-
-    # ── Alter user ────────────────────────────────────────────────────────
-    if not _has_column(inspector, "user", "is_ldap_user"):
-        with op.batch_alter_table("user", schema=None) as batch_op:
-            batch_op.add_column(
-                sa.Column(
-                    "is_ldap_user", sa.Boolean(), nullable=False, server_default="0"
-                )
-            )
-
 
 def downgrade():
-    with op.batch_alter_table("user", schema=None) as batch_op:
-        batch_op.drop_column("is_ldap_user")
-
-    with op.batch_alter_table("invitation", schema=None) as batch_op:
-        batch_op.drop_column("create_ldap_user")
-
     conn = op.get_bind()
     conn.execute(sa.text("PRAGMA foreign_keys=OFF"))
     try:
+        with op.batch_alter_table("user", schema=None) as batch_op:
+            batch_op.drop_column("is_ldap_user")
+
+        with op.batch_alter_table("invitation", schema=None) as batch_op:
+            batch_op.drop_column("create_ldap_user")
+
         with op.batch_alter_table("admin_account", schema=None) as batch_op:
             batch_op.alter_column(
                 "password_hash", existing_type=sa.String(), nullable=False

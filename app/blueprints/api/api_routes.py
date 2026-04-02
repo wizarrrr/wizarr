@@ -785,6 +785,7 @@ class InvitationsListResource(Resource):
                     "allow_downloads": data.get("allow_downloads", False),
                     "allow_live_tv": data.get("allow_live_tv", False),
                     "allow_mobile_uploads": data.get("allow_mobile_uploads", False),
+                    "wizard_bundle_id": data.get("wizard_bundle_id"),
                 }
             )
 
