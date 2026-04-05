@@ -15,8 +15,13 @@ from datetime import UTC, datetime, timedelta
 import pytest
 
 from app.extensions import db
-from app.models import MediaServer, PasswordResetToken, User
-from app.services.password_reset import create_reset_token, get_reset_token
+from app.models import MediaServer, PasswordResetToken, Settings, User
+from app.services.password_reset import (
+    create_reset_token,
+    get_password_reset_policy,
+    get_reset_token,
+    use_reset_token,
+)
 
 
 class TestPasswordResetTokenGeneration:
@@ -346,8 +351,24 @@ class TestPasswordResetTokenValidation:
             assert expired_token.is_valid() is False
 
 
+def set_test_setting(key, value):
+    """Helper to set or update a setting without unique constraint violation."""
+    from app.models import Settings
+
+    setting = Settings.query.filter_by(key=key).first()
+    if setting:
+        setting.value = value
+    else:
+        db.session.add(Settings(key=key, value=value))
+
+
 class TestPasswordResetAPIEndpoints:
     """Test password reset API endpoints."""
+
+    def setup_method(self):
+        """Clear settings before each test."""
+        Settings.query.delete()
+        db.session.commit()
 
     def test_create_reset_token_endpoint(self, app, client):
         """Test the API endpoint for creating reset tokens."""
@@ -544,6 +565,39 @@ class TestPasswordResetAPIEndpoints:
                 or b"Reset Password" in response.data
             )
 
+    def test_reset_password_form_shows_configured_policy(self, app, client):
+        """The reset page shows the rules configured by the admin."""
+        with app.app_context():
+            server = MediaServer(
+                name="Test Jellyfin",
+                server_type="jellyfin",
+                url="http://localhost:8096",
+                api_key="test-key",
+            )
+            db.session.add(server)
+            db.session.flush()
+
+            user = User(
+                username="testuser",
+                email="test@example.com",
+                token="test-token",
+                code="INVITE123",
+                server_id=server.id,
+            )
+            db.session.add(user)
+            set_test_setting("password_reset_min_length", "12")
+            set_test_setting("password_reset_security_level", "3")
+            db.session.commit()
+
+            token = create_reset_token(user.id)
+            assert token is not None
+
+            response = client.get(f"/reset/{token.code}")
+
+            assert response.status_code == 200
+            assert b"between 12 and 128 characters" in response.data.lower()
+            assert b"Extra High" in response.data
+
     def test_reset_password_form_invalid_token(self, app, client):
         """Test accessing the reset password form with invalid token."""
         with app.app_context():
@@ -555,6 +609,85 @@ class TestPasswordResetAPIEndpoints:
                 b"Password Reset Error" in response.data
                 or b"invalid" in response.data.lower()
             )
+
+    def test_reset_password_form_rejects_policy_violation(self, app, client):
+        """Posting a password that breaks the policy returns a validation error."""
+        with app.app_context():
+            server = MediaServer(
+                name="Test Jellyfin",
+                server_type="jellyfin",
+                url="http://localhost:8096",
+                api_key="test-key",
+            )
+            db.session.add(server)
+            db.session.flush()
+
+            user = User(
+                username="testuser",
+                email="test@example.com",
+                token="test-token",
+                code="INVITE123",
+                server_id=server.id,
+            )
+            db.session.add(user)
+            set_test_setting("password_reset_security_level", "4")  # Paranoid
+            db.session.commit()
+
+            token = create_reset_token(user.id)
+            assert token is not None
+
+            # Weak password
+            response = client.post(
+                f"/reset/{token.code}",
+                data={
+                    "new_password": "Password123",
+                    "confirm_password": "Password123",
+                },
+            )
+
+            assert response.status_code == 200
+            # zxcvbn should reject "Password123" at Paranoid level
+            assert (
+                b"weak" in response.data.lower() or b"Add another word" in response.data
+            )
+
+    def test_reset_password_rejects_contextual_guessing(self, app, client):
+        """Reject passwords containing username or email."""
+        with app.app_context():
+            server = MediaServer(
+                name="Test Jellyfin",
+                server_type="jellyfin",
+                url="http://localhost:8096",
+                api_key="test-key",
+            )
+            db.session.add(server)
+            db.session.flush()
+
+            user = User(
+                username="secret_user_name",
+                email="user@example.com",
+                token="test-token",
+                code="INVITE123",
+                server_id=server.id,
+            )
+            db.session.add(user)
+            db.session.commit()
+
+            token = create_reset_token(user.id)
+            assert token is not None
+
+            # Password containing username
+            response = client.post(
+                f"/reset/{token.code}",
+                data={
+                    "new_password": "my_secret_user_name_123!",
+                    "confirm_password": "my_secret_user_name_123!",
+                },
+            )
+
+            assert response.status_code == 200
+            assert b"cannot contain your" in response.data
+            assert b"secret_user_name" in response.data
 
 
 class TestPasswordResetSecurityEdgeCases:
@@ -695,6 +828,85 @@ class TestPasswordResetSecurityEdgeCases:
 
             # Should be invalid
             assert expired_token.is_valid() is False
+
+
+class TestPasswordResetPolicy:
+    """Test configurable password reset policy behavior."""
+
+    def setup_method(self):
+        """Clear settings before each test."""
+        Settings.query.delete()
+        db.session.commit()
+
+    def test_password_reset_policy_defaults(self, app):
+        """Policy falls back to defaults when no settings exist."""
+        with app.app_context():
+            policy = get_password_reset_policy()
+
+            assert policy["min_length"] == 8
+            assert policy["max_length"] == 128
+            assert policy["security_level"] == 2
+
+    def test_password_reset_policy_reads_saved_settings(self, app):
+        """Policy values are loaded from Settings rows."""
+        with app.app_context():
+            set_test_setting("password_reset_min_length", "12")
+            set_test_setting("password_reset_max_length", "64")
+            set_test_setting("password_reset_security_level", "3")
+            db.session.commit()
+
+            policy = get_password_reset_policy()
+
+            assert policy["min_length"] == 12
+            assert policy["max_length"] == 64
+            assert policy["security_level"] == 3
+
+    def test_use_reset_token_rejects_password_that_breaks_policy(
+        self, app, monkeypatch
+    ):
+        """Server-side reset rejects passwords that violate the configured rules."""
+        with app.app_context():
+            server = MediaServer(
+                name="Test Jellyfin",
+                server_type="jellyfin",
+                url="http://localhost:8096",
+                api_key="test-key",
+            )
+            db.session.add(server)
+            db.session.flush()
+
+            user = User(
+                username="policyuser",
+                email="policy@example.com",
+                token="test-token",
+                code="INVITE123",
+                server_id=server.id,
+            )
+            db.session.add(user)
+            set_test_setting("password_reset_security_level", "4")
+            db.session.commit()
+
+            token = create_reset_token(user.id)
+            assert token is not None
+
+            reset_called = False
+
+            def fake_reset_user_password(user_id, new_password):
+                nonlocal reset_called
+                reset_called = True
+                return True
+
+            monkeypatch.setattr(
+                "app.services.media.service.reset_user_password",
+                fake_reset_user_password,
+            )
+
+            # Very weak password for level 4
+            success, message = use_reset_token(token.code, "password")
+
+            assert success is False
+            assert "weak" in message.lower() or "Add another word" in message
+            assert reset_called is False
 
     def test_reuse_existing_valid_token(self, app, client):
         """Test that opening modal shows existing valid token instead of creating new one."""
