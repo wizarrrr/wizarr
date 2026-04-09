@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-04-08 05:21+0000\n"
-"PO-Revision-Date: 2025-11-03 20:05+0000\n"
-"Last-Translator: Gom3tzler <gometzler@gmail.com>\n"
+"PO-Revision-Date: 2026-04-09 05:21+0000\n"
+"Last-Translator: Rodrigo Ledesma Pinet <rodrigopinet@outlook.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/es/>\n"
 "Language: es\n"
@@ -17,114 +17,105 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
-#, fuzzy
 msgid "Failed to load settings"
-msgstr "La carga de estadísticas falló"
+msgstr "La carga de configuraciones falló"
 
-#, fuzzy
 msgid "Failed to load dashboard data"
-msgstr "La carga de salud del servidor falló"
+msgstr "Falló la carga de datos del panel"
 
-#, fuzzy
 msgid "Failed to load history data"
-msgstr "La carga de salud del servidor falló"
+msgstr "Falló la carga de datos del historial"
 
-#, fuzzy
 msgid "Failed to load activity data"
-msgstr "La carga de salud del servidor falló"
+msgstr "La carga de datos de actividad falló"
 
-#, fuzzy
 msgid "Failed to load activity summary"
-msgstr "La carga de salud del servidor falló"
+msgstr "La carga del resumen de actividad falló"
 
-#, fuzzy
 msgid "Failed to get activity statistics"
-msgstr "La carga de estadísticas falló"
+msgstr "La carga de estadísticas de actividad falló"
 
 msgid "Database not available"
-msgstr ""
+msgstr "La base de datoa no está disponible"
 
-#, fuzzy
 msgid "Failed to get session details"
-msgstr "Restablecimiento de passkeys falló"
+msgstr "La carga de los detalles de la sesión falló"
 
 msgid "Failed to export activity data"
-msgstr ""
+msgstr "La exportación de los datos de actividad falló"
 
-#, fuzzy
 msgid "Monitoring restarted"
-msgstr "Admin creado"
+msgstr "Se reinició el monitoreo"
 
 msgid "Monitor not available"
-msgstr ""
+msgstr "El monitor no está disponible"
 
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
-msgstr ""
+msgstr "Se limpiaron {} registros de actividad antiguos"
 
 #, python-brace-format
 msgid "Ended {} stale sessions"
-msgstr ""
+msgstr "Se terminaron {} sesiones obsoletas"
 
-#, fuzzy
 msgid "Unknown action"
-msgstr "Tipo de conexión desconocida"
+msgstr "Acción desconocida"
 
-#, fuzzy
 msgid "Failed to update settings"
-msgstr "La carga de estadísticas falló"
+msgstr "La carga de configuraciones falló"
 
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
-msgstr ""
+msgstr "Se han borrado los datos de actividad exitosamente ({} registros)."
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to delete activity data: {}"
-msgstr "Eliminación de passkey falló"
+msgstr "Falló la eliminación de datos de actividad: {}"
 
-#, fuzzy
 msgid "Please select a media server."
-msgstr "Por favor seleccione al menos un servidor para la invitación."
+msgstr "Por favor seleccione un servidor de medios."
 
-#, fuzzy
 msgid "Media server not found."
-msgstr "Servidor de Medios"
+msgstr "No se encontró el servidor de medios."
 
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, Emby, "
 "and AudiobookShelf servers."
 msgstr ""
+"Por ahora la importación de datos históricos está disponible solamente para "
+"servidores Plex, Jellyfin, Emby y Audiobookshelf."
 
 #, python-brace-format
 msgid ""
 "Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
+"La tarea de importación historica #{job_id} inició para {server} (últimos "
+"{days} días)."
 
 #, python-brace-format
 msgid "Failed to import historical data: {}"
-msgstr ""
+msgstr "Falló la importación de datos históricos: {}"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully cleared {} historical entries."
-msgstr "{} ítems importados exitosamente"
+msgstr "Se han borrado {} entradas históricas exitosamente."
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to clear historical data: {}"
-msgstr "La carga de estadísticas falló"
+msgstr "Falló el borrado de datos históricos: {}"
 
 #, fuzzy
 msgid "Unknown error"
 msgstr "Ocurrió un error desconocido"
 
 msgid "Cannot remove a job that is still queued or running."
-msgstr ""
+msgstr "No se puede eliminar una tarea que sigue en cola o ejecutándose."
 
-#, fuzzy
 msgid "An internal error has occurred."
-msgstr "Ocurrió un error desconocido"
+msgstr "Ocurrió un error interno"
 
 msgid "Unknown"
 msgstr "Desconocido"
@@ -171,10 +162,11 @@ msgid ""
 "No admin account found. Please set up a proper admin account before creating "
 "API keys."
 msgstr ""
+"No se encontrí una cuenta de administrador. Por favor configure una cuenta "
+"de administrador antes de crear API keys."
 
-#, fuzzy
 msgid "Failed to create API key due to a database error."
-msgstr "Fallo al restablecer las passkeys para {}"
+msgstr "Falló la creación de una API key debido a un error en la base de datos."
 
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown again."
@@ -185,30 +177,26 @@ msgstr ""
 msgid "API key deleted successfully"
 msgstr "Clave API eliminada correctamente"
 
-#, fuzzy
 msgid "LDAP authentication is not enabled"
-msgstr "Error en la autenticación"
+msgstr "LA autenticación LDAP no está habilitada"
 
-#, fuzzy
 msgid "LDAP admin authentication is not allowed"
-msgstr "Error en la autenticación"
+msgstr "La autenticación de administrador LDAP no está permitida"
 
 msgid "Invalid LDAP credentials"
-msgstr ""
+msgstr "Credenciales LDAP inválidas"
 
 msgid "User DN not found in LDAP response"
-msgstr ""
+msgstr "DN de usuario no se encontó en la respuesta LDAP"
 
 msgid "User is not authorized as an administrator"
-msgstr ""
+msgstr "El usuario no está autorizado como administrador"
 
-#, fuzzy
 msgid "Login successful"
-msgstr "¡Prueba de conexión exitosa!"
+msgstr "Inicio de sesión exitoso"
 
-#, fuzzy
 msgid "LDAP authentication failed"
-msgstr "Error en la autenticación"
+msgstr "Error en la autenticación LDAP"
 
 msgid "Invalid username or password"
 msgstr "Usuario o contraseña inválidos"
@@ -251,6 +239,8 @@ msgstr "Datos de formulario inválidos: %(errors)s"
 msgid ""
 "There was an issue setting up your access. Please contact your server admin."
 msgstr ""
+"Ocurrió un problema configurando su acceso. Por favor contacte al "
+"administrador de su servidor."
 
 msgid "Settings saved successfully!"
 msgstr "¡Ajustes guardados exitosamente!"
@@ -276,21 +266,20 @@ msgstr "Error al escanear la biblioteca"
 
 #, python-brace-format
 msgid "Successfully cleaned {count} expired user(s)."
-msgstr ""
+msgstr "Se han borrado exitosamente {count} usuarios expirados."
 
-#, fuzzy
 msgid "No expired users found to clean."
-msgstr "No se encontraron pasos de genio"
+msgstr "No se encontraron usuarios expirados para borrar."
 
-#, fuzzy
 msgid ""
 "Are you sure you want to clean all expired users? This action cannot be "
 "undone."
-msgstr "¿Está seguro(a) de eliminar este paquete?"
+msgstr ""
+"¿Está seguro de que desea eliminar todos los usuarios expirados? Esta acción "
+"no se puede deshacer."
 
-#, fuzzy
 msgid "Clean Expired Users"
-msgstr "No tiene fecha de vencimiento"
+msgstr "Borrar usuarios expirados"
 
 #, fuzzy, python-brace-format
 msgid "Failed to clean expired users: {error}"
