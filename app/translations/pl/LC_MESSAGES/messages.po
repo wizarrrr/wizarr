@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-04-20 05:48+0000\n"
 "PO-Revision-Date: 2026-04-21 05:35+0000\n"
-"Last-Translator: Jurek <jurrer1234@gmail.com>\n"
+"Last-Translator: Aleksander Zyśk <olek437@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/pl/>\n"
 "Language: pl\n"
@@ -24,66 +24,63 @@ msgstr ""
 msgid "Failed to load settings"
 msgstr "Nie udało się załadować ustawień"
 
-#, fuzzy
 msgid "Failed to load dashboard data"
-msgstr "Wyszukaj biblioteki"
+msgstr "Nie udało się załadować danych panelu"
 
 msgid "Failed to load history data"
 msgstr "Nie udało się załadować historii"
 
 msgid "Failed to load activity data"
-msgstr "Nie udało się załadować aktywności"
+msgstr "Nie udało się załadować danych aktywności"
 
 msgid "Failed to load activity summary"
 msgstr "Nie udało się załadować podsumowania aktywności"
 
 msgid "Failed to get activity statistics"
-msgstr "Nie udało się załadować statystyk"
+msgstr "Błąd pobierania statystyk"
 
 msgid "Database not available"
 msgstr "Baza danych niedostępna"
 
 msgid "Failed to get session details"
-msgstr "Nie udało się uzyskać szczegółów sesji"
+msgstr "Nie udało się uzyskać danych sesji"
 
 msgid "Failed to export activity data"
 msgstr "Nie udało się wyeksportować danych aktywności"
 
 msgid "Monitoring restarted"
-msgstr "Monitoring zrestartowany"
+msgstr "Zrestartowano monitorowanie"
 
 msgid "Monitor not available"
-msgstr ""
+msgstr "Proces monitorujący niedostepny"
 
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
-msgstr ""
+msgstr "Wyczyszczono {} starych wpisów aktywności"
 
 #, python-brace-format
 msgid "Ended {} stale sessions"
-msgstr ""
+msgstr "Zakończono {} przestarzałych sesji"
 
 msgid "Unknown action"
-msgstr ""
+msgstr "Nieznane działanie"
 
-#, fuzzy
 msgid "Failed to update settings"
-msgstr "Ciąg kodu zaproszenia"
+msgstr "Nie udało się zaktualizować ustawień"
 
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
-msgstr ""
+msgstr "Pomyślnie usunięto dane aktywności ({} wpisów)"
 
 #, python-brace-format
 msgid "Failed to delete activity data: {}"
-msgstr ""
+msgstr "Nie udało się skasować danych aktywności: {}"
 
 msgid "Please select a media server."
-msgstr ""
+msgstr "Proszę wybrać serwer mediów."
 
-#, fuzzy
 msgid "Media server not found."
-msgstr "Serwer"
+msgstr "Nie znaleziono serwera mediów."
 
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, Emby, "
@@ -99,9 +96,9 @@ msgstr ""
 msgid "Failed to import historical data: {}"
 msgstr ""
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully cleared {} historical entries."
-msgstr "Pomyślnie wygenerowano zaproszenie!"
+msgstr "Pomyślnie wyczyszczono {} historycznych wpisów."
 
 #, python-brace-format
 msgid "Failed to clear historical data: {}"
@@ -143,12 +140,11 @@ msgstr ""
 msgid "soon"
 msgstr ""
 
-#, fuzzy
 msgid "Admin created"
-msgstr "Utworzony"
+msgstr "Administrator utworzony"
 
 msgid "Admin updated"
-msgstr ""
+msgstr "Administrator zaktualizowany"
 
 #, python-brace-format
 msgid "All passkeys for {} have been reset"
