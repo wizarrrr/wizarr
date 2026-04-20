@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-04-20 05:48+0000\n"
 "PO-Revision-Date: 2026-04-21 05:35+0000\n"
-"Last-Translator: Jurek <jurrer1234@gmail.com>\n"
+"Last-Translator: Aleksander Zyśk <olek437@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/pl/>\n"
 "Language: pl\n"
@@ -93,10 +93,12 @@ msgstr ""
 msgid ""
 "Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
+"Import danych historycznych #{job_id} wystartował dla {server} (Ostatni "
+"{days} dni temu)."
 
 #, python-brace-format
 msgid "Failed to import historical data: {}"
-msgstr ""
+msgstr "Nie udało się wczytać danych historycznych: {}"
 
 #, python-brace-format
 msgid "Successfully cleared {} historical entries."
@@ -104,32 +106,33 @@ msgstr "Pomyślnie wyczyszczono {} historycznych wpisów."
 
 #, python-brace-format
 msgid "Failed to clear historical data: {}"
-msgstr ""
+msgstr "Nie udało się wyczyścić danych historycznych: {}"
 
 msgid "Unknown error"
-msgstr ""
+msgstr "Nieznany błąd"
 
 msgid "Cannot remove a job that is still queued or running."
 msgstr ""
+"Nie można zakończyć zadania które jest zakolejkowane lub w trakcie pracy."
 
 msgid "An internal error has occurred."
-msgstr ""
+msgstr "Wystąpił błąd wewnętrzny."
 
 msgid "Unknown"
-msgstr ""
+msgstr "Nieznane"
 
 msgid "Never"
 msgstr "Nigdy"
 
 msgid "Expired"
-msgstr "Przeterminowany"
+msgstr "Wygasło"
 
 #, python-format
 msgid "in %(n)d d"
 msgstr "w %(n)d d"
 
 msgid "in 1 d"
-msgstr "w 1 dzień"
+msgstr "w ciągu 1d"
 
 #, python-format
 msgid "in %(n)d h"
@@ -853,10 +856,10 @@ msgid "Invite User"
 msgstr "Zaproś użytkownika"
 
 msgid "Accept Invitation"
-msgstr "Akceptuj zaproszenie"
+msgstr "Zaakceptuj zaproszenie"
 
 msgid "Get ready to join the magic"
-msgstr ""
+msgstr "Przygotuj się na magię"
 
 #, fuzzy
 msgid "Create Account"
@@ -866,13 +869,13 @@ msgid "Set up your magical account"
 msgstr "Załóż swoje magiczne konto"
 
 msgid "Enter your username"
-msgstr ""
+msgstr "Wpisz nazwę użytkownika"
 
 msgid "Email"
 msgstr "E-mail"
 
 msgid "Enter your email"
-msgstr ""
+msgstr "Wprowadź swój e-mail"
 
 msgid "Create a password"
 msgstr "Utwórz hasło"
@@ -881,16 +884,16 @@ msgid "Invite Code"
 msgstr "Kod zaproszenia"
 
 msgid "Enter invite code"
-msgstr "Wpisz kod zaproszenia"
+msgstr "Wprowadź kod zaproszenia"
 
 msgid "Creating account..."
 msgstr "Tworzenie konta..."
 
 msgid "Latest Accepted Invites"
-msgstr ""
+msgstr "Ostatnio zaakceptowane zaproszenia"
 
 msgid "Recently joined"
-msgstr ""
+msgstr "Ostatnio dołączyli"
 
 msgid "Showing"
 msgstr ""
