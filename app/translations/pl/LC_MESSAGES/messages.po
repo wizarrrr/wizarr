@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-04-20 05:48+0000\n"
-"PO-Revision-Date: 2025-11-03 20:09+0000\n"
-"Last-Translator: Eryk Michalak <gnu.ewm@protonmail.com>\n"
+"PO-Revision-Date: 2026-04-21 05:35+0000\n"
+"Last-Translator: Jurek <jurrer1234@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/pl/>\n"
 "Language: pl\n"
@@ -18,44 +18,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
-#, fuzzy
 msgid "Failed to load settings"
-msgstr "Wyszukaj biblioteki"
+msgstr "Nie udało się załadować ustawień"
 
 #, fuzzy
 msgid "Failed to load dashboard data"
 msgstr "Wyszukaj biblioteki"
 
-#, fuzzy
 msgid "Failed to load history data"
-msgstr "Wyszukaj biblioteki"
+msgstr "Nie udało się załadować historii"
 
-#, fuzzy
 msgid "Failed to load activity data"
-msgstr "Wyszukaj biblioteki"
+msgstr "Nie udało się załadować aktywności"
 
-#, fuzzy
 msgid "Failed to load activity summary"
-msgstr "Wyszukaj biblioteki"
+msgstr "Nie udało się załadować podsumowania aktywności"
 
 msgid "Failed to get activity statistics"
-msgstr ""
+msgstr "Nie udało się załadować statystyk"
 
 msgid "Database not available"
-msgstr ""
+msgstr "Baza danych niedostępna"
 
 msgid "Failed to get session details"
-msgstr ""
+msgstr "Nie udało się uzyskać szczegółów sesji"
 
 msgid "Failed to export activity data"
-msgstr ""
+msgstr "Nie udało się wyeksportować danych aktywności"
 
-#, fuzzy
 msgid "Monitoring restarted"
-msgstr "Utworzony"
+msgstr "Monitoring zrestartowany"
 
 msgid "Monitor not available"
 msgstr ""
@@ -178,13 +173,11 @@ msgstr ""
 msgid "API key deleted successfully"
 msgstr ""
 
-#, fuzzy
 msgid "LDAP authentication is not enabled"
-msgstr "Agenci powiadomień"
+msgstr "Uwierzytelnianie LDAP nie jest włączone"
 
-#, fuzzy
 msgid "LDAP admin authentication is not allowed"
-msgstr "Agenci powiadomień"
+msgstr "Brak pozwolenia na uwierzytelnianie LDAP"
 
 msgid "Invalid LDAP credentials"
 msgstr ""
@@ -198,9 +191,8 @@ msgstr ""
 msgid "Login successful"
 msgstr ""
 
-#, fuzzy
 msgid "LDAP authentication failed"
-msgstr "Agenci powiadomień"
+msgstr "Uwierzytelnianie LDAP nie powiodło się"
 
 msgid "Invalid username or password"
 msgstr "Nieprawidłowa nazwa użytkownika lub hasło"
@@ -208,9 +200,8 @@ msgstr "Nieprawidłowa nazwa użytkownika lub hasło"
 msgid "No pending 2FA authentication"
 msgstr ""
 
-#, fuzzy
 msgid "Authentication failed"
-msgstr "Agenci powiadomień"
+msgstr "Uwierzytelnianie nie powiodło się"
 
 msgid "Connection type is required"
 msgstr ""
@@ -254,9 +245,8 @@ msgstr "URL serwera"
 msgid "API Key"
 msgstr ""
 
-#, fuzzy
 msgid "Username/Password"
-msgstr "Nieprawidłowa nazwa użytkownika lub hasło"
+msgstr "Użytkownik/Hasło"
 
 #, python-brace-format
 msgid "Missing required fields: {fields}"
@@ -280,9 +270,8 @@ msgid ""
 "undone."
 msgstr ""
 
-#, fuzzy
 msgid "Clean Expired Users"
-msgstr "Wygasa"
+msgstr "Wyczyść wygasłych użytkowników"
 
 #, python-brace-format
 msgid "Failed to clean expired users: {error}"
@@ -320,9 +309,8 @@ msgid ""
 "the next step."
 msgstr ""
 
-#, fuzzy
 msgid "Invalid or expired invitation"
-msgstr "Nieprawidłowe zaproszenie"
+msgstr "Nieprawidłowe lub wygasłe zaproszenie"
 
 msgid ""
 "No media servers are configured. Please contact the administrator to set up "
@@ -332,9 +320,8 @@ msgstr ""
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
 
-#, fuzzy
 msgid "Continue to Invite"
-msgstr "Szybkie zaproszenie"
+msgstr "Kontynuuj do Zaproszenia"
 
 msgid "Please log in to continue"
 msgstr ""
@@ -362,9 +349,8 @@ msgstr ""
 msgid "Cleaned up {} orphaned step(s)"
 msgstr ""
 
-#, fuzzy
 msgid "Step created"
-msgstr "Utworzony"
+msgstr "Krok utworzony"
 
 msgid "Preset step created successfully"
 msgstr ""
@@ -376,20 +362,17 @@ msgstr ""
 msgid "Step updated"
 msgstr ""
 
-#, fuzzy
 msgid "Step deleted"
-msgstr "Usuń"
+msgstr "Krok usunięty"
 
-#, fuzzy
 msgid "Bundle created"
-msgstr "Utworzony"
+msgstr "Paczka utworzona"
 
 msgid "Bundle updated"
 msgstr ""
 
-#, fuzzy
 msgid "Bundle deleted"
-msgstr "Usuń"
+msgstr "Paczka usunięta"
 
 msgid "Steps added"
 msgstr ""
@@ -405,9 +388,9 @@ msgstr ""
 msgid "Export failed: {}"
 msgstr ""
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully imported {} items"
-msgstr "Pomyślnie wygenerowano zaproszenie!"
+msgstr "Pomyślnie importowano {} elementów"
 
 #, python-brace-format
 msgid " and updated {} existing items"
@@ -445,25 +428,20 @@ msgstr "Hasło"
 msgid "Confirm password"
 msgstr "Potwierdź hasło"
 
-#, fuzzy
 msgid "Passwords must match."
-msgstr "Hasło"
+msgstr "Hasła muszą się zgadzać."
 
-#, fuzzy
 msgid "New Password"
-msgstr "Hasło"
+msgstr "Nowe Hasło"
 
-#, fuzzy
 msgid "Please confirm the new password."
-msgstr "Hasło"
+msgstr "Proszę potwierdzić nowe hasło."
 
-#, fuzzy
 msgid "Server Type"
-msgstr "Serwer"
+msgstr "Typ Serwera"
 
-#, fuzzy
 msgid "Server Name"
-msgstr "Nazwa użytkownika"
+msgstr "Nazwa Serwera"
 
 #, fuzzy
 msgid "RomM Username"
@@ -485,9 +463,8 @@ msgstr ""
 msgid "Overseerr/Ombi URL"
 msgstr ""
 
-#, fuzzy
 msgid "Ombi API Key"
-msgstr "Usuń"
+msgstr "Klucz API do Ombi"
 
 msgid "Discord ID"
 msgstr ""
@@ -587,9 +564,8 @@ msgstr ""
 msgid "Choose a password for the remaining servers"
 msgstr ""
 
-#, fuzzy
 msgid "Confirm Password"
-msgstr "Hasło"
+msgstr "Potwierdź Hasło"
 
 msgid "Generate a strong random password instead"
 msgstr ""
@@ -609,9 +585,8 @@ msgstr ""
 msgid "Now please set a password for your local server accounts."
 msgstr ""
 
-#, fuzzy
 msgid "Local Servers"
-msgstr "Serwer"
+msgstr "Lokalne Serwery"
 
 msgid "Set Password for Local Servers"
 msgstr ""
@@ -619,9 +594,8 @@ msgstr ""
 msgid "Error!"
 msgstr ""
 
-#, fuzzy
 msgid "Your username"
-msgstr "Nazwa użytkownika"
+msgstr "Twoja nazwa użytkownika"
 
 msgid "Email Address"
 msgstr ""
@@ -629,9 +603,8 @@ msgstr ""
 msgid "your.email@example.com"
 msgstr ""
 
-#, fuzzy
 msgid "Your password"
-msgstr "Hasło"
+msgstr "Twoje hasło"
 
 msgid "Confirm your password"
 msgstr ""
@@ -645,9 +618,8 @@ msgstr ""
 msgid "Complete Setup"
 msgstr ""
 
-#, fuzzy
 msgid "Setting up..."
-msgstr "Ustawienia"
+msgstr "Ustawiam..."
 
 msgid "What happens next?"
 msgstr ""
@@ -667,9 +639,8 @@ msgstr ""
 msgid "Skip local servers"
 msgstr ""
 
-#, fuzzy
 msgid "Password too short"
-msgstr "Hasło"
+msgstr "Hasło za krótkie"
 
 msgid "Password strength: Medium"
 msgstr ""
@@ -680,9 +651,8 @@ msgstr ""
 msgid "Passwords do not match"
 msgstr ""
 
-#, fuzzy
 msgid "Wizarr"
-msgstr "Skonfiguruj Wizarr"
+msgstr "Wizarr"
 
 msgid "Invalid Invitation"
 msgstr "Nieprawidłowe zaproszenie"
@@ -710,13 +680,11 @@ msgstr ""
 msgid "Please authenticate with your passkey to complete login."
 msgstr ""
 
-#, fuzzy
 msgid "Authentication Method"
-msgstr "Agenci powiadomień"
+msgstr "Metoda uwierzytelniania"
 
-#, fuzzy
 msgid "Local Account"
-msgstr "Utwórz konto"
+msgstr "Konto Lokalne"
 
 msgid "LDAP"
 msgstr ""
@@ -748,9 +716,8 @@ msgstr ""
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
 
-#, fuzzy
 msgid "Password Reset Error"
-msgstr "Hasło"
+msgstr "Błąd resetowania hasła"
 
 msgid "Error:"
 msgstr ""
@@ -790,17 +757,14 @@ msgstr ""
 msgid "The link was not copied correctly"
 msgstr ""
 
-#, fuzzy
 msgid "Reset Your Password"
-msgstr "Hasło"
+msgstr "Zresetuj swoje hasło"
 
-#, fuzzy
 msgid "Choose a new password"
-msgstr "Hasło"
+msgstr "Wybierz nowe hasło"
 
-#, fuzzy
 msgid "For user:"
-msgstr "Stona Głowna"
+msgstr "Dla użytkownika:"
 
 msgid "This link expires on"
 msgstr ""
@@ -808,13 +772,11 @@ msgstr ""
 msgid "Enter new password (8-128 characters)"
 msgstr ""
 
-#, fuzzy
 msgid "Confirm new password"
-msgstr "Hasło"
+msgstr "Potwierdź nowe hasło"
 
-#, fuzzy
 msgid "Password must be:"
-msgstr "Hasło"
+msgstr "Hasło musi mieć:"
 
 msgid "Between 8 and 128 characters"
 msgstr ""
@@ -822,16 +784,14 @@ msgstr ""
 msgid "Match the confirmation"
 msgstr ""
 
-#, fuzzy
 msgid "Reset Password"
-msgstr "Hasło"
+msgstr "Resetuj hasło"
 
 msgid "Password Reset Successful!"
 msgstr ""
 
-#, fuzzy
 msgid "The password for"
-msgstr "Hasło"
+msgstr "Hasło do"
 
 msgid "has been successfully reset."
 msgstr ""
@@ -851,46 +811,40 @@ msgstr ""
 msgid "Change your account password for security."
 msgstr ""
 
-#, fuzzy
 msgid "Current Password"
-msgstr "Hasło"
+msgstr "Aktualne Hasło"
 
 msgid "Confirm New Password"
 msgstr ""
 
-#, fuzzy
 msgid "Change Password"
-msgstr "Hasło"
+msgstr "Zmień hasło"
 
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Zaproszono Cię do dołączenia do serwera %(name)s!"
 
 msgid "You've been invited!"
-msgstr ""
+msgstr "Masz zaproszenie!"
 
-#, fuzzy
 msgid "To join"
-msgstr "Dołączyć"
+msgstr "żeby dołączyć na"
 
 msgid "Join the ultimate media server experience."
 msgstr ""
 
-#, fuzzy
 msgid "Enter Code to Continue"
-msgstr "Ciąg kodu zaproszenia"
+msgstr "Wpisz kod zaproszenia aby kontynuować"
 
 #, fuzzy
 msgid "Invitation Code"
 msgstr "Kod zaproszenia"
 
-#, fuzzy
 msgid "Enter your code"
-msgstr "Kod zaproszenia"
+msgstr "Wpisz swój kod"
 
-#, fuzzy
 msgid "Join Server"
-msgstr "Dołącz do serwera Plex"
+msgstr "Dołącz do serwera"
 
 msgid "Secure invitation system powered by Wizarr"
 msgstr ""
@@ -898,9 +852,8 @@ msgstr ""
 msgid "Invite User"
 msgstr "Zaproś użytkownika"
 
-#, fuzzy
 msgid "Accept Invitation"
-msgstr "Utwórz zaproszenie"
+msgstr "Akceptuj zaproszenie"
 
 msgid "Get ready to join the magic"
 msgstr ""
@@ -909,9 +862,8 @@ msgstr ""
 msgid "Create Account"
 msgstr "Utwórz konto"
 
-#, fuzzy
 msgid "Set up your magical account"
-msgstr "Załóż konto"
+msgstr "Załóż swoje magiczne konto"
 
 msgid "Enter your username"
 msgstr ""
@@ -922,20 +874,17 @@ msgstr "E-mail"
 msgid "Enter your email"
 msgstr ""
 
-#, fuzzy
 msgid "Create a password"
-msgstr "Utwórz konto"
+msgstr "Utwórz hasło"
 
 msgid "Invite Code"
 msgstr "Kod zaproszenia"
 
-#, fuzzy
 msgid "Enter invite code"
-msgstr "Kod zaproszenia"
+msgstr "Wpisz kod zaproszenia"
 
-#, fuzzy
 msgid "Creating account..."
-msgstr "Utwórz konto"
+msgstr "Tworzenie konta..."
 
 msgid "Latest Accepted Invites"
 msgstr ""
@@ -968,9 +917,8 @@ msgstr ""
 msgid "Dashboard"
 msgstr ""
 
-#, fuzzy
 msgid "New Invite"
-msgstr "Szybkie zaproszenie"
+msgstr "Nowe zaproszenie"
 
 msgid "Now Playing"
 msgstr ""
@@ -981,20 +929,17 @@ msgstr "Zaproszenia"
 msgid "Library Breakdown"
 msgstr ""
 
-#, fuzzy
 msgid "Per Server"
-msgstr "Serwer"
+msgstr "Per Serwer"
 
-#, fuzzy
 msgid "No libraries found"
-msgstr "Wyszukaj biblioteki"
+msgstr "Nie znaleziono żadnej biblioteki"
 
 msgid "Configure your media servers to see library statistics"
 msgstr ""
 
-#, fuzzy
 msgid "Failed to load libraries"
-msgstr "Wyszukaj biblioteki"
+msgstr "Nie udało się załadować żadnych bibliotek"
 
 msgid "Unknown error occurred"
 msgstr ""
@@ -1026,20 +971,17 @@ msgstr ""
 msgid "Failed to load recent content"
 msgstr ""
 
-#, fuzzy
 msgid "Server Health"
-msgstr "Ustawienia serwera"
+msgstr "Zdrowie serwera"
 
-#, fuzzy
 msgid "Online"
-msgstr "Dołączyć"
+msgstr "Online"
 
 msgid "Offline"
 msgstr ""
 
-#, fuzzy
 msgid "Active"
-msgstr "Zapisz"
+msgstr "Aktywny"
 
 msgid "Transcoding"
 msgstr ""
@@ -1053,13 +995,11 @@ msgstr ""
 msgid "Server is currently unreachable"
 msgstr ""
 
-#, fuzzy
 msgid "servers online"
-msgstr "Ustawienia serwera"
+msgstr "serwery online"
 
-#, fuzzy
 msgid "server(s) need attention"
-msgstr "Ustawienia serwera"
+msgstr "serwery potrzebują uwagi"
 
 msgid "No servers configured"
 msgstr ""
@@ -1070,9 +1010,8 @@ msgstr ""
 msgid "Failed to load server health"
 msgstr ""
 
-#, fuzzy
 msgid "Server Overview"
-msgstr "Ustawienia serwera"
+msgstr "Przegląd serwera"
 
 msgid "Items"
 msgstr ""
@@ -1089,9 +1028,8 @@ msgstr ""
 msgid "User Details"
 msgstr ""
 
-#, fuzzy
 msgid "Joined"
-msgstr "Dołączyć"
+msgstr "Dołączyli"
 
 msgid "Account Details"
 msgstr ""
@@ -1099,17 +1037,14 @@ msgstr ""
 msgid "Expires"
 msgstr "Wygasa"
 
-#, fuzzy
 msgid "All libraries"
-msgstr "Biblioteki"
+msgstr "Wszystkie Biblioteki"
 
-#, fuzzy
 msgid "Permissions"
-msgstr "Brak pozwolenia."
+msgstr "Pozwolenia"
 
-#, fuzzy
 msgid "Downloads"
-msgstr "Zezwól na pobieranie"
+msgstr "Pobrane"
 
 msgid "Live TV"
 msgstr ""
@@ -1123,9 +1058,8 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#, fuzzy
 msgid "Edit User"
-msgstr "Serwer"
+msgstr "Edytuj użytkownika"
 
 msgid "Close modal"
 msgstr ""
@@ -1139,9 +1073,8 @@ msgstr ""
 msgid "Notes"
 msgstr ""
 
-#, fuzzy
 msgid "Permission Management"
-msgstr "Nazwa użytkownika"
+msgstr "Zarządzanie uprawnieniami"
 
 msgid "Toggle downloads permission"
 msgstr ""
@@ -1149,20 +1082,17 @@ msgstr ""
 msgid "Toggle live TV permission"
 msgstr ""
 
-#, fuzzy
 msgid "Allow Camera Upload"
-msgstr "Zezwól na pobieranie"
+msgstr "Zezwól na wgranie z kamery"
 
 msgid "Toggle camera upload permission"
 msgstr ""
 
-#, fuzzy
 msgid "Library Access"
-msgstr "Biblioteki"
+msgstr "Dostęp do bibliotek"
 
-#, fuzzy
 msgid "No libraries available"
-msgstr "Wyszukaj biblioteki"
+msgstr "Brak dostępnych bibliotek"
 
 msgid "Scan libraries from the invitation page to enable library restrictions"
 msgstr ""
@@ -1170,28 +1100,23 @@ msgstr ""
 msgid "Click to toggle library access. Updates save automatically."
 msgstr ""
 
-#, fuzzy
 msgid "Expiry Management"
-msgstr "Nazwa użytkownika"
+msgstr "Zarządzanie wygaśnięciem"
 
-#, fuzzy
 msgid "Expiry date"
-msgstr "Wygasa"
+msgstr "Data wygaśnięcia"
 
 msgid "Update"
 msgstr ""
 
-#, fuzzy
 msgid "Current expiry"
-msgstr "Edytuj czas wygaśnięcia"
+msgstr "Aktualne wygaśnięcie"
 
-#, fuzzy
 msgid "No expiry set"
-msgstr "Wygasa"
+msgstr "Nie ustawiono wygaśnięcia"
 
-#, fuzzy
 msgid "User notes"
-msgstr "Użytkownicy"
+msgstr "Notki użytkownika"
 
 msgid "Add notes about this user..."
 msgstr ""
@@ -1199,9 +1124,8 @@ msgstr ""
 msgid "Update Notes"
 msgstr ""
 
-#, fuzzy
 msgid "Link"
-msgstr "Zaloguj sie"
+msgstr "Link"
 
 msgid "Unlink"
 msgstr ""
@@ -1254,9 +1178,8 @@ msgstr ""
 msgid "Add New Passkey"
 msgstr ""
 
-#, fuzzy
 msgid "Passkey Name"
-msgstr "Nazwa użytkownika"
+msgstr "Nazwa klucza dostępu"
 
 msgid "e.g., My iPhone, Work Laptop"
 msgstr ""
@@ -1264,9 +1187,8 @@ msgstr ""
 msgid "Cancel"
 msgstr "Anuluj"
 
-#, fuzzy
 msgid "Create Passkey"
-msgstr "Utwórz agenta"
+msgstr "Utwórz klucz dostępu"
 
 msgid "Added"
 msgstr ""
@@ -1364,9 +1286,8 @@ msgstr ""
 msgid "Testing connection..."
 msgstr ""
 
-#, fuzzy
 msgid "Create Connection"
-msgstr "Utwórz zaproszenie"
+msgstr "Utwórz połączenie"
 
 msgid "Update Connection"
 msgstr ""
@@ -1438,9 +1359,8 @@ msgstr ""
 msgid "Notification Events"
 msgstr "Agenci powiadomień"
 
-#, fuzzy
 msgid "User Joined"
-msgstr "Dołączyć"
+msgstr "Użytkownik dołączył"
 
 msgid "Update Available"
 msgstr ""
@@ -1554,9 +1474,8 @@ msgstr ""
 "Po ustawieniu zaproszeni użytkownicy zostaną usunięci z serwera Plex po "
 "określonej liczbie dni. (1-999)"
 
-#, fuzzy
 msgid "LDAP Integration"
-msgstr "Utwórz zaproszenie"
+msgstr "Integracja LDAP"
 
 #, fuzzy
 msgid "Create LDAP User"
@@ -1669,9 +1588,8 @@ msgstr ""
 msgid "Copy Link"
 msgstr "Zaloguj sie"
 
-#, fuzzy
 msgid "Copied!"
-msgstr "Dołączyć"
+msgstr "Skopiowane!"
 
 #, fuzzy
 msgid "Reset link copied to clipboard!"
@@ -1977,9 +1895,8 @@ msgstr ""
 msgid "Connection"
 msgstr "Zaawansowane opcje"
 
-#, fuzzy
 msgid "LDAP server connection"
-msgstr "Utwórz zaproszenie"
+msgstr "połączenie z serwerem LDAP"
 
 msgid "e.g., ldap://server:3890 or ldaps://server:6360"
 msgstr ""
@@ -2425,13 +2342,11 @@ msgstr "Hasło"
 msgid "Remove user"
 msgstr "Stona Głowna"
 
-#, fuzzy
 msgid "Before Invitation"
-msgstr "Utwórz zaproszenie"
+msgstr "Przed zaproszeniem"
 
-#, fuzzy
 msgid "After Invitation"
-msgstr "Utwórz zaproszenie"
+msgstr "Po zaproszeniu"
 
 msgid "Previous"
 msgstr "Wstecz"
