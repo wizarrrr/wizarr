@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-04-20 05:48+0000\n"
 "PO-Revision-Date: 2026-04-21 05:35+0000\n"
-"Last-Translator: Aleksander Zyśk <olek437@gmail.com>\n"
+"Last-Translator: Jurek <jurrer1234@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/pl/>\n"
 "Language: pl\n"
@@ -70,7 +70,7 @@ msgstr "Nie udało się zaktualizować ustawień"
 
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
-msgstr "Pomyślnie usunięto dane aktywności ({} wpisów)"
+msgstr "Pomyślnie usunięto dane aktywności ({} wpisów)."
 
 #, python-brace-format
 msgid "Failed to delete activity data: {}"
@@ -87,7 +87,7 @@ msgid ""
 "and AudiobookShelf servers."
 msgstr ""
 "Import danych Historycznych jest obecnie wspierany dla serwerów Plex, "
-"Jellyfin, Emby, and AudiobookShelf."
+"Jellyfin, Emby, oraz AudiobookShelf."
 
 #, python-brace-format
 msgid ""
@@ -126,21 +126,21 @@ msgstr "Przeterminowany"
 
 #, python-format
 msgid "in %(n)d d"
-msgstr ""
+msgstr "w %(n)d d"
 
 msgid "in 1 d"
-msgstr ""
+msgstr "w 1 dzień"
 
 #, python-format
 msgid "in %(n)d h"
-msgstr ""
+msgstr "w %(n)d godz"
 
 #, python-format
 msgid "in %(n)d m"
-msgstr ""
+msgstr "w %(n)d min"
 
 msgid "soon"
-msgstr ""
+msgstr "wkrótce"
 
 msgid "Admin created"
 msgstr "Administrator utworzony"
@@ -150,26 +150,30 @@ msgstr "Administrator zaktualizowany"
 
 #, python-brace-format
 msgid "All passkeys for {} have been reset"
-msgstr ""
+msgstr "Wszystkie klucze dostępu dla {} zostały zresetowane"
 
 #, python-brace-format
 msgid "Failed to reset passkeys for {}"
-msgstr ""
+msgstr "Nie udało się zresetować kluczy dostępu dla {}"
 
 msgid ""
 "No admin account found. Please set up a proper admin account before creating "
 "API keys."
 msgstr ""
+"Nie znaleziono konta admina. Proszę utwórz konto admina przed tworzeniem "
+"kluczy API."
 
 msgid "Failed to create API key due to a database error."
-msgstr ""
+msgstr "Nie udało się stworzyć kluczy API przez błąd w bazie danych."
 
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown again."
 msgstr ""
+"Klucz API stworzony pomyślnie. Skopiuj go teraz, bo nie zostanie wyświetlony "
+"ponownie."
 
 msgid "API key deleted successfully"
-msgstr ""
+msgstr "klucz API usunięty pomyślnie"
 
 msgid "LDAP authentication is not enabled"
 msgstr "Uwierzytelnianie LDAP nie jest włączone"
@@ -441,13 +445,11 @@ msgstr "Typ Serwera"
 msgid "Server Name"
 msgstr "Nazwa Serwera"
 
-#, fuzzy
 msgid "RomM Username"
-msgstr "Nazwa użytkownika"
+msgstr "Nazwa użytkownika RomM"
 
-#, fuzzy
 msgid "RomM Password"
-msgstr "Hasło"
+msgstr "Hasło użytkownika RomM"
 
 msgid "Libraries"
 msgstr "Biblioteki"
@@ -765,10 +767,10 @@ msgid "For user:"
 msgstr "Dla użytkownika:"
 
 msgid "This link expires on"
-msgstr ""
+msgstr "Ten link wygasa"
 
 msgid "Enter new password (8-128 characters)"
-msgstr ""
+msgstr "Wpisz nowe hasło (8-128 znaków)"
 
 msgid "Confirm new password"
 msgstr "Potwierdź nowe hasło"
@@ -777,7 +779,7 @@ msgid "Password must be:"
 msgstr "Hasło musi mieć:"
 
 msgid "Between 8 and 128 characters"
-msgstr ""
+msgstr "Od 8 do 128 znaków"
 
 msgid "Match the confirmation"
 msgstr ""
@@ -795,10 +797,10 @@ msgid "has been successfully reset."
 msgstr ""
 
 msgid "You can now use your new password to log in to your media server."
-msgstr ""
+msgstr "Możesz użyć nowego hasła do zalogowania się do serwera."
 
 msgid "What's next?"
-msgstr ""
+msgstr "Co dalej?"
 
 msgid "Log in to your media server with your username and new password."
 msgstr ""
@@ -907,10 +909,10 @@ msgid "Next"
 msgstr "Dalej"
 
 msgid "No recent invitations accepted"
-msgstr ""
+msgstr "Brak ostatnio akceptowanych zaproszeń"
 
 msgid "Accepted invitations will appear here"
-msgstr ""
+msgstr "Akceptowane zaproszenia zostaną wyświetlone tutaj"
 
 msgid "Dashboard"
 msgstr ""
@@ -1638,97 +1640,94 @@ msgid "Your Discord server ID"
 msgstr ""
 
 msgid "URL to your Overseerr/Ombi instance"
-msgstr ""
+msgstr "URL do Overseerr/Ombi"
 
-#, fuzzy
 msgid "Create Step"
-msgstr "Utwórz agenta"
+msgstr "Utwórz Krok"
 
 msgid "Add..."
-msgstr ""
+msgstr "Dodaj..."
 
 msgid "Widgets"
-msgstr ""
+msgstr "Widżety"
 
 msgid "Recently Added Media"
-msgstr ""
+msgstr "Ostatnio Dodane Media"
 
 msgid "Show recent content"
-msgstr ""
+msgstr "Pokaż ostatnią zawartość"
 
 msgid "Button"
-msgstr ""
+msgstr "Przycisk"
 
 msgid "Add a clickable link button"
-msgstr ""
+msgstr "Dodaj przycisk z linkiem"
 
-#, fuzzy
 msgid "Elements"
-msgstr "Utwórz agenta"
+msgstr "Elementy"
 
 msgid "Card"
-msgstr ""
+msgstr "Karta"
 
 msgid "Add a styled content card"
-msgstr ""
+msgstr "Dodaj stylizowaną kartę z zawartością"
 
-#, fuzzy
 msgid "Delete API Key"
-msgstr "Usuń"
+msgstr "Usuń klucz API"
 
 msgid "No API keys"
-msgstr ""
+msgstr "Brak kluczy API"
 
 msgid "Get started by creating a new API key."
-msgstr ""
+msgstr "Zacznij od utworzenia nowego klucza API."
 
-#, fuzzy
 msgid "Media Servers"
-msgstr "Serwer"
+msgstr "Serwery mediów"
 
 msgid "Type"
-msgstr ""
+msgstr "Typ"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "Verified"
-msgstr ""
+msgstr "Zweryfikowany"
 
 msgid "Actions"
-msgstr "Zaproszenia"
+msgstr "Akcje"
 
 msgid "Edit"
-msgstr ""
+msgstr "Edytuj"
 
 msgid "Delete this server?"
-msgstr ""
+msgstr "Usunąć ten serwer?"
 
 msgid "No servers configured yet."
-msgstr ""
+msgstr "Brak skonfigurowanych serwerów."
 
 #, fuzzy
 msgid "Administrators"
 msgstr "Zaproszenia"
 
 msgid "Manage Passkeys"
-msgstr ""
+msgstr "Zarządzaj kluczami dostępu"
 
 msgid "No administrators yet."
-msgstr ""
+msgstr "Brak administratorów."
 
-#, fuzzy
 msgid "Add Admin"
-msgstr "Admin"
+msgstr "Dodaj Admina"
 
 msgid "API Keys"
-msgstr ""
+msgstr "Klucze API"
 
 msgid "Connections"
-msgstr ""
+msgstr "Połączenia"
 
 msgid "Manage external service connections for automated user invitations"
 msgstr ""
+"Zarządzaj połączeniami zewnętrznych usług w celu zautomatyzowania zaproszeń "
+"użytkowników"
 
 #, fuzzy
 msgid "Add Connection"
