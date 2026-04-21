@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-04-20 05:48+0000\n"
-"PO-Revision-Date: 2025-11-03 20:05+0000\n"
-"Last-Translator: Watever44 <jeannicolas.turcotte@gmail.com>\n"
+"PO-Revision-Date: 2026-04-21 05:35+0000\n"
+"Last-Translator: David Lavoie-Boutin <david.lavoie.boutin@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/fr/>\n"
 "Language: fr\n"
@@ -17,31 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 msgid "Failed to load settings"
 msgstr "Échec du chargement des statistiques"
 
-#, fuzzy
 msgid "Failed to load dashboard data"
 msgstr "Échec du chargement de l'état de santé du serveur"
 
-#, fuzzy
 msgid "Failed to load history data"
-msgstr "Échec du chargement de l'état de santé du serveur"
+msgstr "Échec du chargement des données historiques"
 
-#, fuzzy
 msgid "Failed to load activity data"
-msgstr "Échec du chargement de l'état de santé du serveur"
+msgstr "Échec du chargement des données d'activité"
 
-#, fuzzy
 msgid "Failed to load activity summary"
-msgstr "Échec du chargement de l'état de santé du serveur"
+msgstr "Échec du chargement du résumé des activités"
 
-#, fuzzy
 msgid "Failed to get activity statistics"
-msgstr "Échec du chargement des statistiques"
+msgstr "Échec du chargement des statistiques d'activité"
 
 msgid "Database not available"
 msgstr "Base de donnée non accessible"
@@ -52,9 +47,8 @@ msgstr "Impossible de récupérer les détails de la sessions"
 msgid "Failed to export activity data"
 msgstr "Impossible d'exporter les données d'activité"
 
-#, fuzzy
 msgid "Monitoring restarted"
-msgstr "Administrateur créé"
+msgstr "Surveillance redémarrée"
 
 msgid "Monitor not available"
 msgstr "Le monitoring est innacessible"
@@ -67,22 +61,20 @@ msgstr "{} a été nettoyé des anciennes activités"
 msgid "Ended {} stale sessions"
 msgstr "{} a clôturé les anciennes sessions"
 
-#, fuzzy
 msgid "Unknown action"
-msgstr "Type de connexion inconnu"
+msgstr "Type d'action inconnu"
 
-#, fuzzy
 msgid "Failed to update settings"
-msgstr "Échec du chargement des statistiques"
+msgstr "Échec de la mise à jour des paramètres"
 
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
 msgstr ""
 "Les données d’activité ont été supprimées avec succès ({} enregistrements)."
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to delete activity data: {}"
-msgstr "Échec lors de la remise à zéro de la clé d'authentification pour {}"
+msgstr "Échec de l'effaçage des données: {}"
 
 #, fuzzy
 msgid "Please select a media server."
@@ -118,18 +110,16 @@ msgstr "{} éléments ont bien été importés"
 msgid "Failed to clear historical data: {}"
 msgstr "Échec du chargement des statistiques"
 
-#, fuzzy
 msgid "Unknown error"
-msgstr "Une erreur inconnue s'est produite"
+msgstr "Erreur inconnue"
 
 msgid "Cannot remove a job that is still queued or running."
 msgstr ""
 "Impossible de supprimer une tâche qui est encore en file d’attente ou en "
 "cours d’exécution."
 
-#, fuzzy
 msgid "An internal error has occurred."
-msgstr "Une erreur inconnue s'est produite"
+msgstr "Une erreur interne s'est produite"
 
 msgid "Unknown"
 msgstr "Inconnu(e)"
