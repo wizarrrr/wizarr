@@ -5,22 +5,145 @@ import logging
 import secrets
 import string
 
+from zxcvbn import zxcvbn
+
 from app.extensions import db
-from app.models import PasswordResetToken, User
+from app.models import PasswordResetToken, Settings, User
 
 logger = logging.getLogger("wizarr.password_reset")
 
+# ─── Configuration ────────────────────────────────────────────────────────────
 # Token configuration
 TOKEN_LENGTH = 10  # Same as invitation codes
 TOKEN_CHARSET = string.ascii_uppercase + string.digits
 TOKEN_EXPIRY_HOURS = 24  # Tokens expire after 24 hours
 
+# Security Level Mapping (zxcvbn score 0-4)
+# 0: Low (too guessable)
+# 1: Medium (still guessable)
+# 2: High (somewhat safe)
+# 3: Extra High (safe)
+# 4: Paranoid (very safe)
+DEFAULT_SECURITY_LEVEL = 2
 
+# Legacy defaults for backward compatibility during transition
+DEFAULT_PASSWORD_RESET_POLICY = {
+    "min_length": 8,
+    "max_length": 128,
+}
+
+
+# ─── Internal Helpers ─────────────────────────────────────────────────────────
 def _generate_reset_code() -> str:
     """Generate a random password reset code (10 characters)."""
     return "".join(secrets.choice(TOKEN_CHARSET) for _ in range(TOKEN_LENGTH))
 
 
+def _get_bool_setting(key: str, default: bool) -> bool:
+    """Read a boolean setting from the database."""
+    setting = Settings.query.filter_by(key=key).first()
+    if not setting or setting.value is None:
+        return default
+    return str(setting.value).strip().lower() == "true"
+
+
+def _get_int_setting(key: str, default: int, minimum: int, maximum: int) -> int:
+    """Read an integer setting from the database with bounds."""
+    setting = Settings.query.filter_by(key=key).first()
+    if not setting or setting.value in (None, ""):
+        return default
+
+    try:
+        parsed = int(setting.value)
+    except (TypeError, ValueError):
+        return default
+
+    return max(minimum, min(parsed, maximum))
+
+
+# ─── Password Validation ─────────────────────────────────────────────────────
+def get_password_reset_policy() -> dict[str, int]:
+    """Return the current password reset policy from settings."""
+    min_length = _get_int_setting(
+        "password_reset_min_length", DEFAULT_PASSWORD_RESET_POLICY["min_length"], 8, 128
+    )
+    max_length = _get_int_setting(
+        "password_reset_max_length", DEFAULT_PASSWORD_RESET_POLICY["max_length"], 8, 128
+    )
+    if max_length < min_length:
+        max_length = min_length
+
+    security_level = _get_int_setting(
+        "password_reset_security_level", DEFAULT_SECURITY_LEVEL, 0, 4
+    )
+
+    return {
+        "min_length": min_length,
+        "max_length": max_length,
+        "security_level": security_level,
+    }
+
+
+def validate_password_against_policy(
+    password: str,
+    policy: dict[str, int] | None = None,
+    context_list: list[str] | None = None,
+) -> list[str]:
+    """Validate a password against the configured strength policy and context.
+
+    Args:
+        password: The password to validate
+        policy: Optional policy dict (loads from settings if None)
+        context_list: Optional list of strings to check against for guessability (e.g. [username, email])
+
+    Returns:
+        List of error messages, or empty list if valid
+    """
+    active_policy = policy or get_password_reset_policy()
+    errors: list[str] = []
+
+    min_length = int(active_policy["min_length"])
+    max_length = int(active_policy["max_length"])
+    required_score = int(active_policy["security_level"])
+
+    # Basic length check
+    if not (min_length <= len(password) <= max_length):
+        errors.append(
+            f"Password must be between {min_length} and {max_length} characters"
+        )
+        return errors  # Don't bother with zxcvbn if length is wrong
+
+    # Strength check using zxcvbn
+    # We pass context_list to user_inputs so zxcvbn can penalize passwords containing them
+    results = zxcvbn(password, user_inputs=context_list)
+    score = results["score"]
+
+    if score < required_score:
+        # Provide feedback based on what's missing
+        feedback = results.get("feedback", {})
+        warning = feedback.get("warning")
+        suggestions = feedback.get("suggestions", [])
+
+        if warning:
+            errors.append(warning)
+        elif not suggestions:
+            errors.append("Password is too weak")
+
+        for suggestion in suggestions:
+            errors.append(suggestion)
+
+    # Manual contextual check (extra safety)
+    if context_list:
+        for item in context_list:
+            if not item or len(item) < 3:
+                continue
+            if item.lower() in password.lower():
+                errors.append(f"Password cannot contain your '{item}'")
+
+    return list(dict.fromkeys(errors))  # Remove duplicates while preserving order
+
+
+# ─── Token Management ─────────────────────────────────────────────────────────
 def create_reset_token(user_id: int) -> PasswordResetToken | None:
     """Create a password reset token for a user.
 
@@ -175,13 +298,21 @@ def use_reset_token(code: str, new_password: str) -> tuple[bool, str]:
     if not token:
         return False, error
 
-    # Validate password length
-    if not (8 <= len(new_password) <= 128):
+    # Validate against policy
+    policy = get_password_reset_policy()
+    # Contextual info for guessability check
+    context = [token.user.username, token.user.email]
+    validation_errors = validate_password_against_policy(
+        new_password, policy, context_list=context
+    )
+
+    if validation_errors:
         logger.debug(
-            "[debug    ] Invalid password length: %s chars [app.services.password_reset]",
-            len(new_password),
+            "[debug    ] Password validation failed for user_id=%s: %s [app.services.password_reset]",
+            token.user_id,
+            validation_errors,
         )
-        return False, "Password must be between 8 and 128 characters"
+        return False, "; ".join(validation_errors)
 
     try:
         logger.info(

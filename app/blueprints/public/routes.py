@@ -308,11 +308,13 @@ def password_prompt(code):
     if request.method == "POST":
         pw = request.form.get("password") or ""
         confirm = request.form.get("confirm") or ""
-        if pw != confirm or len(pw) < 8:
+
+        # Validate passwords match
+        if pw != confirm:
             return render_template(
                 "choose-password.html",
                 code=code,
-                error="Passwords do not match or too short (8 chars).",
+                error="Passwords do not match.",
             )
 
         # Fallback: generate strong password if checkbox ticked or blank
@@ -334,6 +336,27 @@ def password_prompt(code):
 
             username = request.form.get("username") or f"user-{uuid.uuid4().hex[:8]}"
             email = request.form.get("email") or ""
+
+        # ── Password Policy Validation ─────────────────────────────────────
+        from app.services.password_reset import (
+            get_password_reset_policy,
+            validate_password_against_policy,
+        )
+
+        policy = get_password_reset_policy()
+        # Contextual info for guessability check
+        context = [username, email]
+        validation_errors = validate_password_against_policy(
+            pw, policy, context_list=context
+        )
+
+        if validation_errors:
+            return render_template(
+                "choose-password.html",
+                code=code,
+                error="; ".join(validation_errors),
+            )
+        # ───────────────────────────────────────────────────────────────────
 
         # Create LDAP user if configured
         from app.services.ldap.invitation_ldap import InvitationLDAPHandler
@@ -408,7 +431,19 @@ def password_prompt(code):
         return redirect(url_for("wizard.start"))
 
     # GET request – show form
-    return render_template("choose-password.html", code=code)
+    from app.services.password_reset import get_password_reset_policy
+
+    username = plex_user.username if plex_user else ""
+    email = plex_user.email if plex_user else ""
+
+    policy = get_password_reset_policy()
+    return render_template(
+        "choose-password.html",
+        code=code,
+        policy=policy,
+        username=username,
+        email=email,
+    )
 
 
 # ─── Image proxy to allow internal artwork URLs ─────────────────────────────
@@ -470,13 +505,20 @@ def image_proxy():
 @limiter.limit("10 per minute")
 def reset_password(code):
     """Handle password reset via token link."""
-    from app.services.password_reset import get_reset_token, use_reset_token
+    from app.services.password_reset import (
+        get_password_reset_policy,
+        get_reset_token,
+        use_reset_token,
+        validate_password_against_policy,
+    )
 
     # Validate the reset token
     token, error = get_reset_token(code)
 
     if not token:
         return render_template("password-reset-error.html", error=error, code=code)
+
+    policy = get_password_reset_policy()
 
     # GET request - show the password reset form
     if request.method == "GET":
@@ -485,6 +527,7 @@ def reset_password(code):
             code=code,
             username=token.user.username,
             expires_at=token.expires_at,
+            policy=policy,
         )
 
     # POST request - process the password reset
@@ -499,16 +542,22 @@ def reset_password(code):
             username=token.user.username,
             expires_at=token.expires_at,
             error="Passwords do not match",
+            policy=policy,
         )
 
-    # Validate password length
-    if not (8 <= len(new_password) <= 128):
+    # Contextual info for guessability check
+    context = [token.user.username, token.user.email]
+    validation_errors = validate_password_against_policy(
+        new_password, policy, context_list=context
+    )
+    if validation_errors:
         return render_template(
             "password-reset-form.html",
             code=code,
             username=token.user.username,
             expires_at=token.expires_at,
-            error="Password must be between 8 and 128 characters",
+            error="; ".join(validation_errors),
+            policy=policy,
         )
 
     # Use the reset token to change the password
@@ -524,4 +573,5 @@ def reset_password(code):
         username=token.user.username,
         expires_at=token.expires_at,
         error=message,
+        policy=policy,
     )

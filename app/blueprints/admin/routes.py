@@ -987,7 +987,10 @@ def reset_password_modal(user_id: int):
     """Show the password reset link modal with option to generate or view existing token."""
     from datetime import UTC, datetime
 
+    from app.services.password_reset import get_password_reset_policy
+
     user = db.get_or_404(User, user_id)
+    policy = get_password_reset_policy()
 
     # Check for existing valid (unused and not expired) tokens
     existing_token = (
@@ -1011,6 +1014,7 @@ def reset_password_modal(user_id: int):
             code=existing_token.code,
             expires_at=expires_at,
             has_token=True,
+            policy=policy,
         )
     # No valid token - show generate button
     return render_template(
@@ -1018,6 +1022,7 @@ def reset_password_modal(user_id: int):
         username=user.username,
         user_id=user.id,
         has_token=False,
+        policy=policy,
     )
 
 
@@ -1027,9 +1032,10 @@ def generate_reset_link(user_id: int):
     """Generate a new password reset token and return the updated modal."""
     import traceback
 
-    from app.services.password_reset import create_reset_token
+    from app.services.password_reset import create_reset_token, get_password_reset_policy
 
     user = db.get_or_404(User, user_id)
+    policy = get_password_reset_policy()
 
     try:
         token = create_reset_token(user.id)
@@ -1040,6 +1046,7 @@ def generate_reset_link(user_id: int):
                 username=user.username,
                 user_id=user.id,
                 has_token=False,
+                policy=policy,
             ), 500
 
         # Generate the full reset URL
@@ -1056,6 +1063,7 @@ def generate_reset_link(user_id: int):
             code=token.code,
             expires_at=expires_at,
             has_token=True,
+            policy=policy,
         )
 
     except Exception as e:
@@ -1072,6 +1080,7 @@ def generate_reset_link(user_id: int):
             username=user.username,
             user_id=user.id,
             has_token=False,
+            policy=policy,
         ), 500
 
 

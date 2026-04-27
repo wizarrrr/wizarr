@@ -38,10 +38,26 @@ def _load_settings() -> dict:
     settings = {s.key: s.value for s in Settings.query.all()}
 
     # Convert specific boolean fields from strings to booleans
-    boolean_fields = ["allow_downloads", "allow_live_tv", "wizard_acl_enabled"]
+    boolean_fields = [
+        "allow_downloads",
+        "allow_live_tv",
+        "wizard_acl_enabled",
+    ]
     for field in boolean_fields:
         if field in settings and settings[field] is not None:
             settings[field] = str(settings[field]).lower() == "true"
+
+    int_fields = [
+        "password_reset_min_length",
+        "password_reset_max_length",
+        "password_reset_security_level",
+    ]
+    for field in int_fields:
+        if field in settings and settings[field] not in (None, ""):
+            try:
+                settings[field] = int(settings[field])
+            except (TypeError, ValueError):
+                settings.pop(field, None)
 
     return settings
 
@@ -53,6 +69,8 @@ def _save_settings(data: dict) -> None:
             # Convert boolean values to "true"/"false" strings
             if isinstance(value, bool):
                 value = "true" if value else "false"
+            elif value is not None and not isinstance(value, str):
+                value = str(value)
 
             setting = Settings.query.filter_by(key=key).first()
             if setting:
