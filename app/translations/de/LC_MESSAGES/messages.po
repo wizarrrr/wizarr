@@ -2111,6 +2111,148 @@ msgstr "Aktiviere „Jellyfin/Plex-Benutzer importieren”"
 msgid "The full URL to your external service instance"
 msgstr "Die komplette URL zu deiner externen Serviceinstanz"
 
+msgid "Enable User Lifecycle Emails"
+msgstr "Benutzer-E-Mails für Kontolebenszyklus aktivieren"
+
+msgid "SMTP Host"
+msgstr "SMTP-Host"
+
+msgid "SMTP Port"
+msgstr "SMTP-Port"
+
+msgid "SMTP Username"
+msgstr "SMTP-Benutzername"
+
+msgid "SMTP Password"
+msgstr "SMTP-Passwort"
+
+msgid "Sender Email Address"
+msgstr "Absender-E-Mail-Adresse"
+
+msgid "Sender Name"
+msgstr "Absendername"
+
+msgid "Use STARTTLS"
+msgstr "STARTTLS verwenden"
+
+msgid "Use SSL/TLS"
+msgstr "SSL/TLS verwenden"
+
+msgid "Email Language"
+msgstr "E-Mail-Sprache"
+
+msgid "This field is required when SMTP emails are enabled."
+msgstr "Dieses Feld ist erforderlich, wenn SMTP-E-Mails aktiviert sind."
+
+msgid "Choose either STARTTLS or SSL/TLS, not both."
+msgstr "Wähle entweder STARTTLS oder SSL/TLS, aber nicht beides."
+
+msgid "Mailing settings saved successfully!"
+msgstr "Mailing-Einstellungen wurden erfolgreich gespeichert!"
+
+msgid "Account Active"
+msgstr "Konto aktiv"
+
+msgid "Your account is now active"
+msgstr "Dein Konto ist jetzt aktiv"
+
+#, python-brace-format
+msgid "Your access to {server} has been activated."
+msgstr "Dein Zugang zu {server} wurde aktiviert."
+
+msgid "Account Expired"
+msgstr "Konto abgelaufen"
+
+msgid "Your account has expired"
+msgstr "Dein Konto ist abgelaufen"
+
+#, python-brace-format
+msgid "Your access to {server} has expired."
+msgstr "Dein Zugang zu {server} ist abgelaufen."
+
+msgid "Account Deleted"
+msgstr "Konto gelöscht"
+
+msgid "Your account has been deleted"
+msgstr "Dein Konto wurde gelöscht"
+
+#, python-brace-format
+msgid "Your access to {server} has been removed."
+msgstr "Dein Zugang zu {server} wurde entfernt."
+
+#, python-brace-format
+msgid "Hello {username},"
+msgstr "Hallo {username},"
+
+msgid "Expiry Date"
+msgstr "Ablaufdatum"
+
+msgid "You can now sign in and start using your media access."
+msgstr "Du kannst dich jetzt anmelden und deinen Medienzugang verwenden."
+
+#, python-brace-format
+msgid "Your invitation has reached its end date and your account has been {action}."
+msgstr "Deine Einladung hat ihr Enddatum erreicht und dein Konto wurde {action}."
+
+msgid "Your account has been removed. If you believe this was a mistake, please contact your administrator."
+msgstr "Dein Konto wurde entfernt. Wenn du glaubst, dass dies ein Fehler war, kontaktiere bitte deinen Administrator."
+
+#, python-brace-format
+msgid "Sent by Wizarr on {sent_at}."
+msgstr "Gesendet von Wizarr am {sent_at}."
+
+msgid "disabled"
+msgstr "deaktiviert"
+
+msgid "deleted"
+msgstr "gelöscht"
+
+msgid "User Information & Mailing"
+msgstr "Benutzerinformationen & Mailing"
+
+msgid "Send polished activation, expiry, and deletion emails to your users."
+msgstr "Sende ansprechend gestaltete E-Mails zur Aktivierung, zum Ablauf und zur Löschung an deine Benutzer."
+
+msgid "When enabled, Wizarr will email users when their account is activated, expires, or is deleted."
+msgstr "Wenn aktiviert, sendet Wizarr E-Mails an Benutzer, wenn ihr Konto aktiviert wird, abläuft oder gelöscht wird."
+
+msgid "Leave blank to keep the current password"
+msgstr "Leer lassen, um das aktuelle Passwort beizubehalten"
+
+msgid "A password is already stored securely."
+msgstr "Ein Passwort ist bereits sicher gespeichert."
+
+msgid "Recommended for port 587 connections."
+msgstr "Empfohlen für Verbindungen über Port 587."
+
+msgid "Use this instead of STARTTLS for implicit TLS servers."
+msgstr "Verwende dies anstelle von STARTTLS für Server mit implizitem TLS."
+
+msgid "Save Mailing Settings"
+msgstr "Mailing-Einstellungen speichern"
+
+msgid "What users will receive"
+msgstr "Was Benutzer erhalten"
+
+msgid "A welcome email when their account is activated."
+msgstr "Eine Willkommens-E-Mail, wenn ihr Konto aktiviert wird."
+
+msgid "An expiry email when access ends and the account is disabled or deleted."
+msgstr "Eine Ablauf-E-Mail, wenn der Zugang endet und das Konto deaktiviert oder gelöscht wird."
+
+msgid "A deletion email when an account is removed manually."
+msgstr "Eine Lösch-E-Mail, wenn ein Konto manuell entfernt wird."
+
+msgid "Language support"
+msgstr "Sprachunterstützung"
+
+msgid "Choose English or German for outgoing emails. The layout mirrors the rest of the Wizarr interface with the same card styling and accent colors."
+msgstr "Wähle Englisch oder Deutsch für ausgehende E-Mails. Das Layout orientiert sich am restlichen Wizarr-Interface mit denselben Kartenstilen und Akzentfarben."
+
+msgid "User Info"
+msgstr "Benutzerinfo"
+
+#: app/templates/settings/connections/form.html:176
 msgid "API key from your external service settings"
 msgstr "API-Schlüssel aus deinem externen Dienst"
 

@@ -14,11 +14,15 @@ from typing import Any
 
 from app.extensions import db
 from app.models import Identity, MediaServer, Settings, User
+from app.services.email import send_user_lifecycle_email
 
 from .client_base import CLIENTS
 
 _NOW_PLAYING_CACHE_TTL = 5.0  # seconds
 _now_playing_cache: dict[str, Any] = {"timestamp": 0.0, "sessions": []}
+
+if not hasattr(User, "is_ldap_user"):
+    User.is_ldap_user = False
 
 
 def _get_user_identifier(user: User, server: MediaServer) -> str:
@@ -140,7 +144,7 @@ def list_users_for_server(server: MediaServer):
     return get_client_for_media_server(server).list_users()
 
 
-def delete_user(db_id: int) -> None:
+def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
     """Delete a user from its associated MediaServer and local DB.
 
     Foreign key relationships are handled automatically by SQLite CASCADE/SET NULL:
@@ -198,6 +202,16 @@ def delete_user(db_id: int) -> None:
     # Delete from companion apps
     _delete_from_companion_apps(user)
 
+    try:
+        send_user_lifecycle_email(
+            user,
+            event_type=email_event,
+            server_name=user.server.name if user.server else None,
+            expires_at=user.expires,
+        )
+    except Exception as exc:
+        logging.warning("Failed to send deletion email for user %s: %s", db_id, exc)
+
     # Delete the user - SQLite handles all foreign key cascades automatically
     db.session.delete(user)
     db.session.commit()
@@ -228,6 +242,21 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
 
     if not user or not server or user.server_id != server_id:
         return False
+
+    try:
+        send_user_lifecycle_email(
+            user,
+            event_type="deleted",
+            server_name=server.name,
+            expires_at=user.expires,
+        )
+    except Exception as exc:
+        logging.warning(
+            "Failed to send server-removal email for user %s on %s: %s",
+            user_id,
+            server_id,
+            exc,
+        )
 
     # Remove from remote media server
     try:

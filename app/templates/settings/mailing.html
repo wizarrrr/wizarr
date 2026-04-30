@@ -1,0 +1,134 @@
+<section class="animate__animated animate__fadeIn">
+  <div class="p-6 space-y-8">
+    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("User Information & Mailing") }}</h1>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            {{ _("Send polished activation, expiry, and deletion emails to your users.") }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
+      <div class="xl:col-span-2 bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="p-6">
+          <form method="post"
+                hx-post="{{ url_for('settings.mailing_settings') }}"
+                hx-target="#tab-body"
+                hx-swap="innerHTML"
+                class="space-y-6">
+            {{ form.hidden_tag() }}
+            <div class="flex items-center justify-between bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+              <div>
+                <label class="text-sm font-medium text-gray-900 dark:text-white">{{ form.smtp_enabled.label.text }}</label>
+                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                  {{ _("When enabled, Wizarr will email users when their account is activated, expires, or is deleted.") }}
+                </p>
+              </div>
+              <label class="inline-flex items-center cursor-pointer">
+                {{ form.smtp_enabled(class="sr-only peer") }}
+                <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
+                </div>
+              </label>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                {{ form.smtp_host.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.smtp_host(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", placeholder="smtp.example.com") }}
+                {% for err in form.smtp_host.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+              <div>
+                {{ form.smtp_port.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.smtp_port(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+                {% for err in form.smtp_port.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+              <div>
+                {{ form.smtp_username.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.smtp_username(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", autocomplete="username") }}
+                {% for err in form.smtp_username.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+              <div>
+                {{ form.smtp_password.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.smtp_password(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", autocomplete="new-password", placeholder=_("Leave blank to keep the current password") ) }}
+                {% if has_saved_password %}
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">{{ _("A password is already stored securely.") }}</p>
+                {% endif %}
+                {% for err in form.smtp_password.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+              <div>
+                {{ form.smtp_from_address.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.smtp_from_address(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", placeholder="noreply@example.com") }}
+                {% for err in form.smtp_from_address.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+              <div>
+                {{ form.smtp_from_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.smtp_from_name(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", placeholder="Wizarr") }}
+                {% for err in form.smtp_from_name.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+              <div>
+                {{ form.smtp_language.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.smtp_language(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+                {% for err in form.smtp_language.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 flex items-center justify-between">
+                <div>
+                  <label class="text-sm font-medium text-gray-900 dark:text-white">{{ form.smtp_use_tls.label.text }}</label>
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">{{ _("Recommended for port 587 connections.") }}</p>
+                </div>
+                {{ form.smtp_use_tls(class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600") }}
+              </div>
+              <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 flex items-center justify-between">
+                <div>
+                  <label class="text-sm font-medium text-gray-900 dark:text-white">{{ form.smtp_use_ssl.label.text }}</label>
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                    {{ _("Use this instead of STARTTLS for implicit TLS servers.") }}
+                  </p>
+                </div>
+                {{ form.smtp_use_ssl(class="w-4 h-4 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600") }}
+              </div>
+            </div>
+            {% for err in form.smtp_use_ssl.errors %}<p class="text-red-500 text-sm -mt-2">{{ err }}</p>{% endfor %}
+            <div class="flex justify-end">
+              <button type="submit"
+                      class="inline-flex items-center px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary_hover focus:outline-none focus:ring-4 focus:ring-primary/20 text-sm font-medium shadow-xs transition-colors">
+                {{ _("Save Mailing Settings") }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="space-y-6">
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+          <div class="p-6">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">{{ _("What users will receive") }}</h2>
+            <ul class="space-y-3 text-sm text-gray-600 dark:text-gray-400">
+              <li class="flex gap-3">
+                <span class="mt-0.5 inline-flex w-6 h-6 items-center justify-center rounded-full bg-primary/10 text-primary">1</span>
+                <span>{{ _("A welcome email when their account is activated.") }}</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="mt-0.5 inline-flex w-6 h-6 items-center justify-center rounded-full bg-primary/10 text-primary">2</span>
+                <span>{{ _("An expiry email when access ends and the account is disabled or deleted.") }}</span>
+              </li>
+              <li class="flex gap-3">
+                <span class="mt-0.5 inline-flex w-6 h-6 items-center justify-center rounded-full bg-primary/10 text-primary">3</span>
+                <span>{{ _("A deletion email when an account is removed manually.") }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+          <div class="p-6">
+            <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-3">{{ _("Language support") }}</h2>
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              {{ _("Choose English or German for outgoing emails. The layout mirrors the rest of the Wizarr interface with the same card styling and accent colors.") }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
