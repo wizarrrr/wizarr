@@ -1,14 +1,43 @@
 import base64
+import hashlib
+import hmac
+import ipaddress
 import json
 import logging
+from datetime import UTC, datetime
 from typing import Any
+from urllib.parse import urlparse
 
 import apprise
 import requests
 
 from app.models import Notification
 
-__all__ = ["notify"]
+__all__ = ["notify", "is_webhook_url_allowed"]
+
+
+def is_webhook_url_allowed(url: str) -> bool:
+    """Return True iff url uses https, or uses http with a loopback host.
+
+    Webhook agents can carry sensitive payloads (plaintext passwords when the
+    agent opts in), so we refuse plaintext http over the network. Loopback is
+    permitted for local docker / host-side integrations.
+    """
+    try:
+        parsed = urlparse(url)
+    except ValueError:
+        return False
+    if parsed.scheme == "https":
+        return True
+    if parsed.scheme != "http":
+        return False
+    host = (parsed.hostname or "").lower()
+    if host in ("localhost", "host.docker.internal"):
+        return True
+    try:
+        return ipaddress.ip_address(host).is_loopback
+    except ValueError:
+        return False
 
 
 def _send(url: str, data, headers: dict) -> bool:
@@ -131,6 +160,49 @@ def _telegram(
     return _send(url, data, headers)
 
 
+def _webhook(
+    url: str,
+    secret: str | None,
+    event_type: str,
+    title: str,
+    message: str,
+    context: dict[str, Any] | None,
+    include_password: bool,
+) -> bool:
+    """POST a structured JSON payload to an external webhook.
+
+    Payload schema is versioned via the "event" field so new events can be
+    added without breaking existing consumers. If include_password is False,
+    the "password" field is stripped before sending regardless of what the
+    caller supplied in context.
+    """
+    if not is_webhook_url_allowed(url):
+        logging.error(
+            "Webhook URL rejected (must be https or loopback http): %s", url
+        )
+        return False
+
+    safe_context = dict(context or {})
+    if not include_password:
+        safe_context.pop("password", None)
+
+    payload = {
+        "event": event_type,
+        "timestamp": datetime.now(UTC).isoformat(),
+        "title": title,
+        "message": message,
+        **safe_context,
+    }
+    body = json.dumps(payload, separators=(",", ":")).encode()
+
+    headers = {"Content-Type": "application/json"}
+    if secret:
+        sig = hmac.new(secret.encode(), body, hashlib.sha256).hexdigest()
+        headers["X-Wizarr-Signature"] = f"sha256={sig}"
+
+    return _send(url, body, headers)
+
+
 def notify(
     title: str,
     message: str,
@@ -138,8 +210,16 @@ def notify(
     event_type: str = "user_joined",
     previous_version: str | None = None,
     new_version: str | None = None,
+    context: dict[str, Any] | None = None,
 ):
-    """Broadcast to every configured agent that is subscribed to the event type."""
+    """Broadcast to every configured agent that is subscribed to the event type.
+
+    `context` carries structured data for webhook-style agents. It is ignored
+    by human-facing agents (Discord, ntfy, etc.) that only render a title and
+    message. When an agent is type="webhook", context is merged into the JSON
+    payload; if the agent has include_password=False, the plaintext password
+    is stripped before sending.
+    """
     for agent in Notification.query.all():
         # Check if agent is subscribed to this event type
         subscribed_events = (
@@ -163,4 +243,14 @@ def notify(
                 agent.url,
                 agent.telegram_bot_token,
                 agent.telegram_chat_id,
+            )
+        elif agent.type == "webhook":
+            _webhook(
+                agent.url,
+                agent.webhook_secret,
+                event_type,
+                title,
+                message,
+                context,
+                bool(agent.include_password),
             )
