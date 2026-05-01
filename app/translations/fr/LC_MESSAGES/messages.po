@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-05-01 06:22+0000\n"
-"PO-Revision-Date: 2026-04-21 05:35+0000\n"
-"Last-Translator: David Lavoie-Boutin <david.lavoie.boutin@gmail.com>\n"
+"PO-Revision-Date: 2026-05-02 05:43+0000\n"
+"Last-Translator: partage-du-compte-familial <groovy-bouby@hotmail.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/fr/>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.17.1-dev\n"
+"X-Generator: Weblate 5.17.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 msgid "Failed to load settings"
@@ -76,13 +76,11 @@ msgstr ""
 msgid "Failed to delete activity data: {}"
 msgstr "Échec de l'effaçage des données: {}"
 
-#, fuzzy
 msgid "Please select a media server."
 msgstr "Veuillez sélectionner au moins un serveur pour l'invitation."
 
-#, fuzzy
 msgid "Media server not found."
-msgstr "Serveur de médias"
+msgstr "Serveur de médias non trouvé."
 
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, Emby, "
@@ -102,13 +100,13 @@ msgstr ""
 msgid "Failed to import historical data: {}"
 msgstr "Échec de l’importation des données historiques : {}"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully cleared {} historical entries."
-msgstr "{} éléments ont bien été importés"
+msgstr "Nettoyage réussi {} des entrées historisées."
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to clear historical data: {}"
-msgstr "Échec du chargement des statistiques"
+msgstr "Échec du nettoyage des données statistiques :{}"
 
 msgid "Unknown error"
 msgstr "Erreur inconnue"
@@ -166,10 +164,12 @@ msgid ""
 "No admin account found. Please set up a proper admin account before creating "
 "API keys."
 msgstr ""
+"Aucun compte administrateur existant. Merci de créer un compte "
+"administrateur avant de créer des clés API."
 
-#, fuzzy
 msgid "Failed to create API key due to a database error."
-msgstr "Échec lors de la remise à zéro de la clé d'authentification pour {}"
+msgstr ""
+"Échec de création de la clé API en raison d'une erreur de la base de données."
 
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown again."
@@ -180,13 +180,11 @@ msgstr ""
 msgid "API key deleted successfully"
 msgstr "La clé API a été supprimée avec succès"
 
-#, fuzzy
 msgid "LDAP authentication is not enabled"
-msgstr "Authentification échouée"
+msgstr "L'authentification LDAP n'est pas activée"
 
-#, fuzzy
 msgid "LDAP admin authentication is not allowed"
-msgstr "Authentification échouée"
+msgstr "L'authentification LDAP n'est pas autorisée"
 
 msgid "Invalid LDAP credentials"
 msgstr ""
