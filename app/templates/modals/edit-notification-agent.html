@@ -44,6 +44,7 @@
                 <option value="notifiarr"
                         {% if agent.type == 'notifiarr' %}selected{% endif %}>Notifiarr</option>
                 <option value="ntfy" {% if agent.type == 'ntfy' %}selected{% endif %}>Ntfy</option>
+                <option value="telegram" {% if agent.type == 'telegram' %}selected{% endif %}>Telegram</option>
               </select>
             </div>
             <div id="notifiarrSection"
@@ -62,6 +63,31 @@
                      value="{{ agent.channel_id or '' }}"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                      {% if agent.type == 'notifiarr' %}required{% endif %} />
+            </div>
+            <div id="telegramSection"
+                 class="notificationAgentInfo"
+                 style="display:
+                        {% if agent.type == 'telegram' %}
+                          block
+                        {% else %}
+                          none
+                        {% endif %}">
+              <label for="telegram_bot_token"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Bot Token") }}</label>
+              <input type="password"
+                     name="telegram_bot_token"
+                     id="telegram_bot_token"
+                     value="{{ agent.telegram_bot_token or '' }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     {% if agent.type == 'telegram' %}required{% endif %} />
+              <label for="telegram_chat_id"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Chat ID") }}</label>
+              <input type="text"
+                     name="telegram_chat_id"
+                     id="telegram_chat_id"
+                     value="{{ agent.telegram_chat_id or '' }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     {% if agent.type == 'telegram' %}required{% endif %} />
             </div>
             <div id="credentialsSection"
                  class="notificationAgentInfo"
@@ -164,12 +190,22 @@
             credentialsSection.style.display = 'block';
         } else if (value === "notifiarr") {
             notifiarrSection.style.display = 'block';
+        } else if (value === "telegram") {
+            telegramSection.style.display = 'block';
         }
 
         if (value === 'notifiarr') {
             document.getElementById("channel_id").required = true
         } else {
             document.getElementById("channel_id").required = false
+        }
+
+        if (value === 'telegram') {
+            document.getElementById("telegram_bot_token").required = true
+            document.getElementById("telegram_chat_id").required = true
+        } else {
+            document.getElementById("telegram_bot_token").required = false
+            document.getElementById("telegram_chat_id").required = false
         }
 
         const urlEle = document.getElementById('url');

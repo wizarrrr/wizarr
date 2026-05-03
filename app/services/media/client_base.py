@@ -40,7 +40,7 @@ def register_media_client(name: str):
     """
 
     def decorator(cls):
-        cls._server_type = name  # type: ignore[attr-defined]
+        cls._server_type = name  # type: ignore
         CLIENTS[name] = cls
         return cls
 
@@ -113,9 +113,9 @@ class MediaClient(ABC):
     def _attach_server_row(self, row: MediaServer) -> None:
         """Populate instance attributes from a MediaServer row."""
         self.server_row: MediaServer = row
-        self.server_id: int = row.id  # type: ignore[attr-defined]
-        self.url = row.url  # type: ignore[attr-defined]
-        self.token = row.api_key  # type: ignore[attr-defined]
+        self.server_id: int = row.id  # type: ignore
+        self.url = row.url  # type: ignore
+        self.token = row.api_key  # type: ignore
 
     def generate_image_proxy_url(self, image_url: str) -> str:
         """
@@ -397,13 +397,15 @@ class MediaClient(ABC):
         raise NotImplementedError
 
     def get_recent_items(
-        self, _library_id: str | None = None, _limit: int = 10
+        self,
+        library_id: str | None = None,  # noqa: ARG002
+        limit: int = 10,  # noqa: ARG002
     ) -> list[dict]:
         """Get recently added items from the media server.
 
         Args:
-            _library_id: Optional library ID to filter by (unused in base implementation)
-            _limit: Maximum number of items to return (unused in base implementation)
+            library_id: Optional library ID to filter by
+            limit: Maximum number of items to return
 
         Returns:
             list: A list of recently added items with standardized keys:
@@ -497,7 +499,14 @@ class MediaClient(ABC):
             "content_stats": {},  # Minimal for health cards
         }
 
-    def join(self, username: str, password: str, confirm: str, email: str, code: str):
+    def join(
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
+    ):
         """Process user invitation for this media server.
 
         This is a template method that handles notifications after successful user creation.
@@ -532,7 +541,12 @@ class MediaClient(ABC):
 
     @abstractmethod
     def _do_join(
-        self, username: str, password: str, confirm: str, email: str, code: str
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
     ):
         """Process user invitation for this media server (implementation method).
 

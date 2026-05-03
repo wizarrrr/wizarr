@@ -312,6 +312,15 @@ Make sure disabled buttons don't get the pointer cursor.
     pointer-events: all; /* Re-enable clicks on buttons */
   }
 
+  /* Light mode: solid primary-colour button so it pops against any light background */
+  html:not(.dark) .wizard-btn-mobile {
+    background: var(--color-primary);
+    color: white;
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.2),
+      0 2px 4px rgba(0, 0, 0, 0.12);
+  }
+
   .dark .wizard-btn-mobile {
     background: color-mix(in srgb, rgb(187 187 188) 12%, transparent);
     box-shadow:

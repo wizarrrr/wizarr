@@ -12,7 +12,7 @@ import tempfile
 from unittest.mock import patch
 
 import pytest
-from playwright.sync_api import Page, expect
+from playwright.sync_api import Page, expect  # type: ignore
 
 # Fix for Python 3.14+ multiprocessing compatibility with pytest-flask live_server
 # GitHub Actions uses spawn/forkserver by default which can't pickle local functions
@@ -46,7 +46,7 @@ def app():
     if os.path.exists(test_db_path):
         os.remove(test_db_path)
 
-    app = create_app(E2ETestConfig)  # type: ignore[arg-type]
+    app = create_app(E2ETestConfig)  # type: ignore
     with app.app_context():
         db.create_all()
     yield app

@@ -64,6 +64,7 @@
                 <option value="discord">Discord</option>
                 <option value="notifiarr">Notifiarr</option>
                 <option value="ntfy">Ntfy</option>
+                <option value="telegram">Telegram</option>
               </select>
             </div>
             <div id="notifiarrSection"
@@ -74,6 +75,22 @@
               <input type="text"
                      name="channel_id"
                      id="channel_id"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+            </div>
+            <div id="telegramSection"
+                 class="notificationAgentInfo"
+                 style="display: none">
+              <label for="telegram_bot_token"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Bot Token") }}</label>
+              <input type="password"
+                     name="telegram_bot_token"
+                     id="telegram_bot_token"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="telegram_chat_id"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Chat ID") }}</label>
+              <input type="text"
+                     name="telegram_chat_id"
+                     id="telegram_chat_id"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
             <div id="credentialsSection"
@@ -171,6 +188,8 @@
             credentialsSection.style.display = 'block';
         } else if (value === "notifiarr") {
             notifiarrSection.style.display = 'block';
+        } else if (value === "telegram") {
+            telegramSection.style.display = 'block';
         }
 
         // Trigger required channel_id
@@ -178,6 +197,15 @@
             document.getElementById("channel_id").required = true
         } else {
             document.getElementById("channel_id").required = false
+        }
+
+        // Trigger required telegram fields
+        if (value === 'telegram') {
+            document.getElementById("telegram_bot_token").required = true
+            document.getElementById("telegram_chat_id").required = true
+        } else {
+            document.getElementById("telegram_bot_token").required = false
+            document.getElementById("telegram_chat_id").required = false
         }
 
         // Adjust placeholder text

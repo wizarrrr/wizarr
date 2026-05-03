@@ -37,7 +37,9 @@ class FormBasedStrategy(AuthenticationStrategy):
     """Strategy for traditional form-based authentication."""
 
     def authenticate(
-        self, _servers: list[MediaServer], form_data: dict[str, Any]
+        self,
+        servers: list[MediaServer],  # noqa: ARG002
+        form_data: dict[str, Any],
     ) -> tuple[bool, str, dict[str, Any]]:
         """Authenticate using form data."""
         # Validate required fields
@@ -68,7 +70,9 @@ class PlexOAuthStrategy(AuthenticationStrategy):
     """Strategy for Plex OAuth authentication."""
 
     def authenticate(
-        self, _servers: list[MediaServer], form_data: dict[str, Any]
+        self,
+        servers: list[MediaServer],  # noqa: ARG002
+        form_data: dict[str, Any],
     ) -> tuple[bool, str, dict[str, Any]]:
         """Authenticate using Plex OAuth."""
         # Check if we have OAuth token from session or form

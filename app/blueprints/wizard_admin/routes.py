@@ -648,7 +648,7 @@ def reorder_bundle(bundle_id: int):
 def add_steps_modal(bundle_id: int):
     bundle = db.get_or_404(WizardBundle, bundle_id)
     # steps not yet in bundle
-    existing_ids = {bs.step_id for bs in bundle.steps}
+    existing_ids = {bs.step_id for bs in bundle.steps}  # type: ignore
     available = (
         WizardStep.query.filter(~WizardStep.id.in_(existing_ids))
         .order_by(WizardStep.server_type, WizardStep.position)

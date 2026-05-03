@@ -95,7 +95,7 @@ class TestInvitationServerDefaulting:
             assert response_data["available_servers"][0]["name"] == "Only Server"
 
             # Now create invitation with explicit server_ids (should work)
-            data["server_ids"] = [server.id]
+            data["server_ids"] = [server.id]  # type: ignore
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},
@@ -290,7 +290,7 @@ class TestInvitationServerDefaulting:
             assert response_data["available_servers"][0]["name"] == "Verified Server"
 
             # Now create invitation with explicit server specification
-            data["server_ids"] = [verified_server.id]
+            data["server_ids"] = [verified_server.id]  # type: ignore
             response = client.post(
                 "/api/invitations",
                 headers={"X-API-Key": api_key, "Content-Type": "application/json"},

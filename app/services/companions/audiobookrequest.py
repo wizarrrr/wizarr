@@ -24,14 +24,18 @@ class AudiobookrequestClient(CompanionClient):
         return "Audiobookrequest"
 
     def invite_user(
-        self, username: str, _email: str, connection: Connection, password: str = ""
+        self,
+        username: str,
+        email: str,  # noqa: ARG002
+        connection: Connection,
+        password: str = "",
     ) -> dict[str, str]:
         """
         Invite a user to Audiobookrequest.
 
         Args:
             username: Username to invite
-            _email: Email address (unused - AudioBookRequest API doesn't use email)
+            email: Email address (unused - AudioBookRequest API doesn't use email)
             connection: Connection object with URL and API key
             password: Password for the user (optional, defaults to empty string)
 

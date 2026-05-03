@@ -36,11 +36,11 @@ def activity_app():
         return "ok"
 
     template_dir = Path(__file__).resolve().parents[2] / "app" / "templates"
-    if str(template_dir) not in app.jinja_loader.searchpath:
-        app.jinja_loader.searchpath.append(str(template_dir))
+    if str(template_dir) not in app.jinja_loader.searchpath:  # type: ignore
+        app.jinja_loader.searchpath.append(str(template_dir))  # type: ignore
 
-    app.jinja_env.globals.setdefault("_", lambda s, **_: s)
-    app.jinja_env.globals.setdefault(
+    app.jinja_env.globals.setdefault("_", lambda s, **_: s)  # type: ignore
+    app.jinja_env.globals.setdefault(  # type: ignore
         "ngettext",
         lambda singular, plural, number, **_: singular if number == 1 else plural,
     )

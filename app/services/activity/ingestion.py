@@ -48,7 +48,7 @@ class ActivityIngestionService:
 
         for attempt in range(max_retries):
             try:
-                db.session.commit()  # type: ignore[union-attr]
+                db.session.commit()  # type: ignore
                 return True
             except OperationalError as exc:
                 # Check if it's a database lock error
@@ -65,7 +65,7 @@ class ActivityIngestionService:
                             max_retries,
                         )
                         time.sleep(delay)
-                        db.session.rollback()  # type: ignore[union-attr]
+                        db.session.rollback()  # type: ignore
                         continue
                     self.logger.error(
                         "Database commit failed after %d attempts: %s",
@@ -73,13 +73,13 @@ class ActivityIngestionService:
                         exc,
                         exc_info=True,
                     )
-                    db.session.rollback()  # type: ignore[union-attr]
+                    db.session.rollback()  # type: ignore
                     return False
                 # Not a lock error, re-raise
                 raise
             except Exception as exc:
                 self.logger.error("Unexpected commit error: %s", exc, exc_info=True)
-                db.session.rollback()  # type: ignore[union-attr]
+                db.session.rollback()  # type: ignore
                 return False
 
         return False
@@ -112,7 +112,7 @@ class ActivityIngestionService:
 
         except Exception as exc:  # pragma: no cover - defensive rollback
             self.logger.error("Failed to record activity event: %s", exc, exc_info=True)
-            db.session.rollback()  # type: ignore[union-attr]
+            db.session.rollback()  # type: ignore
             return None
 
     # ------------------------------------------------------------------
@@ -120,7 +120,7 @@ class ActivityIngestionService:
     # ------------------------------------------------------------------
     def _handle_session_start(self, event: ActivityEvent) -> ActivitySession:
         existing_session = (
-            db.session.query(ActivitySession)  # type: ignore[union-attr]
+            db.session.query(ActivitySession)  # type: ignore
             .filter_by(server_id=event.server_id, session_id=event.session_id)
             .filter(ActivitySession.active.is_(True))
             .first()
@@ -164,8 +164,8 @@ class ActivityIngestionService:
 
         self._assign_session_identity(session)
 
-        db.session.add(session)  # type: ignore[union-attr]
-        db.session.flush()  # type: ignore[union-attr]
+        db.session.add(session)  # type: ignore
+        db.session.flush()  # type: ignore
 
         self._apply_session_grouping(session, event)
 
@@ -182,7 +182,7 @@ class ActivityIngestionService:
 
     def _handle_session_update(self, event: ActivityEvent) -> ActivitySession | None:
         session = (
-            db.session.query(ActivitySession)  # type: ignore[union-attr]
+            db.session.query(ActivitySession)  # type: ignore
             .filter_by(server_id=event.server_id, session_id=event.session_id)
             .filter(ActivitySession.active.is_(True))
             .first()
@@ -263,7 +263,7 @@ class ActivityIngestionService:
 
     def _handle_session_end(self, event: ActivityEvent) -> ActivitySession | None:
         session = (
-            db.session.query(ActivitySession)  # type: ignore[union-attr]
+            db.session.query(ActivitySession)  # type: ignore
             .filter_by(server_id=event.server_id, session_id=event.session_id)
             .filter(ActivitySession.active.is_(True))
             .first()
@@ -335,16 +335,19 @@ class ActivityIngestionService:
             prev_timestamp = prev_session.updated_at or prev_session.started_at
             event_timestamp = event.timestamp
 
-            # Normalize both timestamps to UTC properly
-            if prev_timestamp.tzinfo is None:  # type: ignore[union-attr]
-                prev_timestamp = prev_timestamp.replace(tzinfo=UTC)  # type: ignore[union-attr]
-            else:
-                prev_timestamp = prev_timestamp.astimezone(UTC)  # type: ignore[union-attr]
+            if prev_timestamp is None or event_timestamp is None:
+                return
 
-            if event_timestamp.tzinfo is None:  # type: ignore[union-attr]
-                event_timestamp = event_timestamp.replace(tzinfo=UTC)  # type: ignore[union-attr]
+            # Normalize both timestamps to UTC properly
+            if prev_timestamp.tzinfo is None:
+                prev_timestamp = prev_timestamp.replace(tzinfo=UTC)
             else:
-                event_timestamp = event_timestamp.astimezone(UTC)  # type: ignore[union-attr]
+                prev_timestamp = prev_timestamp.astimezone(UTC)
+
+            if event_timestamp.tzinfo is None:
+                event_timestamp = event_timestamp.replace(tzinfo=UTC)
+            else:
+                event_timestamp = event_timestamp.astimezone(UTC)
 
             time_gap = event_timestamp - prev_timestamp
             gap_seconds = time_gap.total_seconds()
@@ -389,7 +392,7 @@ class ActivityIngestionService:
         current_session_id: int,
     ) -> list[ActivitySession]:
         """Find previous sessions to group using fallback matching strategies."""
-        base_query = db.session.query(ActivitySession).filter(  # type: ignore[union-attr]
+        base_query = db.session.query(ActivitySession).filter(  # type: ignore
             ActivitySession.server_id == server_id,
             ActivitySession.user_name == user_name,
             ActivitySession.id < current_session_id,
@@ -481,7 +484,7 @@ class ActivityIngestionService:
         if event.transcoding_info:
             snapshot.set_transcoding_details(event.transcoding_info)
 
-        db.session.add(snapshot)  # type: ignore[union-attr]
+        db.session.add(snapshot)  # type: ignore
 
 
 __all__ = ["ActivityIngestionService"]

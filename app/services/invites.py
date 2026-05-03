@@ -188,6 +188,9 @@ def create_invite(form: Any) -> Invitation:
                     seen_lib_ids.add(lib.id)
                     invite.libraries.append(lib)
 
+    # Wire up LDAP user creation flag
+    invite.create_ldap_user = bool(form.get("create_ldap_user"))
+
     db.session.commit()
     return invite
 
@@ -224,7 +227,7 @@ def mark_server_used(
     row = db.session.execute(
         invitation_servers.select().where(invitation_servers.c.invite_id == inv.id)
     ).all()
-    if row and all(r.used for r in row) and not inv.unlimited:  # type: ignore[attr-defined]
+    if row and all(r.used for r in row) and not inv.unlimited:  # type: ignore
         # For limited invitations, mark as fully used when all servers are used
         # For unlimited invitations, this should already be True from the first usage
         inv.used = True

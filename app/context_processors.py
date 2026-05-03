@@ -25,7 +25,7 @@ def inject_plus_features():
     try:
         import plus
 
-        is_plus_enabled = plus.is_plus_enabled()
+        is_plus_enabled = plus.is_plus_enabled()  # type: ignore
     except (ImportError, AttributeError):
         is_plus_enabled = False
 

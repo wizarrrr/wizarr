@@ -76,7 +76,7 @@ class TestInvitationFlowManager:
             mock_server.server_type = "jellyfin"
             mock_media_server.query.first.return_value = mock_server
 
-            with app.app_context():
+            with app.app_context(), app.test_request_context():
                 manager = InvitationFlowManager()
                 result = manager.process_invitation_display("TEST123")
 
@@ -470,7 +470,7 @@ class TestEndToEndFlow:
         mock_client.join.return_value = (True, "User created successfully")
         mock_get_client.return_value = mock_client
 
-        with app.app_context():
+        with app.app_context(), app.test_request_context():
             # Create server
             server = MediaServer(
                 name="Test Server",
@@ -525,7 +525,7 @@ class TestEndToEndFlow:
         """Test complete Plex invitation flow"""
         mock_is_valid.return_value = (True, "Valid invitation")
 
-        with app.app_context():
+        with app.app_context(), app.test_request_context():
             # Create server
             server = MediaServer(
                 name="Test Plex Server",

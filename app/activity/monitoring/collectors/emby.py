@@ -104,6 +104,33 @@ class EmbyCollector(BaseCollector):
     def _emit_session_event(self, session_data: dict[str, Any], event_type: str):
         """Convert session data to ActivityEvent and emit."""
         try:
+            # For session_end events, use position_ms (last known playback position)
+            # as the watched duration rather than duration_ms (total file runtime from
+            # RunTimeTicks). This avoids overestimating watch time when a user stops
+            # partway through a title. Fall back to duration_ms only when position_ms
+            # is unavailable or zero.
+            position_ms: int | None = session_data.get("position_ms")
+            raw_duration_ms: int | None = session_data.get("duration_ms")
+
+            if event_type == "session_end":
+                if position_ms:
+                    duration_ms = position_ms
+                    self.logger.debug(
+                        "session_end_duration_from_position",
+                        session_id=session_data.get("session_id"),
+                        position_ms=position_ms,
+                        file_runtime_ms=raw_duration_ms,
+                    )
+                else:
+                    duration_ms = raw_duration_ms
+                    self.logger.debug(
+                        "session_end_duration_fallback_to_runtime",
+                        session_id=session_data.get("session_id"),
+                        duration_ms=raw_duration_ms,
+                    )
+            else:
+                duration_ms = raw_duration_ms
+
             event = ActivityEvent(
                 event_type=event_type,
                 server_id=self.server.id,
@@ -117,8 +144,8 @@ class EmbyCollector(BaseCollector):
                 series_name=session_data.get("series_name"),
                 season_number=session_data.get("season_number"),
                 episode_number=session_data.get("episode_number"),
-                duration_ms=session_data.get("duration_ms"),
-                position_ms=session_data.get("position_ms"),
+                duration_ms=duration_ms,
+                position_ms=position_ms,
                 device_name=session_data.get("device_name"),
                 client_name=session_data.get("client"),
                 ip_address=session_data.get("ip_address"),

@@ -62,8 +62,12 @@
             <span class="font-medium text-gray-900 dark:text-white">{{ _("Account Details") }}</span>
             {{ info.server_type|server_name_tag(info.server_name) }}
           </div>
-          <p class="mb-3 text-gray-500 dark:text-gray-400">
+          <p class="mb-1 text-gray-500 dark:text-gray-400">
             <span class="font-medium">{{ _("Username") }}:</span> {{ info.username }}
+          </p>
+          <p class="mb-3 text-gray-500 dark:text-gray-400">
+            <span class="font-medium">{{ _("Expires") }}:</span>
+            {{ info.expires|human_date if info.expires else _("Never") }}
           </p>
           <!-- Libraries -->
           <div class="mb-4">

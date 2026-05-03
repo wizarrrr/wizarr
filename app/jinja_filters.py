@@ -11,7 +11,7 @@ try:
 except (
     ImportError
 ):  # pragma: no cover - Python <3.9 not officially supported but handle gracefully
-    ZoneInfo = None  # type: ignore[assignment]
+    ZoneInfo = None  # type: ignore
 
 # Mapping of server types to their desired pastel background colours
 _SERVER_TAG_COLOURS = {
@@ -116,15 +116,15 @@ def human_date(date_value) -> str:
                 "%Y-%m-%dT%H:%M:%S.%f",
             ]:
                 try:
-                    date_value = datetime.strptime(date_value, fmt).replace(tzinfo=UTC)
+                    date_value = datetime.strptime(date_value, fmt).replace(tzinfo=UTC)  # type: ignore
                     break
                 except ValueError:
                     continue
             else:
                 # If we can't parse it, just return the original truncated string
-                return date_value[:16] if len(date_value) > 16 else date_value
+                return date_value[:16] if len(date_value) > 16 else date_value  # type: ignore
         except (ValueError, AttributeError):
-            return date_value[:16] if len(date_value) > 16 else date_value
+            return date_value[:16] if len(date_value) > 16 else date_value  # type: ignore
 
     # Handle datetime objects
     if hasattr(date_value, "strftime"):

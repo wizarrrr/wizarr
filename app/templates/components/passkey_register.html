@@ -23,11 +23,7 @@
 </div>
 <script>
     (function() {
-        const options = {
-            {
-                options | tojson
-            }
-        };
+        const options = {{ options | tojson }};
 
         // Convert base64url to Uint8Array for WebAuthn API
         function base64urlToUint8Array(base64url) {

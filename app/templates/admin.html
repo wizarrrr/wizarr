@@ -3,7 +3,7 @@
   {{ _("Admin") }}
 {% endblock title %}
 {% block main %}
-  <div class="flex flex-col h-screen">
+  <div class="flex flex-col h-screen overflow-hidden">
     {% if update_available %}
       <div class="w-full bg-primary text-white text-center py-1">
         <a href="https://docs.wizarr.dev/getting-started/installation">
