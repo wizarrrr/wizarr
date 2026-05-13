@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-05-12 06:21+0000\n"
-"PO-Revision-Date: 2025-11-03 20:03+0000\n"
-"Last-Translator: DoeJoohn <oorca@tuta.io>\n"
+"PO-Revision-Date: 2026-05-13 06:32+0000\n"
+"Last-Translator: Kisnov <gabrielmarfil0@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/ca/>\n"
 "Language: ca\n"
@@ -17,111 +17,107 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 2026.5.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
-#, fuzzy
 msgid "Failed to load settings"
-msgstr "Busca biblioteques"
+msgstr "Error en carregar la configuració"
 
-#, fuzzy
 msgid "Failed to load dashboard data"
-msgstr "Busca biblioteques"
+msgstr "Error en carregar les dades del panell"
 
-#, fuzzy
 msgid "Failed to load history data"
-msgstr "Busca biblioteques"
+msgstr "Error en carregar les dades de l'historial"
 
-#, fuzzy
 msgid "Failed to load activity data"
-msgstr "Busca biblioteques"
+msgstr "Error en carregar les dades d'activitat"
 
-#, fuzzy
 msgid "Failed to load activity summary"
-msgstr "Busca biblioteques"
+msgstr "Error en carregar el resum d'activitat"
 
 msgid "Failed to get activity statistics"
-msgstr ""
+msgstr "Error en obtenir les estadístiques d'activitat"
 
 msgid "Database not available"
-msgstr ""
+msgstr "La base de dades no està disponible"
 
 msgid "Failed to get session details"
-msgstr ""
+msgstr "Error en obtenir els detalls de la sessió"
 
 msgid "Failed to export activity data"
-msgstr ""
+msgstr "Error en l'exportació de les dades d'activitat"
 
-#, fuzzy
 msgid "Monitoring restarted"
-msgstr "Creat"
+msgstr "S'ha reiniciat el monitoreig"
 
 msgid "Monitor not available"
-msgstr ""
+msgstr "Monitor no disponible"
 
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
-msgstr ""
+msgstr "S'han netejat {} registres d'activitat antiga"
 
 #, python-brace-format
 msgid "Ended {} stale sessions"
-msgstr ""
+msgstr "Finalitzades {} sessions obsoletes"
 
 msgid "Unknown action"
-msgstr ""
+msgstr "Acció desconeguda"
 
-#, fuzzy
 msgid "Failed to update settings"
-msgstr "Convida cadena de codi"
+msgstr "Error en actualitzar paràmetres"
 
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
-msgstr ""
+msgstr "Les dades de l'activitat s'han eliminat correctament ({} registres)."
 
 #, python-brace-format
 msgid "Failed to delete activity data: {}"
-msgstr ""
+msgstr "Error en esborrar les dades d'activitat: {}"
 
 msgid "Please select a media server."
-msgstr ""
+msgstr "Si us plau, selecciona un servidor multimèdia."
 
-#, fuzzy
 msgid "Media server not found."
-msgstr "Mai"
+msgstr "Servidor de multimedia no trobat."
 
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, Emby, "
 "and AudiobookShelf servers."
 msgstr ""
+"La importació de dades històriques només és compatible amb els servidors "
+"Plex, Jellyfin, Emby i AudiobookShelf."
 
 #, python-brace-format
 msgid ""
 "Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
+"La tasca d'importació històrica #{job_id} va començar per {server} (últims "
+"{days} dies)."
 
 #, python-brace-format
 msgid "Failed to import historical data: {}"
-msgstr ""
+msgstr "Error en importar dades històriques: {}"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully cleared {} historical entries."
-msgstr "S'ha generat una invitació correctament!"
+msgstr "S'han esborrat {} entrades històriques."
 
 #, python-brace-format
 msgid "Failed to clear historical data: {}"
-msgstr ""
+msgstr "No s'han pogut esborrar les dades històriques: {}"
 
 msgid "Unknown error"
-msgstr ""
+msgstr "Error desconegut"
 
 msgid "Cannot remove a job that is still queued or running."
-msgstr ""
+msgstr "No es pot eliminar una tasca que encara esta en cua o executant-se."
 
 msgid "An internal error has occurred."
-msgstr ""
+msgstr "S'ha produït un error intern."
 
 msgid "Unknown"
-msgstr ""
+msgstr "Desconegut"
 
 msgid "Never"
 msgstr "Mai"
@@ -131,287 +127,297 @@ msgstr "Caducat"
 
 #, python-format
 msgid "in %(n)d d"
-msgstr ""
+msgstr "en %(n)d d"
 
 msgid "in 1 d"
-msgstr ""
+msgstr "en 1 d"
 
 #, python-format
 msgid "in %(n)d h"
-msgstr ""
+msgstr "en %(n)d h"
 
 #, python-format
 msgid "in %(n)d m"
-msgstr ""
+msgstr "en %(n)d m"
 
 msgid "soon"
-msgstr ""
+msgstr "aviat"
 
-#, fuzzy
 msgid "Admin created"
-msgstr "Creat"
+msgstr "Admin creat"
 
 msgid "Admin updated"
-msgstr ""
+msgstr "Admin actualitzat"
 
 #, python-brace-format
 msgid "All passkeys for {} have been reset"
-msgstr ""
+msgstr "Totes les contrassenyes per {} han estat reiniciades"
 
 #, python-brace-format
 msgid "Failed to reset passkeys for {}"
-msgstr ""
+msgstr "Error en restablir contrassenyes per a {}"
 
 msgid ""
 "No admin account found. Please set up a proper admin account before creating "
 "API keys."
 msgstr ""
+"No s'ha trobat cap compte administratiu. Si us plau, configureu un compte "
+"d'admin abans de crear claus API."
 
 msgid "Failed to create API key due to a database error."
 msgstr ""
+"No s'ha pogut crear la clau d'API a causa d'un error de la base de dades."
 
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown again."
 msgstr ""
+"Clau d'API creada correctament. Copia-la ara, ja que no es tornarà a mostrar."
 
 msgid "API key deleted successfully"
-msgstr ""
+msgstr "Clau d'API eliminada correctament"
 
-#, fuzzy
 msgid "LDAP authentication is not enabled"
-msgstr "Agents de notificació"
+msgstr "Autenticació LDAP no habilitada"
 
-#, fuzzy
 msgid "LDAP admin authentication is not allowed"
-msgstr "Agents de notificació"
+msgstr "L'autenticació d'admin LDAP no esta permesa"
 
 msgid "Invalid LDAP credentials"
-msgstr ""
+msgstr "Credencials LDAP invàlids"
 
 msgid "User DN not found in LDAP response"
-msgstr ""
+msgstr "DN d'usuari no trobat en la resposta de LDAP"
 
 msgid "User is not authorized as an administrator"
-msgstr ""
+msgstr "Usuario no està autoritzat com a administrador"
 
 msgid "Login successful"
-msgstr ""
+msgstr "Inici de sessió satisfactori"
 
-#, fuzzy
 msgid "LDAP authentication failed"
-msgstr "Agents de notificació"
+msgstr "Error en l'autenticació LDAP"
 
-#, fuzzy
 msgid "Invalid username or password"
 msgstr "Nom d'usuari o contrassenya incorrecte"
 
 msgid "No pending 2FA authentication"
-msgstr ""
+msgstr "No hi ha autenticació 2FA pendent"
 
-#, fuzzy
 msgid "Authentication failed"
-msgstr "Agents de notificació"
+msgstr "Error en l'autenticació"
 
 msgid "Connection type is required"
-msgstr ""
+msgstr "Es requereix un tipus de connexió"
 
 #, python-format
 msgid "Connection test failed: %(message)s"
-msgstr ""
+msgstr "Prova de conexió fallida: %(message)s"
 
 msgid "Connection test successful!"
-msgstr ""
+msgstr "Prova de conexió satisfactoria!"
 
 msgid "Unknown connection type"
-msgstr ""
+msgstr "Tipus de conexió desconegut"
 
 msgid "Connection created successfully!"
-msgstr ""
+msgstr "Connexió creada amb èxit!"
 
 msgid "Connection updated successfully!"
-msgstr ""
+msgstr "Connexió actualitzada amb èxit!"
 
 msgid "Connection deleted successfully!"
-msgstr ""
+msgstr "Connexió esborrada correctament!"
 
 msgid "Please refresh the page and try again (CSRF token expired)"
 msgstr ""
+"Si us plau, actualitzeu la pàgina i torneu a provar (token CSRF expirat)"
 
 #, python-format
 msgid "Invalid form data: %(errors)s"
-msgstr ""
+msgstr "Dades del formulari invàlids: %(errors)s"
 
 msgid ""
 "There was an issue setting up your access. Please contact your server admin."
 msgstr ""
+"Hi ha hagut un problema per configurar el teu accés. Contacta "
+"l'administrador del servidor."
 
 msgid "Settings saved successfully!"
-msgstr ""
+msgstr "Configuració guardada amb èxit!"
 
 msgid "Server URL"
 msgstr "URL del servidor"
 
 msgid "API Key"
-msgstr ""
+msgstr "Clau API"
 
-#, fuzzy
 msgid "Username/Password"
-msgstr "Nom d'usuari o contrassenya incorrecte"
+msgstr "Nom d'usuari / contrasenya"
 
 #, python-brace-format
 msgid "Missing required fields: {fields}"
-msgstr ""
+msgstr "Falten camps requerits: {fields}"
 
 msgid "Error"
-msgstr ""
+msgstr "Error"
 
 msgid "Library scan failed"
 msgstr "Error en l'escaneig de la biblioteca"
 
 #, python-brace-format
 msgid "Successfully cleaned {count} expired user(s)."
-msgstr ""
+msgstr "S'han netejat {count} usuari(s) caducats."
 
 msgid "No expired users found to clean."
-msgstr ""
+msgstr "No s'han trobat usuaris caducats."
 
 msgid ""
 "Are you sure you want to clean all expired users? This action cannot be "
 "undone."
 msgstr ""
+"Estàs segur que vols netejar tots els usuaris caducats? Aquesta acció no es "
+"pot desfer."
 
-#, fuzzy
 msgid "Clean Expired Users"
-msgstr "Expira"
+msgstr "Netejar usuaris caducats"
 
 #, python-brace-format
 msgid "Failed to clean expired users: {error}"
-msgstr ""
+msgstr "Error en netejar usuaris caducats: {error}"
 
 msgid "LDAP configuration saved successfully"
-msgstr ""
+msgstr "Configuració LDAP guardada amb èxit"
 
 msgid "LDAP not configured or disabled"
-msgstr ""
+msgstr "LDAP no configurat o desactivat"
 
 msgid "No groups found in LDAP"
-msgstr ""
+msgstr "No hi ha grups trobats a LDAP"
 
 msgid "LDAP is not configured"
-msgstr ""
+msgstr "LDAP no està configurat"
 
 #, python-format
 msgid "Failed to list LDAP users: %(error)s"
-msgstr ""
+msgstr "Error per llistar usuaris LDAP: %(error)s"
 
 msgid "Admin account created – welcome!"
-msgstr ""
+msgstr "Compte d'aministrador creat- benvingut!"
 
 msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
 msgstr ""
+"La teva invitació ha caducat o ja no és vàlida. Sol·licita una nova "
+"invitació."
 
 msgid "Error Loading Step"
-msgstr ""
+msgstr "Error en carregar l'etapa"
 
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip to "
 "the next step."
 msgstr ""
+"Aquesta etapa no s'ha pogut carregar. Contacta amb l'administrador o salta a "
+"la següent etapa."
 
-#, fuzzy
 msgid "Invalid or expired invitation"
-msgstr "Invitació no vàlida"
+msgstr "Invitació invàlida o caducada"
 
 msgid ""
 "No media servers are configured. Please contact the administrator to set up "
 "a media server."
 msgstr ""
+"No s'han configurat els servidors multimèdia. Si us plau, poseu-vos en "
+"contacte amb l'administrador per configurar un servidor de mitjans."
 
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
+"No s'han pogut carregar els passos de l'assistent. Anar a acceptació "
+"d'invitació."
 
-#, fuzzy
 msgid "Continue to Invite"
-msgstr "Invitació ràpida"
+msgstr "Continua per convidar"
 
 msgid "Please log in to continue"
-msgstr ""
+msgstr "Inicia sessió per continuar"
 
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
+"No s'han pogut carregar els passos de l'assistent. Configuració completa! "
+"Benvingut al teu servidor de media."
 
 msgid "Setup complete! Welcome to your media server."
-msgstr ""
+msgstr "Configuració completa! Benvingut al teu servidor de media."
 
 msgid "Unable to load wizard configuration. Please try again."
 msgstr ""
+"No s'ha pogut carregar la configuració de l'assistent. Si us plau, intenti-"
+"ho novament."
 
 msgid "Unable to load wizard bundle. Please try again."
 msgstr ""
+"No es pot carregar el paquet de l'assistent. Si us plau, intenti-ho novament."
 
 msgid "Unable to load wizard steps. Please try again."
 msgstr ""
+"No s'han pogut carregar els passos de l'assistent. Si us plau, intenti-ho "
+"novament."
 
 msgid "This bundle has no steps to preview."
-msgstr ""
+msgstr "Aquest paquet no té etapes per a la previsualització."
 
-#, python-brace-format
+#, fuzzy, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
-msgstr ""
+msgstr "S'han netejat {} etapes orfanes."
 
-#, fuzzy
 msgid "Step created"
-msgstr "Creat"
+msgstr "Etapa creada"
 
 msgid "Preset step created successfully"
-msgstr ""
+msgstr "Etapa preestablerta creada amb èxit"
 
 #, python-brace-format
 msgid "Error creating preset: {}"
-msgstr ""
+msgstr "Error de creació d'etapa preestablerta: {}"
 
 msgid "Step updated"
-msgstr ""
+msgstr "Etapa actualitzada"
 
-#, fuzzy
 msgid "Step deleted"
-msgstr "Predeterminat"
+msgstr "Etapa eliminada"
 
-#, fuzzy
 msgid "Bundle created"
-msgstr "Creat"
+msgstr "Paquet creat"
 
 msgid "Bundle updated"
-msgstr ""
+msgstr "Paquet actualitzat"
 
-#, fuzzy
 msgid "Bundle deleted"
-msgstr "Predeterminat"
+msgstr "Paquet eliminat"
 
 msgid "Steps added"
-msgstr ""
+msgstr "Etapes afegides"
 
 msgid "Orphaned step removed"
-msgstr ""
+msgstr "Etapa òrfena eliminada"
 
 #, python-brace-format
 msgid "No steps found for server type: {}"
-msgstr ""
+msgstr "Cap etapa trobada per el següent tipus de servidor: {}"
 
 #, python-brace-format
 msgid "Export failed: {}"
-msgstr ""
-
-#, fuzzy, python-brace-format
-msgid "Successfully imported {} items"
-msgstr "S'ha generat una invitació correctament!"
+msgstr "Exportació fallida: {}"
 
 #, python-brace-format
+msgid "Successfully imported {} items"
+msgstr "Importació amb èxit de {} articles"
+
+#, fuzzy, python-brace-format
 msgid " and updated {} existing items"
-msgstr ""
+msgstr " i actualitzat {} elements existents"
 
 #, python-brace-format
 msgid "Import failed: {}"
