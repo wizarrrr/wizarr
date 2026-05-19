@@ -242,7 +242,9 @@ class MediaClient(ABC):
         Returns:
             bool: True if successful, False otherwise
         """
-        logging.warning(f"{self.__class__.__name__} does not implement password resets")
+        logging.warning(
+            "%s does not implement password resets", self.__class__.__name__
+        )
         return False
 
     def update_user_permissions(
@@ -537,8 +539,8 @@ class MediaClient(ABC):
                     tags="tada",
                     event_type="user_joined",
                 )
-            except Exception as e:
-                logging.warning(f"Failed to send join notification: {e}")
+            except Exception as exc:
+                logging.warning("Failed to send join notification: %s", exc)
 
             try:
                 user = (
@@ -553,8 +555,8 @@ class MediaClient(ABC):
                         server_name=user.server.name if user.server else None,
                         expires_at=user.expires,
                     )
-            except Exception as e:
-                logging.warning(f"Failed to send activation email: {e}")
+            except Exception as exc:
+                logging.warning("Failed to send activation email: %s", exc)
 
         return success, message
 
