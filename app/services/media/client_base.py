@@ -346,7 +346,9 @@ class MediaClient(ABC):
                 import logging
 
                 logging.warning(
-                    f"Failed to cache metadata for user {user.username}: {e}"
+                    "Failed to cache metadata for user %s: %s",
+                    user.username,
+                    e,
                 )
                 continue
 
@@ -355,11 +357,11 @@ class MediaClient(ABC):
                 db.session.commit()
                 import logging
 
-                logging.info(f"Cached metadata for {cached_count} users")
+                logging.info("Cached metadata for %s users", cached_count)
             except Exception as e:
                 import logging
 
-                logging.error(f"Failed to commit metadata cache: {e}")
+                logging.error("Failed to commit metadata cache: %s", e)
                 db.session.rollback()
 
     def _get_user_identifier_for_details(self, user: User) -> str | int | None:

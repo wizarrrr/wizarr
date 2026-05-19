@@ -10,6 +10,7 @@ import logging
 import re
 from collections import defaultdict
 from time import monotonic
+from types import SimpleNamespace
 from typing import Any
 
 from app.extensions import db
@@ -20,9 +21,6 @@ from .client_base import CLIENTS
 
 _NOW_PLAYING_CACHE_TTL = 5.0  # seconds
 _now_playing_cache: dict[str, Any] = {"timestamp": 0.0, "sessions": []}
-
-if not hasattr(User, "is_ldap_user"):
-    User.is_ldap_user = False
 
 
 def _get_user_identifier(user: User, server: MediaServer) -> str:
@@ -202,19 +200,30 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
     # Delete from companion apps
     _delete_from_companion_apps(user)
 
-    try:
-        send_user_lifecycle_email(
-            user,
-            event_type=email_event,
-            server_name=user.server.name if user.server else None,
-            expires_at=user.expires,
-        )
-    except Exception as exc:
-        logging.warning("Failed to send deletion email for user %s: %s", db_id, exc)
+    server_name = user.server.name if user.server else None
+    expires_at = user.expires
+    server_for_email = SimpleNamespace(name=server_name) if server_name else None
+    email_user = SimpleNamespace(
+        id=user.id,
+        username=user.username,
+        email=user.email,
+        expires=expires_at,
+        server=server_for_email,
+    )
 
     # Delete the user - SQLite handles all foreign key cascades automatically
     db.session.delete(user)
     db.session.commit()
+
+    try:
+        send_user_lifecycle_email(
+            email_user,
+            event_type=email_event,
+            server_name=server_name,
+            expires_at=expires_at,
+        )
+    except Exception as exc:
+        logging.warning("Failed to send deletion email for user %s: %s", db_id, exc)
 
 
 def enable_user(db_id: int) -> bool:
@@ -242,30 +251,27 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
 
     if not user or not server or user.server_id != server_id:
         return False
-
-    try:
-        send_user_lifecycle_email(
-            user,
-            event_type="deleted",
-            server_name=server.name,
-            expires_at=user.expires,
-        )
-    except Exception as exc:
-        logging.warning(
-            "Failed to send server-removal email for user %s on %s: %s",
-            user_id,
-            server_id,
-            exc,
-        )
+    email_user = SimpleNamespace(
+        id=user.id,
+        username=user.username,
+        email=user.email,
+        expires=user.expires,
+        server=SimpleNamespace(name=server.name),
+    )
 
     # Remove from remote media server
+    remote_deleted = False
     try:
         client = get_client_for_media_server(server)
         user_identifier = _get_user_identifier(user, server)
         client.delete_user(user_identifier)
+        remote_deleted = True
     except Exception as exc:
         logging.error(
-            f"Remote deletion failed for user {user.username} from {server.name}: {exc}"
+            "Remote deletion failed for user %s from %s: %s",
+            user.username,
+            server.name,
+            exc,
         )
 
     # Check if user has other accounts
@@ -285,6 +291,22 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
 
     db.session.delete(user)
     db.session.commit()
+
+    if remote_deleted:
+        try:
+            send_user_lifecycle_email(
+                email_user,
+                event_type="deleted",
+                server_name=server.name,
+                expires_at=email_user.expires,
+            )
+        except Exception as exc:
+            logging.warning(
+                "Failed to send server-removal email for user %s on %s: %s",
+                user_id,
+                server_id,
+                exc,
+            )
 
     if has_other_accounts:
         logging.info(
