@@ -2,9 +2,9 @@ import datetime
 
 from app.extensions import db
 from app.models import AdminAccount, MediaServer, Settings, User
-from app.services.email import send_user_lifecycle_email
+from app.services.email import save_smtp_settings, send_user_lifecycle_email
 from app.services.expiry import disable_or_delete_user_if_expired
-from app.services.media.service import delete_user
+from app.services.media.service import delete_user, remove_user_from_server
 from app.services.media.client_base import MediaClient
 
 
@@ -217,6 +217,39 @@ def test_mailing_settings_route_renders_for_logged_in_admin(client, app, session
     assert b"Enable User Lifecycle Emails" in response.data
 
 
+def test_save_smtp_settings_blank_password_keeps_existing_secret(
+    app, session, monkeypatch
+):
+    save_calls = []
+
+    monkeypatch.setattr(
+        "app.services.email.load_secrets",
+        lambda: {"smtp_password": "already-set"},
+    )
+    monkeypatch.setattr(
+        "app.services.email.save_secrets",
+        lambda secrets: save_calls.append(secrets.copy()),
+    )
+
+    with app.app_context():
+        save_smtp_settings(
+            {
+                "smtp_enabled": True,
+                "smtp_host": "smtp.example.com",
+                "smtp_port": 587,
+                "smtp_username": "mailer",
+                "smtp_password": "",
+                "smtp_from_address": "noreply@example.com",
+                "smtp_from_name": "Wizarr",
+                "smtp_use_tls": True,
+                "smtp_use_ssl": False,
+                "smtp_language": "en",
+            }
+        )
+
+    assert save_calls == []
+
+
 def test_delete_user_handles_ldap_flag_and_still_deletes(app, session, monkeypatch):
     email_calls = []
 
@@ -267,3 +300,102 @@ def test_delete_user_handles_ldap_flag_and_still_deletes(app, session, monkeypat
     assert len(email_calls) == 1
     assert email_calls[0][0] == "ldap_compat_user"
     assert email_calls[0][1]["event_type"] == "deleted"
+
+
+def test_remove_user_from_server_sends_deleted_email_after_success(
+    app, session, monkeypatch
+):
+    email_calls = []
+
+    class DummyDeleteClient:
+        def delete_user(self, _identifier):
+            return True
+
+    monkeypatch.setattr(
+        "app.services.media.service.send_user_lifecycle_email",
+        lambda user, **kwargs: email_calls.append((user.username, kwargs)) or True,
+    )
+    monkeypatch.setattr(
+        "app.services.media.service.get_client_for_media_server",
+        lambda _server: DummyDeleteClient(),
+    )
+    monkeypatch.setattr(
+        "app.services.media.service._delete_from_companion_apps",
+        lambda _user: None,
+    )
+
+    with app.app_context():
+        server = MediaServer(
+            name="Server Removal Success",
+            server_type="jellyfin",
+            url="http://localhost:8096",
+            api_key="test-key",
+        )
+        session.add(server)
+        session.flush()
+        user = User(
+            token="server-removal-success-token",
+            username="server_removal_success_user",
+            email="success@example.com",
+            code="REM123",
+            server_id=server.id,
+        )
+        session.add(user)
+        session.commit()
+        user_id = user.id
+
+        assert remove_user_from_server(user_id, server.id) is True
+        assert db.session.get(User, user_id) is None
+
+    assert len(email_calls) == 1
+    assert email_calls[0][0] == "server_removal_success_user"
+    assert email_calls[0][1]["event_type"] == "deleted"
+
+
+def test_remove_user_from_server_does_not_send_email_on_remote_failure(
+    app, session, monkeypatch
+):
+    email_calls = []
+
+    class DummyDeleteClient:
+        def delete_user(self, _identifier):
+            msg = "remote failure"
+            raise RuntimeError(msg)
+
+    monkeypatch.setattr(
+        "app.services.media.service.send_user_lifecycle_email",
+        lambda user, **kwargs: email_calls.append((user.username, kwargs)) or True,
+    )
+    monkeypatch.setattr(
+        "app.services.media.service.get_client_for_media_server",
+        lambda _server: DummyDeleteClient(),
+    )
+    monkeypatch.setattr(
+        "app.services.media.service._delete_from_companion_apps",
+        lambda _user: None,
+    )
+
+    with app.app_context():
+        server = MediaServer(
+            name="Server Removal Failure",
+            server_type="jellyfin",
+            url="http://localhost:8096",
+            api_key="test-key",
+        )
+        session.add(server)
+        session.flush()
+        user = User(
+            token="server-removal-failure-token",
+            username="server_removal_failure_user",
+            email="failure@example.com",
+            code="REM124",
+            server_id=server.id,
+        )
+        session.add(user)
+        session.commit()
+        user_id = user.id
+
+        assert remove_user_from_server(user_id, server.id) is True
+        assert db.session.get(User, user_id) is None
+
+    assert email_calls == []

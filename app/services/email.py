@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import logging
 from datetime import UTC, datetime
+from threading import Lock
 from typing import Any
 
 from flask import current_app, render_template
@@ -15,6 +16,7 @@ from app.models import Settings, User
 
 SMTP_PASSWORD_KEY_NAME = "smtp_password"  # noqa: S105
 SMTP_BOOLEAN_KEYS = {"smtp_enabled", "smtp_use_tls", "smtp_use_ssl"}
+_MAIL_SEND_LOCK = Lock()
 SMTP_SETTING_DEFAULTS: dict[str, Any] = {
     "smtp_enabled": False,
     "smtp_host": "",
@@ -87,12 +89,9 @@ def save_smtp_settings(data: dict[str, Any]) -> None:
         db.session.rollback()
         raise
 
-    if password is not None:
+    if password:
         secrets = load_secrets()
-        if password:
-            secrets[SMTP_PASSWORD_KEY_NAME] = password
-        else:
-            secrets.pop(SMTP_PASSWORD_KEY_NAME, None)
+        secrets[SMTP_PASSWORD_KEY_NAME] = password
         save_secrets(secrets)
 
 
@@ -213,14 +212,15 @@ def send_user_lifecycle_email(
                 headline=content["headline"], server=resolved_server_name
             )
 
-        mail = _apply_mail_config(settings)
-        message = Message(
-            subject=subject,
-            recipients=[user.email],
-            body=text_body,
-            html=html_body,
-        )
-        mail.send(message)
+        with _MAIL_SEND_LOCK:
+            mail = _apply_mail_config(settings)
+            message = Message(
+                subject=subject,
+                recipients=[user.email],
+                body=text_body,
+                html=html_body,
+            )
+            mail.send(message)
     except Exception as exc:
         logging.warning("Failed to send lifecycle email for user %s: %s", user.id, exc)
         return False
