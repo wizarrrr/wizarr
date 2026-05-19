@@ -202,12 +202,13 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
 
     server_name = user.server.name if user.server else None
     expires_at = user.expires
+    server_for_email = SimpleNamespace(name=server_name) if server_name else None
     email_user = SimpleNamespace(
         id=user.id,
         username=user.username,
         email=user.email,
         expires=expires_at,
-        server=user.server,
+        server=server_for_email,
     )
 
     # Delete the user - SQLite handles all foreign key cascades automatically
@@ -255,7 +256,7 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
         username=user.username,
         email=user.email,
         expires=user.expires,
-        server=server,
+        server=SimpleNamespace(name=server.name),
     )
 
     # Remove from remote media server
