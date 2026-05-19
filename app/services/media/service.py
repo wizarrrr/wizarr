@@ -207,7 +207,7 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
         username=user.username,
         email=user.email,
         expires=expires_at,
-        server=None,
+        server=user.server,
     )
 
     # Delete the user - SQLite handles all foreign key cascades automatically
@@ -255,7 +255,7 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
         username=user.username,
         email=user.email,
         expires=user.expires,
-        server=None,
+        server=server,
     )
 
     # Remove from remote media server

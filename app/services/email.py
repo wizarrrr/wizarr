@@ -89,7 +89,7 @@ def save_smtp_settings(data: dict[str, Any]) -> None:
         db.session.rollback()
         raise
 
-    if password:
+    if password is not None and password:
         secrets = load_secrets()
         secrets[SMTP_PASSWORD_KEY_NAME] = password
         save_secrets(secrets)

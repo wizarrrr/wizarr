@@ -246,8 +246,11 @@ def test_save_smtp_settings_blank_password_keeps_existing_secret(
                 "smtp_language": "en",
             }
         )
+        smtp_host_setting = Settings.query.filter_by(key="smtp_host").first()
 
     assert save_calls == []
+    assert smtp_host_setting is not None
+    assert smtp_host_setting.value == "smtp.example.com"
 
 
 def test_delete_user_handles_ldap_flag_and_still_deletes(app, session, monkeypatch):
