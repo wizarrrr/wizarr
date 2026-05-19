@@ -10,6 +10,7 @@ import logging
 import re
 from collections import defaultdict
 from time import monotonic
+from types import SimpleNamespace
 from typing import Any
 
 from app.extensions import db
@@ -201,6 +202,13 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
 
     server_name = user.server.name if user.server else None
     expires_at = user.expires
+    email_user = SimpleNamespace(
+        id=user.id,
+        username=user.username,
+        email=user.email,
+        expires=expires_at,
+        server=None,
+    )
 
     # Delete the user - SQLite handles all foreign key cascades automatically
     db.session.delete(user)
@@ -208,7 +216,7 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
 
     try:
         send_user_lifecycle_email(
-            user,
+            email_user,
             event_type=email_event,
             server_name=server_name,
             expires_at=expires_at,
@@ -242,6 +250,13 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
 
     if not user or not server or user.server_id != server_id:
         return False
+    email_user = SimpleNamespace(
+        id=user.id,
+        username=user.username,
+        email=user.email,
+        expires=user.expires,
+        server=None,
+    )
 
     # Remove from remote media server
     remote_deleted = False
@@ -279,10 +294,10 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
     if remote_deleted:
         try:
             send_user_lifecycle_email(
-                user,
+                email_user,
                 event_type="deleted",
                 server_name=server.name,
-                expires_at=user.expires,
+                expires_at=email_user.expires,
             )
         except Exception as exc:
             logging.warning(
