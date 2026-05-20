@@ -213,14 +213,30 @@ def send_user_lifecycle_email(
             )
 
         with _MAIL_SEND_LOCK:
-            mail = _apply_mail_config(settings)
-            message = Message(
-                subject=subject,
-                recipients=[user.email],
-                body=text_body,
-                html=html_body,
-            )
-            mail.send(message)
+            app = current_app._get_current_object()
+            mail_keys = [
+                "MAIL_SERVER",
+                "MAIL_PORT",
+                "MAIL_USERNAME",
+                "MAIL_PASSWORD",
+                "MAIL_USE_TLS",
+                "MAIL_USE_SSL",
+                "MAIL_DEFAULT_SENDER",
+                "MAIL_SUPPRESS_SEND",
+            ]
+            old_config = {key: app.config.get(key) for key in mail_keys}
+
+            try:
+                mail = _apply_mail_config(settings)
+                message = Message(
+                    subject=subject,
+                    recipients=[user.email],
+                    body=text_body,
+                    html=html_body,
+                )
+                mail.send(message)
+            finally:
+                app.config.update(old_config)
     except Exception as exc:
         logging.warning("Failed to send lifecycle email for user %s: %s", user.id, exc)
         return False
