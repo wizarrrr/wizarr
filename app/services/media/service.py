@@ -153,6 +153,12 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
     if not (user := db.session.get(User, db_id)):
         return
 
+    # Cache values early to avoid detached-instance access after delete/commit.
+    user_username = user.username
+    user_email = user.email
+    user_expires = user.expires
+    server_name = user.server.name if user.server else None
+
     # Delete from LDAP if user is an LDAP user
     # Only delete from LDAP if this is the last User record with the same username
     if user.is_ldap_user:
@@ -200,27 +206,25 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
     # Delete from companion apps
     _delete_from_companion_apps(user)
 
-    server_name = user.server.name if user.server else None
-    expires_at = user.expires
-    server_for_email = SimpleNamespace(name=server_name) if server_name else None
-    email_user = SimpleNamespace(
-        id=user.id,
-        username=user.username,
-        email=user.email,
-        expires=expires_at,
-        server=server_for_email,
-    )
-
     # Delete the user - SQLite handles all foreign key cascades automatically
     db.session.delete(user)
     db.session.commit()
+
+    server_for_email = SimpleNamespace(name=server_name) if server_name else None
+    email_user = SimpleNamespace(
+        id=db_id,
+        username=user_username,
+        email=user_email,
+        expires=user_expires,
+        server=server_for_email,
+    )
 
     try:
         send_user_lifecycle_email(
             email_user,
             event_type=email_event,
             server_name=server_name,
-            expires_at=expires_at,
+            expires_at=user_expires,
         )
     except Exception as exc:
         logging.warning("Failed to send deletion email for user %s: %s", db_id, exc)
@@ -251,13 +255,12 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
 
     if not user or not server or user.server_id != server_id:
         return False
-    email_user = SimpleNamespace(
-        id=user.id,
-        username=user.username,
-        email=user.email,
-        expires=user.expires,
-        server=SimpleNamespace(name=server.name),
-    )
+
+    # Cache values early to avoid detached-instance access after delete/commit.
+    user_username = user.username
+    user_email = user.email
+    user_expires = user.expires
+    server_name = server.name
 
     # Remove from remote media server
     remote_deleted = False
@@ -292,13 +295,22 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
     db.session.delete(user)
     db.session.commit()
 
+    server_for_email = SimpleNamespace(name=server_name)
+    email_user = SimpleNamespace(
+        id=user_id,
+        username=user_username,
+        email=user_email,
+        expires=user_expires,
+        server=server_for_email,
+    )
+
     if remote_deleted:
         try:
             send_user_lifecycle_email(
                 email_user,
                 event_type="deleted",
-                server_name=server.name,
-                expires_at=email_user.expires,
+                server_name=server_name,
+                expires_at=user_expires,
             )
         except Exception as exc:
             logging.warning(
@@ -310,11 +322,11 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
 
     if has_other_accounts:
         logging.info(
-            f"Removed user {user.username} from server {server.name}, preserving other accounts"
+            f"Removed user {user_username} from server {server_name}, preserving other accounts"
         )
     else:
         logging.info(
-            f"Removed user {user.username}'s only account from server {server.name}"
+            f"Removed user {user_username}'s only account from server {server_name}"
         )
 
     return True
