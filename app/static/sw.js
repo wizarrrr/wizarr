@@ -1,14 +1,13 @@
-const CACHE_NAME = 'wizarr-v1';
+const CACHE_NAME = 'wizarr-v2';
 const urlsToCache = [
-  '/',
   '/static/css/main.css',
   '/static/js/dark-mode-switch.js',
   '/static/favicon.ico',
   '/static/wizarr-logo.png',
-  '/static/node_modules/htmx.org/dist/htmx.min.js',
-  '/static/node_modules/alpinejs/dist/cdn.min.js',
-  '/static/node_modules/flowbite/dist/flowbite.min.js',
-  '/static/node_modules/@alpinejs/collapse/dist/cdn.min.js'
+  '/static/js/vendor/htmx.min.js',
+  '/static/js/vendor/alpine.min.js',
+  '/static/js/vendor/flowbite.min.js',
+  '/static/js/vendor/alpine-collapse.min.js'
 ];
 
 // Install event - cache resources
@@ -22,12 +21,23 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - network-first for HTML pages, cache-first for static assets
 self.addEventListener('fetch', (event) => {
+  // Always go network-first for HTML page navigation to ensure dynamic Flask backend state works
+  if (event.request.mode === 'navigate' || (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html'))) {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => {
+          return caches.match(event.request);
+        })
+    );
+    return;
+  }
+
+  // Cache-first for static assets
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
-        // Cache hit - return response
         if (response) {
           return response;
         }
@@ -36,13 +46,14 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// Activate event - clean up old caches
+// Activate event - clean up old caches (effectively busts the old v1 cache)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (cacheName !== CACHE_NAME) {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
@@ -51,7 +62,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Handle background sync and push notifications (optional)
+// Handle background sync and push notifications
 self.addEventListener('sync', (event) => {
   console.log('Background sync event:', event);
 });
