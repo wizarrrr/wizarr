@@ -7,9 +7,9 @@
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/tiny-mde.min.css') }}" />
     <link rel="stylesheet"
-          href="{{ url_for ('static', filename='node_modules/animate.css/animate.min.css') }}">
-    <script src="{{ url_for('static', filename='node_modules/htmx.org/dist/htmx.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='node_modules/htmx-ext-preload/dist/preload.min.js') }}"></script>
+          href="{{ url_for('static', filename='css/vendor/animate.min.css') }}">
+    <script src="{{ url_for('static', filename='js/vendor/htmx.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/htmx-preload.min.js') }}"></script>
     <link rel="icon"
           type="image/x-icon"
           href="{{ url_for('static', filename='favicon.ico') }}">
@@ -126,9 +126,9 @@
     {% endblock main %}
     <link rel="stylesheet"
           href="{{ url_for('static',filename='css/main.css') }}" />
-    <script src="{{url_for('static', filename='node_modules/alpinejs/dist/cdn.min.js')}}"></script>
-    <script src="{{ url_for('static', filename='node_modules/flowbite/dist/flowbite.min.js') }}"></script>
-    <script src="{{url_for('static', filename='node_modules/@alpinejs/collapse/dist/cdn.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/vendor/alpine-collapse.min.js')}}"></script>
+    <script src="{{url_for('static', filename='js/vendor/alpine.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/flowbite.min.js') }}"></script>
     <script src="{{url_for('static', filename='js/dark-mode-switch.js')}}"></script>
     <script src="{{ url_for('static', filename='js/tiny-mde.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/init-tinymde.js') }}"></script>
@@ -136,8 +136,8 @@
     <script src="{{ url_for('static', filename='js/wizard-steps.js') }}"></script>
     <script src="{{ url_for('static', filename='js/pwa-registration.js') }}"></script>
     <!-- In-app browser escape -->
-    <script src="{{ url_for('static', filename='node_modules/bowser/bundled.js') }}"></script>
-    <script src="{{ url_for('static', filename='node_modules/inapp-spy/dist/index.global.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/bowser.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/inapp-spy.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/in-app-escape.js') }}"></script>
   </body>
 </html>
