@@ -18,16 +18,22 @@ const assets = [
     { src: 'node_modules/inapp-spy/dist/index.global.js', dest: 'js/vendor/inapp-spy.min.js' }
 ];
 
+const isProduction = process.env.NODE_ENV === 'production' || process.env.DOCKER_BUILD === 'true';
+
 console.log('📦 Starting cross-platform asset copy...');
 
 assets.forEach(asset => {
     const srcPath = path.resolve(__dirname, asset.src);
     const destPath = path.resolve(__dirname, asset.dest);
 
-    // Skip if source doesn't exist (e.g. node_modules not yet installed)
     if (!fs.existsSync(srcPath)) {
-        console.warn(`⚠️ Source file not found: ${asset.src}. Make sure 'npm install' ran successfully.`);
-        return;
+        if (isProduction) {
+            console.error(`❌ CRITICAL: Source file missing for production build: ${asset.src}`);
+            process.exit(1); // Fails the build pipeline safely
+        } else {
+            console.warn(`⚠️ Warning: Source file not found: ${asset.src}. Skipping in dev mode.`);
+            return;
+        }
     }
 
     // Ensure destination directory exists

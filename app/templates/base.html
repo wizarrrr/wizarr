@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet"
-          href="{{ url_for('static',filename='css/main.css') }}" />
+          href="{{ url_for('static',filename='css/main.css') }}?v={{ app_version }}" />
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/tiny-mde.min.css') }}" />
+          href="{{ url_for('static', filename='css/tiny-mde.min.css') }}?v={{ app_version }}" />
     <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/vendor/animate.min.css') }}">
-    <script src="{{ url_for('static', filename='js/vendor/htmx.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/vendor/htmx-preload.min.js') }}"></script>
+          href="{{ url_for('static', filename='css/vendor/animate.min.css') }}?v={{ app_version }}">
+    <script src="{{ url_for('static', filename='js/vendor/htmx.min.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/htmx-preload.min.js') }}?v={{ app_version }}"></script>
     <link rel="icon"
           type="image/x-icon"
           href="{{ url_for('static', filename='favicon.ico') }}">
@@ -124,18 +124,18 @@
   <body class="bg-gray-50 dark:bg-gray-900">
     {% block main %}
     {% endblock main %}
-    <script src="{{url_for('static', filename='js/vendor/alpine-collapse.min.js')}}"></script>
-    <script src="{{url_for('static', filename='js/vendor/alpine.min.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/vendor/flowbite.min.js') }}"></script>
-    <script src="{{url_for('static', filename='js/dark-mode-switch.js')}}"></script>
-    <script src="{{ url_for('static', filename='js/tiny-mde.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/init-tinymde.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/sortable.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/wizard-steps.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/pwa-registration.js') }}"></script>
+    <script src="{{url_for('static', filename='js/vendor/alpine-collapse.min.js')}}?v={{ app_version }}"></script>
+    <script src="{{url_for('static', filename='js/vendor/alpine.min.js')}}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/flowbite.min.js') }}?v={{ app_version }}"></script>
+    <script src="{{url_for('static', filename='js/dark-mode-switch.js')}}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', filename='js/tiny-mde.min.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', filename='js/init-tinymde.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', filename='js/sortable.min.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', filename='js/wizard-steps.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', filename='js/pwa-registration.js') }}?v={{ app_version }}"></script>
     <!-- In-app browser escape -->
-    <script src="{{ url_for('static', filename='js/vendor/bowser.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/vendor/inapp-spy.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/in-app-escape.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/bowser.min.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/inapp-spy.min.js') }}?v={{ app_version }}"></script>
+    <script src="{{ url_for('static', filename='js/in-app-escape.js') }}?v={{ app_version }}"></script>
   </body>
 </html>
