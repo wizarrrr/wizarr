@@ -124,8 +124,6 @@
   <body class="bg-gray-50 dark:bg-gray-900">
     {% block main %}
     {% endblock main %}
-    <link rel="stylesheet"
-          href="{{ url_for('static',filename='css/main.css') }}" />
     <script src="{{url_for('static', filename='js/vendor/alpine-collapse.min.js')}}"></script>
     <script src="{{url_for('static', filename='js/vendor/alpine.min.js')}}"></script>
     <script src="{{ url_for('static', filename='js/vendor/flowbite.min.js') }}"></script>
