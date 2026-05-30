@@ -68,7 +68,11 @@ def create_app(config_object=DevelopmentConfig):
     # Step 5: Setup context processors and filters
     if show_startup:
         logger.step("Configuring request processing", "⚙️")
-    from .context_processors import inject_plus_features, inject_server_name, inject_app_version
+    from .context_processors import (
+        inject_app_version,
+        inject_plus_features,
+        inject_server_name,
+    )
 
     app.context_processor(inject_server_name)
     app.context_processor(inject_plus_features)
