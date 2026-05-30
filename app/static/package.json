@@ -5,7 +5,7 @@
   "scripts": {
     "build:css": "npx @tailwindcss/cli -i src/style.css -o css/main.css",
     "watch:css": "npx @tailwindcss/cli -i src/style.css -o css/main.css --watch",
-    "build:js": "cp node_modules/sortablejs/Sortable.min.js js/sortable.min.js && cp node_modules/tiny-markdown-editor/dist/tiny-mde.min.js js/tiny-mde.min.js && cp node_modules/tiny-markdown-editor/dist/tiny-mde.min.css css/tiny-mde.min.css",
+    "build:js": "node copy-assets.js",
     "build": "npm run build:css && npm run build:js"
   },
   "author": "",

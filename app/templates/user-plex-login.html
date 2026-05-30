@@ -274,7 +274,7 @@
           }
       }
   </style>
-  <script src="https://unpkg.com/bowser@2.7.0/es5.js"></script> <!-- needed for plexHeaders -->
+  <script src="{{ url_for('static', filename='js/vendor/bowser.min.js', v=app_version) }}"></script> <!-- needed for plexHeaders -->
   <script>
       // Load movie posters for flowing grid background with progressive loading
       async function loadCinemaPosters() {

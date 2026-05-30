@@ -12,7 +12,7 @@
   window.wizarrInAppEscapeLoaded = true;
 
   // Import dependencies from node_modules
-  const Bowser = window.Bowser;
+  const Bowser = window.Bowser || window.bowser;
   const InAppSpy = window.InAppSpy;
 
   if (!Bowser || !InAppSpy) {
