@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-06-09 06:57+0000\n"
-"PO-Revision-Date: 2026-06-09 06:57+0000\n"
+"PO-Revision-Date: 2026-06-10 07:16+0000\n"
 "Last-Translator: wanyuxi88 <wanyuxi@163.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/wizarr/wizarr-universal/zh_Hans/>\n"
@@ -788,7 +788,7 @@ msgid "Password must be:"
 msgstr "密码必须一致。"
 
 msgid "Between 8 and 128 characters"
-msgstr ""
+msgstr "长度需为 8 至 128 个字符"
 
 #, fuzzy
 msgid "Match the confirmation"
@@ -811,14 +811,14 @@ msgid "has been successfully reset."
 msgstr "活动数据已成功删除（{} 条记录）。"
 
 msgid "You can now use your new password to log in to your media server."
-msgstr ""
+msgstr "密码已重置成功，您现在可以使用新密码登录媒体服务器。"
 
 #, fuzzy
 msgid "What's next?"
 msgstr "接下来会发生什么？"
 
 msgid "Log in to your media server with your username and new password."
-msgstr ""
+msgstr "请使用您的用户名和新密码登录媒体服务器。"
 
 msgid "Administrator"
 msgstr "管理员"
@@ -1083,7 +1083,7 @@ msgid "Tabs"
 msgstr "状态"
 
 msgid "Local"
-msgstr ""
+msgstr "本地"
 
 msgid "Notes"
 msgstr "备注"
@@ -1093,17 +1093,17 @@ msgid "Permission Management"
 msgstr "用户管理"
 
 msgid "Toggle downloads permission"
-msgstr ""
+msgstr "启用/禁用下载权限"
 
 msgid "Toggle live TV permission"
-msgstr ""
+msgstr "允许观看直播电视"
 
 #, fuzzy
 msgid "Allow Camera Upload"
 msgstr "照片上传"
 
 msgid "Toggle camera upload permission"
-msgstr ""
+msgstr "允许相机自动上传"
 
 #, fuzzy
 msgid "Library Access"
@@ -1114,10 +1114,10 @@ msgid "No libraries available"
 msgstr "未找到媒体库"
 
 msgid "Scan libraries from the invitation page to enable library restrictions"
-msgstr ""
+msgstr "请在邀请页面扫描媒体库，以启用媒体库访问限制。"
 
 msgid "Click to toggle library access. Updates save automatically."
-msgstr ""
+msgstr "点击可切换媒体库访问权限，修改将自动保存。"
 
 #, fuzzy
 msgid "Expiry Management"
@@ -1484,7 +1484,7 @@ msgid "Create LDAP User"
 msgstr "创建API密钥"
 
 msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
+msgstr "接受邀请后自动创建 LDAP 用户"
 
 msgid "Target servers"
 msgstr "目标服务器"
@@ -1503,11 +1503,11 @@ msgid "Max Active Sessions"
 msgstr "活跃会话"
 
 msgid "simultaneous devices"
-msgstr ""
+msgstr "同时在线设备数"
 
 msgid ""
 "Number of devices that can stream simultaneously. Set to 0 for unlimited."
-msgstr ""
+msgstr "可同时进行流媒体播放的设备数量。设置为 0 表示无限制。"
 
 msgid "Select Libraries"
 msgstr "选择媒体库"
@@ -1538,7 +1538,7 @@ msgid "Password Reset Link"
 msgstr "密码（可选）"
 
 msgid "Generate Password Reset Link"
-msgstr ""
+msgstr "生成密码重置链接"
 
 #, fuzzy
 msgid "Password reset link for"
@@ -1549,14 +1549,14 @@ msgid "Link expires:"
 msgstr "到期时间"
 
 msgid "Reset Link (Click to copy)"
-msgstr ""
+msgstr "重置链接（点击复制）"
 
 msgid ""
 "Send this link to the user. They can use it once to reset their password."
-msgstr ""
+msgstr "请将此链接发送给用户，该链接仅可用于一次性重置密码。"
 
 msgid "Reset Code"
-msgstr ""
+msgstr "重置验证码"
 
 #, fuzzy
 msgid "Security Notes:"
@@ -1567,10 +1567,10 @@ msgid "This link can only be used once"
 msgstr "此操作无法撤销。"
 
 msgid "It expires in 24 hours"
-msgstr ""
+msgstr "有效期为24小时"
 
 msgid "Send it securely (email, message, etc.)"
-msgstr ""
+msgstr "请通过安全方式发送（如电子邮件、消息等）"
 
 #, fuzzy
 msgid "Generate a secure password reset link for"
@@ -1581,7 +1581,7 @@ msgid "Generate Reset Link"
 msgstr "常规设置"
 
 msgid "The link will be valid for 24 hours and can only be used once."
-msgstr ""
+msgstr "该链接有效期为24小时，且只能使用一次。"
 
 #, fuzzy
 msgid "Copy Link"
@@ -1596,7 +1596,7 @@ msgid "Reset link copied to clipboard!"
 msgstr "链接已复制到剪贴板！"
 
 msgid "Please manually copy the link"
-msgstr ""
+msgstr "请手动复制链接。"
 
 msgid "Import Wizard Steps"
 msgstr "导入向导步骤"
@@ -1809,7 +1809,7 @@ msgid "Choose what happens to users when their invitation expires"
 msgstr "选择用户邀请过期时的处理方式"
 
 msgid "Immediately process all expired users based on the expiry action above"
-msgstr ""
+msgstr "按照上方设置的过期处理方式，立即处理所有已过期用户。"
 
 msgid "API Key Management"
 msgstr "API密钥管理"
@@ -1865,13 +1865,13 @@ msgid "Experimental"
 msgstr "元素"
 
 msgid "Configure LDAP for user authentication and management"
-msgstr ""
+msgstr "配置 LDAP 用于用户认证与管理"
 
 msgid "Enable LDAP"
-msgstr ""
+msgstr "启用 LDAP"
 
 msgid "Turn on LDAP integration"
-msgstr ""
+msgstr "启用 LDAP 集成"
 
 #, fuzzy
 msgid "Connection"
@@ -1882,7 +1882,7 @@ msgid "LDAP server connection"
 msgstr "更新连接"
 
 msgid "e.g., ldap://server:3890 or ldaps://server:6360"
-msgstr ""
+msgstr "例如：ldap://server:3890 或 ldaps://server:6360"
 
 #, fuzzy
 msgid "Use TLS"
@@ -1893,23 +1893,23 @@ msgid "Verify Cert"
 msgstr "已验证"
 
 msgid "Encrypted before storage"
-msgstr ""
+msgstr "存储前加密"
 
 #, fuzzy
 msgid "User & Group Settings"
 msgstr "保存设置"
 
 msgid "Where to find users and groups"
-msgstr ""
+msgstr "在哪里查找用户和组"
 
 msgid "Optional - only needed for admin group restriction"
-msgstr ""
+msgstr "可选——仅在需要管理员组限制时使用"
 
 msgid "Sync Groups"
-msgstr ""
+msgstr "同步组"
 
 msgid "Sync LDAP groups to populate admin group selection"
-msgstr ""
+msgstr "同步 LDAP 组以填充管理员组选择列表"
 
 #, fuzzy
 msgid "Advanced Settings"
@@ -1918,35 +1918,35 @@ msgstr "保存设置"
 msgid ""
 "Defaults are optimized for LLDAP. Only change if using a different LDAP "
 "server."
-msgstr ""
+msgstr "默认设置已针对 LLDAP 优化，仅在使用其他 LDAP 服务器时修改。"
 
 #, fuzzy
 msgid "Manage all users - both LDAP and local authentication"
 msgstr "管理您的通行密钥以实现无密码认证。"
 
 msgid "Sync from LDAP"
-msgstr ""
+msgstr "从 LDAP 同步"
 
 msgid ""
 "Users can authenticate via LDAP or locally. Sync automatically imports new "
 "users from LDAP."
-msgstr ""
+msgstr "用户可以通过 LDAP 或本地进行身份验证。同步功能会自动从 LDAP 导入新用户。"
 
 #, fuzzy
 msgid "Admin Authentication"
 msgstr "无待处理的双重身份验证"
 
 msgid "Allow administrators to log in using LDAP"
-msgstr ""
+msgstr "允许管理员通过 LDAP 登录"
 
 msgid "Allow Admin Login via LDAP"
-msgstr ""
+msgstr "允许管理员通过 LDAP 登录"
 
 msgid "Enable admin login using LDAP credentials"
-msgstr ""
+msgstr "启用管理员通过 LDAP 凭据登录"
 
 msgid "Optional: Restrict admin access to members of this LDAP group"
-msgstr ""
+msgstr "可选：将管理员访问限制为该 LDAP 组的成员"
 
 msgid "Notification Agents"
 msgstr "通知代理设置"
