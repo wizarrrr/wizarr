@@ -17,7 +17,7 @@ auth_bp = Blueprint("auth", __name__)
 def login():
     if os.getenv("DISABLE_BUILTIN_AUTH", "").lower() == "true":
         login_user(AdminUser(), remember=bool(request.form.get("remember")))
-        return redirect("/")
+        return redirect(url_for("admin.dashboard"))
 
     # Pre-compute shared template context
     from app.models import LDAPConfiguration, WebAuthnCredential
@@ -48,7 +48,7 @@ def login():
 
         success, message = handle_ldap_login(username, password)
         if success:
-            return redirect("/")
+            return redirect(url_for("admin.dashboard"))
 
         return render_template(
             "login.html",
@@ -77,7 +77,7 @@ def login():
             )
         # No passkeys, allow direct login
         login_user(account, remember=bool(request.form.get("remember")))
-        return redirect("/")
+        return redirect(url_for("admin.dashboard"))
 
     # fetch the stored admin credentials
     admin_username = (
@@ -94,7 +94,7 @@ def login():
     ):
         # Legacy single-admin (Settings table)
         login_user(AdminUser(), remember=bool(request.form.get("remember")))
-        return redirect("/")
+        return redirect(url_for("admin.dashboard"))
 
     # Get IP address: prefer Cloudflare's header, then X-Forwarded-For, then remote_addr
     client_ip = (
@@ -156,7 +156,7 @@ def complete_2fa():
     session.pop("pending_2fa_remember", None)
 
     login_user(account, remember=remember)
-    return redirect("/")
+    return redirect(url_for("admin.dashboard"))
 
 
 # ── Logout ────────────────────────────────────────────────────────────

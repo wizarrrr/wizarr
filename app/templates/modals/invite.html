@@ -35,7 +35,7 @@
                    role="alert">{{ error_message }}</div>
             {% endif %}
             <form class="space-y-4 md:space-y-6"
-                  hx-post="/invite"
+                  hx-post="{{ url_for('admin.invite') }}"
                   hx-target="#inviteModalContent"
                   hx-swap="innerHTML"
                   onsubmit="return validateServerSelection()">
@@ -350,7 +350,7 @@
                                   class="text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-primary_hover font-medium rounded-lg text-xs px-3 py-2 inline-flex items-center"
                                   data-dropdown-toggle="libMenu{{ s.id }}"
                                   data-dropdown-placement="bottom"
-                                  hx-post="/invite/scan-libraries"
+                                  hx-post="{{ url_for('admin.invite_scan_libraries') }}"
                                   hx-vals='{"server_ids":"{{ s.id }}"}'
                                   hx-target="#libMenu{{ s.id }} .dropdown-content"
                                   hx-swap="innerHTML"
@@ -508,7 +508,7 @@
 
     function createAnother() {
         // Reload the invite form
-        htmx.ajax('GET', '/invite', {
+        htmx.ajax('GET', {{ url_for('admin.invite') | tojson }}, {
             target: '#inviteModalContent',
             swap: 'innerHTML'
         });
@@ -525,7 +525,7 @@
             const link = document.getElementById('link');
             if (link) {
                 // Refresh the invitations table on the main page
-                htmx.ajax('POST', '/invite/table', {
+                htmx.ajax('POST', {{ url_for('admin.invite_table') | tojson }}, {
                     target: '#invite_table',
                     swap: 'outerHTML',
                     values: {

@@ -214,7 +214,7 @@ class InvitationWorkflow(ABC):
             status = ProcessingStatus.PARTIAL_SUCCESS
             message = f"Accounts created on {len(successful)} of {len(successful) + len(failed)} servers"
 
-        redirect_url = "/wizard/"
+        redirect_url = url_for("wizard.start")
         if bundle_id:
             redirect_url = url_for("wizard.bundle_view", idx=0)
 

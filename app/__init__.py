@@ -29,8 +29,11 @@ def create_app(config_object=DevelopmentConfig):
     # Step 2: Create Flask application
     if show_startup:
         logger.step("Creating Flask application", "🌐")
-    app = Flask(__name__)
+    # SCRIPT_NAME supplies APPLICATION_ROOT, including for the static endpoint.
+    app = Flask(__name__, static_url_path="/static")
     app.config.from_object(config_object)
+    # Configure app to handle reverse proxy subpath
+    app.config["PREFERRED_URL_SCHEME"] = os.getenv("PREFERRED_URL_SCHEME", "http")
 
     # Step 3: Initialize extensions
     if show_startup:
@@ -84,6 +87,11 @@ def create_app(config_object=DevelopmentConfig):
 
     register_filters(app)
     app.before_request(require_onboarding)
+
+    # Wrap app with reverse proxy middleware for subpath support
+    from .middleware import ReverseProxyFix
+
+    app.wsgi_app = ReverseProxyFix(app.wsgi_app, app)
 
     # Step 6: Initialize wizard steps
     if show_startup:
