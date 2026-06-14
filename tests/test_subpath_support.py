@@ -3,7 +3,7 @@ from unittest.mock import patch
 import pytest
 
 from app.extensions import db
-from app.models import AdminAccount, Invitation, MediaServer, Settings
+from app.models import AdminAccount, Invitation, MediaServer, Settings, WizardStep
 
 
 @pytest.fixture
@@ -160,3 +160,46 @@ def test_auth_and_profile_templates_use_prefixed_routes(
     assert 'hx-post="/wizarr/profile/change-password"' in profile.text
     assert 'hx-get="/wizarr/webauthn/add-form"' in profile.text
     assert 'hx-get="/wizarr/webauthn/list"' in profile.text
+
+
+def test_wizard_edit_button_and_form_use_prefixed_route(
+    subpath_app, client, session
+):
+    admin = AdminAccount(username="admin")
+    admin.set_password("Password1")
+    server = MediaServer(
+        name="Test Jellyfin",
+        server_type="jellyfin",
+        url="http://jellyfin.local",
+        api_key="test-key",
+    )
+    step = WizardStep(
+        server_type="jellyfin",
+        category="post_invite",
+        position=0,
+        title="Welcome",
+        markdown="# Welcome",
+    )
+    db.session.add_all([admin, server, step])
+    db.session.commit()
+
+    client.post(
+        "/wizarr/login",
+        data={"username": "admin", "password": "Password1"},
+    )
+
+    steps = client.get(
+        "/wizarr/settings/wizard/",
+        headers={"HX-Request": "true"},
+    )
+    edit_url = f"/wizarr/settings/wizard/{step.id}/edit"
+
+    assert steps.status_code == 200
+    assert f'hx-get="{edit_url}"' in steps.text
+    assert f'hx-get="/settings/wizard/{step.id}/edit"' not in steps.text
+
+    edit_form = client.get(edit_url, headers={"HX-Request": "true"})
+
+    assert edit_form.status_code == 200
+    assert f'hx-post="{edit_url}"' in edit_form.text
+    assert f'hx-post="/settings/wizard/{step.id}/edit"' not in edit_form.text
