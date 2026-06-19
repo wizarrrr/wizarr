@@ -127,7 +127,7 @@ class InvitationWorkflow(ABC):
                         db.session.commit()
 
                         user = User.query.filter_by(
-                            code=invitation_code, server_id=server.id
+                            username=form_data.get("username"), server_id=server.id
                         ).first()
 
                         # If user not found, log debug info
