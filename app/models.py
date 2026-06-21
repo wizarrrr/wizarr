@@ -80,18 +80,24 @@ class Invitation(db.Model):
     __tablename__ = "invitation"
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String, nullable=False)
+    # CACHE: Derived from invitation_users / invitation_servers.
+    # The source of truth for "was this invite used" is the existence of rows
+    # in invitation_users.  These columns are kept in sync by mark_server_used()
+    # and exist for cheap query filters (Invitation.used.is_(True)).
     used = db.Column(db.Boolean, default=False, nullable=False)
     used_at = db.Column(db.DateTime, nullable=True)
     created = db.Column(db.DateTime, default=lambda: datetime.now(UTC), nullable=False)
 
-    # DEPRECATED: Legacy single-user relationship for backward compatibility
-    # Will be removed in a future version - use 'users' relationship instead
+    # CACHE: Tracks the first user who used this invitation.  The canonical
+    # many-to-many relationship is `users` (via invitation_users).  This FK is
+    # kept as a provenance/recovery pointer and for backward-compatible API
+    # responses — it is NOT scheduled for removal.
     used_by_id = db.Column(
         db.Integer, db.ForeignKey("user.id", ondelete="SET NULL"), nullable=True
     )
     used_by = db.relationship("User", foreign_keys=[used_by_id])
 
-    # NEW: Many-to-many relationship to track all users who used this invitation
+    # Many-to-many relationship to track all users who used this invitation
     users = db.relationship(
         "User",
         secondary=invitation_users,
@@ -101,10 +107,15 @@ class Invitation(db.Model):
     expires = db.Column(db.DateTime, nullable=True)
     unlimited = db.Column(db.Boolean, nullable=True)
     duration = db.Column(db.String, nullable=True)
+    # LEGACY: Superseded by invitation.libraries relationship.
+    # Kept for migrate_libraries.py which reads this on old installs.
     specific_libraries = db.Column(db.String, nullable=True)
     plex_allow_sync = db.Column(db.Boolean, default=False, nullable=True)
     plex_home = db.Column(db.Boolean, default=False, nullable=True)
     plex_allow_channels = db.Column(db.Boolean, default=False, nullable=True)
+    # CACHE: Legacy single-server FK.  The canonical relationship is `servers`
+    # (via invitation_servers).  This column is kept as a fallback for API
+    # responses and old invitations created before multi-server support.
     server_id = db.Column(
         db.Integer, db.ForeignKey("media_server.id", ondelete="SET NULL"), nullable=True
     )
@@ -184,6 +195,10 @@ class User(db.Model, UserMixin):
     token = db.Column(db.String, nullable=False)
     username = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=True)
+    # PROVENANCE: The invitation code this user was created with.  Used as
+    # the correlation key to find the local User after remote provisioning,
+    # for identity linking, admin display, and data repair.  Do NOT remove
+    # until invitation_users is threaded end-to-end through user creation.
     code = db.Column(db.String, nullable=False)
     photo = db.Column(db.String, nullable=True)
     expires = db.Column(db.DateTime, nullable=True)
@@ -216,50 +231,12 @@ class User(db.Model, UserMixin):
         db.DateTime, default=lambda: datetime.now(UTC), nullable=True
     )
 
-    # Legacy metadata caching fields (will be phased out)
-    library_access_json = db.Column(db.Text, nullable=True)
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
-    def get_library_access(self):
-        """Get deserialized library access data."""
-        import json
-
-        if not self.library_access_json:
-            return None
-        try:
-            return json.loads(self.library_access_json)
-        except (json.JSONDecodeError, TypeError):
-            return None
-
-    def set_library_access(self, library_access):
-        """Set library access data, serializing to JSON."""
-        import json
-
-        if library_access is None:
-            self.library_access_json = None
-        else:
-            # Convert UserLibraryAccess objects to dicts if needed
-            if (
-                isinstance(library_access, list)
-                and library_access
-                and hasattr(library_access[0], "__dict__")
-            ):
-                # Convert dataclass objects to dicts
-                library_access = [
-                    {
-                        "library_id": lib.library_id,
-                        "library_name": lib.library_name,
-                        "has_access": lib.has_access,
-                    }
-                    for lib in library_access
-                ]
-            self.library_access_json = json.dumps(library_access)
-
-    def has_cached_metadata(self):
+    def has_cached_metadata(self) -> bool:
         """Check if user has cached metadata available."""
-        return self.library_access_json is not None
+        return self.accessible_libraries is not None
 
     def get_accessible_libraries(self):
         """Get list of accessible library names."""

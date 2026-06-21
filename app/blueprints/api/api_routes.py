@@ -656,19 +656,14 @@ class InvitationsListResource(Resource):
                 # Use server name resolver for display name logic
                 display_info = get_display_name_info(servers)
 
-                # Convert specific_libraries from string to list of integers
-                specific_libraries = []
-                if invitation.specific_libraries:
-                    try:
-                        # Parse comma-separated string to list of integers
-                        specific_libraries = [
-                            int(lib_id.strip())
-                            for lib_id in invitation.specific_libraries.split(",")
-                            if lib_id.strip().isdigit()
-                        ]
-                    except (ValueError, AttributeError):
-                        # If parsing fails, use empty list
-                        specific_libraries = []
+                # Get library IDs from the normalized relationship
+                # Use external_id (e.g. Plex folder ID) to match the legacy
+                # CSV format that API consumers expect.
+                specific_libraries = [
+                    int(lib.external_id)
+                    for lib in invitation.libraries
+                    if lib.external_id and lib.external_id.isdigit()
+                ]
 
                 invitations_list.append(
                     {
