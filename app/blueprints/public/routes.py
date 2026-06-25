@@ -24,6 +24,48 @@ from app.services.media.plex import PlexInvitationError, handle_oauth_token
 public_bp = Blueprint("public", __name__)
 
 
+def _media_permission_flags(invitation: Invitation, server: MediaServer) -> dict:
+    return {
+        "allow_downloads": bool(getattr(invitation, "allow_downloads", False))
+        or bool(getattr(server, "allow_downloads", False)),
+        "allow_live_tv": bool(getattr(invitation, "allow_live_tv", False))
+        or bool(getattr(server, "allow_live_tv", False)),
+        "allow_mobile_uploads": bool(
+            getattr(invitation, "allow_mobile_uploads", False)
+        )
+        or bool(getattr(server, "allow_mobile_uploads", False)),
+    }
+
+
+def _apply_safe_media_user_policy(
+    client, user_id: str, invitation: Invitation, server: MediaServer
+) -> dict:
+    permissions = _media_permission_flags(invitation, server)
+    current_policy = client.get(f"/Users/{user_id}").json().get("Policy", {})
+    current_policy.update(
+        {
+            "IsAdministrator": False,
+            "EnableContentDeletion": False,
+            "EnableContentDeletionFromFolders": [],
+            "EnableContentDownloading": permissions["allow_downloads"],
+            "EnableLiveTvAccess": permissions["allow_live_tv"],
+            "EnableLiveTvManagement": False,
+            "AllowCameraUpload": permissions["allow_mobile_uploads"],
+            "EnablePublicSharing": False,
+            "AllowSharingPersonalItems": False,
+            "EnableSubtitleManagement": False,
+            "EnableRemoteControlOfOtherUsers": False,
+        }
+    )
+
+    max_sessions = getattr(invitation, "max_active_sessions", None)
+    if server.server_type == "jellyfin" and max_sessions is not None:
+        current_policy["MaxActiveSessions"] = max_sessions
+
+    client.set_policy(user_id, current_policy)
+    return permissions
+
+
 # ─── Landing “/” ──────────────────────────────────────────────────────────────
 @public_bp.route("/")
 def root():
@@ -372,8 +414,12 @@ def password_prompt(code):
             client = get_client_for_media_server(srv)
 
             try:
+                permissions = _media_permission_flags(invitation, srv)
                 if srv.server_type in ("jellyfin", "emby"):
                     uid = client.create_user(username, pw)
+                    permissions = _apply_safe_media_user_policy(
+                        client, uid, invitation, srv
+                    )
                 elif srv.server_type in ("audiobookshelf", "romm"):
                     uid = client.create_user(username, pw, email=email)
                 else:
@@ -393,6 +439,10 @@ def password_prompt(code):
                 new_user.server_id = srv.id
                 new_user.expires = user_expires  # Set expiry based on invitation duration (server-specific)
                 new_user.is_ldap_user = is_ldap_user
+                new_user.is_admin = False
+                new_user.allow_downloads = permissions["allow_downloads"]
+                new_user.allow_live_tv = permissions["allow_live_tv"]
+                new_user.allow_camera_upload = permissions["allow_mobile_uploads"]
                 db.session.add(new_user)
                 db.session.commit()
 
