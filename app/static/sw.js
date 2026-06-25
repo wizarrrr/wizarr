@@ -1,14 +1,14 @@
 const CACHE_NAME = 'wizarr-v2';
 const urlsToCache = [
-  '/static/css/main.css',
-  '/static/js/dark-mode-switch.js',
-  '/static/favicon.ico',
-  '/static/wizarr-logo.png',
-  '/static/js/vendor/htmx.min.js',
-  '/static/js/vendor/alpine.min.js',
-  '/static/js/vendor/flowbite.min.js',
-  '/static/js/vendor/alpine-collapse.min.js'
-];
+  'css/main.css',
+  'js/dark-mode-switch.js',
+  'favicon.ico',
+  'wizarr-logo.png',
+  'js/vendor/htmx.min.js',
+  'js/vendor/alpine.min.js',
+  'js/vendor/flowbite.min.js',
+  'js/vendor/alpine-collapse.min.js'
+].map((path) => new URL(path, self.location.href).href);
 
 // Install event - cache resources and activate immediately
 self.addEventListener('install', (event) => {
@@ -94,4 +94,4 @@ self.addEventListener('sync', (event) => {
 
 self.addEventListener('push', (event) => {
   console.log('Push event:', event);
-}); 
+});

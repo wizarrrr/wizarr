@@ -130,12 +130,13 @@ class MediaClient(ABC):
         from urllib.parse import quote_plus
 
         from app.services.image_proxy import ImageProxyService
+        from flask import url_for
 
         # Generate opaque token for this URL
         token = ImageProxyService.generate_token(image_url, server_id=self.server_id)
 
-        # Return proxy URL with token
-        return f"/image-proxy?token={quote_plus(token)}"
+        # Return proxy URL with token (respects APPLICATION_ROOT)
+        return url_for("public.image_proxy", token=quote_plus(token), _external=False)
 
     def _create_user_with_identity_linking(self, user_kwargs: dict) -> User:
         """Create a User record with intelligent identity linking based on invitation type.

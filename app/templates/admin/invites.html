@@ -16,7 +16,7 @@
       <select id="invite_server_filter"
               name="server"
               class="w-full sm:w-56 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-              hx-post="/invite/table"
+              hx-post="{{ url_for('admin.invite_table') }}"
               hx-target="#invite_table"
               hx-swap="outerHTML"
               hx-include="#invite_server_filter">
@@ -24,7 +24,7 @@
         {% for s in servers %}<option value="{{ s.id }}">{{ s.name }} ({{ s.server_type }})</option>{% endfor %}
       </select>
     </div>
-    <div hx-post="/invite/table"
+    <div hx-post="{{ url_for('admin.invite_table') }}"
          hx-trigger="load"
          hx-target="#invite_table"
          hx-swap="outerHTML settle:0ms"
@@ -40,7 +40,7 @@
     // Modal functions
     function openInviteModal() {
         // Load invite form into the modal container
-        htmx.ajax('GET', '/invite', {
+        htmx.ajax('GET', {{ url_for('admin.invite') | tojson }}, {
             target: '#invite-modal',
             swap: 'innerHTML'
         });
@@ -58,11 +58,12 @@
     });
 
     function tableCopyLink(invite_code) {
-        var url = window.location.origin;
+        const invitePath = {{ url_for('public.invite', code='INVITE_CODE') | tojson }}
+            .replace('INVITE_CODE', encodeURIComponent(invite_code));
         var icon = document.getElementById("icon_" + invite_code);
 
         // Copy the invite link using the fallback-enabled function
-        copyToClipboard(url + "/j/" + invite_code, (success) => {
+        copyToClipboard(window.location.origin + invitePath, (success) => {
             if (success) {
                 // Add class="text-green-500" to icon
                 icon.classList.add("text-green-500");

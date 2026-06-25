@@ -144,7 +144,7 @@
           {% if is_plus_enabled %}
             <li class="md:me-2">
               <button class="tab-btn w-full inline-flex items-center justify-center px-4 py-3 rounded-lg md:rounded-t-lg md:rounded-b-none bg-gray-700 md:bg-transparent border-0 md:border-b-2 border-transparent text-gray-300 hover:bg-gray-600 md:hover:bg-transparent hover:text-gray-100 md:hover:text-gray-600 md:hover:border-gray-300 md:dark:hover:text-gray-300 dark:bg-gray-800 md:dark:bg-transparent dark:hover:bg-gray-700 md:dark:hover:bg-transparent group transition-colors"
-                      hx-get="/plus/audit/"
+                      hx-get="{{ request.script_root }}/plus/audit/"
                       hx-target="#tab-body"
                       hx-swap="innerHTML"
                       hx-trigger="click"

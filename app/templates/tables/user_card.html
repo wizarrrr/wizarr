@@ -210,7 +210,7 @@
               <div class="flex items-center space-x-2">
                 <!-- View details -->
                 <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-colors"
-                        hx-get="/user/{{ user.id }}/details"
+                        hx-get="{{ url_for('admin.user_details_modal', db_id=user.id) }}"
                         hx-target="#modal-user"
                         hx-swap="innerHTML"
                         title="{{ _('View details') }}">
@@ -228,7 +228,7 @@
                 </button>
                 <!-- Edit user -->
                 <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-colors"
-                        hx-get="/user/{{ user.id }}"
+                        hx-get="{{ url_for('admin.user_detail', db_id=user.id) }}"
                         hx-target="#modal-user"
                         hx-swap="innerHTML"
                         title="{{ _('Edit user') }}">

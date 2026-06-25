@@ -35,7 +35,7 @@
         </div>
         <div id="nowPlayingContent"
              class="relative z-20"
-             hx-get="/now-playing-cards"
+             hx-get="{{ url_for('admin.now_playing_cards') }}"
              hx-trigger="load, every 10s"
              hx-swap="innerHTML settle:0ms">
           <!-- Now playing cards container -->
@@ -53,7 +53,7 @@
         <!-- Latest Accepted Invites Card -->
         <div id="latestInvitesContainer"
              class="min-h-[400px]"
-             hx-get="/accepted-invites-card"
+             hx-get="{{ url_for('admin.accepted_invites_card') }}"
              hx-trigger="load, every 30s"
              hx-swap="innerHTML">
           <!-- Loading placeholder -->
@@ -64,7 +64,7 @@
         <!-- Server Health Card -->
         <div id="serverHealthContainer"
              class="min-h-[400px]"
-             hx-get="/server-health-card"
+             hx-get="{{ url_for('admin.server_health_card') }}"
              hx-trigger="load, every 45s"
              hx-swap="innerHTML">
           <!-- Loading placeholder -->
@@ -82,7 +82,7 @@
       // Modal functions
       function openInviteModal() {
           // Load invite form into the modal container
-          htmx.ajax('GET', '/invite', {
+          htmx.ajax('GET', '{{ url_for("admin.invite") }}', {
               target: '#invite-modal',
               swap: 'innerHTML'
           });

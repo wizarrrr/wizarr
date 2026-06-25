@@ -11,6 +11,13 @@
      data-phase="{{ phase|default('') }}"
      data-step-phase="{{ (step_phase or '') }}"
      {% if is_bundle_preview %}data-bundle-id="{{ bundle_id }}"{% endif %}
+     data-post-wizard-url="{{ url_for('wizard.post_wizard', idx=0) }}"
+     data-pre-wizard-url="{{ url_for('wizard.pre_wizard', idx=0) }}"
+     data-combo-url-pre="{{ url_for('wizard.combo', category='pre_invite', idx=0) }}"
+     data-combo-url-post="{{ url_for('wizard.combo', category='post_invite', idx=0) }}"
+     data-bundle-url="{{ url_for('wizard.bundle_view', idx=0) }}"
+     data-bundle-preview-url="{{ url_for('wizard.bundle_preview', bundle_id=0, idx=0) }}"
+     data-generic-step-url="{{ url_for('wizard.step', server='SERVER', idx=0) }}"
      data-completion-url="{{ completion_url or '' }}"
      data-completion-label="{{ completion_label or '' }}"
      data-next-label="{{ _('Next') }}"
@@ -528,24 +535,36 @@
                 const targetIdx = isPrev ? idx - 1 : idx + 1;
 
                 // Generate URL based on phase and server type
+                // Uses data-attributes with url_for paths to support APPLICATION_ROOT subpaths
                 let newUrl;
                 const bundleId = this.wrapper.dataset.bundleId;
+                const getBase = (url) => url ? url.replace(/\/[^\/]+$/, '') : '';
                 if (serverType === 'combo') {
                     // Combo wizard uses path-based category routing
                     const category = phase === 'pre' ? 'pre_invite' : 'post_invite';
-                    newUrl = `/wizard/combo/${category}/${targetIdx}`;
+                    const comboUrl = phase === 'pre' ? this.wrapper.dataset.comboUrlPre : this.wrapper.dataset.comboUrlPost;
+                    newUrl = `${getBase(comboUrl)}/${targetIdx}`;
                 } else if (serverType === 'bundle' && bundleId) {
                     // Bundle preview mode (admin)
-                    newUrl = `/wizard/bundle-preview/${bundleId}/${targetIdx}`;
+                    const url = this.wrapper.dataset.bundlePreviewUrl;
+                    if (url) {
+                        const parts = url.split('/');
+                        parts[parts.length - 2] = bundleId;
+                        parts[parts.length - 1] = targetIdx;
+                        newUrl = parts.join('/');
+                    } else {
+                        newUrl = `${getBase('')}/bundle-preview/${bundleId}/${targetIdx}`;
+                    }
                 } else if (serverType === 'bundle') {
                     // Runtime bundle mode (user flow)
-                    newUrl = `/wizard/bundle/${targetIdx}`;
+                    newUrl = `${getBase(this.wrapper.dataset.bundleUrl)}/${targetIdx}`;
                 } else if (phase === 'pre') {
-                    newUrl = `/wizard/pre-wizard/${targetIdx}`;
+                    newUrl = `${getBase(this.wrapper.dataset.preWizardUrl)}/${targetIdx}`;
                 } else if (phase === 'post') {
-                    newUrl = `/wizard/post-wizard/${targetIdx}`;
+                    newUrl = `${getBase(this.wrapper.dataset.postWizardUrl)}/${targetIdx}`;
                 } else {
-                    newUrl = `/wizard/${serverType}/${targetIdx}`;
+                    const url = this.wrapper.dataset.genericStepUrl;
+                    newUrl = `${getBase(url ? url.replace('SERVER', serverType) : '')}/${targetIdx}`;
                 }
 
                 // Update visibility and state

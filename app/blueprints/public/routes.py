@@ -30,8 +30,8 @@ def root():
     # check if admin_username exists
     admin_setting = Settings.query.filter_by(key="admin_username").first()
     if not admin_setting:
-        return redirect("/setup/")  # installation wizard
-    return redirect("/admin")
+        return redirect(url_for("setup.onboarding"))
+    return redirect(url_for("admin.dashboard"))
 
 
 # ─── Favicon ─────────────────────────────────────────────────────────────────

@@ -201,7 +201,8 @@ class InvitationManager:
             str: Redirect URL
         """
         session["wizard_access"] = code
-        return "/wizard/"
+        from flask import url_for
+        return url_for("wizard.start")
 
 
 class LibraryScanner:

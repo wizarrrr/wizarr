@@ -76,6 +76,11 @@ class BaseConfig:
     # Flask
     TEMPLATES_AUTO_RELOAD = True
     SECRET_KEY = get_or_create_secret("SECRET_KEY", generate_secret_key)
+    # Support running under a custom path (e.g., /wizarr via reverse proxy)
+    APPLICATION_ROOT = os.getenv("APPLICATION_ROOT", "/")
+    # Ensure trailing slash for consistency
+    if APPLICATION_ROOT != "/" and not APPLICATION_ROOT.endswith("/"):
+        APPLICATION_ROOT += "/"
     # Sessions
     SESSION_TYPE = "cachelib"  # Changed from 'filesystem' to 'cachelib'
     SESSION_CACHELIB = SESSION_CACHELIB  # Reference the module-level cache

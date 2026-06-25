@@ -13,7 +13,7 @@
     </div>
     <p class="text-gray-600 dark:text-gray-400 mb-6">{{ error }}</p>
     <div class="flex justify-end">
-      <button hx-get="/webauthn/close-modal"
+      <button hx-get="{{ url_for('webauthn.close_modal') }}"
               hx-target="#passkey-modal-container"
               hx-swap="innerHTML"
               class="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-md">{{ _("Close") }}</button>

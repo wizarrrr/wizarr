@@ -217,7 +217,17 @@ def create_step():
         page_tmpl = "settings/wizard/form.html"
 
     tmpl = modal_tmpl if request.headers.get("HX-Request") else page_tmpl
-    return render_template(tmpl, form=form, action="create", bundle_id=bundle_id)
+    form_action = url_for(
+        "wizard_admin.create_step",
+        **({"simple": 1, "bundle_id": bundle_id} if simple else {}),
+    )
+    return render_template(
+        tmpl,
+        form=form,
+        action="create",
+        bundle_id=bundle_id,
+        form_action=form_action,
+    )
 
 
 @wizard_admin_bp.route("/create-preset", methods=["GET", "POST"])
@@ -342,7 +352,13 @@ def edit_step(step_id: int):
         "settings/wizard/simple_form.html" if simple else "settings/wizard/form.html"
     )
     tmpl = modal_tmpl if request.headers.get("HX-Request") else page_tmpl
-    return render_template(tmpl, form=form, action="edit", step=step)
+    return render_template(
+        tmpl,
+        form=form,
+        action="edit",
+        step=step,
+        form_action=url_for("wizard_admin.edit_step", step_id=step.id),
+    )
 
 
 @wizard_admin_bp.route("/<int:step_id>/delete", methods=["POST"])

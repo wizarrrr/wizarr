@@ -53,13 +53,13 @@
       {% if total_pages and total_pages > 1 %}
         <div class="flex items-center gap-2">
           <button class="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed"
-                  hx-get="/accepted-invites-card?page={{ page - 1 }}"
+                  hx-get="{{ url_for('admin.accepted_invites_card', page=page - 1) }}"
                   hx-target="#latestInvitesContainer"
                   hx-swap="innerHTML"
                   {% if page <= 1 %}disabled{% endif %}>{{ _("Prev") }}</button>
           <span>{{ _("Page") }} {{ page }} / {{ total_pages }}</span>
           <button class="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed"
-                  hx-get="/accepted-invites-card?page={{ page + 1 }}"
+                  hx-get="{{ url_for('admin.accepted_invites_card', page=page + 1) }}"
                   hx-target="#latestInvitesContainer"
                   hx-swap="innerHTML"
                   {% if page >= total_pages %}disabled{% endif %}>{{ _("Next") }}</button>
@@ -112,13 +112,13 @@
       {% if total_pages and total_pages > 1 %}
         <div class="flex items-center gap-2">
           <button class="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed"
-                  hx-get="/accepted-invites-card?page={{ page - 1 }}"
+                  hx-get="{{ url_for('admin.accepted_invites_card', page=page - 1) }}"
                   hx-target="#latestInvitesContainer"
                   hx-swap="innerHTML"
                   {% if page <= 1 %}disabled{% endif %}>Prev</button>
           <span>Page {{ page }} / {{ total_pages }}</span>
           <button class="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed"
-                  hx-get="/accepted-invites-card?page={{ page + 1 }}"
+                  hx-get="{{ url_for('admin.accepted_invites_card', page=page + 1) }}"
                   hx-target="#latestInvitesContainer"
                   hx-swap="innerHTML"
                   {% if page >= total_pages %}disabled{% endif %}>Next</button>
