@@ -1264,50 +1264,70 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         email = account.email
 
         inv = Invitation.query.filter_by(code=code).first()
-        # Use the new multi-server relationship instead of legacy server
+        servers: list[MediaServer] = []
+
         if inv and inv.servers:
-            # Get the first Plex server from the invitation's server list
+            # A single Plex OAuth token can authorize shares on every Plex server
+            # attached to the invite. Non-Plex servers continue through the
+            # password-based step after this route returns.
             plex_servers = [s for s in inv.servers if s.server_type == "plex"]
-            server = plex_servers[0] if plex_servers else inv.servers[0]
+            servers = plex_servers or [inv.servers[0]]
         elif inv and inv.server:
             # Fallback to legacy single server relationship
-            server = inv.server
+            servers = [inv.server]
         else:
             # Last resort fallback
-            server = MediaServer.query.first()
-        if not server:
-            raise ValueError("No media server found")
-        server_id = server.id
+            fallback_server = MediaServer.query.first()
+            if fallback_server:
+                servers = [fallback_server]
 
-        db.session.query(User).filter(
-            User.email == email, User.server_id == server_id
-        ).delete(synchronize_session=False)
-        db.session.commit()
+        if not servers:
+            raise ValueError("No media server found")
 
         from app.services.expiry import calculate_user_expiry
+        from flask import current_app
 
-        expires = calculate_user_expiry(inv, server_id) if inv else None
+        for server in servers:
+            server_id = server.id
 
-        client = PlexClient(media_server=server)
-        new_user = client._create_user_with_identity_linking(
-            {
-                "token": token,
-                "email": email,
-                "username": account.username,
-                "code": code,
-                "expires": expires,
-                "server_id": server_id,
-            }
-        )
-        db.session.commit()
+            db.session.query(User).filter(
+                User.email == email, User.server_id == server_id
+            ).delete(synchronize_session=False)
+            db.session.commit()
 
-        _invite_user(email, code, new_user.id, server)
+            expires = calculate_user_expiry(inv, server_id) if inv else None
 
-        # Mark invitation as used for this server
-        if inv:
-            from app.services.invites import mark_server_used
+            client = PlexClient(media_server=server)
+            new_user = client._create_user_with_identity_linking(
+                {
+                    "token": token,
+                    "email": email,
+                    "username": account.username,
+                    "code": code,
+                    "expires": expires,
+                    "server_id": server_id,
+                }
+            )
+            db.session.commit()
 
-            mark_server_used(inv, server_id, new_user)
+            _invite_user(email, code, new_user.id, server)
+
+            # Mark invitation as used for this server
+            if inv:
+                from app.services.invites import mark_server_used
+
+                mark_server_used(inv, server_id, new_user)
+
+            # Pass only what we need: server credentials and Flask app instance
+            # Use the specific server being processed for this invitation
+            post_setup_client = PlexClient(media_server=server)
+            server_url = post_setup_client.url
+            api_token = post_setup_client.token
+            threading.Thread(
+                target=_post_join_setup,
+                args=(current_app._get_current_object(), server_url, api_token, token),  # type: ignore
+                daemon=True,
+            ).start()
 
         notify(
             "User Joined",
@@ -1315,19 +1335,6 @@ def handle_oauth_token(app, token: str, code: str) -> None:
             "tada",
             event_type="user_joined",
         )
-
-        # Pass only what we need: server credentials and Flask app instance
-        # Use the specific server that was determined for this invitation
-        from flask import current_app
-
-        post_setup_client = PlexClient(media_server=server)
-        server_url = post_setup_client.url
-        api_token = post_setup_client.token
-        threading.Thread(
-            target=_post_join_setup,
-            args=(current_app._get_current_object(), server_url, api_token, token),  # type: ignore
-            daemon=True,
-        ).start()
 
 
 def _invite_user(email: str, code: str, _user_id: int, server: MediaServer) -> None:
