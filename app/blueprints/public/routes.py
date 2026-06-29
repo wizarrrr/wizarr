@@ -121,6 +121,7 @@ def join():
 
     if server_type == "plex":
         # run Plex OAuth invite immediately (blocking – we need the DB row afterwards)
+        plex_failed = False
         if token and code:
             try:
                 handle_oauth_token(current_app, token, code)
@@ -130,34 +131,14 @@ def join():
                     code=code,
                     error=e.message,
                 )
-                name_setting = Settings.query.filter_by(key="server_name").first()
-                server_name = name_setting.value if name_setting else None
-
-                return render_template(
-                    "user-plex-login.html",
-                    server_name=server_name,
-                    code=code,
-                    code_error=_(
-                        "There was an issue setting up your access. Please contact your server admin."
-                    ),
-                )
+                plex_failed = True
             except Exception as e:
                 structlog.get_logger().error(
                     "Unexpected error during Plex OAuth",
                     code=code,
                     error=str(e),
                 )
-                name_setting = Settings.query.filter_by(key="server_name").first()
-                server_name = name_setting.value if name_setting else None
-
-                return render_template(
-                    "user-plex-login.html",
-                    server_name=server_name,
-                    code=code,
-                    code_error=_(
-                        "There was an issue setting up your access. Please contact your server admin."
-                    ),
-                )
+                plex_failed = True
 
         # Determine if there are additional servers attached to the invite
         extra = [
@@ -165,6 +146,24 @@ def join():
             for s in (invitation.servers if invitation else [])
             if s.server_type != "plex"
         ]
+
+        if plex_failed:
+            if not extra:
+                # Plex is the only server – surface the error
+                name_setting = Settings.query.filter_by(key="server_name").first()
+                server_name = name_setting.value if name_setting else None
+                return render_template(
+                    "user-plex-login.html",
+                    server_name=server_name,
+                    code=code,
+                    code_error=_(
+                        "There was an issue setting up your Plex access. Please contact your server admin."
+                    ),
+                )
+            # Plex failed but other servers still need provisioning – treat the
+            # first non-Plex server as the primary and fall through to its join page.
+            server = extra[0]
+            server_type = server.server_type
 
         if extra:
             # Stash the token & email lookup hint in session so we can provision others later
