@@ -35,11 +35,6 @@ class JoinForm(FlaskForm):
         "Password",
         validators=[
             DataRequired(),
-            Length(min=8, message="Password must be at least 8 characters."),
-            Regexp(
-                r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$",
-                message="Password must contain at least one uppercase letter, one lowercase letter, and one number.",
-            ),
         ],
     )
     confirm_password = PasswordField(
@@ -49,6 +44,24 @@ class JoinForm(FlaskForm):
             EqualTo("password", message="Passwords must match."),
         ],
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        from app.services.password_reset import get_password_reset_policy
+
+        self.policy = get_password_reset_policy()
+
+    def validate_password(self, field):
+        from app.services.password_reset import validate_password_against_policy
+
+        # Use the same policy as password resets
+        context = [self.username.data, self.email.data]
+        errors = validate_password_against_policy(
+            field.data, self.policy, context_list=context
+        )
+        if errors:
+            raise ValueError("; ".join(errors))
+
     code = StringField(
         "Invite Code",
         filters=[strip_filter],

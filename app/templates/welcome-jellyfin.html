@@ -158,6 +158,34 @@
                                     placeholder=_("Create a password") 
                   ) }}
                   {% for err in form.password.errors %}<p class="text-red-400 text-xs mt-1">{{ err }}</p>{% endfor %}
+                  <!-- Security Policy Display -->
+                  <div class="mt-2 p-3 rounded-lg bg-gray-50/50 dark:bg-gray-900/30 border border-gray-100 dark:border-gray-700/50">
+                    <div class="flex items-center justify-between mb-2">
+                      <span class="text-[10px] font-medium text-gray-500 dark:text-gray-400">{{ _("Security Policy") }}</span>
+                      <span id="required-security-level"
+                            class="text-[9px] font-bold uppercase tracking-wider text-primary">
+                        {% set levels = [_("Low"), _("Medium"), _("High"), _("Extra High"), _("Paranoid")] %}
+                        {{ levels[form.policy.security_level] }}
+                      </span>
+                    </div>
+                    <div class="space-y-1.5">
+                      <div data-rule="length"
+                           class="flex items-center gap-2 text-[10px] text-gray-500 dark:text-gray-400">
+                        <span class="rule-indicator flex h-3.5 w-3.5 items-center justify-center rounded-full border border-gray-300 text-[7px] font-bold">+</span>
+                        <span>{{ _("Length") }} ({{ form.policy.min_length }}+)</span>
+                      </div>
+                      <div data-rule="match"
+                           class="flex items-center gap-2 text-[10px] text-gray-500 dark:text-gray-400">
+                        <span class="rule-indicator flex h-3.5 w-3.5 items-center justify-center rounded-full border border-gray-300 text-[7px] font-bold">+</span>
+                        <span>{{ _("Match") }}</span>
+                      </div>
+                      <div data-rule="context"
+                           class="flex items-center gap-2 text-[10px] text-gray-500 dark:text-gray-400">
+                        <span class="rule-indicator flex h-3.5 w-3.5 items-center justify-center rounded-full border border-gray-300 text-[7px] font-bold">+</span>
+                        <span>{{ _("Not guessable") }}</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div class="form-field"
                      data-field="4"
@@ -787,6 +815,64 @@
           observer.observe(formScreen, {
               attributes: true
           });
+
+          // Password validation logic
+          const passwordInput = document.getElementById('password');
+          const confirmInput = document.getElementById('confirm_password');
+          const usernameInput = document.getElementById('username');
+          const emailInput = document.getElementById('email');
+          
+          if (passwordInput && confirmInput) {
+            const minLength = {{ form.policy.min_length }};
+            const maxLength = {{ form.policy.max_length }};
+
+            const setRuleState = (ruleName, isValid) => {
+                const item = document.querySelector(`[data-rule="${ruleName}"]`);
+                if (!item) return;
+
+                const indicator = item.querySelector('.rule-indicator');
+                item.classList.toggle('text-green-600', isValid);
+                item.classList.toggle('dark:text-green-400', isValid);
+                item.classList.toggle('text-gray-500', !isValid);
+                item.classList.toggle('dark:text-gray-400', !isValid);
+
+                if (indicator) {
+                    indicator.textContent = isValid ? '✓' : '+';
+                    indicator.classList.toggle('border-green-500', isValid);
+                    indicator.classList.toggle('bg-green-50', isValid);
+                    indicator.classList.toggle('text-green-700', isValid);
+                    indicator.classList.toggle('dark:bg-green-900/30', isValid);
+                    indicator.classList.toggle('dark:text-green-300', isValid);
+                    indicator.classList.toggle('border-gray-300', !isValid);
+                    indicator.classList.toggle('dark:border-gray-700', !isValid);
+                }
+            };
+
+            const updateRules = () => {
+                const password = passwordInput.value;
+                const confirm = confirmInput.value;
+                const username = (usernameInput ? usernameInput.value : "").toLowerCase();
+                const email = (emailInput ? emailInput.value : "").toLowerCase();
+                const lowPw = password.toLowerCase();
+
+                setRuleState('length', password.length >= minLength && password.length <= maxLength);
+                setRuleState('match', password.length > 0 && password === confirm);
+                
+                // Simple context check
+                let guessable = false;
+                if (password.length >= 3) {
+                    if (username && lowPw.includes(username)) guessable = true;
+                    if (email && lowPw.includes(email.split('@')[0])) guessable = true;
+                }
+                setRuleState('context', password.length > 0 && !guessable);
+            };
+
+            passwordInput.addEventListener('input', updateRules);
+            confirmInput.addEventListener('input', updateRules);
+            if (usernameInput) usernameInput.addEventListener('input', updateRules);
+            if (emailInput) emailInput.addEventListener('input', updateRules);
+            updateRules();
+          }
       });
   </script>
 {% endblock main %}
