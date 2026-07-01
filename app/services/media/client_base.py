@@ -18,6 +18,7 @@ import requests
 
 from app.extensions import db
 from app.models import MediaServer, Settings, User
+from app.services.email import send_user_lifecycle_email
 from app.services.notifications import notify
 
 if TYPE_CHECKING:
@@ -241,7 +242,9 @@ class MediaClient(ABC):
         Returns:
             bool: True if successful, False otherwise
         """
-        logging.warning(f"{self.__class__.__name__} does not implement password resets")
+        logging.warning(
+            "%s does not implement password resets", self.__class__.__name__
+        )
         return False
 
     def update_user_permissions(
@@ -345,7 +348,9 @@ class MediaClient(ABC):
                 import logging
 
                 logging.warning(
-                    f"Failed to cache metadata for user {user.username}: {e}"
+                    "Failed to cache metadata for user %s: %s",
+                    user.username,
+                    e,
                 )
                 continue
 
@@ -354,11 +359,11 @@ class MediaClient(ABC):
                 db.session.commit()
                 import logging
 
-                logging.info(f"Cached metadata for {cached_count} users")
+                logging.info("Cached metadata for %s users", cached_count)
             except Exception as e:
                 import logging
 
-                logging.error(f"Failed to commit metadata cache: {e}")
+                logging.error("Failed to commit metadata cache: %s", e)
                 db.session.rollback()
 
     def _get_user_identifier_for_details(self, user: User) -> str | int | None:
@@ -534,8 +539,24 @@ class MediaClient(ABC):
                     tags="tada",
                     event_type="user_joined",
                 )
-            except Exception as e:
-                logging.warning(f"Failed to send join notification: {e}")
+            except Exception as exc:
+                logging.warning("Failed to send join notification: %s", exc)
+
+            try:
+                user = (
+                    User.query.filter_by(code=code, server_id=getattr(self, "server_id", None))
+                    .order_by(User.id.desc())
+                    .first()
+                )
+                if user:
+                    send_user_lifecycle_email(
+                        user,
+                        event_type="activated",
+                        server_name=user.server.name if user.server else None,
+                        expires_at=user.expires,
+                    )
+            except Exception as exc:
+                logging.warning("Failed to send activation email: %s", exc)
 
         return success, message
 

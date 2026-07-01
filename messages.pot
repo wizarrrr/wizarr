@@ -2731,6 +2731,147 @@ msgstr ""
 msgid "The full URL to your external service instance"
 msgstr ""
 
+msgid "Enable User Lifecycle Emails"
+msgstr ""
+
+msgid "SMTP Host"
+msgstr ""
+
+msgid "SMTP Port"
+msgstr ""
+
+msgid "SMTP Username"
+msgstr ""
+
+msgid "SMTP Password"
+msgstr ""
+
+msgid "Sender Email Address"
+msgstr ""
+
+msgid "Sender Name"
+msgstr ""
+
+msgid "Use STARTTLS"
+msgstr ""
+
+msgid "Use SSL/TLS"
+msgstr ""
+
+msgid "Email Language"
+msgstr ""
+
+msgid "This field is required when SMTP emails are enabled."
+msgstr ""
+
+msgid "Choose either STARTTLS or SSL/TLS, not both."
+msgstr ""
+
+msgid "Mailing settings saved successfully!"
+msgstr ""
+
+msgid "Account Active"
+msgstr ""
+
+msgid "Your account is now active"
+msgstr ""
+
+#, python-brace-format
+msgid "Your access to {server} has been activated."
+msgstr ""
+
+msgid "Account Expired"
+msgstr ""
+
+msgid "Your account has expired"
+msgstr ""
+
+#, python-brace-format
+msgid "Your access to {server} has expired."
+msgstr ""
+
+msgid "Account Deleted"
+msgstr ""
+
+msgid "Your account has been deleted"
+msgstr ""
+
+#, python-brace-format
+msgid "Your access to {server} has been removed."
+msgstr ""
+
+#, python-brace-format
+msgid "Hello {username},"
+msgstr ""
+
+msgid "Expiry Date"
+msgstr ""
+
+msgid "You can now sign in and start using your media access."
+msgstr ""
+
+#, python-brace-format
+msgid "Your invitation has reached its end date and your account has been {action}."
+msgstr ""
+
+msgid "Your account has been removed. If you believe this was a mistake, please contact your administrator."
+msgstr ""
+
+#, python-brace-format
+msgid "Sent by Wizarr on {sent_at}."
+msgstr ""
+
+msgid "disabled"
+msgstr ""
+
+msgid "deleted"
+msgstr ""
+
+msgid "User Information & Mailing"
+msgstr ""
+
+msgid "Send polished activation, expiry, and deletion emails to your users."
+msgstr ""
+
+msgid "When enabled, Wizarr will email users when their account is activated, expires, or is deleted."
+msgstr ""
+
+msgid "Leave blank to keep the current password"
+msgstr ""
+
+msgid "A password is already stored securely."
+msgstr ""
+
+msgid "Recommended for port 587 connections."
+msgstr ""
+
+msgid "Use this instead of STARTTLS for implicit TLS servers."
+msgstr ""
+
+msgid "Save Mailing Settings"
+msgstr ""
+
+msgid "What users will receive"
+msgstr ""
+
+msgid "A welcome email when their account is activated."
+msgstr ""
+
+msgid "An expiry email when access ends and the account is disabled or deleted."
+msgstr ""
+
+msgid "A deletion email when an account is removed manually."
+msgstr ""
+
+msgid "Language support"
+msgstr ""
+
+msgid "Choose English or German for outgoing emails. The layout mirrors the rest of the Wizarr interface with the same card styling and accent colors."
+msgstr ""
+
+msgid "User Info"
+msgstr ""
+
 #: app/templates/settings/connections/form.html:176
 msgid "API key from your external service settings"
 msgstr ""
@@ -3142,4 +3283,3 @@ msgstr ""
 #: app/templates/wizard/steps.html:182 app/templates/wizard/steps.html:248
 msgid "Click the link in this step to be able to continue"
 msgstr ""
-
