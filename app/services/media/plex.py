@@ -1314,6 +1314,17 @@ def handle_oauth_token(app, token: str, code: str) -> None:
             f"User {account.username} has joined your server!",
             "tada",
             event_type="user_joined",
+            context={
+                "user": {
+                    "username": account.username,
+                    "email": email,
+                    "server_id": server_id,
+                    "server_type": "plex",
+                    "server_name": getattr(server, "name", None),
+                },
+                "invite": {"code": code},
+                # Plex signup is OAuth-based; no plaintext password exists.
+            },
         )
 
         # Pass only what we need: server credentials and Flask app instance

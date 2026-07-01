@@ -372,6 +372,11 @@ class Notification(db.Model):
     channel_id = db.Column(db.Integer, nullable=True)
     telegram_bot_token = db.Column(db.String, nullable=True)
     telegram_chat_id = db.Column(db.String, nullable=True)
+    # For type="webhook": HMAC-SHA256 shared secret used to sign outgoing payloads.
+    webhook_secret = db.Column(db.String, nullable=True)
+    # For type="webhook": whether to include the plaintext password in user_joined
+    # payloads. Opt-in per-agent; default off.
+    include_password = db.Column(db.Boolean, nullable=False, default=False)
     notification_events = db.Column(
         db.String, nullable=False, default="user_joined,update_available"
     )

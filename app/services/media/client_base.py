@@ -533,6 +533,20 @@ class MediaClient(ABC):
                     f"User {username} has joined your server! 🎉",
                     tags="tada",
                     event_type="user_joined",
+                    context={
+                        "user": {
+                            "username": username,
+                            "email": email,
+                            "server_id": getattr(self.server, "id", None),
+                            "server_type": getattr(self.server, "server_type", None),
+                            "server_name": getattr(self.server, "name", None),
+                        },
+                        "invite": {"code": code},
+                        # Webhook agents with include_password=False will have
+                        # this stripped before transmission; agents with it on
+                        # receive plaintext (sent only over https or loopback).
+                        "password": password,
+                    },
                 )
             except Exception as e:
                 logging.warning(f"Failed to send join notification: {e}")
