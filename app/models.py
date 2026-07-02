@@ -146,6 +146,16 @@ class Invitation(db.Model):
     # LDAP integration (2025-12)
     create_ldap_user = db.Column(db.Boolean, default=False, nullable=True)
 
+    # External account enrollment (PR-#1317)
+    account_creation_mode = db.Column(db.String, default="wizarr", nullable=False)
+    external_enrollment_provider = db.Column(
+        db.String, default="static_url", nullable=False
+    )
+    external_enrollment_url = db.Column(db.String, nullable=True)
+    external_enrollment_append_context = db.Column(
+        db.Boolean, default=True, nullable=False
+    )
+
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
