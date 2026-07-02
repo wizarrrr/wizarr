@@ -1,11 +1,23 @@
 # External account enrollment
 
-Relates to #1290.
+External enrollment lets a Wizarr invitation redirect the invitee to another signup or onboarding system before continuing the post-invite wizard.
 
-Goal: allow an invitation to redirect users to an external identity provider enrollment flow, such as Authentik, and then return to Wizarr to continue the post-invite wizard.
+Flow:
 
-Initial scope:
+1. Invitee opens `/j/<invite-code>`.
+2. Wizarr shows any pre-invite wizard steps.
+3. Wizarr redirects to the configured external enrollment URL.
+4. The external system handles account creation or login.
+5. The external system redirects back to `/invitation/external/callback?state=...`.
+6. Wizarr verifies the pending session state and a trusted authentication header.
+7. Wizarr grants access to the post-invite wizard.
 
-- Add an external enrollment mode for invitations.
-- Redirect to an external enrollment URL instead of showing Wizarr's account creation form.
-- Add a callback route that resumes the wizard after successful external authentication.
+## Required trusted header
+
+The callback does not trust query parameters alone. Configure a trusted reverse proxy or identity provider to protect the callback route and send an authentication header.
+
+Example:
+
+```env
+EXTERNAL_ENROLLMENT_AUTH_HEADER=X-authentik-username
+```
