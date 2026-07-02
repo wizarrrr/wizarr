@@ -1,3 +1,4 @@
+import os
 import secrets
 from pathlib import Path
 
@@ -142,6 +143,79 @@ def start_external_enrollment(code):
         abort(400, description=str(exc))
 
     return redirect(enrollment_url)
+
+
+def _get_external_enrollment_header_config(key: str) -> str | None:
+    """Get an external enrollment header name from app config or environment."""
+    return current_app.config.get(key) or os.environ.get(key)
+
+
+def _get_external_enrollment_subject() -> str | None:
+    """Get the externally authenticated subject from a trusted proxy header."""
+    auth_header = _get_external_enrollment_header_config(
+        "EXTERNAL_ENROLLMENT_AUTH_HEADER"
+    )
+    if not auth_header:
+        abort(400, description="External enrollment auth header is not configured")
+
+    return request.headers.get(auth_header)
+
+
+# ─── External enrollment callback ────────────────────────────────────────────
+@public_bp.route("/invitation/external/callback")
+@limiter.limit("20 per minute")
+def external_enrollment_callback():
+    """Resume the Wizarr wizard after external account enrollment."""
+    pending = session.get("external_enrollment")
+    if not pending:
+        abort(400, description="No external enrollment is pending")
+
+    expected_state = pending.get("state")
+    provided_state = request.args.get("state")
+
+    if not expected_state or not provided_state:
+        abort(400, description="Missing external enrollment state")
+
+    if not secrets.compare_digest(expected_state, provided_state):
+        abort(400, description="Invalid external enrollment state")
+
+    external_subject = _get_external_enrollment_subject()
+    if not external_subject:
+        abort(403, description="External enrollment authentication was not verified")
+
+    invite_code = pending.get("invite_code")
+    if not invite_code:
+        session.pop("external_enrollment", None)
+        abort(400, description="Missing invitation code")
+
+    valid, msg = is_invite_valid(invite_code)
+    if not valid:
+        session.pop("external_enrollment", None)
+        abort(404, description=msg)
+
+    invitation = Invitation.query.filter(
+        db.func.lower(Invitation.code) == invite_code.lower()
+    ).first()
+    if not invitation:
+        session.pop("external_enrollment", None)
+        abort(404, description="Invalid code")
+
+    if (invitation.account_creation_mode or "wizarr") != "external":
+        session.pop("external_enrollment", None)
+        abort(400, description="Invitation is not configured for external enrollment")
+
+    session["wizard_access"] = invitation.code
+    session["invitation_in_progress"] = True
+    session["external_enrollment_user"] = {
+        "subject": external_subject,
+    }
+
+    if invitation.wizard_bundle_id:
+        session["wizard_bundle_id"] = invitation.wizard_bundle_id
+
+    session.pop("external_enrollment", None)
+
+    return redirect(url_for("wizard.post_wizard", idx=0))
 
 
 # ─── Unified invitation processing ─────────────────────────────────────────
