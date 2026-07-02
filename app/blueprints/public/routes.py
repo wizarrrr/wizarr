@@ -1,3 +1,4 @@
+import secrets
 from pathlib import Path
 
 import requests
@@ -5,6 +6,7 @@ import structlog
 from flask import (
     Blueprint,
     Response,
+    abort,
     current_app,
     jsonify,
     redirect,
@@ -18,6 +20,10 @@ from flask_babel import gettext as _
 
 from app.extensions import db, limiter
 from app.models import Invitation, MediaServer, Settings, User
+from app.services.external_enrollment.providers import (
+    ExternalEnrollmentContext,
+    build_external_enrollment_url,
+)
 from app.services.invites import is_invite_valid
 from app.services.media.plex import PlexInvitationError, handle_oauth_token
 
@@ -93,6 +99,49 @@ def invite(code):
     manager = InvitationFlowManager()
     result = manager.process_invitation_display(code)
     return result.to_flask_response()
+
+
+# ─── External enrollment start ───────────────────────────────────────────────
+@public_bp.route("/invitation/external/start/<code>")
+@limiter.limit("20 per minute")
+def start_external_enrollment(code):
+    """Start external account enrollment for an invitation."""
+    valid, msg = is_invite_valid(code)
+    if not valid:
+        abort(404, description=msg)
+
+    invitation = Invitation.query.filter(
+        db.func.lower(Invitation.code) == code.lower()
+    ).first()
+    if not invitation:
+        abort(404, description="Invalid code")
+
+    if (invitation.account_creation_mode or "wizarr") != "external":
+        abort(400, description="Invitation is not configured for external enrollment")
+
+    state = secrets.token_urlsafe(32)
+    callback_url = f"{request.url_root.rstrip('/')}/invitation/external/callback"
+
+    session["external_enrollment"] = {
+        "invite_code": invitation.code,
+        "state": state,
+        "provider": invitation.external_enrollment_provider or "static_url",
+        "callback_url": callback_url,
+    }
+
+    context = ExternalEnrollmentContext(
+        invite_code=invitation.code,
+        state=state,
+        callback_url=callback_url,
+    )
+
+    try:
+        enrollment_url = build_external_enrollment_url(invitation, context)
+    except ValueError as exc:
+        session.pop("external_enrollment", None)
+        abort(400, description=str(exc))
+
+    return redirect(enrollment_url)
 
 
 # ─── Unified invitation processing ─────────────────────────────────────────
