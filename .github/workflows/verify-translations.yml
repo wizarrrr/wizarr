@@ -8,7 +8,7 @@ on:
 
 jobs:
   compile:
-    runs-on: blacksmith-2vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v7
       - name: Install uv
