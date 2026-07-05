@@ -82,7 +82,8 @@
 <script>
     function deletePasskey(passkeyId) {
         if (confirm('{{ _("Are you sure you want to delete this passkey?") }}')) {
-            fetch(`/webauthn/credentials/${passkeyId}`, {
+            const credentialsUrl = {{ url_for('webauthn.list_credentials') | tojson }};
+            fetch(`${credentialsUrl}/${passkeyId}`, {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -105,7 +106,8 @@
 
     function resetAllPasskeys(adminId, username) {
         if (confirm(`{{ _("Are you sure you want to reset ALL passkeys for {}?").format('${username}') }} {{ _("This action cannot be undone.") }}`)) {
-            fetch(`/settings/admins/${adminId}/reset-passkeys`, {
+            const adminsUrl = {{ url_for('admin_accounts.list_admins') | tojson }};
+            fetch(`${adminsUrl}/${adminId}/reset-passkeys`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

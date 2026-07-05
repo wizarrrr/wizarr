@@ -78,7 +78,7 @@ def restrict_wizard():
             request.referrer and "/j/" in request.referrer
         ):
             return None
-        return redirect("/")
+        return redirect(url_for("admin.dashboard"))
     return None
 
 
@@ -419,6 +419,9 @@ def _serve_wizard(
         gradient_start=colors["gradient_start"],
         gradient_end=colors["gradient_end"],
         shadow_color=colors["shadow_color"],
+        server_url=server_ctx.get("server_url", ""),
+        external_url=server_ctx.get("external_url", ""),
+        server_name=server_ctx.get("server_name", ""),
     )
 
     # Add custom headers for client-side updates (HTMX requests only)
@@ -1080,6 +1083,9 @@ def combo(category: str, idx: int = 0):
         gradient_start=colors["gradient_start"],
         gradient_end=colors["gradient_end"],
         shadow_color=colors["shadow_color"],
+        server_url=server_ctx.get("server_url", ""),
+        external_url=server_ctx.get("external_url", ""),
+        server_name=server_ctx.get("server_name", ""),
     )
 
     # Add custom headers for client-side updates (HTMX requests only)
@@ -1297,6 +1303,9 @@ def bundle_view(idx: int):
         gradient_start=colors["gradient_start"],
         gradient_end=colors["gradient_end"],
         shadow_color=colors["shadow_color"],
+        server_url=server_ctx.get("server_url", ""),
+        external_url=server_ctx.get("external_url", ""),
+        server_name=server_ctx.get("server_name", ""),
     )
 
     # Add custom headers for client-side updates (HTMX requests only)
@@ -1436,6 +1445,7 @@ def bundle_preview(bundle_id: int, idx: int):
 
     # Get server-specific color scheme for theming
     colors = _get_server_colors(current_server_type)
+    server_ctx = _get_server_context(current_server_type or "")
 
     response = render_template(
         page,
@@ -1454,6 +1464,9 @@ def bundle_preview(bundle_id: int, idx: int):
         gradient_end=colors["gradient_end"],
         shadow_color=colors["shadow_color"],
         is_bundle_preview=True,  # Flag to help template generate correct URLs
+        server_url=server_ctx.get("server_url", ""),
+        external_url=server_ctx.get("external_url", ""),
+        server_name=server_ctx.get("server_name", ""),
     )
 
     # Add custom headers for client-side updates (HTMX requests only)

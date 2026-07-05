@@ -14,7 +14,7 @@
           </div>
           <form class="space-y-4"
                 method="post"
-                hx-post="{{ request.path }}{{ '?' + request.query_string.decode("utf-8") if request.query_string else '' }}"
+                hx-post="{{ form_action }}"
                 hx-target="#tab-body"
                 hx-swap="innerHTML">
             {{ form.hidden_tag() }}

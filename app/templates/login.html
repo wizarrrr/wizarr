@@ -177,7 +177,7 @@
             // Handle back to login button
             if (backToLoginBtn) {
                 backToLoginBtn.addEventListener('click', function() {
-                    window.location.href = '/login';
+                    window.location.href = {{ url_for('auth.login') | tojson }};
                 });
             }
 
@@ -190,7 +190,7 @@
             `;
 
                     // Begin authentication (usernameless)
-                    const beginResponse = await fetch('/webauthn/authenticate/begin', {
+                    const beginResponse = await fetch({{ url_for('webauthn.authenticate_begin') | tojson }}, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -224,7 +224,7 @@
                     const credentialId = uint8ArrayToBase64url(new Uint8Array(credential.rawId));
 
                     // Complete authentication
-                    const completeResponse = await fetch('/webauthn/authenticate/complete', {
+                    const completeResponse = await fetch({{ url_for('webauthn.authenticate_complete') | tojson }}, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
@@ -257,7 +257,7 @@
                                     }
                                 });
                                 if (completeLoginResponse.ok) {
-                                    window.location.href = '/';
+                                    window.location.href = {{ url_for('public.root') | tojson }};
                                 } else {
                                     throw new Error('{{ _("Failed to complete 2FA login") }}');
                                 }

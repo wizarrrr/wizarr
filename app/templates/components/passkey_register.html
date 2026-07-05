@@ -12,7 +12,7 @@
       </p>
     </div>
     <div class="mt-6 flex justify-center">
-      <button hx-get="/webauthn/close-modal"
+      <button hx-get="{{ url_for('webauthn.close_modal') }}"
               hx-target="#passkey-modal-container"
               hx-swap="innerHTML"
               class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">
@@ -84,7 +84,7 @@
                     }
                 };
 
-                return fetch('/webauthn/register/complete', {
+                return fetch({{ url_for('webauthn.register_complete') | tojson }}, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -100,15 +100,15 @@
             })
             .then(result => {
                 if (result.verified) {
-                    htmx.ajax('GET', '/webauthn/close-modal', '#passkey-modal-container');
-                    htmx.ajax('GET', '/webauthn/list', '#passkey-list');
+                    htmx.ajax('GET', {{ url_for('webauthn.close_modal') | tojson }}, '#passkey-modal-container');
+                    htmx.ajax('GET', {{ url_for('webauthn.list_passkeys_htmx') | tojson }}, '#passkey-list');
                 } else {
-                    htmx.ajax('GET', '/webauthn/add-form', '#passkey-modal-container');
+                    htmx.ajax('GET', {{ url_for('webauthn.show_add_form') | tojson }}, '#passkey-modal-container');
                     alert('{{ _("Failed to register passkey") }}: ' + (result.error || 'Unknown error'));
                 }
             })
             .catch(error => {
-                htmx.ajax('GET', '/webauthn/add-form', '#passkey-modal-container');
+                htmx.ajax('GET', {{ url_for('webauthn.show_add_form') | tojson }}, '#passkey-modal-container');
                 alert('{{ _("Failed to complete passkey registration") }}: ' + error.message);
             });
     })();

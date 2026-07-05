@@ -173,8 +173,7 @@ def _generate_invitation_url(code):
 
     except Exception as e:
         logger.warning("Failed to generate invitation URL: %s", str(e))
-        # Fallback to basic format
-        return f"/j/{code}"
+        return f"{request.script_root}/j/{code}"
 
 
 def _calculate_invitation_status(invitation):

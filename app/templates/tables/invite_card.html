@@ -180,7 +180,7 @@
                 </button>
                 <!-- Delete invitation button -->
                 <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 rounded-md transition-colors"
-                        hx-post="/invite/table?delete={{ invite.code }}"
+                        hx-post="{{ url_for('admin.invite_table', delete=invite.code) }}"
                         hx-trigger="click"
                         hx-target="#invite_table"
                         hx-swap="outerHTML swap:0.5s"
@@ -211,7 +211,9 @@
 </div>
 <script>
     function tableCopyLink(invite_code) {
-        const url = window.location.origin + "/j/" + invite_code;
+        const invitePath = {{ url_for('public.invite', code='INVITE_CODE') | tojson }}
+            .replace('INVITE_CODE', encodeURIComponent(invite_code));
+        const url = window.location.origin + invitePath;
         copyToClipboard(url, (success) => {
             if (!success) {
                 console.error("Copy failed for invite:", invite_code);

@@ -10,4 +10,17 @@
   <div class="prose prose-slate dark:prose-invert text-gray-800 dark:text-gray-200 max-w-none prose-sm md:prose-base">
     {{ body_html|safe }}
   </div>
+  {% if server_url and idx == max_idx %}
+    <div class="mt-6 flex justify-center">
+      <a href="{{ external_url or server_url }}"
+         target="_blank"
+         rel="noopener noreferrer"
+         class="inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-primary_hover rounded-lg transition-colors">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+        </svg>
+        {{ _("Open %(server_name)s", server_name=server_name or server_type|capitalize) }}
+      </a>
+    </div>
+  {% endif %}
 </div>

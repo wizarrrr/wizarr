@@ -1,12 +1,16 @@
 // PWA Service Worker Registration - Prevent double execution
 (function() {
   'use strict';
-  
+
   // Guard against double execution
   if (window.wizarrPWALoaded) {
     return;
   }
   window.wizarrPWALoaded = true;
+
+  // Resolve the worker relative to this script so subpath deployments work.
+  var registrationScript = document.currentScript;
+  var serviceWorkerUrl = new URL('../sw.js', registrationScript.src);
 
   // Service Worker Registration
   if ('serviceWorker' in navigator) {
@@ -14,7 +18,7 @@
       // updateViaCache: 'none' ensures the browser always fetches sw.js from the
       // server instead of the HTTP cache, so service worker updates are detected
       // immediately after deployment.
-      navigator.serviceWorker.register('/static/sw.js', { updateViaCache: 'none' })
+      navigator.serviceWorker.register(serviceWorkerUrl, { updateViaCache: 'none' })
         .then(function(registration) {
           console.log('ServiceWorker registration successful with scope: ', registration.scope);
 
@@ -43,7 +47,7 @@
     console.log('beforeinstallprompt event fired');
     e.preventDefault();
     deferredPrompt = e;
-    
+
     // Show install button/banner if needed
     showInstallPromotion();
   });

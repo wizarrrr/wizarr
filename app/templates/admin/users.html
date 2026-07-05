@@ -154,7 +154,7 @@
         <select id="server_filter"
                 name="server"
                 class="w-full sm:w-56 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                hx-get="/users/table"
+                hx-get="{{ url_for('admin.users_table') }}"
                 hx-target="#user_table"
                 hx-swap="outerHTML"
                 hx-include="#server_filter,#search_query,#order_sel">
@@ -166,7 +166,7 @@
                type="text"
                placeholder="Search users…"
                class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-               hx-get="/users/table"
+               hx-get="{{ url_for('admin.users_table') }}"
                hx-trigger="keyup changed delay:300ms"
                hx-target="#user_table"
                hx-swap="outerHTML"
@@ -174,7 +174,7 @@
         <select id="order_sel"
                 name="order"
                 class="w-full sm:w-56 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                hx-get="/users/table"
+                hx-get="{{ url_for('admin.users_table') }}"
                 hx-target="#user_table"
                 hx-swap="outerHTML"
                 hx-include="#server_filter,#search_query,#order_sel">
@@ -185,19 +185,19 @@
         </select>
       </div>
       <div id="link-bar" class="hidden flex gap-2">
-        <button hx-post="/users/link"
+        <button hx-post="{{ url_for('admin.link_accounts') }}"
                 hx-include=".link-check:checked"
                 hx-swap="none"
                 class="text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-primary_hover font-medium rounded-lg text-sm px-3 py-2">
           {{ _("Link") }}
         </button>
-        <button hx-post="/users/unlink"
+        <button hx-post="{{ url_for('admin.unlink_account') }}"
                 hx-include=".link-check:checked"
                 hx-swap="none"
                 class="text-white bg-secondary hover:bg-secondary_hover focus:ring-4 focus:outline-none focus:ring-secondary_hover font-medium rounded-lg text-sm px-3 py-2">
           {{ _("Unlink") }}
         </button>
-        <button hx-post="/users/bulk-delete"
+        <button hx-post="{{ url_for('admin.bulk_delete_users') }}"
                 hx-include=".link-check:checked"
                 hx-swap="none"
                 class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-2">
@@ -205,14 +205,14 @@
         </button>
       </div>
     </div>
-    <div hx-get="/users/table"
+    <div hx-get="{{ url_for('admin.users_table') }}"
          hx-trigger="load"
          hx-target="#user_table"
          hx-swap="outerHTML settle:0ms"
          hx-include="#server_filter,#search_query,#order_sel"
          class="p-4 mb-6 overflow-x-auto">
       <!-- Hidden element to trigger user sync polling -->
-      <div hx-get="/hx/users/sync"
+      <div hx-get="{{ url_for('admin.sync_users') }}"
            hx-trigger="load delay:2s"
            hx-include="#server_filter"
            hx-swap="none"></div>
@@ -276,7 +276,7 @@
             </div>
           </div>
         </div>
-        <div hx-get="/expired-users/table"
+        <div hx-get="{{ url_for('admin.expired_users_table') }}"
              hx-trigger="load"
              hx-target="#expired_users_table"
              hx-swap="outerHTML"
@@ -354,7 +354,7 @@
                 if (searchQuery) params.set('q', searchQuery);
                 if (orderSel) params.set('order', orderSel);
 
-                const url = '/users/table?' + params.toString();
+                const url = {{ url_for('admin.users_table') | tojson }} + '?' + params.toString();
                 console.log('Making HTMX request to:', url);
 
                 // Make HTMX request to refresh the user table with current filters

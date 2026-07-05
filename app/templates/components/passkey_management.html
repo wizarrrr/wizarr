@@ -17,7 +17,7 @@
         {{ _("Passkeys") }}
       </h2>
     </div>
-    <button hx-get="/webauthn/add-form"
+    <button hx-get="{{ url_for('webauthn.show_add_form') }}"
             hx-target="#passkey-modal-container"
             hx-swap="innerHTML"
             :disabled="!isHttps"
@@ -44,7 +44,7 @@
      :class="!isHttps && 'opacity-50'">{{ _("Manage your passkeys for passwordless authentication.") }}</p>
   <div id="passkey-list"
        :class="!isHttps && 'opacity-50 pointer-events-none'"
-       hx-get="/webauthn/list"
+       hx-get="{{ url_for('webauthn.list_passkeys_htmx') }}"
        hx-trigger="load"
        hx-swap="innerHTML">
     <!-- Passkeys will be loaded here -->

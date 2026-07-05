@@ -177,10 +177,13 @@ def invite():
                 ldap_enabled=ldap_enabled,
             ), 400
 
-        current_url = request.headers.get("HX-Current-URL")
+        current_url = request.headers.get("HX-Current-URL", request.url)
         parsed_url = urlparse(current_url)
-        host_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
-        link = f"{host_url}/j/{invite.code}"
+        if parsed_url.scheme in {"http", "https"} and parsed_url.netloc:
+            origin = f"{parsed_url.scheme}://{parsed_url.netloc}"
+        else:
+            origin = request.host_url.rstrip("/")
+        link = f"{origin}{url_for('public.invite', code=invite.code)}"
 
         invitations = Invitation.query.order_by(Invitation.created.desc()).all()
         return render_template(

@@ -32,7 +32,7 @@
           <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ _("Password") }}</h2>
         </div>
         <p class="text-gray-600 dark:text-gray-400 mb-4">{{ _("Change your account password for security.") }}</p>
-        <form hx-post="/profile/change-password"
+        <form hx-post="{{ url_for('admin.change_password') }}"
               hx-target="#password-result"
               hx-swap="innerHTML"
               class="space-y-4">

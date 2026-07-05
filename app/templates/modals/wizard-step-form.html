@@ -15,7 +15,7 @@
           </div>
           <form class="space-y-4"
                 method="post"
-                hx-post="{{ request.path }}"
+                hx-post="{{ form_action }}"
                 hx-target="#tab-body"
                 hx-swap="innerHTML">
             {{ form.hidden_tag() }}

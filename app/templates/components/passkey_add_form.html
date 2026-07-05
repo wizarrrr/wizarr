@@ -2,7 +2,7 @@
      style="z-index: 9999">
   <div class="bg-white dark:bg-gray-800 rounded-lg p-6 m-4 max-w-md w-full">
     <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-4">{{ _("Add New Passkey") }}</h3>
-    <form hx-post="/webauthn/register-start"
+    <form hx-post="{{ url_for('webauthn.register_start_htmx') }}"
           hx-target="#passkey-modal-container"
           hx-swap="innerHTML">
       <div class="mb-4">
@@ -17,7 +17,7 @@
       </div>
       <div class="flex justify-end space-x-3">
         <button type="button"
-                hx-get="/webauthn/close-modal"
+                hx-get="{{ url_for('webauthn.close_modal') }}"
                 hx-target="#passkey-modal-container"
                 hx-swap="innerHTML"
                 class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md">
