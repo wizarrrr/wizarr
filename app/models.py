@@ -177,6 +177,44 @@ class Invitation(db.Model):
         """Check if a specific user has used this invitation."""
         return user in list(self.users)  # type: ignore
 
+class ExternalEnrollmentState(db.Model):
+    __tablename__ = "external_enrollment_state"
+
+    id = db.Column(db.Integer, primary_key=True)
+
+    state = db.Column(
+        db.String(128),
+        unique=True,
+        nullable=False,
+        index=True,
+    )
+
+    invitation_id = db.Column(
+        db.Integer,
+        db.ForeignKey("invitation.id", ondelete="CASCADE"),
+        nullable=False,
+        index=True,
+    )
+    invitation = db.relationship(
+        "Invitation",
+        backref=db.backref("external_enrollment_states", lazy=True),
+    )
+
+    provider = db.Column(
+        db.String,
+        default="static_url",
+        nullable=False,
+    )
+    callback_url = db.Column(db.String, nullable=False)
+
+    created_at = db.Column(
+        db.DateTime,
+        default=lambda: datetime.now(UTC),
+        nullable=False,
+    )
+    expires_at = db.Column(db.DateTime, nullable=False)
+    consumed_at = db.Column(db.DateTime, nullable=True)
+    external_subject = db.Column(db.String, nullable=True)
 
 class Settings(db.Model):
     __tablename__ = "settings"
