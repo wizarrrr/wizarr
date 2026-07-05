@@ -304,6 +304,19 @@ class TestAPIInvitations:
             assert "url" in invitation
             assert invitation["status"] == "pending"
 
+    def test_list_invitations_returns_relative_url_for_loopback_host(
+        self, client, api_key, sample_data
+    ):
+        """Test invitation URLs do not include internal loopback hosts."""
+        response = client.get(
+            "/api/invitations",
+            headers={"X-API-Key": api_key, "Host": "127.0.0.1:5690"},
+        )
+        assert response.status_code == 200
+
+        invitation = response.get_json()["invitations"][0]
+        assert invitation["url"] == f"/j/{invitation['code']}"
+
     def test_create_invitation_unauthorized(self, client):
         """Test invitation creation without authentication."""
         response = client.post(
