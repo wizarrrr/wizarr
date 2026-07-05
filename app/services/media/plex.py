@@ -1284,8 +1284,9 @@ def handle_oauth_token(app, token: str, code: str) -> None:
         if not servers:
             raise ValueError("No media server found")
 
-        from app.services.expiry import calculate_user_expiry
         from flask import current_app
+
+        from app.services.expiry import calculate_user_expiry
 
         for server in servers:
             server_id = server.id
