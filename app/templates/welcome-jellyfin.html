@@ -228,8 +228,7 @@
       </div>
     </div>
   </section>
-  <!-- Anime.js CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <script src="{{ url_for('static', filename='js/vendor/anime.min.js', v=app_version) }}"></script>
   <!-- Custom animations and styles -->
   <style>
       /* Floating blob animations */
