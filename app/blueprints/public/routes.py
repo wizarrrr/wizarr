@@ -32,6 +32,11 @@ from app.services.media.plex import PlexInvitationError, handle_oauth_token
 public_bp = Blueprint("public", __name__)
 
 
+def utc_now_naive() -> datetime:
+    """Return naive UTC for SQLite-compatible datetime comparisons."""
+    return datetime.now(UTC).replace(tzinfo=None)
+
+
 def _media_permission_flags(invitation: Invitation, server: MediaServer) -> dict:
     return {
         "allow_downloads": bool(getattr(invitation, "allow_downloads", False))
@@ -144,7 +149,7 @@ def start_external_enrollment(code):
         state=state,
         provider=invitation.external_enrollment_provider or "static_url",
         callback_url=callback_url,
-        expires_at=datetime.now(UTC) + timedelta(minutes=30),
+        expires_at=utc_now_naive() + timedelta(minutes=30),
     )
 
     db.session.add(pending)
@@ -189,7 +194,7 @@ def external_enrollment_callback():
     if not pending:
         abort(400, description="Invalid or expired external enrollment state")
 
-    now = datetime.now(UTC)
+    now = utc_now_naive()
 
     if pending.expires_at < now:
         pending.consumed_at = now

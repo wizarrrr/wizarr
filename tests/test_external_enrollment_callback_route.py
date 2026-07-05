@@ -1,6 +1,11 @@
 from datetime import UTC, datetime, timedelta
+from uuid import uuid4
 
 from app.models import ExternalEnrollmentState, Invitation
+
+
+def utc_now_naive():
+    return datetime.now(UTC).replace(tzinfo=None)
 
 
 def create_external_invitation(db_session, **overrides):
@@ -27,10 +32,10 @@ def create_pending_external_enrollment(db_session, invitation, **overrides):
     """Store pending external enrollment state in the database."""
     values = {
         "invitation": invitation,
-        "state": "state-token",
+        "state": f"state-{uuid4().hex}",
         "provider": "static_url",
         "callback_url": "http://localhost/invitation/external/callback",
-        "expires_at": datetime.now(UTC) + timedelta(minutes=30),
+        "expires_at": utc_now_naive() + timedelta(minutes=30),
     }
     values.update(overrides)
 
@@ -51,7 +56,7 @@ def test_external_enrollment_callback_resumes_post_wizard(
     pending = create_pending_external_enrollment(session, invitation)
 
     response = client.get(
-        "/invitation/external/callback?state=state-token",
+        f"/invitation/external/callback?state={pending.state}",
         headers={"X-Test-User": "leo"},
     )
 
@@ -107,7 +112,7 @@ def test_external_enrollment_callback_rejects_invalid_state(
     pending = create_pending_external_enrollment(session, invitation)
 
     response = client.get(
-        "/invitation/external/callback?state=wrong-state",
+        f"/invitation/external/callback?state=wrong-{pending.state}",
         headers={"X-Test-User": "leo"},
     )
 
@@ -134,11 +139,11 @@ def test_external_enrollment_callback_rejects_expired_state(
     pending = create_pending_external_enrollment(
         session,
         invitation,
-        expires_at=datetime.now(UTC) - timedelta(minutes=1),
+        expires_at=utc_now_naive() - timedelta(minutes=1),
     )
 
     response = client.get(
-        "/invitation/external/callback?state=state-token",
+        f"/invitation/external/callback?state={pending.state}",
         headers={"X-Test-User": "leo"},
     )
 
@@ -164,7 +169,7 @@ def test_external_enrollment_callback_requires_auth_header_configuration(
     invitation = create_external_invitation(session)
     pending = create_pending_external_enrollment(session, invitation)
 
-    response = client.get("/invitation/external/callback?state=state-token")
+    response = client.get(f"/invitation/external/callback?state={pending.state}")
 
     assert response.status_code == 400
 
@@ -185,7 +190,7 @@ def test_external_enrollment_callback_requires_verified_external_user(
     invitation = create_external_invitation(session)
     pending = create_pending_external_enrollment(session, invitation)
 
-    response = client.get("/invitation/external/callback?state=state-token")
+    response = client.get(f"/invitation/external/callback?state={pending.state}")
 
     assert response.status_code == 403
 
@@ -208,12 +213,12 @@ def test_external_enrollment_callback_rejects_expired_invitation(
     monkeypatch.setenv("EXTERNAL_ENROLLMENT_AUTH_HEADER", "X-Test-User")
     invitation = create_external_invitation(
         session,
-        expires=datetime.now(UTC) - timedelta(days=1),
+        expires=utc_now_naive() - timedelta(days=1),
     )
     pending = create_pending_external_enrollment(session, invitation)
 
     response = client.get(
-        "/invitation/external/callback?state=state-token",
+        f"/invitation/external/callback?state={pending.state}",
         headers={"X-Test-User": "leo"},
     )
 
