@@ -13,7 +13,7 @@ on:
 
 jobs:
   check-release:
-    runs-on: blacksmith-2vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     if: |
       github.event.pull_request.merged == true && 
       startsWith(github.event.pull_request.title, 'Release v') &&
@@ -23,7 +23,7 @@ jobs:
       
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           fetch-depth: 2  # Need to compare with previous commit
           

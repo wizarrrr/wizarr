@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    runs-on: blacksmith-2vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     env:
       GH_TOKEN: ${{ secrets.SPONSORS_TOKEN }}
       SPONSOR_LOGIN: "mtthidoteu"
@@ -17,7 +17,7 @@ jobs:
       # -----------------------------------------------------------
       # Grab the source *and* every tag so we can look up the latest.
       # -----------------------------------------------------------
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0           # ← crucial for git describe
 

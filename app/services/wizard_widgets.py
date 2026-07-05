@@ -208,7 +208,7 @@ class ButtonWidget(WizardWidget):
 
             url = kwargs.get("url", "")
             text = kwargs.get("text", "Click Here")
-            context = _context or {}
+            context = _context or kwargs.pop("context", {}) or {}
 
             # If URL is a Jinja variable name (no protocol and no slashes), try to resolve it from context
             if (
@@ -396,7 +396,7 @@ def process_widget_placeholders(
         # Get widget and render
         widget = WIDGET_REGISTRY.get(widget_name)
         if widget:
-            return widget.render(server_type, context=context, **params)
+            return widget.render(server_type, _context=context, **params)
         return f'<div class="text-sm text-red-500">Unknown widget: {widget_name}</div>'
 
     # Match {{ widget:... }} patterns specifically (not other {{ }} expressions)

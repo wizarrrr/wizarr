@@ -155,21 +155,11 @@ def require_api_key_or_session(f):
 
 
 def _generate_invitation_url(code):
-    """Generate full invitation URL for the given code."""
+    """Generate the stable invitation path for the given code."""
     try:
         from flask import url_for
 
-        # Try to generate URL using url_for with the public blueprint's invite route
-        invite_path = url_for("public.invite", code=code, _external=False)
-
-        # Get the host from the current request if available
-        host = request.headers.get("Host")
-        if host and not host.startswith("localhost"):
-            # Only generate full URL for non-localhost hosts
-            scheme = "https" if request.is_secure else "http"
-            return f"{scheme}://{host}{invite_path}"
-        # For localhost or when no host header, return relative URL
-        return invite_path
+        return url_for("public.invite", code=code, _external=False)
 
     except Exception as e:
         logger.warning("Failed to generate invitation URL: %s", str(e))
