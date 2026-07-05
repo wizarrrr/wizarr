@@ -57,7 +57,7 @@
       <!-- Main Card Container -->
       <div class="w-full {{ 'max-w-lg' if show_form_on_load else 'max-w-md' }} transition-all duration-700 ease-out"
            id="main-container">
-        <div class="bg-white/90 dark:bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-xl dark:shadow-2xl border border-gray-200 dark:border-gray-700/50 transition-all duration-700 ease-out {{ 'h-auto min-h-[520px] md:h-[520px]' if show_form_on_load else 'h-[400px]' }}"
+        <div class="relative bg-white/90 dark:bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-xl dark:shadow-2xl border border-gray-200 dark:border-gray-700/50 transition-all duration-700 ease-out {{ 'h-auto min-h-[520px] md:h-[520px]' if show_form_on_load else 'h-[400px]' }}"
              id="card-container"
              style="overflow: {{ 'visible' if show_form_on_load else 'hidden' }}">
           <!-- Welcome Screen -->
@@ -484,12 +484,44 @@
           // Initialize background shimmer particles
           createShimmerParticles();
 
+          function revealFormWithoutAnimation() {
+              const isMobile = window.innerWidth < 768;
+              formScreen.classList.remove('hidden');
+              formScreen.style.opacity = '1';
+              formScreen.style.pointerEvents = 'auto';
+              welcomeScreen.style.display = 'none';
+              mainContainer.style.maxWidth = isMobile ? '100%' : '32rem';
+              cardContainer.style.height = isMobile ? 'auto' : '520px';
+              cardContainer.style.minHeight = isMobile ? `${formScreen.scrollHeight + 48}px` : '';
+              cardContainer.style.overflow = isMobile ? 'visible' : 'hidden';
+              if (isMobile) {
+                  layoutWrapper.style.justifyContent = 'flex-start';
+                  layoutWrapper.style.paddingTop = '3rem';
+                  layoutWrapper.style.paddingBottom = '2rem';
+                  formScreen.style.position = 'relative';
+                  formScreen.style.height = 'auto';
+                  formScreen.style.overflow = 'visible';
+              }
+              const formFields = formScreen.querySelectorAll('.form-field');
+              formFields.forEach(field => {
+                  field.style.opacity = '1';
+                  field.style.transform = 'translateY(0)';
+              });
+              const firstInput = form.querySelector('input[type="text"], input[type="email"]');
+              if (firstInput) firstInput.focus();
+          }
+
           // Smooth container expansion animation
           acceptBtn.addEventListener('click', async function() {
               // Prevent multiple clicks
               acceptBtn.disabled = true;
 
               try {
+                  if (typeof anime === 'undefined') {
+                      revealFormWithoutAnimation();
+                      return;
+                  }
+
                   const isMobile = window.innerWidth < 768;
                   let mobileCardHeight = null;
 
@@ -602,7 +634,7 @@
 
               } catch (error) {
                   console.error('Animation error:', error);
-                  // Fallback to simple transition
+                  revealFormWithoutAnimation();
                   acceptBtn.disabled = false;
               }
           });
