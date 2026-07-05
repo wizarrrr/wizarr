@@ -61,6 +61,42 @@ def _get_server_colors(server_type: str | None) -> dict[str, str]:
     )
 
 
+def _create_join_form_template_data(
+    invitation: Invitation,
+    servers: list[MediaServer],
+    *,
+    form=None,
+    error: str | None = None,
+) -> dict[str, Any]:
+    """Build the complete template context for form-based invite screens."""
+    from app.forms.join import JoinForm
+    from app.services.server_name_resolver import resolve_invitation_server_name
+
+    if form is None:
+        form = JoinForm()
+    form.code.data = invitation.code
+
+    primary_server = servers[0] if servers else None
+    server_type = primary_server.server_type if primary_server else "jellyfin"
+    server_name = resolve_invitation_server_name(servers)
+    colors = _get_server_colors(server_type)
+
+    context = {
+        "template_name": "welcome-jellyfin.html",
+        "form": form,
+        "server_type": server_type,
+        "server_name": server_name,
+        "servers": servers,
+        "gradient_start": colors["gradient_start"],
+        "gradient_end": colors["gradient_end"],
+        "shadow_color": colors["shadow_color"],
+        "show_form": bool(error) or bool(getattr(form, "errors", None)),
+    }
+    if error:
+        context["error"] = error
+    return context
+
+
 class InvitationWorkflow(ABC):
     """Base class for invitation workflows."""
 
@@ -239,37 +275,12 @@ class FormBasedWorkflow(InvitationWorkflow):
         self, invitation: Invitation, servers: list[MediaServer]
     ) -> InvitationResult:
         """Show form-based authentication form."""
-        from app.forms.join import JoinForm
-        from app.services.server_name_resolver import resolve_invitation_server_name
-
-        form = JoinForm()
-        form.code.data = invitation.code
-
-        # Determine primary server type for UI
-        primary_server = servers[0] if servers else None
-        server_type = primary_server.server_type if primary_server else "jellyfin"
-
-        # Resolve the server name to display
-        server_name = resolve_invitation_server_name(servers)
-
-        # Get server-specific color scheme for theming
-        colors = _get_server_colors(server_type)
-
         return InvitationResult(
             status=ProcessingStatus.AUTHENTICATION_REQUIRED,
             message="Authentication required",
             successful_servers=[],
             failed_servers=[],
-            template_data={
-                "template_name": "welcome-jellyfin.html",
-                "form": form,
-                "server_type": server_type,
-                "server_name": server_name,
-                "servers": servers,
-                "gradient_start": colors["gradient_start"],
-                "gradient_end": colors["gradient_end"],
-                "shadow_color": colors["shadow_color"],
-            },
+            template_data=_create_join_form_template_data(invitation, servers),
             session_data={"invitation_in_progress": True},
         )
 
@@ -327,31 +338,14 @@ class FormBasedWorkflow(InvitationWorkflow):
         self, invitation: Invitation, servers: list[MediaServer], error_message: str
     ) -> InvitationResult:
         """Create result for authentication errors."""
-        from app.forms.join import JoinForm
-        from app.services.server_name_resolver import resolve_invitation_server_name
-
-        form = JoinForm()
-        form.code.data = invitation.code
-
-        primary_server = servers[0] if servers else None
-        server_type = primary_server.server_type if primary_server else "jellyfin"
-
-        # Resolve the server name to display
-        server_name = resolve_invitation_server_name(servers)
-
         return InvitationResult(
             status=ProcessingStatus.FAILURE,
             message=error_message,
             successful_servers=[],
             failed_servers=[],
-            template_data={
-                "template_name": "welcome-jellyfin.html",
-                "form": form,
-                "server_type": server_type,
-                "server_name": server_name,
-                "servers": servers,
-                "error": error_message,
-            },
+            template_data=_create_join_form_template_data(
+                invitation, servers, error=error_message
+            ),
             session_data={"invitation_in_progress": True},
         )
 
@@ -362,18 +356,6 @@ class FormBasedWorkflow(InvitationWorkflow):
         failed: list[ServerResult],
     ) -> InvitationResult:
         """Create result for server failures."""
-        from app.forms.join import JoinForm
-        from app.services.server_name_resolver import resolve_invitation_server_name
-
-        form = JoinForm()
-        form.code.data = invitation.code
-
-        primary_server = servers[0] if servers else None
-        server_type = primary_server.server_type if primary_server else "jellyfin"
-
-        # Resolve the server name to display
-        server_name = resolve_invitation_server_name(servers)
-
         error_messages = [
             f"{result.server.name}: {result.message}" for result in failed
         ]
@@ -384,14 +366,9 @@ class FormBasedWorkflow(InvitationWorkflow):
             message=error_text,
             successful_servers=[],
             failed_servers=failed,
-            template_data={
-                "template_name": "welcome-jellyfin.html",
-                "form": form,
-                "server_type": server_type,
-                "server_name": server_name,
-                "servers": servers,
-                "error": error_text,
-            },
+            template_data=_create_join_form_template_data(
+                invitation, servers, error=error_text
+            ),
             session_data={"invitation_in_progress": True},
         )
 

@@ -30,9 +30,7 @@ def _media_permission_flags(invitation: Invitation, server: MediaServer) -> dict
         or bool(getattr(server, "allow_downloads", False)),
         "allow_live_tv": bool(getattr(invitation, "allow_live_tv", False))
         or bool(getattr(server, "allow_live_tv", False)),
-        "allow_mobile_uploads": bool(
-            getattr(invitation, "allow_mobile_uploads", False)
-        )
+        "allow_mobile_uploads": bool(getattr(invitation, "allow_mobile_uploads", False))
         or bool(getattr(server, "allow_mobile_uploads", False)),
     }
 
@@ -226,6 +224,7 @@ def join():
         "komga",
     ):
         from app.forms.join import JoinForm
+        from app.services.invitation_flow.workflows import _get_server_colors
 
         # Get server name for the invitation using the new resolver if available
         try:
@@ -247,11 +246,15 @@ def join():
 
         form = JoinForm()
         form.code.data = code
+        colors = _get_server_colors(server_type)
         return render_template(
             "welcome-jellyfin.html",
             code=code,
             server_type=server_type,
             server_name=server_name,
+            gradient_start=colors["gradient_start"],
+            gradient_end=colors["gradient_end"],
+            shadow_color=colors["shadow_color"],
             form=form,
         )
 

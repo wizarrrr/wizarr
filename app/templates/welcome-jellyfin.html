@@ -3,17 +3,20 @@
   Accept Invite
 {% endblock title %}
 {% block og_title %}
-  {{ _(server_name) }}
+  {{ _(server_name|default("Media Server", true)) }}
 {% endblock og_title %}
 {% block og_description %}
-  {{ _("You've been invited to join the %(name)s server!", name=server_name) }}
+  {{ _("You've been invited to join the %(name)s server!", name=server_name|default("Media Server", true)) }}
 {% endblock og_description %}
 {% block main %}
+  {% set has_form_errors = form is defined and form.errors %}
+  {% set show_form_on_load = show_form|default(false) or error|default(false) or has_form_errors %}
+  {% set form_field_style = "opacity: 1; transform: translateY(0);" if show_form_on_load else "opacity: 0; transform: translateY(10px);" %}
   <style>
       /* Override CSS custom properties with server-specific colors */
       :root {
-          --color-primary: {{ gradient_start }};
-          --color-primary_hover: {{ gradient_end }};
+          --color-primary: {{ gradient_start|default("#AA5CC3", true) }};
+          --color-primary_hover: {{ gradient_end|default("#00A4DC", true) }};
       }
   </style>
   <section id="invite-section"
@@ -52,13 +55,13 @@
         </p>
       </div>
       <!-- Main Card Container -->
-      <div class="w-full max-w-md transition-all duration-700 ease-out"
+      <div class="w-full {{ 'max-w-lg' if show_form_on_load else 'max-w-md' }} transition-all duration-700 ease-out"
            id="main-container">
-        <div class="bg-white/90 dark:bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-xl dark:shadow-2xl border border-gray-200 dark:border-gray-700/50 transition-all duration-700 ease-out h-[400px]"
+        <div class="bg-white/90 dark:bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-xl dark:shadow-2xl border border-gray-200 dark:border-gray-700/50 transition-all duration-700 ease-out {{ 'h-auto min-h-[520px] md:h-[520px]' if show_form_on_load else 'h-[400px]' }}"
              id="card-container"
-             style="overflow: hidden">
+             style="overflow: {{ 'visible' if show_form_on_load else 'hidden' }}">
           <!-- Welcome Screen -->
-          <div class="p-8 space-y-6 transition-all duration-500 ease-out"
+          <div class="p-8 space-y-6 transition-all duration-500 ease-out {{ 'hidden' if show_form_on_load else '' }}"
                id="welcome-screen">
             <div class="text-center">
               <div class="mx-auto w-16 h-16 bg-gradient-to-r from-primary to-primary_hover rounded-full flex items-center justify-center mb-4 shadow-lg">
@@ -79,7 +82,7 @@
             </button>
           </div>
           <!-- Account Creation Form (initially hidden) -->
-          <div class="h-full flex flex-col opacity-0 pointer-events-none transition-all duration-500 ease-out absolute inset-0 overflow-hidden hidden"
+          <div class="h-full flex flex-col transition-all duration-500 ease-out {{ 'relative opacity-100 pointer-events-auto overflow-visible' if show_form_on_load else 'opacity-0 pointer-events-none absolute inset-0 overflow-hidden hidden' }}"
                id="form-screen">
             <div class="text-center relative py-4 px-6 flex-shrink-0">
               <button id="back-btn"
@@ -104,8 +107,7 @@
                 {{ form.hidden_tag() }}
                 <div class="form-field"
                      data-field="1"
-                     style="opacity: 0;
-                            transform: translateY(10px)">
+                     style="{{ form_field_style }}">
                   <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     <svg class="w-3 h-3 inline mr-1"
                          fill="none"
@@ -123,8 +125,7 @@
                 </div>
                 <div class="form-field"
                      data-field="2"
-                     style="opacity: 0;
-                            transform: translateY(10px)">
+                     style="{{ form_field_style }}">
                   <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     <svg class="w-3 h-3 inline mr-1"
                          fill="none"
@@ -142,8 +143,7 @@
                 </div>
                 <div class="form-field"
                      data-field="3"
-                     style="opacity: 0;
-                            transform: translateY(10px)">
+                     style="{{ form_field_style }}">
                   <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     <svg class="w-3 h-3 inline mr-1"
                          fill="none"
@@ -161,8 +161,7 @@
                 </div>
                 <div class="form-field"
                      data-field="4"
-                     style="opacity: 0;
-                            transform: translateY(10px)">
+                     style="{{ form_field_style }}">
                   <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     <svg class="w-3 h-3 inline mr-1"
                          fill="none"
@@ -180,8 +179,7 @@
                 </div>
                 <div class="form-field"
                      data-field="5"
-                     style="opacity: 0;
-                            transform: translateY(10px)">
+                     style="{{ form_field_style }}">
                   <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     <svg class="w-3 h-3 inline mr-1"
                          fill="none"
@@ -201,8 +199,7 @@
                         id="submit-btn"
                         class="w-full py-3 px-4 text-white font-semibold text-sm bg-gradient-to-r from-primary to-primary_hover hover:from-primary_hover hover:to-primary rounded-lg transition-all duration-200 transform hover:scale-[1.02] focus:ring-4 focus:ring-primary/30 focus:outline-none shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed form-field"
                         data-field="6"
-                        style="opacity: 0;
-                               transform: translateY(10px)">
+                        style="{{ form_field_style }}">
                   <span id="btn-text">{{ _("Create Account") }}</span>
                   <span id="btn-loading" class="hidden">
                     <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white inline"
