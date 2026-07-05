@@ -175,8 +175,7 @@
                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Target servers") }}</label>
                 <div id="server-grid" class="flex flex-col space-y-4">
                   {% for s in servers %}
-                    <label for="srv{{ s.id }}"
-                           class="relative flex flex-col items-start w-full cursor-pointer rounded-lg border bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 p-4 shadow-sm transition hover:border-primary hover:shadow peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary focus-within:ring-2 focus-within:ring-primary">
+                    <div class="relative flex flex-col items-start w-full rounded-lg border bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 p-4 shadow-sm transition hover:border-primary hover:shadow peer-checked:border-primary peer-checked:ring-2 peer-checked:ring-primary focus-within:ring-2 focus-within:ring-primary">
                       <input type="checkbox"
                              class="sr-only peer"
                              id="srv{{ s.id }}"
@@ -184,10 +183,10 @@
                              value="{{ s.id }}"
                              {% if s.id == chosen_server_id %}checked{% endif %}
                              onchange="updatePrimaryServer(); handleServerToggle(this, {{ s.id }})">
-                      <div class="grow">
+                      <label for="srv{{ s.id }}" class="w-full grow cursor-pointer">
                         <p class="text-sm font-semibold text-gray-900 dark:text-white">{{ s.name }}</p>
                         {{ s.server_type|server_type_tag }}
-                      </div>
+                      </label>
                       <svg class="absolute top-2 right-2 w-5 h-5 text-primary opacity-0 peer-checked:opacity-100"
                            xmlns="http://www.w3.org/2000/svg"
                            fill="currentColor"
@@ -348,13 +347,13 @@
                           <button id="libBtn{{ s.id }}"
                                   type="button"
                                   class="text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-primary_hover font-medium rounded-lg text-xs px-3 py-2 inline-flex items-center"
-                                  data-dropdown-toggle="libMenu{{ s.id }}"
-                                  data-dropdown-placement="bottom"
+                                  aria-controls="libMenu{{ s.id }}"
+                                  aria-expanded="false"
                                   hx-post="/invite/scan-libraries"
                                   hx-vals='{"server_ids":"{{ s.id }}"}'
                                   hx-target="#libMenu{{ s.id }} .dropdown-content"
                                   hx-swap="innerHTML"
-                                  hx-trigger="click"
+                                  hx-trigger="click[!isLibraryDropdownLoaded('libMenu{{ s.id }}')]"
                                   onclick="event.stopPropagation(); toggleDropdown('libMenu{{ s.id }}')">
                             {{ _("Select Libraries") }}
                             <svg class="w-2.5 h-2.5 ms-2"
@@ -373,7 +372,7 @@
                           </div>
                         </div>
                       </div>
-                    </label>
+                    </div>
                   {% endfor %}
                 </div>
               </div>
@@ -470,11 +469,18 @@
     function handleServerToggle(checkbox, serverId) {
         // When a server is unchecked, clear its library dropdown to prevent duplicate submissions
         if (!checkbox.checked) {
-            const dropdownContent = document.querySelector(`#libMenu${serverId} .dropdown-content`);
+            const dropdown = document.getElementById(`libMenu${serverId}`);
+            const dropdownContent = dropdown?.querySelector('.dropdown-content');
             if (dropdownContent) {
                 // Clear the dropdown content to remove any library checkboxes
                 dropdownContent.innerHTML = {{ _("Loading…") | tojson | safe }};
             }
+            if (dropdown) {
+                dropdown.classList.add('hidden');
+                delete dropdown.dataset.loaded;
+            }
+            const button = document.getElementById(`libBtn${serverId}`);
+            button?.setAttribute('aria-expanded', 'false');
         }
     }
 
@@ -503,7 +509,13 @@
         const el = document.getElementById(id);
         if (el) {
             el.classList.toggle('hidden');
+            const button = document.querySelector(`[aria-controls="${id}"]`);
+            button?.setAttribute('aria-expanded', String(!el.classList.contains('hidden')));
         }
+    }
+
+    function isLibraryDropdownLoaded(id) {
+        return document.getElementById(id)?.dataset.loaded === 'true';
     }
 
     function createAnother() {
@@ -520,6 +532,13 @@
 
     // Handle successful form submission in modal context
     document.body.addEventListener('htmx:afterSwap', function(evt) {
+        if (evt.detail.target.classList?.contains('dropdown-content')) {
+            const dropdown = evt.detail.target.closest('[id^="libMenu"]');
+            if (dropdown) {
+                dropdown.dataset.loaded = 'true';
+            }
+        }
+
         if (evt.detail.target.id === 'inviteModalContent') {
             // Check if this is the success view
             const link = document.getElementById('link');
