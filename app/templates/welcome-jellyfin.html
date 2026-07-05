@@ -3,10 +3,10 @@
   Accept Invite
 {% endblock title %}
 {% block og_title %}
-  {{ _(server_name|default("Media Server", true)) }}
+  {{ _(server_name|default("Media Server", true) ) }}
 {% endblock og_title %}
 {% block og_description %}
-  {{ _("You've been invited to join the %(name)s server!", name=server_name|default("Media Server", true)) }}
+  {{ _("You've been invited to join the %(name)s server!", name=server_name|default("Media Server", true) ) }}
 {% endblock og_description %}
 {% block main %}
   {% set has_form_errors = form is defined and form.errors %}
@@ -105,9 +105,7 @@
                     action="{{ url_for('public.process_invitation') }}"
                     method="post">
                 {{ form.hidden_tag() }}
-                <div class="form-field"
-                     data-field="1"
-                     style="{{ form_field_style }}">
+                <div class="form-field" data-field="1" style="{{ form_field_style }}">
                   <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     <svg class="w-3 h-3 inline mr-1"
                          fill="none"
@@ -123,9 +121,7 @@
                   ) }}
                   {% for err in form.username.errors %}<p class="text-red-400 text-xs mt-1">{{ err }}</p>{% endfor %}
                 </div>
-                <div class="form-field"
-                     data-field="2"
-                     style="{{ form_field_style }}">
+                <div class="form-field" data-field="2" style="{{ form_field_style }}">
                   <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     <svg class="w-3 h-3 inline mr-1"
                          fill="none"
@@ -141,9 +137,7 @@
                   ) }}
                   {% for err in form.email.errors %}<p class="text-red-400 text-xs mt-1">{{ err }}</p>{% endfor %}
                 </div>
-                <div class="form-field"
-                     data-field="3"
-                     style="{{ form_field_style }}">
+                <div class="form-field" data-field="3" style="{{ form_field_style }}">
                   <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     <svg class="w-3 h-3 inline mr-1"
                          fill="none"
@@ -159,9 +153,7 @@
                   ) }}
                   {% for err in form.password.errors %}<p class="text-red-400 text-xs mt-1">{{ err }}</p>{% endfor %}
                 </div>
-                <div class="form-field"
-                     data-field="4"
-                     style="{{ form_field_style }}">
+                <div class="form-field" data-field="4" style="{{ form_field_style }}">
                   <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     <svg class="w-3 h-3 inline mr-1"
                          fill="none"
@@ -177,9 +169,7 @@
                   ) }}
                   {% for err in form.confirm_password.errors %}<p class="text-red-400 text-xs mt-1">{{ err }}</p>{% endfor %}
                 </div>
-                <div class="form-field"
-                     data-field="5"
-                     style="{{ form_field_style }}">
+                <div class="form-field" data-field="5" style="{{ form_field_style }}">
                   <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">
                     <svg class="w-3 h-3 inline mr-1"
                          fill="none"
