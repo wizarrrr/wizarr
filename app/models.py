@@ -177,6 +177,7 @@ class Invitation(db.Model):
         """Check if a specific user has used this invitation."""
         return user in list(self.users)  # type: ignore
 
+
 class ExternalEnrollmentState(db.Model):
     __tablename__ = "external_enrollment_state"
 
@@ -215,6 +216,7 @@ class ExternalEnrollmentState(db.Model):
     expires_at = db.Column(db.DateTime, nullable=False)
     consumed_at = db.Column(db.DateTime, nullable=True)
     external_subject = db.Column(db.String, nullable=True)
+
 
 class Settings(db.Model):
     __tablename__ = "settings"
