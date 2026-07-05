@@ -9,6 +9,7 @@ from sqlalchemy import or_
 from app.extensions import db
 from app.models import Invitation, MediaServer, User
 
+from .auth_headers import media_browser_auth_headers
 from .client_base import register_media_client
 from .jellyfin import JellyfinClient
 
@@ -52,10 +53,9 @@ class EmbyClient(JellyfinClient):
         """
         try:
             if url and token:
-                headers = {"X-Emby-Token": token}
                 response = requests.get(
                     f"{url.rstrip('/')}/Library/MediaFolders",
-                    headers=headers,
+                    headers=media_browser_auth_headers(token),
                     timeout=10,
                 )
                 response.raise_for_status()

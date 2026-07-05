@@ -10,6 +10,7 @@ from app.extensions import db
 from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid
 
+from .auth_headers import media_browser_auth_headers
 from .client_base import RestApiMixin, register_media_client
 
 if TYPE_CHECKING:
@@ -28,11 +29,8 @@ class JellyfinClient(RestApiMixin):
         super().__init__(*args, **kwargs)
 
     def _headers(self) -> dict[str, str]:  # type: ignore
-        """Return default headers including X-Emby-Token if available."""
-        headers = {"Accept": "application/json"}
-        if self.token:
-            headers["X-Emby-Token"] = self.token
-        return headers
+        """Return default headers for Jellyfin API requests."""
+        return media_browser_auth_headers(self.token)
 
     def libraries(self) -> dict[str, str]:
         """Return mapping of library_id → library_name."""
@@ -57,10 +55,9 @@ class JellyfinClient(RestApiMixin):
         """
         try:
             if url and token:
-                headers = {"X-Emby-Token": token}
                 response = requests.get(
                     f"{url.rstrip('/')}/Library/MediaFolders",
-                    headers=headers,
+                    headers=media_browser_auth_headers(token),
                     timeout=10,
                 )
                 response.raise_for_status()
