@@ -49,6 +49,8 @@ FROM ghcr.io/astral-sh/uv:python3.13-alpine
 # Set default environment variables for user/group IDs
 ENV PUID=1000
 ENV PGID=1000
+ENV HOST=0.0.0.0
+ENV PORT=5690
 
 # Install runtime dependencies only
 RUN apk add --no-cache curl tzdata su-exec
@@ -77,14 +79,14 @@ ENV APP_VERSION=${APP_VERSION}
 # Set Flask environment to production
 ENV FLASK_ENV=production
 
-# Healthcheck: curl to localhost:$PORT/health
+# Healthcheck: curl to localhost:${PORT:-5690}/health
 # Increased start-period to 60s to account for:
 # - Database migrations
 # - Library scanning
 # - Wizard step imports
 # - Worker initialization (4 workers * ~10s each)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-  CMD ["sh", "-c", "curl -fs http://localhost:$PORT/health || exit 1"]
+  CMD ["sh", "-c", "curl -fs http://localhost:${PORT:-5690}/health || exit 1"]
 
 # Expose port 5690
 EXPOSE 5690
