@@ -80,9 +80,11 @@ def scan_all_server_libraries(show_logs: bool = True) -> tuple[int, list[str]]:
                 incoming_ids.add(str(external_id))
                 if external_id in existing_libs:
                     lib = existing_libs[external_id]
-                    # Update mutable attributes while preserving primary key
+                    # Update mutable attributes while preserving primary key.
+                    # Do NOT touch `enabled` — that is the admin's selection and
+                    # must survive re-scans (see edit_server). Only new libraries
+                    # default to enabled below.
                     lib.name = name
-                    lib.enabled = True
                     updated_count += 1
                 else:
                     lib = Library(

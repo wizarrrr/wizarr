@@ -791,10 +791,11 @@ def invite_scan_libraries():
             fid = str(fid)
             incoming_ids.add(fid)
             if fid in existing_libs:
-                # Update existing row (preserve primary key so invites keep referencing it)
+                # Update existing row (preserve primary key so invites keep referencing it).
+                # Preserve `enabled` — it is the admin's selection and must not be
+                # clobbered by merely opening the invite library picker.
                 lib = existing_libs[fid]
                 lib.name = name
-                lib.enabled = True
             else:
                 # New library - insert
                 lib = Library(
