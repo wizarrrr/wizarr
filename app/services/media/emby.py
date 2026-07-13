@@ -197,6 +197,37 @@ class EmbyClient(JellyfinClient):
         """Return placeholder password for local DB."""
         return "emby-user"
 
+    def link_emby_connect_user(
+        self, user_id: str, connect_username: str | None
+    ) -> None:
+        """Request an Emby Connect link for a local Emby user."""
+        if not connect_username or not EMAIL_RE.fullmatch(connect_username):
+            logging.info(
+                "Skipping Emby Connect link for user %s: no valid Connect email",
+                user_id,
+            )
+            return
+
+        try:
+            response = self.post(
+                f"/Users/{user_id}/Connect/Link",
+                params={"ConnectUsername": connect_username},
+            )
+            result = response.json() if response.content else {}
+            logging.info(
+                "Emby Connect link result for user %s: pending=%s new_invitation=%s",
+                user_id,
+                result.get("IsPending"),
+                result.get("IsNewUserInvitation"),
+            )
+        except Exception as e:
+            logging.warning(
+                "Failed to link Emby Connect account %s for local user %s: %s",
+                connect_username,
+                user_id,
+                e,
+            )
+
     def _set_specific_folders(self, user_id: str, names: list[str]) -> None:
         """Set library access for a user and ensure playback permissions.
 
@@ -316,5 +347,8 @@ class EmbyClient(JellyfinClient):
                 f"Failed to set Emby download/live TV/mobile uploads permissions for user {username}: {e!s}"
             )
             # Don't fail the join process for this
+
+        if getattr(current_server, "emby_connect_onboarding", False):
+            self.link_emby_connect_user(user.token, email)
 
         return success, message

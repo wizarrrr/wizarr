@@ -443,6 +443,7 @@ class MediaServer(db.Model):
     allow_downloads = db.Column(db.Boolean, default=False, nullable=False)
     allow_live_tv = db.Column(db.Boolean, default=False, nullable=False)
     allow_mobile_uploads = db.Column(db.Boolean, default=False, nullable=False)
+    emby_connect_onboarding = db.Column(db.Boolean, default=False, nullable=False)
 
     # Whether the connection credentials were validated successfully
     verified = db.Column(db.Boolean, default=False, nullable=False)

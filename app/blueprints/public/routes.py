@@ -1,3 +1,5 @@
+import re
+import secrets
 from pathlib import Path
 
 import requests
@@ -62,6 +64,19 @@ def _apply_safe_media_user_policy(
 
     client.set_policy(user_id, current_policy)
     return permissions
+
+
+def _uses_emby_connect_onboarding(servers: list[MediaServer]) -> bool:
+    return bool(servers) and all(
+        server.server_type == "emby"
+        and bool(getattr(server, "emby_connect_onboarding", False))
+        for server in servers
+    )
+
+
+def _create_emby_connect_credentials(email: str) -> tuple[str, str]:
+    local_part = re.sub(r"[^a-z0-9]+", "", email.split("@", 1)[0])[:12] or "emby"
+    return f"{local_part}{secrets.token_hex(3)}", secrets.token_urlsafe(24)
 
 
 # ─── Landing “/” ──────────────────────────────────────────────────────────────
@@ -350,35 +365,59 @@ def password_prompt(code):
     if plex_server:
         plex_user = User.query.filter_by(code=code, server_id=plex_server.id).first()
 
+    remaining_servers = [s for s in invitation.servers if s.server_type != "plex"]
+    emby_connect_onboarding = _uses_emby_connect_onboarding(remaining_servers)
+
     if request.method == "POST":
-        pw = request.form.get("password") or ""
-        confirm = request.form.get("confirm") or ""
-        if pw != confirm or len(pw) < 8:
+        if emby_connect_onboarding:
+            email = (request.form.get("email") or "").strip().lower()
+            if not re.fullmatch(r"[^@]+@[^@]+\.[^@]+", email):
+                return render_template(
+                    "choose-password.html",
+                    code=code,
+                    emby_connect_onboarding=True,
+                    error="Enter the email address used for your Emby Connect account.",
+                )
+            username, pw = _create_emby_connect_credentials(email)
+        else:
+            pw = request.form.get("password") or ""
+            confirm = request.form.get("confirm") or ""
+            if pw != confirm or len(pw) < 8:
+                return render_template(
+                    "choose-password.html",
+                    code=code,
+                    error="Passwords do not match or too short (8 chars).",
+                )
+
+            # Fallback: generate strong password if checkbox ticked or blank
+            if request.form.get("generate") or pw.strip() == "":
+                import string
+
+                pw = "".join(
+                    secrets.choice(string.ascii_letters + string.digits)
+                    for _ in range(16)
+                )
+
+            # Determine username and email for all account creations
+            if plex_user:
+                username = plex_user.username
+                email = plex_user.email
+            else:
+                # For non-Plex flows, use form data or generate a unique username
+                import uuid
+
+                username = (
+                    request.form.get("username") or f"user-{uuid.uuid4().hex[:8]}"
+                )
+                email = request.form.get("email") or ""
+
+        if emby_connect_onboarding and not email:
             return render_template(
                 "choose-password.html",
                 code=code,
-                error="Passwords do not match or too short (8 chars).",
+                emby_connect_onboarding=emby_connect_onboarding,
+                error="Email address is required.",
             )
-
-        # Fallback: generate strong password if checkbox ticked or blank
-        if request.form.get("generate") or pw.strip() == "":
-            import secrets
-            import string
-
-            pw = "".join(
-                secrets.choice(string.ascii_letters + string.digits) for _ in range(16)
-            )
-
-        # Determine username and email for all account creations
-        if plex_user:
-            username = plex_user.username
-            email = plex_user.email
-        else:
-            # For non-Plex flows, use form data or generate a unique username
-            import uuid
-
-            username = request.form.get("username") or f"user-{uuid.uuid4().hex[:8]}"
-            email = request.form.get("email") or ""
 
         # Create LDAP user if configured
         from app.services.ldap.invitation_ldap import InvitationLDAPHandler
@@ -423,6 +462,12 @@ def password_prompt(code):
                     permissions = _apply_safe_media_user_policy(
                         client, uid, invitation, srv
                     )
+                    if (
+                        srv.server_type == "emby"
+                        and getattr(srv, "emby_connect_onboarding", False)
+                        and hasattr(client, "link_emby_connect_user")
+                    ):
+                        client.link_emby_connect_user(uid, email)
                 elif srv.server_type in ("audiobookshelf", "romm"):
                     uid = client.create_user(username, pw, email=email)
                 else:
@@ -461,7 +506,11 @@ def password_prompt(code):
         return redirect(url_for("wizard.start"))
 
     # GET request – show form
-    return render_template("choose-password.html", code=code)
+    return render_template(
+        "choose-password.html",
+        code=code,
+        emby_connect_onboarding=emby_connect_onboarding,
+    )
 
 
 # ─── Image proxy to allow internal artwork URLs ─────────────────────────────
