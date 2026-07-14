@@ -160,10 +160,9 @@ def join():
                         "There was an issue setting up your Plex access. Please contact your server admin."
                     ),
                 )
-            # Plex failed but other servers still need provisioning – treat the
-            # first non-Plex server as the primary and fall through to its join page.
-            server = extra[0]
-            server_type = server.server_type
+            # Plex failed but other servers can still be provisioned – fall
+            # through to the multi-server password step, which will collect
+            # the username/email since no Plex account details exist.
 
         if extra:
             # Stash the token & email lookup hint in session so we can provision others later
@@ -304,15 +303,35 @@ def password_prompt(code):
     if plex_server:
         plex_user = User.query.filter_by(code=code, server_id=plex_server.id).first()
 
+    # No Plex user row means Plex provisioning failed (or never ran), so there
+    # is no username/email to copy – the form must collect them instead.
+    need_identity = plex_user is None
+    plex_warning = (
+        _(
+            "Your Plex access could not be set up. You can still create your "
+            "account on the remaining servers below – please contact your "
+            "server admin about Plex."
+        )
+        if plex_server and not plex_user
+        else None
+    )
+
+    def render_form(error=None):
+        return render_template(
+            "choose-password.html",
+            code=code,
+            error=error,
+            need_identity=need_identity,
+            plex_warning=plex_warning,
+            username=request.form.get("username", ""),
+            email=request.form.get("email", ""),
+        )
+
     if request.method == "POST":
         pw = request.form.get("password") or ""
         confirm = request.form.get("confirm") or ""
         if pw != confirm or len(pw) < 8:
-            return render_template(
-                "choose-password.html",
-                code=code,
-                error="Passwords do not match or too short (8 chars).",
-            )
+            return render_form("Passwords do not match or too short (8 chars).")
 
         # Fallback: generate strong password if checkbox ticked or blank
         if request.form.get("generate") or pw.strip() == "":
@@ -328,11 +347,25 @@ def password_prompt(code):
             username = plex_user.username
             email = plex_user.email
         else:
-            # For non-Plex flows, use form data or generate a unique username
-            import uuid
+            # Plex details unavailable – validate the identity the form collected
+            import re
 
-            username = request.form.get("username") or f"user-{uuid.uuid4().hex[:8]}"
-            email = request.form.get("email") or ""
+            from app.forms.validators import (
+                USERNAME_MAX_LENGTH,
+                USERNAME_MIN_LENGTH,
+                USERNAME_PATTERN,
+            )
+
+            username = (request.form.get("username") or "").strip()
+            email = (request.form.get("email") or "").strip()
+
+            if (
+                not USERNAME_MIN_LENGTH <= len(username) <= USERNAME_MAX_LENGTH
+                or not re.match(USERNAME_PATTERN, username)
+            ):
+                return render_form("Please enter a valid username.")
+            if not email or "@" not in email:
+                return render_form("Please enter a valid email address.")
 
         # Create LDAP user if configured
         from app.services.ldap.invitation_ldap import InvitationLDAPHandler
@@ -348,11 +381,7 @@ def password_prompt(code):
             )
 
             if not ldap_success:
-                return render_template(
-                    "choose-password.html",
-                    code=code,
-                    error=f"Failed to create LDAP user: {ldap_result}",
-                )
+                return render_form(f"Failed to create LDAP user: {ldap_result}")
 
             # Mark that this is an LDAP user
             is_ldap_user = True
@@ -407,7 +436,7 @@ def password_prompt(code):
         return redirect(url_for("wizard.start"))
 
     # GET request – show form
-    return render_template("choose-password.html", code=code)
+    return render_form()
 
 
 # ─── Image proxy to allow internal artwork URLs ─────────────────────────────
