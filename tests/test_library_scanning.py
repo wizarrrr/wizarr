@@ -192,3 +192,67 @@ def test_api_libraries_scan_failure_continues(client, api_key, test_server):
 
         # Should have tried to scan servers
         assert mock_scan.call_count >= 2
+
+
+def _login(client, admin_id):
+    """Establish a Flask-Login session for the given admin account."""
+    with client.session_transaction() as sess:
+        sess["_user_id"] = str(admin_id)
+        sess["_fresh"] = True
+
+
+def test_rescan_preserves_disabled_libraries(client, test_server):
+    """A re-scan must not silently re-enable libraries the admin deselected.
+
+    Regression test: scan_server_libraries() used to set ``enabled = True`` on
+    every library returned by the media server, on every scan. Because the
+    library checkbox partial renders ``{% if lib.enabled %}checked{% endif %}``,
+    that quietly undid the admin's selection each time they re-scanned.
+    """
+    with client.application.app_context():
+        Library.query.delete()
+        db.session.commit()
+
+        server = MediaServer.query.filter_by(name="Test Server").first()
+        db.session.add_all(
+            [
+                Library(
+                    external_id="lib1",
+                    name="Movies",
+                    server_id=server.id,
+                    enabled=True,
+                ),
+                Library(
+                    external_id="lib2",
+                    name="TV Shows",
+                    server_id=server.id,
+                    enabled=False,  # admin deselected this one
+                ),
+            ]
+        )
+        db.session.commit()
+
+        admin = AdminAccount.query.filter_by(username="testadmin").first()
+        admin_id, server_id = admin.id, server.id
+
+    _login(client, admin_id)
+
+    # The server still reports both libraries on the next scan.
+    with patch(
+        "app.blueprints.media_servers.routes.scan_libraries_for_server"
+    ) as mock_scan:
+        mock_scan.return_value = {"lib1": "Movies", "lib2": "TV Shows"}
+
+        response = client.post(f"/settings/servers/{server_id}/scan-libraries")
+        assert response.status_code == 200
+
+    with client.application.app_context():
+        enabled_by_ext = {
+            lib.external_id: lib.enabled
+            for lib in Library.query.filter_by(server_id=server_id).all()
+        }
+
+    assert enabled_by_ext["lib1"] is True, "selected library should stay selected"
+    assert enabled_by_ext["lib2"] is False, (
+        "deselected library must stay deselected across a re-scan"
+    )
