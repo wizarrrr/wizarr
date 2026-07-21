@@ -791,10 +791,11 @@ def invite_scan_libraries():
             fid = str(fid)
             incoming_ids.add(fid)
             if fid in existing_libs:
-                # Update existing row (preserve primary key so invites keep referencing it)
+                # Update existing row (preserve primary key so invites keep referencing it).
+                # Preserve `enabled` — it is the admin's selection and must not be
+                # clobbered by merely opening the invite library picker.
                 lib = existing_libs[fid]
                 lib.name = name
-                lib.enabled = True
             else:
                 # New library - insert
                 lib = Library(
@@ -822,8 +823,13 @@ def invite_scan_libraries():
 
         # Flush so the temporary changes are visible for listing
         db.session.flush()
+        # Only offer libraries the admin has enabled in the server's settings —
+        # disabled libraries are intentionally excluded from Wizarr entirely,
+        # not just unchecked by default.
         server_libs[server.id] = (
-            Library.query.filter_by(server_id=server.id).order_by(Library.name).all()
+            Library.query.filter_by(server_id=server.id, enabled=True)
+            .order_by(Library.name)
+            .all()
         )
 
     db.session.commit()

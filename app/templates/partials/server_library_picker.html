@@ -1,4 +1,8 @@
 {# Render library checkboxes grouped by server #}
+<div class="mb-2 text-xs text-gray-500 dark:text-gray-400"
+     title="{{ _('Go to the server\'s settings and use \'Scan Libraries\' to enable additional libraries.') }}">
+  {{ _("Only libraries enabled in this server's settings are shown here.") }}
+</div>
 {% if servers|length > 1 %}
   <div class="mb-2 text-xs text-gray-500 dark:text-gray-400">
     Libraries are grouped by server. Each library can be selected independently.
