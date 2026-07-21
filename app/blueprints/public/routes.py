@@ -1,3 +1,6 @@
+from datetime import UTC, datetime, timedelta
+import os
+import secrets
 from pathlib import Path
 
 import requests
@@ -5,6 +8,7 @@ import structlog
 from flask import (
     Blueprint,
     Response,
+    abort,
     current_app,
     jsonify,
     redirect,
@@ -17,11 +21,20 @@ from flask import (
 from flask_babel import gettext as _
 
 from app.extensions import db, limiter
-from app.models import Invitation, MediaServer, Settings, User
+from app.models import ExternalEnrollmentState, Invitation, MediaServer, Settings, User
+from app.services.external_enrollment.providers import (
+    ExternalEnrollmentContext,
+    build_external_enrollment_url,
+)
 from app.services.invites import is_invite_valid
 from app.services.media.plex import PlexInvitationError, handle_oauth_token
 
 public_bp = Blueprint("public", __name__)
+
+
+def utc_now_naive() -> datetime:
+    """Return naive UTC for SQLite-compatible datetime comparisons."""
+    return datetime.now(UTC).replace(tzinfo=None)
 
 
 def _media_permission_flags(invitation: Invitation, server: MediaServer) -> dict:
@@ -93,6 +106,145 @@ def invite(code):
     manager = InvitationFlowManager()
     result = manager.process_invitation_display(code)
     return result.to_flask_response()
+
+
+# ─── External enrollment start ───────────────────────────────────────────────
+@public_bp.route("/invitation/external/start/<code>")
+@limiter.limit("20 per minute")
+def start_external_enrollment(code):
+    """Start external account enrollment for an invitation."""
+    valid, msg = is_invite_valid(code)
+    if not valid:
+        abort(404, description=msg)
+
+    invitation = Invitation.query.filter(
+        db.func.lower(Invitation.code) == code.lower()
+    ).first()
+    if not invitation:
+        abort(404, description="Invalid code")
+
+    if (invitation.account_creation_mode or "wizarr") != "external":
+        abort(400, description="Invitation is not configured for external enrollment")
+
+    state = secrets.token_urlsafe(32)
+    callback_url = url_for(
+        "public.external_enrollment_callback",
+        _external=True,
+    )
+
+    context = ExternalEnrollmentContext(
+        invite_code=invitation.code,
+        state=state,
+        callback_url=callback_url,
+    )
+
+    try:
+        enrollment_url = build_external_enrollment_url(invitation, context)
+    except ValueError as exc:
+        session.pop("external_enrollment_state", None)
+        abort(400, description=str(exc))
+
+    pending = ExternalEnrollmentState(
+        invitation=invitation,
+        state=state,
+        provider=invitation.external_enrollment_provider or "static_url",
+        callback_url=callback_url,
+        expires_at=utc_now_naive() + timedelta(minutes=30),
+    )
+
+    db.session.add(pending)
+    db.session.commit()
+
+    # Optional convenience/debug state. DB is now source of truth.
+    session["external_enrollment_state"] = state
+
+    return redirect(enrollment_url)
+
+
+def _get_external_enrollment_header_config(key: str) -> str | None:
+    """Get an external enrollment header name from app config or environment."""
+    return current_app.config.get(key) or os.environ.get(key)
+
+
+def _get_external_enrollment_subject() -> str | None:
+    """Get the externally authenticated subject from a trusted proxy header."""
+    auth_header = _get_external_enrollment_header_config(
+        "EXTERNAL_ENROLLMENT_AUTH_HEADER"
+    )
+    if not auth_header:
+        abort(400, description="External enrollment auth header is not configured")
+
+    return request.headers.get(auth_header)
+
+
+# ─── External enrollment callback ────────────────────────────────────────────
+@public_bp.route("/invitation/external/callback")
+@limiter.limit("20 per minute")
+def external_enrollment_callback():
+    """Resume the Wizarr wizard after external account enrollment."""
+    provided_state = request.args.get("state")
+    if not provided_state:
+        abort(400, description="Missing external enrollment state")
+
+    pending = ExternalEnrollmentState.query.filter_by(
+        state=provided_state,
+        consumed_at=None,
+    ).first()
+
+    if not pending:
+        abort(400, description="Invalid or expired external enrollment state")
+
+    now = utc_now_naive()
+
+    if pending.expires_at < now:
+        pending.consumed_at = now
+        db.session.commit()
+        session.pop("external_enrollment_state", None)
+        abort(400, description="Invalid or expired external enrollment state")
+
+    external_subject = _get_external_enrollment_subject()
+    if not external_subject:
+        abort(403, description="External enrollment authentication was not verified")
+
+    invitation = pending.invitation
+    if not invitation:
+        pending.consumed_at = now
+        db.session.commit()
+        session.pop("external_enrollment_state", None)
+        abort(404, description="Invalid code")
+
+    valid, msg = is_invite_valid(invitation.code)
+    if not valid:
+        pending.consumed_at = now
+        db.session.commit()
+        session.pop("external_enrollment_state", None)
+        abort(404, description=msg)
+
+    if (invitation.account_creation_mode or "wizarr") != "external":
+        pending.consumed_at = now
+        db.session.commit()
+        session.pop("external_enrollment_state", None)
+        abort(400, description="Invitation is not configured for external enrollment")
+
+    pending.external_subject = external_subject
+    pending.consumed_at = now
+
+    session["wizard_access"] = invitation.code
+    session["invitation_in_progress"] = True
+    session["external_enrollment_user"] = {
+        "subject": external_subject,
+    }
+
+    if invitation.wizard_bundle_id:
+        session["wizard_bundle_id"] = invitation.wizard_bundle_id
+    else:
+        session.pop("wizard_bundle_id", None)
+
+    session.pop("external_enrollment_state", None)
+
+    db.session.commit()
+
+    return redirect(url_for("wizard.post_wizard", idx=0))
 
 
 # ─── Unified invitation processing ─────────────────────────────────────────

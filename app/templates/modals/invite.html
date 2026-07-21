@@ -146,6 +146,54 @@
                            class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
                   </div>
                 </div>
+                <!-- Account Creation Section -->
+                <div class="space-y-4 mt-6 border-t border-gray-200 pt-6 dark:border-gray-700"
+                     x-data="{ accountCreationMode: 'wizarr' }">
+                  <h2 class="text-lg font-semibold text-gray-800 dark:text-gray-200">{{ _("Account Creation") }}</h2>
+                  <div>
+                    <label for="account_creation_mode"
+                           class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      {{ _("Account creation mode") }}
+                    </label>
+                    <select id="account_creation_mode"
+                            name="account_creation_mode"
+                            x-model="accountCreationMode"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
+                      <option value="wizarr">{{ _("Create account in Wizarr") }}</option>
+                      <option value="external">{{ _("Use external enrollment") }}</option>
+                    </select>
+                  </div>
+                  <div x-show="accountCreationMode === 'external'" class="space-y-4">
+                    <input type="hidden" name="external_enrollment_provider" value="static_url">
+                    <div>
+                      <label for="external_enrollment_url"
+                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        {{ _("External enrollment URL") }}
+                      </label>
+                      <input id="external_enrollment_url"
+                             name="external_enrollment_url"
+                             type="url"
+                             :required="accountCreationMode === 'external'"
+                             placeholder="https://idp.example/enroll"
+                             class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
+                      <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                        {{ _("Invitees will be redirected here after any pre-invite steps.") }}
+                      </p>
+                    </div>
+                    <div>
+                      <label for="external_enrollment_append_context"
+                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        {{ _("Enrollment URL context") }}
+                      </label>
+                      <select id="external_enrollment_append_context"
+                              name="external_enrollment_append_context"
+                              class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
+                        <option value="true">{{ _("Append invite code, state, and callback URL") }}</option>
+                        <option value="false">{{ _("Use the URL exactly as configured") }}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
                 <!-- LDAP User Creation Section -->
                 {% if ldap_enabled %}
                   <div class="space-y-4 mt-6 border-t border-gray-200 pt-6 dark:border-gray-700"

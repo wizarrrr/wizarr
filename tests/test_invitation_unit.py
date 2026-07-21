@@ -131,6 +131,62 @@ class TestInvitationValidation:
 class TestInvitationCreation:
     """Test invitation creation functionality."""
 
+    def test_create_external_enrollment_invitation(self, app):
+        """Test creating an invitation that uses external account enrollment."""
+        with app.app_context():
+            server = MediaServer(
+                name="Test Server",
+                server_type="jellyfin",
+                url="http://localhost:8096",
+                api_key="test-key",
+            )
+            db.session.add(server)
+            db.session.flush()
+
+            form_data = DictFormWrapper(
+                {
+                    "expires": "week",
+                    "unlimited": False,
+                    "server_ids": [str(server.id)],
+                    "account_creation_mode": "external",
+                    "external_enrollment_provider": "static_url",
+                    "external_enrollment_url": "https://idp.example/enroll",
+                    "external_enrollment_append_context": "true",
+                }
+            )
+
+            invite = create_invite(form_data)
+
+            assert invite.account_creation_mode == "external"
+            assert invite.external_enrollment_provider == "static_url"
+            assert invite.external_enrollment_url == "https://idp.example/enroll"
+            assert invite.external_enrollment_append_context is True
+
+    def test_create_external_enrollment_invitation_requires_url(self, app):
+        """Test that external account enrollment requires an enrollment URL."""
+        with app.app_context():
+            server = MediaServer(
+                name="Test Server",
+                server_type="jellyfin",
+                url="http://localhost:8096",
+                api_key="test-key",
+            )
+            db.session.add(server)
+            db.session.flush()
+
+            form_data = DictFormWrapper(
+                {
+                    "expires": "week",
+                    "unlimited": False,
+                    "server_ids": [str(server.id)],
+                    "account_creation_mode": "external",
+                    "external_enrollment_provider": "static_url",
+                }
+            )
+
+            with pytest.raises(ValueError, match="External enrollment URL is required"):
+                create_invite(form_data)
+
     def test_create_basic_invitation(self, app):
         """Test creating a basic invitation."""
         with app.app_context():

@@ -99,6 +99,27 @@ def create_invite(form: Any) -> Invitation:
     other_servers = [s for s in servers if s.server_type != "plex"]
     servers = plex_servers + other_servers
 
+    account_creation_mode = form.get("account_creation_mode") or "wizarr"
+    if account_creation_mode not in {"wizarr", "external"}:
+        raise ValueError("Invalid account creation mode")
+
+    external_enrollment_provider = (
+        form.get("external_enrollment_provider") or "static_url"
+    )
+    if external_enrollment_provider != "static_url":
+        raise ValueError("Invalid external enrollment provider")
+
+    external_enrollment_url = (
+        form.get("external_enrollment_url") or ""
+    ).strip() or None
+
+    if account_creation_mode == "external" and not external_enrollment_url:
+        raise ValueError("External enrollment URL is required")
+
+    external_enrollment_append_context = (
+        str(form.get("external_enrollment_append_context") or "true").lower() != "false"
+    )
+
     invite = Invitation(
         code=code,
         used=False,
@@ -107,6 +128,10 @@ def create_invite(form: Any) -> Invitation:
         expires=expires_lookup.get(form.get("expires")),
         unlimited=bool(form.get("unlimited")),
         duration=form.get("duration") or None,
+        account_creation_mode=account_creation_mode,
+        external_enrollment_provider=external_enrollment_provider,
+        external_enrollment_url=external_enrollment_url,
+        external_enrollment_append_context=external_enrollment_append_context,
         plex_allow_sync=bool(form.get("allowsync") or form.get("allow_downloads")),
         plex_home=bool(form.get("plex_home")),
         plex_allow_channels=bool(

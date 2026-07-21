@@ -123,6 +123,22 @@ class InvitationFlowManager:
                     },
                 )
 
+            # Check if external enrollment is used so we can redirect to IdP
+            if self._uses_external_enrollment(invitation):
+                return InvitationResult(
+                    status=ProcessingStatus.REDIRECT_REQUIRED,
+                    message="External account enrollment required",
+                    successful_servers=[],
+                    failed_servers=[],
+                    redirect_url=url_for(
+                        "public.start_external_enrollment",
+                        code=invitation.code,
+                    ),
+                    session_data={
+                        "invitation_in_progress": True,
+                        "wizard_bundle_id": bundle_id if bundle_id else None,
+                    },
+                )
             # Create appropriate workflow and show initial template
             # (Requirements 7.4, 7.5: Allow access if pre-wizard complete or no pre-invite steps)
             workflow = WorkflowFactory.create_workflow(servers)
@@ -176,6 +192,10 @@ class InvitationFlowManager:
         except Exception as e:
             self.logger.error(f"Error processing invitation submission: {e}")
             return self._create_error_result(str(e))
+
+    def _uses_external_enrollment(self, invitation: Invitation) -> bool:
+        """Return whether the invitation should use external account enrollment."""
+        return (invitation.account_creation_mode or "wizarr") == "external"
 
     def _get_invitation_servers(self, invitation: Invitation) -> list[MediaServer]:
         """Get servers associated with invitation (same logic as existing system)."""
