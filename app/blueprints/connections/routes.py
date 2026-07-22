@@ -88,6 +88,7 @@ def create_connection():
             url=form.url.data,
             api_key=form.api_key.data,
             media_server_id=form.media_server_id.data,
+            provision_plex_users=form.provision_plex_users.data,
         )
         db.session.add(connection)
         db.session.commit()
@@ -118,6 +119,7 @@ def edit_connection(connection_id: int):
         connection.url = form.url.data
         connection.api_key = form.api_key.data
         connection.media_server_id = form.media_server_id.data
+        connection.provision_plex_users = form.provision_plex_users.data
 
         db.session.commit()
 

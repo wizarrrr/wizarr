@@ -399,6 +399,13 @@ class Connection(db.Model):
     media_server_id = db.Column(
         db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=False
     )
+    # Opt-in: create the account on this service during a Plex invite, instead of
+    # leaving the user to go and sign in by hand. Off by default so an existing
+    # connection never changes behaviour on upgrade, and so instances without the
+    # service are unaffected.
+    provision_plex_users = db.Column(
+        db.Boolean, nullable=False, default=False, server_default="0"
+    )
     created_at = db.Column(
         db.DateTime, default=lambda: datetime.now(UTC), nullable=False
     )

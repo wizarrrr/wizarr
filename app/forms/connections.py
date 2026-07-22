@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import SelectField, StringField
+from wtforms import BooleanField, SelectField, StringField
 from wtforms.validators import URL, DataRequired, Optional
 
 from app.models import MediaServer
@@ -15,6 +15,15 @@ class ConnectionForm(FlaskForm):
     api_key = StringField("API Key", validators=[Optional()])
     media_server_id = SelectField(
         "Media Server", coerce=int, validators=[DataRequired()]
+    )
+    provision_plex_users = BooleanField(
+        "Create accounts for invited Plex users",
+        description=(
+            "Sign invited users in to this service during the Plex invite, so "
+            "they do not have to visit it and log in themselves. Requires a "
+            "Service URL."
+        ),
+        default=False,
     )
 
     def __init__(self, *args, **kwargs):

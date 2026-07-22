@@ -75,17 +75,28 @@
               <div>
                 <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-2">{{ _("Overseerr/Jellyseerr Information") }}</h4>
                 <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">
-                  {{ _("Overseerr and Jellyseerr automatically import new users by default. No API connection is required for Wizarr integration.") }}
+                  {{ _("Overseerr and Jellyseerr create a user the first time that user signs in, so someone you invite has no account there until they visit and log in themselves.") }}
                 </p>
                 <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-3">
                   <p class="text-sm text-blue-800 dark:text-blue-200">
-                    <strong>{{ _("To enable auto-import:") }}</strong>
-                    <br>
-                    {{ _("Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new users' and 'Import Jellyfin/Plex users'") }}
+                    {{ _("Set the Service URL below and turn on account creation to have Wizarr do that for them during the invite. An API key is not needed.") }}
                   </p>
                 </div>
               </div>
             </div>
+          </div>
+          <!-- URL -->
+          <div>
+            {{ form.url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+            {{ form.url(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary", placeholder="https://requests.example.com") }}
+            {% if form.url.errors %}
+              <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                {% for error in form.url.errors %}<p>{{ error }}</p>{% endfor %}
+              </div>
+            {% endif %}
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              {{ _("Must be https if the service has CSRF protection enabled, which sets its cookies Secure.") }}
+            </p>
           </div>
         {% else %}
           <!-- URL -->
@@ -123,6 +134,14 @@
             {% endif %}
           </div>
         {% endif %}
+        <!-- Create accounts for invited users -->
+        <div>
+          <div class="flex items-center">
+            {{ form.provision_plex_users(class="w-4 h-4 text-primary bg-gray-50 border-gray-300 rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600") }}
+            {{ form.provision_plex_users.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-white") }}
+          </div>
+          <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _(form.provision_plex_users.description) }}</p>
+        </div>
         <!-- Test Result Area -->
         <div id="test-result-area" class="mt-4"></div>
         <!-- Test Spinner -->
