@@ -180,10 +180,11 @@ def scan_server_libraries(server_id):
         fid_key = str(fid)
         incoming_ids.add(fid_key)
         if fid_key in existing_libs:
-            # Update existing row (preserve primary key so invites keep referencing it)
+            # Update existing row (preserve primary key so invites keep referencing it).
+            # Deliberately leave `enabled` untouched: it holds the admin's selection,
+            # and re-enabling here would silently undo any deselection on every scan.
             lib = existing_libs[fid_key]
             lib.name = name
-            lib.enabled = True
         else:
             # New library - insert
             lib = Library(
