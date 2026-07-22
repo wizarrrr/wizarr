@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block title %}
+  Signing you in
+{% endblock title %}
+{% block main %}
+  <section class="min-h-screen bg-gradient-to-br from-slate-900 via-orange-900 to-slate-900 flex items-center justify-center px-6">
+    <div class="w-full max-w-md">
+      <div class="bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 p-8 text-center space-y-4">
+        <svg id="plex-callback-spinner"
+             class="animate-spin h-8 w-8 text-primary mx-auto"
+             fill="none"
+             viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+        </svg>
+        <h1 id="plex-callback-heading" class="text-2xl font-bold text-white">{{ _("Signing you in") }}</h1>
+        <p id="plex-callback-message" class="text-gray-300 text-sm">
+          {{ _("Finishing up with Plex. This only takes a moment.") }}
+        </p>
+        <button id="plex-callback-retry"
+                type="button"
+                class="hidden w-full py-3 px-6 text-white font-semibold bg-gradient-to-r from-primary to-primary_hover rounded-xl transition-all duration-200">
+          {{ _("Back to your invitation") }}
+        </button>
+      </div>
+    </div>
+  </section>
+  <form id="plex-callback-form"
+        action="{{ url_for('public.join') }}"
+        method="post"
+        class="hidden">
+    <input type="hidden" name="code" id="plex-callback-code">
+    <input type="hidden" name="token" id="plex-callback-token">
+  </form>
+  <script src="{{ url_for('static', filename='js/plex-oauth.js', v=app_version) }}"></script>
+  <script>
+      (function () {
+          const spinner = document.getElementById("plex-callback-spinner");
+          const heading = document.getElementById("plex-callback-heading");
+          const message = document.getElementById("plex-callback-message");
+          const retry = document.getElementById("plex-callback-retry");
+
+          const state = plexOAuthRead();
+          const inviteBase = "{{ url_for('public.invite', code='') }}";
+
+          function stop(title, text, showRetry) {
+              spinner.classList.add("hidden");
+              heading.textContent = title;
+              message.textContent = text;
+              if (showRetry && state && state.code) {
+                  retry.onclick = function () {
+                      window.location.href = inviteBase + encodeURIComponent(state.code);
+                  };
+                  retry.classList.remove("hidden");
+              }
+          }
+
+          function nothingToFinish() {
+              // A bookmarked or directly opened callback URL, or storage we
+              // could not write to when the sign-in started.
+              stop("{{ _('Nothing to finish') }}",
+                   "{{ _('Open your invitation link again to sign in with Plex.') }}",
+                   false);
+          }
+
+          // The sign-in window was opened at 600x700. A real popup is much
+          // smaller than the screen around it, while on a phone it is a whole
+          // tab that fills the screen. Compare against the available screen
+          // rather than a fixed size so a big phone and a small laptop both
+          // classify correctly, and assume "not a popup" when the browser will
+          // not say: finishing in a window we could have closed is untidy,
+          // closing a tab we should have kept strands the user.
+          function isPopupWindow() {
+              try {
+                  if (!window.outerWidth || !window.outerHeight) {
+                      return false;
+                  }
+                  return (
+                      window.outerWidth <= screen.availWidth * 0.9 &&
+                      window.outerHeight <= screen.availHeight * 0.9
+                  );
+              } catch (e) {
+                  return false;
+              }
+          }
+
+          async function finish() {
+              if (!plexOAuthClaim("callback")) {
+                  // The invite page got the token first. On a phone it is behind
+                  // us and the user is looking at this tab, so follow it into the
+                  // wizard rather than telling them to go and find another tab.
+                  stop("{{ _('All set') }}",
+                       "{{ _('Taking you to the next step...') }}",
+                       false);
+                  setTimeout(function () {
+                      window.location.href = "{{ url_for('wizard.start') }}";
+                  }, 2000);
+                  return;
+              }
+
+              const deadline = Date.now() + 120000;
+              while (Date.now() < deadline) {
+                  let token;
+                  try {
+                      token = await plexOAuthPollToken(state);
+                  } catch (e) {
+                      stop("{{ _('Sign-in failed') }}", e.message, true);
+                      return;
+                  }
+                  if (token) {
+                      plexOAuthClear();
+                      document.getElementById("plex-callback-code").value = state.code;
+                      document.getElementById("plex-callback-token").value = token;
+                      document.getElementById("plex-callback-form").submit();
+                      return;
+                  }
+                  await new Promise((r) => setTimeout(r, 1000));
+              }
+              stop("{{ _('That took too long') }}",
+                   "{{ _('We did not hear back from Plex. Please try signing in again.') }}",
+                   true);
+          }
+
+          let opener = null;
+          try {
+              opener = window.opener && !window.opener.closed ? window.opener : null;
+          } catch (e) {
+              opener = null;
+          }
+
+          // Closing the popup does not lose the token: the invite page polls
+          // before it checks whether the popup went away, so a token granted
+          // just before we close is still claimed on the next tick.
+
+          // Only get out of the way when we really are a popup sitting on top of
+          // the page that opened us. Closing a tab does not let us choose what
+          // the browser surfaces next - it picks, and on a phone that can be any
+          // unrelated tab - so a full-size tab finishes the job here instead,
+          // where the user is actually looking.
+          if (opener && isPopupWindow()) {
+              window.close();
+              // close() is a request, not a guarantee. If we are still here a
+              // moment later, finish the job rather than sit on a dead page.
+              setTimeout(state ? finish : nothingToFinish, 1500);
+              return;
+          }
+
+          if (!state) {
+              nothingToFinish();
+              return;
+          }
+
+          finish();
+      })();
+  </script>
+{% endblock main %}

@@ -451,15 +451,30 @@
               'context[device][model]': plexHeaders['X-Plex-Model'],
               'context[device][screenResolution]': plexHeaders['X-Plex-Device-Screen-Resolution'],
               'context[device][layout]': 'desktop',
-              code: pin.code
+              code: pin.code,
+              // Ask Plex to send the browser back to us when it is done. On a
+              // phone the sign-in window is a whole tab, so without somewhere to
+              // return to the user is simply left on Plex's page. Path from
+              // Flask so a prefixed mount resolves, origin from the browser so
+              // it is the one the user actually arrived on.
+              forwardUrl: window.location.origin + "{{ url_for('public.plex_callback') }}"
+          });
+
+          // Everything the callback needs to finish the sign-in without us. The
+          // tab that opened it may be frozen or discarded by the time Plex comes
+          // back, which is normal on mobile.
+          plexOAuthWrite({
+              pinId: pin.id,
+              clientId: plexHeaders['X-Plex-Client-Identifier'],
+              code: document.querySelector("#code")?.value || "",
           });
 
           popup.location.href = `https://app.plex.tv/auth/#!?${params}`;
 
-          // Plex does not redirect the popup back to us, so the token arrives by
-          // polling the PIN. Once we have it we are responsible for closing the
-          // popup — otherwise it sits in front of the wizard and the user never
-          // sees the next step.
+          // The token still arrives by polling the PIN: forwardUrl returns the
+          // browser to us but carries nothing. Once we have it we are
+          // responsible for closing the popup - otherwise it sits in front of
+          // the wizard and the user never sees the next step.
           const PIN_TIMEOUT_MS = 5 * 60 * 1000;
 
           let authToken;
@@ -479,6 +494,12 @@
                           if (resp?.authToken) {
                               clearInterval(interval);
                               return resolve(resp.authToken);
+                          }
+                          // The callback page took over because this window
+                          // looked gone. Stand down rather than race it.
+                          if (plexOAuthRead()?.claimedBy === "callback") {
+                              clearInterval(interval);
+                              return;
                           }
                           // Checked *after* the poll on purpose: a user who approves
                           // and then immediately closes the popup has still been
@@ -503,6 +524,11 @@
               showPlexError(err?.message === "cancelled" ? PLEX_MSG.cancelled : PLEX_MSG.failed);
               return;
           }
+
+          // Only one of us may redeem the invite. If the callback page got there
+          // first it is already submitting, so leave it to finish.
+          if (!plexOAuthClaim("opener")) return;
+          plexOAuthClear();
 
           if (!popup.closed) popup.close();
           window.focus();
