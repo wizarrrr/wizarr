@@ -63,38 +63,49 @@
                    false);
           }
 
-          // The sign-in window was opened at 600x700. A real popup is much
-          // smaller than the screen around it, while on a phone it is a whole
-          // tab that fills the screen. Compare against the available screen
-          // rather than a fixed size so a big phone and a small laptop both
-          // classify correctly, and assume "not a popup" when the browser will
-          // not say: finishing in a window we could have closed is untidy,
-          // closing a tab we should have kept strands the user.
-          function isPopupWindow() {
+          function goToWizard() {
+              window.location.href = "{{ url_for('wizard.start') }}";
+          }
+
+          // Is the window that opened us still on screen for the user?
+          //
+          // This is the whole question, and it is not "what kind of device is
+          // this". On a desktop the invite page is a separate window sitting
+          // behind this popup: still visible. On a phone the invite page is a
+          // background tab: hidden. The Page Visibility API reports exactly that,
+          // and the opener is same-origin (our own invite page) so we can read
+          // it directly. Touch screens, window size and zoom do not come into
+          // it - a visible window is a visible window.
+          //
+          // When the opener is visible it is already polling and will submit the
+          // sign-in in its own window and close this popup, so we do nothing and
+          // let it. When the opener is hidden or gone, this page is the only
+          // thing the user can see, so we finish here.
+          function openerIsVisible() {
               try {
-                  if (!window.outerWidth || !window.outerHeight) {
-                      return false;
-                  }
+                  const o = window.opener;
                   return (
-                      window.outerWidth <= screen.availWidth * 0.9 &&
-                      window.outerHeight <= screen.availHeight * 0.9
+                      !!o && !o.closed && o.document.visibilityState === "visible"
                   );
               } catch (e) {
+                  // Opener navigated away or is otherwise unreadable. Treat it as
+                  // gone and finish here, which is the safe default: better to
+                  // finish in a window we did not need to than to wait on a window
+                  // that is never coming back.
                   return false;
               }
           }
 
           async function finish() {
               if (!plexOAuthClaim("callback")) {
-                  // The invite page got the token first. On a phone it is behind
-                  // us and the user is looking at this tab, so follow it into the
-                  // wizard rather than telling them to go and find another tab.
+                  // The opener redeemed the invite first. It shares our session,
+                  // so the wizard is reachable from here too - go there rather
+                  // than tell the user to find another window. The short wait lets
+                  // the opener's POST establish the session before we navigate.
                   stop("{{ _('All set') }}",
                        "{{ _('Taking you to the next step...') }}",
                        false);
-                  setTimeout(function () {
-                      window.location.href = "{{ url_for('wizard.start') }}";
-                  }, 2000);
+                  setTimeout(goToWizard, 2000);
                   return;
               }
 
@@ -111,6 +122,12 @@
                       plexOAuthClear();
                       document.getElementById("plex-callback-code").value = state.code;
                       document.getElementById("plex-callback-token").value = token;
+                      // Submitting navigates THIS window to the wizard, so the
+                      // user lands there in the window they are looking at. This
+                      // page never closes itself: closing a tab lets the browser
+                      // surface whatever it likes, which is the mobile failure the
+                      // page exists to prevent. On desktop the opener closes the
+                      // popup instead.
                       document.getElementById("plex-callback-form").submit();
                       return;
                   }
@@ -121,27 +138,18 @@
                    true);
           }
 
-          let opener = null;
-          try {
-              opener = window.opener && !window.opener.closed ? window.opener : null;
-          } catch (e) {
-              opener = null;
-          }
-
-          // Closing the popup does not lose the token: the invite page polls
-          // before it checks whether the popup went away, so a token granted
-          // just before we close is still claimed on the next tick.
-
-          // Only get out of the way when we really are a popup sitting on top of
-          // the page that opened us. Closing a tab does not let us choose what
-          // the browser surfaces next - it picks, and on a phone that can be any
-          // unrelated tab - so a full-size tab finishes the job here instead,
-          // where the user is actually looking.
-          if (opener && isPopupWindow()) {
-              window.close();
-              // close() is a request, not a guarantee. If we are still here a
-              // moment later, finish the job rather than sit on a dead page.
-              setTimeout(state ? finish : nothingToFinish, 1500);
+          if (openerIsVisible()) {
+              // The invite page is on screen and finishing the job; it will close
+              // this popup. Sit tight. If it somehow never does - it died, or Plex
+              // returned here but the opener stopped polling - take over rather
+              // than leave the user on a spinner forever.
+              setTimeout(function () {
+                  if (state) {
+                      finish();
+                  } else {
+                      nothingToFinish();
+                  }
+              }, 60000);
               return;
           }
 
