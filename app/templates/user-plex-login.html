@@ -525,6 +525,15 @@
               return;
           }
 
+          // Only finish here if this window is the one the user is looking at.
+          // On a phone the sign-in happens in a whole tab and this invite page is
+          // a background tab the browser may still run for a while. Finishing
+          // from here would submit in a tab the user cannot see and, worse, close
+          // the callback tab they ARE looking at, which on Safari drops them onto
+          // whatever tab it surfaces next. The visible callback tab finishes
+          // instead; leave it to it.
+          if (document.visibilityState !== "visible") return;
+
           // Only one of us may redeem the invite. If the callback page got there
           // first it is already submitting, so leave it to finish.
           if (!plexOAuthClaim("opener")) return;

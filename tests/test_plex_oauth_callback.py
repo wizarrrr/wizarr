@@ -105,3 +105,13 @@ def test_only_one_context_redeems_the_invite(client):
 
     assert 'plexOAuthClaim("opener")' in html
     assert 'claimedBy === "callback"' in html
+
+
+def test_a_hidden_invite_page_does_not_close_the_callback_tab(client):
+    """On mobile the invite page is a background tab the browser may still run.
+    If it finished from there it would close the callback tab the user is
+    looking at, and the browser then surfaces some unrelated tab - observed on
+    Safari. A hidden invite page must stand down and let the callback finish."""
+    html = client.post("/join", data={}).get_data(as_text=True)
+
+    assert 'document.visibilityState !== "visible"' in html
