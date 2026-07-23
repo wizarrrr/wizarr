@@ -392,7 +392,7 @@ class Connection(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     connection_type = db.Column(
         db.String, nullable=False, default="ombi"
-    )  # 'ombi' or 'overseerr'
+    )  # 'ombi' or 'seerr'
     name = db.Column(db.String, nullable=False)
     url = db.Column(db.String, nullable=True)  # Optional for info-only connections
     api_key = db.Column(db.String, nullable=True)  # Optional for info-only connections

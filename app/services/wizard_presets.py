@@ -1,6 +1,6 @@
 """Wizard step preset templates and management.
 
-Provides hardcoded preset templates for common integrations like Discord and Overseerr,
+Provides hardcoded preset templates for common integrations like Discord and Seerr,
 allowing users to quickly add wizard steps through the Multi-Action create button.
 """
 
@@ -50,10 +50,10 @@ Discord is a free chat platform where our community hangs out. Join us to:
 </div>
 |||""",
     ),
-    "overseerr_requests": WizardPreset(
-        id="overseerr_requests",
-        name="Overseerr/Ombi Requests",
-        description="Add a link to your Overseerr/Ombi instance for media requests",
+    "seerr_requests": WizardPreset(
+        id="seerr_requests",
+        name="Seerr/Ombi Requests",
+        description="Add a link to your Seerr/Ombi instance for media requests",
         title="Automatic requests",
         template="""## 🎬 Request New Content
 
@@ -71,7 +71,7 @@ Use our request system to ask for new movies or TV shows. Once approved, they'll
 
 |||
 
-{{{{ widget:button url="{overseerr_url}" text="🎯 Open Request System" }}}}""",
+{{{{ widget:button url="{seerr_url}" text="🎯 Open Request System" }}}}""",
     ),
 }
 
@@ -86,7 +86,7 @@ def create_step_from_preset(preset_id: str, **kwargs) -> str:
 
     Args:
         preset_id: ID of the preset to use
-        **kwargs: Variables to substitute in the template (e.g., discord_id, overseerr_url)
+        **kwargs: Variables to substitute in the template (e.g., discord_id, seerr_url)
 
     Returns:
         Rendered template content with variables substituted

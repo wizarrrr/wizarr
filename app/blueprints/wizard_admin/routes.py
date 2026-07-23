@@ -246,8 +246,8 @@ def create_preset():
         template_vars = {}
         if form.discord_id.data:
             template_vars["discord_id"] = form.discord_id.data
-        if form.overseerr_url.data:
-            template_vars["overseerr_url"] = form.overseerr_url.data
+        if form.seerr_url.data:
+            template_vars["seerr_url"] = form.seerr_url.data
 
         try:
             # Create step content from preset

@@ -32,8 +32,8 @@ class SettingsForm(FlaskForm):
     allow_live_tv = BooleanField(
         str(_l("Allow Live TV")), default=False, validators=[Optional()]
     )
-    overseerr_url = StringField(
-        str(_l("Overseerr/Ombi URL")), validators=[Optional(), URL()]
+    seerr_url = StringField(
+        str(_l("Seerr/Ombi URL")), validators=[Optional(), URL()]
     )
     ombi_api_key = StringField(str(_l("Ombi API Key")), validators=[Optional()])
     discord_id = StringField(str(_l("Discord ID")), validators=[Optional()])

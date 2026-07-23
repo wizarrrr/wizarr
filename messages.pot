@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-07-22 06:04+0000\n"
+"POT-Creation-Date: 2026-07-22 22:04-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -135,12 +135,12 @@ msgstr ""
 msgid "An internal error has occurred."
 msgstr ""
 
-#: app/blueprints/admin/routes.py:333
+#: app/blueprints/admin/routes.py:359
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:336
+#: app/blueprints/admin/routes.py:362
 #: app/templates/admin/user_details_modal.html:70
 #: app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
@@ -149,30 +149,30 @@ msgstr ""
 msgid "Never"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:409 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:435 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:417
+#: app/blueprints/admin/routes.py:443
 #, python-format
 msgid "in %(n)d d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:419
+#: app/blueprints/admin/routes.py:445
 msgid "in 1 d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:421
+#: app/blueprints/admin/routes.py:447
 #, python-format
 msgid "in %(n)d h"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:423
+#: app/blueprints/admin/routes.py:449
 #, python-format
 msgid "in %(n)d m"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:424
+#: app/blueprints/admin/routes.py:450
 msgid "soon"
 msgstr ""
 
@@ -301,7 +301,7 @@ msgid ""
 "admin."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
+#: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:272
 msgid "Settings saved successfully!"
 msgstr ""
 
@@ -331,50 +331,50 @@ msgstr ""
 msgid "Library scan failed"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:293
+#: app/blueprints/settings/routes.py:296
 #, python-brace-format
 msgid "Successfully cleaned {count} expired user(s)."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:298
+#: app/blueprints/settings/routes.py:301
 msgid "No expired users found to clean."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:321 app/blueprints/settings/routes.py:350
+#: app/blueprints/settings/routes.py:324 app/blueprints/settings/routes.py:353
 #: app/templates/settings/general.html:178
 msgid ""
 "Are you sure you want to clean all expired users? This action cannot be "
 "undone."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:323 app/blueprints/settings/routes.py:352
+#: app/blueprints/settings/routes.py:326 app/blueprints/settings/routes.py:355
 #: app/templates/settings/general.html:167
 #: app/templates/settings/general.html:195
 msgid "Clean Expired Users"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:328
+#: app/blueprints/settings/routes.py:331
 #, python-brace-format
 msgid "Failed to clean expired users: {error}"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:407
+#: app/blueprints/settings/routes.py:410
 msgid "LDAP configuration saved successfully"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:481
+#: app/blueprints/settings/routes.py:484
 msgid "LDAP not configured or disabled"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:491
+#: app/blueprints/settings/routes.py:494
 msgid "No groups found in LDAP"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:547
+#: app/blueprints/settings/routes.py:550
 msgid "LDAP is not configured"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:556
+#: app/blueprints/settings/routes.py:559
 #, python-format
 msgid "Failed to list LDAP users: %(error)s"
 msgstr ""
@@ -616,7 +616,7 @@ msgid "Allow Live TV"
 msgstr ""
 
 #: app/forms/settings.py:36
-msgid "Overseerr/Ombi URL"
+msgid "Seerr/Ombi URL"
 msgstr ""
 
 #: app/forms/settings.py:38
@@ -1770,14 +1770,14 @@ msgstr ""
 
 #: app/templates/modals/connection-form.html:76
 #: app/templates/settings/connections/form.html:125
-msgid "Overseerr/Jellyseerr Information"
+msgid "Seerr Information"
 msgstr ""
 
 #: app/templates/modals/connection-form.html:78
 #: app/templates/settings/connections/form.html:127
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No "
-"API connection is required for Wizarr integration."
+"Seerr automatically imports new users by default. No API connection is "
+"required for Wizarr integration."
 msgstr ""
 
 #: app/templates/modals/connection-form.html:82
@@ -1787,8 +1787,8 @@ msgstr ""
 
 #: app/templates/modals/connection-form.html:84
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
-"new users' and 'Import Jellyfin/Plex users'"
+"Go to your Seerr Settings → Users → Enable 'Auto-approve new users' and "
+"'Import Jellyfin/Plex users'"
 msgstr ""
 
 #: app/templates/modals/connection-form.html:139
@@ -2249,7 +2249,7 @@ msgstr ""
 
 #: app/templates/modals/wizard-preset-form.html:44
 #: app/templates/settings/wizard/preset_form.html:22
-msgid "URL to your Overseerr/Ombi instance"
+msgid "URL to your Seerr/Ombi instance"
 msgstr ""
 
 #: app/templates/modals/wizard-preset-form.html:61
@@ -2386,7 +2386,7 @@ msgid "Media Server"
 msgstr ""
 
 #: app/templates/settings/connections.html:53
-msgid "Overseerr (Info)"
+msgid "Seerr (Info)"
 msgstr ""
 
 #: app/templates/settings/connections.html:65
@@ -2724,7 +2724,7 @@ msgid "Which media server should trigger invitations to this external service"
 msgstr ""
 
 #: app/templates/settings/connections/form.html:132
-msgid "Open your Overseerr/Jellyseerr admin panel"
+msgid "Open your Seerr admin panel"
 msgstr ""
 
 #: app/templates/settings/connections/form.html:133

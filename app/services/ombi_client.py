@@ -15,8 +15,8 @@ __all__ = [
 
 
 def _cfg():
-    """Fetch Ombi/Overseerr URL and API key from the DB (legacy fallback)."""
-    url_row = Settings.query.filter_by(key="overseerr_url").first()
+    """Fetch Ombi/Seerr URL and API key from the DB (legacy fallback)."""
+    url_row = Settings.query.filter_by(key="seerr_url").first()
     key_row = Settings.query.filter_by(key="ombi_api_key").first()
     return (
         url_row.value if url_row else None,

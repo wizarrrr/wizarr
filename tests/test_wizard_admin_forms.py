@@ -309,10 +309,10 @@ def test_create_preset_with_post_invite_category(
     response = authenticated_client.post(
         "/settings/wizard/create-preset",
         data={
-            "preset_id": "overseerr_requests",
+            "preset_id": "seerr_requests",
             "server_type": "plex",
             "category": "post_invite",
-            "overseerr_url": "https://overseerr.example.com",
+            "seerr_url": "https://seerr.example.com",
         },
         follow_redirects=False,
     )
@@ -326,7 +326,7 @@ def test_create_preset_with_post_invite_category(
     ).first()
     assert step is not None
     assert step.category == "post_invite"
-    assert "overseerr" in step.markdown.lower()
+    assert "seerr" in step.markdown.lower()
 
 
 # ─── Test Position Calculation with Category ──────────────────────────

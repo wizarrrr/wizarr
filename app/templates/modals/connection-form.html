@@ -44,8 +44,8 @@
         </div>
         <!-- Connection Name -->
         <div>
-          {{ form.name.label(class="block mb-2 text-sm font-medium " + ("text-gray-500 dark:text-gray-400" if form.connection_type.data == 'overseerr' else "text-gray-900 dark:text-white") ) }}
-          {{ form.name(class="text-sm rounded-lg block w-full p-2.5 " + ("bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" if form.connection_type.data == 'overseerr' else "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary") , disabled=(form.connection_type.data == 'overseerr')) }}
+          {{ form.name.label(class="block mb-2 text-sm font-medium " + ("text-gray-500 dark:text-gray-400" if form.connection_type.data == 'seerr' else "text-gray-900 dark:text-white") ) }}
+          {{ form.name(class="text-sm rounded-lg block w-full p-2.5 " + ("bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" if form.connection_type.data == 'seerr' else "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary") , disabled=(form.connection_type.data == 'seerr')) }}
           {% if form.name.errors %}
             <div class="mt-1 text-sm text-red-600 dark:text-red-400">
               {% for error in form.name.errors %}<p>{{ error }}</p>{% endfor %}
@@ -54,16 +54,16 @@
         </div>
         <!-- Media Server -->
         <div>
-          {{ form.media_server_id.label(class="block mb-2 text-sm font-medium " + ("text-gray-500 dark:text-gray-400" if form.connection_type.data == 'overseerr' else "text-gray-900 dark:text-white") ) }}
-          {{ form.media_server_id(class="text-sm rounded-lg block w-full p-2.5 " + ("bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" if form.connection_type.data == 'overseerr' else "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary") , disabled=(form.connection_type.data == 'overseerr')) }}
+          {{ form.media_server_id.label(class="block mb-2 text-sm font-medium " + ("text-gray-500 dark:text-gray-400" if form.connection_type.data == 'seerr' else "text-gray-900 dark:text-white") ) }}
+          {{ form.media_server_id(class="text-sm rounded-lg block w-full p-2.5 " + ("bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" if form.connection_type.data == 'seerr' else "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary") , disabled=(form.connection_type.data == 'seerr')) }}
           {% if form.media_server_id.errors %}
             <div class="mt-1 text-sm text-red-600 dark:text-red-400">
               {% for error in form.media_server_id.errors %}<p>{{ error }}</p>{% endfor %}
             </div>
           {% endif %}
         </div>
-        {% if form.connection_type.data == 'overseerr' %}
-          <!-- Overseerr Info Section -->
+        {% if form.connection_type.data == 'seerr' %}
+          <!-- Seerr Info Section -->
           <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
             <div class="flex items-start">
               <svg class="w-5 h-5 text-blue-500 mt-0.5 mr-3 flex-shrink-0"
@@ -73,15 +73,15 @@
                 </path>
               </svg>
               <div>
-                <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-2">{{ _("Overseerr/Jellyseerr Information") }}</h4>
+                <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-2">{{ _("Seerr Information") }}</h4>
                 <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">
-                  {{ _("Overseerr and Jellyseerr automatically import new users by default. No API connection is required for Wizarr integration.") }}
+                  {{ _("Seerr automatically imports new users by default. No API connection is required for Wizarr integration.") }}
                 </p>
                 <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-3">
                   <p class="text-sm text-blue-800 dark:text-blue-200">
                     <strong>{{ _("To enable auto-import:") }}</strong>
                     <br>
-                    {{ _("Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new users' and 'Import Jellyfin/Plex users'") }}
+                    {{ _("Go to your Seerr Settings → Users → Enable 'Auto-approve new users' and 'Import Jellyfin/Plex users'") }}
                   </p>
                 </div>
               </div>
@@ -149,7 +149,7 @@
               {{ _("Update Connection") }}
             {% endif %}
           </button>
-          {% if form.connection_type.data != 'overseerr' %}
+          {% if form.connection_type.data != 'seerr' %}
             <button type="button"
                     class="py-2.5 px-5 ms-3 text-sm font-medium text-blue-700 focus:outline-none bg-blue-50 rounded-lg border border-blue-200 hover:bg-blue-100 focus:z-10 focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-700 dark:bg-blue-900 dark:text-blue-400 dark:border-blue-600 dark:hover:text-white dark:hover:bg-blue-800"
                     hx-post="{{ url_for('connections.test_connection') }}"
