@@ -34,6 +34,18 @@ def init_app(app: Flask) -> None:
         logger.debug("Skipping activity monitoring during migrations")
         return
 
+    # Allow operators to disable activity monitoring entirely for invite-only
+    # deployments that rely on external tooling for playback/session stats (#1363).
+    if os.environ.get("WIZARR_DISABLE_ACTIVITY_MONITORING", "false").lower() in (
+        "true",
+        "1",
+        "yes",
+    ):
+        logger.info(
+            "Activity monitoring disabled via WIZARR_DISABLE_ACTIVITY_MONITORING"
+        )
+        return
+
     # Skip only in Werkzeug's reloader parent process (development mode)
     # WERKZEUG_RUN_MAIN is only set when using Flask's development server with reloader
     # In production (Gunicorn/uWSGI), this env var won't be set, so we should proceed
