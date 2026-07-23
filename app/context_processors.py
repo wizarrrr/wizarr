@@ -37,3 +37,13 @@ def inject_plus_features():
 def inject_app_version():
     """Inject current app version into template context for cache busting."""
     return {"app_version": os.getenv("APP_VERSION", "dev")}
+
+
+def inject_activity_monitoring():
+    """Inject whether background activity monitoring is enabled into templates."""
+    disabled = os.getenv("WIZARR_DISABLE_ACTIVITY_MONITORING", "false").lower() in (
+        "true",
+        "1",
+        "yes",
+    )
+    return {"activity_monitoring_enabled": not disabled}
