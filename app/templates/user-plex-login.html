@@ -278,6 +278,7 @@
       }
   </style>
   <script src="{{ url_for('static', filename='js/vendor/bowser.min.js', v=app_version) }}"></script> <!-- needed for plexHeaders -->
+  <script src="{{ url_for('static', filename='js/plex-oauth.js', v=app_version) }}"></script> <!-- defines plexOAuth* helpers used by oauth() -->
   <script>
       // Load movie posters for flowing grid background with progressive loading
       async function loadCinemaPosters() {
