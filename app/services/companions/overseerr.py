@@ -19,7 +19,9 @@ from .base import CompanionClient
 _PROVISION_BACKOFF_SECONDS = (10, 30, 60, 120, 240)
 
 
-def _open_session(base_url: str) -> tuple[requests.Session, dict[str, str]]:
+def _open_session(
+    base_url: str,
+) -> tuple[requests.Session, dict[str, str], requests.Response | None]:
     """Open a session carrying Overseerr's CSRF cookie, if it wants one.
 
     Overseerr can be configured to reject state-changing requests that do not
@@ -30,27 +32,33 @@ def _open_session(base_url: str) -> tuple[requests.Session, dict[str, str]]:
     header.
 
     Returns:
-        The session to post with, and the headers it needs
+        The session to post with, the headers it needs, and the status
+        response, which the caller may want for its own reasons
     """
     session = requests.Session()
     headers: dict[str, str] = {}
 
     try:
-        session.get(f"{base_url}/api/v1/status", timeout=10)
+        resp = session.get(f"{base_url}/api/v1/status", timeout=10)
     except Exception as exc:
         # Not fatal on its own: let the POST report the real failure.
         logging.debug("Could not prime Overseerr CSRF cookie: %s", exc)
-        return session, headers
+        return session, headers, None
 
     token = session.cookies.get("XSRF-TOKEN")
     if token:
         headers["X-XSRF-TOKEN"] = token
 
-    return session, headers
+    return session, headers, resp
 
 
 class OverseerrClient(CompanionClient):
-    """Client for integrating with Overseerr/Jellyseerr (info-only)."""
+    """Client for integrating with Overseerr/Jellyseerr.
+
+    Informational by default: they import nobody in the background and
+    creates an account on first sign-in. With account creation turned on, an
+    invite provisions that account up front instead.
+    """
 
     @property
     def requires_api_call(self) -> bool:
@@ -100,20 +108,161 @@ class OverseerrClient(CompanionClient):
             "message": "Overseerr users managed automatically",
         }
 
-    def test_connection(self, connection: Connection) -> dict[str, str]:  # noqa: ARG002
+    def test_connection(self, connection: Connection) -> dict[str, str]:
         """
-        Test connection for Overseerr (info-only).
+        Check everything account creation depends on, without credentials.
+
+        Every prerequisite is readable anonymously, so this exercises the real
+        provisioning path rather than approximating it: the same session helper,
+        the same CSRF handshake, and the setting Overseerr refuses the sign-in
+        without. The point is to surface a broken invite here rather than
+        silently, minutes later, in a background thread the admin never sees.
 
         Args:
-            connection: Connection object with URL and API key (unused - info-only)
+            connection: Connection object with URL and API key
 
         Returns:
             Dict with 'status' and 'message' keys
         """
+        name = self.display_name
+
+        if not connection.url:
+            return {
+                "status": "info_only",
+                "message": (
+                    "No Service URL set, so this connection is informational "
+                    "and Wizarr makes no calls to " + name + "."
+                ),
+            }
+
+        base_url = connection.url.rstrip("/")
+
+        try:
+            session, headers, status = _open_session(base_url)
+        except Exception as exc:
+            return {"status": "error", "message": f"Could not reach {base_url}: {exc}"}
+
+        if status is None:
+            return {
+                "status": "error",
+                "message": f"Could not reach {base_url}. Check the URL and that {name} is running.",
+            }
+        if not status.ok:
+            return {
+                "status": "error",
+                "message": f"{base_url}/api/v1/status returned HTTP {status.status_code}.",
+            }
+
+        try:
+            version = str(status.json()["version"])
+        except Exception:
+            return {
+                "status": "error",
+                "message": (
+                    f"{base_url} answered, but not with {name}'s API. Check the URL "
+                    f"points at {name} itself rather than a login page or proxy error."
+                ),
+            }
+
+        if not self._csrf_handshake_works(session, headers, base_url):
+            return {
+                "status": "error",
+                "message": (
+                    f"Reached {name} {version}, but it rejected a test request as "
+                    "CSRF-invalid. Its CSRF cookies are Secure, so an http:// URL "
+                    "can never satisfy them. Use https here, or turn off CSRF "
+                    f"protection in {name}."
+                ),
+            }
+
+        new_plex_login = self._new_plex_login_enabled(session, base_url)
+        if new_plex_login is False:
+            return {
+                "status": "error",
+                "message": (
+                    f"Reached {name} {version}, but 'Enable New Plex Sign-In' is off "
+                    "under its Settings → Users, so it will refuse to create the "
+                    "account. Turn it on, or leave account creation off here."
+                ),
+            }
+
+        if not connection.provision_plex_users:
+            return {
+                "status": "info_only",
+                "message": (
+                    f"Reached {name} {version}. Account creation is off, so this "
+                    "connection is informational and invited users will sign in "
+                    f"to {name} themselves."
+                ),
+            }
+
+        if new_plex_login is None:
+            return {
+                "status": "success",
+                "message": (
+                    f"Reached {name} {version} and the CSRF handshake worked. Could "
+                    "not read its settings to confirm 'Enable New Plex Sign-In' is "
+                    "on, which account creation needs."
+                ),
+            }
+
         return {
-            "status": "info_only",
-            "message": "Overseerr connections are informational only - no API testing required",
+            "status": "success",
+            "message": (
+                f"Reached {name} {version}. CSRF handshake worked and 'Enable New "
+                "Plex Sign-In' is on, so account creation should succeed."
+            ),
         }
+
+    @staticmethod
+    def _csrf_handshake_works(
+        session: requests.Session, headers: dict[str, str], base_url: str
+    ) -> bool:
+        """Prove a POST survives CSRF, without provisioning anyone.
+
+        Logout is the one state-changing route that clears the CSRF middleware
+        before it needs credentials, so it answers the only question worth
+        asking here. Sending no session cookie, it has nothing to log out and
+        returns 401, which is the pass condition: the request got past CSRF.
+        Posting a throwaway token to the real sign-in route would test the same
+        thing while making Overseerr call plex.tv and log a failure.
+
+        Returns:
+            Whether a POST gets past Overseerr's CSRF check
+        """
+        try:
+            resp = session.post(
+                f"{base_url}/api/v1/auth/logout", headers=headers, timeout=10
+            )
+        except Exception as exc:
+            # Reachability is already established, so this is not the check
+            # failing so much as the check being unable to run. Do not block on
+            # it: provisioning reports its own CSRF failures with the same text.
+            logging.debug("Overseerr CSRF probe could not run: %s", exc)
+            return True
+
+        body = (resp.text or "").lower()
+        return not (resp.status_code == 403 and "csrf" in body)
+
+    @staticmethod
+    def _new_plex_login_enabled(
+        session: requests.Session, base_url: str
+    ) -> bool | None:
+        """Read the setting Overseerr refuses a new Plex sign-in without.
+
+        Returns:
+            Whether new Plex sign-in is enabled, or None if it could not be read
+        """
+        try:
+            resp = session.get(f"{base_url}/api/v1/settings/public", timeout=10)
+            if not resp.ok:
+                return None
+            value = resp.json().get("newPlexLogin")
+        except Exception as exc:
+            logging.debug("Could not read Overseerr public settings: %s", exc)
+            return None
+
+        return bool(value) if isinstance(value, bool) else None
 
     def provision_plex_user(
         self, auth_token: str, connection: Connection
@@ -150,7 +299,7 @@ class OverseerrClient(CompanionClient):
         total = len(_PROVISION_BACKOFF_SECONDS) + 1
         last_message = "Unknown error"
 
-        session, headers = _open_session(base_url)
+        session, headers, _ = _open_session(base_url)
 
         for attempt in range(1, total + 1):
             try:
