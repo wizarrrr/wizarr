@@ -75,11 +75,11 @@
               <div>
                 <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-2">{{ _("Overseerr/Jellyseerr Information") }}</h4>
                 <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">
-                  {{ _("Overseerr and Jellyseerr create a user the first time that user signs in, so someone you invite has no account there until they visit and log in themselves.") }}
+                  {{ _("Overseerr and Jellyseerr create an account the first time someone signs in, so by default an invited user has no account there until they visit and log in themselves.") }}
                 </p>
                 <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-3">
                   <p class="text-sm text-blue-800 dark:text-blue-200">
-                    {{ _("Set the Service URL below and turn on account creation to have Wizarr do that for them during the invite. An API key is not needed.") }}
+                    {{ _("Set the Service URL and turn on account creation below, and Wizarr signs them in during the invite so their account exists before they arrive. This uses the service's own sign-in route rather than an API key, so it needs 'Enable New Plex Sign-In' under its Settings → Users.") }}
                   </p>
                 </div>
               </div>
