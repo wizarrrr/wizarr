@@ -189,7 +189,7 @@ class InvitationWorkflow(ABC):
                             invitation.used_by = user  # type: ignore
                         mark_server_used(invitation, server.id, user)
 
-                    # Invite user to connected external services (Ombi/Overseerr)
+                    # Invite user to connected external services (Ombi/Seerr)
                     try:
                         connection_results = invite_user_to_connections(
                             username=form_data.get("username", ""),

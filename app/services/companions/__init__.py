@@ -2,14 +2,14 @@
 Companion app integration system.
 
 This module provides a modular system for integrating with companion apps
-like Ombi, Overseerr, and Audiobookrequest. Each companion type has its own
+like Ombi, Seerr, and Audiobookrequest. Each companion type has its own
 client implementation following a common interface.
 """
 
 from .audiobookrequest import AudiobookrequestClient
 from .base import CompanionClient
 from .ombi import OmbiClient
-from .overseerr import OverseerrClient
+from .seerr import SeerrClient
 
 __all__ = [
     "CompanionClient",
@@ -43,12 +43,18 @@ def list_companion_types() -> list[tuple[str, str]]:
     """Return list of (value, label) tuples for all registered companion types."""
     return [
         ("ombi", "Ombi"),
-        ("overseerr", "Overseerr/Jellyseerr (Info Only)"),
+        ("seerr", "Seerr (Info Only)"),
         ("audiobookrequest", "Audiobookrequest"),
     ]
 
 
 # Register all companion clients
 register_companion_client("ombi")(OmbiClient)
-register_companion_client("overseerr")(OverseerrClient)
+register_companion_client("seerr")(SeerrClient)
 register_companion_client("audiobookrequest")(AudiobookrequestClient)
+
+# Legacy alias: connections created before the Overseerr/Jellyseerr -> Seerr
+# rename are stored as "overseerr". The data migration converts them, but keep
+# the alias so any straggler row still resolves to the Seerr client instead of
+# raising "Unknown companion type".
+register_companion_client("overseerr")(SeerrClient)

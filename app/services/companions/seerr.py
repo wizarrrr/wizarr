@@ -1,5 +1,5 @@
 """
-Overseerr/Jellyseerr companion client implementation.
+Seerr companion client implementation.
 """
 
 from app.models import Connection
@@ -7,8 +7,8 @@ from app.models import Connection
 from .base import CompanionClient
 
 
-class OverseerrClient(CompanionClient):
-    """Client for integrating with Overseerr/Jellyseerr (info-only)."""
+class SeerrClient(CompanionClient):
+    """Client for integrating with Seerr (info-only)."""
 
     @property
     def requires_api_call(self) -> bool:
@@ -16,7 +16,7 @@ class OverseerrClient(CompanionClient):
 
     @property
     def display_name(self) -> str:
-        return "Overseerr/Jellyseerr"
+        return "Seerr"
 
     def invite_user(
         self,
@@ -26,7 +26,7 @@ class OverseerrClient(CompanionClient):
         password: str = "",  # noqa: ARG002
     ) -> dict[str, str]:
         """
-        Overseerr connections are info-only, no actual API calls needed.
+        Seerr connections are info-only, no actual API calls needed.
 
         Args:
             username: Username to invite (unused - info-only)
@@ -39,12 +39,12 @@ class OverseerrClient(CompanionClient):
         """
         return {
             "status": "info_only",
-            "message": "Overseerr auto-imports users automatically",
+            "message": "Seerr auto-imports users automatically",
         }
 
     def delete_user(self, username: str, connection: Connection) -> dict[str, str]:  # noqa: ARG002
         """
-        Overseerr connections are info-only, no deletion needed.
+        Seerr connections are info-only, no deletion needed.
 
         Args:
             username: Username to delete (unused - info-only)
@@ -55,12 +55,12 @@ class OverseerrClient(CompanionClient):
         """
         return {
             "status": "info_only",
-            "message": "Overseerr users managed automatically",
+            "message": "Seerr users managed automatically",
         }
 
     def test_connection(self, connection: Connection) -> dict[str, str]:  # noqa: ARG002
         """
-        Test connection for Overseerr (info-only).
+        Test connection for Seerr (info-only).
 
         Args:
             connection: Connection object with URL and API key (unused - info-only)
@@ -70,5 +70,5 @@ class OverseerrClient(CompanionClient):
         """
         return {
             "status": "info_only",
-            "message": "Overseerr connections are informational only - no API testing required",
+            "message": "Seerr connections are informational only - no API testing required",
         }

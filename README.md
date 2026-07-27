@@ -34,7 +34,7 @@ Create a unique invite link and share it with users — they’ll be automatical
 - Time-limited membership options
 - Pre-invite and post-invite wizard steps
 - Setup guide for media apps (like Plex)
-- Request system integration (Overseerr, Ombi, etc.)
+- Request system integration (Seerr, Ombi, etc.)
 - Discord invite support
 - Fully customisable with your own HTML snippets
 

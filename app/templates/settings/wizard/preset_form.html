@@ -16,10 +16,10 @@
       {{ form.discord_id(class="w-full border rounded p-2 dark:bg-gray-700 dark:border-gray-600", placeholder="123456789012345678") }}
       <p class="text-xs text-gray-500 mt-1">{{ _("Your Discord server ID") }}</p>
     </div>
-    <div id="overseerr-fields" class="preset-fields" style="display: none;">
-      {{ form.overseerr_url.label(class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300") }}
-      {{ form.overseerr_url(class="w-full border rounded p-2 dark:bg-gray-700 dark:border-gray-600", placeholder="https://overseerr.example.com") }}
-      <p class="text-xs text-gray-500 mt-1">{{ _("URL to your Overseerr/Ombi instance") }}</p>
+    <div id="seerr-fields" class="preset-fields" style="display: none;">
+      {{ form.seerr_url.label(class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300") }}
+      {{ form.seerr_url(class="w-full border rounded p-2 dark:bg-gray-700 dark:border-gray-600", placeholder="https://seerr.example.com") }}
+      <p class="text-xs text-gray-500 mt-1">{{ _("URL to your Seerr/Ombi instance") }}</p>
     </div>
     <!-- Preset descriptions -->
     <div id="preset-descriptions"
@@ -51,9 +51,9 @@
           if (selectedPreset === 'discord_community') {
               document.getElementById('discord-fields').style.display = 'block';
               document.getElementById('preset-desc-discord_community').style.display = 'block';
-          } else if (selectedPreset === 'overseerr_requests') {
-              document.getElementById('overseerr-fields').style.display = 'block';
-              document.getElementById('preset-desc-overseerr_requests').style.display = 'block';
+          } else if (selectedPreset === 'seerr_requests') {
+              document.getElementById('seerr-fields').style.display = 'block';
+              document.getElementById('preset-desc-seerr_requests').style.display = 'block';
           }
       });
   </script>

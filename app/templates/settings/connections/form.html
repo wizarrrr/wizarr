@@ -89,8 +89,8 @@
             </div>
             <!-- Connection Name -->
             <div>
-              {{ form.name.label(class="block mb-2 text-sm font-medium " + ("text-gray-500" if form.connection_type.data == 'overseerr' else "text-gray-900 dark:text-white") ) }}
-              {{ form.name(class="text-sm rounded-lg block w-full p-2.5 " + ("bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" if form.connection_type.data == 'overseerr' else "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary") , disabled=(form.connection_type.data == 'overseerr')) }}
+              {{ form.name.label(class="block mb-2 text-sm font-medium " + ("text-gray-500" if form.connection_type.data == 'seerr' else "text-gray-900 dark:text-white") ) }}
+              {{ form.name(class="text-sm rounded-lg block w-full p-2.5 " + ("bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" if form.connection_type.data == 'seerr' else "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary") , disabled=(form.connection_type.data == 'seerr')) }}
               {% if form.name.errors %}
                 <div class="mt-1 text-sm text-red-600 dark:text-red-400">
                   {% for error in form.name.errors %}<p>{{ error }}</p>{% endfor %}
@@ -100,8 +100,8 @@
             </div>
             <!-- Media Server -->
             <div>
-              {{ form.media_server_id.label(class="block mb-2 text-sm font-medium " + ("text-gray-500" if form.connection_type.data == 'overseerr' else "text-gray-900 dark:text-white") ) }}
-              {{ form.media_server_id(class="text-sm rounded-lg block w-full p-2.5 " + ("bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" if form.connection_type.data == 'overseerr' else "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary") , disabled=(form.connection_type.data == 'overseerr')) }}
+              {{ form.media_server_id.label(class="block mb-2 text-sm font-medium " + ("text-gray-500" if form.connection_type.data == 'seerr' else "text-gray-900 dark:text-white") ) }}
+              {{ form.media_server_id(class="text-sm rounded-lg block w-full p-2.5 " + ("bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" if form.connection_type.data == 'seerr' else "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary") , disabled=(form.connection_type.data == 'seerr')) }}
               {% if form.media_server_id.errors %}
                 <div class="mt-1 text-sm text-red-600 dark:text-red-400">
                   {% for error in form.media_server_id.errors %}<p>{{ error }}</p>{% endfor %}
@@ -111,8 +111,8 @@
                 {{ _("Which media server should trigger invitations to this external service") }}
               </p>
             </div>
-            {% if form.connection_type.data == 'overseerr' %}
-              <!-- Overseerr Info Section -->
+            {% if form.connection_type.data == 'seerr' %}
+              <!-- Seerr Info Section -->
               <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
                 <div class="flex items-start">
                   <svg class="w-6 h-6 text-blue-500 mt-1 mr-4 flex-shrink-0"
@@ -122,18 +122,20 @@
                     </path>
                   </svg>
                   <div>
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">{{ _("Overseerr/Jellyseerr Information") }}</h3>
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">{{ _("Seerr Information") }}</h3>
                     <p class="text-gray-600 dark:text-gray-300 mb-4">
-                      {{ _("Overseerr and Jellyseerr automatically import new users by default. No API connection is required for Wizarr integration.") }}
+                      {{ _("Seerr creates an account the first time someone signs in to it, so an invited user has no account there until they visit and log in themselves. No API connection is required for Wizarr integration.") }}
                     </p>
                     <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                      <h4 class="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">{{ _("To enable auto-import:") }}</h4>
+                      <h4 class="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">{{ _("To let invited users sign in:") }}</h4>
                       <ol class="text-sm text-blue-800 dark:text-blue-200 space-y-1 list-decimal list-inside">
-                        <li>{{ _("Open your Overseerr/Jellyseerr admin panel") }}</li>
+                        <li>{{ _("Open your Seerr admin panel") }}</li>
                         <li>{{ _("Navigate to Settings → Users") }}</li>
-                        <li>{{ _("Enable 'Auto-approve new users'") }}</li>
-                        <li>{{ _("Enable 'Import Jellyfin/Plex users'") }}</li>
+                        <li>{{ _("Enable 'Enable New Plex Sign-In'") }}</li>
                       </ol>
+                      <p class="mt-2 text-sm text-blue-800 dark:text-blue-200">
+                        {{ _("Without it they cannot sign in until an admin imports them from the Users page.") }}
+                      </p>
                     </div>
                   </div>
                 </div>

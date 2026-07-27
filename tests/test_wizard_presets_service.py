@@ -1,7 +1,7 @@
 """Tests for wizard presets service.
 
 Tests the wizard_presets service which provides preset templates for common
-integrations like Discord and Overseerr.
+integrations like Discord and Seerr.
 """
 
 import pytest
@@ -65,16 +65,16 @@ def test_discord_community_preset_exists():
     assert "{discord_id}" in preset.template
 
 
-def test_overseerr_requests_preset_exists():
-    """Test that overseerr_requests preset is available."""
-    assert "overseerr_requests" in PRESETS
-    preset = PRESETS["overseerr_requests"]
-    assert preset.name == "Overseerr/Ombi Requests"
+def test_seerr_requests_preset_exists():
+    """Test that seerr_requests preset is available."""
+    assert "seerr_requests" in PRESETS
+    preset = PRESETS["seerr_requests"]
+    assert preset.name == "Seerr/Ombi Requests"
     assert (
-        "overseerr" in preset.description.lower()
+        "seerr" in preset.description.lower()
         or "ombi" in preset.description.lower()
     )
-    assert "{overseerr_url}" in preset.template
+    assert "{seerr_url}" in preset.template
 
 
 # ─── Test get_available_presets() ─────────────────────────────────────
@@ -117,15 +117,15 @@ def test_create_step_from_preset_discord():
     assert "discord" in content.lower()
 
 
-def test_create_step_from_preset_overseerr():
-    """Test creating a step from overseerr_requests preset."""
-    overseerr_url = "https://overseerr.example.com"
-    content = create_step_from_preset("overseerr_requests", overseerr_url=overseerr_url)
+def test_create_step_from_preset_seerr():
+    """Test creating a step from seerr_requests preset."""
+    seerr_url = "https://seerr.example.com"
+    content = create_step_from_preset("seerr_requests", seerr_url=seerr_url)
 
     assert isinstance(content, str)
     assert len(content) > 0
-    assert overseerr_url in content
-    assert "{overseerr_url}" not in content  # Template variable should be replaced
+    assert seerr_url in content
+    assert "{seerr_url}" not in content  # Template variable should be replaced
     assert "request" in content.lower()
 
 
@@ -166,9 +166,9 @@ def test_get_preset_title_discord():
     assert title == "Discord community"
 
 
-def test_get_preset_title_overseerr():
-    """Test getting title for overseerr_requests preset."""
-    title = get_preset_title("overseerr_requests")
+def test_get_preset_title_seerr():
+    """Test getting title for seerr_requests preset."""
+    title = get_preset_title("seerr_requests")
     assert isinstance(title, str)
     assert len(title) > 0
     assert title == "Automatic requests"
@@ -192,9 +192,9 @@ def test_discord_preset_template_has_iframe():
     assert "discord.com/widget" in preset.template
 
 
-def test_overseerr_preset_template_has_button_widget():
-    """Test that overseerr preset template includes button widget."""
-    preset = PRESETS["overseerr_requests"]
+def test_seerr_preset_template_has_button_widget():
+    """Test that seerr preset template includes button widget."""
+    preset = PRESETS["seerr_requests"]
     assert "widget:button" in preset.template
 
 

@@ -31,7 +31,7 @@ def _get_user_identifier(user: User, server: MediaServer) -> str:
 
 
 def _delete_from_companion_apps(user: User) -> None:
-    """Delete user from connected companion apps (Ombi, Overseerr, etc.)."""
+    """Delete user from connected companion apps (Ombi, Seerr, etc.)."""
     try:
         from app.services.ombi_client import delete_user_from_connections
 

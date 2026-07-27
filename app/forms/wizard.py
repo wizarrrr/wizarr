@@ -78,7 +78,7 @@ class WizardPresetForm(FlaskForm):
 
     # Variables for preset templates
     discord_id = StringField("Discord Server ID", validators=[Optional()])
-    overseerr_url = StringField("Overseerr/Ombi URL", validators=[Optional()])
+    seerr_url = StringField("Seerr/Ombi URL", validators=[Optional()])
 
 
 class WizardBundleForm(FlaskForm):

@@ -32,7 +32,7 @@ def _ensure_keys_exist():
         "api_key",
         "server_name",
         "libraries",
-        "overseerr_url",
+        "seerr_url",
         "ombi_api_key",
         "discord_id",
         "custom_html",
