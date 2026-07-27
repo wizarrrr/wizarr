@@ -179,6 +179,7 @@ def test_connection():
         url=form.url.data,
         api_key=form.api_key.data,
         media_server_id=form.media_server_id.data,
+        provision_plex_users=form.provision_plex_users.data,
     )
 
     try:
