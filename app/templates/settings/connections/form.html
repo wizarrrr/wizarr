@@ -124,16 +124,18 @@
                   <div>
                     <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">{{ _("Seerr Information") }}</h3>
                     <p class="text-gray-600 dark:text-gray-300 mb-4">
-                      {{ _("Seerr automatically imports new users by default. No API connection is required for Wizarr integration.") }}
+                      {{ _("Seerr creates an account the first time someone signs in to it, so an invited user has no account there until they visit and log in themselves. No API connection is required for Wizarr integration.") }}
                     </p>
                     <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
-                      <h4 class="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">{{ _("To enable auto-import:") }}</h4>
+                      <h4 class="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">{{ _("To let invited users sign in:") }}</h4>
                       <ol class="text-sm text-blue-800 dark:text-blue-200 space-y-1 list-decimal list-inside">
                         <li>{{ _("Open your Seerr admin panel") }}</li>
                         <li>{{ _("Navigate to Settings → Users") }}</li>
-                        <li>{{ _("Enable 'Auto-approve new users'") }}</li>
-                        <li>{{ _("Enable 'Import Jellyfin/Plex users'") }}</li>
+                        <li>{{ _("Enable 'Enable New Plex Sign-In'") }}</li>
                       </ol>
+                      <p class="mt-2 text-sm text-blue-800 dark:text-blue-200">
+                        {{ _("Without it they cannot sign in until an admin imports them from the Users page.") }}
+                      </p>
                     </div>
                   </div>
                 </div>
