@@ -204,12 +204,45 @@ Make sure disabled buttons don't get the pointer cursor.
   to { transform: translateX(-50%); }
 }
 
+/* 3s per poster: the widget renders exactly 40 per copy. */
 .media-carousel-widget .animate-scroll {
-  animation: wizard-media-scroll 30s linear infinite;
+  animation: wizard-media-scroll 120s linear infinite;
 }
 
 .media-carousel-widget .carousel-container:hover .animate-scroll {
   animation-play-state: paused;
+}
+
+.media-carousel-widget .carousel-container {
+  position: relative;
+  overflow: hidden;
+  /* Fade the ends rather than cutting a poster off square. */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
+}
+
+/* Width comes from the content, so half the track is exactly one copy. */
+.media-carousel-widget .carousel-track {
+  display: flex;
+  width: max-content;
+}
+
+.media-carousel-widget .carousel-item {
+  flex: 0 0 auto;
+  width: 8rem;            /* 128px */
+  height: 12rem;          /* 2:3, a poster's own aspect ratio */
+  margin-right: 0.75rem;  /* on every item, including the last */
+}
+
+.media-carousel-widget .carousel-item > img,
+.media-carousel-widget .carousel-item > div {
+  margin: 0;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .media-carousel-widget .animate-scroll { animation: none; }
+  .media-carousel-widget .carousel-container { overflow-x: auto; }
 }
 
 /* Wizard mobile optimization */
