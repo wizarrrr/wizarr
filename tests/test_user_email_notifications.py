@@ -4,8 +4,8 @@ from app.extensions import db
 from app.models import AdminAccount, MediaServer, Settings, User
 from app.services.email import save_smtp_settings, send_user_lifecycle_email
 from app.services.expiry import disable_or_delete_user_if_expired
-from app.services.media.service import delete_user, remove_user_from_server
 from app.services.media.client_base import MediaClient
+from app.services.media.service import delete_user, remove_user_from_server
 
 
 class ActivationTestClient(MediaClient):
