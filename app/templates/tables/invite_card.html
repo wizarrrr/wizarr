@@ -180,7 +180,7 @@
                 </button>
                 <!-- Delete invitation button -->
                 <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 rounded-md transition-colors"
-                        hx-post="/invite/table?delete={{ invite.code }}"
+                        hx-post="/invite/table?delete_id={{ invite.id }}"
                         hx-trigger="click"
                         hx-target="#invite_table"
                         hx-swap="outerHTML swap:0.5s"
@@ -255,7 +255,7 @@
 
     // Fade out on delete before htmx swap
     document.addEventListener("htmx:beforeRequest", function(evt) {
-        if (evt.target.hasAttribute('hx-post') && evt.target.getAttribute('hx-post').includes('delete=')) {
+        if (evt.target.hasAttribute('hx-post') && evt.target.getAttribute('hx-post').includes('delete_id=')) {
             const card = evt.target.closest(".animate__animated");
             if (card) card.classList.add("animate__fadeOut");
         }

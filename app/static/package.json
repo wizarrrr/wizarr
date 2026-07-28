@@ -5,26 +5,27 @@
   "scripts": {
     "build:css": "npx @tailwindcss/cli -i src/style.css -o css/main.css",
     "watch:css": "npx @tailwindcss/cli -i src/style.css -o css/main.css --watch",
-    "build:js": "cp node_modules/sortablejs/Sortable.min.js js/sortable.min.js && cp node_modules/tiny-markdown-editor/dist/tiny-mde.min.js js/tiny-mde.min.js && cp node_modules/tiny-markdown-editor/dist/tiny-mde.min.css css/tiny-mde.min.css",
+    "build:js": "node copy-assets.js",
     "build": "npm run build:css && npm run build:js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@tailwindcss/cli": "^4.2.2",
-    "@tailwindcss/typography": "^0.5.19",
-    "tailwindcss": "^4.2.1"
+    "@tailwindcss/cli": "^4.3.2",
+    "@tailwindcss/typography": "^0.5.20",
+    "tailwindcss": "^4.3.0"
   },
   "dependencies": {
-    "@alpinejs/collapse": "^3.15.9",
-    "alpinejs": "^3.15.10",
+    "@alpinejs/collapse": "^3.15.12",
+    "alpinejs": "^3.15.12",
     "animate.css": "^4.1.1",
+    "animejs": "^3.2.1",
     "bowser": "^2.13.1",
-    "flowbite": "^4.0.1",
+    "flowbite": "^4.0.2",
     "htmx-ext-preload": "^2.1.2",
-    "htmx.org": "^2.0.8",
-    "inapp-spy": "^5.0.9",
+    "htmx.org": "^2.0.10",
+    "inapp-spy": "^5.0.10",
     "sortablejs": "^1.15.7",
-    "tiny-markdown-editor": "^0.2.25"
+    "tiny-markdown-editor": "^0.2.31"
   }
 }

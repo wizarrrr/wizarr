@@ -39,6 +39,7 @@ from app.services.media.service import (
     list_users_all_servers,
     list_users_for_server,
     scan_libraries_for_server,
+    upsert_scanned_libraries,
 )
 from app.services.update_check import (
     check_update_available,
@@ -230,7 +231,7 @@ def invite_table():
 
     Accepts:
       - server filter via POST form data (preferred) or querystring (?server=ID)
-      - delete action via querystring (?delete=CODE)
+      - delete action via querystring (?delete_id=ID)
 
     Returns the 'tables/invite_card.html' partial.
     """
@@ -239,13 +240,30 @@ def invite_table():
     # ------------------------------------------------------------------
     server_filter = request.form.get("server") or request.args.get("server")
 
-    if code := request.args.get("delete"):
-        # Find the invitation to delete
-        invitation = Invitation.query.filter_by(code=code).first()
-        if invitation:
-            # Delete the invitation - CASCADE will handle association table cleanup
-            db.session.delete(invitation)
-            db.session.commit()
+    if raw_delete_id := request.args.get("delete_id"):
+        # Delete by primary key. Deleting by code broke when a code contained a
+        # trailing space: the browser strips it from the query string, so the
+        # exact-match lookup never matched and the invitation became undeletable.
+        #
+        # Use an explicit ?delete_id= parameter rather than reusing the old
+        # ?delete= (which carried an invite *code*): a stale numeric code from a
+        # cached page could otherwise be read as an unrelated invitation *id* and
+        # delete the wrong row. Old cached ?delete= requests now simply no-op.
+        #
+        # Parse defensively — str.isdigit() accepts values int() rejects (e.g.
+        # "²") and over-long digit strings hit Python's int-conversion limit,
+        # so an unguarded int() would raise and 500. Treat anything unparseable as
+        # a no-op.
+        try:
+            delete_pk = int(raw_delete_id)
+        except (TypeError, ValueError):
+            delete_pk = None
+        if delete_pk is not None:
+            invitation = db.session.get(Invitation, delete_pk)
+            if invitation:
+                # CASCADE handles association-table cleanup
+                db.session.delete(invitation)
+                db.session.commit()
 
     # ------------------------------------------------------------------
     # 2. Base query (libraries + servers)
@@ -265,14 +283,22 @@ def invite_table():
         except ValueError:
             server_id = None
         if server_id:
-            # join to association (assuming relationship Invitation.servers)
-            query = Invitation.query.options(
-                db.joinedload(Invitation.libraries).joinedload(Library.server),
-                db.joinedload(Invitation.servers),
-                db.joinedload(
-                    Invitation.users
-                ),  # NEW: Load all users who used this invitation
-            ).order_by(Invitation.created.desc())
+            # Restrict to invitations linked to the selected server. Multi-server
+            # invites match through the association table (Invitation.servers).
+            # Legacy single-server invites have no association rows and carry the
+            # server on Invitation.server_id; the rest of the app treats those as
+            # `servers or [server]`, so include them here too — but only when they
+            # have no association rows, so a stale legacy server_id can't broaden a
+            # genuine multi-server invite.
+            query = query.filter(
+                db.or_(
+                    Invitation.servers.any(MediaServer.id == server_id),
+                    db.and_(
+                        ~Invitation.servers.any(),
+                        Invitation.server_id == server_id,
+                    ),
+                )
+            )
 
             srv = db.session.get(MediaServer, server_id)
             server_type = srv.server_type if srv else None
@@ -756,7 +782,7 @@ def update_user_libraries(db_id: int):
 def invite_scan_libraries():
     """Scan libraries for one or multiple selected servers and return grouped checkboxes."""
 
-    from app.models import Library, MediaServer, invite_libraries
+    from app.models import Library, MediaServer
 
     # Accept either multi-select checkboxes (server_ids) or legacy single server_id
     ids = request.form.getlist("server_ids") or []
@@ -774,51 +800,14 @@ def invite_scan_libraries():
 
     for server in servers:
         try:
-            raw = scan_libraries_for_server(server)
-            items = raw.items() if isinstance(raw, dict) else [(n, n) for n in raw]
+            raw, authoritative = scan_libraries_for_server(server)
         except Exception as exc:
             logging.warning("Library scan failed for %s: %s", server.name, exc)
-            items = []
+            raw, authoritative = [], False
 
-        # Upsert libraries: update existing rows, insert new ones, and preserve invite associations.
-        existing_libs = {
-            lib.external_id: lib
-            for lib in Library.query.filter_by(server_id=server.id).all()
-        }
-
-        incoming_ids: set[str] = set()
-        for fid, name in items:
-            fid = str(fid)
-            incoming_ids.add(fid)
-            if fid in existing_libs:
-                # Update existing row (preserve primary key so invites keep referencing it)
-                lib = existing_libs[fid]
-                lib.name = name
-                lib.enabled = True
-            else:
-                # New library - insert
-                lib = Library(
-                    external_id=fid,
-                    name=name,
-                    server_id=server.id,
-                    enabled=True,
-                )
-                db.session.add(lib)
-
-        # Handle libraries that used to exist but weren't returned by the server
-        for ext, lib in existing_libs.items():
-            if ext not in incoming_ids:
-                # If this library is referenced by any invitation, disable it to preserve associations
-                referenced = db.session.execute(
-                    invite_libraries.select().where(
-                        invite_libraries.c.library_id == lib.id
-                    )
-                ).first()
-                if referenced:
-                    lib.enabled = False
-                else:
-                    # Safe to remove since no invites reference it
-                    db.session.delete(lib)
+        # Upsert scanned libraries, preserving each row's enabled flag (the admin's
+        # saved default, rendered by the checkbox partial) and invite associations.
+        upsert_scanned_libraries(server, raw, authoritative=authoritative)
 
         # Flush so the temporary changes are visible for listing
         db.session.flush()

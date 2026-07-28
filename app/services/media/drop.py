@@ -105,6 +105,12 @@ class DropClient(RestApiMixin):
 
             remote_by_id = {str(u.get("id")): u for u in remote_users if u.get("id")}
 
+            known_users = User.query.filter(
+                User.server_id == getattr(self, "server_id", None)
+            ).all()
+            if self._skip_prune_on_empty_remote(not remote_by_id, known_users):
+                return known_users
+
             # Upsert user rows in local DB
             for user_id, drop_user in remote_by_id.items():
                 db_row: User | None = User.query.filter_by(

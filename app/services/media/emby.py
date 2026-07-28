@@ -9,6 +9,7 @@ from sqlalchemy import or_
 from app.extensions import db
 from app.models import Invitation, MediaServer, User
 
+from .auth_headers import media_browser_auth_headers
 from .client_base import register_media_client
 from .jellyfin import JellyfinClient
 
@@ -25,15 +26,20 @@ log = structlog.get_logger(__name__)
 class EmbyClient(JellyfinClient):
     """Wrapper around the Emby REST API using credentials from Settings."""
 
-    def libraries(self) -> dict[str, str]:
-        """Return mapping of library Id to names.
+    @staticmethod
+    def _library_policy_id(item: dict) -> str:
+        """Return the folder identifier Emby expects in user policies."""
+        return item.get("Guid") or item["Id"]
 
-        Uses ``Id`` (not ``Guid``) so that ``Library.external_id`` stores the
-        value that Emby's ``EnabledFolders`` policy field actually expects.
+    def libraries(self) -> dict[str, str]:
+        """Return mapping of Emby policy folder IDs to names.
+
+        Emby expects ``Guid`` values in ``EnabledFolders`` on servers where
+        ``Id`` and ``Guid`` differ. Fall back to ``Id`` for older responses.
         """
         try:
             items = self.get("/Library/MediaFolders").json()["Items"]
-            return {item["Id"]: item["Name"] for item in items}
+            return {self._library_policy_id(item): item["Name"] for item in items}
         except Exception as exc:
             log.warning("emby.libraries.failed", error=str(exc))
             return {}
@@ -48,14 +54,13 @@ class EmbyClient(JellyfinClient):
             token: Optional API token override
 
         Returns:
-            dict: Library name -> library Id mapping (uses ``Id``, not ``Guid``)
+            dict: Library name -> Emby policy folder ID mapping
         """
         try:
             if url and token:
-                headers = {"X-Emby-Token": token}
                 response = requests.get(
                     f"{url.rstrip('/')}/Library/MediaFolders",
-                    headers=headers,
+                    headers=media_browser_auth_headers(token),
                     timeout=10,
                 )
                 response.raise_for_status()
@@ -63,7 +68,7 @@ class EmbyClient(JellyfinClient):
             else:
                 items = self.get("/Library/MediaFolders").json()["Items"]
 
-            return {item["Name"]: item["Id"] for item in items}
+            return {item["Name"]: self._library_policy_id(item) for item in items}
         except Exception as exc:
             log.warning("emby.scan_libraries.failed", error=str(exc))
             return {}
@@ -131,7 +136,12 @@ class EmbyClient(JellyfinClient):
         """Get movie poster URLs for background display."""
         poster_urls = []
         try:
-            # Get recent movies from all libraries (Emby API is similar to Jellyfin)
+            # Get recent movies from all libraries (Emby API is similar to Jellyfin).
+            # Recursive is required: without it /Items only returns the library
+            # folders at the root, so this came back empty. Safe to enable only
+            # because the poster URLs below go through the image proxy; enabling it
+            # while the raw api_key URL was returned would have turned the latent
+            # /cinema-posters leak into an active one.
             response = self.get(
                 "/Items",
                 params={
@@ -141,6 +151,7 @@ class EmbyClient(JellyfinClient):
                     "Limit": limit * 2,  # Get more than needed as fallback
                     "Fields": "PrimaryImageAspectRatio",
                     "HasPrimaryImage": True,
+                    "Recursive": True,
                 },
             ).json()
 
@@ -151,11 +162,13 @@ class EmbyClient(JellyfinClient):
 
                     item_id = item.get("Id")
                     if item_id:
-                        # Build poster URL for Emby
+                        # Build the poster URL and route it through the image
+                        # proxy. The api_key is deliberately kept out of the URL;
+                        # the proxy re-attaches it as a header server-side (see
+                        # ImageProxyService.get_server_headers), so the admin
+                        # token is never exposed to the client.
                         poster_url = f"{self.url}/Items/{item_id}/Images/Primary"
-                        if self.token:
-                            poster_url += f"?api_key={self.token}"
-                        poster_urls.append(poster_url)
+                        poster_urls.append(self.generate_image_proxy_url(poster_url))
 
         except Exception as e:
             import logging
@@ -195,15 +208,17 @@ class EmbyClient(JellyfinClient):
     def _set_specific_folders(self, user_id: str, names: list[str]) -> None:
         """Set library access for a user and ensure playback permissions.
 
-        Builds a mapping of ``{Name: Id, Id: Id}`` so that lookups succeed
-        whether ``names`` contains library names or already-resolved Ids.
+        Builds a mapping so lookups succeed whether ``names`` contains library
+        names, current Guid-based external IDs, or legacy Id-based external IDs.
         """
         items = self.get("/Library/MediaFolders").json()["Items"]
-        # Primary mapping: Name -> Id
-        mapping: dict[str, str] = {i["Name"]: i["Id"] for i in items}
-        # Also allow Id passthrough and Guid -> Id for backwards compatibility
-        mapping.update({i["Id"]: i["Id"] for i in items})
-        mapping.update({i["Guid"]: i["Id"] for i in items if "Guid" in i})
+        mapping: dict[str, str] = {}
+        for item in items:
+            policy_id = self._library_policy_id(item)
+            mapping[item["Name"]] = policy_id
+            mapping[item["Id"]] = policy_id
+            if item.get("Guid"):
+                mapping[item["Guid"]] = policy_id
 
         log.debug("emby._set_specific_folders", user_id=user_id, requested=names)
 
@@ -215,7 +230,7 @@ class EmbyClient(JellyfinClient):
                 "emby._set_specific_folders.no_libraries_resolved",
                 user_id=user_id,
                 requested=names,
-                hint="No requested libraries could be mapped to an Emby folder Id. "
+                hint="No requested libraries could be mapped to an Emby folder ID. "
                 "Re-scan libraries on the server settings page to refresh external IDs.",
             )
             # Restrict to nothing rather than silently granting everything.

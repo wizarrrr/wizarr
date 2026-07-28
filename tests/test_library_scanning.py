@@ -85,7 +85,7 @@ def test_api_libraries_without_existing_libraries(client, api_key, test_server):
     mock_libraries = {"lib1": "Movies", "lib2": "TV Shows", "lib3": "Music"}
 
     with patch("app.services.media.service.scan_libraries_for_server") as mock_scan:
-        mock_scan.return_value = mock_libraries
+        mock_scan.return_value = (mock_libraries, True)
 
         response = client.get("/api/libraries", headers={"X-API-Key": api_key})
 
@@ -174,7 +174,7 @@ def test_api_libraries_scan_failure_continues(client, api_key, test_server):
     def side_effect(server):
         if server.name == "Test Server":
             raise Exception("Connection failed")
-        return mock_libraries
+        return mock_libraries, True
 
     with patch("app.services.media.service.scan_libraries_for_server") as mock_scan:
         mock_scan.side_effect = side_effect

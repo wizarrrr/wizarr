@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-04-02 05:13+0000\n"
+"POT-Creation-Date: 2026-07-28 06:02+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -135,12 +135,12 @@ msgstr ""
 msgid "An internal error has occurred."
 msgstr ""
 
-#: app/blueprints/admin/routes.py:333
+#: app/blueprints/admin/routes.py:359
 #: app/templates/admin/user_details_modal.html:56
 msgid "Unknown"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:336
+#: app/blueprints/admin/routes.py:362
 #: app/templates/admin/user_details_modal.html:70
 #: app/templates/modals/invite.html:69
 #: app/templates/tables/invite_card.html:115
@@ -149,30 +149,30 @@ msgstr ""
 msgid "Never"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:409 app/templates/tables/invite_card.html:5
+#: app/blueprints/admin/routes.py:435 app/templates/tables/invite_card.html:5
 msgid "Expired"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:417
+#: app/blueprints/admin/routes.py:443
 #, python-format
 msgid "in %(n)d d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:419
+#: app/blueprints/admin/routes.py:445
 msgid "in 1 d"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:421
+#: app/blueprints/admin/routes.py:447
 #, python-format
 msgid "in %(n)d h"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:423
+#: app/blueprints/admin/routes.py:449
 #, python-format
 msgid "in %(n)d m"
 msgstr ""
 
-#: app/blueprints/admin/routes.py:424
+#: app/blueprints/admin/routes.py:450
 msgid "soon"
 msgstr ""
 
@@ -295,13 +295,13 @@ msgstr ""
 msgid "Invalid form data: %(errors)s"
 msgstr ""
 
-#: app/blueprints/public/routes.py:141 app/blueprints/public/routes.py:158
+#: app/blueprints/public/routes.py:180 app/blueprints/public/routes.py:197
 msgid ""
 "There was an issue setting up your access. Please contact your server "
 "admin."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:269
+#: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:272
 msgid "Settings saved successfully!"
 msgstr ""
 
@@ -331,50 +331,50 @@ msgstr ""
 msgid "Library scan failed"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:293
+#: app/blueprints/settings/routes.py:296
 #, python-brace-format
 msgid "Successfully cleaned {count} expired user(s)."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:298
+#: app/blueprints/settings/routes.py:301
 msgid "No expired users found to clean."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:321 app/blueprints/settings/routes.py:350
+#: app/blueprints/settings/routes.py:324 app/blueprints/settings/routes.py:353
 #: app/templates/settings/general.html:178
 msgid ""
 "Are you sure you want to clean all expired users? This action cannot be "
 "undone."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:323 app/blueprints/settings/routes.py:352
+#: app/blueprints/settings/routes.py:326 app/blueprints/settings/routes.py:355
 #: app/templates/settings/general.html:167
 #: app/templates/settings/general.html:195
 msgid "Clean Expired Users"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:328
+#: app/blueprints/settings/routes.py:331
 #, python-brace-format
 msgid "Failed to clean expired users: {error}"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:407
+#: app/blueprints/settings/routes.py:410
 msgid "LDAP configuration saved successfully"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:481
+#: app/blueprints/settings/routes.py:484
 msgid "LDAP not configured or disabled"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:491
+#: app/blueprints/settings/routes.py:494
 msgid "No groups found in LDAP"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:547
+#: app/blueprints/settings/routes.py:550
 msgid "LDAP is not configured"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:556
+#: app/blueprints/settings/routes.py:559
 #, python-format
 msgid "Failed to list LDAP users: %(error)s"
 msgstr ""
@@ -550,7 +550,7 @@ msgstr ""
 
 #: app/forms/admin.py:43 app/forms/admin.py:57
 #: app/templates/admin/user_details_modal.html:66
-#: app/templates/hybrid-password-form.html:102 app/templates/login.html:75
+#: app/templates/hybrid-password-form.html:101 app/templates/login.html:75
 #: app/templates/modals/create-admin.html:22
 #: app/templates/modals/edit-admin.html:22
 #: app/templates/welcome-jellyfin.html:117
@@ -558,9 +558,9 @@ msgid "Username"
 msgstr ""
 
 #: app/forms/admin.py:45 app/templates/choose-password.html:22
-#: app/templates/hybrid-password-form.html:134 app/templates/login.html:85
+#: app/templates/hybrid-password-form.html:133 app/templates/login.html:85
 #: app/templates/modals/create-admin.html:28 app/templates/profile.html:32
-#: app/templates/welcome-jellyfin.html:155
+#: app/templates/welcome-jellyfin.html:149
 msgid "Password"
 msgstr ""
 
@@ -605,9 +605,9 @@ msgid "Libraries"
 msgstr ""
 
 #: app/forms/settings.py:30 app/forms/settings.py:46
-#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:220
-#: app/templates/modals/invite.html:254 app/templates/modals/invite.html:297
-#: app/templates/modals/invite.html:331 app/templates/modals/invite.html:343
+#: app/templates/admin/user_modal.html:87 app/templates/modals/invite.html:219
+#: app/templates/modals/invite.html:253 app/templates/modals/invite.html:296
+#: app/templates/modals/invite.html:330 app/templates/modals/invite.html:342
 msgid "Allow Downloads"
 msgstr ""
 
@@ -631,97 +631,97 @@ msgstr ""
 msgid "External URL"
 msgstr ""
 
-#: app/services/servers.py:16
+#: app/services/servers.py:18
 #, python-format
 msgid "Server returned status code %(status_code)s"
 msgstr ""
 
-#: app/services/servers.py:27
+#: app/services/servers.py:29
 #, python-format
 msgid "%(server_type)s server returned an error: %(error)s"
 msgstr ""
 
-#: app/services/servers.py:34
+#: app/services/servers.py:36
 #, python-format
 msgid ""
 "Could not connect to the %(server_type)s server. Please check if the "
 "server is running and the URL is correct."
 msgstr ""
 
-#: app/services/servers.py:40
+#: app/services/servers.py:42
 #, python-format
 msgid ""
 "Connection to %(server_type)s server timed out. Please check if the "
 "server is running and accessible."
 msgstr ""
 
-#: app/services/servers.py:46
+#: app/services/servers.py:48
 #, python-format
 msgid ""
 "An error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
 msgstr ""
 
-#: app/services/servers.py:53
+#: app/services/servers.py:55
 #, python-format
 msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s "
 "server: %(error)s"
 msgstr ""
 
-#: app/services/servers.py:66
+#: app/services/servers.py:68
 msgid "Plex"
 msgstr ""
 
-#: app/services/servers.py:80
+#: app/services/servers.py:84
 msgid "Jellyfin"
 msgstr ""
 
-#: app/services/servers.py:87
+#: app/services/servers.py:91
 msgid "Emby"
 msgstr ""
 
-#: app/services/servers.py:113
+#: app/services/servers.py:117
 msgid "Audiobookshelf"
 msgstr ""
 
-#: app/services/servers.py:143
+#: app/services/servers.py:147
 msgid "RomM"
 msgstr ""
 
-#: app/services/servers.py:168
+#: app/services/servers.py:172
 msgid "Komga"
 msgstr ""
 
-#: app/services/servers.py:220
+#: app/services/servers.py:224
 msgid "Kavita"
 msgstr ""
 
-#: app/services/servers.py:275
+#: app/services/servers.py:279
 msgid "Navidrome"
 msgstr ""
 
-#: app/services/servers.py:297
+#: app/services/servers.py:301
 msgid "Invalid API token or insufficient permissions."
 msgstr ""
 
-#: app/services/servers.py:299
+#: app/services/servers.py:303
 msgid "API token lacks required permissions."
 msgstr ""
 
-#: app/services/servers.py:304
+#: app/services/servers.py:308
 msgid "Could not connect to Drop server."
 msgstr ""
 
-#: app/services/servers.py:306
+#: app/services/servers.py:310
 msgid "Connection to Drop server timed out."
 msgstr ""
 
-#: app/services/servers.py:309
+#: app/services/servers.py:313
 msgid "Drop API not found. Check the server URL."
 msgstr ""
 
-#: app/services/servers.py:312
+#: app/services/servers.py:316
 msgid "Drop"
 msgstr ""
 
@@ -751,9 +751,9 @@ msgid "Choose a password for the remaining servers"
 msgstr ""
 
 #: app/templates/choose-password.html:33
-#: app/templates/hybrid-password-form.html:150
+#: app/templates/hybrid-password-form.html:149
 #: app/templates/password-reset-form.html:50
-#: app/templates/welcome-jellyfin.html:174
+#: app/templates/welcome-jellyfin.html:165
 msgid "Confirm Password"
 msgstr ""
 
@@ -793,80 +793,80 @@ msgstr ""
 msgid "Error!"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:107
+#: app/templates/hybrid-password-form.html:106
 msgid "Your username"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:119
+#: app/templates/hybrid-password-form.html:118
 msgid "Email Address"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:125
+#: app/templates/hybrid-password-form.html:124
 msgid "your.email@example.com"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:139
+#: app/templates/hybrid-password-form.html:138
 msgid "Your password"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:156
-#: app/templates/welcome-jellyfin.html:177
+#: app/templates/hybrid-password-form.html:155
+#: app/templates/welcome-jellyfin.html:168
 msgid "Confirm your password"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:174
+#: app/templates/hybrid-password-form.html:173
 msgid "I agree to the"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:177
+#: app/templates/hybrid-password-form.html:176
 msgid "Terms and Conditions"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:185
+#: app/templates/hybrid-password-form.html:184
 msgid "Complete Setup"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:195
+#: app/templates/hybrid-password-form.html:194
 msgid "Setting up..."
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:201
+#: app/templates/hybrid-password-form.html:200
 msgid "What happens next?"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:203
+#: app/templates/hybrid-password-form.html:202
 msgid "Your Plex account is already set up and ready to use"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:204
+#: app/templates/hybrid-password-form.html:203
 msgid "This password will be used to create accounts on your local servers"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:205
+#: app/templates/hybrid-password-form.html:204
 msgid "You'll be redirected to the setup wizard to complete configuration"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:211
+#: app/templates/hybrid-password-form.html:210
 msgid "Only want to use Plex?"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:214
+#: app/templates/hybrid-password-form.html:213
 msgid "Skip local servers"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:229
+#: app/templates/hybrid-password-form.html:228
 msgid "Password too short"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:232
+#: app/templates/hybrid-password-form.html:231
 msgid "Password strength: Medium"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:235
+#: app/templates/hybrid-password-form.html:234
 msgid "Password strength: Strong"
 msgstr ""
 
-#: app/templates/hybrid-password-form.html:247
+#: app/templates/hybrid-password-form.html:246
 msgid "Passwords do not match"
 msgstr ""
 
@@ -1101,15 +1101,15 @@ msgstr ""
 msgid "You've been invited to join the %(name)s server!"
 msgstr ""
 
-#: app/templates/user-plex-login.html:50 app/templates/welcome-jellyfin.html:40
+#: app/templates/user-plex-login.html:50 app/templates/welcome-jellyfin.html:43
 msgid "You've been invited!"
 msgstr ""
 
-#: app/templates/user-plex-login.html:54 app/templates/welcome-jellyfin.html:45
+#: app/templates/user-plex-login.html:54 app/templates/welcome-jellyfin.html:48
 msgid "To join"
 msgstr ""
 
-#: app/templates/user-plex-login.html:59 app/templates/welcome-jellyfin.html:51
+#: app/templates/user-plex-login.html:59 app/templates/welcome-jellyfin.html:54
 msgid "Join the ultimate media server experience."
 msgstr ""
 
@@ -1125,34 +1125,46 @@ msgstr ""
 msgid "Enter your code"
 msgstr ""
 
-#: app/templates/user-plex-login.html:108
+#: app/templates/user-plex-login.html:111
 msgid "Join Server"
 msgstr ""
 
-#: app/templates/user-plex-login.html:115
-#: app/templates/welcome-jellyfin.html:226
+#: app/templates/user-plex-login.html:118
+#: app/templates/welcome-jellyfin.html:213
 msgid "Secure invitation system powered by Wizarr"
+msgstr ""
+
+#: app/templates/user-plex-login.html:400
+msgid "Pop-up blocked. Allow pop-ups for this site and try again."
+msgstr ""
+
+#: app/templates/user-plex-login.html:401
+msgid "Sign-in cancelled. Hit Join Server to try again."
+msgstr ""
+
+#: app/templates/user-plex-login.html:402
+msgid "Plex sign-in failed. Try again, or contact your server admin."
 msgstr ""
 
 #: app/templates/users.html:3
 msgid "Invite User"
 msgstr ""
 
-#: app/templates/welcome-jellyfin.html:73
-#: app/templates/welcome-jellyfin.html:78
+#: app/templates/welcome-jellyfin.html:76
+#: app/templates/welcome-jellyfin.html:81
 msgid "Accept Invitation"
 msgstr ""
 
-#: app/templates/welcome-jellyfin.html:74
+#: app/templates/welcome-jellyfin.html:77
 msgid "Get ready to join the magic"
 msgstr ""
 
-#: app/templates/welcome-jellyfin.html:91
-#: app/templates/welcome-jellyfin.html:206
+#: app/templates/welcome-jellyfin.html:94
+#: app/templates/welcome-jellyfin.html:193
 msgid "Create Account"
 msgstr ""
 
-#: app/templates/welcome-jellyfin.html:92
+#: app/templates/welcome-jellyfin.html:95
 msgid "Set up your magical account"
 msgstr ""
 
@@ -1160,28 +1172,28 @@ msgstr ""
 msgid "Enter your username"
 msgstr ""
 
-#: app/templates/welcome-jellyfin.html:136
+#: app/templates/welcome-jellyfin.html:133
 msgid "Email"
 msgstr ""
 
-#: app/templates/welcome-jellyfin.html:139
+#: app/templates/welcome-jellyfin.html:136
 msgid "Enter your email"
 msgstr ""
 
-#: app/templates/welcome-jellyfin.html:158
+#: app/templates/welcome-jellyfin.html:152
 msgid "Create a password"
 msgstr ""
 
 #: app/templates/tables/user_card.html:150
-#: app/templates/welcome-jellyfin.html:193
+#: app/templates/welcome-jellyfin.html:181
 msgid "Invite Code"
 msgstr ""
 
-#: app/templates/welcome-jellyfin.html:196
+#: app/templates/welcome-jellyfin.html:184
 msgid "Enter invite code"
 msgstr ""
 
-#: app/templates/welcome-jellyfin.html:216
+#: app/templates/welcome-jellyfin.html:203
 msgid "Creating account..."
 msgstr ""
 
@@ -1433,7 +1445,7 @@ msgstr ""
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
-#: app/templates/modals/invite.html:437
+#: app/templates/modals/invite.html:436
 #: app/templates/modals/password-reset-link.html:143
 msgid "Close"
 msgstr ""
@@ -1625,7 +1637,7 @@ msgstr ""
 #: app/templates/modals/edit-identity.html:49
 #: app/templates/modals/edit-notification-agent.html:168
 #: app/templates/modals/edit-server.html:178
-#: app/templates/modals/invite.html:388
+#: app/templates/modals/invite.html:387
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
 #: app/templates/modals/wizard-preset-form.html:59
@@ -1697,27 +1709,27 @@ msgstr ""
 msgid "Failed to complete passkey registration"
 msgstr ""
 
-#: app/templates/error/401.html:15
+#: app/templates/error/401.html:16
 msgid "Permission denied."
 msgstr ""
 
-#: app/templates/error/401.html:18
+#: app/templates/error/401.html:19
 msgid "You are attempting to do something you shouldn't be doing..."
 msgstr ""
 
-#: app/templates/error/404.html:15
+#: app/templates/error/404.html:16
 msgid "Something's missing."
 msgstr ""
 
-#: app/templates/error/404.html:18
+#: app/templates/error/404.html:19
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
 msgstr ""
 
-#: app/templates/error/500.html:15
+#: app/templates/error/500.html:16
 msgid "Internal Server Error."
 msgstr ""
 
-#: app/templates/error/500.html:18
+#: app/templates/error/500.html:19
 msgid " Something has gone wrong. Please try again later."
 msgstr ""
 
@@ -1955,7 +1967,7 @@ msgstr ""
 msgid "Edit Server"
 msgstr ""
 
-#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:383
+#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:382
 msgid "Create Invitation"
 msgstr ""
 
@@ -2046,61 +2058,61 @@ msgstr ""
 msgid "Target servers"
 msgstr ""
 
-#: app/templates/modals/invite.html:209
+#: app/templates/modals/invite.html:208
 msgid "Invite to Plex Home"
 msgstr ""
 
-#: app/templates/modals/invite.html:231 app/templates/modals/invite.html:265
-#: app/templates/modals/invite.html:308
+#: app/templates/modals/invite.html:230 app/templates/modals/invite.html:264
+#: app/templates/modals/invite.html:307
 msgid "Allow Live TV Access"
 msgstr ""
 
-#: app/templates/modals/invite.html:242 app/templates/modals/invite.html:319
+#: app/templates/modals/invite.html:241 app/templates/modals/invite.html:318
 msgid "Allow Mobile Uploads"
 msgstr ""
 
-#: app/templates/modals/invite.html:273
+#: app/templates/modals/invite.html:272
 msgid "Max Active Sessions"
 msgstr ""
 
-#: app/templates/modals/invite.html:274
+#: app/templates/modals/invite.html:273
 msgid "simultaneous devices"
 msgstr ""
 
-#: app/templates/modals/invite.html:284
+#: app/templates/modals/invite.html:283
 msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
 
-#: app/templates/modals/invite.html:359
+#: app/templates/modals/invite.html:358
 msgid "Select Libraries"
 msgstr ""
 
-#: app/templates/modals/invite.html:372 app/templates/modals/invite.html:476
+#: app/templates/modals/invite.html:371 app/templates/modals/invite.html:476
 msgid "Loading…"
 msgstr ""
 
-#: app/templates/modals/invite.html:403
+#: app/templates/modals/invite.html:402
 msgid "Successfully generated an Invitation!"
 msgstr ""
 
-#: app/templates/modals/invite.html:409
+#: app/templates/modals/invite.html:408
 msgid "Invitation Link"
 msgstr ""
 
-#: app/templates/modals/invite.html:421
+#: app/templates/modals/invite.html:420
 #: app/templates/modals/password-reset-link.html:81
 msgid "Copy"
 msgstr ""
 
-#: app/templates/modals/invite.html:426
+#: app/templates/modals/invite.html:425
 msgid "Link has been copied to clipboard!"
 msgstr ""
 
-#: app/templates/modals/invite.html:432
+#: app/templates/modals/invite.html:431
 msgid "Create Another"
 msgstr ""
 
-#: app/templates/modals/invite.html:486
+#: app/templates/modals/invite.html:492
 msgid "Please select at least one server for the invitation."
 msgstr ""
 

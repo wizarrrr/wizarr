@@ -53,9 +53,56 @@ calculate_next_version() {
     fi
 }
 
+# Return true for commits that should not appear in release notes.
+is_ignored_changelog_commit() {
+    local commit_hash="$1"
+    local commit_msg="$2"
+    local author
+    author=$(git show -s --format='%an <%ae>' "$commit_hash" 2>/dev/null || echo "")
+
+    # Weblate and template-refresh commits are high-volume bookkeeping. They
+    # drown out product changes when listed individually in release notes.
+    if [[ "$author" == *"weblate"* ]] || [[ "$author" == *"Weblate"* ]]; then
+        return 0
+    fi
+
+    if [[ "$commit_msg" =~ ^i18n:\ refresh\ POT\ template ]]; then
+        return 0
+    fi
+
+    if [[ "$commit_msg" == "Update translation files" ]]; then
+        return 0
+    fi
+
+    if [[ "$commit_msg" =~ ^Translated\ using\ Weblate ]]; then
+        return 0
+    fi
+
+    return 1
+}
+
+filter_changelog_commits() {
+    local line
+    while IFS= read -r line; do
+        [[ -z "$line" ]] && continue
+
+        local commit_hash
+        local commit_msg
+        commit_hash=$(echo "$line" | cut -d' ' -f1)
+        commit_msg=$(echo "$line" | sed 's/^[a-fA-F0-9]* //')
+
+        if is_ignored_changelog_commit "$commit_hash" "$commit_msg"; then
+            continue
+        fi
+
+        echo "$line"
+    done
+}
+
 # Get commits since last release
 get_commits_since_last_release() {
     local last_release_tag
+    local commits
 
     # Get the latest ACTUAL release tag (not RC or pre-release)
     # Sort by version and get the latest non-pre-release tag
@@ -63,11 +110,13 @@ get_commits_since_last_release() {
 
     if [[ -z "$last_release_tag" ]]; then
         # No previous release tag, get all commits
-        git log --oneline --no-merges
+        commits=$(git log --oneline --no-merges)
     else
         # Get commits since last actual release (not RC/beta)
-        git log "${last_release_tag}..HEAD" --oneline --no-merges
+        commits=$(git log "${last_release_tag}..HEAD" --oneline --no-merges)
     fi
+
+    filter_changelog_commits <<< "$commits"
 }
 
 # Generate changelog with improved conventional commit detection

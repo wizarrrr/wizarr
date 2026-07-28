@@ -659,6 +659,12 @@ class KavitaClient(RestApiMixin):
 
             users_dict = {str(u["id"]): u for u in kavita_users}
 
+            known_users = User.query.filter(
+                User.server_id == getattr(self, "server_id", None)
+            ).all()
+            if self._skip_prune_on_empty_remote(not users_dict, known_users):
+                return known_users
+
             for kavita_user in users_dict.values():
                 existing = User.query.filter_by(token=str(kavita_user["id"])).first()
                 if not existing:

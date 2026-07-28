@@ -28,7 +28,11 @@ from app.models import (
     invitation_servers,
     invitation_users,
 )
-from app.services.media.service import list_users_for_server, scan_libraries_for_server
+from app.services.media.service import (
+    list_users_for_server,
+    scan_libraries_for_server,
+    upsert_scanned_libraries,
+)
 from app.services.servers import (
     check_audiobookshelf,
     check_drop,
@@ -152,7 +156,7 @@ def create_server():
 def scan_server_libraries(server_id):
     server = MediaServer.query.get_or_404(server_id)
     try:
-        items = scan_libraries_for_server(server)
+        items, authoritative = scan_libraries_for_server(server)
     except Exception as exc:
         error_message = str(exc) if str(exc) else "Library scan failed"
         flash(f"Library scan failed: {exc}", "error")
@@ -161,52 +165,11 @@ def scan_server_libraries(server_id):
             500,
         )
 
-    # items may be dict or list[str]
-    pairs = (
-        items.items() if isinstance(items, dict) else [(name, name) for name in items]
-    )
-
-    # Upsert libraries: update existing rows, insert new ones, and preserve invite associations.
-    from app.models import invite_libraries
-
-    # Load existing libraries for this server keyed by external_id
-    existing_libs = {
-        lib.external_id: lib
-        for lib in Library.query.filter_by(server_id=server.id).all()
-    }
-
-    incoming_ids: set[str] = set()
-    for fid, name in pairs:
-        fid_key = str(fid)
-        incoming_ids.add(fid_key)
-        if fid_key in existing_libs:
-            # Update existing row (preserve primary key so invites keep referencing it)
-            lib = existing_libs[fid_key]
-            lib.name = name
-            lib.enabled = True
-        else:
-            # New library - insert
-            lib = Library(
-                external_id=fid,
-                name=name,
-                server_id=server.id,
-                enabled=True,
-            )
-            db.session.add(lib)
-
-    # Handle libraries that used to exist but weren't returned by the server
-    for ext, lib in existing_libs.items():
-        if str(ext) not in incoming_ids:
-            # If this library is referenced by any invitation, disable it to preserve associations
-            referenced = db.session.execute(
-                invite_libraries.select().where(invite_libraries.c.library_id == lib.id)
-            ).first()
-            if referenced:
-                lib.enabled = False
-            else:
-                # Safe to remove since no invites reference it
-                db.session.delete(lib)
-
+    # Upsert scanned libraries, preserving each row's enabled flag and invite
+    # associations. `enabled` is the admin's saved selection and this scan runs
+    # when the edit form OPENS, so resetting it would wipe the checkboxes being
+    # rendered.
+    upsert_scanned_libraries(server, items, authoritative=authoritative)
     db.session.commit()
 
     # Render checkboxes partial (reuse existing partials)

@@ -20,8 +20,13 @@ worker_class = "sync"
 # Increase from default 30s to 120s to account for slow library scans
 timeout = int(os.getenv("GUNICORN_TIMEOUT", "120"))
 
+# Make host and port configurable
+host  = os.getenv("HOST", "0.0.0.0")
+port  = os.getenv("PORT", "5690")
+bind  = f"{host}:{port}"
+
 print(
-    f"DEBUG: Gunicorn config - workers={workers}, loglevel={loglevel}, timeout={timeout}s"
+    f"DEBUG: Gunicorn config - workers={workers}, loglevel={loglevel}, timeout={timeout}s, host={host}, port={port}"
 )
 
 

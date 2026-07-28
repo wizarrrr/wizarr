@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-04-02 05:13+0000\n"
-"PO-Revision-Date: 2025-11-03 20:09+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"POT-Creation-Date: 2026-07-28 06:02+0000\n"
+"PO-Revision-Date: 2026-07-03 06:42+0000\n"
+"Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/pt/>\n"
 "Language: pt\n"
@@ -17,58 +17,53 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 2026.7.1.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
-#, fuzzy
 msgid "Failed to load settings"
-msgstr "Pesquisar por bibliotecas"
+msgstr "Falha ao carregar definições"
 
-#, fuzzy
 msgid "Failed to load dashboard data"
-msgstr "Pesquisar por bibliotecas"
+msgstr "Falha ao carregar os dados do painel de controlo"
 
-#, fuzzy
 msgid "Failed to load history data"
-msgstr "Pesquisar por bibliotecas"
+msgstr "Falha ao carregar histórico de dados"
 
-#, fuzzy
 msgid "Failed to load activity data"
-msgstr "Pesquisar por bibliotecas"
+msgstr "Falha ao carregar dados de atividade"
 
-#, fuzzy
 msgid "Failed to load activity summary"
-msgstr "Pesquisar por bibliotecas"
+msgstr "Falhado ao carregar o resumo da atividade"
 
 msgid "Failed to get activity statistics"
-msgstr ""
+msgstr "Falha ao obter estatísticas de atividade"
 
 msgid "Database not available"
-msgstr ""
+msgstr "Base de dados não disponível"
 
 msgid "Failed to get session details"
-msgstr ""
+msgstr "Falha ao obter pormenores da sessão"
 
 msgid "Failed to export activity data"
-msgstr ""
+msgstr "Falha ao exportar dados de atividade"
 
 #, fuzzy
 msgid "Monitoring restarted"
 msgstr "Criado"
 
 msgid "Monitor not available"
-msgstr ""
+msgstr "Monitor não disponível"
 
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
-msgstr ""
+msgstr "{} registos de atividade antigos foram limpos"
 
 #, python-brace-format
 msgid "Ended {} stale sessions"
-msgstr ""
+msgstr "{} sessões inativas foram encerradas"
 
 msgid "Unknown action"
-msgstr ""
+msgstr "Ação desconhecida"
 
 #, fuzzy
 msgid "Failed to update settings"
@@ -76,14 +71,14 @@ msgstr "Código de convite"
 
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
-msgstr ""
+msgstr "Os dados de atividade foram apagados com sucesso ({} registos)."
 
 #, python-brace-format
 msgid "Failed to delete activity data: {}"
-msgstr ""
+msgstr "Falha ao apagar dados de atividade: {}"
 
 msgid "Please select a media server."
-msgstr ""
+msgstr "Por favor, selecione um servidor de média."
 
 #, fuzzy
 msgid "Media server not found."
@@ -93,15 +88,19 @@ msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, Emby, "
 "and AudiobookShelf servers."
 msgstr ""
+"A importação de dados históricos é atualmente disponível apenas para "
+"servidores Plex, Jellyfin, Emby e AudiobookShelf."
 
 #, python-brace-format
 msgid ""
 "Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
+"Trabalho de importação histórica #{job_id} iniciado para {server} (últimos "
+"{days} dias)."
 
 #, python-brace-format
 msgid "Failed to import historical data: {}"
-msgstr ""
+msgstr "Falha ao importar dados históricos: {}"
 
 #, fuzzy, python-brace-format
 msgid "Successfully cleared {} historical entries."
@@ -109,19 +108,20 @@ msgstr "Convite criado com sucesso!"
 
 #, python-brace-format
 msgid "Failed to clear historical data: {}"
-msgstr ""
+msgstr "Falha ao limpar dados históricos: {}"
 
 msgid "Unknown error"
-msgstr ""
+msgstr "Erro desconhecido"
 
 msgid "Cannot remove a job that is still queued or running."
 msgstr ""
+"Não é possível remover uma tarefa que ainda está na fila ou em execução."
 
 msgid "An internal error has occurred."
-msgstr ""
+msgstr "Ocorreu um erro interno."
 
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 msgid "Never"
 msgstr "Nunca"
@@ -131,36 +131,36 @@ msgstr "Expirado"
 
 #, python-format
 msgid "in %(n)d d"
-msgstr ""
+msgstr "em %(n)d d"
 
 msgid "in 1 d"
-msgstr ""
+msgstr "em 1 d"
 
 #, python-format
 msgid "in %(n)d h"
-msgstr ""
+msgstr "em %(n)d h"
 
 #, python-format
 msgid "in %(n)d m"
-msgstr ""
+msgstr "em %(n)d m"
 
 msgid "soon"
-msgstr ""
+msgstr "em breve"
 
 #, fuzzy
 msgid "Admin created"
 msgstr "Criado"
 
 msgid "Admin updated"
-msgstr ""
+msgstr "Administrador atualizado"
 
 #, python-brace-format
 msgid "All passkeys for {} have been reset"
-msgstr ""
+msgstr "Todas as chaves de acesso de {} foram redefinidas"
 
 #, python-brace-format
 msgid "Failed to reset passkeys for {}"
-msgstr ""
+msgstr "Falha ao redefinir chaves de acesso de {}"
 
 msgid ""
 "No admin account found. Please set up a proper admin account before creating "
@@ -173,9 +173,11 @@ msgstr ""
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown again."
 msgstr ""
+"Chave de API criada com sucesso. Por favor, copie-a agora pois ela não será "
+"exibida novamente."
 
 msgid "API key deleted successfully"
-msgstr ""
+msgstr "Chave de API apagada com sucesso"
 
 msgid "LDAP authentication is not enabled"
 msgstr ""
@@ -203,52 +205,52 @@ msgid "Invalid username or password"
 msgstr "Nome de utilizador ou palavra-passe inválidos"
 
 msgid "No pending 2FA authentication"
-msgstr ""
+msgstr "Nenhuma autenticação 2FA pendente"
 
 msgid "Authentication failed"
 msgstr ""
 
 msgid "Connection type is required"
-msgstr ""
+msgstr "O tipo de conexão é obrigatório"
 
 #, python-format
 msgid "Connection test failed: %(message)s"
-msgstr ""
+msgstr "Teste de conexão falhou: %(message)s"
 
 msgid "Connection test successful!"
-msgstr ""
+msgstr "Teste de conexão bem-sucedido!"
 
 msgid "Unknown connection type"
-msgstr ""
+msgstr "Tipo de conexão desconhecido"
 
 msgid "Connection created successfully!"
-msgstr ""
+msgstr "Conexão criada com sucesso!"
 
 msgid "Connection updated successfully!"
-msgstr ""
+msgstr "Conexão atualizada com sucesso!"
 
 msgid "Connection deleted successfully!"
-msgstr ""
+msgstr "Conexão apagada com sucesso!"
 
 msgid "Please refresh the page and try again (CSRF token expired)"
-msgstr ""
+msgstr "Por favor, atualize a página e tente novamente (token CSRF expirado)"
 
 #, python-format
 msgid "Invalid form data: %(errors)s"
-msgstr ""
+msgstr "Dados do formulário inválidos: %(errors)s"
 
 msgid ""
 "There was an issue setting up your access. Please contact your server admin."
 msgstr ""
 
 msgid "Settings saved successfully!"
-msgstr ""
+msgstr "Configurações gravadas com sucesso!"
 
 msgid "Server URL"
 msgstr "URL do servidor"
 
 msgid "API Key"
-msgstr ""
+msgstr "Chave de API"
 
 #, fuzzy
 msgid "Username/Password"
@@ -256,25 +258,27 @@ msgstr "Nome de utilizador ou palavra-passe inválidos"
 
 #, python-brace-format
 msgid "Missing required fields: {fields}"
-msgstr ""
+msgstr "Campos obrigatórios faltam: {fields}"
 
 msgid "Error"
-msgstr ""
+msgstr "Erro"
 
 msgid "Library scan failed"
-msgstr ""
+msgstr "Falha na verificação da biblioteca"
 
 #, python-brace-format
 msgid "Successfully cleaned {count} expired user(s)."
-msgstr ""
+msgstr "{count} utilizador(s) expirado(s) limpo(s) com sucesso."
 
 msgid "No expired users found to clean."
-msgstr ""
+msgstr "Nenhum utilizador expirado encontrado para limpar."
 
 msgid ""
 "Are you sure you want to clean all expired users? This action cannot be "
 "undone."
 msgstr ""
+"Tem certeza que deseja limpar todos os utilizadores expirados? Esta ação não "
+"pode ser desfeita."
 
 #, fuzzy
 msgid "Clean Expired Users"
@@ -282,7 +286,7 @@ msgstr "Expira"
 
 #, python-brace-format
 msgid "Failed to clean expired users: {error}"
-msgstr ""
+msgstr "Falha ao limpar utilizadores expirados: {error}"
 
 msgid "LDAP configuration saved successfully"
 msgstr ""
@@ -301,20 +305,24 @@ msgid "Failed to list LDAP users: %(error)s"
 msgstr ""
 
 msgid "Admin account created – welcome!"
-msgstr ""
+msgstr "Conta de administrador criada – bem-vindo!"
 
 msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
 msgstr ""
+"O seu convite expirou ou já não é válido. Por favor, solicite um novo "
+"convite."
 
 msgid "Error Loading Step"
-msgstr ""
+msgstr "Erro ao Carregar Etapa"
 
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip to "
 "the next step."
 msgstr ""
+"Esta etapa não pôde ser carregada. Por favor, entre em contacto com o "
+"administrador ou pule para a próxima etapa."
 
 #, fuzzy
 msgid "Invalid or expired invitation"
@@ -324,53 +332,64 @@ msgid ""
 "No media servers are configured. Please contact the administrator to set up "
 "a media server."
 msgstr ""
+"Nenhum servidor de média está configurado. Por favor, entre em contacto com "
+"o administrador para configurar um servidor de média."
 
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
+"Não foi possível carregar as etapas do assistente. A prosseguir para "
+"aceitação do convite."
 
 #, fuzzy
 msgid "Continue to Invite"
 msgstr "Convite rápido"
 
 msgid "Please log in to continue"
-msgstr ""
+msgstr "Por favor, faça login para continuar"
 
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
+"Não foi possível carregar as etapas do assistente. Configuração concluída! "
+"Bem-vindo ao seu servidor de média."
 
 msgid "Setup complete! Welcome to your media server."
-msgstr ""
+msgstr "Configuração concluída! Bem-vindo ao seu servidor de média."
 
 msgid "Unable to load wizard configuration. Please try again."
 msgstr ""
+"Não foi possível carregar a configuração do assistente. Por favor, tente "
+"novamente."
 
 msgid "Unable to load wizard bundle. Please try again."
 msgstr ""
+"Não foi possível carregar o pacote do assistente. Por favor, tente novamente."
 
 msgid "Unable to load wizard steps. Please try again."
 msgstr ""
+"Não foi possível carregar as etapas do assistente. Por favor, tente "
+"novamente."
 
 msgid "This bundle has no steps to preview."
-msgstr ""
+msgstr "Este pacote não tem etapas para pré-visualizar."
 
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
-msgstr ""
+msgstr "{} etapa(s) órfã(s) limpa(s)"
 
 #, fuzzy
 msgid "Step created"
 msgstr "Criado"
 
 msgid "Preset step created successfully"
-msgstr ""
+msgstr "Etapa predefinida criada com sucesso"
 
 #, python-brace-format
 msgid "Error creating preset: {}"
-msgstr ""
+msgstr "Erro ao criar predefinição: {}"
 
 msgid "Step updated"
-msgstr ""
+msgstr "Etapa atualizada"
 
 #, fuzzy
 msgid "Step deleted"
@@ -381,25 +400,25 @@ msgid "Bundle created"
 msgstr "Criado"
 
 msgid "Bundle updated"
-msgstr ""
+msgstr "Pacote atualizado"
 
 #, fuzzy
 msgid "Bundle deleted"
 msgstr "Por defeito"
 
 msgid "Steps added"
-msgstr ""
+msgstr "Etapas adicionadas"
 
 msgid "Orphaned step removed"
-msgstr ""
+msgstr "Etapa órfã removida"
 
 #, python-brace-format
 msgid "No steps found for server type: {}"
-msgstr ""
+msgstr "Nenhuma etapa encontrada para o tipo de servidor: {}"
 
 #, python-brace-format
 msgid "Export failed: {}"
-msgstr ""
+msgstr "Falha na exportação: {}"
 
 #, fuzzy, python-brace-format
 msgid "Successfully imported {} items"
@@ -407,30 +426,32 @@ msgstr "Convite criado com sucesso!"
 
 #, python-brace-format
 msgid " and updated {} existing items"
-msgstr ""
+msgstr " e atualizou {} elementos existentes"
 
 #, python-brace-format
 msgid "Import failed: {}"
-msgstr ""
+msgstr "Falha na importação: {}"
 
 msgid "Invalid JSON file"
-msgstr ""
+msgstr "Ficheiro JSON inválido"
 
 #, python-brace-format
 msgid "Reset {} steps for {} (deleted {}, imported {})"
-msgstr ""
+msgstr "Redefinir {} etapas para {} (apagadas {}, importadas {})"
 
 #, python-brace-format
 msgid "Failed to reset steps: {}"
-msgstr ""
+msgstr "Falha ao redefinir etapas: {}"
 
 msgid "Password must be at least 8 characters."
-msgstr ""
+msgstr "A palavra-passe deve ter pelo menos 8 caracteres."
 
 msgid ""
 "Password must contain at least one uppercase letter, one lowercase letter, "
 "and one number."
 msgstr ""
+"A palavra-passe deve conter pelo menos uma letra maiúscula, uma letra "
+"minúscula e um número."
 
 msgid "Username"
 msgstr "Nome de Utilizador"
@@ -445,9 +466,8 @@ msgstr "Confirme a palavra-passe"
 msgid "Passwords must match."
 msgstr "Palavra-passe"
 
-#, fuzzy
 msgid "New Password"
-msgstr "Palavra-passe"
+msgstr "Nova Palavra-passe"
 
 #, fuzzy
 msgid "Please confirm the new password."
@@ -457,9 +477,8 @@ msgstr "Palavra-passe"
 msgid "Server Type"
 msgstr "Nunca"
 
-#, fuzzy
 msgid "Server Name"
-msgstr "Nome de Utilizador"
+msgstr "Nome do Servidor"
 
 #, fuzzy
 msgid "RomM Username"
@@ -472,210 +491,219 @@ msgstr "Palavra-passe"
 msgid "Libraries"
 msgstr "Bibliotecas"
 
-#, fuzzy
 msgid "Allow Downloads"
-msgstr "Transferência"
+msgstr "Permitir descargas"
 
 msgid "Allow Live TV"
-msgstr ""
+msgstr "Permitir TV ao Vivo"
 
 msgid "Overseerr/Ombi URL"
-msgstr ""
+msgstr "URL do Overseerr/Ombi"
 
 #, fuzzy
 msgid "Ombi API Key"
 msgstr "Por defeito"
 
 msgid "Discord ID"
-msgstr ""
+msgstr "ID do Discord"
 
 msgid "External URL"
-msgstr ""
+msgstr "URL Externa"
 
 #, python-format
 msgid "Server returned status code %(status_code)s"
-msgstr ""
+msgstr "O servidor retornou o código de estado %(status_code)s"
 
 #, python-format
 msgid "%(server_type)s server returned an error: %(error)s"
-msgstr ""
+msgstr "O servidor %(server_type)s retornou um erro: %(error)s"
 
 #, python-format
 msgid ""
 "Could not connect to the %(server_type)s server. Please check if the server "
 "is running and the URL is correct."
 msgstr ""
+"Não foi possível conectar ao servidor %(server_type)s. Por favor, verifique "
+"se o servidor funciona e se a URL está correta."
 
 #, python-format
 msgid ""
 "Connection to %(server_type)s server timed out. Please check if the server "
 "is running and accessible."
 msgstr ""
+"A conexão com o servidor %(server_type)s expirou. Por favor, verifique se o "
+"servidor funciona e acessível."
 
 #, python-format
 msgid ""
 "An error occurred while connecting to the %(server_type)s server: %(error)s"
-msgstr ""
+msgstr "Ocorreu um erro ao conectar ao servidor %(server_type)s: %(error)s"
 
 #, python-format
 msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
 msgstr ""
+"Ocorreu um erro inesperado ao conectar ao servidor %(server_type)s: %(error)s"
 
 msgid "Plex"
-msgstr ""
+msgstr "Plex"
 
 msgid "Jellyfin"
-msgstr ""
+msgstr "Jellyfin"
 
 msgid "Emby"
-msgstr ""
+msgstr "Emby"
 
 msgid "Audiobookshelf"
-msgstr ""
+msgstr "Audiobookshelf"
 
 msgid "RomM"
-msgstr ""
+msgstr "RomM"
 
 msgid "Komga"
-msgstr ""
+msgstr "Komga"
 
 msgid "Kavita"
-msgstr ""
+msgstr "Kavita"
 
 msgid "Navidrome"
-msgstr ""
+msgstr "Navidrome"
 
 msgid "Invalid API token or insufficient permissions."
-msgstr ""
+msgstr "Token de API inválido ou permissões insuficientes."
 
 msgid "API token lacks required permissions."
-msgstr ""
+msgstr "O token de API não tem as permissões necessárias."
 
 msgid "Could not connect to Drop server."
-msgstr ""
+msgstr "Não foi possível conectar ao servidor Drop."
 
 msgid "Connection to Drop server timed out."
-msgstr ""
+msgstr "A conexão com o servidor Drop expirou."
 
 msgid "Drop API not found. Check the server URL."
-msgstr ""
+msgstr "API do Drop não encontrada. Verifique a URL do servidor."
 
 msgid "Drop"
 msgstr ""
 
 #, python-brace-format
 msgid "No default steps found for server type: {}"
-msgstr ""
+msgstr "Nenhuma etapa padrão encontrada para o tipo de servidor: {}"
 
 msgid "Admin"
 msgstr "Administrador"
 
 msgid "Profile"
-msgstr ""
+msgstr "Perfil"
 
 msgid "Logout"
-msgstr ""
+msgstr "Sair"
 
 msgid "Complete your access"
-msgstr ""
+msgstr "Complete o seu acesso"
 
 msgid "Choose a password for the remaining servers"
-msgstr ""
+msgstr "Escolha uma palavra-passe para os servidores restantes"
 
 #, fuzzy
 msgid "Confirm Password"
 msgstr "Palavra-passe"
 
 msgid "Generate a strong random password instead"
-msgstr ""
+msgstr "Gerar uma palavra-passe forte aleatória em vez disso"
 
 msgid "Continue"
-msgstr ""
+msgstr "Continuar"
 
 msgid "Complete your account setup for local servers"
-msgstr ""
+msgstr "Complete a configuração da sua conta para servidores locais"
 
 msgid "Complete Your Account Setup"
-msgstr ""
+msgstr "Complete a Configuração da Sua Conta"
 
 msgid "Plex Authentication Complete!"
-msgstr ""
+msgstr "Autenticação do Plex Concluída!"
 
 msgid "Now please set a password for your local server accounts."
 msgstr ""
+"Agora, por favor, defina uma palavra-passe para as suas contas de servidor "
+"local."
 
 #, fuzzy
 msgid "Local Servers"
 msgstr "Nunca"
 
 msgid "Set Password for Local Servers"
-msgstr ""
+msgstr "Definir Palavra-passe para Servidores Locais"
 
 msgid "Error!"
-msgstr ""
+msgstr "Erro!"
 
 #, fuzzy
 msgid "Your username"
 msgstr "Nome de Utilizador"
 
 msgid "Email Address"
-msgstr ""
+msgstr "Endereço de Email"
 
 msgid "your.email@example.com"
-msgstr ""
+msgstr "o.seu.email@exemplo.com"
 
 #, fuzzy
 msgid "Your password"
 msgstr "Palavra-passe"
 
 msgid "Confirm your password"
-msgstr ""
+msgstr "Confirme a sua palavra-passe"
 
 msgid "I agree to the"
-msgstr ""
+msgstr "Concordo com os"
 
 msgid "Terms and Conditions"
-msgstr ""
+msgstr "Termos e Condições"
 
 msgid "Complete Setup"
-msgstr ""
+msgstr "Concluir Configuração"
 
 #, fuzzy
 msgid "Setting up..."
 msgstr "Preferências"
 
 msgid "What happens next?"
-msgstr ""
+msgstr "O que acontece a seguir?"
 
 msgid "Your Plex account is already set up and ready to use"
-msgstr ""
+msgstr "A sua conta Plex já está configurada e pronta para uso"
 
 msgid "This password will be used to create accounts on your local servers"
 msgstr ""
+"Esta palavra-passe será usada para criar contas nos seus servidores locais"
 
 msgid "You'll be redirected to the setup wizard to complete configuration"
 msgstr ""
+"Será redirecionado para o assistente de configuração para concluir a "
+"configuração"
 
 msgid "Only want to use Plex?"
-msgstr ""
+msgstr "Deseja usar apenas o Plex?"
 
 msgid "Skip local servers"
-msgstr ""
+msgstr "Pular servidores locais"
 
 #, fuzzy
 msgid "Password too short"
 msgstr "Palavra-passe"
 
 msgid "Password strength: Medium"
-msgstr ""
+msgstr "Força da palavra-passe: Média"
 
 msgid "Password strength: Strong"
-msgstr ""
+msgstr "Força da palavra-passe: Forte"
 
 msgid "Passwords do not match"
-msgstr ""
+msgstr "As palavras-passe não coincidem"
 
 #, fuzzy
 msgid "Wizarr"
@@ -688,9 +716,10 @@ msgstr "Convites"
 msgid ""
 "This invitation link is no longer valid. Please request a new invitation."
 msgstr ""
+"Esta ligação de convite já não é válida. Por favor, solicite um novo convite."
 
 msgid "Two-Factor Authentication"
-msgstr ""
+msgstr "Autenticação de Dois Fatores"
 
 msgid "Login"
 msgstr "Iniciar sessão"
@@ -703,10 +732,10 @@ msgstr ""
 
 #, python-brace-format
 msgid "Welcome back, {}!"
-msgstr ""
+msgstr "Bem-vindo de volta, {}!"
 
 msgid "Please authenticate with your passkey to complete login."
-msgstr ""
+msgstr "Por favor, autentique com a sua chave de acesso para concluir o login."
 
 #, fuzzy
 msgid "Authentication Method"
@@ -726,67 +755,71 @@ msgid "Sign in"
 msgstr "Registrar"
 
 msgid "Authenticate with Passkey"
-msgstr ""
+msgstr "Autenticar com Chave de Acesso"
 
 msgid "Back to Login"
-msgstr ""
+msgstr "Voltar ao Login"
 
 msgid "Or"
-msgstr ""
+msgstr "Ou"
 
 msgid "Sign in with Passkey"
-msgstr ""
+msgstr "Entrar com Chave de Acesso"
 
 msgid "Authenticating..."
-msgstr ""
+msgstr "A autenticar..."
 
 msgid "Failed to complete 2FA login"
-msgstr ""
+msgstr "Falha ao concluir login 2FA"
 
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
+"Autenticação com chave de acesso falhou. Por favor, tente novamente ou use a "
+"sua palavra-passe."
 
 #, fuzzy
 msgid "Password Reset Error"
 msgstr "Palavra-passe"
 
 msgid "Error:"
-msgstr ""
+msgstr "Erro:"
 
 msgid "This password reset link is invalid."
-msgstr ""
+msgstr "Esta ligação de redefinição de palavra-passe é inválida."
 
 msgid "This password reset link has already been used."
-msgstr ""
+msgstr "Esta ligação de redefinição de palavra-passe já foi usada."
 
 msgid "This password reset link has expired."
-msgstr ""
+msgstr "Esta ligação de redefinição de palavra-passe expirou."
 
 msgid "This password reset link is malformed."
-msgstr ""
+msgstr "Esta ligação de redefinição de palavra-passe está malformada."
 
 msgid "This password reset link is no longer valid."
-msgstr ""
+msgstr "Esta ligação de redefinição de palavra-passe já não é válida."
 
 msgid ""
 "Please contact your server administrator to request a new password reset "
 "link."
 msgstr ""
+"Por favor, entre em contacto com o administrador do servidor para solicitar "
+"uma nova ligação de redefinição de palavra-passe."
 
 msgid "Code:"
-msgstr ""
+msgstr "Código:"
 
 msgid "Common reasons for this error:"
-msgstr ""
+msgstr "Razões comuns para este erro:"
 
 msgid "The link has already been used"
-msgstr ""
+msgstr "A ligação já foi usada"
 
 msgid "The link has expired (24 hour limit)"
-msgstr ""
+msgstr "A ligação expirou (limite de 24 horas)"
 
 msgid "The link was not copied correctly"
-msgstr ""
+msgstr "A ligação não foi copiada corretamente"
 
 #, fuzzy
 msgid "Reset Your Password"
@@ -801,10 +834,10 @@ msgid "For user:"
 msgstr "Início"
 
 msgid "This link expires on"
-msgstr ""
+msgstr "Esta ligação expira em"
 
 msgid "Enter new password (8-128 characters)"
-msgstr ""
+msgstr "Digite a nova palavra-passe (8-128 caracteres)"
 
 #, fuzzy
 msgid "Confirm new password"
@@ -815,46 +848,50 @@ msgid "Password must be:"
 msgstr "Palavra-passe"
 
 msgid "Between 8 and 128 characters"
-msgstr ""
+msgstr "Entre 8 e 128 caracteres"
 
 msgid "Match the confirmation"
-msgstr ""
+msgstr "Corresponder à confirmação"
 
 #, fuzzy
 msgid "Reset Password"
 msgstr "Palavra-passe"
 
 msgid "Password Reset Successful!"
-msgstr ""
+msgstr "Palavra-passe Redefinida com Sucesso!"
 
 #, fuzzy
 msgid "The password for"
 msgstr "Palavra-passe"
 
 msgid "has been successfully reset."
-msgstr ""
+msgstr "foi redefinida com sucesso."
 
 msgid "You can now use your new password to log in to your media server."
 msgstr ""
+"Agora pode usar a sua nova palavra-passe para fazer login no seu servidor de "
+"média."
 
 msgid "What's next?"
-msgstr ""
+msgstr "E agora?"
 
 msgid "Log in to your media server with your username and new password."
 msgstr ""
+"Faça login no seu servidor de média com o seu nome de utilizador e nova "
+"palavra-passe."
 
 msgid "Administrator"
-msgstr ""
+msgstr "Administrador"
 
 msgid "Change your account password for security."
-msgstr ""
+msgstr "Altere a palavra-passe da sua conta por segurança."
 
 #, fuzzy
 msgid "Current Password"
 msgstr "Palavra-passe"
 
 msgid "Confirm New Password"
-msgstr ""
+msgstr "Confirmar Nova Palavra-passe"
 
 #, fuzzy
 msgid "Change Password"
@@ -865,14 +902,14 @@ msgid "You've been invited to join the %(name)s server!"
 msgstr "Foste convidado para entrar no servidor %(name)s!"
 
 msgid "You've been invited!"
-msgstr ""
+msgstr "Foi convidado!"
 
 #, fuzzy
 msgid "To join"
 msgstr "Entrar"
 
 msgid "Join the ultimate media server experience."
-msgstr ""
+msgstr "Junte-se à experiência definitiva de servidor de média."
 
 #, fuzzy
 msgid "Enter Code to Continue"
@@ -891,6 +928,15 @@ msgid "Join Server"
 msgstr "Entrar no servidor Plex"
 
 msgid "Secure invitation system powered by Wizarr"
+msgstr "Sistema de convite seguro desenvolvido por Wizarr"
+
+msgid "Pop-up blocked. Allow pop-ups for this site and try again."
+msgstr ""
+
+msgid "Sign-in cancelled. Hit Join Server to try again."
+msgstr ""
+
+msgid "Plex sign-in failed. Try again, or contact your server admin."
 msgstr ""
 
 msgid "Invite User"
@@ -900,7 +946,7 @@ msgid "Accept Invitation"
 msgstr "Aceitar convite"
 
 msgid "Get ready to join the magic"
-msgstr ""
+msgstr "Prepare-se para se juntar à magia"
 
 #, fuzzy
 msgid "Create Account"
@@ -911,13 +957,13 @@ msgid "Set up your magical account"
 msgstr "Criar uma conta"
 
 msgid "Enter your username"
-msgstr ""
+msgstr "Digite o seu nome de utilizador"
 
 msgid "Email"
 msgstr "E-mail"
 
 msgid "Enter your email"
-msgstr ""
+msgstr "Digite o seu email"
 
 #, fuzzy
 msgid "Create a password"
@@ -935,47 +981,47 @@ msgid "Creating account..."
 msgstr "Criar uma conta"
 
 msgid "Latest Accepted Invites"
-msgstr ""
+msgstr "Últimos Convites Aceitos"
 
 msgid "Recently joined"
-msgstr ""
+msgstr "Recém-chegados"
 
 msgid "Showing"
-msgstr ""
+msgstr "A mostrar"
 
 msgid "of"
-msgstr ""
+msgstr "de"
 
 msgid "Prev"
 msgstr ""
 
 msgid "Page"
-msgstr ""
+msgstr "Página"
 
 msgid "Next"
 msgstr "Seguinte"
 
 msgid "No recent invitations accepted"
-msgstr ""
+msgstr "Nenhum convite aceito recentemente"
 
 msgid "Accepted invitations will appear here"
-msgstr ""
+msgstr "Convites aceitos aparecerão aqui"
 
 msgid "Dashboard"
-msgstr ""
+msgstr "Painel"
 
 #, fuzzy
 msgid "New Invite"
 msgstr "Convite rápido"
 
 msgid "Now Playing"
-msgstr ""
+msgstr "A reproduzir Agora"
 
 msgid "Invitations"
 msgstr "Convites"
 
 msgid "Library Breakdown"
-msgstr ""
+msgstr "Detalhamento da Biblioteca"
 
 #, fuzzy
 msgid "Per Server"
@@ -987,40 +1033,41 @@ msgstr "Pesquisar por bibliotecas"
 
 msgid "Configure your media servers to see library statistics"
 msgstr ""
+"Configure os seus servidores de média para ver estatísticas de biblioteca"
 
 #, fuzzy
 msgid "Failed to load libraries"
 msgstr "Pesquisar por bibliotecas"
 
 msgid "Unknown error occurred"
-msgstr ""
+msgstr "Ocorreu um erro desconhecido"
 
 msgid "Unable to load now playing"
-msgstr ""
+msgstr "Não foi possível carregar o que está a reproduzir"
 
 msgid "There was an error connecting to your media servers"
-msgstr ""
+msgstr "Houve um erro ao conectar aos seus servidores de média"
 
 msgid "No one is streaming"
 msgstr ""
 
 msgid "No active media sessions found across your servers"
-msgstr ""
+msgstr "Nenhuma sessão de média ativa encontrada nos seus servidores"
 
 msgid "Recently Added"
-msgstr ""
+msgstr "Adicionados Recentemente"
 
 msgid "Showing latest 10 items"
-msgstr ""
+msgstr "A mostrar os últimos 10 elementos"
 
 msgid "No recent content found"
-msgstr ""
+msgstr "Nenhum conteúdo recente encontrado"
 
 msgid "Add some content to your media servers to see it here"
-msgstr ""
+msgstr "Adicione algum conteúdo aos seus servidores de média para vê-lo aqui"
 
 msgid "Failed to load recent content"
-msgstr ""
+msgstr "Falha ao carregar conteúdo recente"
 
 #, fuzzy
 msgid "Server Health"
@@ -1031,23 +1078,23 @@ msgid "Online"
 msgstr "Entrar"
 
 msgid "Offline"
-msgstr ""
+msgstr "Offline"
 
 #, fuzzy
 msgid "Active"
 msgstr "Guardar"
 
 msgid "Transcoding"
-msgstr ""
+msgstr "Transcodificação"
 
 msgid "Users"
 msgstr "Utilizadores"
 
 msgid "Active Sessions"
-msgstr ""
+msgstr "Sessões Ativas"
 
 msgid "Server is currently unreachable"
-msgstr ""
+msgstr "O servidor está atualmente inacessível"
 
 #, fuzzy
 msgid "servers online"
@@ -1058,99 +1105,94 @@ msgid "server(s) need attention"
 msgstr "Preferências do Servidor"
 
 msgid "No servers configured"
-msgstr ""
+msgstr "Nenhum servidor configurado"
 
 msgid "Add media servers to monitor their health"
-msgstr ""
+msgstr "Adicione servidores de média para monitorar a sua saúde"
 
 msgid "Failed to load server health"
-msgstr ""
+msgstr "Falha ao carregar saúde do servidor"
 
 #, fuzzy
 msgid "Server Overview"
 msgstr "Preferências do Servidor"
 
 msgid "Items"
-msgstr ""
+msgstr "Elementos"
 
 msgid "Server Breakdown"
-msgstr ""
+msgstr "Detalhamento do Servidor"
 
 msgid "No active servers found"
-msgstr ""
+msgstr "Nenhum servidor ativo encontrado"
 
 msgid "Failed to load statistics"
-msgstr ""
+msgstr "Falha ao carregar estatísticas"
 
 msgid "User Details"
-msgstr ""
+msgstr "Pormenores do Utilizador"
 
-#, fuzzy
 msgid "Joined"
-msgstr "Entrar"
+msgstr "Cadastrado"
 
 msgid "Account Details"
-msgstr ""
+msgstr "Pormenores da Conta"
 
 msgid "Expires"
 msgstr "Expira"
 
-#, fuzzy
 msgid "All libraries"
-msgstr "Bibliotecas"
+msgstr "Todas as bibliotecas"
 
-#, fuzzy
 msgid "Permissions"
-msgstr "Acesso negado."
+msgstr "Permissões"
 
-#, fuzzy
 msgid "Downloads"
-msgstr "Transferência"
+msgstr "Descargas"
 
 msgid "Live TV"
-msgstr ""
+msgstr "TV ao Vivo"
 
 msgid "Camera Upload"
-msgstr ""
+msgstr "Upload de Câmara"
 
 msgid "Basic Access"
-msgstr ""
+msgstr "Acesso Básico"
 
 msgid "Close"
-msgstr ""
+msgstr "Fechar"
 
-#, fuzzy
 msgid "Edit User"
-msgstr "Nunca"
+msgstr "Editar utilizador"
 
 msgid "Close modal"
-msgstr ""
+msgstr "Fechar modal"
 
 msgid "Tabs"
-msgstr ""
+msgstr "Guias"
 
 msgid "Local"
-msgstr ""
+msgstr "Local"
 
 msgid "Notes"
-msgstr ""
+msgstr "Notas"
 
 #, fuzzy
 msgid "Permission Management"
 msgstr "Nome de Utilizador"
 
 msgid "Toggle downloads permission"
-msgstr ""
+msgstr "Alternar permissão para descarregar"
 
 msgid "Toggle live TV permission"
-msgstr ""
+msgstr "Alternar permissão de TV em direto"
 
 #, fuzzy
 msgid "Allow Camera Upload"
 msgstr "Transferência"
 
 msgid "Toggle camera upload permission"
-msgstr ""
+msgstr "Alternar permissão de upload de câmara"
 
 #, fuzzy
 msgid "Library Access"
@@ -1162,20 +1204,23 @@ msgstr "Pesquisar por bibliotecas"
 
 msgid "Scan libraries from the invitation page to enable library restrictions"
 msgstr ""
+"Verifique as bibliotecas na página de convites para ativar restrições de "
+"biblioteca"
 
 msgid "Click to toggle library access. Updates save automatically."
 msgstr ""
+"Clique para alternar o acesso à biblioteca. As atualizações são gravadas "
+"automaticamente."
 
 #, fuzzy
 msgid "Expiry Management"
 msgstr "Nome de Utilizador"
 
-#, fuzzy
 msgid "Expiry date"
-msgstr "Expira"
+msgstr "Data de expiração"
 
 msgid "Update"
-msgstr ""
+msgstr "Atualizar"
 
 msgid "Current expiry"
 msgstr ""
@@ -1184,29 +1229,27 @@ msgstr ""
 msgid "No expiry set"
 msgstr "Expira"
 
-#, fuzzy
 msgid "User notes"
-msgstr "Utilizadores"
+msgstr "Anotações do utilizador"
 
 msgid "Add notes about this user..."
-msgstr ""
+msgstr "Adicionar notas sobre este utilizador..."
 
 msgid "Update Notes"
-msgstr ""
+msgstr "Atualizar Notas"
 
-#, fuzzy
 msgid "Link"
-msgstr "Iniciar sessão"
+msgstr "Ligação"
 
 msgid "Unlink"
-msgstr ""
+msgstr "Desvincular"
 
 msgid "Delete"
 msgstr "Eliminar"
 
 #, python-brace-format
 msgid "Passkeys for {}"
-msgstr ""
+msgstr "Chaves de acesso de {}"
 
 msgid "Created"
 msgstr "Criado"
@@ -1216,91 +1259,92 @@ msgid "Last used"
 msgstr "Usado"
 
 msgid "Reset All Passkeys"
-msgstr ""
+msgstr "Redefinir Todas as Chaves de Acesso"
 
 msgid "No passkeys registered for this user."
-msgstr ""
+msgstr "Nenhuma chave de acesso registada para este utilizador."
 
 msgid "Are you sure you want to delete this passkey?"
-msgstr ""
+msgstr "Tem certeza que deseja apagar esta chave de acesso?"
 
 msgid "Failed to delete passkey"
-msgstr ""
+msgstr "Falha ao apagar chave de acesso"
 
 msgid "An error occurred while deleting the passkey"
-msgstr ""
+msgstr "Ocorreu um erro ao apagar a chave de acesso"
 
 #, python-brace-format
 msgid "Are you sure you want to reset ALL passkeys for {}?"
-msgstr ""
+msgstr "Tem certeza que deseja redefinir TODAS as chaves de acesso de {}?"
 
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Esta ação não pode ser desfeita."
 
 msgid "All passkeys have been reset"
-msgstr ""
+msgstr "Todas as chaves de acesso foram redefinidas"
 
 msgid "Failed to reset passkeys"
-msgstr ""
+msgstr "Falha ao redefinir chaves de acesso"
 
 msgid "An error occurred while resetting passkeys"
-msgstr ""
+msgstr "Ocorreu um erro ao redefinir as chaves de acesso"
 
 msgid "Add New Passkey"
-msgstr ""
+msgstr "Adicionar Nova Chave de Acesso"
 
 #, fuzzy
 msgid "Passkey Name"
 msgstr "Nome de Utilizador"
 
 msgid "e.g., My iPhone, Work Laptop"
-msgstr ""
+msgstr "ex., O meu iPhone, Notebook de Trabalho"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Cancelar"
 
 #, fuzzy
 msgid "Create Passkey"
 msgstr "Criar uma conta"
 
 msgid "Added"
-msgstr ""
+msgstr "Adicionado"
 
 msgid "No passkeys registered"
-msgstr ""
+msgstr "Nenhuma chave de acesso registada"
 
 msgid "Add your first passkey for enhanced security"
-msgstr ""
+msgstr "Adicione a sua primeira chave de acesso para maior segurança"
 
 msgid "Passkeys"
-msgstr ""
+msgstr "Chaves de Acesso"
 
 msgid "Passkeys require HTTPS connection"
-msgstr ""
+msgstr "Chaves de acesso requerem conexão HTTPS"
 
 msgid "Add Passkey"
-msgstr ""
+msgstr "Adicionar Chave de Acesso"
 
 msgid "To use passkeys, please access this page over HTTPS."
-msgstr ""
+msgstr "Para usar chaves de acesso, por favor acede esta página via HTTPS."
 
 msgid "Manage your passkeys for passwordless authentication."
-msgstr ""
+msgstr "Gira as suas chaves de acesso para autenticação sem palavra-passe."
 
 msgid "Loading passkeys..."
-msgstr ""
+msgstr "A carregar chaves de acesso..."
 
 msgid "Creating passkey for"
-msgstr ""
+msgstr "A criar chave de acesso para"
 
 msgid "Please follow your device's prompts to complete setup"
 msgstr ""
+"Por favor, siga as instruções do seu dispositivo para concluir a configuração"
 
 msgid "Failed to register passkey"
-msgstr ""
+msgstr "Falha ao registar chave de acesso"
 
 msgid "Failed to complete passkey registration"
-msgstr ""
+msgstr "Falha ao concluir o registo da chave de acesso"
 
 msgid "Permission denied."
 msgstr "Acesso negado."
@@ -1322,55 +1366,60 @@ msgid " Something has gone wrong. Please try again later."
 msgstr " Algo correu mal. Por favor, tente novamente mais tarde."
 
 msgid "Add steps to bundle"
-msgstr ""
+msgstr "Adicionar etapas ao pacote"
 
 #, fuzzy
 msgid "Untitled"
 msgstr "Ilimitado"
 
 msgid "All steps are already included."
-msgstr ""
+msgstr "Todas as etapas já estão incluídas."
 
 msgid "Add"
-msgstr ""
+msgstr "Adicionar"
 
 msgid "Add New Connection"
-msgstr ""
+msgstr "Adicionar Nova Conexão"
 
 msgid "Edit Connection"
-msgstr ""
+msgstr "Editar Conexão"
 
 msgid "Overseerr/Jellyseerr Information"
-msgstr ""
+msgstr "Informações do Overseerr/Jellyseerr"
 
 msgid ""
 "Overseerr and Jellyseerr automatically import new users by default. No API "
 "connection is required for Wizarr integration."
 msgstr ""
+"Overseerr e Jellyseerr importam novos utilizadores automaticamente por "
+"padrão. Nenhuma conexão de API é necessária para integração com o Wizarr."
 
 msgid "To enable auto-import:"
-msgstr ""
+msgstr "Para ativar a importação automática:"
 
 msgid ""
 "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
 "users' and 'Import Jellyfin/Plex users'"
 msgstr ""
+"Vá para as Configurações do Overseerr/Jellyseerr → Utilizadores → Ative "
+"'Aprovar automaticamente novos utilizadores' e 'Importar utilizadores do "
+"Jellyfin/Plex'"
 
 msgid "Testing connection..."
-msgstr ""
+msgstr "A testar conexão..."
 
 #, fuzzy
 msgid "Create Connection"
 msgstr "Criar convite"
 
 msgid "Update Connection"
-msgstr ""
+msgstr "Atualizar a Conexão"
 
 msgid "Test Connection"
-msgstr ""
+msgstr "Testar a Conexão"
 
 msgid "Add Administrator"
-msgstr ""
+msgstr "Adicionar Administrador"
 
 #, fuzzy
 msgid "API Key Created"
@@ -1381,12 +1430,14 @@ msgid "Create API Key"
 msgstr "Criar uma conta"
 
 msgid "API Key Created Successfully"
-msgstr ""
+msgstr "Chave de API Criada com Sucesso"
 
 msgid ""
 "Your API key has been created. Please copy it now as it will not be shown "
 "again."
 msgstr ""
+"A sua chave de API foi criada. Por favor, copie-a agora pois ela não será "
+"exibida novamente."
 
 #, fuzzy
 msgid "Copy to clipboard"
@@ -1397,16 +1448,17 @@ msgid "Name:"
 msgstr "Nome de Utilizador"
 
 msgid "Done"
-msgstr ""
+msgstr "Concluído"
 
 msgid "API Key Name"
-msgstr ""
+msgstr "Nome da Chave de API"
 
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
+"Digite um nome descritivo para ajudá-lo a identificar esta chave de API."
 
 msgid "New Agent"
-msgstr ""
+msgstr "Novo Agente"
 
 msgid "Channel ID"
 msgstr ""
@@ -1426,7 +1478,7 @@ msgid "Password (optional)"
 msgstr "(opcional)"
 
 msgid "Agent URL"
-msgstr ""
+msgstr "URL do Agente"
 
 #, fuzzy
 msgid "Notification Events"
@@ -1437,33 +1489,31 @@ msgid "User Joined"
 msgstr "Entrar"
 
 msgid "Update Available"
-msgstr ""
+msgstr "Atualização Disponível"
 
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Teste & Criar Agente"
 
-#, fuzzy
 msgid "Add Server"
-msgstr "Nunca"
+msgstr "Adicionar servidor"
 
 msgid "Test & Add"
-msgstr ""
+msgstr "Testar e Adicionar"
 
 msgid "Edit Administrator"
-msgstr ""
+msgstr "Editar Administrador"
 
-#, fuzzy
 msgid "New Password (optional)"
-msgstr "(opcional)"
+msgstr "Nova palavra-passe (opcional)"
 
 msgid "Save"
 msgstr "Guardar"
 
 msgid "Edit Identity"
-msgstr ""
+msgstr "Editar identidade"
 
 msgid "Nickname"
-msgstr ""
+msgstr "Apelido"
 
 #, fuzzy
 msgid "Edit Agent"
@@ -1479,9 +1529,8 @@ msgstr "Convites"
 msgid "Test & Save Changes"
 msgstr ""
 
-#, fuzzy
 msgid "Edit Server"
-msgstr "Nunca"
+msgstr "Editar servidor"
 
 msgid "Create Invitation"
 msgstr "Criar convite"
@@ -1493,12 +1542,11 @@ msgstr "Convites"
 msgid "Invite Code String"
 msgstr "Código de convite"
 
-#, fuzzy
 msgid "optional"
-msgstr "(opcional)"
+msgstr "opcional"
 
 msgid "E.g. XMFGEJIKNQ"
-msgstr ""
+msgstr "Ex.: XMFGEJIKNQ"
 
 msgid "Expiration"
 msgstr "Expiração"
@@ -1513,10 +1561,10 @@ msgid "1 month"
 msgstr "1 mês"
 
 msgid "Wizard bundle"
-msgstr ""
+msgstr "Pacote do assistente"
 
 msgid "Automatic"
-msgstr ""
+msgstr "Automático"
 
 msgid "Advanced Options"
 msgstr "Opções avançadas"
@@ -1531,9 +1579,8 @@ msgstr "Usos ilimitados"
 msgid "Duration"
 msgstr "Duração"
 
-#, fuzzy
 msgid "in days"
-msgstr "(em dias)"
+msgstr "em dias"
 
 msgid "Show Information"
 msgstr "Mostrar informação"
@@ -1568,36 +1615,36 @@ msgid "Invite to Plex Home"
 msgstr "Código de convite"
 
 msgid "Allow Live TV Access"
-msgstr ""
+msgstr "Permitir acesso à TV em direto"
 
 #, fuzzy
 msgid "Allow Mobile Uploads"
 msgstr "Transferência"
 
 msgid "Max Active Sessions"
-msgstr ""
+msgstr "Máximo de sessões ativas"
 
 msgid "simultaneous devices"
-msgstr ""
+msgstr "dispositivos simultâneos"
 
 msgid ""
 "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
+"Número de dispositivos que podem transmitir simultaneamente. Defina como 0 "
+"para ilimitado."
 
 #, fuzzy
 msgid "Select Libraries"
 msgstr "Bibliotecas"
 
-#, fuzzy
 msgid "Loading…"
-msgstr "Iniciar sessão"
+msgstr "A carregar…"
 
 msgid "Successfully generated an Invitation!"
 msgstr "Convite criado com sucesso!"
 
-#, fuzzy
 msgid "Invitation Link"
-msgstr "Convites"
+msgstr "Ligação de convite"
 
 msgid "Copy"
 msgstr "Copiar"
@@ -1610,14 +1657,14 @@ msgid "Create Another"
 msgstr "Criar uma conta"
 
 msgid "Please select at least one server for the invitation."
-msgstr ""
+msgstr "Por favor, selecione pelo menos um servidor para o convite."
 
 #, fuzzy
 msgid "Password Reset Link"
 msgstr "(opcional)"
 
 msgid "Generate Password Reset Link"
-msgstr ""
+msgstr "Gerar ligação de redefinição de palavra-passe"
 
 #, fuzzy
 msgid "Password reset link for"
@@ -1628,64 +1675,64 @@ msgid "Link expires:"
 msgstr "Expira"
 
 msgid "Reset Link (Click to copy)"
-msgstr ""
+msgstr "Ligação de redefinição (Clique para copiar)"
 
 msgid ""
 "Send this link to the user. They can use it once to reset their password."
 msgstr ""
+"Envie esta ligação ao utilizador. Ele pode ser usado para redefinir a "
+"palavra-passe uma única vez."
 
 msgid "Reset Code"
-msgstr ""
+msgstr "Código de redefinição"
 
 #, fuzzy
 msgid "Security Notes:"
 msgstr "Utilizadores"
 
 msgid "This link can only be used once"
-msgstr ""
+msgstr "Esta ligação só pode ser usado uma vez"
 
 msgid "It expires in 24 hours"
-msgstr ""
+msgstr "Expira em 24 horas"
 
 msgid "Send it securely (email, message, etc.)"
-msgstr ""
+msgstr "Envie de forma segura (e-mail, mensagem, etc.)"
 
 msgid "Generate a secure password reset link for"
-msgstr ""
+msgstr "Gerar uma ligação segura de redefinição de palavra-passe para"
 
 #, fuzzy
 msgid "Generate Reset Link"
 msgstr "Preferências do Servidor"
 
 msgid "The link will be valid for 24 hours and can only be used once."
-msgstr ""
+msgstr "A ligação será válida por 24 horas e só pode ser usada uma vez."
 
-#, fuzzy
 msgid "Copy Link"
-msgstr "Iniciar sessão"
+msgstr "Copiar Ligação"
 
-#, fuzzy
 msgid "Copied!"
-msgstr "Entrar"
+msgstr "Copiado!"
 
 #, fuzzy
 msgid "Reset link copied to clipboard!"
 msgstr "O endereço foi copiado para a sua área de transferência!"
 
 msgid "Please manually copy the link"
-msgstr ""
+msgstr "Por favor, copie a ligação manualmente"
 
 msgid "Import Wizard Steps"
-msgstr ""
+msgstr "Importar etapas do assistente"
 
 msgid "Click to upload"
-msgstr ""
+msgstr "Clique para enviar"
 
 msgid "or drag and drop"
-msgstr ""
+msgstr "ou arraste e solte"
 
 msgid "JSON files only"
-msgstr ""
+msgstr "Apenas ficheiros JSON"
 
 #, fuzzy
 msgid "Import Options"
@@ -1695,133 +1742,137 @@ msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
 "steps will be merged with existing ones."
 msgstr ""
+"Quando marcado, as etapas existentes serão substituídas. Quando desmarcado, "
+"as etapas importadas serão mescladas com as existentes."
 
 msgid "Important Notice"
-msgstr ""
+msgstr "Aviso importante"
 
 msgid ""
 "This action will modify your wizard steps configuration. Make sure to backup "
 "your current steps before importing if you want to preserve them."
 msgstr ""
+"Esta ação modificará a configuração das etapas do assistente. Certifique-se "
+"de fazer backup das etapas atuais antes de importar se quiser preservá-las."
 
 msgid "Import Steps"
-msgstr ""
+msgstr "Importar etapas"
 
 msgid "Add Preset Wizard Step"
-msgstr ""
+msgstr "Adicionar etapa predefinida do assistente"
 
 msgid "Choose when this step should be shown to users"
-msgstr ""
+msgstr "Escolha quando esta etapa deve ser exibida aos utilizadores"
 
 msgid "Your Discord server ID"
-msgstr ""
+msgstr "ID do seu servidor Discord"
 
 msgid "URL to your Overseerr/Ombi instance"
-msgstr ""
+msgstr "URL da sua instância Overseerr/Ombi"
 
 #, fuzzy
 msgid "Create Step"
 msgstr "Criar uma conta"
 
 msgid "Add..."
-msgstr ""
+msgstr "Adicionar..."
 
 msgid "Widgets"
-msgstr ""
+msgstr "Widgets"
 
 msgid "Recently Added Media"
-msgstr ""
+msgstr "Média adicionada recentemente"
 
 msgid "Show recent content"
-msgstr ""
+msgstr "Mostrar conteúdo recente"
 
 msgid "Button"
-msgstr ""
+msgstr "Botão"
 
 msgid "Add a clickable link button"
-msgstr ""
+msgstr "Adicionar um botão de ligação clicável"
 
 #, fuzzy
 msgid "Elements"
 msgstr "Criar uma conta"
 
 msgid "Card"
-msgstr ""
+msgstr "Cartão"
 
 msgid "Add a styled content card"
-msgstr ""
+msgstr "Adicionar um cartão de conteúdo estilizado"
 
 #, fuzzy
 msgid "Delete API Key"
 msgstr "Por defeito"
 
 msgid "No API keys"
-msgstr ""
+msgstr "Nenhuma chave de API"
 
 msgid "Get started by creating a new API key."
-msgstr ""
+msgstr "Comece a criar uma chave de API."
 
 #, fuzzy
 msgid "Media Servers"
 msgstr "Nunca"
 
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "Verified"
-msgstr ""
+msgstr "Verificado"
 
 msgid "Actions"
 msgstr "Ações"
 
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 msgid "Delete this server?"
-msgstr ""
+msgstr "Apagar este servidor?"
 
 msgid "No servers configured yet."
-msgstr ""
+msgstr "Nenhum servidor configurado ainda."
 
 #, fuzzy
 msgid "Administrators"
 msgstr "Convites"
 
 msgid "Manage Passkeys"
-msgstr ""
+msgstr "Gerir chaves de acesso"
 
 msgid "No administrators yet."
-msgstr ""
+msgstr "Nenhum administrador ainda."
 
 #, fuzzy
 msgid "Add Admin"
 msgstr "Administrador"
 
 msgid "API Keys"
-msgstr ""
+msgstr "Chaves de API"
 
 msgid "Connections"
-msgstr ""
+msgstr "Conexões"
 
 msgid "Manage external service connections for automated user invitations"
 msgstr ""
+"Gira conexões de serviços externos para convites automáticos de utilizadores"
 
-#, fuzzy
 msgid "Add Connection"
-msgstr "Opções avançadas"
+msgstr "Adicionar Conexão"
 
 msgid "Connection Name"
-msgstr ""
+msgstr "Nome da conexão"
 
 #, fuzzy
 msgid "Media Server"
 msgstr "Nunca"
 
 msgid "Overseerr (Info)"
-msgstr ""
+msgstr "Overseerr (Informação)"
 
 msgid "Ombi"
 msgstr ""
@@ -1830,47 +1881,48 @@ msgid "Audiobookrequest"
 msgstr ""
 
 msgid "Auto-import enabled"
-msgstr ""
+msgstr "Importação automática ativada"
 
 msgid "Are you sure you want to delete this connection?"
-msgstr ""
+msgstr "Tem certeza que deseja apagar esta conexão?"
 
 msgid "No connections configured"
-msgstr ""
+msgstr "Nenhuma conexão configurada"
 
 msgid ""
 "Connect your external services to automate user invitations when invites are "
 "created for specific media servers."
 msgstr ""
+"Conecte os seus serviços externos para automatizar convites de utilizadores "
+"quando convites forem criados para servidores de média específicos."
 
 msgid "Add Your First Connection"
-msgstr ""
+msgstr "Adicione a sua primeira conexão"
 
 #, fuzzy
 msgid "General Settings"
 msgstr "Preferências do Servidor"
 
 msgid "Configure your application's basic settings and preferences"
-msgstr ""
+msgstr "Configure as configurações e preferências básicas da sua aplicação"
 
-#, fuzzy
 msgid "Version"
-msgstr "Acesso negado."
+msgstr "Versão"
 
 msgid "Display"
-msgstr ""
+msgstr "Exibição"
 
 msgid "Configure how your application appears to users"
-msgstr ""
+msgstr "Configure como a sua aplicação aparece para os utilizadores"
 
 msgid "Access Control"
-msgstr ""
+msgstr "Controlo de acesso"
 
 msgid "Manage user access and permissions"
-msgstr ""
+msgstr "Gira o acesso e as permissões dos utilizadores"
 
 msgid "Control access to the wizard setup process"
-msgstr ""
+msgstr "Controlo o acesso ao processo de configuração do assistente"
 
 #, fuzzy
 msgid "User Management"
@@ -1878,13 +1930,14 @@ msgstr "Nome de Utilizador"
 
 msgid "Configure how users are managed when invitations expire"
 msgstr ""
+"Configure como os utilizadores são gerenciados quando os convites expiram"
 
 #, fuzzy
 msgid "Server Capabilities"
 msgstr "Preferências do Servidor"
 
 msgid "Supports Disable:"
-msgstr ""
+msgstr "Apoia a desativação:"
 
 #, fuzzy
 msgid "Delete Only:"
@@ -1894,27 +1947,32 @@ msgid ""
 "If 'Disable User' is selected but the server does not support it, the user "
 "will be deleted instead."
 msgstr ""
+"Se 'Desativar utilizador' for selecionado mas o servidor não tiver apoio, o "
+"utilizador será apagado."
 
 msgid "Choose what happens to users when their invitation expires"
 msgstr ""
+"Escolha o que acontece com os utilizadores quando os seus convites expiram"
 
 msgid "Immediately process all expired users based on the expiry action above"
 msgstr ""
+"Processar imediatamente todos os utilizadores expirados com base na ação de "
+"expiração acima"
 
 msgid "API Key Management"
-msgstr ""
+msgstr "Gestão de chaves de API"
 
 msgid "Manage API keys for accessing Wizarr programmatically"
-msgstr ""
+msgstr "Gira chaves de API para aceder o Wizarr programaticamente"
 
 msgid "Your API Keys"
-msgstr ""
+msgstr "As suas chaves de API"
 
 msgid "Create and manage API keys for external applications"
-msgstr ""
+msgstr "Crie e gira chaves de API para aplicações externas"
 
 msgid "Loading API keys..."
-msgstr ""
+msgstr "A carregar chaves de API..."
 
 #, fuzzy
 msgid "Save Settings"
@@ -1924,13 +1982,13 @@ msgid "Settings"
 msgstr "Preferências"
 
 msgid "Manage your application settings and preferences"
-msgstr ""
+msgstr "Gira as configurações e preferências da sua aplicação"
 
 msgid "General"
-msgstr ""
+msgstr "Geral"
 
 msgid "Alerts"
-msgstr ""
+msgstr "Alertas"
 
 #, fuzzy
 msgid "Servers"
@@ -1945,7 +2003,7 @@ msgid "Admins"
 msgstr "Administrador"
 
 msgid "Wizard"
-msgstr ""
+msgstr "Assistente"
 
 #, fuzzy
 msgid "Audit"
@@ -1963,7 +2021,7 @@ msgid "Configure LDAP for user authentication and management"
 msgstr ""
 
 msgid "Enable LDAP"
-msgstr ""
+msgstr "Ativar LDAP"
 
 msgid "Turn on LDAP integration"
 msgstr ""
@@ -1979,9 +2037,8 @@ msgstr "Criar convite"
 msgid "e.g., ldap://server:3890 or ldaps://server:6360"
 msgstr ""
 
-#, fuzzy
 msgid "Use TLS"
-msgstr "Utilizadores"
+msgstr "Usar TLS"
 
 msgid "Verify Cert"
 msgstr ""
@@ -2005,9 +2062,8 @@ msgstr ""
 msgid "Sync LDAP groups to populate admin group selection"
 msgstr ""
 
-#, fuzzy
 msgid "Advanced Settings"
-msgstr "Preferências do Servidor"
+msgstr "Configurações Avançadas"
 
 msgid ""
 "Defaults are optimized for LLDAP. Only change if using a different LDAP "
@@ -2041,10 +2097,11 @@ msgid "Optional: Restrict admin access to members of this LDAP group"
 msgstr ""
 
 msgid "Notification Agents"
-msgstr ""
+msgstr "Agentes de Notificação"
 
 msgid "Configure notification services to alert you about important events"
 msgstr ""
+"Configure serviços de notificação para alertá-lo sobre eventos importantes"
 
 #, fuzzy
 msgid "Add Agent"
@@ -2055,14 +2112,14 @@ msgid "Edit agent"
 msgstr "Criar uma conta"
 
 msgid "Are you sure you want to delete"
-msgstr ""
+msgstr "Tem certeza que deseja apagar"
 
 #, fuzzy
 msgid "Delete agent"
 msgstr "Criar uma conta"
 
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #, fuzzy
 msgid "Events"
@@ -2073,131 +2130,133 @@ msgid "No notification agents"
 msgstr "Convites"
 
 msgid "Get started by creating your first notification agent"
-msgstr ""
+msgstr "Comece a criar o seu primeiro agente de notificação"
 
 #, fuzzy
 msgid "Unverified"
 msgstr "Ilimitado"
 
 msgid "Checking..."
-msgstr ""
+msgstr "A verificar..."
 
 msgid "Create a new external service connection for automated user invitations"
 msgstr ""
+"Crie uma nova conexão de serviço externo para convites automáticos de "
+"utilizadores"
 
 msgid "Update the connection settings"
-msgstr ""
+msgstr "Atualizar as configurações da conexão"
 
 msgid "Select the type of connection to configure"
-msgstr ""
+msgstr "Selecione o tipo de conexão a configurar"
 
 msgid "A friendly name to identify this connection"
-msgstr ""
+msgstr "Um nome amigável para identificar esta conexão"
 
 msgid "Which media server should trigger invitations to this external service"
-msgstr ""
+msgstr "Qual servidor de média deve acionar convites para este serviço externo"
 
 msgid "Open your Overseerr/Jellyseerr admin panel"
-msgstr ""
+msgstr "Abra o painel de administração do Overseerr/Jellyseerr"
 
 msgid "Navigate to Settings → Users"
-msgstr ""
+msgstr "Navegue até Configurações → Utilizadores"
 
 msgid "Enable 'Auto-approve new users'"
-msgstr ""
+msgstr "Ative 'Aprovar automaticamente novos utilizadores'"
 
 msgid "Enable 'Import Jellyfin/Plex users'"
-msgstr ""
+msgstr "Ative 'Importar utilizadores Jellyfin/Plex'"
 
 msgid "The full URL to your external service instance"
-msgstr ""
+msgstr "A URL completa da sua instância de serviço externo"
 
 msgid "API key from your external service settings"
-msgstr ""
+msgstr "Chave de API das configurações do seu serviço externo"
 
 #, fuzzy
 msgid "Default Steps"
 msgstr "Por defeito"
 
 msgid "Custom Bundles"
-msgstr ""
+msgstr "Pacotes personalizados"
 
 msgid "Import"
-msgstr ""
+msgstr "Importar"
 
 msgid "Import Configuration"
-msgstr ""
+msgstr "Importar configuração"
 
 msgid "Import steps or bundles from JSON file"
-msgstr ""
+msgstr "Importar etapas ou pacotes de ficheiro JSON"
 
 #, fuzzy
 msgid "Create"
 msgstr "Criado"
 
 msgid "Add a new wizard step"
-msgstr ""
+msgstr "Adicionar uma nova etapa do assistente"
 
 #, fuzzy
 msgid "Add Step to Bundle"
 msgstr "Criado"
 
 msgid "No bundles available yet"
-msgstr ""
+msgstr "Nenhum pacote disponível ainda"
 
 msgid "Add Preset"
-msgstr ""
+msgstr "Adicionar predefinição"
 
 msgid "Create step from template"
-msgstr ""
+msgstr "Criar etapa a partir de modelo"
 
 #, fuzzy
 msgid "Create Bundle"
 msgstr "Criado"
 
 msgid "Create a collection of steps"
-msgstr ""
+msgstr "Criar uma coleção de etapas"
 
 msgid "No bundles found."
-msgstr ""
+msgstr "Nenhum pacote encontrado."
 
 msgid "Preview Wizard"
-msgstr ""
+msgstr "Visualizar Assistente"
 
 #, python-format
 msgid "Export %(bundle_name)s Bundle"
-msgstr ""
+msgstr "Exportar pacote %(bundle_name)s"
 
 msgid "Are you sure you want to delete this bundle?"
-msgstr ""
+msgstr "Tem certeza que deseja apagar este pacote?"
 
 msgid "Before Invite Acceptance"
-msgstr ""
+msgstr "Antes da Aceitação do Convite"
 
 msgid "Steps shown to users before they accept the invitation"
-msgstr ""
+msgstr "Etapas exibidas aos utilizadores antes de aceitarem o convite"
 
 msgid "Are you sure you want to delete this step?"
-msgstr ""
+msgstr "Tem certeza que deseja apagar esta etapa?"
 
 msgid "No pre-invite steps configured"
-msgstr ""
+msgstr "Nenhuma etapa pré-convite configurada"
 
 #, fuzzy
 msgid "After Invite Acceptance"
 msgstr "Código de convite"
 
 msgid "Steps shown to users after they accept the invitation"
-msgstr ""
+msgstr "Etapas exibidas aos utilizadores após aceitarem o convite"
 
 msgid "No post-invite steps configured"
-msgstr ""
+msgstr "Nenhuma etapa pós-convite configurada"
 
 msgid "Additional Categories"
-msgstr ""
+msgstr "Categorias adicionais"
 
 msgid "Steps that use custom categories keep their order here."
-msgstr ""
+msgstr "Etapas que usam categorias personalizadas mantêm a sua ordem aqui."
 
 msgid "Orphaned Steps"
 msgstr ""
@@ -2206,113 +2265,127 @@ msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
 msgstr ""
+"Estas entradas já não têm uma etapa associada. Remova-as para manter o "
+"pacote organizado."
 
 msgid "Step deleted (orphaned)"
-msgstr ""
+msgstr "Etapa apagada (órfã)"
 
 msgid "Are you sure you want to remove this orphaned step?"
-msgstr ""
+msgstr "Tem certeza que deseja remover esta etapa órfã?"
 
 msgid "Remove orphaned step"
-msgstr ""
+msgstr "Remover etapa órfã"
 
 msgid "Preview"
 msgstr ""
 
 msgid "Import Wizard Configuration"
-msgstr ""
+msgstr "Importar Configuração do Assistente"
 
 msgid ""
 "Import wizard steps or bundles from a JSON file to quickly set up or restore "
 "your wizard configuration."
 msgstr ""
+"Importe etapas ou pacotes do assistente de um ficheiro JSON para configurar "
+"rapidamente ou restaurar a sua configuração do assistente."
 
 msgid "Select JSON File"
-msgstr ""
+msgstr "Selecionar ficheiro JSON"
 
 msgid "Steps or Bundle JSON files only (MAX. 10MB)"
-msgstr ""
+msgstr "Apenas ficheiros JSON de etapas ou pacotes (MÁX. 10MB)"
 
 msgid ""
 "When checked, all existing wizard steps and bundles will be removed and "
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
 msgstr ""
+"Quando marcado, todas as etapas e pacotes existentes do assistente serão "
+"removidos e substituídos pela configuração importada. Quando desmarcado, os "
+"elementos importados serão adicionados junto aos existentes."
 
 msgid "Important: Backup Recommended"
-msgstr ""
+msgstr "Importante: Backup recomendado"
 
 msgid ""
 "This action will modify your wizard configuration. Consider the following:"
 msgstr ""
+"Esta ação modificará a configuração do assistente. Considere o seguinte:"
 
 msgid "Export your current steps and bundles first as a backup"
-msgstr ""
+msgstr "Exporte as suas etapas e pacotes atuais primeiro como backup"
 
 msgid "Imported steps will use the file's step ordering and server types"
-msgstr ""
+msgstr "As etapas importadas usarão a ordem e os tipos de servidor do ficheiro"
 
 msgid "Imported bundles will preserve their step associations and ordering"
 msgstr ""
+"Os pacotes importados preservarão as suas associações de etapas e ordenação"
 
 msgid ""
 "If replacing existing configuration, all current steps and bundles will be "
 "permanently removed"
 msgstr ""
+"Se substituir a configuração existente, todas as etapas e pacotes atuais "
+"serão removidos permanentemente"
 
 msgid "Invalid or malformed JSON files will be rejected"
-msgstr ""
+msgstr "Ficheiros JSON inválidos ou malformados serão rejeitados"
 
 msgid "Expected JSON Format"
-msgstr ""
+msgstr "Formato JSON esperado"
 
 msgid "The JSON file can contain steps or bundles:"
-msgstr ""
+msgstr "O ficheiro JSON pode conter etapas ou pacotes:"
 
 msgid "For steps export:"
-msgstr ""
+msgstr "Para exportação de etapas:"
 
 msgid "For bundle export:"
-msgstr ""
+msgstr "Para exportação de pacote:"
 
 msgid "Back to Steps"
-msgstr ""
+msgstr "Voltar para Etapas"
 
 msgid "Please select a JSON file to import."
-msgstr ""
+msgstr "Por favor, selecione um ficheiro JSON para importar."
 
 msgid "Please select a valid JSON file."
-msgstr ""
+msgstr "Por favor, selecione um ficheiro JSON válido."
 
 msgid ""
 "This will permanently replace all existing wizard configuration (steps and "
 "bundles). Are you sure you want to continue?"
 msgstr ""
+"Isto substituirá permanentemente toda a configuração existente do assistente "
+"(etapas e pacotes). Tem certeza que deseja continuar?"
 
 msgid "Wizard Steps"
-msgstr ""
+msgstr "Etapas do Assistente"
 
 msgid "Manage your wizard steps and bundles for user onboarding"
 msgstr ""
+"Gira as suas etapas e pacotes do assistente para integração de utilizadores"
 
 msgid "No wizard steps found"
-msgstr ""
+msgstr "Nenhuma etapa do assistente encontrada"
 
 msgid "Get started by creating your first wizard step"
-msgstr ""
+msgstr "Comece a criar a sua primeira etapa do assistente"
 
 msgid "Server"
 msgstr "Servidor"
 
 msgid "steps configured"
-msgstr ""
+msgstr "etapas configuradas"
 
 #, fuzzy
 msgid "Untitled Step"
 msgstr "Usos ilimitados"
 
 msgid "Step"
-msgstr ""
+msgstr "Etapa"
 
 msgid "Edit step"
 msgstr ""
@@ -2322,21 +2395,23 @@ msgid "Delete step"
 msgstr "Por defeito"
 
 msgid "No steps found."
-msgstr ""
+msgstr "Nenhuma etapa encontrada."
 
 #, python-format
 msgid ""
 "Are you sure you want to reset all steps for %(server)s to defaults? This "
 "will delete all custom steps and reimport the default ones."
 msgstr ""
+"Tem certeza que deseja redefinir todas as etapas para %(server)s ao padrão? "
+"Isto apagará todas as etapas personalizadas e reimportará as padrão."
 
 #, python-format
 msgid "Reset %(server)s Steps to Defaults"
-msgstr ""
+msgstr "Redefinir Etapas de %(server)s para o Padrão"
 
 #, python-format
 msgid "Export %(server)s Steps"
-msgstr ""
+msgstr "Exportar Etapas de %(server)s"
 
 msgid "Setup Wizarr"
 msgstr "Configurar Wizarr"
@@ -2348,7 +2423,7 @@ msgid "Unlimited"
 msgstr "Ilimitado"
 
 msgid "There are currently no invitations."
-msgstr ""
+msgstr "No momento não há convites."
 
 #, fuzzy
 msgid "Used by"
@@ -2365,57 +2440,51 @@ msgstr "Usado"
 msgid "Bundle"
 msgstr "Criado"
 
-#, fuzzy
 msgid "days"
-msgstr "1 dia"
+msgstr "dias"
 
 msgid "Default"
 msgstr "Por defeito"
 
 msgid "Copy invite link"
-msgstr ""
+msgstr "Copiar ligação do convite"
 
 #, fuzzy
 msgid "Delete invite"
 msgstr "Por defeito"
 
 msgid "There are currently no users."
-msgstr ""
+msgstr "Não há utilizadores no momento."
 
 msgid "Edit nickname"
-msgstr ""
+msgstr "Editar apelido"
 
 msgid "Home User"
 msgstr "Utilizador Casa"
 
-#, fuzzy
 msgid "Invited"
-msgstr "Código de convite"
+msgstr "Convidado"
 
 msgid "Disabled"
-msgstr ""
+msgstr "Desativado"
 
 msgid "Downloads enabled"
-msgstr ""
+msgstr "Ativado Descarregar"
 
 msgid "Live TV enabled"
-msgstr ""
+msgstr "TV em direto ativada"
 
-#, fuzzy
 msgid "View details"
-msgstr "Convites"
+msgstr "Ver os pormenores"
 
-#, fuzzy
 msgid "Edit user"
-msgstr "Nunca"
+msgstr "Editar utilizador"
 
-#, fuzzy
 msgid "Reset password"
-msgstr "Palavra-passe"
+msgstr "Redefinir palavra-passe"
 
-#, fuzzy
 msgid "Remove user"
-msgstr "Início"
+msgstr "Remover utilizador"
 
 #, fuzzy
 msgid "Before Invitation"
@@ -2426,10 +2495,10 @@ msgid "After Invitation"
 msgstr "Criar convite"
 
 msgid "Previous"
-msgstr ""
+msgstr "Anterior"
 
 msgid "Click the link in this step to be able to continue"
-msgstr ""
+msgstr "Clique na ligação nesta etapa para poder continuar"
 
 #~ msgid "Invitation Details"
 #~ msgstr "Convites"

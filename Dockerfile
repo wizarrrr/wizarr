@@ -41,7 +41,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 RUN uv run --frozen --no-dev pybabel compile --use-fuzzy -d app/translations
 
 # Ensure static directories exist and build static assets
-RUN mkdir -p app/static/js app/static/css && npm --prefix app/static/ run build
+RUN mkdir -p app/static/js app/static/css && DOCKER_BUILD=true npm --prefix app/static/ run build
 
 # ─── Stage 3: Runtime ─────────────────────────────────────────────────────
 FROM ghcr.io/astral-sh/uv:python3.13-alpine
@@ -49,6 +49,8 @@ FROM ghcr.io/astral-sh/uv:python3.13-alpine
 # Set default environment variables for user/group IDs
 ENV PUID=1000
 ENV PGID=1000
+ENV HOST=0.0.0.0
+ENV PORT=5690
 
 # Install runtime dependencies only
 RUN apk add --no-cache curl tzdata su-exec
@@ -77,14 +79,14 @@ ENV APP_VERSION=${APP_VERSION}
 # Set Flask environment to production
 ENV FLASK_ENV=production
 
-# Healthcheck: curl to localhost:5690/health
+# Healthcheck: curl to localhost:${PORT:-5690}/health
 # Increased start-period to 60s to account for:
 # - Database migrations
 # - Library scanning
 # - Wizard step imports
 # - Worker initialization (4 workers * ~10s each)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
-  CMD curl -fs http://localhost:5690/health || exit 1
+  CMD ["sh", "-c", "curl -fs http://localhost:${PORT:-5690}/health || exit 1"]
 
 # Expose port 5690
 EXPOSE 5690
@@ -102,6 +104,5 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 # By default we run Gunicorn under wizarruser
 CMD ["uv", "run", "--frozen", "--no-dev", "gunicorn", \
      "--config", "gunicorn.conf.py", \
-     "--bind", "0.0.0.0:5690", \
      "--umask", "007", \
      "run:app"]

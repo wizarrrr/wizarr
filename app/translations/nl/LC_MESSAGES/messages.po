@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-04-02 05:13+0000\n"
-"PO-Revision-Date: 2025-11-03 20:08+0000\n"
-"Last-Translator: Ben Avermate <weblate@benavermate.be>\n"
+"POT-Creation-Date: 2026-07-28 06:02+0000\n"
+"PO-Revision-Date: 2026-07-07 06:55+0000\n"
+"Last-Translator: LvanAlphen <iggnition@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/nl/>\n"
 "Language: nl\n"
@@ -17,114 +17,106 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 2026.7.1.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
-#, fuzzy
 msgid "Failed to load settings"
-msgstr "Mislukt om statistieken te laden"
+msgstr "Instellingen laden is mislukt"
 
-#, fuzzy
 msgid "Failed to load dashboard data"
-msgstr "Kan de server status niet laden"
+msgstr "Dashboardgegevens laden is mislukt"
 
-#, fuzzy
 msgid "Failed to load history data"
-msgstr "Kan de server status niet laden"
+msgstr "Geschiedenis gegevens laden mislukt"
 
-#, fuzzy
 msgid "Failed to load activity data"
-msgstr "Kan de server status niet laden"
+msgstr "Activiteitsgegevens laden is mislukt"
 
-#, fuzzy
 msgid "Failed to load activity summary"
-msgstr "Kan de server status niet laden"
+msgstr "Het laden van het activiteitenoverzicht is mislukt"
 
-#, fuzzy
 msgid "Failed to get activity statistics"
-msgstr "Mislukt om statistieken te laden"
+msgstr "Activiteitsstatistieken ophalen is mislukt"
 
 msgid "Database not available"
-msgstr ""
+msgstr "Database niet beschikbaar"
 
-#, fuzzy
 msgid "Failed to get session details"
-msgstr "Mislukt om passkeys opnieuw in te stellen"
+msgstr "Sessiedetails ophalen is mislukt"
 
 msgid "Failed to export activity data"
-msgstr ""
+msgstr "Activiteitsgegevens exporteren is mislukt"
 
-#, fuzzy
 msgid "Monitoring restarted"
-msgstr "Beheerder aangemaakt"
+msgstr "Monitoring opnieuw gestart"
 
 msgid "Monitor not available"
-msgstr ""
+msgstr "Monitor niet beschikbaar"
 
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
-msgstr ""
+msgstr "{} oude activiteitsrecords opgeschoond"
 
 #, python-brace-format
 msgid "Ended {} stale sessions"
-msgstr ""
+msgstr "{} verlopen sessies beëindigd"
 
-#, fuzzy
 msgid "Unknown action"
-msgstr "Onbekende verbindingstype"
+msgstr "Onbekende handeling"
 
-#, fuzzy
 msgid "Failed to update settings"
-msgstr "Mislukt om statistieken te laden"
+msgstr "Instellingen wijzigen niet gelukt"
 
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
-msgstr ""
+msgstr "Activiteitsgegevens zijn succesvol verwijderd ({} records)."
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to delete activity data: {}"
-msgstr "Mislukt om passkey te verwijderen"
+msgstr "Activiteitsgegevens verwijderen is mislukt: {}"
 
-#, fuzzy
 msgid "Please select a media server."
-msgstr "Selecteer op zn minst een server voor de uitnodiging."
+msgstr "Kies een mediaserver."
 
-#, fuzzy
 msgid "Media server not found."
-msgstr "Media Server"
+msgstr "Mediaserver niet gevonden."
 
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, Emby, "
 "and AudiobookShelf servers."
 msgstr ""
+"Historische gegevens importeren wordt momenteel alleen ondersteund voor "
+"Plex-, Jellyfin-, Emby- en AudiobookShelf-servers."
 
 #, python-brace-format
 msgid ""
 "Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
+"Historische importtaak #{job_id} gestart voor {server} (laatste {days} "
+"dagen)."
 
 #, python-brace-format
 msgid "Failed to import historical data: {}"
-msgstr ""
+msgstr "Historische gegevens importeren is mislukt: {}"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully cleared {} historical entries."
-msgstr "Succesvol geïmporteerd {} items"
+msgstr "{} historische items succesvol verwijderd."
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to clear historical data: {}"
-msgstr "Mislukt om statistieken te laden"
+msgstr "Historische gegevens wissen is mislukt: {}"
 
-#, fuzzy
 msgid "Unknown error"
 msgstr "Er is een onbekende fout opgetreden"
 
 msgid "Cannot remove a job that is still queued or running."
 msgstr ""
+"Kan een taak die nog in de wachtrij staat of nog wordt uitgevoerd niet "
+"verwijderen."
 
-#, fuzzy
 msgid "An internal error has occurred."
-msgstr "Er is een onbekende fout opgetreden"
+msgstr "Er is een interne fout opgetreden."
 
 msgid "Unknown"
 msgstr "Onbekend"
@@ -171,10 +163,11 @@ msgid ""
 "No admin account found. Please set up a proper admin account before creating "
 "API keys."
 msgstr ""
+"Geen beheerdersaccount gevonden. Stel een geldig beheerdersaccount in "
+"voordat je API-sleutels aanmaakt."
 
-#, fuzzy
 msgid "Failed to create API key due to a database error."
-msgstr "Niet gelukt om de passkeys voor {} opnieuw in te stellen"
+msgstr "Kan API-sleutel niet aanmaken door een databasefout."
 
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown again."
@@ -194,13 +187,13 @@ msgid "LDAP admin authentication is not allowed"
 msgstr "Authenticatie gefaald"
 
 msgid "Invalid LDAP credentials"
-msgstr ""
+msgstr "Ongeldige LDAP-inloggegevens"
 
 msgid "User DN not found in LDAP response"
-msgstr ""
+msgstr "Gebruikers-DN niet gevonden in LDAP-response"
 
 msgid "User is not authorized as an administrator"
-msgstr ""
+msgstr "Gebruiker is niet gemachtigd als beheerder"
 
 #, fuzzy
 msgid "Login successful"
@@ -251,6 +244,8 @@ msgstr "Ongeldige formuliergegevens: %(errors)s"
 msgid ""
 "There was an issue setting up your access. Please contact your server admin."
 msgstr ""
+"Er is een probleem opgetreden bij het instellen van je toegang. Neem contact "
+"op met je serverbeheerder."
 
 msgid "Settings saved successfully!"
 msgstr "Instellingen succesvol opgeslagen!"
@@ -276,7 +271,7 @@ msgstr "Bibliotheek scan mislukt"
 
 #, python-brace-format
 msgid "Successfully cleaned {count} expired user(s)."
-msgstr ""
+msgstr "{count} verlopen gebruiker(s) succesvol opgeschoond."
 
 #, fuzzy
 msgid "No expired users found to clean."
@@ -301,10 +296,10 @@ msgid "LDAP configuration saved successfully"
 msgstr "Verbinding succesvol aangepast!"
 
 msgid "LDAP not configured or disabled"
-msgstr ""
+msgstr "LDAP is niet geconfigureerd of uitgeschakeld"
 
 msgid "No groups found in LDAP"
-msgstr ""
+msgstr "Geen groepen gevonden in LDAP"
 
 #, fuzzy
 msgid "LDAP is not configured"
@@ -321,14 +316,18 @@ msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
 msgstr ""
+"Je uitnodiging is verlopen of niet meer geldig. Vraag een nieuwe uitnodiging "
+"aan."
 
 msgid "Error Loading Step"
-msgstr ""
+msgstr "Fout bij laden van stap"
 
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip to "
 "the next step."
 msgstr ""
+"Deze stap kon niet worden geladen. Neem contact op met de beheerder of ga "
+"door naar de volgende stap."
 
 #, fuzzy
 msgid "Invalid or expired invitation"
@@ -338,23 +337,27 @@ msgid ""
 "No media servers are configured. Please contact the administrator to set up "
 "a media server."
 msgstr ""
+"Er zijn geen mediaservers geconfigureerd. Neem contact op met de beheerder "
+"om een mediaserver in te stellen."
 
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
+"Wizardstappen kunnen niet worden geladen. We gaan verder met de uitnodiging."
 
 #, fuzzy
 msgid "Continue to Invite"
 msgstr "Nieuwe uitnodiging"
 
 msgid "Please log in to continue"
-msgstr ""
+msgstr "Log in om door te gaan"
 
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
+"Kan wizardstappen niet laden. Installatie voltooid! Welkom op je mediaserver."
 
 msgid "Setup complete! Welcome to your media server."
-msgstr ""
+msgstr "Installatie voltooid! Welkom op je mediaserver."
 
 #, fuzzy
 msgid "Unable to load wizard configuration. Please try again."
@@ -369,7 +372,7 @@ msgid "Unable to load wizard steps. Please try again."
 msgstr "Kan nu afspelen niet laden"
 
 msgid "This bundle has no steps to preview."
-msgstr ""
+msgstr "Deze bundel heeft geen stappen om te bekijken."
 
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
@@ -431,19 +434,21 @@ msgstr "Foutieve JSON bestand"
 
 #, python-brace-format
 msgid "Reset {} steps for {} (deleted {}, imported {})"
-msgstr ""
+msgstr "{} stappen gereset voor {} (verwijderd {}, geïmporteerd {})"
 
 #, fuzzy, python-brace-format
 msgid "Failed to reset steps: {}"
 msgstr "Niet gelukt om de passkeys voor {} opnieuw in te stellen"
 
 msgid "Password must be at least 8 characters."
-msgstr ""
+msgstr "Wachtwoord moet minimaal uit 8 tekens bestaan."
 
 msgid ""
 "Password must contain at least one uppercase letter, one lowercase letter, "
 "and one number."
 msgstr ""
+"Wachtwoord moet minimaal één hoofdletter, één kleine letter en één cijfer "
+"bevatten."
 
 msgid "Username"
 msgstr "Gebruikersnaam"
@@ -492,7 +497,7 @@ msgid "Allow Live TV"
 msgstr "Live TV Toegang Toestaan"
 
 msgid "Overseerr/Ombi URL"
-msgstr ""
+msgstr "Overseerr/Ombi URL"
 
 #, fuzzy
 msgid "Ombi API Key"
@@ -503,7 +508,7 @@ msgid "Discord ID"
 msgstr "Je Discord server ID"
 
 msgid "External URL"
-msgstr ""
+msgstr "Externe URL"
 
 #, python-format
 msgid "Server returned status code %(status_code)s"
@@ -705,6 +710,7 @@ msgstr "Ongeldige Uitnodiging"
 msgid ""
 "This invitation link is no longer valid. Please request a new invitation."
 msgstr ""
+"Deze uitnodigingslink is niet meer geldig. Vraag een nieuwe uitnodiging aan."
 
 msgid "Two-Factor Authentication"
 msgstr "Twee-Factor Authenticatie"
@@ -713,7 +719,7 @@ msgid "Login"
 msgstr "Inloggen"
 
 msgid "This is the administrator login page."
-msgstr ""
+msgstr "Dit is de inlogpagina voor beheerders."
 
 #, fuzzy
 msgid "Go to your media server instead"
@@ -735,7 +741,7 @@ msgid "Local Account"
 msgstr "Maak Account"
 
 msgid "LDAP"
-msgstr ""
+msgstr "LDAP"
 
 msgid "Remember me"
 msgstr "Onthoud mij"
@@ -774,40 +780,43 @@ msgid "Error:"
 msgstr "Fout"
 
 msgid "This password reset link is invalid."
-msgstr ""
+msgstr "Deze link om je wachtwoord opnieuw in te stellen is ongeldig."
 
 msgid "This password reset link has already been used."
-msgstr ""
+msgstr "Deze link om je wachtwoord opnieuw in te stellen is al gebruikt."
 
 msgid "This password reset link has expired."
-msgstr ""
+msgstr "Deze link om je wachtwoord opnieuw in te stellen is verlopen."
 
 msgid "This password reset link is malformed."
 msgstr ""
+"Deze link om je wachtwoord opnieuw in te stellen is ongeldig opgebouwd."
 
 msgid "This password reset link is no longer valid."
-msgstr ""
+msgstr "Deze link om je wachtwoord opnieuw in te stellen is niet meer geldig."
 
 msgid ""
 "Please contact your server administrator to request a new password reset "
 "link."
 msgstr ""
+"Neem contact op met je serverbeheerder om een nieuwe wachtwoordresetlink aan "
+"te vragen."
 
 #, fuzzy
 msgid "Code:"
 msgstr "Sluiten"
 
 msgid "Common reasons for this error:"
-msgstr ""
+msgstr "Veelvoorkomende oorzaken van deze fout:"
 
 msgid "The link has already been used"
-msgstr ""
+msgstr "De link is al gebruikt"
 
 msgid "The link has expired (24 hour limit)"
-msgstr ""
+msgstr "De link is verlopen (limiet van 24 uur)"
 
 msgid "The link was not copied correctly"
-msgstr ""
+msgstr "De link is niet correct gekopieerd"
 
 #, fuzzy
 msgid "Reset Your Password"
@@ -822,10 +831,10 @@ msgid "For user:"
 msgstr "Verwijder gebruiker"
 
 msgid "This link expires on"
-msgstr ""
+msgstr "Deze link verloopt op"
 
 msgid "Enter new password (8-128 characters)"
-msgstr ""
+msgstr "Voer een nieuw wachtwoord in (8-128 tekens)"
 
 #, fuzzy
 msgid "Confirm new password"
@@ -836,7 +845,7 @@ msgid "Password must be:"
 msgstr "Wachtwoorden komen niet overeen"
 
 msgid "Between 8 and 128 characters"
-msgstr ""
+msgstr "Tussen 8 en 128 tekens"
 
 #, fuzzy
 msgid "Match the confirmation"
@@ -859,14 +868,14 @@ msgid "has been successfully reset."
 msgstr "API sleutel succesvol verwijderd"
 
 msgid "You can now use your new password to log in to your media server."
-msgstr ""
+msgstr "Je kunt nu met je nieuwe wachtwoord inloggen op je mediaserver."
 
 #, fuzzy
 msgid "What's next?"
 msgstr "Wat gebeurt er daarna?"
 
 msgid "Log in to your media server with your username and new password."
-msgstr ""
+msgstr "Log in op je mediaserver met je gebruikersnaam en nieuwe wachtwoord."
 
 msgid "Administrator"
 msgstr "Administrator"
@@ -911,6 +920,15 @@ msgstr "Deelnemen Server"
 msgid "Secure invitation system powered by Wizarr"
 msgstr "Veilig uitnodigingssysteem aangestuurd door Wizarr"
 
+msgid "Pop-up blocked. Allow pop-ups for this site and try again."
+msgstr ""
+
+msgid "Sign-in cancelled. Hit Join Server to try again."
+msgstr ""
+
+msgid "Plex sign-in failed. Try again, or contact your server admin."
+msgstr ""
+
 msgid "Invite User"
 msgstr "Gebruiker uitnodigen"
 
@@ -954,7 +972,7 @@ msgid "Recently joined"
 msgstr "Recent lid geworden"
 
 msgid "Showing"
-msgstr ""
+msgstr "Toont"
 
 msgid "of"
 msgstr "of"
@@ -1133,7 +1151,7 @@ msgid "Tabs"
 msgstr "Status"
 
 msgid "Local"
-msgstr ""
+msgstr "Lokaal"
 
 msgid "Notes"
 msgstr "Notities"
@@ -1143,17 +1161,17 @@ msgid "Permission Management"
 msgstr "API Sleutel Beheer"
 
 msgid "Toggle downloads permission"
-msgstr ""
+msgstr "Downloadrechten in-/uitschakelen"
 
 msgid "Toggle live TV permission"
-msgstr ""
+msgstr "Live-tv-rechten in-/uitschakelen"
 
 #, fuzzy
 msgid "Allow Camera Upload"
 msgstr "Camera Upload"
 
 msgid "Toggle camera upload permission"
-msgstr ""
+msgstr "Camera-uploadrechten in-/uitschakelen"
 
 #, fuzzy
 msgid "Library Access"
@@ -1165,9 +1183,13 @@ msgstr "Geen bibliotheken gevonden"
 
 msgid "Scan libraries from the invitation page to enable library restrictions"
 msgstr ""
+"Scan bibliotheken vanaf de uitnodigingspagina om bibliotheekbeperkingen in "
+"te schakelen"
 
 msgid "Click to toggle library access. Updates save automatically."
 msgstr ""
+"Klik om bibliotheektoegang in of uit te schakelen. Wijzigingen worden "
+"automatisch opgeslagen."
 
 #, fuzzy
 msgid "Expiry Management"
@@ -1411,7 +1433,7 @@ msgid "Channel ID"
 msgstr "Kanaal ID"
 
 msgid "Bot Token"
-msgstr ""
+msgstr "Bot-token"
 
 #, fuzzy
 msgid "Chat ID"
@@ -1435,7 +1457,7 @@ msgid "User Joined"
 msgstr "Lid geworden"
 
 msgid "Update Available"
-msgstr ""
+msgstr "Update beschikbaar"
 
 msgid "Test & Create Agent"
 msgstr "Test & Creëer Agent"
@@ -1547,6 +1569,8 @@ msgstr "Aanmaken API Sleutel"
 
 msgid "Automatically create an LDAP user when this invitation is accepted"
 msgstr ""
+"Maak automatisch een LDAP-gebruiker aan wanneer deze uitnodiging wordt "
+"geaccepteerd"
 
 msgid "Target servers"
 msgstr "Doel servers"
@@ -1565,11 +1589,12 @@ msgid "Max Active Sessions"
 msgstr "Actieve sessies"
 
 msgid "simultaneous devices"
-msgstr ""
+msgstr "gelijktijdige apparaten"
 
 msgid ""
 "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
+"Aantal apparaten dat gelijktijdig mag streamen. Stel in op 0 voor onbeperkt."
 
 msgid "Select Libraries"
 msgstr "Selecteer Bibliotheken"
@@ -1600,7 +1625,7 @@ msgid "Password Reset Link"
 msgstr "Wachtwoord (optioneel)"
 
 msgid "Generate Password Reset Link"
-msgstr ""
+msgstr "Wachtwoordresetlink genereren"
 
 #, fuzzy
 msgid "Password reset link for"
@@ -1611,14 +1636,16 @@ msgid "Link expires:"
 msgstr "Verloopt"
 
 msgid "Reset Link (Click to copy)"
-msgstr ""
+msgstr "Resetlink (klik om te kopiëren)"
 
 msgid ""
 "Send this link to the user. They can use it once to reset their password."
 msgstr ""
+"Stuur deze link naar de gebruiker. De link kan één keer worden gebruikt om "
+"het wachtwoord opnieuw in te stellen."
 
 msgid "Reset Code"
-msgstr ""
+msgstr "Resetcode"
 
 #, fuzzy
 msgid "Security Notes:"
@@ -1629,10 +1656,10 @@ msgid "This link can only be used once"
 msgstr "Deze actie kan niet ongedaan worden gemaakt."
 
 msgid "It expires in 24 hours"
-msgstr ""
+msgstr "Verloopt na 24 uur"
 
 msgid "Send it securely (email, message, etc.)"
-msgstr ""
+msgstr "Verstuur deze veilig, bijvoorbeeld via e-mail of bericht"
 
 #, fuzzy
 msgid "Generate a secure password reset link for"
@@ -1643,7 +1670,7 @@ msgid "Generate Reset Link"
 msgstr "Algemene Instellingen"
 
 msgid "The link will be valid for 24 hours and can only be used once."
-msgstr ""
+msgstr "De link is 24 uur geldig en kan maar één keer worden gebruikt."
 
 #, fuzzy
 msgid "Copy Link"
@@ -1658,7 +1685,7 @@ msgid "Reset link copied to clipboard!"
 msgstr "De link is gekopieerd naar het klembord!"
 
 msgid "Please manually copy the link"
-msgstr ""
+msgstr "Kopieer de link handmatig"
 
 msgid "Import Wizard Steps"
 msgstr "Importeer Wizard Stappen"
@@ -1700,7 +1727,7 @@ msgid "Add Preset Wizard Step"
 msgstr "Toevoegen Vooringesteld Wizard Stap"
 
 msgid "Choose when this step should be shown to users"
-msgstr ""
+msgstr "Kies wanneer deze stap aan gebruikers wordt getoond"
 
 msgid "Your Discord server ID"
 msgstr "Je Discord server ID"
@@ -1716,7 +1743,7 @@ msgid "Add..."
 msgstr "Toevoegen"
 
 msgid "Widgets"
-msgstr ""
+msgstr "Widgets"
 
 #, fuzzy
 msgid "Recently Added Media"
@@ -1727,10 +1754,10 @@ msgid "Show recent content"
 msgstr "Geen recente content gevonden"
 
 msgid "Button"
-msgstr ""
+msgstr "Knop"
 
 msgid "Add a clickable link button"
-msgstr ""
+msgstr "Klikbare knop met link toevoegen"
 
 #, fuzzy
 msgid "Elements"
@@ -1741,7 +1768,7 @@ msgid "Card"
 msgstr "Wizard"
 
 msgid "Add a styled content card"
-msgstr ""
+msgstr "Opgemaakte contentkaart toevoegen"
 
 msgid "Delete API Key"
 msgstr "Verwijder API Sleutel"
@@ -1865,14 +1892,14 @@ msgid "User Management"
 msgstr "API Sleutel Beheer"
 
 msgid "Configure how users are managed when invitations expire"
-msgstr ""
+msgstr "Stel in hoe gebruikers worden beheerd wanneer uitnodigingen verlopen"
 
 #, fuzzy
 msgid "Server Capabilities"
 msgstr "servers online"
 
 msgid "Supports Disable:"
-msgstr ""
+msgstr "Ondersteunt uitschakelen:"
 
 #, fuzzy
 msgid "Delete Only:"
@@ -1882,12 +1909,16 @@ msgid ""
 "If 'Disable User' is selected but the server does not support it, the user "
 "will be deleted instead."
 msgstr ""
+"Als ‘Gebruiker uitschakelen’ is geselecteerd maar de server dit niet "
+"ondersteunt, wordt de gebruiker in plaats daarvan verwijderd."
 
 msgid "Choose what happens to users when their invitation expires"
-msgstr ""
+msgstr "Kies wat er met gebruikers gebeurt wanneer hun uitnodiging verloopt"
 
 msgid "Immediately process all expired users based on the expiry action above"
 msgstr ""
+"Verwerk alle verlopen gebruikers direct op basis van de bovenstaande "
+"verloopactie"
 
 msgid "API Key Management"
 msgstr "API Sleutel Beheer"
@@ -1945,13 +1976,13 @@ msgid "Experimental"
 msgstr "Verwijder Agent"
 
 msgid "Configure LDAP for user authentication and management"
-msgstr ""
+msgstr "Configureer LDAP voor gebruikersauthenticatie en -beheer"
 
 msgid "Enable LDAP"
-msgstr ""
+msgstr "LDAP inschakelen"
 
 msgid "Turn on LDAP integration"
-msgstr ""
+msgstr "LDAP-integratie inschakelen"
 
 #, fuzzy
 msgid "Connection"
@@ -1962,7 +1993,7 @@ msgid "LDAP server connection"
 msgstr "Bijwerken verbinding"
 
 msgid "e.g., ldap://server:3890 or ldaps://server:6360"
-msgstr ""
+msgstr "bijv. ldap://server:3890 of ldaps://server:6360"
 
 #, fuzzy
 msgid "Use TLS"
@@ -1973,23 +2004,23 @@ msgid "Verify Cert"
 msgstr "Geverifieerd"
 
 msgid "Encrypted before storage"
-msgstr ""
+msgstr "Versleuteld vóór opslag"
 
 #, fuzzy
 msgid "User & Group Settings"
 msgstr "Instellingen Opslaan"
 
 msgid "Where to find users and groups"
-msgstr ""
+msgstr "Waar gebruikers en groepen gevonden worden"
 
 msgid "Optional - only needed for admin group restriction"
-msgstr ""
+msgstr "Optioneel — alleen nodig voor beperking tot beheerdersgroep"
 
 msgid "Sync Groups"
-msgstr ""
+msgstr "Groepen synchroniseren"
 
 msgid "Sync LDAP groups to populate admin group selection"
-msgstr ""
+msgstr "Synchroniseer LDAP-groepen om de beheerdersgroepselectie te vullen"
 
 #, fuzzy
 msgid "Advanced Settings"
@@ -1999,34 +2030,38 @@ msgid ""
 "Defaults are optimized for LLDAP. Only change if using a different LDAP "
 "server."
 msgstr ""
+"De standaardwaarden zijn geoptimaliseerd voor LLDAP. Wijzig dit alleen als "
+"je een andere LDAP-server gebruikt."
 
 #, fuzzy
 msgid "Manage all users - both LDAP and local authentication"
 msgstr "Beheer je passkeys voor wachtwoordloos authenticatie."
 
 msgid "Sync from LDAP"
-msgstr ""
+msgstr "Synchroniseren vanuit LDAP"
 
 msgid ""
 "Users can authenticate via LDAP or locally. Sync automatically imports new "
 "users from LDAP."
 msgstr ""
+"Gebruikers kunnen inloggen via LDAP of lokaal. Synchronisatie importeert "
+"automatisch nieuwe gebruikers vanuit LDAP."
 
 #, fuzzy
 msgid "Admin Authentication"
 msgstr "Geen openstaande 2FA authenicatie"
 
 msgid "Allow administrators to log in using LDAP"
-msgstr ""
+msgstr "Beheerders toestaan om via LDAP in te loggen"
 
 msgid "Allow Admin Login via LDAP"
-msgstr ""
+msgstr "Beheerderslogin via LDAP toestaan"
 
 msgid "Enable admin login using LDAP credentials"
-msgstr ""
+msgstr "Inloggen als beheerder met LDAP-inloggegevens inschakelen"
 
 msgid "Optional: Restrict admin access to members of this LDAP group"
-msgstr ""
+msgstr "Optioneel: beperk beheerderstoegang tot leden van deze LDAP-groep"
 
 msgid "Notification Agents"
 msgstr "Meldings Agents"
@@ -2130,7 +2165,7 @@ msgid "Add Step to Bundle"
 msgstr "Toevoegen stappen aan bundel"
 
 msgid "No bundles available yet"
-msgstr ""
+msgstr "Er zijn nog geen bundels beschikbaar"
 
 msgid "Add Preset"
 msgstr "Voorinstelling Toevoegen"
@@ -2163,6 +2198,8 @@ msgstr "Geen recente uitnodigingen geaccepteerd"
 
 msgid "Steps shown to users before they accept the invitation"
 msgstr ""
+"Stappen die aan gebruikers worden getoond voordat ze de uitnodiging "
+"accepteren"
 
 msgid "Are you sure you want to delete this step?"
 msgstr "Weet je zeker dat je deze stap wilt verwijderen?"
@@ -2177,16 +2214,17 @@ msgstr "Vul je uitnodigingscode in"
 
 msgid "Steps shown to users after they accept the invitation"
 msgstr ""
+"Stappen die aan gebruikers worden getoond nadat ze de uitnodiging accepteren"
 
 #, fuzzy
 msgid "No post-invite steps configured"
 msgstr "Geen servers geconfigureerd"
 
 msgid "Additional Categories"
-msgstr ""
+msgstr "Extra categorieën"
 
 msgid "Steps that use custom categories keep their order here."
-msgstr ""
+msgstr "Stappen met aangepaste categorieën behouden hier hun volgorde."
 
 #, fuzzy
 msgid "Orphaned Steps"
@@ -2196,6 +2234,8 @@ msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
 msgstr ""
+"Deze items zijn niet meer gekoppeld aan een stap. Verwijder ze om de bundel "
+"overzichtelijk te houden."
 
 msgid "Step deleted (orphaned)"
 msgstr "Stap verwijderd (verweesd)"
@@ -2329,6 +2369,9 @@ msgid ""
 "Are you sure you want to reset all steps for %(server)s to defaults? This "
 "will delete all custom steps and reimport the default ones."
 msgstr ""
+"Weet je zeker dat je alle stappen voor %(server)s wilt terugzetten naar de "
+"standaardinstellingen? Hiermee worden alle aangepaste stappen verwijderd en "
+"worden de standaardstappen opnieuw geïmporteerd."
 
 #, fuzzy, python-format
 msgid "Reset %(server)s Steps to Defaults"

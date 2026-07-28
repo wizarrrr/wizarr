@@ -149,6 +149,12 @@ class RommClient(RestApiMixin):
 
         remote_by_id = {str(u.get("id") or u["username"]): u for u in remote_users}
 
+        known_users = User.query.filter(
+            User.server_id == getattr(self, "server_id", None)
+        ).all()
+        if self._skip_prune_on_empty_remote(not remote_by_id, known_users):
+            return known_users
+
         # 1) upsert basic user rows so Wizarr UI has something to show
         for romm_id, ru in remote_by_id.items():
             db_row: User | None = User.query.filter_by(

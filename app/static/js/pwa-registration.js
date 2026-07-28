@@ -11,9 +11,25 @@
   // Service Worker Registration
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-      navigator.serviceWorker.register('/static/sw.js')
+      // updateViaCache: 'none' ensures the browser always fetches sw.js from the
+      // server instead of the HTTP cache, so service worker updates are detected
+      // immediately after deployment.
+      navigator.serviceWorker.register('/static/sw.js', { updateViaCache: 'none' })
         .then(function(registration) {
           console.log('ServiceWorker registration successful with scope: ', registration.scope);
+
+          // Check for service worker updates every hour
+          setInterval(function() { registration.update(); }, 60 * 60 * 1000);
+
+          // Listen for a new service worker becoming available
+          registration.addEventListener('updatefound', function() {
+            var newWorker = registration.installing;
+            newWorker.addEventListener('statechange', function() {
+              if (newWorker.state === 'activated') {
+                console.log('New Wizarr version activated');
+              }
+            });
+          });
         })
         .catch(function(err) {
           console.log('ServiceWorker registration failed: ', err);

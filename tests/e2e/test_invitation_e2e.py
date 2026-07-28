@@ -150,8 +150,8 @@ class TestInvitationUserJourney:
 
         # Fill out the form
         page.fill("input[name='username']", "e2etestuser")
-        page.fill("input[name='password']", "testpassword123")
-        page.fill("input[name='confirm_password']", "testpassword123")
+        page.fill("input[name='password']", "Testpassword123")
+        page.fill("input[name='confirm_password']", "Testpassword123")
         page.fill("input[name='email']", "e2etest@example.com")
 
         # Submit the form
@@ -216,8 +216,8 @@ class TestInvitationUserJourney:
             "input[name='username']:not([style*='opacity: 0'])", timeout=5000
         )
         page.fill("input[name='username']", "testuser")
-        page.fill("input[name='password']", "password123")
-        page.fill("input[name='confirm_password']", "differentpassword")
+        page.fill("input[name='password']", "Password123")
+        page.fill("input[name='confirm_password']", "Differentpassword123")
         page.fill("input[name='email']", "test@example.com")
         expect(page.locator("button[type='submit']")).to_be_visible()
         page.click("button[type='submit']")
@@ -304,8 +304,8 @@ class TestInvitationUserJourney:
 
         # Fill and submit form
         page.fill("input[name='username']", "erroruser")
-        page.fill("input[name='password']", "testpass123")
-        page.fill("input[name='confirm_password']", "testpass123")
+        page.fill("input[name='password']", "Testpass123")
+        page.fill("input[name='confirm_password']", "Testpass123")
         page.fill("input[name='email']", "error@example.com")
         expect(page.locator("button[type='submit']")).to_be_visible()
         page.click("button[type='submit']")
@@ -417,8 +417,8 @@ class TestMultiServerInvitationFlow:
 
         # Fill and submit the user registration form
         page.fill("input[name='username']", "multiuser")
-        page.fill("input[name='password']", "testpass123")
-        page.fill("input[name='confirm_password']", "testpass123")
+        page.fill("input[name='password']", "Testpass123")
+        page.fill("input[name='confirm_password']", "Testpass123")
         page.fill("input[name='email']", "multi@example.com")
         page.click("button:has-text('Create Account')")
 
@@ -515,8 +515,8 @@ class TestMultiServerInvitationFlow:
         # Should show invitation content and registration form
         page.wait_for_selector("input[name='username']", timeout=10000)
         page.fill("input[name='username']", "partialuser")
-        page.fill("input[name='password']", "testpass123")
-        page.fill("input[name='confirm_password']", "testpass123")
+        page.fill("input[name='password']", "Testpass123")
+        page.fill("input[name='confirm_password']", "Testpass123")
         page.fill("input[name='email']", "partial@example.com")
         page.click("button:has-text('Create Account')")
 

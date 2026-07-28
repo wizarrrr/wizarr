@@ -1,4 +1,7 @@
 {# Render library checkboxes grouped by server #}
+{# Marker so the invite form can distinguish "opened the picker and cleared it"
+   (reject, must choose >=1) from "never opened it" (fall back to all enabled). #}
+<input type="hidden" name="library_picker_used" value="1">
 {% if servers|length > 1 %}
   <div class="mb-2 text-xs text-gray-500 dark:text-gray-400">
     Libraries are grouped by server. Each library can be selected independently.

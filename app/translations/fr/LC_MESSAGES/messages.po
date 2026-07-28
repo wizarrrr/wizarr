@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-04-02 05:13+0000\n"
-"PO-Revision-Date: 2025-11-03 20:05+0000\n"
-"Last-Translator: Watever44 <jeannicolas.turcotte@gmail.com>\n"
+"POT-Creation-Date: 2026-07-28 06:02+0000\n"
+"PO-Revision-Date: 2026-05-30 06:30+0000\n"
+"Last-Translator: nicobubulle <nicobubulle@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/fr/>\n"
 "Language: fr\n"
@@ -17,31 +17,26 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 2026.6.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
 msgid "Failed to load settings"
-msgstr "Échec du chargement des statistiques"
+msgstr "Échec du chargement des paramètres"
 
-#, fuzzy
 msgid "Failed to load dashboard data"
-msgstr "Échec du chargement de l'état de santé du serveur"
+msgstr "Échec du chargement des données du tableau de bord"
 
-#, fuzzy
 msgid "Failed to load history data"
-msgstr "Échec du chargement de l'état de santé du serveur"
+msgstr "Échec du chargement des données historiques"
 
-#, fuzzy
 msgid "Failed to load activity data"
-msgstr "Échec du chargement de l'état de santé du serveur"
+msgstr "Échec du chargement des données d'activité"
 
-#, fuzzy
 msgid "Failed to load activity summary"
-msgstr "Échec du chargement de l'état de santé du serveur"
+msgstr "Échec du chargement du résumé des activités"
 
-#, fuzzy
 msgid "Failed to get activity statistics"
-msgstr "Échec du chargement des statistiques"
+msgstr "Échec de la récupération des statistiques d'activité"
 
 msgid "Database not available"
 msgstr "Base de donnée non accessible"
@@ -52,9 +47,8 @@ msgstr "Impossible de récupérer les détails de la sessions"
 msgid "Failed to export activity data"
 msgstr "Impossible d'exporter les données d'activité"
 
-#, fuzzy
 msgid "Monitoring restarted"
-msgstr "Administrateur créé"
+msgstr "Redémarrage de la surveillance"
 
 msgid "Monitor not available"
 msgstr "Le monitoring est innacessible"
@@ -67,30 +61,26 @@ msgstr "{} a été nettoyé des anciennes activités"
 msgid "Ended {} stale sessions"
 msgstr "{} a clôturé les anciennes sessions"
 
-#, fuzzy
 msgid "Unknown action"
-msgstr "Type de connexion inconnu"
+msgstr "Type d'action inconnu"
 
-#, fuzzy
 msgid "Failed to update settings"
-msgstr "Échec du chargement des statistiques"
+msgstr "Échec de la mise à jour des paramètres"
 
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
 msgstr ""
 "Les données d’activité ont été supprimées avec succès ({} enregistrements)."
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to delete activity data: {}"
-msgstr "Échec lors de la remise à zéro de la clé d'authentification pour {}"
+msgstr "Échec de l'effaçage des données: {}"
 
-#, fuzzy
 msgid "Please select a media server."
 msgstr "Veuillez sélectionner au moins un serveur pour l'invitation."
 
-#, fuzzy
 msgid "Media server not found."
-msgstr "Serveur de médias"
+msgstr "Serveur de médias non trouvé."
 
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, Emby, "
@@ -110,26 +100,24 @@ msgstr ""
 msgid "Failed to import historical data: {}"
 msgstr "Échec de l’importation des données historiques : {}"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully cleared {} historical entries."
-msgstr "{} éléments ont bien été importés"
+msgstr "Nettoyage réussi {} des entrées historisées."
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to clear historical data: {}"
-msgstr "Échec du chargement des statistiques"
+msgstr "Échec du nettoyage des données statistiques :{}"
 
-#, fuzzy
 msgid "Unknown error"
-msgstr "Une erreur inconnue s'est produite"
+msgstr "Erreur inconnue"
 
 msgid "Cannot remove a job that is still queued or running."
 msgstr ""
 "Impossible de supprimer une tâche qui est encore en file d’attente ou en "
 "cours d’exécution."
 
-#, fuzzy
 msgid "An internal error has occurred."
-msgstr "Une erreur inconnue s'est produite"
+msgstr "Une erreur interne s'est produite"
 
 msgid "Unknown"
 msgstr "Inconnu(e)"
@@ -176,10 +164,12 @@ msgid ""
 "No admin account found. Please set up a proper admin account before creating "
 "API keys."
 msgstr ""
+"Aucun compte administrateur existant. Merci de créer un compte "
+"administrateur avant de créer des clés API."
 
-#, fuzzy
 msgid "Failed to create API key due to a database error."
-msgstr "Échec lors de la remise à zéro de la clé d'authentification pour {}"
+msgstr ""
+"Échec de création de la clé API en raison d'une erreur de la base de données."
 
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown again."
@@ -190,30 +180,26 @@ msgstr ""
 msgid "API key deleted successfully"
 msgstr "La clé API a été supprimée avec succès"
 
-#, fuzzy
 msgid "LDAP authentication is not enabled"
-msgstr "Authentification échouée"
+msgstr "L'authentification LDAP n'est pas activée"
 
-#, fuzzy
 msgid "LDAP admin authentication is not allowed"
-msgstr "Authentification échouée"
+msgstr "L'authentification LDAP n'est pas autorisée"
 
 msgid "Invalid LDAP credentials"
-msgstr ""
+msgstr "Identifiants LDAP invalides"
 
 msgid "User DN not found in LDAP response"
-msgstr ""
+msgstr "DN de l'utilisateur introuvable dans la réponse LDAP"
 
 msgid "User is not authorized as an administrator"
-msgstr ""
+msgstr "Vous ne disposez pas des privilèges d'administrateur"
 
-#, fuzzy
 msgid "Login successful"
-msgstr "Test de connexion réussi !"
+msgstr "Connexion réussie"
 
-#, fuzzy
 msgid "LDAP authentication failed"
-msgstr "Authentification échouée"
+msgstr "Authentification LDAP échouée"
 
 msgid "Invalid username or password"
 msgstr "Nom d'utilisateur ou mot de passe invalide"
@@ -256,6 +242,8 @@ msgstr "Données du formulaire invalides : %(errors)s"
 msgid ""
 "There was an issue setting up your access. Please contact your server admin."
 msgstr ""
+"Un problème est survenu lors de la configuration de votre accès. Veuillez "
+"contacter l'administrateur du serveur."
 
 msgid "Settings saved successfully!"
 msgstr "Les paramètres ont bien été enregistrés !"
@@ -281,43 +269,40 @@ msgstr "Échec de l'analyse de la bibliothèque"
 
 #, python-brace-format
 msgid "Successfully cleaned {count} expired user(s)."
-msgstr ""
+msgstr "{count} utilisateur(s) expiré(s) nettoyé(s) avec succès."
 
-#, fuzzy
 msgid "No expired users found to clean."
-msgstr "Aucune étape d'assistant trouvée"
+msgstr "Aucun utilisateur expiré à nettoyer n'a été trouvé."
 
-#, fuzzy
 msgid ""
 "Are you sure you want to clean all expired users? This action cannot be "
 "undone."
-msgstr "Voulez-vous vraiment supprimer ce lot ?"
+msgstr ""
+"Voulez-vous vraiment supprimer tous les utilisateurs expirés ? Cette action "
+"est irréversible."
 
-#, fuzzy
 msgid "Clean Expired Users"
-msgstr "Pas d'expiration"
+msgstr "Nettoyer les utilisateurs expirés"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to clean expired users: {error}"
-msgstr "Échec lors de la remise à zéro de la clé d'authentification pour {}"
+msgstr "Échec du nettoyage des utilisateurs expirés : {error}"
 
-#, fuzzy
 msgid "LDAP configuration saved successfully"
-msgstr "La connexion a bien été mise à jour !"
+msgstr "Configuration LDAP enregistrée avec succès"
 
 msgid "LDAP not configured or disabled"
-msgstr ""
+msgstr "LDAP non configuré ou désactivé"
 
 msgid "No groups found in LDAP"
-msgstr ""
+msgstr "Aucun groupe trouvé dans LDAP"
 
-#, fuzzy
 msgid "LDAP is not configured"
-msgstr "étapes configurées"
+msgstr "LDAP n'est pas configuré"
 
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to list LDAP users: %(error)s"
-msgstr "Échec lors de la remise à zéro de la clé d'authentification pour {}"
+msgstr "Échec de la récupération de la liste des utilisateurs LDAP : %(error)s"
 
 msgid "Admin account created – welcome!"
 msgstr "Compte administrateur créé – Bienvenue !"
@@ -339,9 +324,8 @@ msgstr ""
 "Cette étape n’a pas pu être chargée. Veuillez contacter l’administrateur ou "
 "passer à l’étape suivante."
 
-#, fuzzy
 msgid "Invalid or expired invitation"
-msgstr "Invitation Invalide"
+msgstr "Invitation invalide ou expirée"
 
 msgid ""
 "No media servers are configured. Please contact the administrator to set up "
@@ -355,48 +339,47 @@ msgstr ""
 "Impossible de charger les étapes de l’assistant de configuration. Passage à "
 "l’acceptation de l’invitation."
 
-#, fuzzy
 msgid "Continue to Invite"
-msgstr "Nouvelle invitation"
+msgstr "Continuer vers l'invitation"
 
 msgid "Please log in to continue"
-msgstr "Veuillez vous connecter pour continuer."
+msgstr "Veuillez vous connecter pour continuer"
 
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
+"Impossible de charger les étapes de l'assistant. Configuration terminée ! "
+"Bienvenue sur votre serveur multimédia."
 
 msgid "Setup complete! Welcome to your media server."
-msgstr ""
+msgstr "Configuration terminée ! Bienvenue sur votre serveur multimédia."
 
-#, fuzzy
 msgid "Unable to load wizard configuration. Please try again."
-msgstr "Impossible de charger la lecture en cours"
+msgstr ""
+"Impossible de charger la configuration de l'assistant. Veuillez réessayer."
 
-#, fuzzy
 msgid "Unable to load wizard bundle. Please try again."
-msgstr "Impossible de charger la lecture en cours"
+msgstr "Impossible de charger le composant de l'assistant. Veuillez réessayer."
 
-#, fuzzy
 msgid "Unable to load wizard steps. Please try again."
-msgstr "Impossible de charger la lecture en cours"
+msgstr "Impossible de charger les étapes de l'assistant. Veuillez réessayer."
 
 msgid "This bundle has no steps to preview."
-msgstr ""
+msgstr "Ce composant ne contient aucune étape à prévisualiser."
 
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
-msgstr ""
+msgstr "{} étape(s) orpheline(s) nettoyée(s)"
 
 msgid "Step created"
 msgstr "Étape créée"
 
 msgid "Preset step created successfully"
-msgstr ""
+msgstr "Étape prédéfinie créée avec succès"
 
 #, python-brace-format
 msgid "Error creating preset: {}"
-msgstr ""
+msgstr "Erreur lors de la création du préréglage : {}"
 
 msgid "Step updated"
 msgstr "Étape mise à jour"
@@ -445,18 +428,21 @@ msgstr "Fichier JSON invalide"
 #, python-brace-format
 msgid "Reset {} steps for {} (deleted {}, imported {})"
 msgstr ""
+"Réinitialisation de {} étapes pour {} ({} supprimée(s), {} importée(s))"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to reset steps: {}"
-msgstr "Échec lors de la remise à zéro de la clé d'authentification pour {}"
+msgstr "Échec de la réinitialisation des étapes : {}"
 
 msgid "Password must be at least 8 characters."
-msgstr ""
+msgstr "Le mot de passe doit contenir au moins 8 caractères."
 
 msgid ""
 "Password must contain at least one uppercase letter, one lowercase letter, "
 "and one number."
 msgstr ""
+"Le mot de passe doit contenir au moins une lettre majuscule, une lettre "
+"minuscule et un chiffre."
 
 msgid "Username"
 msgstr "Nom d’utilisateur"
@@ -467,32 +453,26 @@ msgstr "Mot de passe"
 msgid "Confirm password"
 msgstr "Confirmer le mot de passe"
 
-#, fuzzy
 msgid "Passwords must match."
-msgstr "Mot de passe"
+msgstr "Les mots de passe doivent correspondre."
 
 msgid "New Password"
 msgstr "Nouveau mot de passe"
 
-#, fuzzy
 msgid "Please confirm the new password."
-msgstr "Confirmer le nouveau mot de passe"
+msgstr "Veuillez confirmer le nouveau mot de passe"
 
-#, fuzzy
 msgid "Server Type"
-msgstr "Serveur"
+msgstr "Type de serveur"
 
-#, fuzzy
 msgid "Server Name"
-msgstr "Nom d’utilisateur"
+msgstr "Nom du serveur"
 
-#, fuzzy
 msgid "RomM Username"
-msgstr "Nom d’utilisateur"
+msgstr "Nom d’utilisateur RomM"
 
-#, fuzzy
 msgid "RomM Password"
-msgstr "Mot de passe"
+msgstr "Mot de passe RomM"
 
 msgid "Libraries"
 msgstr "Bibliothèques"
@@ -500,23 +480,21 @@ msgstr "Bibliothèques"
 msgid "Allow Downloads"
 msgstr "Autoriser les téléchargements"
 
-#, fuzzy
 msgid "Allow Live TV"
 msgstr "Autoriser l'accès à la TV en direct"
 
 msgid "Overseerr/Ombi URL"
-msgstr ""
+msgstr "URL Overseerr/Ombi"
 
-#, fuzzy
 msgid "Ombi API Key"
-msgstr "Aucune clé d'API"
+msgstr "Clé d'API Ombi"
 
 #, fuzzy
 msgid "Discord ID"
 msgstr "Votre ID de serveur Discord"
 
 msgid "External URL"
-msgstr ""
+msgstr "URL externe"
 
 #, python-format
 msgid "Server returned status code %(status_code)s"
@@ -909,7 +887,7 @@ msgid "To join"
 msgstr "À rejoindre"
 
 msgid "Join the ultimate media server experience."
-msgstr ""
+msgstr "Rejoignez l'expérience multimédia ultime."
 
 msgid "Enter Code to Continue"
 msgstr "Entrez le code pour continuer"
@@ -925,6 +903,15 @@ msgstr "Rejoindre le serveur"
 
 msgid "Secure invitation system powered by Wizarr"
 msgstr "Système d'invitation sécurisé propulsé par Wizarr"
+
+msgid "Pop-up blocked. Allow pop-ups for this site and try again."
+msgstr ""
+
+msgid "Sign-in cancelled. Hit Join Server to try again."
+msgstr ""
+
+msgid "Plex sign-in failed. Try again, or contact your server admin."
+msgstr ""
 
 msgid "Invite User"
 msgstr "Inviter un utilisateur"
@@ -1117,7 +1104,7 @@ msgid "Account Details"
 msgstr "Informations du compte"
 
 msgid "Expires"
-msgstr "Expiration"
+msgstr "Expire"
 
 msgid "All libraries"
 msgstr "Toutes les bibliothèques"

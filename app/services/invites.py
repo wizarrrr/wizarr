@@ -68,7 +68,7 @@ def _get_form_list(form: Any, key: str) -> list[str]:
 def create_invite(form: Any) -> Invitation:
     """Takes a WTForms or dict-like `form` with the same keys as your old version."""
     # generate or validate provided code
-    code = (form.get("code") or _generate_code()).upper()
+    code = (form.get("code") or _generate_code()).strip().upper()
 
     if (
         not (MIN_CODESIZE <= len(code) <= MAX_CODESIZE)
@@ -98,6 +98,37 @@ def create_invite(form: Any) -> Invitation:
     plex_servers = [s for s in servers if s.server_type == "plex"]
     other_servers = [s for s in servers if s.server_type != "plex"]
     servers = plex_servers + other_servers
+
+    # Validate the library selection before creating anything. The invite picker
+    # (server_library_picker.html) emits a hidden `library_picker_used` marker; if
+    # it is present but no box is checked, the admin opened the picker and cleared
+    # it. That is almost always a mistake rather than a request for an invite that
+    # grants nothing (which the media backends cannot represent anyway), so reject
+    # it and point them at the permissive default. When the picker was never opened
+    # there is no marker and the redeem-time fallback still grants all enabled
+    # libraries, so unattended invites are unaffected.
+    #
+    # The submitted IDs are validated by resolving them against Library rows that
+    # actually belong to one of the selected servers, not by their raw presence:
+    # a stale or nonexistent ID would otherwise pass this check while resolving
+    # to zero libraries below, committing an unscoped invite that the picker
+    # appeared to have restricted.
+    selected_library_ids = [
+        int(lid) for lid in _get_form_list(form, "libraries") if str(lid).isdigit()
+    ]
+    resolved_libraries = (
+        Library.query.filter(
+            Library.id.in_(selected_library_ids),
+            Library.server_id.in_([s.id for s in servers]),
+        ).all()
+        if selected_library_ids
+        else []
+    )
+    if form.get("library_picker_used") and not resolved_libraries:
+        raise ValueError(
+            "Select at least one library, or leave the library selector "
+            "untouched to grant access to all enabled libraries."
+        )
 
     invite = Invitation(
         code=code,
@@ -149,44 +180,25 @@ def create_invite(form: Any) -> Invitation:
 
         invite.servers.extend(servers)
 
-    # Wire up library associations
-    selected = _get_form_list(
-        form, "libraries"
-    )  # these are now library IDs (not external_ids)
-    if selected:
-        # Convert string IDs to integers and filter out invalid values
-        try:
-            library_ids = [int(lid) for lid in selected if lid.isdigit()]
-        except (ValueError, AttributeError):
-            library_ids = []
+    # Wire up library associations (resolved_libraries computed and validated above)
+    if resolved_libraries:
+        # Clear any existing library associations for this invite to avoid UNIQUE constraint violations
+        # This handles cases where there might be leftover data from previous attempts
+        from app.models import invite_libraries
 
-        if library_ids:
-            # Clear any existing library associations for this invite to avoid UNIQUE constraint violations
-            # This handles cases where there might be leftover data from previous attempts
-            from app.models import invite_libraries
+        db.session.execute(
+            invite_libraries.delete().where(invite_libraries.c.invite_id == invite.id)
+        )
+        db.session.flush()  # Ensure the delete is committed before adding new records
 
-            db.session.execute(
-                invite_libraries.delete().where(
-                    invite_libraries.c.invite_id == invite.id
-                )
-            )
-            db.session.flush()  # Ensure the delete is committed before adding new records
-
-            # Look up the Library objects by their IDs
-            # Also ensure they belong to one of the selected servers
-            server_ids = [s.id for s in servers]
-            libs = Library.query.filter(
-                Library.id.in_(library_ids), Library.server_id.in_(server_ids)
-            ).all()
-
-            # Since we're now using unique library IDs from the frontend,
-            # we shouldn't have duplicates, but we'll keep the deduplication
-            # logic as a safety measure
-            seen_lib_ids = set()
-            for lib in libs:
-                if lib.id not in seen_lib_ids:
-                    seen_lib_ids.add(lib.id)
-                    invite.libraries.append(lib)
+        # Since we're now using unique library IDs from the frontend,
+        # we shouldn't have duplicates, but we'll keep the deduplication
+        # logic as a safety measure
+        seen_lib_ids = set()
+        for lib in resolved_libraries:
+            if lib.id not in seen_lib_ids:
+                seen_lib_ids.add(lib.id)
+                invite.libraries.append(lib)
 
     # Wire up LDAP user creation flag
     invite.create_ldap_user = bool(form.get("create_ldap_user"))

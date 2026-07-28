@@ -236,9 +236,12 @@ def scan_libraries():
         error_message = str(exc) if str(exc) else _("Library scan failed")
         return f"<div class='text-red-500 p-3 border border-red-300 rounded-lg bg-red-50 dark:bg-red-900 dark:border-red-700'><strong>{_('Error')}:</strong> {error_message}</div>"
 
-    # 3) Delete all old libraries and insert fresh ones
-    # Note: This assumes single-server legacy setup (settings route)
-    Library.query.delete()
+    # 3) Replace the rows this legacy route owns and insert fresh ones.
+    # Scoped to server_id IS NULL: this route predates multi-server support and
+    # creates unbound rows, so an unscoped delete would also destroy libraries
+    # belonging to real MediaServers and orphan the invite_libraries rows that
+    # reference them.
+    Library.query.filter_by(server_id=None).delete()
     db.session.flush()
 
     # Insert fresh libraries with correct external IDs

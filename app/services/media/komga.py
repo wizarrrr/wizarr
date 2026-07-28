@@ -219,6 +219,12 @@ class KomgaClient(RestApiMixin):
             response = self.get("/api/v2/users")
             komga_users = {u["id"]: u for u in response.json()}
 
+            known_users = User.query.filter(
+                User.server_id == getattr(self, "server_id", None)
+            ).all()
+            if self._skip_prune_on_empty_remote(not komga_users, known_users):
+                return known_users
+
             for komga_user in komga_users.values():
                 existing = User.query.filter_by(token=komga_user["id"]).first()
                 if not existing:

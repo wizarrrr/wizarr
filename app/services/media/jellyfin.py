@@ -10,6 +10,7 @@ from app.extensions import db
 from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid
 
+from .auth_headers import media_browser_auth_headers
 from .client_base import RestApiMixin, register_media_client
 
 if TYPE_CHECKING:
@@ -28,11 +29,8 @@ class JellyfinClient(RestApiMixin):
         super().__init__(*args, **kwargs)
 
     def _headers(self) -> dict[str, str]:  # type: ignore
-        """Return default headers including X-Emby-Token if available."""
-        headers = {"Accept": "application/json"}
-        if self.token:
-            headers["X-Emby-Token"] = self.token
-        return headers
+        """Return default headers for Jellyfin API requests."""
+        return media_browser_auth_headers(self.token)
 
     def libraries(self) -> dict[str, str]:
         """Return mapping of library_id → library_name."""
@@ -57,10 +55,9 @@ class JellyfinClient(RestApiMixin):
         """
         try:
             if url and token:
-                headers = {"X-Emby-Token": token}
                 response = requests.get(
                     f"{url.rstrip('/')}/Library/MediaFolders",
-                    headers=headers,
+                    headers=media_browser_auth_headers(token),
                     timeout=10,
                 )
                 response.raise_for_status()
@@ -433,8 +430,12 @@ class JellyfinClient(RestApiMixin):
 
         jf_users_by_id = {u["Id"]: u for u in raw_users}
 
+        known_users = self._get_server_users()
+        if self._skip_prune_on_empty_remote(not jf_users_by_id, known_users):
+            return known_users
+
         # Remove users no longer in Jellyfin, add new users
-        for db_user in self._get_server_users():
+        for db_user in known_users:
             if db_user.token not in jf_users_by_id:
                 db.session.delete(db_user)
 
@@ -664,7 +665,12 @@ class JellyfinClient(RestApiMixin):
         """Get movie poster URLs for background display."""
         poster_urls = []
         try:
-            # Get recent movies from all libraries
+            # Get recent movies from all libraries. Recursive is required: without
+            # it /Items only returns the library folders at the root, so this came
+            # back empty and the cinema background silently showed nothing. Safe to
+            # enable now only because the poster URLs below go through the image
+            # proxy; enabling it while the raw api_key URL was returned would have
+            # turned the latent /cinema-posters leak into an active one.
             response = self.get(
                 "/Items",
                 params={
@@ -674,6 +680,7 @@ class JellyfinClient(RestApiMixin):
                     "Limit": limit * 2,  # Get more than needed as fallback
                     "Fields": "PrimaryImageAspectRatio",
                     "HasPrimaryImage": True,
+                    "Recursive": True,
                 },
             ).json()
 
@@ -684,11 +691,13 @@ class JellyfinClient(RestApiMixin):
 
                     item_id = item.get("Id")
                     if item_id:
-                        # Build poster URL
+                        # Build the poster URL and route it through the image
+                        # proxy. The api_key is deliberately kept out of the URL;
+                        # the proxy re-attaches it as a header server-side (see
+                        # ImageProxyService.get_server_headers), so the admin
+                        # token is never exposed to the client.
                         poster_url = f"{self.url}/Items/{item_id}/Images/Primary"
-                        if self.token:
-                            poster_url += f"?api_key={self.token}"
-                        poster_urls.append(poster_url)
+                        poster_urls.append(self.generate_image_proxy_url(poster_url))
 
         except Exception as e:
             import logging

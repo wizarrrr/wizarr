@@ -344,10 +344,98 @@ def scan_libraries(
     return client.libraries()
 
 
-def scan_libraries_for_server(server: MediaServer):
-    """Scan libraries for the given server and upsert into our Library table."""
+def scan_libraries_for_server(server: MediaServer) -> tuple[Any, bool]:
+    """Scan libraries for the given server and upsert into our Library table.
+
+    Returns ``(scan_result, authoritative)``. ``authoritative`` reports whether
+    ``scan_result`` can be trusted to reconcile libraries that are missing from
+    it as actually removed - see ``MediaClient.libraries_scan_authoritative``
+    and ``upsert_scanned_libraries``. Callers that only add/update and never
+    reconcile removals (e.g. the API library listing) can ignore it.
+    """
     client = get_client_for_media_server(server)
-    return client.libraries()
+    scan_result = client.libraries()
+    return scan_result, client.libraries_scan_authoritative(scan_result)
+
+
+def upsert_scanned_libraries(
+    server: MediaServer, scan_result: Any, *, authoritative: bool = True
+) -> None:
+    """Reconcile a server's Library rows with a scan result. Does not commit.
+
+    ``scan_result`` is either a ``{external_id: name}`` dict or a list of names.
+    Existing rows keep their primary key (so invites keep referencing them) and
+    their ``enabled`` flag, which is the admin's saved default and what the
+    checkbox partial renders from. New libraries are inserted enabled. A library
+    that vanished from the scan is disabled if any invitation still references it,
+    otherwise deleted, but only when ``authoritative`` is true.
+
+    ``authoritative`` (see ``scan_libraries_for_server``) is the caller's signal
+    that ``scan_result`` genuinely reflects the server's current libraries, not
+    a guess based on counts alone: a same-size scan can still have silently
+    swapped in a different library, and a real removal must not be blocked
+    forever just because it shrinks the count. When it's false, removal
+    reconciliation is skipped entirely; adds and name updates still apply, so
+    genuinely new libraries always show up.
+
+    A malformed ``scan_result`` (e.g. ``None``) is treated the same as an empty
+    one rather than raising, so a bad result from one server in a multi-server
+    scan can't abort reconciliation already done for earlier servers in the
+    same request.
+
+    Shared by the invite modal scan and the server edit-form scan; each caller
+    keeps its own handling of a failed scan and its own commit/flush.
+    """
+    from app.models import Library, invite_libraries
+
+    try:
+        pairs = list(
+            scan_result.items()
+            if isinstance(scan_result, dict)
+            else [(name, name) for name in scan_result]
+        )
+    except TypeError:
+        pairs = []
+
+    # A scan that returns nothing must not mutate anything: Plex's global-id source
+    # can transiently return an empty librarySections list, and trusting it would
+    # disable or delete every real library and wipe the admin's invite defaults.
+    if not pairs:
+        return
+
+    existing_libs = {
+        lib.external_id: lib
+        for lib in Library.query.filter_by(server_id=server.id).all()
+    }
+
+    incoming_ids: set[str] = set()
+    for fid, name in pairs:
+        fid = str(fid)
+        incoming_ids.add(fid)
+        if fid in existing_libs:
+            existing_libs[fid].name = name
+        else:
+            db.session.add(
+                Library(
+                    external_id=fid,
+                    name=name,
+                    server_id=server.id,
+                    enabled=True,
+                )
+            )
+
+    if not authoritative:
+        return
+
+    for ext, lib in existing_libs.items():
+        if str(ext) not in incoming_ids:
+            referenced = db.session.execute(
+                invite_libraries.select().where(invite_libraries.c.library_id == lib.id)
+            ).first()
+            if referenced:
+                lib.enabled = False
+            else:
+                db.session.delete(lib)
 
 
 def reset_user_password(db_id: int, new_password: str) -> bool:

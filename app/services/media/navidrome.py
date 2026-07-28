@@ -147,6 +147,10 @@ class NavidromeClient(RestApiMixin):
 
         users_by_name = {u["username"]: u for u in users_data}
 
+        known_users = User.query.filter(User.server_id == server_id).all()
+        if self._skip_prune_on_empty_remote(not users_by_name, known_users):
+            return known_users
+
         try:
             # Add new users or update existing ones
             for username, remote in users_by_name.items():

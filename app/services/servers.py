@@ -6,6 +6,8 @@ from plexapi.exceptions import PlexApiException
 from plexapi.server import PlexServer
 from requests import exceptions as req_exc
 
+from app.services.media.auth_headers import media_browser_auth_headers
+
 
 # Raised when a server returns a non-200 status code.
 class ServerResponseError(Exception):
@@ -67,7 +69,9 @@ def check_plex(url: str, token: str) -> tuple[bool, str]:
 
 
 def check_jellyfin_or_emby_internal(url: str, token: str) -> tuple[bool, str]:
-    resp = requests.get(f"{url}/Users", headers={"X-Emby-Token": token}, timeout=10)
+    resp = requests.get(
+        f"{url}/Users", headers=media_browser_auth_headers(token), timeout=10
+    )
     if resp.status_code != 200:
         raise ServerResponseError(resp.status_code, resp.url)
     return True, ""

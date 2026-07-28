@@ -1,6 +1,5 @@
 from pathlib import Path
 
-import requests
 import structlog
 from flask import (
     Blueprint,
@@ -22,6 +21,46 @@ from app.services.invites import is_invite_valid
 from app.services.media.plex import PlexInvitationError, handle_oauth_token
 
 public_bp = Blueprint("public", __name__)
+
+
+def _media_permission_flags(invitation: Invitation, server: MediaServer) -> dict:
+    return {
+        "allow_downloads": bool(getattr(invitation, "allow_downloads", False))
+        or bool(getattr(server, "allow_downloads", False)),
+        "allow_live_tv": bool(getattr(invitation, "allow_live_tv", False))
+        or bool(getattr(server, "allow_live_tv", False)),
+        "allow_mobile_uploads": bool(getattr(invitation, "allow_mobile_uploads", False))
+        or bool(getattr(server, "allow_mobile_uploads", False)),
+    }
+
+
+def _apply_safe_media_user_policy(
+    client, user_id: str, invitation: Invitation, server: MediaServer
+) -> dict:
+    permissions = _media_permission_flags(invitation, server)
+    current_policy = client.get(f"/Users/{user_id}").json().get("Policy", {})
+    current_policy.update(
+        {
+            "IsAdministrator": False,
+            "EnableContentDeletion": False,
+            "EnableContentDeletionFromFolders": [],
+            "EnableContentDownloading": permissions["allow_downloads"],
+            "EnableLiveTvAccess": permissions["allow_live_tv"],
+            "EnableLiveTvManagement": False,
+            "AllowCameraUpload": permissions["allow_mobile_uploads"],
+            "EnablePublicSharing": False,
+            "AllowSharingPersonalItems": False,
+            "EnableSubtitleManagement": False,
+            "EnableRemoteControlOfOtherUsers": False,
+        }
+    )
+
+    max_sessions = getattr(invitation, "max_active_sessions", None)
+    if server.server_type == "jellyfin" and max_sessions is not None:
+        current_policy["MaxActiveSessions"] = max_sessions
+
+    client.set_policy(user_id, current_policy)
+    return permissions
 
 
 # ─── Landing “/” ──────────────────────────────────────────────────────────────
@@ -184,6 +223,7 @@ def join():
         "komga",
     ):
         from app.forms.join import JoinForm
+        from app.services.invitation_flow.workflows import _get_server_colors
 
         # Get server name for the invitation using the new resolver if available
         try:
@@ -205,11 +245,15 @@ def join():
 
         form = JoinForm()
         form.code.data = code
+        colors = _get_server_colors(server_type)
         return render_template(
             "welcome-jellyfin.html",
             code=code,
             server_type=server_type,
             server_name=server_name,
+            gradient_start=colors["gradient_start"],
+            gradient_end=colors["gradient_end"],
+            shadow_color=colors["shadow_color"],
             form=form,
         )
 
@@ -372,8 +416,12 @@ def password_prompt(code):
             client = get_client_for_media_server(srv)
 
             try:
+                permissions = _media_permission_flags(invitation, srv)
                 if srv.server_type in ("jellyfin", "emby"):
                     uid = client.create_user(username, pw)
+                    permissions = _apply_safe_media_user_policy(
+                        client, uid, invitation, srv
+                    )
                 elif srv.server_type in ("audiobookshelf", "romm"):
                     uid = client.create_user(username, pw, email=email)
                 else:
@@ -393,6 +441,10 @@ def password_prompt(code):
                 new_user.server_id = srv.id
                 new_user.expires = user_expires  # Set expiry based on invitation duration (server-specific)
                 new_user.is_ldap_user = is_ldap_user
+                new_user.is_admin = False
+                new_user.allow_downloads = permissions["allow_downloads"]
+                new_user.allow_live_tv = permissions["allow_live_tv"]
+                new_user.allow_camera_upload = permissions["allow_mobile_uploads"]
                 db.session.add(new_user)
                 db.session.commit()
 
@@ -411,6 +463,14 @@ def password_prompt(code):
     return render_template("choose-password.html", code=code)
 
 
+def _image_proxy_response(data: bytes, content_type: str) -> Response:
+    """Build a browser-safe, cacheable response for proxied image bytes."""
+    response = Response(data, content_type=content_type)
+    response.headers["Cache-Control"] = "public, max-age=3600"
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    return response
+
+
 # ─── Image proxy to allow internal artwork URLs ─────────────────────────────
 @public_bp.route("/image-proxy")
 def image_proxy():
@@ -426,41 +486,81 @@ def image_proxy():
     if not token:
         return Response(status=400)
 
-    # Check image cache first
-    cached_image = ImageProxyService.get_cached_image(token)
-    if cached_image:
-        resp = Response(cached_image["data"], content_type=cached_image["content_type"])
-        resp.headers["Cache-Control"] = "public, max-age=3600"
-        return resp
-
-    # Validate token and get URL
-    mapping = ImageProxyService.validate_token(token)
-    if not mapping:
-        return Response(status=403)  # Invalid or expired token
-
-    url = mapping["url"]
-    server_id = mapping.get("server_id")
-
     try:
-        # Prepare headers for authenticated requests (cached per server)
-        headers = ImageProxyService.get_server_headers(server_id).copy()
+        # Validate token and resolve the upstream URL. Any misconfiguration (an
+        # unset SECRET_KEY makes _get_secret fail closed) surfaces here as a 502
+        # rather than an uncaught 500.
+        mapping = ImageProxyService.validate_token(token)
+        if not mapping:
+            return Response(status=403)  # Invalid or expired token
 
-        # Fetch the image using a pooled session to reuse TCP/TLS handshakes
+        # Cache hits still require a currently valid token. In particular, this
+        # keeps cached image bytes from bypassing token expiry or SECRET_KEY
+        # removal/rotation.
+        cached_image = ImageProxyService.get_cached_image(token)
+        if cached_image:
+            return _image_proxy_response(
+                cached_image["data"], cached_image["content_type"]
+            )
+
+        url = mapping["url"]
+        server_id = mapping.get("server_id")
+
+        # Prepare headers for authenticated requests (cached per server)
+        headers = ImageProxyService.get_server_headers(server_id, url).copy()
+
+        # Fetch the image using a pooled session to reuse TCP/TLS handshakes.
+        # Artwork endpoints return the image directly, so redirects are not
+        # followed: that keeps the authenticated header from being replayed to
+        # another host if an upstream ever returns a 3xx.
         session = ImageProxyService.get_session(url, server_id)
-        r = session.get(url, headers=headers, timeout=(5, 15))
-        r.raise_for_status()
-        content_type = r.headers.get("Content-Type", "image/jpeg")
-        image_data = r.content
+        max_bytes = ImageProxyService.IMAGE_PROXY_MAX_BYTES
+        with session.get(
+            url,
+            headers=headers,
+            timeout=(5, 15),
+            allow_redirects=False,
+            stream=True,
+        ) as r:
+            r.raise_for_status()
+
+            # Redirects are intentionally not followed; treat an unfollowed 3xx
+            # as an upstream failure rather than serving its body. Log it so blank
+            # artwork from a redirect-fronted upstream is diagnosable.
+            if r.status_code >= 300:
+                structlog.get_logger().warning(
+                    "image-proxy upstream returned a redirect; not following",
+                    status=r.status_code,
+                )
+                return Response(status=502)
+
+            # Reject early on an honest Content-Length, then enforce a hard byte
+            # cap while streaming so a large or malicious upstream cannot exhaust
+            # memory on this unauthenticated route.
+            declared_length = r.headers.get("Content-Length")
+            if declared_length is not None:
+                try:
+                    if int(declared_length) > max_bytes:
+                        return Response(status=502)
+                except ValueError:
+                    pass  # Unparseable header; the streaming cap below still applies.
+
+            chunks: list[bytes] = []
+            total = 0
+            for chunk in r.iter_content(64 * 1024):
+                total += len(chunk)
+                if total > max_bytes:
+                    return Response(status=502)
+                chunks.append(chunk)
+
+            image_data = b"".join(chunks)
+            content_type = r.headers.get("Content-Type", "image/jpeg")
 
         # Cache the image
         ImageProxyService.cache_image(token, image_data, content_type)
 
-        resp = Response(image_data, content_type=content_type)
-        resp.headers["Cache-Control"] = "public, max-age=3600"
-        return resp
+        return _image_proxy_response(image_data, content_type)
 
-    except requests.RequestException:
-        return Response(status=502)
     except Exception:
         return Response(status=502)
 
