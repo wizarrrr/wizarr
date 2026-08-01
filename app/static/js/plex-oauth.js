@@ -37,17 +37,35 @@ function plexOAuthClear() {
     }
 }
 
-// Mark this context as the one finishing the join. Returns false when the other
-// context claimed it first, so only one POST /join is ever sent.
+// Mark this context as the one finishing the join. Resolves false when the
+// other context claimed it first, so only one POST /join is ever sent.
+//
+// localStorage has no compare-and-swap, so a plain read-modify-write can let
+// both contexts pass the "is it claimed?" check and each believe it won. The
+// claim is therefore two-phase: write a token unique to this call, wait a
+// beat for a concurrent writer to overwrite it, then re-read and proceed only
+// if our own token survived. The last write wins, and both contexts agree on
+// who that was.
 function plexOAuthClaim(who) {
     const state = plexOAuthRead();
     // No stored state means storage is unavailable, so there is no second
     // context to coordinate with and the caller is the only one who can finish.
-    if (!state) return true;
-    if (state.claimedBy && state.claimedBy !== who) return false;
+    if (!state) return Promise.resolve(true);
+    if (state.claimedBy && state.claimedBy !== who) {
+        return Promise.resolve(false);
+    }
+    const token = who + ":" + Math.random().toString(36).slice(2);
     state.claimedBy = who;
+    state.claimToken = token;
     plexOAuthWrite(state);
-    return true;
+    return new Promise((resolve) => {
+        setTimeout(function () {
+            const confirmed = plexOAuthRead();
+            // State gone mid-claim means the other context finished and
+            // cleared it; anything but our own token still standing is a loss.
+            resolve(!!confirmed && confirmed.claimToken === token);
+        }, 75);
+    });
 }
 
 // Ask plex.tv whether the pin has been linked yet. Resolves to the auth token,

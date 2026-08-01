@@ -537,7 +537,7 @@
 
           // Only one of us may redeem the invite. If the callback page got there
           // first it is already submitting, so leave it to finish.
-          if (!plexOAuthClaim("opener")) return;
+          if (!(await plexOAuthClaim("opener"))) return;
           plexOAuthClear();
 
           if (!popup.closed) popup.close();
