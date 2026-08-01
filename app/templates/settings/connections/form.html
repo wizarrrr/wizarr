@@ -193,14 +193,16 @@
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("API key from your external service settings") }}</p>
               </div>
             {% endif %}
-            <!-- Provision Plex users -->
-            <div>
-              <div class="flex items-center">
-                {{ form.provision_plex_users(class="w-4 h-4 text-primary bg-gray-50 border-gray-300 rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600") }}
-                {{ form.provision_plex_users.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-white") }}
+            {% if form.connection_type.data == 'overseerr' %}
+              <!-- Provision Plex users; only the Overseerr/Jellyseerr client acts on this flag -->
+              <div>
+                <div class="flex items-center">
+                  {{ form.provision_plex_users(class="w-4 h-4 text-primary bg-gray-50 border-gray-300 rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600") }}
+                  {{ form.provision_plex_users.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                </div>
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ form.provision_plex_users.description }}</p>
               </div>
-              <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _(form.provision_plex_users.description) }}</p>
-            </div>
+            {% endif %}
             <!-- Form Actions -->
             <div class="flex items-center justify-end space-x-4 pt-4 border-t border-gray-200 dark:border-gray-700">
               <a href="{{ url_for('settings.page') }}#connections"
