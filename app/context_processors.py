@@ -2,6 +2,7 @@ import os
 
 from app.extensions import db
 from app.models import Settings
+from app.utils.env import env_flag
 
 
 def inject_server_name():
@@ -41,9 +42,5 @@ def inject_app_version():
 
 def inject_activity_monitoring():
     """Inject whether background activity monitoring is enabled into templates."""
-    disabled = os.getenv("WIZARR_DISABLE_ACTIVITY_MONITORING", "false").lower() in (
-        "true",
-        "1",
-        "yes",
-    )
+    disabled = env_flag("WIZARR_DISABLE_ACTIVITY_MONITORING")
     return {"activity_monitoring_enabled": not disabled}

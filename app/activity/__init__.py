@@ -15,6 +15,7 @@ from flask import Flask
 
 from app.models import ActivitySession, ActivitySnapshot
 from app.services.activity import ActivityService
+from app.utils.env import env_flag
 
 from .monitoring.monitor import WebSocketMonitor
 
@@ -36,11 +37,7 @@ def init_app(app: Flask) -> None:
 
     # Allow operators to disable activity monitoring entirely for invite-only
     # deployments that rely on external tooling for playback/session stats (#1363).
-    if os.environ.get("WIZARR_DISABLE_ACTIVITY_MONITORING", "false").lower() in (
-        "true",
-        "1",
-        "yes",
-    ):
+    if env_flag("WIZARR_DISABLE_ACTIVITY_MONITORING"):
         logger.info(
             "Activity monitoring disabled via WIZARR_DISABLE_ACTIVITY_MONITORING"
         )

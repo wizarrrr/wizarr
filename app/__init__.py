@@ -7,6 +7,7 @@ from .error_handlers import register_error_handlers
 from .extensions import init_extensions
 from .logging_config import configure_logging
 from .middleware import require_onboarding
+from .utils.env import env_flag
 
 
 def create_app(config_object=DevelopmentConfig):
@@ -48,9 +49,7 @@ def create_app(config_object=DevelopmentConfig):
     # Initialise activity monitoring (blueprint already registered above).
     # Operators can disable it entirely with WIZARR_DISABLE_ACTIVITY_MONITORING
     # for invite-only deployments that use external monitoring (#1363).
-    activity_monitoring_disabled = os.getenv(
-        "WIZARR_DISABLE_ACTIVITY_MONITORING", "false"
-    ).lower() in ("true", "1", "yes")
+    activity_monitoring_disabled = env_flag("WIZARR_DISABLE_ACTIVITY_MONITORING")
 
     from app.activity import init_app as init_activity
 
