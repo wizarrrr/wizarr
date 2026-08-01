@@ -1,7 +1,7 @@
 """Add opt-in flag for provisioning Plex users on a connection
 
 Revision ID: b7d1c93f4a26
-Revises: e6155a91eb50
+Revises: 20260401_repair
 Create Date: 2026-07-22 17:05:11.402913
 
 """
