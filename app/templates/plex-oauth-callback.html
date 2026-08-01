@@ -97,7 +97,7 @@
           }
 
           async function finish() {
-              if (!plexOAuthClaim("callback")) {
+              if (!(await plexOAuthClaim("callback"))) {
                   // The opener redeemed the invite first. It shares our session,
                   // so the wizard is reachable from here too - go there rather
                   // than tell the user to find another window. The short wait lets
@@ -119,9 +119,12 @@
                       return;
                   }
                   if (token) {
-                      plexOAuthClear();
                       document.getElementById("plex-callback-code").value = state.code;
                       document.getElementById("plex-callback-token").value = token;
+                      // Clear only when leaving this page actually commits. If
+                      // the submit fails to navigate, the stored state is the
+                      // only thing that lets the sign-in be retried.
+                      window.addEventListener("pagehide", plexOAuthClear);
                       // Submitting navigates THIS window to the wizard, so the
                       // user lands there in the window they are looking at. This
                       // page never closes itself: closing a tab lets the browser
