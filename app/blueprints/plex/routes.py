@@ -1,3 +1,7 @@
+import ipaddress
+import socket
+from urllib.parse import urlparse
+
 from cachetools import TTLCache, cached
 from flask import Blueprint, abort, jsonify, request
 from flask_login import login_required
@@ -15,6 +19,14 @@ def scan():
     plex_token = request.args.get("plex_token")
     if not plex_url or not plex_token:
         abort(400)
+
+    parsed_url = urlparse(plex_url)
+    if parsed_url.scheme not in ("http", "https") or not parsed_url.hostname:
+        abort(400)
+
+    if not _is_public_host(parsed_url.hostname):
+        abort(400)
+
     try:
         libs = _scan(plex_url, plex_token)
     except Exception:
@@ -32,6 +44,27 @@ def scan_specific():
     except Exception:
         abort(400)
     return jsonify(libs)
+
+
+def _is_public_host(host):
+    try:
+        addr_info = socket.getaddrinfo(host, None)
+    except Exception:
+        return False
+
+    for info in addr_info:
+        ip = ipaddress.ip_address(info[4][0])
+        if (
+            ip.is_private
+            or ip.is_loopback
+            or ip.is_link_local
+            or ip.is_multicast
+            or ip.is_reserved
+            or ip.is_unspecified
+        ):
+            return False
+
+    return True
 
 
 # optional cache so the first endpoint isn't hit spammy
