@@ -9,7 +9,7 @@ DEFAULT_GID='1000'
 PUID="${PUID:-$DEFAULT_UID}"
 PGID="${PGID:-$DEFAULT_GID}"
 
-if [ "$(id -u)" = "0" ]; then
+if [ "$(id -u)" != "$PUID" ] || [ "$(id -g)" != "$PGID" ]; then
   echo "[entrypoint] 👤 Wanted UID=$PUID  GID=$PGID"
 
   # Figure out which *names* already map to those numeric IDs
