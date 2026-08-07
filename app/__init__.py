@@ -7,6 +7,7 @@ from .error_handlers import register_error_handlers
 from .extensions import init_extensions
 from .logging_config import configure_logging
 from .middleware import require_onboarding
+from .utils.env import env_flag
 
 
 def create_app(config_object=DevelopmentConfig):
@@ -45,30 +46,36 @@ def create_app(config_object=DevelopmentConfig):
     for bp in all_blueprints:
         app.register_blueprint(bp)
 
-    # Initialise activity monitoring (blueprint already registered above)
+    # Initialise activity monitoring (blueprint already registered above).
+    # Operators can disable it entirely with WIZARR_DISABLE_ACTIVITY_MONITORING
+    # for invite-only deployments that use external monitoring (#1363).
+    activity_monitoring_disabled = env_flag("WIZARR_DISABLE_ACTIVITY_MONITORING")
+
     from app.activity import init_app as init_activity
 
     init_activity(app)
 
     # Register activity scheduler tasks if the scheduler is available
-    try:
-        from .extensions import scheduler as activity_scheduler
+    if not activity_monitoring_disabled:
+        try:
+            from .extensions import scheduler as activity_scheduler
 
-        if (
-            activity_scheduler
-            and hasattr(activity_scheduler, "scheduler")
-            and activity_scheduler.scheduler
-        ):
-            from app.tasks.activity import register_activity_tasks
+            if (
+                activity_scheduler
+                and hasattr(activity_scheduler, "scheduler")
+                and activity_scheduler.scheduler
+            ):
+                from app.tasks.activity import register_activity_tasks
 
-            register_activity_tasks(app, activity_scheduler)
-    except Exception as exc:
-        app.logger.warning(f"Failed to register activity tasks: {exc}")
+                register_activity_tasks(app, activity_scheduler)
+        except Exception as exc:
+            app.logger.warning(f"Failed to register activity tasks: {exc}")
 
     # Step 5: Setup context processors and filters
     if show_startup:
         logger.step("Configuring request processing", "⚙️")
     from .context_processors import (
+        inject_activity_monitoring,
         inject_app_version,
         inject_plus_features,
         inject_server_name,
@@ -77,6 +84,7 @@ def create_app(config_object=DevelopmentConfig):
     app.context_processor(inject_server_name)
     app.context_processor(inject_plus_features)
     app.context_processor(inject_app_version)
+    app.context_processor(inject_activity_monitoring)
     register_error_handlers(app)
 
     # Register custom Jinja filters
