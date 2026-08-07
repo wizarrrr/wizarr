@@ -301,80 +301,84 @@ msgid ""
 "admin."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:166 app/blueprints/settings/routes.py:272
+#: app/blueprints/settings/routes.py:167 app/blueprints/settings/routes.py:273
 msgid "Settings saved successfully!"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:217 app/forms/settings.py:24
+#: app/blueprints/settings/routes.py:218 app/forms/settings.py:24
 msgid "Server URL"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:220 app/forms/settings.py:25
+#: app/blueprints/settings/routes.py:221 app/forms/settings.py:25
 msgid "API Key"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:220
+#: app/blueprints/settings/routes.py:221
 msgid "Username/Password"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:223
+#: app/blueprints/settings/routes.py:224
 #, python-brace-format
 msgid "Missing required fields: {fields}"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:226 app/blueprints/settings/routes.py:236
+#: app/blueprints/settings/routes.py:227 app/blueprints/settings/routes.py:237
 #: app/templates/components/passkey_error.html:12
 msgid "Error"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:235
+#: app/blueprints/settings/routes.py:236
 msgid "Library scan failed"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:296
+#: app/blueprints/settings/routes.py:299
+msgid "Mailing settings saved successfully!"
+msgstr ""
+
+#: app/blueprints/settings/routes.py:323
 #, python-brace-format
 msgid "Successfully cleaned {count} expired user(s)."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:301
+#: app/blueprints/settings/routes.py:328
 msgid "No expired users found to clean."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:324 app/blueprints/settings/routes.py:353
+#: app/blueprints/settings/routes.py:351 app/blueprints/settings/routes.py:380
 #: app/templates/settings/general.html:178
 msgid ""
 "Are you sure you want to clean all expired users? This action cannot be "
 "undone."
 msgstr ""
 
-#: app/blueprints/settings/routes.py:326 app/blueprints/settings/routes.py:355
+#: app/blueprints/settings/routes.py:353 app/blueprints/settings/routes.py:382
 #: app/templates/settings/general.html:167
 #: app/templates/settings/general.html:195
 msgid "Clean Expired Users"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:331
+#: app/blueprints/settings/routes.py:358
 #, python-brace-format
 msgid "Failed to clean expired users: {error}"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:410
+#: app/blueprints/settings/routes.py:437
 msgid "LDAP configuration saved successfully"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:484
+#: app/blueprints/settings/routes.py:511
 msgid "LDAP not configured or disabled"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:494
+#: app/blueprints/settings/routes.py:521
 msgid "No groups found in LDAP"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:550
+#: app/blueprints/settings/routes.py:577
 msgid "LDAP is not configured"
 msgstr ""
 
-#: app/blueprints/settings/routes.py:559
+#: app/blueprints/settings/routes.py:586
 #, python-format
 msgid "Failed to list LDAP users: %(error)s"
 msgstr ""
@@ -583,6 +587,82 @@ msgstr ""
 msgid "Please confirm the new password."
 msgstr ""
 
+#: app/forms/general.py:8
+msgid "Display Name"
+msgstr ""
+
+#: app/forms/general.py:10
+msgid "Protect Wizard Access"
+msgstr ""
+
+#: app/forms/general.py:13
+msgid "Expiry Action"
+msgstr ""
+
+#: app/forms/general.py:15
+msgid "Delete User"
+msgstr ""
+
+#: app/forms/general.py:16
+msgid "Disable User (if supported)"
+msgstr ""
+
+#: app/forms/general.py:25
+msgid "Enable User Lifecycle Emails"
+msgstr ""
+
+#: app/forms/general.py:27
+msgid "SMTP Host"
+msgstr ""
+
+#: app/forms/general.py:29
+msgid "SMTP Port"
+msgstr ""
+
+#: app/forms/general.py:33
+msgid "SMTP Username"
+msgstr ""
+
+#: app/forms/general.py:34
+msgid "SMTP Password"
+msgstr ""
+
+#: app/forms/general.py:36
+msgid "Sender Email Address"
+msgstr ""
+
+#: app/forms/general.py:38
+msgid "Sender Name"
+msgstr ""
+
+#: app/forms/general.py:40
+msgid "Use STARTTLS"
+msgstr ""
+
+#: app/forms/general.py:42
+msgid "Use SSL/TLS"
+msgstr ""
+
+#: app/forms/general.py:44
+msgid "Email Language"
+msgstr ""
+
+#: app/forms/general.py:45
+msgid "English"
+msgstr ""
+
+#: app/forms/general.py:45
+msgid "Deutsch"
+msgstr ""
+
+#: app/forms/general.py:63
+msgid "This field is required when SMTP emails are enabled."
+msgstr ""
+
+#: app/forms/general.py:69
+msgid "Choose either STARTTLS or SSL/TLS, not both."
+msgstr ""
+
 #: app/forms/settings.py:10
 msgid "Server Type"
 msgstr ""
@@ -629,6 +709,58 @@ msgstr ""
 
 #: app/forms/settings.py:40
 msgid "External URL"
+msgstr ""
+
+#: app/services/email.py:133
+msgid "Account Active"
+msgstr ""
+
+#: app/services/email.py:134
+msgid "Your account is now active"
+msgstr ""
+
+#: app/services/email.py:135
+#, python-brace-format
+msgid "Your access to {server} has been activated."
+msgstr ""
+
+#: app/services/email.py:141
+msgid "Account Expired"
+msgstr ""
+
+#: app/services/email.py:142
+msgid "Your account has expired"
+msgstr ""
+
+#: app/services/email.py:143
+#, python-brace-format
+msgid "Your access to {server} has expired."
+msgstr ""
+
+#: app/services/email.py:148
+msgid "Account Deleted"
+msgstr ""
+
+#: app/services/email.py:149
+msgid "Your account has been deleted"
+msgstr ""
+
+#: app/services/email.py:150
+#, python-brace-format
+msgid "Your access to {server} has been removed."
+msgstr ""
+
+#: app/services/email.py:182 app/services/email.py:186
+msgid "deleted"
+msgstr ""
+
+#: app/services/email.py:184
+msgid "disabled"
+msgstr ""
+
+#: app/services/email.py:211
+#, python-brace-format
+msgid "{headline} · {server}"
 msgstr ""
 
 #: app/services/servers.py:18
@@ -797,6 +929,7 @@ msgstr ""
 msgid "Your username"
 msgstr ""
 
+#: app/templates/email/user_lifecycle.html:50
 #: app/templates/hybrid-password-form.html:118
 msgid "Email Address"
 msgstr ""
@@ -917,7 +1050,7 @@ msgstr ""
 msgid "Local Account"
 msgstr ""
 
-#: app/templates/login.html:67 app/templates/settings/index.html:125
+#: app/templates/login.html:67 app/templates/settings/index.html:140
 msgid "LDAP"
 msgstr ""
 
@@ -1709,6 +1842,46 @@ msgstr ""
 msgid "Failed to complete passkey registration"
 msgstr ""
 
+#: app/templates/email/user_lifecycle.html:32
+#, python-brace-format
+msgid "Hello {username},"
+msgstr ""
+
+#: app/templates/email/user_lifecycle.html:43
+#: app/templates/settings/wizard/index.html:53
+msgid "Server"
+msgstr ""
+
+#: app/templates/email/user_lifecycle.html:58
+msgid "Expiry Date"
+msgstr ""
+
+#: app/templates/email/user_lifecycle.html:65
+msgid "You can now sign in and start using your media access."
+msgstr ""
+
+#: app/templates/email/user_lifecycle.html:69
+#, python-brace-format
+msgid ""
+"Your invitation has reached its end date and your account has been "
+"{action}."
+msgstr ""
+
+#: app/templates/email/user_lifecycle.html:69
+msgid "updated"
+msgstr ""
+
+#: app/templates/email/user_lifecycle.html:73
+msgid ""
+"Your account has been removed. If you believe this was a mistake, please "
+"contact your administrator."
+msgstr ""
+
+#: app/templates/email/user_lifecycle.html:80
+#, python-brace-format
+msgid "Sent by Wizarr on {sent_at}."
+msgstr ""
+
 #: app/templates/error/401.html:16
 msgid "Permission denied."
 msgstr ""
@@ -2364,7 +2537,7 @@ msgstr ""
 
 #: app/templates/settings/connections.html:7
 #: app/templates/settings/connections/form.html:37
-#: app/templates/settings/index.html:93
+#: app/templates/settings/index.html:108
 msgid "Connections"
 msgstr ""
 
@@ -2527,22 +2700,26 @@ msgid "Alerts"
 msgstr ""
 
 #: app/templates/settings/index.html:59
+msgid "Mailing"
+msgstr ""
+
+#: app/templates/settings/index.html:74
 msgid "Servers"
 msgstr ""
 
-#: app/templates/settings/index.html:75
+#: app/templates/settings/index.html:90
 msgid "Activity"
 msgstr ""
 
-#: app/templates/settings/index.html:108
+#: app/templates/settings/index.html:123
 msgid "Admins"
 msgstr ""
 
-#: app/templates/settings/index.html:141
+#: app/templates/settings/index.html:156
 msgid "Wizard"
 msgstr ""
 
-#: app/templates/settings/index.html:159
+#: app/templates/settings/index.html:174
 msgid "Audit"
 msgstr ""
 
@@ -2652,6 +2829,66 @@ msgstr ""
 
 #: app/templates/settings/ldap.html:246
 msgid "Optional: Restrict admin access to members of this LDAP group"
+msgstr ""
+
+#: app/templates/settings/mailing.html:6
+msgid "User Information & Mailing"
+msgstr ""
+
+#: app/templates/settings/mailing.html:8
+msgid "Send polished activation, expiry, and deletion emails to your users."
+msgstr ""
+
+#: app/templates/settings/mailing.html:26
+msgid ""
+"When enabled, Wizarr will email users when their account is activated, "
+"expires, or is deleted."
+msgstr ""
+
+#: app/templates/settings/mailing.html:53
+msgid "Leave blank to keep the current password"
+msgstr ""
+
+#: app/templates/settings/mailing.html:55
+msgid "A password is already stored securely."
+msgstr ""
+
+#: app/templates/settings/mailing.html:79
+msgid "Recommended for port 587 connections."
+msgstr ""
+
+#: app/templates/settings/mailing.html:87
+msgid "Use this instead of STARTTLS for implicit TLS servers."
+msgstr ""
+
+#: app/templates/settings/mailing.html:97
+msgid "Save Mailing Settings"
+msgstr ""
+
+#: app/templates/settings/mailing.html:106
+msgid "What users will receive"
+msgstr ""
+
+#: app/templates/settings/mailing.html:110
+msgid "A welcome email when their account is activated."
+msgstr ""
+
+#: app/templates/settings/mailing.html:114
+msgid "An expiry email when access ends and the account is disabled or deleted."
+msgstr ""
+
+#: app/templates/settings/mailing.html:118
+msgid "A deletion email when an account is removed manually."
+msgstr ""
+
+#: app/templates/settings/mailing.html:125
+msgid "Language support"
+msgstr ""
+
+#: app/templates/settings/mailing.html:127
+msgid ""
+"Choose English or German for outgoing emails. The layout mirrors the rest"
+" of the Wizarr interface with the same card styling and accent colors."
 msgstr ""
 
 #: app/templates/settings/notifications.html:8
@@ -2997,10 +3234,6 @@ msgstr ""
 
 #: app/templates/settings/wizard/index.html:37
 msgid "Get started by creating your first wizard step"
-msgstr ""
-
-#: app/templates/settings/wizard/index.html:53
-msgid "Server"
 msgstr ""
 
 #: app/templates/settings/wizard/index.html:54
