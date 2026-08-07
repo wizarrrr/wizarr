@@ -43,7 +43,7 @@ def list_companion_types() -> list[tuple[str, str]]:
     """Return list of (value, label) tuples for all registered companion types."""
     return [
         ("ombi", "Ombi"),
-        ("overseerr", "Overseerr/Jellyseerr (Info Only)"),
+        ("overseerr", "Overseerr/Jellyseerr"),
         ("audiobookrequest", "Audiobookrequest"),
     ]
 
