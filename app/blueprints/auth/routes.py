@@ -29,7 +29,7 @@ def login():
     )
     media_server_url = request.cookies.get("wizarr_media_server_url")
 
-    if request.method == "GET":
+    if request.method in ("GET", "HEAD"):
         return render_template(
             "login.html",
             has_passkeys=has_passkeys,
