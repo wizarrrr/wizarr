@@ -81,6 +81,8 @@ def session(app):
         Invitation,
         Library,
         MediaServer,
+        PakasirOrder,
+        PakasirPlan,
         Settings,
         User,
         WebAuthnCredential,
@@ -103,9 +105,11 @@ def session(app):
         db.session.execute(db.text("DELETE FROM invitation_user"))
         # Main tables
         db.session.query(WizardStep).delete()
+        db.session.query(PakasirOrder).delete()
         db.session.query(Invitation).delete()
         db.session.query(User).delete()
         db.session.query(Library).delete()
+        db.session.query(PakasirPlan).delete()
         db.session.query(MediaServer).delete()
         # Tables with FK to AdminAccount - delete before AdminAccount
         db.session.query(WebAuthnCredential).delete()
@@ -132,9 +136,11 @@ def session(app):
         db.session.execute(db.text("DELETE FROM invitation_user"))
         # Main tables
         db.session.query(WizardStep).delete()
+        db.session.query(PakasirOrder).delete()
         db.session.query(Invitation).delete()
         db.session.query(User).delete()
         db.session.query(Library).delete()
+        db.session.query(PakasirPlan).delete()
         db.session.query(MediaServer).delete()
         # Tables with FK to AdminAccount - delete before AdminAccount
         db.session.query(WebAuthnCredential).delete()
