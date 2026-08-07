@@ -50,63 +50,87 @@ class RecentlyAddedMediaWidget(WizardWidget):
     """Widget to show recently added media from the server."""
 
     def __init__(self):
+        # The strip loops by holding the item list twice and sliding exactly
+        # half its own width, so at the moment it resets the poster under every
+        # pixel is the one that was already there. That only holds when the two
+        # halves are identical in width, which is why the spacing is a right
+        # margin on every item rather than a gap on the track: a flex gap is
+        # drawn between items but not after the last one, so one half came out
+        # a gap narrower than the other and the reset jumped.
         template = """
-        <div class="media-carousel-widget my-6">
+        {%- macro poster(item) -%}
+        <div class="carousel-item">
+            {% if item.thumb %}
+            <img src="{{ item.thumb }}" alt="{{ item.title }}"
+                 decoding="async"
+                 class="w-full h-full object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+            {% else %}
+            <div class="w-full h-full bg-gradient-to-br from-primary/20 to-primary/40 rounded-lg shadow-lg flex items-center justify-center">
+                <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/>
+                </svg>
+            </div>
+            {% endif %}
+        </div>
+        {%- endmacro -%}
+        {# not-prose: the widget is injected into markdown that renders inside
+           .prose, whose img rule adds a ~2em vertical margin. That was harmless
+           while the poster sized itself, but the item needs a fixed height for
+           the two halves to match, and the margin pushed the poster down until
+           the strip clipped its bottom. #}
+        <div class="media-carousel-widget not-prose my-6">
             {% if items %}
-            <div class="carousel-container overflow-hidden relative">
-                <div class="carousel-track flex animate-scroll gap-3" style="width: {{ (items|length * 2) * 150 }}px;">
-                    {% for item in items %}
-                    <div class="carousel-item flex-shrink-0">
-                        {% if item.thumb %}
-                        <img src="{{ item.thumb }}" alt="{{ item.title }}"
-                             loading="lazy"
-                             decoding="async"
-                             class="w-32 h-48 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        {% else %}
-                        <div class="w-32 h-48 bg-gradient-to-br from-primary/20 to-primary/40 rounded-lg shadow-lg flex items-center justify-center">
-                            <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/>
-                            </svg>
-                        </div>
-                        {% endif %}
-                    </div>
-                    {% endfor %}
-                    <!-- Duplicate items for seamless loop -->
-                    {% for item in items %}
-                    <div class="carousel-item flex-shrink-0">
-                        {% if item.thumb %}
-                        <img src="{{ item.thumb }}" alt="{{ item.title }}"
-                             loading="lazy"
-                             decoding="async"
-                             class="w-32 h-48 object-cover rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
-                        {% else %}
-                        <div class="w-32 h-48 bg-gradient-to-br from-primary/20 to-primary/40 rounded-lg shadow-lg flex items-center justify-center">
-                            <svg class="w-8 h-8 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"/>
-                            </svg>
-                        </div>
-                        {% endif %}
-                    </div>
-                    {% endfor %}
+            <div class="carousel-container">
+                <div class="carousel-track"
+                     style="animation-duration: {{ items|length * 3 }}s">
+                    {% for item in items %}{{ poster(item) }}{% endfor %}
+                    {# Second copy is what makes the reset invisible. #}
+                    {% for item in items %}{{ poster(item) }}{% endfor %}
                 </div>
             </div>
 
             <style>
-            @keyframes scroll {
-                0% {
-                    transform: translateX(0);
-                }
-                100% {
-                    transform: translateX(-50%);
-                }
+            .carousel-container {
+                position: relative;
+                overflow: hidden;
+                /* Fade the ends rather than cutting a poster off square. */
+                -webkit-mask-image: linear-gradient(to right, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
+                mask-image: linear-gradient(to right, transparent, #000 3rem, #000 calc(100% - 3rem), transparent);
             }
 
-            .animate-scroll {
-                animation: scroll 30s linear infinite;
+            .carousel-track {
+                display: flex;
+                width: max-content;
+                animation-name: carousel-scroll;
+                animation-timing-function: linear;
+                animation-iteration-count: infinite;
             }
 
-            .carousel-container:hover .animate-scroll {
+            .carousel-item {
+                flex: 0 0 auto;
+                width: 8rem;            /* 128px */
+                height: 12rem;          /* 2:3, a poster's own aspect ratio */
+                margin-right: 0.75rem;  /* on every item, including the last */
+            }
+
+            .carousel-item > img,
+            .carousel-item > div {
+                margin: 0;
+                display: block;
+            }
+
+            @keyframes carousel-scroll {
+                from { transform: translateX(0); }
+                to   { transform: translateX(-50%); }
+            }
+
+            .carousel-container:hover .carousel-track {
                 animation-play-state: paused;
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .carousel-track { animation: none; }
+                .carousel-container { overflow-x: auto; }
             }
             </style>
             {% else %}
