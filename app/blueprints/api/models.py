@@ -220,6 +220,9 @@ server_model = api.model(
         "allow_mobile_uploads": fields.Boolean(
             description="Whether mobile uploads are allowed"
         ),
+        "emby_connect_onboarding": fields.Boolean(
+            description="Whether Emby invites use Emby Connect email onboarding"
+        ),
         "created_at": fields.DateTime(description="Server creation date"),
     },
 )

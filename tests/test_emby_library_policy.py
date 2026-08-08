@@ -18,6 +18,7 @@ class _Response:
     def __init__(self, payload):
         self._payload = payload
         self.status_code = 200
+        self.content = b"{}"
 
     def json(self):
         return self._payload
@@ -100,3 +101,37 @@ def test_emby_set_specific_folders_maps_name_to_guid():
     assert client.policy_updates[0][1]["EnabledFolders"] == [
         "2a97f52972644bc2b7b52b0c9c0e9053"
     ]
+
+
+def test_emby_connect_link_posts_connect_username():
+    client = _emby_client()
+    captured = {}
+
+    def post(endpoint, params=None):
+        captured["endpoint"] = endpoint
+        captured["params"] = params
+        return _Response({"IsPending": True, "IsNewUserInvitation": False})
+
+    client.post = post
+
+    client.link_emby_connect_user("emby-user-1", "viewer@example.com")
+
+    assert captured == {
+        "endpoint": "/Users/emby-user-1/Connect/Link",
+        "params": {"ConnectUsername": "viewer@example.com"},
+    }
+
+
+def test_emby_connect_link_skips_invalid_email():
+    client = _emby_client()
+    called = False
+
+    def post(endpoint, params=None):
+        nonlocal called
+        called = True
+
+    client.post = post
+
+    client.link_emby_connect_user("emby-user-1", "not-an-email")
+
+    assert called is False

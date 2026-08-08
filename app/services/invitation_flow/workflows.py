@@ -3,6 +3,8 @@ Simple workflow implementations for invitation flows.
 """
 
 import logging
+import re
+import secrets
 from abc import ABC, abstractmethod
 from typing import Any
 
@@ -87,6 +89,7 @@ def _create_join_form_template_data(
         "server_type": server_type,
         "server_name": server_name,
         "servers": servers,
+        "emby_connect_onboarding": _uses_emby_connect_onboarding(servers),
         "gradient_start": colors["gradient_start"],
         "gradient_end": colors["gradient_end"],
         "shadow_color": colors["shadow_color"],
@@ -95,6 +98,39 @@ def _create_join_form_template_data(
     if error:
         context["error"] = error
     return context
+
+
+def _uses_emby_connect_onboarding(servers: list[MediaServer]) -> bool:
+    return bool(servers) and all(
+        server.server_type == "emby"
+        and bool(getattr(server, "emby_connect_onboarding", False))
+        for server in servers
+    )
+
+
+def _create_emby_connect_form_data(
+    form_data: dict[str, Any],
+) -> tuple[bool, dict[str, Any], str | None]:
+    email = (form_data.get("email") or "").strip().lower()
+    if not re.fullmatch(r"[^@]+@[^@]+\.[^@]+", email):
+        return (
+            False,
+            form_data,
+            "Enter the email address used for your Emby Connect account.",
+        )
+
+    local_part = re.sub(r"[^a-z0-9]+", "", email.split("@", 1)[0])[:12] or "emby"
+    password = secrets.token_urlsafe(24)
+    updated = dict(form_data)
+    updated.update(
+        {
+            "username": f"{local_part}{secrets.token_hex(3)}",
+            "email": email,
+            "password": password,
+            "confirm_password": password,
+        }
+    )
+    return True, updated, None
 
 
 class InvitationWorkflow(ABC):
@@ -315,14 +351,30 @@ class FormBasedWorkflow(InvitationWorkflow):
         form_data: dict[str, Any],
     ) -> InvitationResult:
         """Process form submission."""
-        form_valid, validated_data, form = self._validate_join_form(form_data)
-        if not form_valid:
-            return self._create_auth_error_result(
-                invitation,
-                servers,
-                "Please correct the highlighted fields.",
-                form=form,
+        if _uses_emby_connect_onboarding(servers):
+            form_valid, validated_data, error_message = _create_emby_connect_form_data(
+                form_data
             )
+            if not form_valid:
+                from werkzeug.datastructures import MultiDict
+
+                from app.forms.join import JoinForm
+
+                return self._create_auth_error_result(
+                    invitation,
+                    servers,
+                    error_message or "Please correct the highlighted fields.",
+                    form=JoinForm(formdata=MultiDict(form_data)),
+                )
+        else:
+            form_valid, validated_data, form = self._validate_join_form(form_data)
+            if not form_valid:
+                return self._create_auth_error_result(
+                    invitation,
+                    servers,
+                    "Please correct the highlighted fields.",
+                    form=form,
+                )
         form_data = validated_data
 
         # Authenticate
@@ -541,16 +593,21 @@ class MixedWorkflow(InvitationWorkflow):
         if other_servers:
             from app.forms.join import JoinForm
 
-            # Show password form for local servers
+            # Show password or Emby Connect form for local servers
             # Use first local server's colors
             local_server_type = other_servers[0].server_type if other_servers else None
             colors = _get_server_colors(local_server_type)
             form = JoinForm()
             form.code.data = invitation.code
+            emby_connect_onboarding = _uses_emby_connect_onboarding(other_servers)
 
             return InvitationResult(
                 status=ProcessingStatus.AUTHENTICATION_REQUIRED,
-                message="Password required for local servers",
+                message=(
+                    "Emby Connect email required"
+                    if emby_connect_onboarding
+                    else "Password required for local servers"
+                ),
                 successful_servers=[],
                 failed_servers=[],
                 template_data={
@@ -560,6 +617,7 @@ class MixedWorkflow(InvitationWorkflow):
                     "plex_authenticated": True,
                     "plex_token": plex_token,
                     "local_servers": other_servers,
+                    "emby_connect_onboarding": emby_connect_onboarding,
                     "gradient_start": colors["gradient_start"],
                     "gradient_end": colors["gradient_end"],
                     "shadow_color": colors["shadow_color"],
@@ -587,18 +645,25 @@ class MixedWorkflow(InvitationWorkflow):
             # Need Plex OAuth first
             return self.show_initial_form(invitation, servers)
 
-        if other_servers and not form_data.get("password"):
-            # Need password for local servers
+        emby_connect_onboarding = _uses_emby_connect_onboarding(other_servers)
+        required_field = "email" if emby_connect_onboarding else "password"
+        if other_servers and not form_data.get(required_field):
+            # Need password or Emby Connect email for local servers
             return self.show_initial_form(invitation, servers)
 
         if other_servers:
-            form_valid, validated_data, form = self._validate_join_form(form_data)
+            if emby_connect_onboarding:
+                form_valid, validated_data, error_message = (
+                    _create_emby_connect_form_data(form_data)
+                )
+                form = None
+                message = error_message or "Please correct the highlighted fields."
+            else:
+                form_valid, validated_data, form = self._validate_join_form(form_data)
+                message = "Please correct the highlighted fields."
             if not form_valid:
                 return self._create_local_form_error_result(
-                    invitation,
-                    other_servers,
-                    "Please correct the highlighted fields.",
-                    form,
+                    invitation, other_servers, message, form
                 )
             form_data = validated_data
 
@@ -655,6 +720,9 @@ class MixedWorkflow(InvitationWorkflow):
                 "plex_authenticated": True,
                 "plex_token": plex_token,
                 "local_servers": local_servers,
+                "emby_connect_onboarding": _uses_emby_connect_onboarding(
+                    local_servers
+                ),
                 "gradient_start": colors["gradient_start"],
                 "gradient_end": colors["gradient_end"],
                 "shadow_color": colors["shadow_color"],
