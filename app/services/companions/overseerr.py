@@ -52,6 +52,67 @@ def _open_session(
     return session, headers, resp
 
 
+def _enable_watchlist_sync(
+    session: requests.Session,
+    headers: dict[str, str],
+    base_url: str,
+    user_id: int,
+) -> str | None:
+    """Switch on the newly created user's own watchlist syncing.
+
+    Overseerr stores both watchlist flags as nullable columns with no default
+    and creates no settings row with the account, then skips any user whose
+    flags are unset. A watchlist added straight after being invited therefore
+    requests nothing and reports no error anywhere, which is the failure this
+    avoids.
+
+    Posted as the user, on the session their sign-in just returned, so it needs
+    no API key and can only touch the account we created.
+
+    Args:
+        session: The session left logged in as the user by /api/v1/auth/plex
+        headers: Headers that session needs, including its CSRF token
+        base_url: Overseerr base URL, no trailing slash
+        user_id: The provisioned user's Overseerr ID
+
+    Returns:
+        None on success, or a message describing what went wrong
+    """
+    url = f"{base_url}/api/v1/user/{user_id}/settings/main"
+
+    try:
+        current = session.get(url, timeout=10)
+        if not current.ok:
+            return f"HTTP {current.status_code} reading settings"
+        settings = current.json()
+    except Exception as exc:
+        return str(exc)
+
+    # This POST is a read-modify-write over the whole profile: it assigns
+    # username and the regions straight from the body, so anything left out is
+    # blanked rather than kept. Echo back what was just read and change only the
+    # two flags.
+    body = dict(settings)
+    body["watchlistSyncMovies"] = True
+    body["watchlistSyncTv"] = True
+
+    # A user with no settings row yet has no locale to echo, and the column is
+    # NOT NULL - posting the missing value back is a 500. Empty string is what
+    # rows created through the UI hold.
+    if body.get("locale") is None:
+        body["locale"] = ""
+
+    try:
+        resp = session.post(url, json=body, headers=headers, timeout=10)
+    except Exception as exc:
+        return str(exc)
+
+    if not resp.ok:
+        return f"HTTP {resp.status_code} {(resp.text or '').strip()[:200]}".strip()
+
+    return None
+
+
 class OverseerrClient(CompanionClient):
     """Client for integrating with Overseerr/Jellyseerr.
 
@@ -279,7 +340,8 @@ class OverseerrClient(CompanionClient):
         Needs no API key: /api/v1/auth/plex is the public login route. It creates
         the user only when they can already reach the media server and
         newPlexLogin is enabled, so this cannot grant access Overseerr would have
-        refused. The session cookie it returns is discarded.
+        refused. The session cookie it returns is discarded, unless the
+        connection also asked for watchlist syncing, which is set as that user.
 
         Args:
             auth_token: The invited user's Plex auth token
@@ -324,9 +386,60 @@ class OverseerrClient(CompanionClient):
                         url,
                         attempt,
                     )
+                    if not connection.enable_watchlist_sync:
+                        return {
+                            "status": "success",
+                            "message": "User created in Overseerr",
+                        }
+
+                    # Signing in rotates the CSRF token, so the one primed
+                    # before the POST no longer validates.
+                    rotated = session.cookies.get("XSRF-TOKEN")
+                    if rotated:
+                        headers["X-XSRF-TOKEN"] = rotated
+
+                    try:
+                        user_id = (resp.json() or {}).get("id")
+                    except ValueError:
+                        user_id = None
+
+                    if not user_id:
+                        # The account exists either way; only the follow-up
+                        # setting is lost, and saying so beats a bare success.
+                        logging.warning(
+                            "Overseerr did not return a user id, so watchlist "
+                            "syncing was left unset"
+                        )
+                        return {
+                            "status": "success",
+                            "message": (
+                                "User created in Overseerr, but watchlist "
+                                "syncing could not be turned on: no user id in "
+                                "the response"
+                            ),
+                        }
+
+                    problem = _enable_watchlist_sync(
+                        session, headers, base_url, user_id
+                    )
+                    if problem:
+                        logging.warning(
+                            "Overseerr user %s created, but watchlist syncing "
+                            "could not be turned on: %s",
+                            user_id,
+                            problem,
+                        )
+                        return {
+                            "status": "success",
+                            "message": (
+                                "User created in Overseerr, but watchlist "
+                                f"syncing could not be turned on: {problem}"
+                            ),
+                        }
+
                     return {
                         "status": "success",
-                        "message": "User created in Overseerr",
+                        "message": "User created in Overseerr, watchlist syncing on",
                     }
 
                 # Carry the body, not just the status: a bare "HTTP 403" reads

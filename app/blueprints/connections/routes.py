@@ -89,6 +89,7 @@ def create_connection():
             api_key=form.api_key.data,
             media_server_id=form.media_server_id.data,
             provision_plex_users=form.provision_plex_users.data,
+            enable_watchlist_sync=form.enable_watchlist_sync.data,
         )
         db.session.add(connection)
         db.session.commit()
@@ -120,6 +121,7 @@ def edit_connection(connection_id: int):
         connection.api_key = form.api_key.data
         connection.media_server_id = form.media_server_id.data
         connection.provision_plex_users = form.provision_plex_users.data
+        connection.enable_watchlist_sync = form.enable_watchlist_sync.data
 
         db.session.commit()
 

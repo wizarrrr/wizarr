@@ -406,6 +406,15 @@ class Connection(db.Model):
     provision_plex_users = db.Column(
         db.Boolean, nullable=False, default=False, server_default="0"
     )
+    # Opt-in: turn on the user's own watchlist syncing while provisioning them.
+    # Overseerr leaves both watchlist flags unset for a new account and skips
+    # anyone whose flags are unset, so a watchlist added on day one otherwise
+    # requests nothing and reports no error. Separate from provisioning because
+    # this changes a preference that belongs to the user, not just whether the
+    # account exists.
+    enable_watchlist_sync = db.Column(
+        db.Boolean, nullable=False, default=False, server_default="0"
+    )
     created_at = db.Column(
         db.DateTime, default=lambda: datetime.now(UTC), nullable=False
     )
