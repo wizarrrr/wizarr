@@ -202,6 +202,19 @@
                 </div>
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ form.provision_plex_users.description }}</p>
               </div>
+              <!-- Turn on watchlist syncing for those accounts -->
+              <div>
+                <div class="flex items-center">
+                  {{ form.enable_watchlist_sync(class="w-4 h-4 text-primary bg-gray-50 border-gray-300 rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600") }}
+                  {{ form.enable_watchlist_sync.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                </div>
+                {% if form.enable_watchlist_sync.errors %}
+                  <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                    {% for error in form.enable_watchlist_sync.errors %}<p>{{ error }}</p>{% endfor %}
+                  </div>
+                {% endif %}
+                <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ form.enable_watchlist_sync.description }}</p>
+              </div>
             {% endif %}
             <!-- Form Actions -->
             <div class="flex items-center justify-end space-x-4 pt-4 border-t border-gray-200 dark:border-gray-700">

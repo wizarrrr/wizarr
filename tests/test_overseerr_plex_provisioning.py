@@ -21,20 +21,31 @@ from app.services.ombi_client import (
 )
 
 
-def _connection(url="http://seerr.local:5055"):
+def _connection(url="http://seerr.local:5055", watchlist_sync=False):
     # spec'd so a typo'd attribute fails loudly instead of auto-vivifying,
     # which is how a broken patch once passed its tests.
-    conn = Mock(spec=["url", "api_key", "name", "connection_type"])
+    conn = Mock(
+        spec=[
+            "url",
+            "api_key",
+            "name",
+            "connection_type",
+            "enable_watchlist_sync",
+        ]
+    )
     conn.url = url
     conn.api_key = None
     conn.name = "Seerr"
     conn.connection_type = "overseerr"
+    conn.enable_watchlist_sync = watchlist_sync
     return conn
 
 
-def _resp(status=200, text=""):
+def _resp(status=200, text="", json=None):
     """Overseerr replies carry a body we now read, so mocks must have one."""
-    return Mock(ok=200 <= status < 300, status_code=status, text=text)
+    resp = Mock(ok=200 <= status < 300, status_code=status, text=text)
+    resp.json.return_value = {} if json is None else json
+    return resp
 
 
 @contextmanager
@@ -224,4 +235,172 @@ def test_both_connection_forms_offer_the_opt_in(app):
         "app/templates/modals/connection-form.html",
         "app/templates/settings/connections/form.html",
     ):
-        assert "provision_plex_users" in Path(path).read_text(), path
+        body = Path(path).read_text()
+        assert "provision_plex_users" in body, path
+        assert "enable_watchlist_sync" in body, path
+
+
+# ─── Watchlist syncing ──────────────────────────────────────────────────
+
+
+def _provisioned(user_id=42, settings=None):
+    """The two replies a provisioning run reads when watchlist sync is on."""
+    login = _resp(200, json={"id": user_id})
+    read = _resp(200, json=settings if settings is not None else {"locale": "en"})
+    return login, read
+
+
+def test_watchlist_sync_is_left_alone_unless_asked_for():
+    """It changes a preference belonging to the user, so it stays opt-in and
+    separate from merely creating the account."""
+    with _seerr() as (seerr, _):
+        seerr.post.return_value = _resp(200, json={"id": 42})
+        result = OverseerrClient().provision_plex_user("t", _connection())
+
+    assert result["status"] == "success"
+    # Only the sign-in, no settings write.
+    assert seerr.post.call_count == 1
+
+
+def test_turns_on_both_watchlist_flags_for_the_new_user():
+    """Overseerr leaves both unset on a new account and skips users whose flags
+    are unset, so a watchlist added on day one requests nothing, silently."""
+    login, read = _provisioned(user_id=42)
+    with _seerr() as (seerr, _):
+        seerr.post.side_effect = [login, _resp(200)]
+        seerr.get.return_value = read
+
+        result = OverseerrClient().provision_plex_user(
+            "t", _connection(watchlist_sync=True)
+        )
+
+    assert result["status"] == "success"
+    (url,) = seerr.post.call_args[0]
+    assert url == "http://seerr.local:5055/api/v1/user/42/settings/main"
+    body = seerr.post.call_args[1]["json"]
+    assert body["watchlistSyncMovies"] is True
+    assert body["watchlistSyncTv"] is True
+
+
+def test_the_settings_write_echoes_back_what_it_read():
+    """The endpoint assigns username and the regions straight from the body, so
+    anything left out is blanked rather than kept."""
+    login, read = _provisioned(
+        settings={
+            "username": "invited-user",
+            "locale": "en",
+            "discoverRegion": "US",
+            "streamingRegion": "US",
+            "originalLanguage": "en",
+        }
+    )
+    with _seerr() as (seerr, _):
+        seerr.post.side_effect = [login, _resp(200)]
+        seerr.get.return_value = read
+
+        OverseerrClient().provision_plex_user("t", _connection(watchlist_sync=True))
+
+    body = seerr.post.call_args[1]["json"]
+    assert body["username"] == "invited-user"
+    assert body["discoverRegion"] == "US"
+    assert body["streamingRegion"] == "US"
+    assert body["originalLanguage"] == "en"
+
+
+def test_a_missing_locale_is_sent_as_empty_not_null():
+    """A user with no settings row yet has no locale to echo, and the column is
+    NOT NULL - posting the missing value back is a 500."""
+    login, read = _provisioned(settings={"username": "invited-user"})
+    with _seerr() as (seerr, _):
+        seerr.post.side_effect = [login, _resp(200)]
+        seerr.get.return_value = read
+
+        OverseerrClient().provision_plex_user("t", _connection(watchlist_sync=True))
+
+    assert seerr.post.call_args[1]["json"]["locale"] == ""
+
+
+def test_the_settings_write_uses_the_token_signing_in_rotated_to():
+    """Signing in rotates the CSRF token; the one primed beforehand no longer
+    validates and every settings write would come back 403."""
+    login, read = _provisioned()
+    with _seerr(xsrf="primed-token") as (seerr, _):
+        seerr.post.side_effect = [login, _resp(200)]
+        seerr.get.return_value = read
+        seerr.cookies.get.side_effect = ["primed-token", "rotated-token"]
+
+        OverseerrClient().provision_plex_user("t", _connection(watchlist_sync=True))
+
+    assert seerr.post.call_args[1]["headers"]["X-XSRF-TOKEN"] == "rotated-token"
+
+
+def test_the_account_still_counts_when_the_setting_does_not_take():
+    """The user exists either way; reporting the whole thing failed would send
+    the next person looking for an account that is already there."""
+    login, _read = _provisioned()
+    with _seerr() as (seerr, _):
+        seerr.post.side_effect = [login, _resp(500, "boom")]
+        seerr.get.return_value = _resp(200, json={"locale": "en"})
+
+        result = OverseerrClient().provision_plex_user(
+            "t", _connection(watchlist_sync=True)
+        )
+
+    assert result["status"] == "success"
+    assert "watchlist" in result["message"].lower()
+    assert "500" in result["message"]
+
+
+def test_no_settings_write_without_a_user_id():
+    """Posting to /user/None/settings/main would be a confusing 404 at best."""
+    with _seerr() as (seerr, _):
+        seerr.post.side_effect = [_resp(200, json={}), _resp(200)]
+        seerr.get.return_value = _resp(200, json={"locale": "en"})
+
+        result = OverseerrClient().provision_plex_user(
+            "t", _connection(watchlist_sync=True)
+        )
+
+    assert result["status"] == "success"
+    assert seerr.post.call_count == 1
+
+
+def test_the_form_refuses_watchlist_sync_without_account_creation(app):
+    """The setting is written during account creation, on the session creating
+    the account returns. Without it the box stays ticked and never takes effect,
+    which is the same silent nothing the flag exists to prevent."""
+    from app.forms.connections import ConnectionForm
+
+    with app.test_request_context():
+        form = ConnectionForm(
+            connection_type="overseerr",
+            name="Seerr",
+            url="https://seerr.local",
+            media_server_id=1,
+            provision_plex_users=False,
+            enable_watchlist_sync=True,
+            meta={"csrf": False},
+        )
+        form.media_server_id.choices = [(1, "Plex")]
+
+        assert form.validate() is False
+        assert form.enable_watchlist_sync.errors
+
+        form.provision_plex_users.data = True
+
+        assert form.validate() is True
+
+
+def test_watchlist_failures_are_reported_not_raised():
+    """Best effort throughout: this runs off an invite the user already accepted."""
+    login, _read = _provisioned()
+    with _seerr() as (seerr, _):
+        seerr.post.side_effect = [login, OSError("connection refused")]
+        seerr.get.return_value = _resp(200, json={"locale": "en"})
+
+        result = OverseerrClient().provision_plex_user(
+            "t", _connection(watchlist_sync=True)
+        )
+
+    assert result["status"] == "success"
+    assert "connection refused" in result["message"]
