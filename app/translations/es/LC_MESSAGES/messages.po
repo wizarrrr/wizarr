@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-08-10 04:53+0000\n"
-"PO-Revision-Date: 2026-08-10 04:53+0000\n"
+"PO-Revision-Date: 2026-08-11 04:39+0000\n"
 "Last-Translator: Todos aman al Hipnosapo <veteacagarte@yahoo.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/es/>\n"
@@ -107,15 +107,14 @@ msgstr "Se han borrado {} entradas históricas exitosamente."
 msgid "Failed to clear historical data: {}"
 msgstr "Falló el borrado de datos históricos: {}"
 
-#, fuzzy
 msgid "Unknown error"
-msgstr "Ocurrió un error desconocido"
+msgstr "Error desconocido"
 
 msgid "Cannot remove a job that is still queued or running."
 msgstr "No se puede eliminar una tarea que sigue en cola o ejecutándose."
 
 msgid "An internal error has occurred."
-msgstr "Ocurrió un error interno"
+msgstr "Ocurrió un error interno."
 
 msgid "Unknown"
 msgstr "Desconocido"
@@ -282,27 +281,25 @@ msgstr ""
 msgid "Clean Expired Users"
 msgstr "Borrar usuarios expirados"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to clean expired users: {error}"
-msgstr "Fallo al restablecer las passkeys para {}"
+msgstr "No se pudieron limpiar los usuarios caducados: {error}"
 
-#, fuzzy
 msgid "LDAP configuration saved successfully"
-msgstr "¡Conexión actualizada exitosamente!"
+msgstr "La configuración de LDAP se ha guardado correctamente"
 
 msgid "LDAP not configured or disabled"
-msgstr ""
+msgstr "LDAP no configurado o deshabilitado"
 
 msgid "No groups found in LDAP"
-msgstr ""
+msgstr "No se encontraron grupos en LDAP"
 
-#, fuzzy
 msgid "LDAP is not configured"
-msgstr "pasos configurados"
+msgstr "LDAP no está configurado"
 
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to list LDAP users: %(error)s"
-msgstr "Fallo al restablecer las passkeys para {}"
+msgstr "No se pudieron listar los usuarios LDAP: %(error)s"
 
 msgid "Admin account created – welcome!"
 msgstr "Cuenta Admin creada - ¡bienvenido/a!"
@@ -379,7 +376,7 @@ msgid "Step created"
 msgstr "Paso creado"
 
 msgid "Preset step created successfully"
-msgstr "Paso preestablecido creado correctamente."
+msgstr "Paso preestablecido creado correctamente"
 
 #, python-brace-format
 msgid "Error creating preset: {}"
@@ -416,7 +413,7 @@ msgstr "Error al exportar: {}"
 
 #, python-brace-format
 msgid "Successfully imported {} items"
-msgstr "Se han importado correctamente {} elementos."
+msgstr "Se han importado correctamente {} elementos"
 
 #, python-brace-format
 msgid " and updated {} existing items"
@@ -456,9 +453,8 @@ msgstr "Contraseña"
 msgid "Confirm password"
 msgstr "Confirmar contraseña"
 
-#, fuzzy
 msgid "Passwords must match."
-msgstr "Las contraseñas no coinciden"
+msgstr "Las contraseñas deben coincidir."
 
 msgid "New Password"
 msgstr "Nueva Contraseña"
@@ -484,9 +480,8 @@ msgstr "Bibliotecas"
 msgid "Allow Downloads"
 msgstr "Permitir descargas"
 
-#, fuzzy
 msgid "Allow Live TV"
-msgstr "Permitir acceso a TV En Vivo"
+msgstr "Permitir TV En Vivo"
 
 msgid "Overseerr/Ombi URL"
 msgstr "URL de Overseerr/Ombi"
@@ -494,9 +489,8 @@ msgstr "URL de Overseerr/Ombi"
 msgid "Ombi API Key"
 msgstr "Clave API de Ombi"
 
-#, fuzzy
 msgid "Discord ID"
-msgstr "Su ID de servidor de Discord"
+msgstr "Discord ID"
 
 msgid "External URL"
 msgstr "URL externa"
@@ -964,9 +958,8 @@ msgstr "Demostración"
 msgid "of"
 msgstr "de"
 
-#, fuzzy
 msgid "Prev"
-msgstr "Vista Previa"
+msgstr "Anterior"
 
 msgid "Page"
 msgstr "Página"
@@ -1017,9 +1010,8 @@ msgstr "No pudo cargarse reproduciendo ahora"
 msgid "There was an error connecting to your media servers"
 msgstr "Se produjo un error al conectar con tus servidores multimedia"
 
-#, fuzzy
 msgid "No one is streaming"
-msgstr "Nadie está reproduciendo"
+msgstr "Nadie está transmitiendo"
 
 msgid "No active media sessions found across your servers"
 msgstr "No se encontraron sesiones multimedia activas en sus servidores"
@@ -1706,9 +1698,8 @@ msgstr "Añadir..."
 msgid "Widgets"
 msgstr "Widgets"
 
-#, fuzzy
 msgid "Recently Added Media"
-msgstr "Añadidos Recientemente"
+msgstr "Contenido Multimedia Añadido Recientemente"
 
 msgid "Show recent content"
 msgstr "Mostrar contenido reciente"
@@ -1722,24 +1713,23 @@ msgstr "Añade un botón con enlace"
 msgid "Elements"
 msgstr "Elementos"
 
-#, fuzzy
 msgid "Card"
-msgstr "Genio"
+msgstr "Tarjeta"
 
 msgid "Add a styled content card"
-msgstr ""
+msgstr "Añadir una tarjeta de contenido con estilo"
 
 msgid "Delete API Key"
-msgstr "Borrar Llave API"
+msgstr "Borrar Clave API"
 
 msgid "No API keys"
-msgstr "No hay llaves API"
+msgstr "No hay claves API"
 
 msgid "Get started by creating a new API key."
-msgstr "Inicie creando una nueva llave API."
+msgstr "Inicie creando una nueva clave API."
 
 msgid "Media Servers"
-msgstr "Servidores de Medios"
+msgstr "Servidores Multimedia"
 
 msgid "Type"
 msgstr "Tipo"
@@ -1775,7 +1765,7 @@ msgid "Add Admin"
 msgstr "Añadir Administrador"
 
 msgid "API Keys"
-msgstr "Llaves API"
+msgstr "Claves API"
 
 msgid "Connections"
 msgstr "Conexiones"
@@ -1791,16 +1781,16 @@ msgid "Connection Name"
 msgstr "Nombre de Conexión"
 
 msgid "Media Server"
-msgstr "Servidor de Medios"
+msgstr "Servidor Multimedia"
 
 msgid "Overseerr (Info)"
-msgstr "(Info) de Overseerr"
+msgstr "Overseerr (Info)"
 
 msgid "Ombi"
 msgstr "Ombi"
 
 msgid "Audiobookrequest"
-msgstr "Solicitud de Audiobook"
+msgstr "AudioBookRequest"
 
 msgid "Auto-import enabled"
 msgstr "Atuo-importar activado"
@@ -1827,9 +1817,8 @@ msgstr "Ajustes Generales"
 msgid "Configure your application's basic settings and preferences"
 msgstr "Configurar los ajustes y preferencias básicas de su aplicación"
 
-#, fuzzy
 msgid "Version"
-msgstr "Permisos"
+msgstr "Versión"
 
 msgid "Display"
 msgstr "Mostrar"
@@ -1844,51 +1833,53 @@ msgid "Manage user access and permissions"
 msgstr "Gestionar accesos y permisos de usuarios"
 
 msgid "Control access to the wizard setup process"
-msgstr "Controlar acceso al proceso de configuración genio"
+msgstr "Controlar el acceso al proceso de configuración del asistente"
 
-#, fuzzy
 msgid "User Management"
-msgstr "Gestión de Llaves API"
+msgstr "Gestión de Usuarios"
 
 msgid "Configure how users are managed when invitations expire"
 msgstr ""
+"Configure cómo se gestionan los usuarios cuando las invitaciones caducan"
 
-#, fuzzy
 msgid "Server Capabilities"
-msgstr "servidores en línea"
+msgstr "Capacidades del Servidor"
 
 msgid "Supports Disable:"
-msgstr ""
+msgstr "Desactivar Soportes:"
 
-#, fuzzy
 msgid "Delete Only:"
-msgstr "Eliminar Agente"
+msgstr "Solo eliminar:"
 
 msgid ""
 "If 'Disable User' is selected but the server does not support it, the user "
 "will be deleted instead."
 msgstr ""
+"Si se selecciona 'Deshabilitar usuario' pero el servidor no admite esta "
+"opción, el usuario se eliminará en su lugar."
 
 msgid "Choose what happens to users when their invitation expires"
-msgstr ""
+msgstr "Elija lo que les sucede a los usuarios cuando expira su invitación"
 
 msgid "Immediately process all expired users based on the expiry action above"
 msgstr ""
+"Procese inmediatamente todos los usuarios cuya cuenta haya caducado, "
+"aplicando la acción de caducidad indicada anteriormente"
 
 msgid "API Key Management"
-msgstr "Gestión de Llaves API"
+msgstr "Gestión de Claves API"
 
 msgid "Manage API keys for accessing Wizarr programmatically"
-msgstr "Gestionar llaves API para acceder a Wizarr programáticamente"
+msgstr "Gestionar claves API para acceder a Wizarr por programación"
 
 msgid "Your API Keys"
-msgstr "Sus Llaves API"
+msgstr "Sus Claves API"
 
 msgid "Create and manage API keys for external applications"
-msgstr "Crear y gestionar llaves API para aplicaciones externas"
+msgstr "Crear y gestionar claves API para aplicaciones externas"
 
 msgid "Loading API keys..."
-msgstr "Cargando llaves API..."
+msgstr "Cargando claves API..."
 
 msgid "Save Settings"
 msgstr "Guardar Ajustes"
@@ -1908,9 +1899,8 @@ msgstr "Alertas"
 msgid "Servers"
 msgstr "Servidores"
 
-#, fuzzy
 msgid "Activity"
-msgstr "Activo"
+msgstr "Actividad"
 
 msgid "Admins"
 msgstr "Administradores"
@@ -1918,101 +1908,99 @@ msgstr "Administradores"
 msgid "Wizard"
 msgstr "Genio"
 
-#, fuzzy
 msgid "Audit"
-msgstr "Editar"
+msgstr "Auditoría"
 
-#, fuzzy
 msgid "LDAP Settings"
-msgstr "Guardar Ajustes"
+msgstr "Ajustes LDAP"
 
-#, fuzzy
 msgid "Experimental"
-msgstr "Eliminar Agente"
+msgstr "Experimental"
 
 msgid "Configure LDAP for user authentication and management"
-msgstr ""
+msgstr "Configure LDAP para la autenticación y gestión de usuarios"
 
 msgid "Enable LDAP"
-msgstr ""
+msgstr "Habilitar LDAP"
 
 msgid "Turn on LDAP integration"
-msgstr ""
+msgstr "Activar la integración con LDAP"
 
-#, fuzzy
 msgid "Connection"
-msgstr "Conexiones"
+msgstr "Conexión"
 
-#, fuzzy
 msgid "LDAP server connection"
-msgstr "Actualizar Conexión"
+msgstr "Conexión al servidor LDAP"
 
 msgid "e.g., ldap://server:3890 or ldaps://server:6360"
-msgstr ""
+msgstr "p. ej., ldap://server:3890 o ldaps://server:6360"
 
-#, fuzzy
 msgid "Use TLS"
-msgstr "Detalles de Usuario"
+msgstr "Usar TLS"
 
-#, fuzzy
 msgid "Verify Cert"
-msgstr "Verificado"
+msgstr "Verificar certificado"
 
 msgid "Encrypted before storage"
-msgstr ""
+msgstr "Cifrado antes del almacenamiento"
 
-#, fuzzy
 msgid "User & Group Settings"
-msgstr "Guardar Ajustes"
+msgstr "Configuración de Usuarios y Grupos"
 
 msgid "Where to find users and groups"
-msgstr ""
+msgstr "Donde encontrar usuarios y grupos"
 
 msgid "Optional - only needed for admin group restriction"
 msgstr ""
+"Opcional - solo es necesario para la restricción del grupo de administradores"
 
 msgid "Sync Groups"
-msgstr ""
+msgstr "Sincronizar Grupos"
 
 msgid "Sync LDAP groups to populate admin group selection"
 msgstr ""
+"Sincronizar grupos LDAP para poblar la selección de grupos de administración"
 
-#, fuzzy
 msgid "Advanced Settings"
-msgstr "Guardar Ajustes"
+msgstr "Configuración Avanzada"
 
 msgid ""
 "Defaults are optimized for LLDAP. Only change if using a different LDAP "
 "server."
 msgstr ""
+"Los valores predeterminados están optimizados para LLDAP. Cámbielos "
+"únicamente si utiliza un servidor LDAP diferente."
 
-#, fuzzy
 msgid "Manage all users - both LDAP and local authentication"
-msgstr "Gestione sus passkeys para autenticación sin contraseñas."
+msgstr "Administrar todos los usuarios - tanto de autenticación LDAP como local"
 
 msgid "Sync from LDAP"
-msgstr ""
+msgstr "Sincronizar desde LDAP"
 
 msgid ""
 "Users can authenticate via LDAP or locally. Sync automatically imports new "
 "users from LDAP."
 msgstr ""
+"Los usuarios pueden autenticarse mediante LDAP o localmente. La "
+"sincronización importa automáticamente los nuevos usuarios desde LDAP."
 
-#, fuzzy
 msgid "Admin Authentication"
-msgstr "No hay autenticación 2FA pendiente"
+msgstr "Autenticación del administrador"
 
 msgid "Allow administrators to log in using LDAP"
-msgstr ""
+msgstr "Permitir a los administradores iniciar sesión usando LDAP"
 
 msgid "Allow Admin Login via LDAP"
-msgstr ""
+msgstr "Permitir el inicio de sesión de Administrador mediante LDAP"
 
 msgid "Enable admin login using LDAP credentials"
 msgstr ""
+"Habilitar el inicio de sesión de administrador mediante credenciales LDAP"
 
 msgid "Optional: Restrict admin access to members of this LDAP group"
 msgstr ""
+"Opcional: Restringir el acceso de administrador a los miembros de este grupo "
+"LDAP"
 
 msgid "Notification Agents"
 msgstr "Agentes de Notificaciones"
@@ -2024,22 +2012,20 @@ msgstr ""
 msgid "Add Agent"
 msgstr "Añadir Agente"
 
-#, fuzzy
 msgid "Edit agent"
-msgstr "Nuevo Agente"
+msgstr "Editar agente"
 
 msgid "Are you sure you want to delete"
 msgstr "Está seguro(a) de eliminar"
 
 msgid "Delete agent"
-msgstr "Eliminar Agente"
+msgstr "Eliminar agente"
 
 msgid "Status"
-msgstr "Estatus"
+msgstr "Estado"
 
-#, fuzzy
 msgid "Events"
-msgstr "Servidores"
+msgstr "Eventos"
 
 msgid "No notification agents"
 msgstr "No hay agentes de notificación"
@@ -2067,25 +2053,26 @@ msgstr "Un nombre amigable para identificar esta conexión"
 
 msgid "Which media server should trigger invitations to this external service"
 msgstr ""
-"Cuál servidor de medios debe iniciar invitaciones a este servicio externo"
+"Qué servidor multimedia debería activar las invitaciones a este servicio "
+"externo"
 
 msgid "Open your Overseerr/Jellyseerr admin panel"
 msgstr "Abra su panel administrador de Overseerr/Jellyseerr"
 
 msgid "Navigate to Settings → Users"
-msgstr "Navegue a Ajustes -> Usuarios"
+msgstr "Navegue a Ajustes → Usuarios"
 
 msgid "Enable 'Auto-approve new users'"
-msgstr "Active 'Auto-aprobar nuevos susuarios'"
+msgstr "Active 'Auto-aprobar nuevos usuarios'"
 
 msgid "Enable 'Import Jellyfin/Plex users'"
 msgstr "Active 'Importar usuarios de Jellyfin/Plex'"
 
 msgid "The full URL to your external service instance"
-msgstr "La URL completa de us instancia de servicio externo"
+msgstr "La URL completa de su instancia de servicio externo"
 
 msgid "API key from your external service settings"
-msgstr "Llave API de la configuración de su servicio externo"
+msgstr "Clave API de la configuración de su servicio externo"
 
 msgid "Default Steps"
 msgstr "Pasos Predeterminados"
@@ -2106,17 +2093,16 @@ msgid "Create"
 msgstr "Crear"
 
 msgid "Add a new wizard step"
-msgstr "Añadir un nuevo paso genio"
+msgstr "Añadir un nuevo paso al asistente"
 
-#, fuzzy
 msgid "Add Step to Bundle"
-msgstr "Añadir pasos a paquete"
+msgstr "Añadir Paso al paquete"
 
 msgid "No bundles available yet"
-msgstr ""
+msgstr "Aún no hay paquetes disponibles"
 
 msgid "Add Preset"
-msgstr "Añadir Prefijado"
+msgstr "Añadir ajuste preestablecido"
 
 msgid "Create step from template"
 msgstr "Crear paso desde plantilla"
@@ -2131,7 +2117,7 @@ msgid "No bundles found."
 msgstr "No se encontraron paquetes."
 
 msgid "Preview Wizard"
-msgstr "Vista Previa de Genio"
+msgstr "Vista Previa del Asistente"
 
 #, python-format
 msgid "Export %(bundle_name)s Bundle"
@@ -2140,45 +2126,43 @@ msgstr "Exportar Paquete %(bundle_name)s"
 msgid "Are you sure you want to delete this bundle?"
 msgstr "¿Está seguro(a) de eliminar este paquete?"
 
-#, fuzzy
 msgid "Before Invite Acceptance"
-msgstr "No hay invitaciones recientes aceptadas"
+msgstr "Antes de Aceptar la Invitación"
 
 msgid "Steps shown to users before they accept the invitation"
-msgstr ""
+msgstr "Pasos que se muestran a los usuarios antes de que acepten la invitación"
 
 msgid "Are you sure you want to delete this step?"
 msgstr "¿Está seguro(a) de eliminar este paso?"
 
-#, fuzzy
 msgid "No pre-invite steps configured"
-msgstr "pasos configurados"
+msgstr "No hay pasos de pre-invitación configurados"
 
-#, fuzzy
 msgid "After Invite Acceptance"
-msgstr "Entre código de invitación"
+msgstr "Tras Aceptar la Invitación"
 
 msgid "Steps shown to users after they accept the invitation"
-msgstr ""
+msgstr "Pasos que se muestran a los usuarios después de aceptar la invitación"
 
-#, fuzzy
 msgid "No post-invite steps configured"
-msgstr "No hay servidores configurados"
+msgstr "No hay pasos configurados para después de la invitación"
 
 msgid "Additional Categories"
-msgstr ""
+msgstr "Categorías Adicionales"
 
 msgid "Steps that use custom categories keep their order here."
 msgstr ""
+"Los pasos que utilizan categorías personalizadas conservan su orden aquí."
 
-#, fuzzy
 msgid "Orphaned Steps"
-msgstr "Eliminar paso huérfano"
+msgstr "Pasos huérfanos"
 
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
 msgstr ""
+"Estas entradas ya no tienen un paso asociado. Elimínelas para mantener el "
+"paquete ordenado."
 
 msgid "Step deleted (orphaned)"
 msgstr "Paso eliminado (huérfano)"
@@ -2193,14 +2177,14 @@ msgid "Preview"
 msgstr "Vista Previa"
 
 msgid "Import Wizard Configuration"
-msgstr "Importar Configuración de Genio"
+msgstr "Importar Configuración del Asistente"
 
 msgid ""
 "Import wizard steps or bundles from a JSON file to quickly set up or restore "
 "your wizard configuration."
 msgstr ""
-"Importar pasos o paquetes de genio desde un archivo JSON para rápidamente "
-"configurar o restaurar su configuración de genio."
+"Importar pasos o paquetes del asistente desde un archivo JSON para "
+"rápidamente configurar o restaurar su configuración del asistente."
 
 msgid "Select JSON File"
 msgstr "Seleccionar Archivo JSON"
@@ -2213,20 +2197,22 @@ msgid ""
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
 msgstr ""
-"Cuando está seleccionado, todos los pasos y paquetes genio existentes serán "
-"eliminados y reemplazados por la configuración importada. Cuando no está "
-"seleccionado, los ítems importados se añadirán a los existentes."
+"Cuando está seleccionado, todos los pasos y paquetes del asistente "
+"existentes serán eliminados y reemplazados por la configuración importada. "
+"Cuando no está seleccionado, los elementos importados se añadirán a los "
+"existentes."
 
 msgid "Important: Backup Recommended"
-msgstr "Importante: Respaldo Recomendado"
+msgstr "Importante: Copia de Seguridad Recomendada"
 
 msgid ""
 "This action will modify your wizard configuration. Consider the following:"
 msgstr ""
-"Esta acción modificará su configuración de genio. Considere lo siguiente:"
+"Esta acción modificará su configuración del asistente. Considere lo "
+"siguiente:"
 
 msgid "Export your current steps and bundles first as a backup"
-msgstr "Exportar sus pasos y paquetes actuales como un respaldo"
+msgstr "Exportar sus pasos y paquetes actuales como copia de seguridad"
 
 msgid "Imported steps will use the file's step ordering and server types"
 msgstr ""
@@ -2259,7 +2245,7 @@ msgid "For bundle export:"
 msgstr "Para exportar paquete:"
 
 msgid "Back to Steps"
-msgstr "Vuelta a Pasos"
+msgstr "Volver a los Pasos"
 
 msgid "Please select a JSON file to import."
 msgstr "Por favor seleccione un archivo JSON para importar."
@@ -2271,21 +2257,22 @@ msgid ""
 "This will permanently replace all existing wizard configuration (steps and "
 "bundles). Are you sure you want to continue?"
 msgstr ""
-"Esto reemplazará permanentemente toda la configuracion genio existente "
-"(apaso y paquetes). ¿Está seguro(a) de continuar?"
+"Esto reemplazará permanentemente toda la configuración del asistente actual "
+"(pasos y paquetes). ¿Está seguro(a) de continuar?"
 
 msgid "Wizard Steps"
-msgstr "Pasos de Genio"
+msgstr "Pasos del Asistente"
 
 msgid "Manage your wizard steps and bundles for user onboarding"
 msgstr ""
-"Gestionar sus pasos y paquetes de genio para la incorporación de usuarios"
+"Gestionar sus pasos y paquetes del asistente para la incorporación de "
+"usuarios"
 
 msgid "No wizard steps found"
-msgstr "No se encontraron pasos de genio"
+msgstr "No se encontraron pasos del asistente"
 
 msgid "Get started by creating your first wizard step"
-msgstr "Inicie creando su primer paso de genio"
+msgstr "Inicie creando su primer paso del asistente"
 
 msgid "Server"
 msgstr "Servidor"
@@ -2313,10 +2300,13 @@ msgid ""
 "Are you sure you want to reset all steps for %(server)s to defaults? This "
 "will delete all custom steps and reimport the default ones."
 msgstr ""
+"¿Está seguro de que desea restablecer a los valores predeterminados todos "
+"los pasos para %(server)s? Esto eliminará todos los pasos personalizados y "
+"volverá a importar los predeterminados."
 
-#, fuzzy, python-format
+#, python-format
 msgid "Reset %(server)s Steps to Defaults"
-msgstr "Exportar Pasos de %(server)s"
+msgstr "Restablecer los Pasos de %(server)s a los Valores Predeterminados"
 
 #, python-format
 msgid "Export %(server)s Steps"
@@ -2340,16 +2330,14 @@ msgstr "Usado por"
 msgid "Used"
 msgstr "Usado"
 
-#, fuzzy
 msgid "Not used yet"
-msgstr "Usado por"
+msgstr "Aún no se ha utilizado"
 
-#, fuzzy
 msgid "Bundle"
-msgstr "Paquete Genio"
+msgstr "Paquete"
 
 msgid "days"
-msgstr "Días"
+msgstr "días"
 
 msgid "Default"
 msgstr "Predeterminado"
@@ -2364,7 +2352,7 @@ msgid "There are currently no users."
 msgstr "Actualmente no hay usuarios."
 
 msgid "Edit nickname"
-msgstr "Editar sobrenombre"
+msgstr "Editar apodo"
 
 msgid "Home User"
 msgstr "Usuario local"
@@ -2372,9 +2360,8 @@ msgstr "Usuario local"
 msgid "Invited"
 msgstr "Invitado"
 
-#, fuzzy
 msgid "Disabled"
-msgstr "TV En Vivo desactivada"
+msgstr "Desactivado"
 
 msgid "Downloads enabled"
 msgstr "Descargas activadas"
@@ -2382,28 +2369,23 @@ msgstr "Descargas activadas"
 msgid "Live TV enabled"
 msgstr "TV En Vivo activada"
 
-#, fuzzy
 msgid "View details"
-msgstr "Detalles de Usuario"
+msgstr "Ver detalles"
 
-#, fuzzy
 msgid "Edit user"
-msgstr "Editar Servidor"
+msgstr "Editar usuario"
 
-#, fuzzy
 msgid "Reset password"
-msgstr "Contraseña Actual"
+msgstr "Restablecer contraseña"
 
 msgid "Remove user"
 msgstr "Eliminar usuario"
 
-#, fuzzy
 msgid "Before Invitation"
-msgstr "Crear invitación"
+msgstr "Antes de la invitación"
 
-#, fuzzy
 msgid "After Invitation"
-msgstr "Crear invitación"
+msgstr "Después de la invitación"
 
 msgid "Previous"
 msgstr "Anterior"
