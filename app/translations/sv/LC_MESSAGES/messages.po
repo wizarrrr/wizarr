@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-08-12 05:02+0000\n"
-"PO-Revision-Date: 2025-11-03 20:10+0000\n"
-"Last-Translator: Hannes Brolin Lagerstedt <mainhannes@gmail.com>\n"
+"PO-Revision-Date: 2026-08-12 21:00+0000\n"
+"Last-Translator: Noah <contact@bruck.is>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/sv/>\n"
 "Language: sv\n"
@@ -17,111 +17,107 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
-#, fuzzy
 msgid "Failed to load settings"
-msgstr "Sök efter bibliotek"
+msgstr "Misslyckades att ladda inställningar"
 
-#, fuzzy
 msgid "Failed to load dashboard data"
-msgstr "Sök efter bibliotek"
+msgstr "Misslyckades att ladda data till infopanelen"
 
-#, fuzzy
 msgid "Failed to load history data"
-msgstr "Sök efter bibliotek"
+msgstr "Misslyckades att ladda historik"
 
-#, fuzzy
 msgid "Failed to load activity data"
-msgstr "Sök efter bibliotek"
+msgstr "Misslyckades att ladda aktivitetsdata"
 
-#, fuzzy
 msgid "Failed to load activity summary"
-msgstr "Sök efter bibliotek"
+msgstr "Misslyckades att ladda aktivitetssammanfattning"
 
 msgid "Failed to get activity statistics"
-msgstr ""
+msgstr "Misslyckades att hämta aktivitetsstatistik"
 
 msgid "Database not available"
-msgstr ""
+msgstr "Databas ej tillgänglig"
 
 msgid "Failed to get session details"
-msgstr ""
+msgstr "Misslyckades att hämta sessionsdetaljer"
 
 msgid "Failed to export activity data"
-msgstr ""
+msgstr "Misslyckades att exportera aktivitetsdata"
 
-#, fuzzy
 msgid "Monitoring restarted"
-msgstr "Skapad"
+msgstr "Övervakning omstartad"
 
 msgid "Monitor not available"
-msgstr ""
+msgstr "Övervakare ej tillgänglig"
 
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
-msgstr ""
+msgstr "Rensade {} gamla aktivitetsprotokoll"
 
 #, python-brace-format
 msgid "Ended {} stale sessions"
-msgstr ""
+msgstr "Avslutate {} gamla sessioner"
 
 msgid "Unknown action"
-msgstr ""
+msgstr "Okänd åtgärd"
 
-#, fuzzy
 msgid "Failed to update settings"
-msgstr "Inbjudningskod"
+msgstr "Misslyckades att uppdatera inställningar"
 
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
-msgstr ""
+msgstr "Aktivitetsdata har tagits bort ({} inlägg)."
 
 #, python-brace-format
 msgid "Failed to delete activity data: {}"
-msgstr ""
+msgstr "Misslyckates att ta bort aktivitetsdata: {}"
 
 msgid "Please select a media server."
-msgstr ""
+msgstr "Vänligen välj en mediaserver."
 
-#, fuzzy
 msgid "Media server not found."
-msgstr "Server"
+msgstr "Mediaserver kunde inte hittas."
 
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, Emby, "
 "and AudiobookShelf servers."
 msgstr ""
+"Importering av historisk data har i dagsläget endast stöd för Plex, "
+"Jellyfin, Emby och AudiobookShelf servrar."
 
 #, python-brace-format
 msgid ""
 "Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
+"Importering av historisk data #{job_id} påbörjat för {server} (pågår i "
+"{days} dagar)."
 
 #, python-brace-format
 msgid "Failed to import historical data: {}"
-msgstr ""
+msgstr "Misslyckades att importera historisk data: {}"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully cleared {} historical entries."
-msgstr "Skapandet av en inbjudan lyckades!"
+msgstr "{} inlägg historisk data borttagen."
 
 #, python-brace-format
 msgid "Failed to clear historical data: {}"
-msgstr ""
+msgstr "Misslyckades att rensa historisk data: {}"
 
 msgid "Unknown error"
-msgstr ""
+msgstr "Okänt fel"
 
 msgid "Cannot remove a job that is still queued or running."
-msgstr ""
+msgstr "Kan inte ta bort ett job som fortfarande kör eller är i kön."
 
 msgid "An internal error has occurred."
-msgstr ""
+msgstr "Ett internt fel har uppstått."
 
 msgid "Unknown"
-msgstr ""
+msgstr "Okänd"
 
 msgid "Never"
 msgstr "Aldrig"
@@ -131,7 +127,7 @@ msgstr "Löpt ut"
 
 #, python-format
 msgid "in %(n)d d"
-msgstr ""
+msgstr "om %(n)d d"
 
 msgid "in 1 d"
 msgstr ""
