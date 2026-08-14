@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-08-14 05:02+0000\n"
-"PO-Revision-Date: 2026-06-26 07:02+0000\n"
-"Last-Translator: Fabio Scheer <fabio@yreefboi.de>\n"
+"PO-Revision-Date: 2026-08-15 03:54+0000\n"
+"Last-Translator: Enrico Lehn <enrico.lehn@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.7.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
 msgid "Failed to load settings"
@@ -32,9 +32,8 @@ msgstr "Fehler beim Laden der Verlaufsdaten"
 msgid "Failed to load activity data"
 msgstr "Aktivitätsdaten konnten nicht geladen werden"
 
-#, fuzzy
 msgid "Failed to load activity summary"
-msgstr "Aktivitätsdaten konnten nicht geladen werden"
+msgstr "Aktivitätsübersicht konnte nicht geladen werden"
 
 msgid "Failed to get activity statistics"
 msgstr "Aktivitätsstatistiken konnten nicht geladen werden"
@@ -56,7 +55,7 @@ msgstr "Monitor nicht verfügbar"
 
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
-msgstr ""
+msgstr "{} alte Aktivitätseinträge bereinigt"
 
 #, python-brace-format
 msgid "Ended {} stale sessions"
@@ -164,10 +163,12 @@ msgid ""
 "No admin account found. Please set up a proper admin account before creating "
 "API keys."
 msgstr ""
+"Kein Administratorkonto gefunden. Bitte erstelle zuerst ein ordnungsgemäßes "
+"Administratorkonto, bevor du API-Schlüssel erstellst."
 
-#, fuzzy
 msgid "Failed to create API key due to a database error."
-msgstr "Zurücksetzen der Schritte fehlgeschlagen: {}"
+msgstr ""
+"API-Schlüssel konnte aufgrund eines Datenbankfehlers nicht erstellt werden."
 
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown again."
@@ -178,30 +179,26 @@ msgstr ""
 msgid "API key deleted successfully"
 msgstr "API-Schlüssel erfolgreich gelöscht"
 
-#, fuzzy
 msgid "LDAP authentication is not enabled"
-msgstr "Authentifizierung fehlgeschlagen"
+msgstr "LDAP-Authentifizierung ist nicht aktiviert"
 
-#, fuzzy
 msgid "LDAP admin authentication is not allowed"
-msgstr "Authentifizierung fehlgeschlagen"
+msgstr "LDAP-Administrator-Authentifizierung ist nicht erlaubt"
 
 msgid "Invalid LDAP credentials"
-msgstr ""
+msgstr "Ungültige LDAP-Anmeldedaten"
 
 msgid "User DN not found in LDAP response"
 msgstr "Benutzer-DN wurde in der LDAP-Antwort nicht gefunden"
 
 msgid "User is not authorized as an administrator"
-msgstr ""
+msgstr "Benutzer ist nicht als Administrator autorisiert"
 
-#, fuzzy
 msgid "Login successful"
-msgstr "Verbindungstest erfolgreich!"
+msgstr "Anmeldung erfolgreich"
 
-#, fuzzy
 msgid "LDAP authentication failed"
-msgstr "Authentifizierung fehlgeschlagen"
+msgstr "LDAP-Authentifizierung fehlgeschlagen"
 
 msgid "Invalid username or password"
 msgstr "Ungültiger Benutzername oder Passwort"
@@ -275,27 +272,25 @@ msgstr "Bibliotheksscan fehlgeschlagen"
 msgid "Successfully cleaned {count} expired user(s)."
 msgstr "{count} abgelaufene(r) Benutzer erfolgreich bereinigt."
 
-#, fuzzy
 msgid "No expired users found to clean."
-msgstr "Keine Wizard Schritte gefunden"
+msgstr "Keine abgelaufenen Benutzer zum Bereinigen gefunden."
 
-#, fuzzy
 msgid ""
 "Are you sure you want to clean all expired users? This action cannot be "
 "undone."
-msgstr "Bist du sicher, dass du dieses Bündel löschen willst?"
+msgstr ""
+"Bist du sicher, dass du alle abgelaufenen Benutzer bereinigen möchtest? "
+"Diese Aktion kann nicht rückgängig gemacht werden."
 
-#, fuzzy
 msgid "Clean Expired Users"
-msgstr "Kein Ablaufdatum festgelegt"
+msgstr "Abgelaufene Benutzer bereinigen"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to clean expired users: {error}"
-msgstr "Zurücksetzen der Schritte fehlgeschlagen: {}"
+msgstr "Abgelaufene Benutzer konnten nicht bereinigt werden: {error}"
 
-#, fuzzy
 msgid "LDAP configuration saved successfully"
-msgstr "Verbindung erfolgreich aktualisiert!"
+msgstr "LDAP-Konfiguration erfolgreich gespeichert"
 
 msgid "LDAP not configured or disabled"
 msgstr "LDAP nicht konfiguriert oder deaktiviert"
