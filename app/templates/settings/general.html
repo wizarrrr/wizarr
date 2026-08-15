@@ -33,6 +33,124 @@
                 <div class="flex items-center gap-3">
                   <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
                     <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M17 8h-1V6a4 4 0 10-8 0v2H7a2 2 0 00-2 2v9a2 2 0 002 2h10a2 2 0 002-2v-9a2 2 0 00-2-2zm-6 8.73V17a1 1 0 002 0v-.27a2 2 0 10-2 0zM10 8V6a2 2 0 114 0v2h-4z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Password Reset Security") }}</h2>
+                    <p class="text-sm text-gray-600 dark:text-gray-400">
+                      {{ _("Choose the password standard users must meet when you send them a reset link") }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4 space-y-5">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    {{ form.password_reset_min_length.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                    {{ form.password_reset_min_length(min="8", max="128", class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                      {{ _("Set the shortest password users can save during a reset") }}
+                    </p>
+                    {% for err in form.password_reset_min_length.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+                  </div>
+                  <div>
+                    {{ form.password_reset_max_length.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                    {{ form.password_reset_max_length(min="8", max="128", class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+                    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                      {{ _("Set the longest password users can save during a reset") }}
+                    </p>
+                    {% for err in form.password_reset_max_length.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+                  </div>
+                </div>
+                <div>
+                  <div class="flex items-center justify-between mb-3 gap-3">
+                    <div>
+                      <h3 class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Security Level") }}</h3>
+                      <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                        {{ _("Set the minimum required password strength (estimated crack time)") }}
+                      </p>
+                    </div>
+                    <span id="security-level-badge"
+                          class="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary dark:bg-primary/20">
+                      {{ _("Medium") }}
+                    </span>
+                  </div>
+                  <div class="bg-white dark:bg-gray-800/70 border border-gray-200 dark:border-gray-600 rounded-lg p-6">
+                    <div class="relative mb-8">
+                      {{ form.password_reset_security_level(class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700 accent-primary", type="range", min="0", max="4", step="1", oninput="updateSecurityLevel(this.value)") }}
+                      <div class="flex justify-between w-full px-2 mt-4 text-xs font-medium text-gray-500 dark:text-gray-400">
+                        <span class="cursor-pointer"
+                              onclick="document.querySelector('[name=password_reset_security_level]').value=0; updateSecurityLevel(0)">{{ _("Low") }}</span>
+                        <span class="cursor-pointer"
+                              onclick="document.querySelector('[name=password_reset_security_level]').value=1; updateSecurityLevel(1)">{{ _("Medium") }}</span>
+                        <span class="cursor-pointer"
+                              onclick="document.querySelector('[name=password_reset_security_level]').value=2; updateSecurityLevel(2)">{{ _("High") }}</span>
+                        <span class="cursor-pointer"
+                              onclick="document.querySelector('[name=password_reset_security_level]').value=3; updateSecurityLevel(3)">{{ _("Extra High") }}</span>
+                        <span class="cursor-pointer"
+                              onclick="document.querySelector('[name=password_reset_security_level]').value=4; updateSecurityLevel(4)">{{ _("Paranoid") }}</span>
+                      </div>
+                    </div>
+                    <div class="grid grid-cols-1 gap-4">
+                      <div id="security-desc-0" class="security-desc hidden">
+                        <p class="text-xs text-amber-600 dark:text-amber-400">
+                          <strong>{{ _("Low Security") }}:</strong> {{ _("Very short or common passwords allowed. Not recommended.") }}
+                        </p>
+                      </div>
+                      <div id="security-desc-1" class="security-desc hidden">
+                        <p class="text-xs text-gray-600 dark:text-gray-400">
+                          <strong>{{ _("Medium Security") }}:</strong> {{ _("Basic protection against simple guessing.") }}
+                        </p>
+                      </div>
+                      <div id="security-desc-2" class="security-desc hidden">
+                        <p class="text-xs text-green-600 dark:text-green-400">
+                          <strong>{{ _("High Security") }}:</strong> {{ _("Strong protection. Requires a mix of words or complex patterns.") }}
+                        </p>
+                      </div>
+                      <div id="security-desc-3" class="security-desc hidden">
+                        <p class="text-xs text-primary font-semibold">
+                          <strong>{{ _("Extra High Security") }}:</strong> {{ _("Very strong. Requires long passphrases or highly complex strings.") }}
+                        </p>
+                      </div>
+                      <div id="security-desc-4" class="security-desc hidden">
+                        <p class="text-xs text-red-600 dark:text-red-400 font-bold">
+                          <strong>{{ _("Paranoid Security") }}:</strong> {{ _("Extreme protection. Extremely difficult to crack, but may be hard for users.") }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <script>
+                    function updateSecurityLevel(val) {
+                      const badge = document.getElementById('security-level-badge');
+                      const levels = ["{{ _('Low') }}", "{{ _('Medium') }}", "{{ _('High') }}", "{{ _('Extra High') }}", "{{ _('Paranoid') }}"];
+                      badge.textContent = levels[val];
+
+                      // Update descriptions
+                      document.querySelectorAll('.security-desc').forEach(el => el.classList.add('hidden'));
+                      const desc = document.getElementById('security-desc-' + val);
+                      if (desc) desc.classList.remove('hidden');
+                    }
+                    // Initialize on load
+                    document.addEventListener('DOMContentLoaded', () => {
+                      const slider = document.querySelector('[name=password_reset_security_level]');
+                      if (slider) updateSecurityLevel(slider.value);
+                    });
+                  </script>
+                </div>
+                <div class="rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 dark:border-amber-700/70 dark:bg-amber-900/20">
+                  <p class="text-sm font-medium text-amber-900 dark:text-amber-200">{{ _("Recommended baseline") }}</p>
+                  <p class="mt-1 text-xs text-amber-800 dark:text-amber-300">
+                    {{ _("A practical starting point is 12 characters with uppercase, lowercase, numbers, and a special character enabled.") }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-4">
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                <div class="flex items-center gap-3">
+                  <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-primary" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" />
                       <circle cx="12" cy="8" r="2.5" />
                       <path d="M12 13c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z" />

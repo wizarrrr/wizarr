@@ -1707,6 +1707,7 @@ dependencies = [
     { name = "webauthn" },
     { name = "websocket-client" },
     { name = "wtforms" },
+    { name = "zxcvbn-python" },
 ]
 
 [package.dev-dependencies]
@@ -1757,6 +1758,7 @@ requires-dist = [
     { name = "webauthn", specifier = ">=2.0.0" },
     { name = "websocket-client", specifier = ">=1.8.0" },
     { name = "wtforms", specifier = ">=3.2.1" },
+    { name = "zxcvbn-python", specifier = ">=4.4.24" },
 ]
 
 [package.metadata.requires-dev]
@@ -1847,3 +1849,9 @@ sdist = { url = "https://files.pythonhosted.org/packages/e9/91/ed9b517da898e3fb7
 wheels = [
     { url = "https://files.pythonhosted.org/packages/18/76/bb225c8300f3a0ba28e01df51419c6c9574a297c43d71b29048e03b65deb/wtforms-3.2.2-py3-none-any.whl", hash = "sha256:72b90d5d921bd3119252069cf0301e9c13915f9e52792652bc91c5dda4b79e56", size = 158656, upload-time = "2026-05-03T05:53:46.072Z" },
 ]
+
+[[package]]
+name = "zxcvbn-python"
+version = "4.4.24"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/63/9c/c3f90da63d6bd0e04948386bdf426212f1f8271d544615a5c8d0d03267ef/zxcvbn-python-4.4.24.tar.gz", hash = "sha256:900b28cc5e96be4091d8778f19f222832890264e338765a1c1c09fca2db64b2d", size = 408001, upload-time = "2018-04-11T13:39:22.82Z" }
