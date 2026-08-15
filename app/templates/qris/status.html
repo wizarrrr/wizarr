@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}QRIS Payment Status{% endblock title %}
+{% block main %}
+<section class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <div class="flex flex-col items-center justify-center px-6 py-12 mx-auto">
+    <div class="w-full max-w-md p-6 bg-white rounded-lg shadow-sm dark:bg-gray-800 dark:border dark:border-gray-700">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Status Pembayaran</h1>
+      <dl class="mt-4 space-y-2 text-sm text-gray-700 dark:text-gray-300">
+        <div class="flex justify-between"><dt>Order</dt><dd>{{ order.order_id }}</dd></div>
+        <div class="flex justify-between"><dt>Paket</dt><dd>{{ order.plan.name }}</dd></div>
+        <div class="flex justify-between"><dt>Status</dt><dd>{{ order.status }}</dd></div>
+      </dl>
+      {% if invite_url %}
+        <div class="p-4 mt-5 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-900 dark:text-green-200">
+          Pembayaran terverifikasi. Gunakan link undangan berikut:
+        </div>
+        <a class="block px-4 py-2 mt-4 text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700" href="{{ invite_url }}">Buka Undangan</a>
+        <p class="mt-3 text-xs break-all text-gray-500 dark:text-gray-400">{{ invite_url }}</p>
+      {% else %}
+        <div class="p-4 mt-5 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-900 dark:text-yellow-200">
+          Pembayaran belum terverifikasi. Jika sudah membayar, tunggu webhook Pakasir beberapa detik lalu refresh halaman ini.
+        </div>
+        <a class="block px-4 py-2 mt-4 text-center text-white bg-gray-600 rounded-lg hover:bg-gray-700" href="{{ order.payment_url }}">Kembali ke Pembayaran</a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock main %}

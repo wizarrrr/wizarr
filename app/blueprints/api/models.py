@@ -266,3 +266,105 @@ success_message_model = api.model(
         "message": fields.String(description="Success message"),
     },
 )
+
+
+# Pakasir QRIS Models
+qris_plan_model = api.model(
+    "QrisPlan",
+    {
+        "id": fields.Integer(description="Plan ID"),
+        "slug": fields.String(description="Machine-readable package slug"),
+        "name": fields.String(description="Customer-facing package name"),
+        "amount": fields.Integer(description="Pakasir amount before fees"),
+        "duration_days": fields.Integer(description="User access duration in days"),
+        "server_ids": fields.List(
+            fields.Integer, description="Media server IDs granted by this package"
+        ),
+        "library_ids": fields.List(
+            fields.Integer, description="Optional library IDs granted by this package"
+        ),
+        "allow_downloads": fields.Boolean(description="Allow user downloads"),
+        "allow_live_tv": fields.Boolean(description="Allow live TV access"),
+        "allow_mobile_uploads": fields.Boolean(description="Allow mobile uploads"),
+        "invite_expires_days": fields.Integer(
+            description="Days until the generated invitation link expires"
+        ),
+        "active": fields.Boolean(
+            description="Whether the plan is customer-selectable"
+        ),
+    },
+)
+
+qris_plan_list_model = api.model(
+    "QrisPlanList",
+    {
+        "plans": fields.List(fields.Nested(qris_plan_model)),
+        "count": fields.Integer(description="Total number of QRIS plans"),
+    },
+)
+
+qris_plan_upsert_request = api.model(
+    "QrisPlanUpsertRequest",
+    {
+        "slug": fields.String(required=True, description="Unique package slug"),
+        "name": fields.String(
+            required=True, description="Customer-facing package name"
+        ),
+        "amount": fields.Integer(required=True, description="Pakasir amount"),
+        "duration_days": fields.Integer(
+            required=True, description="User access duration in days"
+        ),
+        "server_ids": fields.List(
+            fields.Integer,
+            required=True,
+            description="Media server IDs to invite into",
+        ),
+        "library_ids": fields.List(
+            fields.Integer, description="Optional library IDs to grant"
+        ),
+        "allow_downloads": fields.Boolean(default=False),
+        "allow_live_tv": fields.Boolean(default=False),
+        "allow_mobile_uploads": fields.Boolean(default=False),
+        "invite_expires_days": fields.Integer(default=7),
+        "active": fields.Boolean(default=True),
+    },
+)
+
+qris_order_model = api.model(
+    "QrisOrder",
+    {
+        "order_id": fields.String(description="Local Wizarr/Pakasir order ID"),
+        "plan_slug": fields.String(description="Selected QRIS plan slug"),
+        "amount": fields.Integer(description="Expected Pakasir amount"),
+        "status": fields.String(description="Order status"),
+        "payment_method": fields.String(description="Pakasir payment method"),
+        "payment_url": fields.String(description="Pakasir checkout URL"),
+        "status_url": fields.String(
+            description="Wizarr customer-facing status URL"
+        ),
+        "invitation_url": fields.String(
+            description="Generated invitation URL, if paid"
+        ),
+        "created_at": fields.DateTime(description="Order creation date"),
+        "completed_at": fields.DateTime(description="Pakasir completion date"),
+        "verified_at": fields.DateTime(description="Wizarr verification date"),
+    },
+)
+
+qris_order_create_request = api.model(
+    "QrisOrderCreateRequest",
+    {
+        "plan_slug": fields.String(
+            required=True, description="QRIS plan slug to buy"
+        ),
+        "buyer_email": fields.String(description="Optional buyer email for records"),
+    },
+)
+
+qris_order_response = api.model(
+    "QrisOrderResponse",
+    {
+        "message": fields.String(description="Success message"),
+        "order": fields.Nested(qris_order_model),
+    },
+)
