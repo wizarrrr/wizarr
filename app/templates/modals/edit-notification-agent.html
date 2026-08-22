@@ -45,7 +45,45 @@
                         {% if agent.type == 'notifiarr' %}selected{% endif %}>Notifiarr</option>
                 <option value="ntfy" {% if agent.type == 'ntfy' %}selected{% endif %}>Ntfy</option>
                 <option value="telegram" {% if agent.type == 'telegram' %}selected{% endif %}>Telegram</option>
+                <option value="webhook" {% if agent.type == 'webhook' %}selected{% endif %}>Webhook</option>
               </select>
+            </div>
+            <div id="webhookSection"
+                 class="notificationAgentInfo"
+                 style="display:
+                        {% if agent.type == 'webhook' %}
+                          block
+                        {% else %}
+                          none
+                        {% endif %}">
+              <label for="webhook_secret"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                {{ _("Shared Secret (HMAC-SHA256)") }}
+              </label>
+              <input type="password"
+                     name="webhook_secret"
+                     id="webhook_secret"
+                     value="{{ agent.webhook_secret or '' }}"
+                     placeholder="{{ _('Optional but recommended') }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+              <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                {{ _("Requests will be signed with header X-Wizarr-Signature: sha256=&lt;hex&gt;.") }}
+              </p>
+              <div class="flex items-start mt-3">
+                <input type="checkbox"
+                       name="include_password"
+                       id="include_password"
+                       value="1"
+                       {% if agent.include_password %}checked{% endif %}
+                       class="w-4 h-4 mt-1 text-primary bg-gray-100 border-gray-300 rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600">
+                <label for="include_password"
+                       class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                  {{ _("Include plaintext password in user_joined payloads") }}
+                  <span class="block text-xs font-normal text-gray-500 dark:text-gray-400">
+                    {{ _("Off by default. Only enable for trusted, private endpoints (https or loopback only).") }}
+                  </span>
+                </label>
+              </div>
             </div>
             <div id="notifiarrSection"
                  class="notificationAgentInfo"
@@ -192,6 +230,8 @@
             notifiarrSection.style.display = 'block';
         } else if (value === "telegram") {
             telegramSection.style.display = 'block';
+        } else if (value === "webhook") {
+            webhookSection.style.display = 'block';
         }
 
         if (value === 'notifiarr') {
@@ -212,6 +252,8 @@
 
         if (value === 'apprise') {
             urlEle.placeholder = "e.g. apprise://hostname/token";
+        } else if (value === 'webhook') {
+            urlEle.placeholder = "https://example.com/hook  or  http://127.0.0.1:5059/hook";
         } else {
             urlEle.placeholder = "e.g. https://example.com";
         }
