@@ -116,6 +116,10 @@ def create_server():
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))
         server.allow_live_tv = bool(data.get("allow_live_tv"))
+        server.allow_mobile_uploads = bool(data.get("allow_mobile_uploads"))
+        server.emby_connect_onboarding = data.get("server_type") == "emby" and bool(
+            data.get("emby_connect_onboarding")
+        )
         server.verified = True
         db.session.add(server)
         db.session.commit()
@@ -209,6 +213,10 @@ def edit_server(server_id):
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))
         server.allow_live_tv = bool(data.get("allow_live_tv"))
+        server.allow_mobile_uploads = bool(data.get("allow_mobile_uploads"))
+        server.emby_connect_onboarding = data.get("server_type") == "emby" and bool(
+            data.get("emby_connect_onboarding")
+        )
         # update libraries
         chosen = request.form.getlist("libraries")
         if chosen:

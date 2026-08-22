@@ -38,7 +38,12 @@ def _load_settings() -> dict:
     settings = {s.key: s.value for s in Settings.query.all()}
 
     # Convert specific boolean fields from strings to booleans
-    boolean_fields = ["allow_downloads", "allow_live_tv", "wizard_acl_enabled"]
+    boolean_fields = [
+        "allow_downloads",
+        "allow_live_tv",
+        "emby_connect_onboarding",
+        "wizard_acl_enabled",
+    ]
     for field in boolean_fields:
         if field in settings and settings[field] is not None:
             settings[field] = str(settings[field]).lower() == "true"
@@ -144,6 +149,10 @@ def server_settings():
             existing_server.external_url = data.get("external_url")
             existing_server.allow_downloads = bool(data.get("allow_downloads"))
             existing_server.allow_live_tv = bool(data.get("allow_live_tv"))
+            existing_server.emby_connect_onboarding = (
+                data.get("server_type") == "emby"
+                and bool(data.get("emby_connect_onboarding"))
+            )
             existing_server.verified = True
             db.session.commit()
         else:
@@ -156,6 +165,9 @@ def server_settings():
             server.external_url = data.get("external_url")
             server.allow_downloads = bool(data.get("allow_downloads"))
             server.allow_live_tv = bool(data.get("allow_live_tv"))
+            server.emby_connect_onboarding = data.get("server_type") == "emby" and bool(
+                data.get("emby_connect_onboarding")
+            )
             server.verified = True
             db.session.add(server)
             db.session.commit()
