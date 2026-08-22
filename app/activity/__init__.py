@@ -15,6 +15,7 @@ from flask import Flask
 
 from app.models import ActivitySession, ActivitySnapshot
 from app.services.activity import ActivityService
+from app.utils.env import env_flag
 
 from .monitoring.monitor import WebSocketMonitor
 
@@ -32,6 +33,14 @@ def init_app(app: Flask) -> None:
     # This prevents session recovery from running during 'flask db upgrade'
     if os.environ.get("FLASK_SKIP_SCHEDULER") == "true":
         logger.debug("Skipping activity monitoring during migrations")
+        return
+
+    # Allow operators to disable activity monitoring entirely for invite-only
+    # deployments that rely on external tooling for playback/session stats (#1363).
+    if env_flag("WIZARR_DISABLE_ACTIVITY_MONITORING"):
+        logger.info(
+            "Activity monitoring disabled via WIZARR_DISABLE_ACTIVITY_MONITORING"
+        )
         return
 
     # Skip only in Werkzeug's reloader parent process (development mode)

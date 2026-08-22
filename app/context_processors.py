@@ -2,6 +2,7 @@ import os
 
 from app.extensions import db
 from app.models import Settings
+from app.utils.env import env_flag
 
 
 def inject_server_name():
@@ -37,3 +38,9 @@ def inject_plus_features():
 def inject_app_version():
     """Inject current app version into template context for cache busting."""
     return {"app_version": os.getenv("APP_VERSION", "dev")}
+
+
+def inject_activity_monitoring():
+    """Inject whether background activity monitoring is enabled into templates."""
+    disabled = env_flag("WIZARR_DISABLE_ACTIVITY_MONITORING")
+    return {"activity_monitoring_enabled": not disabled}
