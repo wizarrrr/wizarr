@@ -364,8 +364,11 @@ function attachInteractionGating(root = document) {
   // Single interaction handler for the content area
   function handler(ev) {
     const t = ev.target;
-    if (!t) return;
-    if (t.closest && t.closest('a,button') !== null) enableAllButtons();
+    if (!t || !t.closest) return;
+    // Opt-out rather than opt-in: every existing step relies on any link or
+    // button unlocking Next, so only marked controls are excluded.
+    if (t.closest('[data-wizard-no-unlock]')) return;
+    if (t.closest('a,button') !== null) enableAllButtons();
   }
 
   // Listen for any click within the content that bubbles/captures from links/buttons
@@ -374,7 +377,16 @@ function attachInteractionGating(root = document) {
     content.addEventListener('click', handler, true);
     content._interactionHandler = handler; // Store for cleanup
   }
+
+  window.unlockWizardNavButtons = enableAllButtons;
 }
+
+// Fired by the api-check endpoint (HX-Trigger) the moment a gate passes.
+document.body.addEventListener('wizard:gate-passed', () => {
+  if (typeof window.unlockWizardNavButtons === 'function') {
+    window.unlockWizardNavButtons();
+  }
+});
 
 document.addEventListener('DOMContentLoaded', () => {
   attachSortableLists();

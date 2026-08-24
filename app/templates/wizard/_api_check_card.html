@@ -1,0 +1,110 @@
+{# Wizard API-check status card. Rendered by ApiCheckWidget on first paint and
+   (later) by the /wizard/api-check/<step_id> poll route on every re-check, so
+   all four states live here rather than split across two templates. #}
+<div id="wizard-api-check-{{ step_id }}"
+  class="not-prose card-widget my-6 rounded-xl border p-5 sm:p-6 transition-colors duration-300
+  {% if state == 'passed' %}
+    bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800
+  {% elif state == 'capped' %}
+    bg-gray-50 dark:bg-gray-800 border-gray-200 dark:border-gray-600
+  {% else %}
+    bg-amber-50 dark:bg-amber-900/10 border-amber-200 dark:border-amber-800
+  {% endif %}"
+  data-wizard-no-unlock
+  role="status"
+  aria-live="polite"
+  {# A settled card carries no hx-* at all: HTMX defaults a trigger-less
+        element to `click`, so leaving them on would re-fire the check whenever
+        the user tapped the card. #}
+  {% if trigger %}
+    hx-get="{{ check_url }}"
+    hx-target="this"
+    hx-swap="outerHTML"
+    hx-sync="this:replace"
+    hx-indicator="#wizard-api-check-{{ step_id }}-spinner"
+    hx-trigger="{{ trigger }}"
+  {% endif %}>
+  <div class="flex items-start justify-between gap-4">
+    <div class="flex items-center gap-2">
+      <span class="h-2 w-2 rounded-full
+                   {% if state == 'passed' %}
+                     bg-green-500
+                   {% elif state == 'capped' %}
+                     bg-gray-400
+                   {% else %}
+                     bg-amber-500
+                   {% endif %}
+                   {% if state in ('pending', 'cooldown') %}animate-pulse{% endif %}"></span>
+      <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium
+                   {% if state == 'passed' %}
+                     bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100
+                   {% elif state == 'capped' %}
+                     bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200
+                   {% else %}
+                     bg-amber-100 text-amber-800 dark:bg-amber-800 dark:text-amber-100
+                   {% endif %}">
+        {% if state == 'passed' %}
+          {{ _("Verified") }}
+        {% elif state == 'cooldown' %}
+          {{ _("Please wait") }}
+        {% elif state == 'capped' %}
+          {{ _("Paused") }}
+        {% else %}
+          {{ _("Checking") }}
+        {% endif %}
+      </span>
+    </div>
+    <span id="wizard-api-check-{{ step_id }}-spinner" class="htmx-indicator">
+      <svg class="h-4 w-4 animate-spin text-gray-400 dark:text-gray-500"
+           xmlns="http://www.w3.org/2000/svg"
+           fill="none"
+           viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+        </path>
+      </svg>
+    </span>
+  </div>
+  <p class="mt-3 text-sm text-gray-700 dark:text-gray-300">
+    {% if message %}
+      {{ message }}
+    {% elif state == 'passed' %}
+      {{ _("Verified — you can continue.") }}
+    {% elif state == 'cooldown' %}
+      {% if retry_after %}
+        {{ _("Please wait %(seconds)ss before trying again…", seconds=retry_after) }}
+      {% else %}
+        {{ _("Please wait before trying again…") }}
+      {% endif %}
+    {% elif state == 'capped' %}
+      {{ _("We stopped checking automatically. Tap Re-check to try again.") }}
+    {% else %}
+      {{ _("Waiting for verification…") }}
+    {% endif %}
+  </p>
+  {% if trigger and interval %}
+    <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+      {{ _("Checking automatically every %(interval)ss.", interval=interval) }}
+    </p>
+  {% endif %}
+  {% if show_button %}
+    <div class="mt-4">
+      <button type="button"
+              hx-get="{{ check_url }}"
+              hx-target="#wizard-api-check-{{ step_id }}"
+              hx-swap="outerHTML"
+              hx-sync="#wizard-api-check-{{ step_id }}:drop"
+              hx-indicator="#wizard-api-check-{{ step_id }}-spinner"
+              class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 transition-colors">
+        <svg class="w-4 h-4 mr-2"
+             fill="none"
+             stroke="currentColor"
+             viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+          </path>
+        </svg>
+        {{ _("Re-check") }}
+      </button>
+    </div>
+  {% endif %}
+</div>

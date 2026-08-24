@@ -559,6 +559,10 @@ class WizardStep(db.Model):
     # New: require explicit user interaction before enabling Next
     require_interaction = db.Column(db.Boolean, default=False, nullable=True)
 
+    # Optional external API gate config (see app/services/wizard_api_check).
+    # Honoured on post_invite steps only; the API key inside is encrypted.
+    api_check = db.Column(db.JSON, nullable=True)
+
     created_at = db.Column(
         db.DateTime, default=lambda: datetime.now(UTC), nullable=False
     )
@@ -581,6 +585,8 @@ class WizardStep(db.Model):
     # ── convenience helpers ─────────────────────────────────────────────
     def to_dict(self):
         """Return serialisable representation (for JSON responses)."""
+        from app.services.wizard_api_check.config import public_view
+
         return {
             "id": self.id,
             "server_type": self.server_type,
@@ -590,6 +596,7 @@ class WizardStep(db.Model):
             "markdown": self.markdown,
             "requires": self.requires or [],
             "require_interaction": bool(self.require_interaction or False),
+            "api_check": public_view(self.api_check, category=self.category),
         }
 
 
