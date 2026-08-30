@@ -956,6 +956,9 @@ class ServersResource(Resource):
                     "allow_mobile_uploads": getattr(
                         server, "allow_mobile_uploads", False
                     ),
+                    "emby_connect_onboarding": getattr(
+                        server, "emby_connect_onboarding", False
+                    ),
                     "created_at": server.created_at.isoformat()
                     if hasattr(server, "created_at") and server.created_at
                     else None,

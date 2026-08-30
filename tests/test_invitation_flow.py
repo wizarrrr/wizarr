@@ -432,6 +432,72 @@ class TestFormBasedWorkflow:
         mock_strategy_factory.create_strategy.assert_not_called()
         mock_process.assert_not_called()
 
+    def test_emby_connect_onboarding_generates_local_credentials(self, app):
+        """Emby Connect mode only requires email and creates hidden credentials."""
+        workflow = FormBasedWorkflow()
+
+        mock_invitation = Mock()
+        mock_invitation.code = "TEST123"
+        mock_invitation.wizard_bundle_id = None
+
+        mock_server = Mock()
+        mock_server.server_type = "emby"
+        mock_server.emby_connect_onboarding = True
+
+        with (
+            patch.object(workflow, "_process_servers") as mock_process,
+            app.test_request_context(),
+        ):
+            mock_server_result = Mock()
+            mock_server_result.server.name = "Emby"
+            mock_server_result.message = "Success"
+            mock_process.return_value = ([mock_server_result], [])
+
+            result = workflow.process_submission(
+                mock_invitation,
+                [mock_server],
+                {"code": "TEST123", "email": "Viewer@Example.COM"},
+            )
+
+        assert result.status == ProcessingStatus.SUCCESS
+        processed_data = mock_process.call_args.args[1]
+        assert processed_data["email"] == "viewer@example.com"
+        assert processed_data["username"].startswith("viewer")
+        assert len(processed_data["username"]) > len("viewer")
+        assert processed_data["password"]
+        assert processed_data["confirm_password"] == processed_data["password"]
+
+    def test_emby_connect_onboarding_rejects_invalid_email(self, app):
+        workflow = FormBasedWorkflow()
+
+        mock_invitation = Mock()
+        mock_invitation.code = "TEST123"
+        mock_invitation.wizard_bundle_id = None
+
+        mock_server = Mock()
+        mock_server.server_type = "emby"
+        mock_server.emby_connect_onboarding = True
+
+        with (
+            patch.object(workflow, "_process_servers") as mock_process,
+            app.test_request_context(),
+        ):
+            result = workflow.process_submission(
+                mock_invitation,
+                [mock_server],
+                {"code": "TEST123", "email": "not-an-email"},
+            )
+
+        assert result.status == ProcessingStatus.FAILURE
+        assert "Emby Connect" in result.message
+        assert result.template_data is not None
+        rendered = render_template(
+            result.template_data["template_name"], **result.template_data
+        )
+        assert 'name="email"' in rendered
+        assert 'name="password"' not in rendered
+        mock_process.assert_not_called()
+
 
 class TestMixedWorkflow:
     """Test MixedWorkflow"""
@@ -467,6 +533,37 @@ class TestMixedWorkflow:
 
             assert 'name="code"' in rendered
             assert 'value="MIXED123"' in rendered
+
+    def test_show_emby_connect_form_for_enabled_mixed_emby(self, app):
+        workflow = MixedWorkflow()
+
+        mock_invitation = Mock()
+        mock_invitation.code = "MIXED123"
+
+        mock_plex_server = Mock()
+        mock_plex_server.server_type = "plex"
+        mock_emby_server = Mock()
+        mock_emby_server.server_type = "emby"
+        mock_emby_server.emby_connect_onboarding = True
+        mock_emby_server.name = "Emby"
+
+        with app.test_request_context():
+            session["plex_oauth_token"] = "plex-token"
+
+            result = workflow.show_initial_form(
+                mock_invitation, [mock_plex_server, mock_emby_server]
+            )
+
+            assert result.template_data is not None
+            assert result.template_data["emby_connect_onboarding"] is True
+
+            rendered = render_template(
+                result.template_data["template_name"], **result.template_data
+            )
+
+            assert 'name="email"' in rendered
+            assert 'name="password"' not in rendered
+            assert 'name="confirm_password"' not in rendered
 
 
 class TestIntegrationWithDatabase:

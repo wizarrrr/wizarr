@@ -32,6 +32,11 @@ class SettingsForm(FlaskForm):
     allow_live_tv = BooleanField(
         str(_l("Allow Live TV")), default=False, validators=[Optional()]
     )
+    emby_connect_onboarding = BooleanField(
+        str(_l("Use Emby Connect onboarding")),
+        default=False,
+        validators=[Optional()],
+    )
     overseerr_url = StringField(
         str(_l("Overseerr/Ombi URL")), validators=[Optional(), URL()]
     )
