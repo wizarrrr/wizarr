@@ -53,7 +53,7 @@
           </path>
         </svg>
         <span class="font-medium mr-1">{{ _("Joined") }}:</span>
-        {{ join_date|default(_('Unknown') ) if join_date else _('Unknown') }}
+        {{ join_date|default(_('Unknown')) if join_date else _('Unknown') }}
       </div>
       <!-- Account sections -->
       {% for info in accounts_info %}

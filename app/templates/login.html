@@ -52,7 +52,7 @@
             <form class="space-y-4 md:space-y-6"
                   action="{{ url_for('auth.login') }}"
                   method="post"
-                  x-data="{ authMethod: '{{ selected_auth_method|default("local") }}' }">
+                  x-data="{ authMethod: '{{ selected_auth_method|default('local') }}' }">
               {% if ldap_enabled %}
                 <div>
                   <label for="auth_method"

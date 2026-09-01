@@ -13,9 +13,9 @@
     {% set pre_steps = real_steps | selectattr('step.category', 'equalto', 'pre_invite') | list %}
     {% set post_steps = real_steps | selectattr('step.category', 'equalto', 'post_invite') | list %}
     {% set other_steps = real_steps
-          | rejectattr('step.category', 'equalto', 'pre_invite')
-          | rejectattr('step.category', 'equalto', 'post_invite')
-        | list %}
+      | rejectattr('step.category', 'equalto', 'pre_invite')
+      | rejectattr('step.category', 'equalto', 'post_invite')
+    | list %}
     {% set orphaned_steps = b.steps | rejectattr('step') | list %}
     <div class="border rounded-md p-4 dark:border-gray-700">
       <div class="flex items-center justify-between mb-4">

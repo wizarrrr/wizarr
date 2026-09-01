@@ -106,7 +106,7 @@ class TestInviteCodeValidation:
                 code="EXPIRED123",
                 unlimited=False,
                 used=False,
-                expires=datetime.datetime.now() - timedelta(hours=1),
+                expires=datetime.datetime.now(datetime.UTC) - timedelta(hours=1),
             )
             db.session.add(invitation)
             db.session.commit()
