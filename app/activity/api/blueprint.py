@@ -38,6 +38,10 @@ except ImportError:
 
 
 from app.activity.domain.models import ActivityQuery
+from app.activity.tracking import (
+    is_activity_tracking_enabled,
+    set_activity_tracking_enabled,
+)
 from app.models import ActivitySession, ActivitySnapshot
 from app.services.activity import ActivityService
 from app.services.historical import HistoricalDataService
@@ -65,14 +69,19 @@ def _activity_settings_template() -> str:
 
 def _default_monitor_status() -> dict[str, object]:
     """Provide a fallback monitor status structure."""
-    return {"monitoring_enabled": False, "connection_status": {}}
+    return {
+        "tracking_enabled": True,
+        "monitoring_enabled": False,
+        "connection_status": {},
+    }
 
 
 def _load_monitor_status() -> dict[str, object]:
     """Return current activity monitor status."""
-    monitor = getattr(current_app.extensions, "activity_monitor", None)
+    monitor = current_app.extensions.get("activity_monitor")
     return {
-        "monitoring_enabled": monitor is not None,
+        "tracking_enabled": is_activity_tracking_enabled(),
+        "monitoring_enabled": bool(monitor and monitor.monitoring),
         "connection_status": monitor.get_connection_status() if monitor else {},
     }
 
@@ -581,8 +590,18 @@ def activity_settings():
         try:
             action = request.form.get("action")
 
+            if action == "set_tracking":
+                enabled = request.form.get("activity_tracking_enabled") == "true"
+                set_activity_tracking_enabled(enabled)
+                state = _("enabled") if enabled else _("disabled")
+                return _settings_action_response(
+                    success=_(
+                        "Activity tracking is {state}. The change can take up to 15 seconds."
+                    ).format(state=state)
+                )
+
             if action == "restart_monitoring":
-                monitor = getattr(current_app.extensions, "activity_monitor", None)
+                monitor = current_app.extensions.get("activity_monitor")
                 if monitor:
                     monitor.stop_monitoring()
                     monitor.start_monitoring()

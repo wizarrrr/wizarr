@@ -15,6 +15,14 @@ from structlog import get_logger as _get_logger
 
 from app.services.activity import ActivityService
 
+ACTIVITY_JOB_IDS = (
+    "activity_cleanup",
+    "activity_stale_cleanup",
+    "activity_health_check",
+    "activity_heartbeat",
+)
+ACTIVITY_TRACKING_RECONCILE_JOB_ID = "activity_tracking_reconcile"
+
 
 def cleanup_old_activity_task(app: Flask, retention_days: int = 90):
     """
@@ -152,6 +160,12 @@ def activity_monitoring_heartbeat_task(app: Flask):
 
     try:
         with app.app_context():
+            from app.activity.tracking import is_activity_tracking_enabled
+
+            if not is_activity_tracking_enabled():
+                logger.debug("Activity monitoring heartbeat skipped")
+                return False
+
             monitor = app.extensions.get("activity_monitor")
 
             if not monitor:
@@ -284,3 +298,42 @@ def register_activity_tasks(app: Flask, scheduler):
 
     except Exception as e:
         logger.error(f"Failed to register activity tasks: {e}", exc_info=True)
+
+
+def activity_tasks_registered(scheduler) -> bool:
+    """Return true when all activity jobs exist."""
+    return all(scheduler.get_job(job_id) is not None for job_id in ACTIVITY_JOB_IDS)
+
+
+def unregister_activity_tasks(scheduler) -> None:
+    """Remove all activity jobs from the scheduler."""
+    logger = _get_logger()
+    removed = False
+
+    for job_id in ACTIVITY_JOB_IDS:
+        if scheduler.get_job(job_id) is not None:
+            scheduler.remove_job(job_id)
+            removed = True
+
+    if removed:
+        logger.info("Activity monitoring tasks removed")
+
+
+def reconcile_activity_tracking_task(app: Flask) -> bool:
+    """Apply a tracking setting change in the scheduler process."""
+    from app.activity.tracking import reconcile_activity_tracking
+    from app.extensions import scheduler
+
+    return reconcile_activity_tracking(app, scheduler)
+
+
+def register_activity_tracking_reconcile_task(app: Flask, scheduler) -> None:
+    """Register the small job that applies tracking setting changes."""
+    scheduler.add_job(
+        id=ACTIVITY_TRACKING_RECONCILE_JOB_ID,
+        func=lambda: reconcile_activity_tracking_task(app),
+        trigger="interval",
+        seconds=15,
+        replace_existing=True,
+        max_instances=1,
+    )
