@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-01 08:39+0000\n"
+"POT-Creation-Date: 2026-09-01 12:14+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2007,7 +2007,8 @@ msgstr ""
 msgid "Wizard bundle"
 msgstr ""
 
-#: app/templates/modals/invite.html:82
+#: app/templates/modals/invite.html:82 wizard_steps/emby/99_tips.md:9
+#: wizard_steps/jellyfin/99_tips.md:9 wizard_steps/plex/99_tips.md:10
 msgid "Automatic"
 msgstr ""
 
@@ -3153,5 +3154,797 @@ msgstr ""
 
 #: app/templates/wizard/steps.html:182 app/templates/wizard/steps.html:248
 msgid "Click the link in this step to be able to continue"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/01_intro.md:2
+#: wizard_steps/audiobookshelf/01_intro.md:11
+msgid "What is Audiobookshelf?"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/01_intro.md:5
+msgid "Welcome to Our Audiobookshelf Server"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/01_intro.md:7
+msgid ""
+"Great news — you now have access to our **audiobook & podcast library** "
+"through Audiobookshelf!"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/01_intro.md:13
+msgid ""
+"Audiobookshelf is a self-hosted audiobook and podcast server that lets "
+"people share their audio collections with friends and family. If you're "
+"here, it means you've been invited to join ours — welcome!"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/01_intro.md:17
+#: wizard_steps/emby/01_what_is.md:17 wizard_steps/jellyfin/01_what_is.md:17
+#: wizard_steps/komga/01_intro.md:17 wizard_steps/plex/01_what_is.md:17
+msgid "What You'll Get"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/01_intro.md:18
+msgid "Access to our constantly updated audiobooks and podcasts"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/01_intro.md:19
+msgid "Listen on-demand or download for offline listening"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/01_intro.md:20
+msgid "Track your progress across all devices"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/02_download.md:2
+#: wizard_steps/audiobookshelf/02_download.md:5
+msgid "Download Audiobookshelf Clients"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/02_download.md:7
+msgid ""
+"Audiobookshelf has many clients from which you can listen to our "
+"audiobooks!"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/02_download.md:10
+msgid "Listen Anywhere"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/02_download.md:11
+msgid ""
+"Audiobookshelf works almost everywhere — install the app on your "
+"favourite devices:"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/02_download.md:18
+#: wizard_steps/emby/02_download.md:18 wizard_steps/jellyfin/02_download.md:18
+#: wizard_steps/komga/02_access.md:17 wizard_steps/plex/02_download.md:18
+msgid "Web App"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/99_tips.md:2 wizard_steps/emby/99_tips.md:2
+#: wizard_steps/jellyfin/99_tips.md:2 wizard_steps/komga/99_tips.md:2
+#: wizard_steps/plex/99_tips.md:2
+msgid "Tips for the best experience"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/99_tips.md:5
+msgid "Get the best listening experience"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/99_tips.md:7
+msgid ""
+"Audiobookshelf offers great features, but here's how to make sure you get"
+" the best experience:"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/99_tips.md:9
+msgid "Download for offline listening"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/99_tips.md:9
+msgid "Tap any audiobook → Download to enjoy without internet"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/99_tips.md:10
+msgid "Adjust playback speed"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/99_tips.md:10
+msgid "Player controls → set speed from 0.5x to 3x"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/99_tips.md:11
+msgid "Enable sleep timer"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/99_tips.md:11
+msgid "Perfect for bedtime listening — auto-stops playback"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/99_tips.md:13
+msgid "Happy listening!"
+msgstr ""
+
+#: wizard_steps/audiobookshelf/99_tips.md:17
+msgid "Go to Audiobookshelf"
+msgstr ""
+
+#: wizard_steps/emby/01_what_is.md:2 wizard_steps/emby/01_what_is.md:11
+msgid "What is Emby?"
+msgstr ""
+
+#: wizard_steps/emby/01_what_is.md:5
+msgid "Welcome to Our Emby Server"
+msgstr ""
+
+#: wizard_steps/emby/01_what_is.md:7
+msgid "Great news — you now have access to our **media library** through Emby!"
+msgstr ""
+
+#: wizard_steps/emby/01_what_is.md:13
+msgid ""
+"Emby is a powerful media server that lets people share their film and TV "
+"libraries with friends and family. If you're here, it means you've been "
+"invited to join ours — welcome!"
+msgstr ""
+
+#: wizard_steps/emby/01_what_is.md:18 wizard_steps/jellyfin/01_what_is.md:18
+#: wizard_steps/plex/01_what_is.md:18
+msgid "Access to our constantly updated list of movies and shows"
+msgstr ""
+
+#: wizard_steps/emby/01_what_is.md:19 wizard_steps/jellyfin/01_what_is.md:19
+#: wizard_steps/plex/01_what_is.md:19
+msgid "Watch on-demand or download for offline viewing"
+msgstr ""
+
+#: wizard_steps/emby/01_what_is.md:20 wizard_steps/jellyfin/01_what_is.md:20
+#: wizard_steps/plex/01_what_is.md:20
+msgid "Personalised watchlists & recommendations"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:2 wizard_steps/emby/02_download.md:5
+msgid "Download Emby Clients"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:7
+msgid "Emby has many clients from which you can view our media!"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:10 wizard_steps/jellyfin/02_download.md:10
+#: wizard_steps/plex/02_download.md:10
+msgid "Watch Anywhere"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:12
+msgid "Emby works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:14 wizard_steps/jellyfin/02_download.md:14
+#: wizard_steps/komga/02_access.md:14 wizard_steps/plex/02_download.md:14
+msgid "Mobile"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:14 wizard_steps/jellyfin/02_download.md:14
+#: wizard_steps/plex/02_download.md:14
+msgid "iOS & Android phones/tablets"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:15 wizard_steps/jellyfin/02_download.md:15
+#: wizard_steps/komga/02_access.md:15 wizard_steps/plex/02_download.md:15
+msgid "Desktop"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:15 wizard_steps/jellyfin/02_download.md:15
+#: wizard_steps/plex/02_download.md:15
+msgid "Windows, macOS, Linux"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:16 wizard_steps/jellyfin/02_download.md:16
+#: wizard_steps/plex/02_download.md:16
+msgid "Smart TVs & Streaming Devices"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:16 wizard_steps/jellyfin/02_download.md:16
+msgid "Apple TV, Fire TV, Roku, Chromecast, Android TV"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:17 wizard_steps/jellyfin/02_download.md:17
+#: wizard_steps/plex/02_download.md:17
+msgid "Consoles"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:17 wizard_steps/jellyfin/02_download.md:17
+#: wizard_steps/plex/02_download.md:17
+msgid "PlayStation & Xbox"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:18 wizard_steps/jellyfin/02_download.md:18
+#: wizard_steps/plex/02_download.md:18
+msgid "Watch instantly in your browser"
+msgstr ""
+
+#: wizard_steps/emby/02_download.md:21
+msgid "⬇️ Download Emby Clients"
+msgstr ""
+
+#: wizard_steps/emby/99_tips.md:5 wizard_steps/jellyfin/99_tips.md:5
+#: wizard_steps/plex/99_tips.md:5
+msgid "Get the best quality"
+msgstr ""
+
+#: wizard_steps/emby/99_tips.md:7
+msgid ""
+"Emby offers great quality, but here's how to make sure you get the best "
+"experience:"
+msgstr ""
+
+#: wizard_steps/emby/99_tips.md:9 wizard_steps/jellyfin/99_tips.md:9
+#: wizard_steps/plex/99_tips.md:10
+msgid "Force original quality"
+msgstr ""
+
+#: wizard_steps/emby/99_tips.md:9 wizard_steps/jellyfin/99_tips.md:9
+#: wizard_steps/plex/99_tips.md:10
+msgid "Settings → Playback → set"
+msgstr ""
+
+#: wizard_steps/emby/99_tips.md:9 wizard_steps/jellyfin/99_tips.md:9
+#: wizard_steps/plex/99_tips.md:10
+msgid "to"
+msgstr ""
+
+#: wizard_steps/emby/99_tips.md:9 wizard_steps/jellyfin/99_tips.md:9
+msgid "Maximum"
+msgstr ""
+
+#: wizard_steps/emby/99_tips.md:10 wizard_steps/jellyfin/99_tips.md:10
+msgid "Enable hardware decoding"
+msgstr ""
+
+#: wizard_steps/emby/99_tips.md:10 wizard_steps/jellyfin/99_tips.md:10
+msgid "Settings → Playback → enable for smoother 4K"
+msgstr ""
+
+#: wizard_steps/emby/99_tips.md:11 wizard_steps/jellyfin/99_tips.md:11
+#: wizard_steps/plex/99_tips.md:11
+msgid "Use a wired connection"
+msgstr ""
+
+#: wizard_steps/emby/99_tips.md:11 wizard_steps/jellyfin/99_tips.md:11
+#: wizard_steps/plex/99_tips.md:11
+msgid "if you're on a smart-TV for stutter-free 4K."
+msgstr ""
+
+#: wizard_steps/emby/99_tips.md:13 wizard_steps/jellyfin/99_tips.md:13
+#: wizard_steps/plex/99_tips.md:13
+msgid "Happy viewing!"
+msgstr ""
+
+#: wizard_steps/emby/99_tips.md:17
+msgid "Go to Emby"
+msgstr ""
+
+#: wizard_steps/jellyfin/01_what_is.md:2 wizard_steps/jellyfin/01_what_is.md:11
+msgid "What is Jellyfin?"
+msgstr ""
+
+#: wizard_steps/jellyfin/01_what_is.md:5
+msgid "Welcome to Our Jellyfin Server"
+msgstr ""
+
+#: wizard_steps/jellyfin/01_what_is.md:7
+msgid ""
+"Great news — you now have access to our **media library** through "
+"Jellyfin!"
+msgstr ""
+
+#: wizard_steps/jellyfin/01_what_is.md:13
+msgid ""
+"Jellyfin is a free, open-source media server that lets people share their"
+" film and TV libraries with friends and family. If you're here, it means "
+"you've been invited to join ours — welcome!"
+msgstr ""
+
+#: wizard_steps/jellyfin/02_download.md:2
+#: wizard_steps/jellyfin/02_download.md:5
+msgid "Download Jellyfin Clients"
+msgstr ""
+
+#: wizard_steps/jellyfin/02_download.md:7
+msgid "Jellyfin has many clients from which you can view our media!"
+msgstr ""
+
+#: wizard_steps/jellyfin/02_download.md:12
+msgid ""
+"Jellyfin works almost everywhere — install the app on your favourite "
+"devices:"
+msgstr ""
+
+#: wizard_steps/jellyfin/02_download.md:21
+msgid "⬇️ Download Jellyfin Clients"
+msgstr ""
+
+#: wizard_steps/jellyfin/99_tips.md:7
+msgid ""
+"Jellyfin offers great quality, but here's how to make sure you get the "
+"best experience:"
+msgstr ""
+
+#: wizard_steps/jellyfin/99_tips.md:17
+msgid "Go to Jellyfin"
+msgstr ""
+
+#: wizard_steps/kavita/01_intro.md:5
+msgid "Welcome to your digital library"
+msgstr ""
+
+#: wizard_steps/kavita/01_intro.md:7
+msgid "Great news! You now have access to our comic and manga collection."
+msgstr ""
+
+#: wizard_steps/kavita/01_intro.md:9
+msgid ""
+"Kavita lets people share their digital libraries with friends. Read "
+"comics, manga, and books directly in your browser or mobile app."
+msgstr ""
+
+#: wizard_steps/kavita/01_intro.md:12
+msgid "How do I read stuff?"
+msgstr ""
+
+#: wizard_steps/kavita/01_intro.md:14
+msgid ""
+"Open Kavita in your browser, sign in with your new account, and start "
+"reading. You can also use mobile apps for a better experience."
+msgstr ""
+
+#: wizard_steps/kavita/01_intro.md:17
+msgid "Open Kavita"
+msgstr ""
+
+#: wizard_steps/kavita/02_access.md:5
+msgid "Want to read on your phone?"
+msgstr ""
+
+#: wizard_steps/kavita/02_access.md:7
+msgid "Download a comic reader app for the best mobile experience."
+msgstr ""
+
+#: wizard_steps/kavita/02_access.md:9
+msgid "Android"
+msgstr ""
+
+#: wizard_steps/kavita/02_access.md:10
+msgid "Popular manga reader with Kavita support"
+msgstr ""
+
+#: wizard_steps/kavita/02_access.md:11
+msgid "Great for comics and books"
+msgstr ""
+
+#: wizard_steps/kavita/02_access.md:13
+msgid "iOS"
+msgstr ""
+
+#: wizard_steps/kavita/02_access.md:14
+msgid "Premium comic reader with Kavita integration"
+msgstr ""
+
+#: wizard_steps/kavita/02_access.md:15
+msgid "Full-featured comic reader"
+msgstr ""
+
+#: wizard_steps/kavita/02_access.md:17
+msgid "Connect your app"
+msgstr ""
+
+#: wizard_steps/kavita/02_access.md:19
+msgid "Use this OPDS URL in your reader app:"
+msgstr ""
+
+#: wizard_steps/kavita/02_access.md:23
+msgid "Login with your Kavita username and password."
+msgstr ""
+
+#: wizard_steps/kavita/03_features.md:5
+msgid "Your library includes"
+msgstr ""
+
+#: wizard_steps/kavita/03_features.md:7
+msgid ""
+"Browse collections of comics, manga, light novels, and digital books. "
+"Everything is organized by series and automatically tracks your reading "
+"progress."
+msgstr ""
+
+#: wizard_steps/kavita/03_features.md:10
+msgid "Cool features"
+msgstr ""
+
+#: wizard_steps/kavita/03_features.md:12 wizard_steps/komga/03_features.md:31
+msgid "Pick up exactly where you left off"
+msgstr ""
+
+#: wizard_steps/kavita/03_features.md:13
+msgid "Create custom reading lists"
+msgstr ""
+
+#: wizard_steps/kavita/03_features.md:14
+msgid "Find content by title, author, or genre"
+msgstr ""
+
+#: wizard_steps/kavita/03_features.md:15
+msgid "Easy on the eyes for night reading"
+msgstr ""
+
+#: wizard_steps/kavita/04_tips.md:5 wizard_steps/komga/99_tips.md:5
+msgid "Get the best reading experience"
+msgstr ""
+
+#: wizard_steps/kavita/04_tips.md:7
+msgid "Kavita has some handy settings to make reading more comfortable:"
+msgstr ""
+
+#: wizard_steps/kavita/04_tips.md:9
+msgid "Set reading direction"
+msgstr ""
+
+#: wizard_steps/kavita/04_tips.md:9
+msgid "Settings → Reader → set manga to right-to-left"
+msgstr ""
+
+#: wizard_steps/kavita/04_tips.md:10 wizard_steps/komga/99_tips.md:11
+msgid "Enable dark mode"
+msgstr ""
+
+#: wizard_steps/kavita/04_tips.md:10
+msgid "Perfect for night reading"
+msgstr ""
+
+#: wizard_steps/kavita/04_tips.md:11
+msgid "Use keyboard shortcuts"
+msgstr ""
+
+#: wizard_steps/kavita/04_tips.md:11
+msgid "Space for next page, arrows to navigate"
+msgstr ""
+
+#: wizard_steps/komga/01_intro.md:2 wizard_steps/komga/01_intro.md:11
+msgid "What is Komga?"
+msgstr ""
+
+#: wizard_steps/komga/01_intro.md:5
+msgid "Welcome to Our Komga Server"
+msgstr ""
+
+#: wizard_steps/komga/01_intro.md:7
+msgid ""
+"Great news — you now have access to our **digital comic and manga "
+"library** through Komga!"
+msgstr ""
+
+#: wizard_steps/komga/01_intro.md:13
+msgid ""
+"Komga is a free, open-source media server designed specifically for "
+"comics, manga, and digital books. If you're here, it means you've been "
+"invited to join our library — welcome!"
+msgstr ""
+
+#: wizard_steps/komga/01_intro.md:18
+msgid "Access to our constantly updated collection of comics and manga"
+msgstr ""
+
+#: wizard_steps/komga/01_intro.md:19
+msgid "Read online directly in your browser"
+msgstr ""
+
+#: wizard_steps/komga/01_intro.md:20
+msgid "Download for offline reading on your favorite devices"
+msgstr ""
+
+#: wizard_steps/komga/01_intro.md:21
+msgid "Track your reading progress automatically"
+msgstr ""
+
+#: wizard_steps/komga/01_intro.md:22
+msgid "Support for multiple formats (CBZ, CBR, PDF, EPUB)"
+msgstr ""
+
+#: wizard_steps/komga/02_access.md:2 wizard_steps/komga/02_access.md:5
+msgid "Download Komga Clients"
+msgstr ""
+
+#: wizard_steps/komga/02_access.md:7
+msgid ""
+"Komga has many compatible readers from which you can enjoy your comics "
+"and manga!"
+msgstr ""
+
+#: wizard_steps/komga/02_access.md:10
+msgid "Read Anywhere"
+msgstr ""
+
+#: wizard_steps/komga/02_access.md:12
+msgid ""
+"Komga works with many popular comic readers — install apps on your "
+"favorite devices:"
+msgstr ""
+
+#: wizard_steps/komga/02_access.md:14
+msgid "iOS (Panels, Chunky) & Android (Mihon/Tachiyomi, Komga Client)"
+msgstr ""
+
+#: wizard_steps/komga/02_access.md:15
+msgid "Windows (CDisplayEx, YACReader), macOS & Linux (YACReader)"
+msgstr ""
+
+#: wizard_steps/komga/02_access.md:16
+msgid "Tablets"
+msgstr ""
+
+#: wizard_steps/komga/02_access.md:16
+msgid "iPad & Android tablets with comic reader apps"
+msgstr ""
+
+#: wizard_steps/komga/02_access.md:17
+msgid "Read instantly in your browser at"
+msgstr ""
+
+#: wizard_steps/komga/02_access.md:18
+msgid "E-Readers"
+msgstr ""
+
+#: wizard_steps/komga/02_access.md:18
+msgid "KOReader and other OPDS-compatible readers"
+msgstr ""
+
+#: wizard_steps/komga/02_access.md:21
+msgid "📚 View Compatible Readers"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:2
+msgid "Library Features"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:5
+msgid "Komga Features"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:7
+msgid "Discover all the features available to enhance your reading experience!"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:10
+msgid "Reading Experience"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:12
+msgid "Webtoon Mode"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:12
+msgid "Perfect for manga and webtoons with continuous scrolling"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:13
+msgid "Page-by-Page"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:13
+msgid "Traditional comic book reading experience"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:14
+msgid "Zoom & Pan"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:14
+msgid "Get detailed views of artwork"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:15
+msgid "Auto Bookmarks"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:15
+msgid "Your progress is saved automatically"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:19
+msgid "Organization"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:21
+msgid "Series Collections"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:21
+msgid "Browse comics organized by series"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:22
+msgid "Custom Collections"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:22
+msgid "Curated collections by themes and genres"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:23
+msgid "Smart Tags"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:23
+msgid "Filter by genres, authors, publishers, and more"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:24
+msgid "Advanced Search"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:24
+msgid "Find specific titles instantly"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:28
+msgid "Personal Features"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:30
+msgid "Reading Progress"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:30
+msgid "Track which issues you've completed"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:31
+msgid "Continue Reading"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:32
+msgid "Reading Lists"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:32
+msgid "Create and manage custom reading lists"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:33
+msgid "On Deck"
+msgstr ""
+
+#: wizard_steps/komga/03_features.md:33
+msgid "See your next suggested reads"
+msgstr ""
+
+#: wizard_steps/komga/99_tips.md:7
+msgid ""
+"Komga offers a great reading experience, but here's how to make it even "
+"better:"
+msgstr ""
+
+#: wizard_steps/komga/99_tips.md:9
+msgid "Choose the right reader mode"
+msgstr ""
+
+#: wizard_steps/komga/99_tips.md:9
+msgid "Use webtoon mode for manga, page-by-page for traditional comics"
+msgstr ""
+
+#: wizard_steps/komga/99_tips.md:10
+msgid "Adjust reading direction"
+msgstr ""
+
+#: wizard_steps/komga/99_tips.md:10
+msgid "Settings → Reader → set right-to-left for manga"
+msgstr ""
+
+#: wizard_steps/komga/99_tips.md:11
+msgid "Easier on your eyes during night reading sessions"
+msgstr ""
+
+#: wizard_steps/komga/99_tips.md:12
+msgid "Use full-screen mode"
+msgstr ""
+
+#: wizard_steps/komga/99_tips.md:12
+msgid "Press F11 in browser for distraction-free reading"
+msgstr ""
+
+#: wizard_steps/komga/99_tips.md:13
+msgid "Download for offline"
+msgstr ""
+
+#: wizard_steps/komga/99_tips.md:13
+msgid "Download comics to mobile apps for reading without internet"
+msgstr ""
+
+#: wizard_steps/komga/99_tips.md:15
+msgid "Happy reading!"
+msgstr ""
+
+#: wizard_steps/komga/99_tips.md:17
+msgid "Go to Komga"
+msgstr ""
+
+#: wizard_steps/plex/01_what_is.md:2 wizard_steps/plex/01_what_is.md:11
+msgid "What is Plex?"
+msgstr ""
+
+#: wizard_steps/plex/01_what_is.md:5
+msgid "Welcome to Our Plex Server"
+msgstr ""
+
+#: wizard_steps/plex/01_what_is.md:7
+msgid "Great news — you now have access to our **media library** through Plex!"
+msgstr ""
+
+#: wizard_steps/plex/01_what_is.md:13
+msgid ""
+"Plex lets people share their film and TV libraries with friends and "
+"family. If you're here, it means you've been invited to join ours — "
+"welcome!"
+msgstr ""
+
+#: wizard_steps/plex/02_download.md:2 wizard_steps/plex/02_download.md:5
+msgid "Download Plex Clients"
+msgstr ""
+
+#: wizard_steps/plex/02_download.md:7
+msgid "Plex has many clients from which you can view our media!"
+msgstr ""
+
+#: wizard_steps/plex/02_download.md:12
+msgid "Plex works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+#: wizard_steps/plex/02_download.md:16
+msgid "Apple TV, Fire TV, Roku, Chromecast"
+msgstr ""
+
+#: wizard_steps/plex/02_download.md:21
+msgid "⬇️ Download Plex Clients"
+msgstr ""
+
+#: wizard_steps/plex/99_tips.md:7
+msgid ""
+"Plex sometimes defaults to low quality or shows its own adverts first. "
+"Here's how to fix that:"
+msgstr ""
+
+#: wizard_steps/plex/99_tips.md:9
+msgid "Disable trailers & extras"
+msgstr ""
+
+#: wizard_steps/plex/99_tips.md:9
+msgid "Settings → Experience → untick"
+msgstr ""
+
+#: wizard_steps/plex/99_tips.md:9
+msgid "Show cinematic trailers"
+msgstr ""
+
+#: wizard_steps/plex/99_tips.md:10
+msgid "Original"
+msgstr ""
+
+#: wizard_steps/plex/99_tips.md:17
+msgid "Go to Plex"
+msgstr ""
+
+#: wizard_steps/romm/01_intro.md:5
+msgid "Welcome to RomM"
+msgstr ""
+
+#: wizard_steps/romm/01_intro.md:7
+msgid "Great news! You now have access to our game collection."
+msgstr ""
+
+#: wizard_steps/romm/01_intro.md:9
+msgid "Open RomM"
 msgstr ""
 
