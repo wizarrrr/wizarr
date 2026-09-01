@@ -84,7 +84,7 @@ ENV FLASK_ENV=production
 # - Database migrations
 # - Library scanning
 # - Wizard step imports
-# - Worker initialization (4 workers * ~10s each)
+# - Worker initialization
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
   CMD ["sh", "-c", "curl -fs http://localhost:${PORT:-5690}/health || exit 1"]
 

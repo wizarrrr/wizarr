@@ -741,7 +741,7 @@ class PasswordResetToken(db.Model):
 
 
 class ExpiredUser(db.Model):
-    """Track users that have been deleted due to expiry for monitoring and restoration."""
+    """Track users that Wizarr processed after their access expired."""
 
     __tablename__ = "expired_user"
 
@@ -764,6 +764,15 @@ class ExpiredUser(db.Model):
     deleted_at = db.Column(
         db.DateTime, default=lambda: datetime.now(UTC), nullable=False
     )  # When user was actually deleted
+
+    __table_args__ = (
+        db.Index(
+            "uq_expired_user_event",
+            "original_user_id",
+            "expired_at",
+            unique=True,
+        ),
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)

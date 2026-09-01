@@ -23,7 +23,7 @@ jobs:
 
       - name: Re-generate POT template
         run: |
-          uv run pybabel extract -F babel.cfg -k _l -o messages.pot .
+          PYTHONPATH=. uv run pybabel extract -F babel.cfg -k _l -o messages.pot .
           if ! git diff --quiet messages.pot; then
             git config user.name  "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
