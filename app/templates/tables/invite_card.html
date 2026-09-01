@@ -180,10 +180,9 @@
                 </button>
                 <!-- Delete invitation button -->
                 <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-white bg-red-500 hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700 rounded-md transition-colors"
-                        hx-post="/invite/table?delete_id={{ invite.id }}"
-                        hx-trigger="click"
-                        hx-target="#invite_table"
-                        hx-swap="outerHTML swap:0.5s"
+                        hx-get="{{ url_for('admin.delete_invite_modal', invite_id=invite.id) }}"
+                        hx-target="#invite-modal"
+                        hx-swap="innerHTML"
                         onclick="event.stopPropagation()"
                         title="{{ _('Delete invite') }}">
                   <svg class="h-4 w-4"

@@ -450,6 +450,14 @@ def _rel_string(target: datetime.datetime, now: datetime.datetime) -> str:
     return _("soon")
 
 
+@admin_bp.get("/invite/<int:invite_id>/delete-modal")
+@login_required
+def delete_invite_modal(invite_id: int):
+    """Show the delete invitation confirmation modal."""
+    invitation = db.get_or_404(Invitation, invite_id)
+    return render_template("_partials/delete_invite_modal.html", invitation=invitation)
+
+
 # Users
 @admin_bp.route("/users")
 @login_required
