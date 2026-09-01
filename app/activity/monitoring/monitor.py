@@ -6,7 +6,6 @@ using WebSocket APIs where available, with fallback to polling.
 """
 
 import threading
-import time
 from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime
@@ -94,10 +93,10 @@ class WebSocketMonitor:
             while self.monitoring and not self._stop_event.is_set():
                 try:
                     self._update_collectors()
-                    time.sleep(30)  # Check for new/removed servers every 30 seconds
+                    self._stop_event.wait(30)
                 except Exception as e:
                     self.logger.error(f"Error in monitoring loop: {e}", exc_info=True)
-                    time.sleep(5)
+                    self._stop_event.wait(5)
 
     def _update_collectors(self):
         """Update collectors based on current server configuration."""

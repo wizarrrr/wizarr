@@ -50,21 +50,6 @@ def create_app(config_object=DevelopmentConfig):
 
     init_activity(app)
 
-    # Register activity scheduler tasks if the scheduler is available
-    try:
-        from .extensions import scheduler as activity_scheduler
-
-        if (
-            activity_scheduler
-            and hasattr(activity_scheduler, "scheduler")
-            and activity_scheduler.scheduler
-        ):
-            from app.tasks.activity import register_activity_tasks
-
-            register_activity_tasks(app, activity_scheduler)
-    except Exception as exc:
-        app.logger.warning(f"Failed to register activity tasks: {exc}")
-
     # Step 5: Setup context processors and filters
     if show_startup:
         logger.step("Configuring request processing", "⚙️")
