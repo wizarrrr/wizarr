@@ -27,7 +27,7 @@
               <form action="{{ url_for('media_servers.delete_server', server_id=s.id) }}"
                     method="post"
                     style="display:inline"
-                    onsubmit="return confirm('{{ _("Delete this server?") }}');">
+                    onsubmit="return confirm('{{ _('Delete this server?') }}');">
                 <button type="submit" class="text-red-600">{{ _("Delete") }}</button>
               </form>
             </td>

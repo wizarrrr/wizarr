@@ -3,10 +3,10 @@
   Accept Invite
 {% endblock title %}
 {% block og_title %}
-  {{ _(server_name|default("Media Server", true) ) }}
+  {{ _(server_name|default("Media Server", true)) }}
 {% endblock og_title %}
 {% block og_description %}
-  {{ _("You've been invited to join the %(name)s server!", name=server_name|default("Media Server", true) ) }}
+  {{ _("You've been invited to join the %(name)s server!", name=server_name|default("Media Server", true)) }}
 {% endblock og_description %}
 {% block main %}
   {% set has_form_errors = form is defined and form.errors %}
@@ -117,8 +117,7 @@
                     {{ _("Username") }}
                   </label>
                   {{ form.username(class="w-full px-3 py-2 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
-                                    placeholder=_("Enter your username") 
-                  ) }}
+                    placeholder=_("Enter your username")) }}
                   {% for err in form.username.errors %}<p class="text-red-400 text-xs mt-1">{{ err }}</p>{% endfor %}
                 </div>
                 <div class="form-field" data-field="2" style="{{ form_field_style }}">
@@ -133,8 +132,7 @@
                     {{ _("Email") }}
                   </label>
                   {{ form.email(class="w-full px-3 py-2 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
-                                    placeholder=_("Enter your email") 
-                  ) }}
+                    placeholder=_("Enter your email")) }}
                   {% for err in form.email.errors %}<p class="text-red-400 text-xs mt-1">{{ err }}</p>{% endfor %}
                 </div>
                 <div class="form-field" data-field="3" style="{{ form_field_style }}">
@@ -149,8 +147,7 @@
                     {{ _("Password") }}
                   </label>
                   {{ form.password(class="w-full px-3 py-2 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
-                                    placeholder=_("Create a password") 
-                  ) }}
+                    placeholder=_("Create a password")) }}
                   {% for err in form.password.errors %}<p class="text-red-400 text-xs mt-1">{{ err }}</p>{% endfor %}
                 </div>
                 <div class="form-field" data-field="4" style="{{ form_field_style }}">
@@ -165,8 +162,7 @@
                     {{ _("Confirm Password") }}
                   </label>
                   {{ form.confirm_password(class="w-full px-3 py-2 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
-                                    placeholder=_("Confirm your password") 
-                  ) }}
+                    placeholder=_("Confirm your password")) }}
                   {% for err in form.confirm_password.errors %}<p class="text-red-400 text-xs mt-1">{{ err }}</p>{% endfor %}
                 </div>
                 <div class="form-field" data-field="5" style="{{ form_field_style }}">
@@ -181,8 +177,7 @@
                     {{ _("Invite Code") }}
                   </label>
                   {{ form.code(class="w-full px-3 py-2 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
-                                    placeholder=_("Enter invite code") 
-                  ) }}
+                    placeholder=_("Enter invite code")) }}
                   {% for err in form.code.errors %}<p class="text-red-400 text-xs mt-1">{{ err }}</p>{% endfor %}
                 </div>
                 <button type="submit"
@@ -408,18 +403,15 @@
               element.classList.add('typewriter-cursor');
 
               return new Promise((resolve) => {
-                  anime({
-                      targets: {
-                          count: 0
-                      },
+                  const counter = { count: 0 };
+                  anime.animate(counter, {
                       count: text.length,
                       duration: text.length * speed,
-                      round: 1,
-                      easing: 'linear',
-                      update: function(anim) {
-                          element.innerHTML = text.substring(0, Math.round(anim.animatables[0].target.count));
+                      ease: 'linear',
+                      onUpdate: function() {
+                          element.innerHTML = text.substring(0, Math.round(counter.count));
                       },
-                      complete: function() {
+                      onComplete: function() {
                           // Remove cursor after typing
                           setTimeout(() => {
                               element.classList.remove('typewriter-cursor');
@@ -527,12 +519,11 @@
 
                   // Mobile: Hide header and footer when form appears
                   if (isMobile) {
-                      anime({
-                          targets: [pageHeader, pageFooter],
+                      anime.animate([pageHeader, pageFooter], {
                           opacity: 0,
                           translateY: -20,
                           duration: 400,
-                          easing: 'easeOutQuad'
+                          ease: 'outQuad'
                       });
 
                       // Shift layout upward so the expanded card stays visible
@@ -551,61 +542,58 @@
                   }
 
                   // Step 2: Create timeline animation with Anime.js
-                  const timeline = anime.timeline({
-                      easing: 'cubicBezier(0.4, 0, 0.2, 1)',
-                      duration: 800
+                  const timeline = anime.createTimeline({
+                      defaults: {
+                          ease: 'cubicBezier(0.4, 0, 0.2, 1)',
+                          duration: 800
+                      }
                   });
 
                   // Container width expansion
-                  timeline.add({
-                      targets: mainContainer,
+                  timeline.add(mainContainer, {
                       maxWidth: isMobile ? '100%' : '32rem',
                       duration: 800,
-                      easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
+                      ease: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
                   }, 0);
 
                   // Container height expansion
-                  timeline.add({
-                      targets: cardContainer,
+                  timeline.add(cardContainer, {
                       height: isMobile ? `${mobileCardHeight}px` : '520px',
                       duration: 800,
-                      easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
+                      ease: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
                   }, 0);
 
                   // Welcome screen fade out
-                  timeline.add({
-                      targets: welcomeScreen,
+                  timeline.add(welcomeScreen, {
                       opacity: 0,
                       duration: 300,
-                      easing: 'easeOutQuad',
-                      complete: function() {
+                      ease: 'outQuad',
+                      onComplete: function() {
                           welcomeScreen.style.display = 'none';
                       }
                   }, 100);
 
                   // Form screen fades in
-                  timeline.add({
-                      targets: formScreen,
+                  timeline.add(formScreen, {
                       opacity: 1,
                       duration: 400,
-                      easing: 'easeInQuad',
-                      begin: function() {
+                      ease: 'inQuad',
+                      onBegin: function() {
                           formScreen.style.pointerEvents = 'auto';
                       }
                   }, 400);
 
                   // Wait for timeline to finish then show form fields
-                  timeline.finished.then(() => {
+                  timeline.then(() => {
                       // Animate form fields sequentially
                       const formFields = formScreen.querySelectorAll('.form-field');
                       formFields.forEach((field, index) => {
-                          anime({
-                              targets: field,
+                          anime.animate(field, {
                               opacity: [0, 1],
                               translateY: [10, 0],
                               duration: 300,
                               delay: index * 80, // 80ms delay between each field
-                              easing: 'easeOutQuad'
+                              ease: 'outQuad'
                           });
                       });
 
@@ -646,9 +634,11 @@
 
               const isMobile = window.innerWidth < 768;
 
-              const timeline = anime.timeline({
-                  easing: 'easeOutQuad',
-                  duration: 600
+              const timeline = anime.createTimeline({
+                  defaults: {
+                      ease: 'outQuad',
+                      duration: 600
+                  }
               });
 
               // Reset form fields opacity
@@ -670,22 +660,20 @@
               formScreen.style.overflow = '';
 
               // Form screen fade out
-              timeline.add({
-                  targets: formScreen,
+              timeline.add(formScreen, {
                   opacity: 0,
                   duration: 300,
-                  complete: function() {
+                  onComplete: function() {
                       formScreen.style.pointerEvents = 'none';
                       formScreen.classList.add('hidden');
                   }
               });
 
               // Welcome screen fade in
-              timeline.add({
-                  targets: welcomeScreen,
+              timeline.add(welcomeScreen, {
                   opacity: [0, 1],
                   duration: 300,
-                  begin: function() {
+                  onBegin: function() {
                       welcomeScreen.style.display = 'block';
                       welcomeScreen.style.pointerEvents = 'auto';
                   }
@@ -693,29 +681,26 @@
 
               // Container size reset for both desktop and mobile
               // Reset container width
-              timeline.add({
-                  targets: mainContainer,
+              timeline.add(mainContainer, {
                   maxWidth: '28rem',
                   duration: 600,
-                  easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
+                  ease: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
               }, 0);
 
               // Reset container height
-              timeline.add({
-                  targets: cardContainer,
+              timeline.add(cardContainer, {
                   height: '400px',
                   duration: 600,
-                  easing: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
+                  ease: 'cubicBezier(0.25, 0.46, 0.45, 0.94)'
               }, 0);
 
               // Mobile: Show header and footer again when going back
               if (isMobile) {
-                  timeline.add({
-                      targets: [pageHeader, pageFooter],
+                  timeline.add([pageHeader, pageFooter], {
                       opacity: 1,
                       translateY: 0,
                       duration: 400,
-                      easing: 'easeOutQuad'
+                      ease: 'outQuad'
                   }, 200); // Start after container animation begins
               }
           });
@@ -724,20 +709,18 @@
           const inputs = form.querySelectorAll('input');
           inputs.forEach(input => {
               input.addEventListener('focus', function() {
-                  anime({
-                      targets: this.parentElement,
+                  anime.animate(this.parentElement, {
                       translateY: -2,
                       duration: 200,
-                      easing: 'easeOutQuad'
+                      ease: 'outQuad'
                   });
               });
 
               input.addEventListener('blur', function() {
-                  anime({
-                      targets: this.parentElement,
+                  anime.animate(this.parentElement, {
                       translateY: 0,
                       duration: 200,
-                      easing: 'easeOutQuad'
+                      ease: 'outQuad'
                   });
               });
           });
@@ -753,11 +736,10 @@
                   currentSubmitBtn.disabled = true;
                   currentSubmitBtn.classList.add('loading-gradient');
 
-                  anime({
-                      targets: currentSubmitBtn,
+                  anime.animate(currentSubmitBtn, {
                       scale: [1, 0.98, 1],
                       duration: 200,
-                      easing: 'easeOutQuad'
+                      ease: 'outQuad'
                   });
 
                   // Show loading state

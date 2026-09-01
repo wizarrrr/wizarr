@@ -40,7 +40,7 @@
                 </path>
               </svg>
             </button>
-            <button hx-delete="{{ url_for("admin_accounts.delete_admin") }}?delete={{ a.id }}"
+            <button hx-delete="{{ url_for('admin_accounts.delete_admin') }}?delete={{ a.id }}"
                     hx-target="#tab-body"
                     hx-swap="innerHTML swap:0.5s"
                     hx-confirm="Are you sure you wish to delete {{ a.username }} ?"
