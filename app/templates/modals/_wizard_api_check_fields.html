@@ -1,0 +1,167 @@
+{# Shared "API Gate" fields for the wizard step admin forms. Included from
+   both step modals and both full-page fallbacks so they cannot drift out of
+   sync. Visibility depends on the including template exposing an Alpine
+   `apiCheckCategory` binding on the category select (see the x-data on its
+   <form> tag) - the gate only ever applies to post-invite steps, since that
+   is the earliest point a username and email exist to check against. #}
+<div x-show="apiCheckCategory === 'post_invite'"
+     class="pt-4 border-t border-gray-200 dark:border-gray-600">
+  <div x-data="{ show: {{ 'true' if form.api_check_enabled.data else 'false' }} }">
+    <button type="button"
+            @click="show = !show"
+            class="inline-flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary transition-colors">
+      <svg class="w-4 h-4 mr-2 transition-transform"
+           :class="{ 'rotate-90': show }"
+           fill="none"
+           stroke="currentColor"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+      </svg>
+      {{ _("API Gate") }}
+    </button>
+    <p class="text-xs text-gray-500 dark:text-gray-400 mt-2">
+      {{ _("Blocks this step until an external API confirms the invited user. The check identifies them by username and email, which only exist once the invitation has been accepted.") }}
+    </p>
+    <div x-show="show" x-transition class="mt-4 space-y-4">
+      <div class="flex items-start gap-3">
+        {{ form.api_check_enabled(class="h-5 w-5 text-primary rounded focus:ring-primary") }}
+        <div class="flex flex-col">
+          <label for="{{ form.api_check_enabled.id }}"
+                 class="text-sm font-medium text-gray-900 dark:text-white select-none">
+            {{ form.api_check_enabled.label.text }}
+          </label>
+          <span class="text-xs text-gray-500 dark:text-gray-400">{{ form.api_check_enabled.description }}</span>
+          {% for err in form.api_check_enabled.errors %}
+            <p class="text-xs text-red-600 dark:text-red-500 mt-1">{{ err }}</p>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div>
+          {{ form.api_check_method.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+          {{ form.api_check_method(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_method.description }}</p>
+        </div>
+        <div class="sm:col-span-3">
+          {{ form.api_check_url.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+          {{ form.api_check_url(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", placeholder="https://example.com/check") }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_url.description }}</p>
+          {% for err in form.api_check_url.errors %}
+            <p class="text-xs text-red-600 dark:text-red-500 mt-1">{{ err }}</p>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          {{ form.api_check_auth_header.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+          {{ form.api_check_auth_header(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", placeholder="Authorization") }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_auth_header.description }}</p>
+        </div>
+        <div>
+          {{ form.api_check_auth_prefix.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+          {{ form.api_check_auth_prefix(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", placeholder="Bearer ") }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_auth_prefix.description }}</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          {{ form.api_check_api_key.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+          {{ form.api_check_api_key(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", autocomplete="new-password") }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_api_key.description }}</p>
+          {% if has_api_key %}
+            <p class="text-xs text-green-600 dark:text-green-400 mt-1">{{ _("A key is currently saved for this step.") }}</p>
+          {% endif %}
+          {% for err in form.api_check_api_key.errors %}
+            <p class="text-xs text-red-600 dark:text-red-500 mt-1">{{ err }}</p>
+          {% endfor %}
+        </div>
+        <div class="flex items-start gap-3 sm:pt-7">
+          {{ form.api_check_clear_key(class="h-5 w-5 text-primary rounded focus:ring-primary") }}
+          <div class="flex flex-col">
+            <label for="{{ form.api_check_clear_key.id }}"
+                   class="text-sm font-medium text-gray-900 dark:text-white select-none">
+              {{ form.api_check_clear_key.label.text }}
+            </label>
+            <span class="text-xs text-gray-500 dark:text-gray-400">{{ form.api_check_clear_key.description }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div>
+          {{ form.api_check_code_param.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+          {{ form.api_check_code_param(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_code_param.description }}</p>
+        </div>
+        <div>
+          {{ form.api_check_username_param.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+          {{ form.api_check_username_param(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_username_param.description }}</p>
+        </div>
+        <div>
+          {{ form.api_check_email_param.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+          {{ form.api_check_email_param(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_email_param.description }}</p>
+        </div>
+      </div>
+      <div>
+        {{ form.api_check_expect_status.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+        {{ form.api_check_expect_status(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", placeholder="200, 204") }}
+        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_expect_status.description }}</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div>
+          {{ form.api_check_interval_seconds.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+          {{ form.api_check_interval_seconds(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_interval_seconds.description }}</p>
+          {% for err in form.api_check_interval_seconds.errors %}
+            <p class="text-xs text-red-600 dark:text-red-500 mt-1">{{ err }}</p>
+          {% endfor %}
+        </div>
+        <div>
+          {{ form.api_check_timeout_seconds.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+          {{ form.api_check_timeout_seconds(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_timeout_seconds.description }}</p>
+          {% for err in form.api_check_timeout_seconds.errors %}
+            <p class="text-xs text-red-600 dark:text-red-500 mt-1">{{ err }}</p>
+          {% endfor %}
+        </div>
+        <div>
+          {{ form.api_check_max_poll_seconds.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+          {{ form.api_check_max_poll_seconds(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_max_poll_seconds.description }}</p>
+          {% for err in form.api_check_max_poll_seconds.errors %}
+            <p class="text-xs text-red-600 dark:text-red-500 mt-1">{{ err }}</p>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="flex items-start gap-3">
+        {{ form.api_check_sign_requests(class="h-5 w-5 text-primary rounded focus:ring-primary") }}
+        <div class="flex flex-col">
+          <label for="{{ form.api_check_sign_requests.id }}"
+                 class="text-sm font-medium text-gray-900 dark:text-white select-none">
+            {{ form.api_check_sign_requests.label.text }}
+          </label>
+          <span class="text-xs text-gray-500 dark:text-gray-400">{{ form.api_check_sign_requests.description }}</span>
+        </div>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div>
+          {{ form.api_check_pending_message.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+          {{ form.api_check_pending_message(rows="2", class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_pending_message.description }}</p>
+          {% for err in form.api_check_pending_message.errors %}
+            <p class="text-xs text-red-600 dark:text-red-500 mt-1">{{ err }}</p>
+          {% endfor %}
+        </div>
+        <div>
+          {{ form.api_check_success_message.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
+          {{ form.api_check_success_message(rows="2", class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ form.api_check_success_message.description }}</p>
+          {% for err in form.api_check_success_message.errors %}
+            <p class="text-xs text-red-600 dark:text-red-500 mt-1">{{ err }}</p>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
