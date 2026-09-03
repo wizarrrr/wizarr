@@ -157,7 +157,7 @@ def test_media_client_join_triggers_activation_email(app, session, monkeypatch):
 def test_expiry_cleanup_sends_expired_email_when_disabling(app, session, monkeypatch):
     email_calls = []
 
-        monkeypatch.setattr(
+    monkeypatch.setattr(
         "app.services.expiry.disable_user",
         lambda _user_id, *args, **kwargs: True,
     )
