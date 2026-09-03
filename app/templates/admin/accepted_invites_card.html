@@ -47,9 +47,7 @@
     </div>
     <div class="mt-4 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
       {% set show_range = start_index and end_index and total %}
-      <div>
-        {% if show_range %}{{ _("Showing") }} {{ start_index }}-{{ end_index }} {{ _("of") }} {{ total }}{% endif %}
-      </div>
+      <div>{% if show_range %}{{ _("Showing") }} {{ start_index }}-{{ end_index }} {{ _("of") }} {{ total }}{% endif %}</div>
       {% if total_pages and total_pages > 1 %}
         <div class="flex items-center gap-2">
           <button class="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed"
@@ -106,9 +104,7 @@
     </div>
     <div class="mt-4 flex items-center justify-between text-xs text-gray-500 dark:text-gray-400">
       {% set show_range = start_index and end_index and total %}
-      <div>
-        {% if show_range %}Showing {{ start_index }}-{{ end_index }} of {{ total }}{% endif %}
-      </div>
+      <div>{% if show_range %}Showing {{ start_index }}-{{ end_index }} of {{ total }}{% endif %}</div>
       {% if total_pages and total_pages > 1 %}
         <div class="flex items-center gap-2">
           <button class="px-2 py-1 rounded border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 disabled:opacity-40 disabled:cursor-not-allowed"

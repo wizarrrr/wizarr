@@ -8,15 +8,12 @@ sessions across all configured media servers.
 from __future__ import annotations
 
 import os
-import threading
 
 import structlog
 from flask import Flask
 
 from app.models import ActivitySession, ActivitySnapshot
 from app.services.activity import ActivityService
-
-from .monitoring.monitor import WebSocketMonitor
 
 
 def init_app(app: Flask) -> None:
@@ -41,36 +38,31 @@ def init_app(app: Flask) -> None:
         logger.debug("Skipping activity monitoring in reloader parent process")
         return
 
-    app.extensions = getattr(app, "extensions", {})
-    if "activity_monitor" in app.extensions:
-        logger.debug("Activity monitoring already initialized, skipping")
-        return
+    from app.extensions import scheduler
+    from app.tasks.activity import register_activity_tracking_reconcile_task
 
-    logger.info("Initializing activity monitoring")
-    monitor = WebSocketMonitor(app)
-    app.extensions["activity_monitor"] = monitor
+    from .tracking import reconcile_activity_tracking
 
-    def delayed_start():
-        import time
+    activity_scheduler = None
+    if scheduler and hasattr(scheduler, "scheduler") and scheduler.scheduler:
+        activity_scheduler = scheduler
 
-        time.sleep(2)
+    enabled = reconcile_activity_tracking(
+        app,
+        activity_scheduler,
+        start_delay_seconds=2,
+    )
 
+    if activity_scheduler is not None:
         try:
-            from app.tasks.activity import recover_sessions_on_startup_task
-
-            recovered_count = recover_sessions_on_startup_task(app)
-            logger.info(
-                "Session recovery completed on startup: %s orphaned sessions cleaned up",
-                recovered_count,
-            )
+            register_activity_tracking_reconcile_task(app, activity_scheduler)
         except Exception as exc:
-            logger.error("Session recovery failed on startup: %s", exc, exc_info=True)
+            logger.warning(
+                "Activity tracking setting checks are not scheduled",
+                error=str(exc),
+            )
 
-        monitor.start_monitoring()
-
-    threading.Thread(target=delayed_start, daemon=True).start()
-
-    logger.info("Activity monitoring initialized")
+    logger.info("Activity tracking initialized", enabled=enabled)
 
 
 __all__ = ["ActivityService", "ActivitySession", "ActivitySnapshot", "init_app"]

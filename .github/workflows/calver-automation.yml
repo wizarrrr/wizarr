@@ -36,10 +36,10 @@ jobs:
           fetch-depth: 0  # Need full history for changelog
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v7
+        uses: astral-sh/setup-uv@v10.0.1
 
       - name: Set up Python
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v7
         with:
           python-version-file: pyproject.toml
 

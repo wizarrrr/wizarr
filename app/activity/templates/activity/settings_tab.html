@@ -39,6 +39,61 @@
 
     <!-- Settings Content -->
     <div class="w-full space-y-6">
+      <!-- Activity Tracking Section -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="p-6">
+          <div class="space-y-4">
+            <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="flex-shrink-0 w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                  <svg class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12h3l3-8 4 16 3-8h5"></path>
+                  </svg>
+                </div>
+                <div>
+                  <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Activity Tracking") }}</h2>
+                  <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Control background playback tracking for all media servers") }}</p>
+                </div>
+              </div>
+            </div>
+
+            <form method="POST"
+                  action="{{ url_for('activity.activity_settings') }}"
+                  hx-post="{{ url_for('activity.activity_settings') }}"
+                  hx-target="#tab-body"
+                  hx-swap="innerHTML"
+                  class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+              <input type="hidden" name="action" value="set_tracking">
+              <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex-1">
+                  <label for="activity-tracking-enabled" class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Track playback activity") }}</label>
+                  <p id="activity-tracking-description" class="mt-1 text-xs text-gray-600 dark:text-gray-400">
+                    {{ _("Turn this off to stop background server checks and activity history updates. Existing activity data stays available.") }}
+                  </p>
+                </div>
+                <div class="flex items-center gap-4">
+                  <label class="inline-flex items-center cursor-pointer">
+                    <input id="activity-tracking-enabled"
+                           type="checkbox"
+                           name="activity_tracking_enabled"
+                           value="true"
+                           class="sr-only peer"
+                           aria-describedby="activity-tracking-description"
+                           {% if status.tracking_enabled %}checked{% endif %}>
+                    <span class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary"></span>
+                    <span class="sr-only">{{ _("Toggle activity tracking") }}</span>
+                  </label>
+                  <button type="submit"
+                          class="inline-flex items-center justify-center px-4 py-2 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg text-sm focus:ring-4 focus:ring-primary/20 transition-colors">
+                    {{ _("Apply") }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
       <!-- Data Management Section -->
       <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
         <div class="p-6">

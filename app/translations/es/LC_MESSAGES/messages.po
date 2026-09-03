@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-08-06 06:04+0000\n"
-"PO-Revision-Date: 2026-05-13 06:32+0000\n"
-"Last-Translator: Kisnov <gabrielmarfil0@gmail.com>\n"
+"POT-Creation-Date: 2026-09-03 08:03+0000\n"
+"PO-Revision-Date: 2026-08-11 04:39+0000\n"
+"Last-Translator: Todos aman al Hipnosapo <veteacagarte@yahoo.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/es/>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
 msgid "Failed to load settings"
@@ -46,6 +46,16 @@ msgstr "La carga de los detalles de la sesión falló"
 
 msgid "Failed to export activity data"
 msgstr "La exportación de los datos de actividad falló"
+
+msgid "enabled"
+msgstr ""
+
+msgid "disabled"
+msgstr ""
+
+#, python-brace-format
+msgid "Activity tracking is {state}. The change can take up to 15 seconds."
+msgstr ""
 
 msgid "Monitoring restarted"
 msgstr "Se reinició el monitoreo"
@@ -107,15 +117,14 @@ msgstr "Se han borrado {} entradas históricas exitosamente."
 msgid "Failed to clear historical data: {}"
 msgstr "Falló el borrado de datos históricos: {}"
 
-#, fuzzy
 msgid "Unknown error"
-msgstr "Ocurrió un error desconocido"
+msgstr "Error desconocido"
 
 msgid "Cannot remove a job that is still queued or running."
 msgstr "No se puede eliminar una tarea que sigue en cola o ejecutándose."
 
 msgid "An internal error has occurred."
-msgstr "Ocurrió un error interno"
+msgstr "Ocurrió un error interno."
 
 msgid "Unknown"
 msgstr "Desconocido"
@@ -282,27 +291,25 @@ msgstr ""
 msgid "Clean Expired Users"
 msgstr "Borrar usuarios expirados"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to clean expired users: {error}"
-msgstr "Fallo al restablecer las passkeys para {}"
+msgstr "No se pudieron limpiar los usuarios caducados: {error}"
 
-#, fuzzy
 msgid "LDAP configuration saved successfully"
-msgstr "¡Conexión actualizada exitosamente!"
+msgstr "La configuración de LDAP se ha guardado correctamente"
 
 msgid "LDAP not configured or disabled"
-msgstr ""
+msgstr "LDAP no configurado o deshabilitado"
 
 msgid "No groups found in LDAP"
-msgstr ""
+msgstr "No se encontraron grupos en LDAP"
 
-#, fuzzy
 msgid "LDAP is not configured"
-msgstr "pasos configurados"
+msgstr "LDAP no está configurado"
 
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to list LDAP users: %(error)s"
-msgstr "Fallo al restablecer las passkeys para {}"
+msgstr "No se pudieron listar los usuarios LDAP: %(error)s"
 
 msgid "Admin account created – welcome!"
 msgstr "Cuenta Admin creada - ¡bienvenido/a!"
@@ -311,69 +318,79 @@ msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
 msgstr ""
+"Su invitación ha caducado o ya no es válida. Por favor, solicite una nueva "
+"invitación."
 
 msgid "Error Loading Step"
-msgstr ""
+msgstr "Error al cargar la sección"
 
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip to "
 "the next step."
 msgstr ""
+"No se pudo cargar esta sección. Por favor, contacte al administrador o pase "
+"a la siguiente sección."
 
-#, fuzzy
 msgid "Invalid or expired invitation"
-msgstr "Invitación inválida"
+msgstr "Invitación no válida o caducada"
 
 msgid ""
 "No media servers are configured. Please contact the administrator to set up "
 "a media server."
 msgstr ""
+"No hay servidores multimedia configurados. Por favor, póngase en contacto "
+"con el administrador para configurar un servidor multimedia."
 
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
+"No se pudieron cargar las secciones del asistente. Se procederá a la "
+"aceptación de la invitación."
 
-#, fuzzy
 msgid "Continue to Invite"
-msgstr "Invitación Nueva"
+msgstr "Nueva Invitación"
 
 msgid "Please log in to continue"
-msgstr ""
+msgstr "Por favor, inicia sesión para continuar"
 
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
+"No se pudieron cargar las secciones del asistente. ¡Configuración "
+"completada! Bienvenido a tu servidor multimedia."
 
 msgid "Setup complete! Welcome to your media server."
-msgstr ""
+msgstr "¡Configuración completada! Bienvenido a tu servidor multimedia."
 
-#, fuzzy
 msgid "Unable to load wizard configuration. Please try again."
-msgstr "No pudo cargarse reproduciendo ahora"
+msgstr ""
+"No se pudo cargar la configuración del asistente. Por favor, inténtelo de "
+"nuevo."
 
-#, fuzzy
 msgid "Unable to load wizard bundle. Please try again."
-msgstr "No pudo cargarse reproduciendo ahora"
+msgstr ""
+"No se pudo cargar el paquete del asistente. Por favor, inténtelo de nuevo."
 
-#, fuzzy
 msgid "Unable to load wizard steps. Please try again."
-msgstr "No pudo cargarse reproduciendo ahora"
+msgstr ""
+"No se pudieron cargar las secciones del asistente. Por favor, inténtelo de "
+"nuevo."
 
 msgid "This bundle has no steps to preview."
-msgstr ""
+msgstr "Este paquete no tiene secciones de previsualización."
 
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
-msgstr "{} pasos huérfanos limpiados"
+msgstr "Se han eliminado {} paso(s) huérfano(s)"
 
 msgid "Step created"
 msgstr "Paso creado"
 
 msgid "Preset step created successfully"
-msgstr "Paso prefijado creado exitosamente"
+msgstr "Paso preestablecido creado correctamente"
 
 #, python-brace-format
 msgid "Error creating preset: {}"
-msgstr "Error creando prefijado: {}"
+msgstr "Error al crear el ajuste preestablecido: {}"
 
 msgid "Step updated"
 msgstr "Paso actualizado"
@@ -398,42 +415,44 @@ msgstr "Paso huérfano eliminado"
 
 #, python-brace-format
 msgid "No steps found for server type: {}"
-msgstr "No se encontraron pasos para tipo de servidor: {}"
+msgstr "No se encontraron pasos para el tipo de servidor: {}"
 
 #, python-brace-format
 msgid "Export failed: {}"
-msgstr "Exportado fallido: {}"
+msgstr "Error al exportar: {}"
 
 #, python-brace-format
 msgid "Successfully imported {} items"
-msgstr "{} ítems importados exitosamente"
+msgstr "Se han importado correctamente {} elementos"
 
 #, python-brace-format
 msgid " and updated {} existing items"
-msgstr " y se actualizaron {} ítems existentes"
+msgstr " y se actualizaron {} elementos existentes"
 
 #, python-brace-format
 msgid "Import failed: {}"
-msgstr "Importado fallido: {}"
+msgstr "Error al importar: {}"
 
 msgid "Invalid JSON file"
-msgstr "Archivo JSON inválido"
+msgstr "Archivo JSON no válido"
 
 #, python-brace-format
 msgid "Reset {} steps for {} (deleted {}, imported {})"
-msgstr ""
+msgstr "Restablecer {} pasos para {} (eliminar {}, importar {})"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to reset steps: {}"
-msgstr "Fallo al restablecer las passkeys para {}"
+msgstr "No se pudieron restablecer los pasos: {}"
 
 msgid "Password must be at least 8 characters."
-msgstr ""
+msgstr "La contraseña debe tener al menos 8 caracteres."
 
 msgid ""
 "Password must contain at least one uppercase letter, one lowercase letter, "
 "and one number."
 msgstr ""
+"La contraseña debe tener al menos una letra mayúscula, una letra minúscula y "
+"un número."
 
 msgid "Username"
 msgstr "Nombre de usuario"
@@ -444,32 +463,26 @@ msgstr "Contraseña"
 msgid "Confirm password"
 msgstr "Confirmar contraseña"
 
-#, fuzzy
 msgid "Passwords must match."
-msgstr "Las contraseñas no coinciden"
+msgstr "Las contraseñas deben coincidir."
 
 msgid "New Password"
 msgstr "Nueva Contraseña"
 
-#, fuzzy
 msgid "Please confirm the new password."
-msgstr "Confirme Nueva Contraseña"
+msgstr "Por favor, confirme la nueva contraseña."
 
-#, fuzzy
 msgid "Server Type"
-msgstr "Servidor"
+msgstr "Tipo de servidor"
 
-#, fuzzy
 msgid "Server Name"
-msgstr "Nombre de usuario"
+msgstr "Nombre del Servidor"
 
-#, fuzzy
 msgid "RomM Username"
-msgstr "Su nombre de usuario"
+msgstr "Nombre de usuario de RomM"
 
-#, fuzzy
 msgid "RomM Password"
-msgstr "Su Contraseña"
+msgstr "Contraseña de RomM"
 
 msgid "Libraries"
 msgstr "Bibliotecas"
@@ -477,31 +490,28 @@ msgstr "Bibliotecas"
 msgid "Allow Downloads"
 msgstr "Permitir descargas"
 
-#, fuzzy
 msgid "Allow Live TV"
-msgstr "Permitir acceso a TV En Vivo"
+msgstr "Permitir TV En Vivo"
 
 msgid "Overseerr/Ombi URL"
-msgstr ""
+msgstr "URL de Overseerr/Ombi"
 
-#, fuzzy
 msgid "Ombi API Key"
-msgstr "No hay llaves API"
+msgstr "Clave API de Ombi"
 
-#, fuzzy
 msgid "Discord ID"
-msgstr "Su ID de servidor de Discord"
+msgstr "Discord ID"
 
 msgid "External URL"
-msgstr ""
+msgstr "URL externa"
 
 #, python-format
 msgid "Server returned status code %(status_code)s"
-msgstr "El servidor retornó el código de estatus %(status_code)s"
+msgstr "El servidor retornó el código de estado %(status_code)s"
 
 #, python-format
 msgid "%(server_type)s server returned an error: %(error)s"
-msgstr "El servidor tipo %(server_type)s retornó un error: %(error)s"
+msgstr "El servidor tipo %(server_type)s devolvió un error: %(error)s"
 
 #, python-format
 msgid ""
@@ -560,13 +570,13 @@ msgid "Invalid API token or insufficient permissions."
 msgstr "Token API inválido o permisos insuficientes."
 
 msgid "API token lacks required permissions."
-msgstr "El token API no tiene los permisos requeridos."
+msgstr "El token API no tiene los permisos necesarios."
 
 msgid "Could not connect to Drop server."
 msgstr "No pudo conectarse al servidor Drop."
 
 msgid "Connection to Drop server timed out."
-msgstr "El tiempo de conexión al servidor Drop se agotó."
+msgstr "Se agotó el tiempo de espera de la conexión al servidor Drop."
 
 msgid "Drop API not found. Check the server URL."
 msgstr "API Drop no encontrada. Verifique la URL del servidor."
@@ -574,9 +584,9 @@ msgstr "API Drop no encontrada. Verifique la URL del servidor."
 msgid "Drop"
 msgstr "Drop"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "No default steps found for server type: {}"
-msgstr "No se encontraron pasos para tipo de servidor: {}"
+msgstr "No se encontraron pasos para el tipo de servidor: {}"
 
 msgid "Admin"
 msgstr "Administrador"
@@ -585,10 +595,10 @@ msgid "Profile"
 msgstr "Perfil"
 
 msgid "Logout"
-msgstr "Desconexión"
+msgstr "Cerrar sesión"
 
 msgid "Complete your access"
-msgstr "Complete su acceso"
+msgstr "Completa tu acceso"
 
 msgid "Choose a password for the remaining servers"
 msgstr "Elija una contraseña para los servidores restantes"
@@ -619,7 +629,7 @@ msgid "Local Servers"
 msgstr "Servidores Locales"
 
 msgid "Set Password for Local Servers"
-msgstr "Establecer Password para Servidores Locales"
+msgstr "Establecer Contraseña para Servidores Locales"
 
 msgid "Error!"
 msgstr "¡Error!"
@@ -662,7 +672,8 @@ msgstr ""
 "Esta contraseña se utilizará para crear cuentas en sus servidores locales"
 
 msgid "You'll be redirected to the setup wizard to complete configuration"
-msgstr "Será redirigido(a) al genio de configuración para completar la misma"
+msgstr ""
+"Será redirigido(a) al asistente de configuración para completar la misma"
 
 msgid "Only want to use Plex?"
 msgstr "¿Sólo quiere utilizar Plex?"
@@ -687,11 +698,13 @@ msgid "Wizarr"
 msgstr "Genio"
 
 msgid "Invalid Invitation"
-msgstr "Invitación inválida"
+msgstr "Invitación no válida"
 
 msgid ""
 "This invitation link is no longer valid. Please request a new invitation."
 msgstr ""
+"Este enlace de invitación ya no es válido. Por favor, solicite una nueva "
+"invitación."
 
 msgid "Two-Factor Authentication"
 msgstr "Autenticación de Dos Factores"
@@ -700,29 +713,28 @@ msgid "Login"
 msgstr "Iniciar sesión"
 
 msgid "This is the administrator login page."
-msgstr ""
+msgstr "Esta es la página de inicio de sesión del administrador."
 
-#, fuzzy
 msgid "Go to your media server instead"
-msgstr "Su ID de servidor de Discord"
+msgstr "Ve a tu servidor multimedia en su lugar"
 
 #, python-brace-format
 msgid "Welcome back, {}!"
-msgstr "¡Bienvenido(a) de vuelta, {}!"
+msgstr "Bienvenido de nuevo, {}!"
 
 msgid "Please authenticate with your passkey to complete login."
-msgstr "Por favor autenticar con su passkey para completar la entrada."
+msgstr ""
+"Por favor, autentícate con tu clave de acceso para completar el inicio de "
+"sesión."
 
-#, fuzzy
 msgid "Authentication Method"
-msgstr "Error en la autenticación"
+msgstr "Método de autenticación"
 
-#, fuzzy
 msgid "Local Account"
-msgstr "Crear Cuenta"
+msgstr "Cuenta Local"
 
 msgid "LDAP"
-msgstr ""
+msgstr "LDAP"
 
 msgid "Remember me"
 msgstr "Recuérdame"
@@ -734,133 +746,127 @@ msgid "Authenticate with Passkey"
 msgstr "Autenticar con Passkey"
 
 msgid "Back to Login"
-msgstr "De vuelta a Entrada"
+msgstr "Volver a iniciar sesión"
 
 msgid "Or"
 msgstr "O"
 
 msgid "Sign in with Passkey"
-msgstr "Entrar con Passkey"
+msgstr "Iniciar sesión con Passkey"
 
 msgid "Authenticating..."
 msgstr "Autenticando..."
 
 msgid "Failed to complete 2FA login"
-msgstr "La entrada con A2F falló"
+msgstr ""
+"No se pudo completar el inicio de sesión con autenticación de dos factores "
+"(2FA)"
 
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
-"La autenticación con passkey falló. Por favor intente de nuevo o utilice su "
-"contraseña."
+"La autenticación mediante Passkey ha fallado. Por favor, inténtalo de nuevo "
+"o utiliza tu contraseña."
 
-#, fuzzy
 msgid "Password Reset Error"
-msgstr "La contraseña es muy corta"
+msgstr "Error al restablecer la contraseña"
 
-#, fuzzy
 msgid "Error:"
-msgstr "Error"
+msgstr "Error:"
 
 msgid "This password reset link is invalid."
-msgstr ""
+msgstr "Este enlace para restablecer la contraseña no es válido."
 
 msgid "This password reset link has already been used."
-msgstr ""
+msgstr "Este enlace para restablecer la contraseña ya se ha utilizado."
 
 msgid "This password reset link has expired."
-msgstr ""
+msgstr "Este enlace para restablecer la contraseña ha caducado."
 
 msgid "This password reset link is malformed."
-msgstr ""
+msgstr "Este enlace para restablecer la contraseña es incorrecto."
 
 msgid "This password reset link is no longer valid."
-msgstr ""
+msgstr "Este enlace para restablecer la contraseña ya no es válido."
 
 msgid ""
 "Please contact your server administrator to request a new password reset "
 "link."
 msgstr ""
+"Por favor, póngase en contacto con el administrador del servidor para "
+"solicitar un nuevo enlace de restablecimiento de contraseña."
 
-#, fuzzy
 msgid "Code:"
-msgstr "Cerrar"
+msgstr "Código:"
 
 msgid "Common reasons for this error:"
-msgstr ""
+msgstr "Razones comunes de este error:"
 
 msgid "The link has already been used"
-msgstr ""
+msgstr "El enlace ya ha sido utilizado"
 
 msgid "The link has expired (24 hour limit)"
-msgstr ""
+msgstr "El enlace ha caducado (límite de 24 horas)"
 
 msgid "The link was not copied correctly"
-msgstr ""
+msgstr "El enlace no se copió correctamente"
 
-#, fuzzy
 msgid "Reset Your Password"
-msgstr "Su Contraseña"
+msgstr "Restablecer contraseña"
 
-#, fuzzy
 msgid "Choose a new password"
-msgstr "Cambiar Contraseña"
+msgstr "Elige una nueva contraseña"
 
-#, fuzzy
 msgid "For user:"
-msgstr "Eliminar usuario"
+msgstr "Para el usuario/a:"
 
 msgid "This link expires on"
-msgstr ""
+msgstr "Este enlace caduca el"
 
 msgid "Enter new password (8-128 characters)"
-msgstr ""
+msgstr "Ingrese una nueva contraseña (8-128 caracteres)"
 
-#, fuzzy
 msgid "Confirm new password"
-msgstr "Confirme Nueva Contraseña"
+msgstr "Confirme su nueva contraseña"
 
-#, fuzzy
 msgid "Password must be:"
-msgstr "Las contraseñas no coinciden"
+msgstr "La contraseña debe:"
 
 msgid "Between 8 and 128 characters"
-msgstr ""
+msgstr "Entre 8 y 128 caracteres"
 
-#, fuzzy
 msgid "Match the confirmation"
-msgstr "Importar Configuración"
+msgstr "Deben coincidir"
 
-#, fuzzy
 msgid "Reset Password"
-msgstr "Contraseña Actual"
+msgstr "Restablecer Contraseña"
 
-#, fuzzy
 msgid "Password Reset Successful!"
-msgstr "¡Prueba de conexión exitosa!"
+msgstr "¿Se ha restablecido su contraseña satisfactoriamente!"
 
-#, fuzzy
 msgid "The password for"
-msgstr "Nueva Contraseña"
+msgstr "La contraseña para"
 
-#, fuzzy
 msgid "has been successfully reset."
-msgstr "Clave API eliminada correctamente"
+msgstr "se ha restablecido correctamente."
 
 msgid "You can now use your new password to log in to your media server."
 msgstr ""
+"Ahora puedes usar tu nueva contraseña para iniciar sesión en tu servidor "
+"multimedia."
 
-#, fuzzy
 msgid "What's next?"
-msgstr "¿Qué ocurre ahora?"
+msgstr "¿Qué sigue?"
 
 msgid "Log in to your media server with your username and new password."
 msgstr ""
+"Inicia sesión en tu servidor multimedia con tu nombre de usuario y tu nueva "
+"contraseña."
 
 msgid "Administrator"
 msgstr "Administrador"
 
 msgid "Change your account password for security."
-msgstr "Cambie su contraseña paor seguridad."
+msgstr "Cambie su contraseña por seguridad."
 
 msgid "Current Password"
 msgstr "Contraseña Actual"
@@ -885,13 +891,13 @@ msgid "Join the ultimate media server experience."
 msgstr "Únase a la mejor experiencia de servidor de medios."
 
 msgid "Enter Code to Continue"
-msgstr "Entre el Código para Continuar"
+msgstr "Introduzca el Código para Continuar"
 
 msgid "Invitation Code"
 msgstr "Código de Invitación"
 
 msgid "Enter your code"
-msgstr "Entre su código"
+msgstr "Introduzca su código"
 
 msgid "Join Server"
 msgstr "Unirse al Servidor"
@@ -901,12 +907,18 @@ msgstr "Sistema de invitaciones seguras provisto por Wizarr"
 
 msgid "Pop-up blocked. Allow pop-ups for this site and try again."
 msgstr ""
+"Ventana emergente bloqueada. Permite las ventanas emergentes para este sitio "
+"e inténtalo de nuevo."
 
 msgid "Sign-in cancelled. Hit Join Server to try again."
 msgstr ""
+"Inicio de sesión cancelado. Pulsa «Unirse al servidor» para volver a "
+"intentarlo."
 
 msgid "Plex sign-in failed. Try again, or contact your server admin."
 msgstr ""
+"Error al iniciar sesión en Plex. Inténtalo de nuevo o contacta con el "
+"administrador del servidor."
 
 msgid "Invite User"
 msgstr "Invitar usuario"
@@ -924,13 +936,13 @@ msgid "Set up your magical account"
 msgstr "Configurar su cuenta mágica"
 
 msgid "Enter your username"
-msgstr "Entre su nombre de usuario"
+msgstr "Introduzca su nombre de usuario"
 
 msgid "Email"
 msgstr "Correo electrónico"
 
 msgid "Enter your email"
-msgstr "Entre su correo electrónico"
+msgstr "Introduzca su correo electrónico"
 
 msgid "Create a password"
 msgstr "Crear una contraseña"
@@ -939,7 +951,7 @@ msgid "Invite Code"
 msgstr "Código de invitación"
 
 msgid "Enter invite code"
-msgstr "Entre código de invitación"
+msgstr "Introduzca el código de invitación"
 
 msgid "Creating account..."
 msgstr "Creando cuenta..."
@@ -951,18 +963,16 @@ msgid "Recently joined"
 msgstr "Unidos Recientemente"
 
 msgid "Showing"
-msgstr ""
+msgstr "Demostración"
 
 msgid "of"
 msgstr "de"
 
-#, fuzzy
 msgid "Prev"
-msgstr "Vista Previa"
+msgstr "Anterior"
 
-#, fuzzy
 msgid "Page"
-msgstr "Actualizar"
+msgstr "Página"
 
 msgid "Next"
 msgstr "Siguiente"
@@ -974,10 +984,10 @@ msgid "Accepted invitations will appear here"
 msgstr "Las invitaciones Aceptadas aparecerán aquí"
 
 msgid "Dashboard"
-msgstr "Cuadro de mando"
+msgstr "Panel"
 
 msgid "New Invite"
-msgstr "Invitación Nueva"
+msgstr "Nuevo Invitado/a"
 
 msgid "Now Playing"
 msgstr "Reproduciendo Ahora"
@@ -986,7 +996,7 @@ msgid "Invitations"
 msgstr "Invitaciones"
 
 msgid "Library Breakdown"
-msgstr "Desgloce de Biblioteca"
+msgstr "Desglose de la biblioteca"
 
 msgid "Per Server"
 msgstr "Por Servidor"
@@ -995,10 +1005,11 @@ msgid "No libraries found"
 msgstr "No se encontraron bibliotecas"
 
 msgid "Configure your media servers to see library statistics"
-msgstr "Configure sus servidores de medio para ver estadísticas de biblioteca"
+msgstr ""
+"Configure sus servidores de medio para ver las estadísticas de la biblioteca"
 
 msgid "Failed to load libraries"
-msgstr "Carga de bibliotecas falló"
+msgstr "No se pudieron cargar las bibliotecas"
 
 msgid "Unknown error occurred"
 msgstr "Ocurrió un error desconocido"
@@ -1007,20 +1018,19 @@ msgid "Unable to load now playing"
 msgstr "No pudo cargarse reproduciendo ahora"
 
 msgid "There was an error connecting to your media servers"
-msgstr "Hubo un error al conectarse a sus servidores de medios"
+msgstr "Se produjo un error al conectar con tus servidores multimedia"
 
-#, fuzzy
 msgid "No one is streaming"
-msgstr "Nadie está reproduciendo"
+msgstr "Nadie está transmitiendo"
 
 msgid "No active media sessions found across your servers"
-msgstr "No se encontraron sesiones de medio activas en sus servidores"
+msgstr "No se encontraron sesiones multimedia activas en sus servidores"
 
 msgid "Recently Added"
 msgstr "Añadidos Recientemente"
 
 msgid "Showing latest 10 items"
-msgstr "Mostrando los últimos 10 ítems"
+msgstr "Mostrando los últimos 10 elementos"
 
 msgid "No recent content found"
 msgstr "No se encontró contendido reciente"
@@ -1065,40 +1075,40 @@ msgid "No servers configured"
 msgstr "No hay servidores configurados"
 
 msgid "Add media servers to monitor their health"
-msgstr "Añada servidores de medios para monitorear su salud"
+msgstr "Añada servidores de medios para supervisar su salud"
 
 msgid "Failed to load server health"
-msgstr "La carga de salud del servidor falló"
+msgstr "No se pudo cargar el estado de salud del servidor"
 
 msgid "Server Overview"
 msgstr "Vista general del Servidor"
 
 msgid "Items"
-msgstr "Ítems"
+msgstr "Elementos"
 
 msgid "Server Breakdown"
-msgstr "Desgloce del Servidor"
+msgstr "Fallo del Servidor"
 
 msgid "No active servers found"
 msgstr "No se encontraron servidores activos"
 
 msgid "Failed to load statistics"
-msgstr "La carga de estadísticas falló"
+msgstr "Fallo al cargar las estadísticas"
 
 msgid "User Details"
-msgstr "Detalles de Usuario"
+msgstr "Detalles del Usuario"
 
 msgid "Joined"
 msgstr "Unido"
 
 msgid "Account Details"
-msgstr "Detalles de Cuenta"
+msgstr "Detalles de la Cuenta"
 
 msgid "Expires"
-msgstr "Expira"
+msgstr "Vencimiento"
 
 msgid "All libraries"
-msgstr "Todas las Bibliotecas"
+msgstr "Todas las bibliotecas"
 
 msgid "Permissions"
 msgstr "Permisos"
@@ -1110,7 +1120,7 @@ msgid "Live TV"
 msgstr "TV En Vivo"
 
 msgid "Camera Upload"
-msgstr "Carga de Cámara"
+msgstr "Cargar desde la cámara"
 
 msgid "Basic Access"
 msgstr "Acceso Básico"
@@ -1118,57 +1128,54 @@ msgstr "Acceso Básico"
 msgid "Close"
 msgstr "Cerrar"
 
-#, fuzzy
 msgid "Edit User"
-msgstr "Editar Servidor"
+msgstr "Editar Usuario"
 
 msgid "Close modal"
-msgstr "Cerrar diálogo modal"
+msgstr "Cerrar ventana modal"
 
-#, fuzzy
 msgid "Tabs"
-msgstr "Estatus"
+msgstr "Pestañas"
 
 msgid "Local"
-msgstr ""
+msgstr "Local"
 
 msgid "Notes"
 msgstr "Notas"
 
-#, fuzzy
 msgid "Permission Management"
-msgstr "Gestión de Llaves API"
+msgstr "Gestión de Permisos"
 
 msgid "Toggle downloads permission"
-msgstr ""
+msgstr "Alternar permiso de descargas"
 
 msgid "Toggle live TV permission"
-msgstr ""
+msgstr "Alternar permiso para televisión en vivo"
 
-#, fuzzy
 msgid "Allow Camera Upload"
-msgstr "Carga de Cámara"
+msgstr "Permitir cargar desde la cámara"
 
 msgid "Toggle camera upload permission"
-msgstr ""
+msgstr "Alternar el permiso de carga desde la cámara"
 
-#, fuzzy
 msgid "Library Access"
-msgstr "Bibliotecas"
+msgstr "Acceso a la biblioteca"
 
-#, fuzzy
 msgid "No libraries available"
-msgstr "No se encontraron bibliotecas"
+msgstr "No hay bibliotecas disponibles"
 
 msgid "Scan libraries from the invitation page to enable library restrictions"
 msgstr ""
+"Analiza las bibliotecas desde la página de invitación para habilitar las "
+"restricciones de biblioteca"
 
 msgid "Click to toggle library access. Updates save automatically."
 msgstr ""
+"Haz clic para alternar el acceso a la biblioteca. Los cambios se guardan "
+"automáticamente."
 
-#, fuzzy
 msgid "Expiry Management"
-msgstr "Gestión de Llaves API"
+msgstr "Gestión de vencimientos"
 
 msgid "Expiry date"
 msgstr "Fecha de expiración"
@@ -1177,14 +1184,13 @@ msgid "Update"
 msgstr "Actualizar"
 
 msgid "Current expiry"
-msgstr "Fecha de expiración actual"
+msgstr "Fecha de vencimiento actual"
 
 msgid "No expiry set"
 msgstr "No tiene fecha de vencimiento"
 
-#, fuzzy
 msgid "User notes"
-msgstr "Actualizar Notas"
+msgstr "Notas del usuario"
 
 msgid "Add notes about this user..."
 msgstr "Añadir notas sobre este usuario..."
@@ -1221,7 +1227,7 @@ msgid "Are you sure you want to delete this passkey?"
 msgstr "¿Está seguro(a) de eliminar esta passkey?"
 
 msgid "Failed to delete passkey"
-msgstr "Eliminación de passkey falló"
+msgstr "No se pudo eliminar la passkey"
 
 msgid "An error occurred while deleting the passkey"
 msgstr "Ocurrió un error al eliminar la passkey"
@@ -1237,7 +1243,7 @@ msgid "All passkeys have been reset"
 msgstr "Todas las passkeys fueron restablecidas"
 
 msgid "Failed to reset passkeys"
-msgstr "Restablecimiento de passkeys falló"
+msgstr "No se pudieron restablecer las passkeys"
 
 msgid "An error occurred while resetting passkeys"
 msgstr "Ocurrió un error al restablecer las passkeys"
@@ -1264,7 +1270,7 @@ msgid "No passkeys registered"
 msgstr "No hay passkeys registradas"
 
 msgid "Add your first passkey for enhanced security"
-msgstr "Añada su primera passkey para seguridad reforzada"
+msgstr "Añada su primera passkey para una mayor seguridad"
 
 msgid "Passkeys"
 msgstr "Passkeys"
@@ -1273,7 +1279,7 @@ msgid "Passkeys require HTTPS connection"
 msgstr "Las Passkeys requieren conexión HTTPS"
 
 msgid "Add Passkey"
-msgstr "Añadir una Passkey"
+msgstr "Añadir Passkey"
 
 msgid "To use passkeys, please access this page over HTTPS."
 msgstr "Para utilizar passkeys, por favor acceder a esta página vía HTTPS."
@@ -1289,13 +1295,14 @@ msgstr "Creando passkey para"
 
 msgid "Please follow your device's prompts to complete setup"
 msgstr ""
-"Por favor siga las instrucciones en su dispositivo para completar el ajuste"
+"Por favor siga las instrucciones en su dispositivo para completar la "
+"configuración"
 
 msgid "Failed to register passkey"
-msgstr "El registro de passkey falló"
+msgstr "No se pudo registrar la passkey"
 
 msgid "Failed to complete passkey registration"
-msgstr "El registro completo de passkey falló"
+msgstr "No se pudo completar el registro de la passkey"
 
 msgid "Permission denied."
 msgstr "Permiso denegado."
@@ -1323,13 +1330,13 @@ msgid "Untitled"
 msgstr "Sin título"
 
 msgid "All steps are already included."
-msgstr "Todos los pasos ya están incluídos."
+msgstr "Todos los pasos ya están incluidos."
 
 msgid "Add"
 msgstr "Añadir"
 
 msgid "Add New Connection"
-msgstr "Añadir Conexión Nueva"
+msgstr "Añadir Nueva Conexión"
 
 msgid "Edit Connection"
 msgstr "Editar Conexión"
@@ -1351,8 +1358,8 @@ msgid ""
 "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
 "users' and 'Import Jellyfin/Plex users'"
 msgstr ""
-"Vaya a los Ajustes de su Overseerr/Jellyseerr->Usuarios->Activar 'Auto-"
-"aprobar nuevos usuarios'y 'Importar usuarios de Jellyfin/Plex'"
+"Vaya a los Ajustes de su Overseerr/Jellyseerr → Usuarios → Activar 'Auto-"
+"aprobar nuevos usuarios' e 'Importar usuarios de Jellyfin/Plex'"
 
 msgid "Testing connection..."
 msgstr "Probando conexión..."
@@ -1370,19 +1377,19 @@ msgid "Add Administrator"
 msgstr "Añadir Administrador"
 
 msgid "API Key Created"
-msgstr "Llave API Creada"
+msgstr "Clave API Creada"
 
 msgid "Create API Key"
-msgstr "Crear Llave API"
+msgstr "Crear clave API"
 
 msgid "API Key Created Successfully"
-msgstr "Llave API Creada Exitosamente"
+msgstr "Clave API Creada Exitosamente"
 
 msgid ""
 "Your API key has been created. Please copy it now as it will not be shown "
 "again."
 msgstr ""
-"Su llave API ha sido creada. Por favor cópiela ahora pues no se mostrará "
+"Su clave API ha sido creada. Por favor cópiela ahora pues no se mostrará "
 "nuevamente."
 
 msgid "Copy to clipboard"
@@ -1395,25 +1402,24 @@ msgid "Done"
 msgstr "Listo"
 
 msgid "API Key Name"
-msgstr "Nombre de Llave API"
+msgstr "Nombre de Clave API"
 
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
-"Entre un nombre descriptivo para ayudarle a identificar esta llave API más "
-"adelante."
+"Introduzca un nombre descriptivo para ayudarle a identificar esta clave API "
+"más adelante."
 
 msgid "New Agent"
 msgstr "Nuevo Agente"
 
 msgid "Channel ID"
-msgstr "ID de Canal"
+msgstr "Channel ID"
 
 msgid "Bot Token"
-msgstr ""
+msgstr "Token del Bot"
 
-#, fuzzy
 msgid "Chat ID"
-msgstr "ID de Canal"
+msgstr "Chat ID"
 
 msgid "Username (optional)"
 msgstr "Nombre de usuario (opcional)"
@@ -1422,18 +1428,16 @@ msgid "Password (optional)"
 msgstr "Contraseña (opcional)"
 
 msgid "Agent URL"
-msgstr "URL de Agente"
+msgstr "URL del Agente"
 
-#, fuzzy
 msgid "Notification Events"
-msgstr "Agentes de Notificaciones"
+msgstr "Notificaciones de Eventos"
 
-#, fuzzy
 msgid "User Joined"
-msgstr "Unido"
+msgstr "Usuario Unido"
 
 msgid "Update Available"
-msgstr ""
+msgstr "Actualización disponible"
 
 msgid "Test & Create Agent"
 msgstr "Probar & Crear Agente"
@@ -1457,22 +1461,19 @@ msgid "Edit Identity"
 msgstr "Editar Identidad"
 
 msgid "Nickname"
-msgstr "Sobrenombre"
+msgstr "Apodo"
 
-#, fuzzy
 msgid "Edit Agent"
-msgstr "Nuevo Agente"
+msgstr "Editar Agente"
 
 msgid "Name"
 msgstr "Nombre"
 
-#, fuzzy
 msgid "Notification Service"
-msgstr "Agentes de Notificaciones"
+msgstr "Servicio de notificaciones"
 
-#, fuzzy
 msgid "Test & Save Changes"
-msgstr "Probar & Crear Agente"
+msgstr "Probar & Guardar Cambios"
 
 msgid "Edit Server"
 msgstr "Editar Servidor"
@@ -1535,19 +1536,17 @@ msgstr ""
 "Cuando está activo, los usuarios invitados serán eliminados del servidor "
 "Plex luego de un número de días. (1-999)"
 
-#, fuzzy
 msgid "LDAP Integration"
-msgstr "Aceptar Invitación"
+msgstr "Integración con LDAP"
 
-#, fuzzy
 msgid "Create LDAP User"
-msgstr "Crear Llave API"
+msgstr "Crear Usuario LDAP"
 
 msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
+msgstr "Crear automáticamente un usuario LDAP cuando se acepte esta invitación"
 
 msgid "Target servers"
-msgstr "Servidores"
+msgstr "Servidores de destino"
 
 msgid "Invite to Plex Home"
 msgstr "Invitar a Plex Home"
@@ -1556,18 +1555,19 @@ msgid "Allow Live TV Access"
 msgstr "Permitir acceso a TV En Vivo"
 
 msgid "Allow Mobile Uploads"
-msgstr "Permitir Cargas Móviles"
+msgstr "Permitir Cargas desde Dispositivos Móviles"
 
-#, fuzzy
 msgid "Max Active Sessions"
-msgstr "Sesiones Activas"
+msgstr "Máximo de sesiones activas"
 
 msgid "simultaneous devices"
-msgstr ""
+msgstr "dispositivos simultáneos"
 
 msgid ""
 "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
+"Número de dispositivos que pueden reproducir contenido simultáneamente. "
+"Establezca el valor en 0 para un número ilimitado."
 
 msgid "Select Libraries"
 msgstr "Seleccionar Bibliotecas"
@@ -1593,76 +1593,69 @@ msgstr "Crear Otra"
 msgid "Please select at least one server for the invitation."
 msgstr "Por favor seleccione al menos un servidor para la invitación."
 
-#, fuzzy
 msgid "Password Reset Link"
-msgstr "Contraseña (opcional)"
+msgstr "Enlace para Restablecer la Contraseña"
 
 msgid "Generate Password Reset Link"
-msgstr ""
+msgstr "Generar Enlace para Restablecer la Contraseña"
 
-#, fuzzy
 msgid "Password reset link for"
-msgstr "La contraseña es muy corta"
+msgstr "Enlace para restablecer la contraseña de"
 
-#, fuzzy
 msgid "Link expires:"
-msgstr "Expira"
+msgstr "El enlace caduca:"
 
 msgid "Reset Link (Click to copy)"
-msgstr ""
+msgstr "Enlace de restablecimiento (haz clic para copiar)"
 
 msgid ""
 "Send this link to the user. They can use it once to reset their password."
 msgstr ""
+"Envía este enlace al usuario. Puede utilizarlo una vez para restablecer su "
+"contraseña."
 
 msgid "Reset Code"
-msgstr ""
+msgstr "Código de restablecimiento"
 
-#, fuzzy
 msgid "Security Notes:"
-msgstr "Actualizar Notas"
+msgstr "Notas de seguridad:"
 
-#, fuzzy
 msgid "This link can only be used once"
-msgstr "Esta acción no puede deshacerse."
+msgstr "Este enlace solo se puede utilizar una vez"
 
 msgid "It expires in 24 hours"
-msgstr ""
+msgstr "Caduca en 24 horas"
 
 msgid "Send it securely (email, message, etc.)"
-msgstr ""
+msgstr "Envíalo de forma segura (correo electrónico, mensaje, etc.)"
 
-#, fuzzy
 msgid "Generate a secure password reset link for"
-msgstr "Generar una contraseña aleatoria fuerte"
+msgstr "Generar un enlace seguro para restablecer la contraseña"
 
-#, fuzzy
 msgid "Generate Reset Link"
-msgstr "Ajustes Generales"
+msgstr "Generar enlace de restablecimiento"
 
 msgid "The link will be valid for 24 hours and can only be used once."
 msgstr ""
+"El enlace será válido durante 24 horas y solo podrá utilizarse una vez."
 
-#, fuzzy
 msgid "Copy Link"
-msgstr "Copiar enlace de invitación"
+msgstr "Copiar enlace"
 
-#, fuzzy
 msgid "Copied!"
-msgstr "Unido"
+msgstr "¡Copiado!"
 
-#, fuzzy
 msgid "Reset link copied to clipboard!"
-msgstr "¡El enlace ha sido copiado al portapapeles!"
+msgstr "¡Enlace de restablecimiento copiado al portapapeles!"
 
 msgid "Please manually copy the link"
-msgstr ""
+msgstr "Por favor, copie el enlace manualmente"
 
 msgid "Import Wizard Steps"
-msgstr "Importar Pasos de Genio"
+msgstr "Importar Pasos del Asistente"
 
 msgid "Click to upload"
-msgstr "Click para cargar"
+msgstr "Click para subir"
 
 msgid "or drag and drop"
 msgstr "o arrastrar y soltar"
@@ -1671,7 +1664,7 @@ msgid "JSON files only"
 msgstr "Solo archivos JSON"
 
 msgid "Import Options"
-msgstr "Opciones de Importar"
+msgstr "Opciones para Importar"
 
 msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
@@ -1687,17 +1680,18 @@ msgid ""
 "This action will modify your wizard steps configuration. Make sure to backup "
 "your current steps before importing if you want to preserve them."
 msgstr ""
-"Esta acción modificará la configuración de sus pasos de genio. Asegúrese de "
-"respaldar sus pasos actuales antes de importar si quiere conservarlos."
+"Esta acción modificará la configuración de sus pasos del asistente. "
+"Asegúrese de respaldar sus pasos actuales antes de importar si quiere "
+"conservarlos."
 
 msgid "Import Steps"
 msgstr "Importar Pasos"
 
 msgid "Add Preset Wizard Step"
-msgstr "Añadir Paso de Genio Prefijado"
+msgstr "Añadir Preajuste de Pasos del Asistente"
 
 msgid "Choose when this step should be shown to users"
-msgstr ""
+msgstr "Elija cuándo se debe mostrar este paso a los usuarios"
 
 msgid "Your Discord server ID"
 msgstr "Su ID de servidor de Discord"
@@ -1708,49 +1702,44 @@ msgstr "URL para su instancia de Overseerr/Ombi"
 msgid "Create Step"
 msgstr "Crear Paso"
 
-#, fuzzy
 msgid "Add..."
-msgstr "Añadir"
+msgstr "Añadir..."
 
 msgid "Widgets"
-msgstr ""
+msgstr "Widgets"
 
-#, fuzzy
 msgid "Recently Added Media"
-msgstr "Añadidos Recientemente"
+msgstr "Contenido Multimedia Añadido Recientemente"
 
-#, fuzzy
 msgid "Show recent content"
-msgstr "No se encontró contendido reciente"
+msgstr "Mostrar contenido reciente"
 
 msgid "Button"
-msgstr ""
+msgstr "Botón"
 
 msgid "Add a clickable link button"
-msgstr ""
+msgstr "Añade un botón con enlace"
 
-#, fuzzy
 msgid "Elements"
-msgstr "Eliminar Agente"
+msgstr "Elementos"
 
-#, fuzzy
 msgid "Card"
-msgstr "Genio"
+msgstr "Tarjeta"
 
 msgid "Add a styled content card"
-msgstr ""
+msgstr "Añadir una tarjeta de contenido con estilo"
 
 msgid "Delete API Key"
-msgstr "Borrar Llave API"
+msgstr "Borrar Clave API"
 
 msgid "No API keys"
-msgstr "No hay llaves API"
+msgstr "No hay claves API"
 
 msgid "Get started by creating a new API key."
-msgstr "Inicie creando una nueva llave API."
+msgstr "Inicie creando una nueva clave API."
 
 msgid "Media Servers"
-msgstr "Servidores de Medios"
+msgstr "Servidores Multimedia"
 
 msgid "Type"
 msgstr "Tipo"
@@ -1786,7 +1775,7 @@ msgid "Add Admin"
 msgstr "Añadir Administrador"
 
 msgid "API Keys"
-msgstr "Llaves API"
+msgstr "Claves API"
 
 msgid "Connections"
 msgstr "Conexiones"
@@ -1802,16 +1791,16 @@ msgid "Connection Name"
 msgstr "Nombre de Conexión"
 
 msgid "Media Server"
-msgstr "Servidor de Medios"
+msgstr "Servidor Multimedia"
 
 msgid "Overseerr (Info)"
-msgstr "(Info) de Overseerr"
+msgstr "Overseerr (Info)"
 
 msgid "Ombi"
 msgstr "Ombi"
 
 msgid "Audiobookrequest"
-msgstr "Solicitud de Audiobook"
+msgstr "AudioBookRequest"
 
 msgid "Auto-import enabled"
 msgstr "Atuo-importar activado"
@@ -1838,9 +1827,8 @@ msgstr "Ajustes Generales"
 msgid "Configure your application's basic settings and preferences"
 msgstr "Configurar los ajustes y preferencias básicas de su aplicación"
 
-#, fuzzy
 msgid "Version"
-msgstr "Permisos"
+msgstr "Versión"
 
 msgid "Display"
 msgstr "Mostrar"
@@ -1855,51 +1843,53 @@ msgid "Manage user access and permissions"
 msgstr "Gestionar accesos y permisos de usuarios"
 
 msgid "Control access to the wizard setup process"
-msgstr "Controlar acceso al proceso de configuración genio"
+msgstr "Controlar el acceso al proceso de configuración del asistente"
 
-#, fuzzy
 msgid "User Management"
-msgstr "Gestión de Llaves API"
+msgstr "Gestión de Usuarios"
 
 msgid "Configure how users are managed when invitations expire"
 msgstr ""
+"Configure cómo se gestionan los usuarios cuando las invitaciones caducan"
 
-#, fuzzy
 msgid "Server Capabilities"
-msgstr "servidores en línea"
+msgstr "Capacidades del Servidor"
 
 msgid "Supports Disable:"
-msgstr ""
+msgstr "Desactivar Soportes:"
 
-#, fuzzy
 msgid "Delete Only:"
-msgstr "Eliminar Agente"
+msgstr "Solo eliminar:"
 
 msgid ""
 "If 'Disable User' is selected but the server does not support it, the user "
 "will be deleted instead."
 msgstr ""
+"Si se selecciona 'Deshabilitar usuario' pero el servidor no admite esta "
+"opción, el usuario se eliminará en su lugar."
 
 msgid "Choose what happens to users when their invitation expires"
-msgstr ""
+msgstr "Elija lo que les sucede a los usuarios cuando expira su invitación"
 
 msgid "Immediately process all expired users based on the expiry action above"
 msgstr ""
+"Procese inmediatamente todos los usuarios cuya cuenta haya caducado, "
+"aplicando la acción de caducidad indicada anteriormente"
 
 msgid "API Key Management"
-msgstr "Gestión de Llaves API"
+msgstr "Gestión de Claves API"
 
 msgid "Manage API keys for accessing Wizarr programmatically"
-msgstr "Gestionar llaves API para acceder a Wizarr programáticamente"
+msgstr "Gestionar claves API para acceder a Wizarr por programación"
 
 msgid "Your API Keys"
-msgstr "Sus Llaves API"
+msgstr "Sus Claves API"
 
 msgid "Create and manage API keys for external applications"
-msgstr "Crear y gestionar llaves API para aplicaciones externas"
+msgstr "Crear y gestionar claves API para aplicaciones externas"
 
 msgid "Loading API keys..."
-msgstr "Cargando llaves API..."
+msgstr "Cargando claves API..."
 
 msgid "Save Settings"
 msgstr "Guardar Ajustes"
@@ -1919,9 +1909,8 @@ msgstr "Alertas"
 msgid "Servers"
 msgstr "Servidores"
 
-#, fuzzy
 msgid "Activity"
-msgstr "Activo"
+msgstr "Actividad"
 
 msgid "Admins"
 msgstr "Administradores"
@@ -1929,101 +1918,100 @@ msgstr "Administradores"
 msgid "Wizard"
 msgstr "Genio"
 
-#, fuzzy
 msgid "Audit"
-msgstr "Editar"
+msgstr "Auditoría"
 
-#, fuzzy
 msgid "LDAP Settings"
-msgstr "Guardar Ajustes"
+msgstr "Ajustes LDAP"
 
-#, fuzzy
 msgid "Experimental"
-msgstr "Eliminar Agente"
+msgstr "Experimental"
 
 msgid "Configure LDAP for user authentication and management"
-msgstr ""
+msgstr "Configure LDAP para la autenticación y gestión de usuarios"
 
 msgid "Enable LDAP"
-msgstr ""
+msgstr "Habilitar LDAP"
 
 msgid "Turn on LDAP integration"
-msgstr ""
+msgstr "Activar la integración con LDAP"
 
-#, fuzzy
 msgid "Connection"
-msgstr "Conexiones"
+msgstr "Conexión"
 
-#, fuzzy
 msgid "LDAP server connection"
-msgstr "Actualizar Conexión"
+msgstr "Conexión al servidor LDAP"
 
 msgid "e.g., ldap://server:3890 or ldaps://server:6360"
-msgstr ""
+msgstr "p. ej., ldap://server:3890 o ldaps://server:6360"
 
-#, fuzzy
 msgid "Use TLS"
-msgstr "Detalles de Usuario"
+msgstr "Usar TLS"
 
-#, fuzzy
 msgid "Verify Cert"
-msgstr "Verificado"
+msgstr "Verificar certificado"
 
 msgid "Encrypted before storage"
-msgstr ""
+msgstr "Cifrado antes del almacenamiento"
 
-#, fuzzy
 msgid "User & Group Settings"
-msgstr "Guardar Ajustes"
+msgstr "Configuración de Usuarios y Grupos"
 
 msgid "Where to find users and groups"
-msgstr ""
+msgstr "Donde encontrar usuarios y grupos"
 
 msgid "Optional - only needed for admin group restriction"
 msgstr ""
+"Opcional - solo es necesario para la restricción del grupo de administradores"
 
 msgid "Sync Groups"
-msgstr ""
+msgstr "Sincronizar Grupos"
 
 msgid "Sync LDAP groups to populate admin group selection"
 msgstr ""
+"Sincronizar grupos LDAP para poblar la selección de grupos de administración"
 
-#, fuzzy
 msgid "Advanced Settings"
-msgstr "Guardar Ajustes"
+msgstr "Configuración Avanzada"
 
 msgid ""
 "Defaults are optimized for LLDAP. Only change if using a different LDAP "
 "server."
 msgstr ""
+"Los valores predeterminados están optimizados para LLDAP. Cámbielos "
+"únicamente si utiliza un servidor LDAP diferente."
 
-#, fuzzy
 msgid "Manage all users - both LDAP and local authentication"
-msgstr "Gestione sus passkeys para autenticación sin contraseñas."
+msgstr ""
+"Administrar todos los usuarios - tanto de autenticación LDAP como local"
 
 msgid "Sync from LDAP"
-msgstr ""
+msgstr "Sincronizar desde LDAP"
 
 msgid ""
 "Users can authenticate via LDAP or locally. Sync automatically imports new "
 "users from LDAP."
 msgstr ""
+"Los usuarios pueden autenticarse mediante LDAP o localmente. La "
+"sincronización importa automáticamente los nuevos usuarios desde LDAP."
 
-#, fuzzy
 msgid "Admin Authentication"
-msgstr "No hay autenticación 2FA pendiente"
+msgstr "Autenticación del administrador"
 
 msgid "Allow administrators to log in using LDAP"
-msgstr ""
+msgstr "Permitir a los administradores iniciar sesión usando LDAP"
 
 msgid "Allow Admin Login via LDAP"
-msgstr ""
+msgstr "Permitir el inicio de sesión de Administrador mediante LDAP"
 
 msgid "Enable admin login using LDAP credentials"
 msgstr ""
+"Habilitar el inicio de sesión de administrador mediante credenciales LDAP"
 
 msgid "Optional: Restrict admin access to members of this LDAP group"
 msgstr ""
+"Opcional: Restringir el acceso de administrador a los miembros de este grupo "
+"LDAP"
 
 msgid "Notification Agents"
 msgstr "Agentes de Notificaciones"
@@ -2035,22 +2023,20 @@ msgstr ""
 msgid "Add Agent"
 msgstr "Añadir Agente"
 
-#, fuzzy
 msgid "Edit agent"
-msgstr "Nuevo Agente"
+msgstr "Editar agente"
 
 msgid "Are you sure you want to delete"
 msgstr "Está seguro(a) de eliminar"
 
 msgid "Delete agent"
-msgstr "Eliminar Agente"
+msgstr "Eliminar agente"
 
 msgid "Status"
-msgstr "Estatus"
+msgstr "Estado"
 
-#, fuzzy
 msgid "Events"
-msgstr "Servidores"
+msgstr "Eventos"
 
 msgid "No notification agents"
 msgstr "No hay agentes de notificación"
@@ -2078,25 +2064,26 @@ msgstr "Un nombre amigable para identificar esta conexión"
 
 msgid "Which media server should trigger invitations to this external service"
 msgstr ""
-"Cuál servidor de medios debe iniciar invitaciones a este servicio externo"
+"Qué servidor multimedia debería activar las invitaciones a este servicio "
+"externo"
 
 msgid "Open your Overseerr/Jellyseerr admin panel"
 msgstr "Abra su panel administrador de Overseerr/Jellyseerr"
 
 msgid "Navigate to Settings → Users"
-msgstr "Navegue a Ajustes -> Usuarios"
+msgstr "Navegue a Ajustes → Usuarios"
 
 msgid "Enable 'Auto-approve new users'"
-msgstr "Active 'Auto-aprobar nuevos susuarios'"
+msgstr "Active 'Auto-aprobar nuevos usuarios'"
 
 msgid "Enable 'Import Jellyfin/Plex users'"
 msgstr "Active 'Importar usuarios de Jellyfin/Plex'"
 
 msgid "The full URL to your external service instance"
-msgstr "La URL completa de us instancia de servicio externo"
+msgstr "La URL completa de su instancia de servicio externo"
 
 msgid "API key from your external service settings"
-msgstr "Llave API de la configuración de su servicio externo"
+msgstr "Clave API de la configuración de su servicio externo"
 
 msgid "Default Steps"
 msgstr "Pasos Predeterminados"
@@ -2117,17 +2104,16 @@ msgid "Create"
 msgstr "Crear"
 
 msgid "Add a new wizard step"
-msgstr "Añadir un nuevo paso genio"
+msgstr "Añadir un nuevo paso al asistente"
 
-#, fuzzy
 msgid "Add Step to Bundle"
-msgstr "Añadir pasos a paquete"
+msgstr "Añadir Paso al paquete"
 
 msgid "No bundles available yet"
-msgstr ""
+msgstr "Aún no hay paquetes disponibles"
 
 msgid "Add Preset"
-msgstr "Añadir Prefijado"
+msgstr "Añadir ajuste preestablecido"
 
 msgid "Create step from template"
 msgstr "Crear paso desde plantilla"
@@ -2142,7 +2128,7 @@ msgid "No bundles found."
 msgstr "No se encontraron paquetes."
 
 msgid "Preview Wizard"
-msgstr "Vista Previa de Genio"
+msgstr "Vista Previa del Asistente"
 
 #, python-format
 msgid "Export %(bundle_name)s Bundle"
@@ -2151,45 +2137,44 @@ msgstr "Exportar Paquete %(bundle_name)s"
 msgid "Are you sure you want to delete this bundle?"
 msgstr "¿Está seguro(a) de eliminar este paquete?"
 
-#, fuzzy
 msgid "Before Invite Acceptance"
-msgstr "No hay invitaciones recientes aceptadas"
+msgstr "Antes de Aceptar la Invitación"
 
 msgid "Steps shown to users before they accept the invitation"
 msgstr ""
+"Pasos que se muestran a los usuarios antes de que acepten la invitación"
 
 msgid "Are you sure you want to delete this step?"
 msgstr "¿Está seguro(a) de eliminar este paso?"
 
-#, fuzzy
 msgid "No pre-invite steps configured"
-msgstr "pasos configurados"
+msgstr "No hay pasos de pre-invitación configurados"
 
-#, fuzzy
 msgid "After Invite Acceptance"
-msgstr "Entre código de invitación"
+msgstr "Tras Aceptar la Invitación"
 
 msgid "Steps shown to users after they accept the invitation"
-msgstr ""
+msgstr "Pasos que se muestran a los usuarios después de aceptar la invitación"
 
-#, fuzzy
 msgid "No post-invite steps configured"
-msgstr "No hay servidores configurados"
+msgstr "No hay pasos configurados para después de la invitación"
 
 msgid "Additional Categories"
-msgstr ""
+msgstr "Categorías Adicionales"
 
 msgid "Steps that use custom categories keep their order here."
 msgstr ""
+"Los pasos que utilizan categorías personalizadas conservan su orden aquí."
 
-#, fuzzy
 msgid "Orphaned Steps"
-msgstr "Eliminar paso huérfano"
+msgstr "Pasos huérfanos"
 
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
 msgstr ""
+"Estas entradas ya no tienen un paso asociado. Elimínelas para mantener el "
+"paquete ordenado."
 
 msgid "Step deleted (orphaned)"
 msgstr "Paso eliminado (huérfano)"
@@ -2204,14 +2189,14 @@ msgid "Preview"
 msgstr "Vista Previa"
 
 msgid "Import Wizard Configuration"
-msgstr "Importar Configuración de Genio"
+msgstr "Importar Configuración del Asistente"
 
 msgid ""
 "Import wizard steps or bundles from a JSON file to quickly set up or restore "
 "your wizard configuration."
 msgstr ""
-"Importar pasos o paquetes de genio desde un archivo JSON para rápidamente "
-"configurar o restaurar su configuración de genio."
+"Importar pasos o paquetes del asistente desde un archivo JSON para "
+"rápidamente configurar o restaurar su configuración del asistente."
 
 msgid "Select JSON File"
 msgstr "Seleccionar Archivo JSON"
@@ -2224,20 +2209,22 @@ msgid ""
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
 msgstr ""
-"Cuando está seleccionado, todos los pasos y paquetes genio existentes serán "
-"eliminados y reemplazados por la configuración importada. Cuando no está "
-"seleccionado, los ítems importados se añadirán a los existentes."
+"Cuando está seleccionado, todos los pasos y paquetes del asistente "
+"existentes serán eliminados y reemplazados por la configuración importada. "
+"Cuando no está seleccionado, los elementos importados se añadirán a los "
+"existentes."
 
 msgid "Important: Backup Recommended"
-msgstr "Importante: Respaldo Recomendado"
+msgstr "Importante: Copia de Seguridad Recomendada"
 
 msgid ""
 "This action will modify your wizard configuration. Consider the following:"
 msgstr ""
-"Esta acción modificará su configuración de genio. Considere lo siguiente:"
+"Esta acción modificará su configuración del asistente. Considere lo "
+"siguiente:"
 
 msgid "Export your current steps and bundles first as a backup"
-msgstr "Exportar sus pasos y paquetes actuales como un respaldo"
+msgstr "Exportar sus pasos y paquetes actuales como copia de seguridad"
 
 msgid "Imported steps will use the file's step ordering and server types"
 msgstr ""
@@ -2270,7 +2257,7 @@ msgid "For bundle export:"
 msgstr "Para exportar paquete:"
 
 msgid "Back to Steps"
-msgstr "Vuelta a Pasos"
+msgstr "Volver a los Pasos"
 
 msgid "Please select a JSON file to import."
 msgstr "Por favor seleccione un archivo JSON para importar."
@@ -2282,21 +2269,22 @@ msgid ""
 "This will permanently replace all existing wizard configuration (steps and "
 "bundles). Are you sure you want to continue?"
 msgstr ""
-"Esto reemplazará permanentemente toda la configuracion genio existente "
-"(apaso y paquetes). ¿Está seguro(a) de continuar?"
+"Esto reemplazará permanentemente toda la configuración del asistente actual "
+"(pasos y paquetes). ¿Está seguro(a) de continuar?"
 
 msgid "Wizard Steps"
-msgstr "Pasos de Genio"
+msgstr "Pasos del Asistente"
 
 msgid "Manage your wizard steps and bundles for user onboarding"
 msgstr ""
-"Gestionar sus pasos y paquetes de genio para la incorporación de usuarios"
+"Gestionar sus pasos y paquetes del asistente para la incorporación de "
+"usuarios"
 
 msgid "No wizard steps found"
-msgstr "No se encontraron pasos de genio"
+msgstr "No se encontraron pasos del asistente"
 
 msgid "Get started by creating your first wizard step"
-msgstr "Inicie creando su primer paso de genio"
+msgstr "Inicie creando su primer paso del asistente"
 
 msgid "Server"
 msgstr "Servidor"
@@ -2324,10 +2312,13 @@ msgid ""
 "Are you sure you want to reset all steps for %(server)s to defaults? This "
 "will delete all custom steps and reimport the default ones."
 msgstr ""
+"¿Está seguro de que desea restablecer a los valores predeterminados todos "
+"los pasos para %(server)s? Esto eliminará todos los pasos personalizados y "
+"volverá a importar los predeterminados."
 
-#, fuzzy, python-format
+#, python-format
 msgid "Reset %(server)s Steps to Defaults"
-msgstr "Exportar Pasos de %(server)s"
+msgstr "Restablecer los Pasos de %(server)s a los Valores Predeterminados"
 
 #, python-format
 msgid "Export %(server)s Steps"
@@ -2351,16 +2342,14 @@ msgstr "Usado por"
 msgid "Used"
 msgstr "Usado"
 
-#, fuzzy
 msgid "Not used yet"
-msgstr "Usado por"
+msgstr "Aún no se ha utilizado"
 
-#, fuzzy
 msgid "Bundle"
-msgstr "Paquete Genio"
+msgstr "Paquete"
 
 msgid "days"
-msgstr "Días"
+msgstr "días"
 
 msgid "Default"
 msgstr "Predeterminado"
@@ -2375,7 +2364,7 @@ msgid "There are currently no users."
 msgstr "Actualmente no hay usuarios."
 
 msgid "Edit nickname"
-msgstr "Editar sobrenombre"
+msgstr "Editar apodo"
 
 msgid "Home User"
 msgstr "Usuario local"
@@ -2383,9 +2372,8 @@ msgstr "Usuario local"
 msgid "Invited"
 msgstr "Invitado"
 
-#, fuzzy
 msgid "Disabled"
-msgstr "TV En Vivo desactivada"
+msgstr "Desactivado"
 
 msgid "Downloads enabled"
 msgstr "Descargas activadas"
@@ -2393,34 +2381,612 @@ msgstr "Descargas activadas"
 msgid "Live TV enabled"
 msgstr "TV En Vivo activada"
 
-#, fuzzy
 msgid "View details"
-msgstr "Detalles de Usuario"
+msgstr "Ver detalles"
 
-#, fuzzy
 msgid "Edit user"
-msgstr "Editar Servidor"
+msgstr "Editar usuario"
 
-#, fuzzy
 msgid "Reset password"
-msgstr "Contraseña Actual"
+msgstr "Restablecer contraseña"
 
 msgid "Remove user"
 msgstr "Eliminar usuario"
 
-#, fuzzy
 msgid "Before Invitation"
-msgstr "Crear invitación"
+msgstr "Antes de la invitación"
 
-#, fuzzy
 msgid "After Invitation"
-msgstr "Crear invitación"
+msgstr "Después de la invitación"
 
 msgid "Previous"
 msgstr "Anterior"
 
 msgid "Click the link in this step to be able to continue"
 msgstr "Haga click sobre el enlace en este paso para poder continuar"
+
+msgid "What is Audiobookshelf?"
+msgstr ""
+
+msgid "Welcome to Our Audiobookshelf Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **audiobook & podcast library** "
+"through Audiobookshelf!"
+msgstr ""
+
+msgid ""
+"Audiobookshelf is a self-hosted audiobook and podcast server that lets "
+"people share their audio collections with friends and family. If you're "
+"here, it means you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "What You'll Get"
+msgstr ""
+
+msgid "Access to our constantly updated audiobooks and podcasts"
+msgstr ""
+
+msgid "Listen on-demand or download for offline listening"
+msgstr ""
+
+msgid "Track your progress across all devices"
+msgstr ""
+
+msgid "Download Audiobookshelf Clients"
+msgstr ""
+
+msgid ""
+"Audiobookshelf has many clients from which you can listen to our audiobooks!"
+msgstr ""
+
+msgid "Listen Anywhere"
+msgstr ""
+
+msgid ""
+"Audiobookshelf works almost everywhere — install the app on your favourite "
+"devices:"
+msgstr ""
+
+msgid "Web App"
+msgstr ""
+
+msgid "Tips for the best experience"
+msgstr ""
+
+msgid "Get the best listening experience"
+msgstr ""
+
+msgid ""
+"Audiobookshelf offers great features, but here's how to make sure you get "
+"the best experience:"
+msgstr ""
+
+msgid "Download for offline listening"
+msgstr ""
+
+msgid "Tap any audiobook → Download to enjoy without internet"
+msgstr ""
+
+msgid "Adjust playback speed"
+msgstr ""
+
+msgid "Player controls → set speed from 0.5x to 3x"
+msgstr ""
+
+msgid "Enable sleep timer"
+msgstr ""
+
+msgid "Perfect for bedtime listening — auto-stops playback"
+msgstr ""
+
+msgid "Happy listening!"
+msgstr ""
+
+msgid "Go to Audiobookshelf"
+msgstr ""
+
+msgid "What is Emby?"
+msgstr ""
+
+msgid "Welcome to Our Emby Server"
+msgstr ""
+
+msgid "Great news — you now have access to our **media library** through Emby!"
+msgstr ""
+
+msgid ""
+"Emby is a powerful media server that lets people share their film and TV "
+"libraries with friends and family. If you're here, it means you've been "
+"invited to join ours — welcome!"
+msgstr ""
+
+msgid "Access to our constantly updated list of movies and shows"
+msgstr ""
+
+msgid "Watch on-demand or download for offline viewing"
+msgstr ""
+
+msgid "Personalised watchlists & recommendations"
+msgstr ""
+
+msgid "Download Emby Clients"
+msgstr ""
+
+msgid "Emby has many clients from which you can view our media!"
+msgstr ""
+
+msgid "Watch Anywhere"
+msgstr ""
+
+msgid ""
+"Emby works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "Mobile"
+msgstr ""
+
+msgid "iOS & Android phones/tablets"
+msgstr ""
+
+msgid "Desktop"
+msgstr ""
+
+msgid "Windows, macOS, Linux"
+msgstr ""
+
+msgid "Smart TVs & Streaming Devices"
+msgstr ""
+
+msgid "Apple TV, Fire TV, Roku, Chromecast, Android TV"
+msgstr ""
+
+msgid "Consoles"
+msgstr ""
+
+msgid "PlayStation & Xbox"
+msgstr ""
+
+msgid "Watch instantly in your browser"
+msgstr ""
+
+msgid "⬇️ Download Emby Clients"
+msgstr ""
+
+msgid "Get the best quality"
+msgstr ""
+
+msgid ""
+"Emby offers great quality, but here's how to make sure you get the best "
+"experience:"
+msgstr ""
+
+msgid "Force original quality"
+msgstr ""
+
+msgid "Settings → Playback → set"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "Maximum"
+msgstr ""
+
+msgid "Enable hardware decoding"
+msgstr ""
+
+msgid "Settings → Playback → enable for smoother 4K"
+msgstr ""
+
+msgid "Use a wired connection"
+msgstr ""
+
+msgid "if you're on a smart-TV for stutter-free 4K."
+msgstr ""
+
+msgid "Happy viewing!"
+msgstr ""
+
+msgid "Go to Emby"
+msgstr ""
+
+msgid "What is Jellyfin?"
+msgstr ""
+
+msgid "Welcome to Our Jellyfin Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **media library** through Jellyfin!"
+msgstr ""
+
+msgid ""
+"Jellyfin is a free, open-source media server that lets people share their "
+"film and TV libraries with friends and family. If you're here, it means "
+"you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "Download Jellyfin Clients"
+msgstr ""
+
+msgid "Jellyfin has many clients from which you can view our media!"
+msgstr ""
+
+msgid ""
+"Jellyfin works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "⬇️ Download Jellyfin Clients"
+msgstr ""
+
+msgid ""
+"Jellyfin offers great quality, but here's how to make sure you get the best "
+"experience:"
+msgstr ""
+
+msgid "Go to Jellyfin"
+msgstr ""
+
+msgid "Welcome to your digital library"
+msgstr ""
+
+msgid "Great news! You now have access to our comic and manga collection."
+msgstr ""
+
+msgid ""
+"Kavita lets people share their digital libraries with friends. Read comics, "
+"manga, and books directly in your browser or mobile app."
+msgstr ""
+
+msgid "How do I read stuff?"
+msgstr ""
+
+msgid ""
+"Open Kavita in your browser, sign in with your new account, and start "
+"reading. You can also use mobile apps for a better experience."
+msgstr ""
+
+msgid "Open Kavita"
+msgstr ""
+
+msgid "Want to read on your phone?"
+msgstr ""
+
+msgid "Download a comic reader app for the best mobile experience."
+msgstr ""
+
+msgid "Android"
+msgstr ""
+
+msgid "Popular manga reader with Kavita support"
+msgstr ""
+
+msgid "Great for comics and books"
+msgstr ""
+
+msgid "iOS"
+msgstr ""
+
+msgid "Premium comic reader with Kavita integration"
+msgstr ""
+
+msgid "Full-featured comic reader"
+msgstr ""
+
+msgid "Connect your app"
+msgstr ""
+
+msgid "Use this OPDS URL in your reader app:"
+msgstr ""
+
+msgid "Login with your Kavita username and password."
+msgstr ""
+
+msgid "Your library includes"
+msgstr ""
+
+msgid ""
+"Browse collections of comics, manga, light novels, and digital books. "
+"Everything is organized by series and automatically tracks your reading "
+"progress."
+msgstr ""
+
+msgid "Cool features"
+msgstr ""
+
+msgid "Pick up exactly where you left off"
+msgstr ""
+
+msgid "Create custom reading lists"
+msgstr ""
+
+msgid "Find content by title, author, or genre"
+msgstr ""
+
+msgid "Easy on the eyes for night reading"
+msgstr ""
+
+msgid "Get the best reading experience"
+msgstr ""
+
+msgid "Kavita has some handy settings to make reading more comfortable:"
+msgstr ""
+
+msgid "Set reading direction"
+msgstr ""
+
+msgid "Settings → Reader → set manga to right-to-left"
+msgstr ""
+
+msgid "Enable dark mode"
+msgstr ""
+
+msgid "Perfect for night reading"
+msgstr ""
+
+msgid "Use keyboard shortcuts"
+msgstr ""
+
+msgid "Space for next page, arrows to navigate"
+msgstr ""
+
+msgid "What is Komga?"
+msgstr ""
+
+msgid "Welcome to Our Komga Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **digital comic and manga library** "
+"through Komga!"
+msgstr ""
+
+msgid ""
+"Komga is a free, open-source media server designed specifically for comics, "
+"manga, and digital books. If you're here, it means you've been invited to "
+"join our library — welcome!"
+msgstr ""
+
+msgid "Access to our constantly updated collection of comics and manga"
+msgstr ""
+
+msgid "Read online directly in your browser"
+msgstr ""
+
+msgid "Download for offline reading on your favorite devices"
+msgstr ""
+
+msgid "Track your reading progress automatically"
+msgstr ""
+
+msgid "Support for multiple formats (CBZ, CBR, PDF, EPUB)"
+msgstr ""
+
+msgid "Download Komga Clients"
+msgstr ""
+
+msgid ""
+"Komga has many compatible readers from which you can enjoy your comics and "
+"manga!"
+msgstr ""
+
+msgid "Read Anywhere"
+msgstr ""
+
+msgid ""
+"Komga works with many popular comic readers — install apps on your favorite "
+"devices:"
+msgstr ""
+
+msgid "iOS (Panels, Chunky) & Android (Mihon/Tachiyomi, Komga Client)"
+msgstr ""
+
+msgid "Windows (CDisplayEx, YACReader), macOS & Linux (YACReader)"
+msgstr ""
+
+msgid "Tablets"
+msgstr ""
+
+msgid "iPad & Android tablets with comic reader apps"
+msgstr ""
+
+msgid "Read instantly in your browser at"
+msgstr ""
+
+msgid "E-Readers"
+msgstr ""
+
+msgid "KOReader and other OPDS-compatible readers"
+msgstr ""
+
+msgid "📚 View Compatible Readers"
+msgstr ""
+
+msgid "Library Features"
+msgstr ""
+
+msgid "Komga Features"
+msgstr ""
+
+msgid "Discover all the features available to enhance your reading experience!"
+msgstr ""
+
+msgid "Reading Experience"
+msgstr ""
+
+msgid "Webtoon Mode"
+msgstr ""
+
+msgid "Perfect for manga and webtoons with continuous scrolling"
+msgstr ""
+
+msgid "Page-by-Page"
+msgstr ""
+
+msgid "Traditional comic book reading experience"
+msgstr ""
+
+msgid "Zoom & Pan"
+msgstr ""
+
+msgid "Get detailed views of artwork"
+msgstr ""
+
+msgid "Auto Bookmarks"
+msgstr ""
+
+msgid "Your progress is saved automatically"
+msgstr ""
+
+msgid "Organization"
+msgstr ""
+
+msgid "Series Collections"
+msgstr ""
+
+msgid "Browse comics organized by series"
+msgstr ""
+
+msgid "Custom Collections"
+msgstr ""
+
+msgid "Curated collections by themes and genres"
+msgstr ""
+
+msgid "Smart Tags"
+msgstr ""
+
+msgid "Filter by genres, authors, publishers, and more"
+msgstr ""
+
+msgid "Advanced Search"
+msgstr ""
+
+msgid "Find specific titles instantly"
+msgstr ""
+
+msgid "Personal Features"
+msgstr ""
+
+msgid "Reading Progress"
+msgstr ""
+
+msgid "Track which issues you've completed"
+msgstr ""
+
+msgid "Continue Reading"
+msgstr ""
+
+msgid "Reading Lists"
+msgstr ""
+
+msgid "Create and manage custom reading lists"
+msgstr ""
+
+msgid "On Deck"
+msgstr ""
+
+msgid "See your next suggested reads"
+msgstr ""
+
+msgid ""
+"Komga offers a great reading experience, but here's how to make it even "
+"better:"
+msgstr ""
+
+msgid "Choose the right reader mode"
+msgstr ""
+
+msgid "Use webtoon mode for manga, page-by-page for traditional comics"
+msgstr ""
+
+msgid "Adjust reading direction"
+msgstr ""
+
+msgid "Settings → Reader → set right-to-left for manga"
+msgstr ""
+
+msgid "Easier on your eyes during night reading sessions"
+msgstr ""
+
+msgid "Use full-screen mode"
+msgstr ""
+
+msgid "Press F11 in browser for distraction-free reading"
+msgstr ""
+
+msgid "Download for offline"
+msgstr ""
+
+msgid "Download comics to mobile apps for reading without internet"
+msgstr ""
+
+msgid "Happy reading!"
+msgstr ""
+
+msgid "Go to Komga"
+msgstr ""
+
+msgid "What is Plex?"
+msgstr ""
+
+msgid "Welcome to Our Plex Server"
+msgstr ""
+
+msgid "Great news — you now have access to our **media library** through Plex!"
+msgstr ""
+
+msgid ""
+"Plex lets people share their film and TV libraries with friends and family. "
+"If you're here, it means you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "Download Plex Clients"
+msgstr ""
+
+msgid "Plex has many clients from which you can view our media!"
+msgstr ""
+
+msgid ""
+"Plex works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "Apple TV, Fire TV, Roku, Chromecast"
+msgstr ""
+
+msgid "⬇️ Download Plex Clients"
+msgstr ""
+
+msgid ""
+"Plex sometimes defaults to low quality or shows its own adverts first. "
+"Here's how to fix that:"
+msgstr ""
+
+msgid "Disable trailers & extras"
+msgstr ""
+
+msgid "Settings → Experience → untick"
+msgstr ""
+
+msgid "Show cinematic trailers"
+msgstr ""
+
+msgid "Original"
+msgstr ""
+
+msgid "Go to Plex"
+msgstr ""
+
+msgid "Welcome to RomM"
+msgstr ""
+
+msgid "Great news! You now have access to our game collection."
+msgstr ""
+
+msgid "Open RomM"
+msgstr ""
 
 #~ msgid "No one is watching"
 #~ msgstr "Nadie está reproduciendo"

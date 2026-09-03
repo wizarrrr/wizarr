@@ -12,21 +12,25 @@ loglevel = os.getenv("GUNICORN_LOG_LEVEL", "warning").lower()
 accesslog = None  # Disable access logs for clean output
 errorlog = "-"  # Only errors to stderr
 
-# Make workers configurable (default 4, but allow override for resource-constrained systems)
-workers = int(os.getenv("GUNICORN_WORKERS", "4"))
-worker_class = "sync"
+# Wizarr uses SQLite and starts background services in the application factory.
+# Keep one process by default, and use threads for request concurrency.
+workers = int(os.getenv("GUNICORN_WORKERS", "1"))
+threads = int(os.getenv("GUNICORN_THREADS", "4"))
+worker_class = "gthread"
 
 # Worker timeout - kill workers that don't respond within this time
 # Increase from default 30s to 120s to account for slow library scans
 timeout = int(os.getenv("GUNICORN_TIMEOUT", "120"))
 
 # Make host and port configurable
-host  = os.getenv("HOST", "0.0.0.0")
-port  = os.getenv("PORT", "5690")
-bind  = f"{host}:{port}"
+host = os.getenv("HOST", "0.0.0.0")
+port = os.getenv("PORT", "5690")
+bind = f"{host}:{port}"
 
 print(
-    f"DEBUG: Gunicorn config - workers={workers}, loglevel={loglevel}, timeout={timeout}s, host={host}, port={port}"
+    "DEBUG: Gunicorn config - "
+    f"workers={workers}, threads={threads}, loglevel={loglevel}, "
+    f"timeout={timeout}s, host={host}, port={port}"
 )
 
 

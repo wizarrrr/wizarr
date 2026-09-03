@@ -52,8 +52,11 @@ def _delete_from_companion_apps(user: User) -> None:
         logging.error(f"Error deleting from companion apps: {exc}")
 
 
-def _set_user_enabled_state(db_id: int, enabled: bool) -> bool:
-    """Enable or disable a user on their media server."""
+def _set_user_enabled_state(db_id: int, enabled: bool, *, commit: bool = True) -> bool:
+    """Enable or disable a user and save the local state.
+
+    Set ``commit`` to ``False`` when the caller owns the transaction.
+    """
     if not (user := db.session.get(User, db_id)):
         logging.error(f"User with id {db_id} not found")
         return False
@@ -70,6 +73,11 @@ def _set_user_enabled_state(db_id: int, enabled: bool) -> bool:
 
         action = "enabled" if enabled else "disabled"
         if result:
+            user.is_disabled = not enabled
+            if commit:
+                db.session.commit()
+            else:
+                db.session.flush()
             logging.info(
                 f"Successfully {action} user {user.username} (ID: {db_id}) on {user.server.server_type}"
             )
@@ -142,8 +150,10 @@ def list_users_for_server(server: MediaServer):
     return get_client_for_media_server(server).list_users()
 
 
-def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
+def delete_user(db_id: int, commit: bool = True, *, email_event: str = "deleted") -> None:
     """Delete a user from its associated MediaServer and local DB.
+
+    Set ``commit`` to ``False`` when the caller owns the transaction.
 
     Foreign key relationships are handled automatically by SQLite CASCADE/SET NULL:
     - activity_session.wizarr_user_id: CASCADE (auto-deleted)
@@ -208,7 +218,10 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
 
     # Delete the user - SQLite handles all foreign key cascades automatically
     db.session.delete(user)
-    db.session.commit()
+    if commit:
+        db.session.commit()
+    else:
+        db.session.flush()
 
     server_for_email = SimpleNamespace(name=server_name) if server_name else None
     email_user = SimpleNamespace(
@@ -230,14 +243,14 @@ def delete_user(db_id: int, *, email_event: str = "deleted") -> None:
         logging.warning("Failed to send deletion email for user %s: %s", db_id, exc)
 
 
-def enable_user(db_id: int) -> bool:
+def enable_user(db_id: int, *, commit: bool = True) -> bool:
     """Enable a user on its associated MediaServer."""
-    return _set_user_enabled_state(db_id, enabled=True)
+    return _set_user_enabled_state(db_id, enabled=True, commit=commit)
 
 
-def disable_user(db_id: int) -> bool:
+def disable_user(db_id: int, *, commit: bool = True) -> bool:
     """Disable a user on its associated MediaServer."""
-    return _set_user_enabled_state(db_id, enabled=False)
+    return _set_user_enabled_state(db_id, enabled=False, commit=commit)
 
 
 def remove_user_from_server(user_id: int, server_id: int) -> bool:

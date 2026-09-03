@@ -1,6 +1,9 @@
 import datetime
 import logging
 import time
+from contextlib import suppress
+
+from sqlalchemy.exc import ResourceClosedError
 
 from app.extensions import db
 from app.models import ExpiredUser, Invitation, User, invitation_servers
@@ -123,7 +126,7 @@ def delete_user_if_expired() -> list[int]:
             db.session.flush()  # Ensure it's saved before we delete the user
 
             # Delete the user (handles server-specific deletion internally)
-            delete_user(user.id)
+            delete_user(user.id, commit=False)
 
             deleted.append(user.id)
             logging.info(
@@ -135,7 +138,8 @@ def delete_user_if_expired() -> list[int]:
         except Exception as exc:
             # Rollback the savepoint - this removes the ExpiredUser record
             # and keeps the User record for retry on next scheduler run
-            savepoint.rollback()
+            with suppress(ResourceClosedError):
+                savepoint.rollback()
             logging.error(
                 "Failed to delete expired user %s – %s. Will retry on next run.",
                 user.id,
@@ -183,6 +187,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
     expired_rows = User.query.filter(
         User.expires.is_not(None),  # not null
         User.expires < now,
+        User.is_disabled.is_(False),
     ).all()
 
     processed: list[int] = []
@@ -216,7 +221,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
             if should_disable:
                 # Try to disable the user using the service function
                 try:
-                    if disable_user(user.id):
+                    if disable_user(user.id, commit=False):
                         send_user_lifecycle_email(
                             user,
                             event_type="expired",
@@ -225,6 +230,8 @@ def disable_or_delete_user_if_expired() -> list[int]:
                             action_label="disabled",
                         )
                         # Successfully disabled the user
+                        user.is_disabled = True
+                        db.session.flush()
                         processed.append(user.id)
                         logging.info(
                             "🔒 Expired user %s (%s) disabled on %s",
@@ -245,7 +252,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
                         disable_exc,
                     )
                     # Fallback to deletion using service function
-                    delete_user(user.id, email_event="expired")
+                    delete_user(user.id, commit=False, email_event="expired")
                     processed.append(user.id)
                     logging.info(
                         "🗑️ Expired user %s (%s) deleted (disable fallback)",
@@ -257,7 +264,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
                     time.sleep(1)
             else:
                 # Delete the user (either by setting or server doesn't support disable)
-                delete_user(user.id, email_event="expired")
+                delete_user(user.id, commit=False, email_event="expired")
                 processed.append(user.id)
                 action_reason = (
                     "setting" if expiry_action == "delete" else "unsupported"
@@ -274,7 +281,8 @@ def disable_or_delete_user_if_expired() -> list[int]:
         except Exception as exc:
             # Rollback the savepoint - this removes the ExpiredUser record
             # and keeps the User record for retry on next scheduler run
-            savepoint.rollback()
+            with suppress(ResourceClosedError):
+                savepoint.rollback()
             logging.error(
                 "Failed to process expired user %s – %s. Will retry on next run.",
                 user.id,

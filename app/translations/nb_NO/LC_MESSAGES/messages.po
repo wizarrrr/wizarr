@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-08-06 06:04+0000\n"
-"PO-Revision-Date: 2025-11-03 20:08+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"POT-Creation-Date: 2026-09-03 08:03+0000\n"
+"PO-Revision-Date: 2026-08-12 22:34+0000\n"
+"Last-Translator: Thomas Jensen <thomas.jensen1992@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/wizarr/"
 "wizarr-universal/nb_NO/>\n"
 "Language: nb_NO\n"
@@ -17,420 +17,429 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
-#, fuzzy
 msgid "Failed to load settings"
-msgstr "Se etter bibliotek"
+msgstr "Kunne ikke laste inn innstillinger"
 
-#, fuzzy
 msgid "Failed to load dashboard data"
-msgstr "Se etter bibliotek"
+msgstr "Kunne ikke laste inn data for oversikten"
 
-#, fuzzy
 msgid "Failed to load history data"
-msgstr "Se etter bibliotek"
+msgstr "Kunne ikke laste inn historikkdata"
 
-#, fuzzy
 msgid "Failed to load activity data"
-msgstr "Se etter bibliotek"
+msgstr "Kunne ikke laste inn aktivitetsdata"
 
-#, fuzzy
 msgid "Failed to load activity summary"
-msgstr "Se etter bibliotek"
+msgstr "Kunne ikke laste inn aktivitetssammendrag"
 
 msgid "Failed to get activity statistics"
-msgstr ""
+msgstr "Kunne ikke hente aktivitetsstatistikk"
 
 msgid "Database not available"
-msgstr ""
+msgstr "Databasen er ikke tilgjengelig"
 
 msgid "Failed to get session details"
-msgstr ""
+msgstr "Kunne ikke hente øktdetaljer"
 
 msgid "Failed to export activity data"
+msgstr "Kunne ikke eksportere aktivitetsdata"
+
+msgid "enabled"
 msgstr ""
 
-#, fuzzy
+msgid "disabled"
+msgstr ""
+
+#, python-brace-format
+msgid "Activity tracking is {state}. The change can take up to 15 seconds."
+msgstr ""
+
 msgid "Monitoring restarted"
-msgstr "Opprettet"
+msgstr "Overvåkingen ble startet på nytt"
 
 msgid "Monitor not available"
-msgstr ""
+msgstr "Overvåkingen er ikke tilgjengelig"
 
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
-msgstr ""
+msgstr "Ryddet opp i {} gamle aktivitetsoppføringer"
 
 #, python-brace-format
 msgid "Ended {} stale sessions"
-msgstr ""
+msgstr "Avsluttet {} utdaterte økter"
 
 msgid "Unknown action"
-msgstr ""
+msgstr "Ukjent handling"
 
-#, fuzzy
 msgid "Failed to update settings"
-msgstr "Invitasjonskodestreng"
+msgstr "Kunne ikke oppdatere innstillingene"
 
 #, python-brace-format
 msgid "Activity data has been successfully deleted ({} records)."
-msgstr ""
+msgstr "Aktivitetsdata er slettet ({} oppføringer)."
 
 #, python-brace-format
 msgid "Failed to delete activity data: {}"
-msgstr ""
+msgstr "Kunne ikke slette aktivitetsdata: {}"
 
 msgid "Please select a media server."
-msgstr ""
+msgstr "Velg en medieserver."
 
-#, fuzzy
 msgid "Media server not found."
-msgstr "Aldri"
+msgstr "Fant ikke medieserveren."
 
 msgid ""
 "Historical data import is currently only supported for Plex, Jellyfin, Emby, "
 "and AudiobookShelf servers."
 msgstr ""
+"Import av historiske data støttes foreløpig bare for Plex-, Jellyfin-, Emby- "
+"og Audiobookshelf-servere."
 
 #, python-brace-format
 msgid ""
 "Historical import job #{job_id} started for {server} (last {days} days)."
 msgstr ""
+"Historikkimportjobb #{job_id} startet for {server} (siste {days} dager)."
 
 #, python-brace-format
 msgid "Failed to import historical data: {}"
-msgstr ""
+msgstr "Kunne ikke importere historiske data: {}"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully cleared {} historical entries."
-msgstr "Invitasjon generert."
+msgstr "Slettet {} historikkoppføringer."
 
 #, python-brace-format
 msgid "Failed to clear historical data: {}"
-msgstr ""
+msgstr "Kunne ikke slette historiske data: {}"
 
 msgid "Unknown error"
-msgstr ""
+msgstr "Ukjent feil"
 
 msgid "Cannot remove a job that is still queued or running."
-msgstr ""
+msgstr "Kan ikke fjerne en jobb som fortsatt står i kø eller kjører."
 
 msgid "An internal error has occurred."
-msgstr ""
+msgstr "Det oppstod en intern feil."
 
 msgid "Unknown"
-msgstr ""
+msgstr "Ukjent"
 
 msgid "Never"
 msgstr "Aldri"
 
-#, fuzzy
 msgid "Expired"
-msgstr "Utløper"
+msgstr "Utløpt"
 
 #, python-format
 msgid "in %(n)d d"
-msgstr ""
+msgstr "om %(n)d d"
 
 msgid "in 1 d"
-msgstr ""
+msgstr "om 1 d"
 
 #, python-format
 msgid "in %(n)d h"
-msgstr ""
+msgstr "om %(n)d t"
 
 #, python-format
 msgid "in %(n)d m"
-msgstr ""
+msgstr "om %(n)d min"
 
 msgid "soon"
-msgstr ""
+msgstr "snart"
 
-#, fuzzy
 msgid "Admin created"
-msgstr "Opprettet"
+msgstr "Administrator opprettet"
 
 msgid "Admin updated"
-msgstr ""
+msgstr "Administrator oppdatert"
 
 #, python-brace-format
 msgid "All passkeys for {} have been reset"
-msgstr ""
+msgstr "Alle passnøkler for {} er tilbakestilt"
 
 #, python-brace-format
 msgid "Failed to reset passkeys for {}"
-msgstr ""
+msgstr "Kunne ikke tilbakestille passnøkler for {}"
 
 msgid ""
 "No admin account found. Please set up a proper admin account before creating "
 "API keys."
 msgstr ""
+"Ingen administratorkonto funnet. Opprett en gyldig administratorkonto før du "
+"oppretter API-nøkler."
 
 msgid "Failed to create API key due to a database error."
-msgstr ""
+msgstr "Kunne ikke opprette API-nøkkel på grunn av en databasefeil."
 
 msgid ""
 "API key created successfully. Please copy it now as it won't be shown again."
-msgstr ""
+msgstr "API-nøkkelen er opprettet. Kopier den nå, siden den ikke vises igjen."
 
 msgid "API key deleted successfully"
-msgstr ""
+msgstr "API-nøkkelen er slettet"
 
 msgid "LDAP authentication is not enabled"
-msgstr ""
+msgstr "LDAP-autentisering er ikke aktivert"
 
 msgid "LDAP admin authentication is not allowed"
-msgstr ""
+msgstr "LDAP-autentisering for administratorer er ikke tillatt"
 
 msgid "Invalid LDAP credentials"
-msgstr ""
+msgstr "Ugyldig LDAP-legitimasjon"
 
 msgid "User DN not found in LDAP response"
-msgstr ""
+msgstr "Fant ikke bruker-DN i LDAP-svaret"
 
 msgid "User is not authorized as an administrator"
-msgstr ""
+msgstr "Brukeren er ikke autorisert som administrator"
 
 msgid "Login successful"
-msgstr ""
+msgstr "Du er logget inn"
 
 msgid "LDAP authentication failed"
-msgstr ""
+msgstr "LDAP-autentisering mislyktes"
 
-#, fuzzy
 msgid "Invalid username or password"
 msgstr "Ugyldig brukernavn eller passord"
 
 msgid "No pending 2FA authentication"
-msgstr ""
+msgstr "Ingen ventende 2FA-forespørsel"
 
 msgid "Authentication failed"
-msgstr ""
+msgstr "Autentisering mislyktes"
 
 msgid "Connection type is required"
-msgstr ""
+msgstr "Tilkoblingstype må angis"
 
 #, python-format
 msgid "Connection test failed: %(message)s"
-msgstr ""
+msgstr "Tilkoblingstest mislyktes: %(message)s"
 
 msgid "Connection test successful!"
-msgstr ""
+msgstr "Tilkoblingen fungerer!"
 
 msgid "Unknown connection type"
-msgstr ""
+msgstr "Ukjent tilkoblingstype"
 
 msgid "Connection created successfully!"
-msgstr ""
+msgstr "Tilkoblingen er opprettet!"
 
 msgid "Connection updated successfully!"
-msgstr ""
+msgstr "Tilkoblingen er oppdatert!"
 
 msgid "Connection deleted successfully!"
-msgstr ""
+msgstr "Tilkoblingen er slettet!"
 
 msgid "Please refresh the page and try again (CSRF token expired)"
-msgstr ""
+msgstr "Oppdater siden og prøv igjen (CSRF-tokenet er utløpt)"
 
 #, python-format
 msgid "Invalid form data: %(errors)s"
-msgstr ""
+msgstr "Ugyldige skjemadata: %(errors)s"
 
 msgid ""
 "There was an issue setting up your access. Please contact your server admin."
 msgstr ""
+"Det oppsto et problem med å konfigurere tilgangen din. Kontakt "
+"serveradministratoren."
 
 msgid "Settings saved successfully!"
-msgstr ""
+msgstr "Innstillingene er lagret"
 
-#, fuzzy
 msgid "Server URL"
-msgstr "Aldri"
+msgstr "Server-URL"
 
 msgid "API Key"
-msgstr ""
+msgstr "API-nøkkel"
 
-#, fuzzy
 msgid "Username/Password"
-msgstr "Ugyldig brukernavn eller passord"
+msgstr "Brukernavn/passord"
 
 #, python-brace-format
 msgid "Missing required fields: {fields}"
-msgstr ""
+msgstr "Påkrevde felt mangler: {fields}"
 
 msgid "Error"
-msgstr ""
+msgstr "Feil"
 
 msgid "Library scan failed"
-msgstr ""
+msgstr "Biblioteksskanning mislyktes"
 
 #, python-brace-format
 msgid "Successfully cleaned {count} expired user(s)."
-msgstr ""
+msgstr "Ryddet opp i {count} utløpte bruker(e)."
 
 msgid "No expired users found to clean."
-msgstr ""
+msgstr "Fant ingen utløpte brukere å rydde opp i."
 
 msgid ""
 "Are you sure you want to clean all expired users? This action cannot be "
 "undone."
 msgstr ""
+"Er du sikker på at du vil rydde opp i alle utløpte brukere? Handlingen kan "
+"ikke angres."
 
-#, fuzzy
 msgid "Clean Expired Users"
-msgstr "Utløper"
+msgstr "Rydd opp i utløpte brukere"
 
 #, python-brace-format
 msgid "Failed to clean expired users: {error}"
-msgstr ""
+msgstr "Kunne ikke rydde opp i utløpte brukere: {error}"
 
 msgid "LDAP configuration saved successfully"
-msgstr ""
+msgstr "LDAP-konfigurasjonen er lagret"
 
 msgid "LDAP not configured or disabled"
-msgstr ""
+msgstr "LDAP er ikke konfigurert eller er deaktivert"
 
 msgid "No groups found in LDAP"
-msgstr ""
+msgstr "Fant ingen grupper i LDAP"
 
 msgid "LDAP is not configured"
-msgstr ""
+msgstr "LDAP er ikke konfigurert"
 
 #, python-format
 msgid "Failed to list LDAP users: %(error)s"
-msgstr ""
+msgstr "Kunne ikke vise LDAP-brukere: %(error)s"
 
 msgid "Admin account created – welcome!"
-msgstr ""
+msgstr "Administratorkonto opprettet – velkommen!"
 
 msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
 msgstr ""
+"Invitasjonen din er utløpt eller ikke lenger gyldig. Be om en ny invitasjon."
 
 msgid "Error Loading Step"
-msgstr ""
+msgstr "Feil ved innlasting av steg"
 
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip to "
 "the next step."
 msgstr ""
+"Kunne ikke laste dette steget. Kontakt administratoren eller hopp til neste "
+"steg."
 
-#, fuzzy
 msgid "Invalid or expired invitation"
-msgstr "Invitasjoner"
+msgstr "Ugyldig eller utløpt invitasjon"
 
 msgid ""
 "No media servers are configured. Please contact the administrator to set up "
 "a media server."
 msgstr ""
+"Ingen medieservere er konfigurert. Kontakt administratoren for å sette opp "
+"en medieserver."
 
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
+"Kunne ikke laste veivisersteg. Fortsetter til godkjenning av invitasjonen."
 
-#, fuzzy
 msgid "Continue to Invite"
-msgstr "Hurtig Invitasjon"
+msgstr "Fortsett"
 
 msgid "Please log in to continue"
-msgstr ""
+msgstr "Logg inn for å fortsette"
 
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
+"Kunne ikke laste veivisersteg. Alt er klart! Velkommen til medieserveren."
 
 msgid "Setup complete! Welcome to your media server."
-msgstr ""
+msgstr "Alt er klart! Velkommen til medieserveren."
 
 msgid "Unable to load wizard configuration. Please try again."
-msgstr ""
+msgstr "Kunne ikke laste veiviserkonfigurasjonen. Prøv igjen."
 
 msgid "Unable to load wizard bundle. Please try again."
-msgstr ""
+msgstr "Kunne ikke laste veiviserpakken. Prøv igjen."
 
 msgid "Unable to load wizard steps. Please try again."
-msgstr ""
+msgstr "Kunne ikke laste veiviserstegene. Prøv igjen."
 
 msgid "This bundle has no steps to preview."
-msgstr ""
+msgstr "Denne pakken har ingen steg å forhåndsvise."
 
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
-msgstr ""
+msgstr "Ryddet opp i {} foreldreløse steg"
 
-#, fuzzy
 msgid "Step created"
-msgstr "Opprettet"
+msgstr "Steg opprettet"
 
 msgid "Preset step created successfully"
-msgstr ""
+msgstr "Forhåndsinnstilt steg opprettet"
 
 #, python-brace-format
 msgid "Error creating preset: {}"
-msgstr ""
+msgstr "Feil ved oppretting av forhåndsinnstilling: {}"
 
 msgid "Step updated"
-msgstr ""
+msgstr "Steg oppdatert"
 
 msgid "Step deleted"
-msgstr ""
+msgstr "Steg slettet"
 
-#, fuzzy
 msgid "Bundle created"
-msgstr "Opprettet"
+msgstr "Pakke opprettet"
 
 msgid "Bundle updated"
-msgstr ""
+msgstr "Pakke oppdatert"
 
 msgid "Bundle deleted"
-msgstr ""
+msgstr "Pakke slettet"
 
 msgid "Steps added"
-msgstr ""
+msgstr "Steg lagt til"
 
 msgid "Orphaned step removed"
-msgstr ""
+msgstr "Foreldreløst steg fjernet"
 
 #, python-brace-format
 msgid "No steps found for server type: {}"
-msgstr ""
+msgstr "Fant ingen steg for servertypen: {}"
 
 #, python-brace-format
 msgid "Export failed: {}"
-msgstr ""
+msgstr "Eksport mislyktes: {}"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Successfully imported {} items"
-msgstr "Invitasjon generert."
+msgstr "Importerte {} elementer"
 
 #, python-brace-format
 msgid " and updated {} existing items"
-msgstr ""
+msgstr " og oppdaterte {} eksisterende elementer"
 
 #, python-brace-format
 msgid "Import failed: {}"
-msgstr ""
+msgstr "Import mislyktes: {}"
 
 msgid "Invalid JSON file"
-msgstr ""
+msgstr "Ugyldig JSON-fil"
 
 #, python-brace-format
 msgid "Reset {} steps for {} (deleted {}, imported {})"
-msgstr ""
+msgstr "Tilbakestilte {} steg for {} (slettet {}, importerte {})"
 
 #, python-brace-format
 msgid "Failed to reset steps: {}"
-msgstr ""
+msgstr "Kunne ikke tilbakestille steg: {}"
 
 msgid "Password must be at least 8 characters."
-msgstr ""
+msgstr "Passordet må inneholde minst 8 tegn."
 
 msgid ""
 "Password must contain at least one uppercase letter, one lowercase letter, "
 "and one number."
 msgstr ""
+"Passordet må inneholde minst én stor bokstav, én liten bokstav og ett tall."
 
 msgid "Username"
 msgstr "Brukernavn"
@@ -441,284 +450,272 @@ msgstr "Passord"
 msgid "Confirm password"
 msgstr "Bekreft passord"
 
-#, fuzzy
 msgid "Passwords must match."
-msgstr "Passord"
+msgstr "Passordene må være like."
 
-#, fuzzy
 msgid "New Password"
-msgstr "Passord"
+msgstr "Nytt passord"
 
-#, fuzzy
 msgid "Please confirm the new password."
-msgstr "Passord"
+msgstr "Bekreft det nye passordet."
 
-#, fuzzy
 msgid "Server Type"
-msgstr "Aldri"
+msgstr "Servertype"
 
-#, fuzzy
 msgid "Server Name"
-msgstr "Brukernavn"
+msgstr "Servernavn"
 
-#, fuzzy
 msgid "RomM Username"
-msgstr "Brukernavn"
+msgstr "RomM-brukernavn"
 
-#, fuzzy
 msgid "RomM Password"
-msgstr "Passord"
+msgstr "RomM-passord"
 
-#, fuzzy
 msgid "Libraries"
-msgstr "Plex-bibliotek"
+msgstr "Biblioteker"
 
-#, fuzzy
 msgid "Allow Downloads"
-msgstr "Last ned"
+msgstr "Tillat nedlastinger"
 
 msgid "Allow Live TV"
-msgstr ""
+msgstr "Tillat direktesendt TV"
 
 msgid "Overseerr/Ombi URL"
-msgstr ""
+msgstr "Overseerr/Ombi-URL"
 
-#, fuzzy
 msgid "Ombi API Key"
-msgstr "Opprett en konto"
+msgstr "Ombi API-nøkkel"
 
 msgid "Discord ID"
-msgstr ""
+msgstr "Discord-ID"
 
 msgid "External URL"
-msgstr ""
+msgstr "Ekstern URL"
 
 #, python-format
 msgid "Server returned status code %(status_code)s"
-msgstr ""
+msgstr "Serveren returnerte statuskode %(status_code)s"
 
 #, python-format
 msgid "%(server_type)s server returned an error: %(error)s"
-msgstr ""
+msgstr "%(server_type)s-serveren returnerte en feil: %(error)s"
 
 #, python-format
 msgid ""
 "Could not connect to the %(server_type)s server. Please check if the server "
 "is running and the URL is correct."
 msgstr ""
+"Kunne ikke koble til %(server_type)s-serveren. Kontroller at serveren kjører "
+"og at URL-en er riktig."
 
 #, python-format
 msgid ""
 "Connection to %(server_type)s server timed out. Please check if the server "
 "is running and accessible."
 msgstr ""
+"Tilkoblingen til %(server_type)s-serveren fikk tidsavbrudd. Kontroller at "
+"serveren kjører og er tilgjengelig."
 
 #, python-format
 msgid ""
 "An error occurred while connecting to the %(server_type)s server: %(error)s"
 msgstr ""
+"Det oppsto en feil ved tilkobling til %(server_type)s-serveren: %(error)s"
 
 #, python-format
 msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
 msgstr ""
+"Det oppsto en uventet feil ved tilkobling til %(server_type)s-serveren: "
+"%(error)s"
 
 msgid "Plex"
-msgstr ""
+msgstr "Plex"
 
 msgid "Jellyfin"
-msgstr ""
+msgstr "Jellyfin"
 
 msgid "Emby"
-msgstr ""
+msgstr "Emby"
 
 msgid "Audiobookshelf"
-msgstr ""
+msgstr "Audiobookshelf"
 
 msgid "RomM"
-msgstr ""
+msgstr "RomM"
 
 msgid "Komga"
-msgstr ""
+msgstr "Komga"
 
 msgid "Kavita"
-msgstr ""
+msgstr "Kavita"
 
 msgid "Navidrome"
-msgstr ""
+msgstr "Navidrome"
 
 msgid "Invalid API token or insufficient permissions."
-msgstr ""
+msgstr "Ugyldig API-token eller utilstrekkelige tillatelser."
 
 msgid "API token lacks required permissions."
-msgstr ""
+msgstr "API-tokenet mangler nødvendige tillatelser."
 
 msgid "Could not connect to Drop server."
-msgstr ""
+msgstr "Kunne ikke koble til Drop-serveren."
 
 msgid "Connection to Drop server timed out."
-msgstr ""
+msgstr "Tilkoblingen til Drop-serveren fikk tidsavbrudd."
 
 msgid "Drop API not found. Check the server URL."
-msgstr ""
+msgstr "Fant ikke Drop-API-et. Kontroller server-URL-en."
 
 msgid "Drop"
-msgstr ""
+msgstr "Drop"
 
 #, python-brace-format
 msgid "No default steps found for server type: {}"
-msgstr ""
+msgstr "Fant ingen standardsteg for servertypen: {}"
 
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 msgid "Profile"
-msgstr ""
+msgstr "Profil"
 
 msgid "Logout"
-msgstr ""
+msgstr "Logg ut"
 
 msgid "Complete your access"
-msgstr ""
+msgstr "Fullfør tilgangen din"
 
 msgid "Choose a password for the remaining servers"
-msgstr ""
+msgstr "Velg et passord for de gjenværende serverne"
 
-#, fuzzy
 msgid "Confirm Password"
-msgstr "Passord"
+msgstr "Bekreft passord"
 
 msgid "Generate a strong random password instead"
-msgstr ""
+msgstr "Generer et sterkt tilfeldig passord i stedet"
 
 msgid "Continue"
-msgstr ""
+msgstr "Fortsett"
 
 msgid "Complete your account setup for local servers"
-msgstr ""
+msgstr "Fullfør kontooppsettet for lokale servere"
 
 msgid "Complete Your Account Setup"
-msgstr ""
+msgstr "Fullfør kontooppsettet"
 
 msgid "Plex Authentication Complete!"
-msgstr ""
+msgstr "Plex-autentisering fullført!"
 
 msgid "Now please set a password for your local server accounts."
-msgstr ""
+msgstr "Angi nå et passord for kontoene dine på lokale servere."
 
-#, fuzzy
 msgid "Local Servers"
-msgstr "Aldri"
+msgstr "Lokale servere"
 
 msgid "Set Password for Local Servers"
-msgstr ""
+msgstr "Angi passord for lokale servere"
 
 msgid "Error!"
-msgstr ""
+msgstr "Feil!"
 
-#, fuzzy
 msgid "Your username"
-msgstr "Brukernavn"
+msgstr "Brukernavnet ditt"
 
 msgid "Email Address"
-msgstr ""
+msgstr "E-postadresse"
 
 msgid "your.email@example.com"
-msgstr ""
+msgstr "din.epost@eksempel.no"
 
-#, fuzzy
 msgid "Your password"
-msgstr "Passord"
+msgstr "Passordet ditt"
 
 msgid "Confirm your password"
-msgstr ""
+msgstr "Bekreft passordet ditt"
 
 msgid "I agree to the"
-msgstr ""
+msgstr "Jeg godtar"
 
 msgid "Terms and Conditions"
-msgstr ""
+msgstr "Vilkår og betingelser"
 
 msgid "Complete Setup"
-msgstr ""
+msgstr "Fullfør oppsett"
 
-#, fuzzy
 msgid "Setting up..."
-msgstr "-innstillinger"
+msgstr "Setter opp …"
 
 msgid "What happens next?"
-msgstr ""
+msgstr "Hva skjer videre?"
 
 msgid "Your Plex account is already set up and ready to use"
-msgstr ""
+msgstr "Plex-kontoen din er allerede satt opp og klar til bruk"
 
 msgid "This password will be used to create accounts on your local servers"
 msgstr ""
+"Dette passordet brukes til å opprette kontoer på de lokale serverne dine"
 
 msgid "You'll be redirected to the setup wizard to complete configuration"
-msgstr ""
+msgstr "Du blir sendt videre til oppsettsveiviseren for å fullføre oppsettet"
 
 msgid "Only want to use Plex?"
-msgstr ""
+msgstr "Vil du bare bruke Plex?"
 
 msgid "Skip local servers"
-msgstr ""
+msgstr "Hopp over lokale servere"
 
-#, fuzzy
 msgid "Password too short"
-msgstr "Passord"
+msgstr "Passordet er for kort"
 
 msgid "Password strength: Medium"
-msgstr ""
+msgstr "Passordstyrke: Middels"
 
 msgid "Password strength: Strong"
-msgstr ""
+msgstr "Passordstyrke: Sterk"
 
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Passordene er ikke like"
 
-#, fuzzy
 msgid "Wizarr"
-msgstr "Sett opp Wizarr"
+msgstr "Wizarr"
 
-#, fuzzy
 msgid "Invalid Invitation"
-msgstr "Invitasjoner"
+msgstr "Ugyldig invitasjon"
 
 msgid ""
 "This invitation link is no longer valid. Please request a new invitation."
-msgstr ""
+msgstr "Denne invitasjonslenken er ikke lenger gyldig. Be om en ny invitasjon."
 
 msgid "Two-Factor Authentication"
-msgstr ""
+msgstr "Tofaktorautentisering"
 
 msgid "Login"
 msgstr "Logg inn"
 
 msgid "This is the administrator login page."
-msgstr ""
+msgstr "Dette er innloggingssiden for administratorer."
 
 msgid "Go to your media server instead"
-msgstr ""
+msgstr "Gå til medieserveren din i stedet"
 
 #, python-brace-format
 msgid "Welcome back, {}!"
-msgstr ""
+msgstr "Velkommen tilbake, {}!"
 
 msgid "Please authenticate with your passkey to complete login."
-msgstr ""
+msgstr "Autentiser med passnøkkelen din for å fullføre innloggingen."
 
-#, fuzzy
 msgid "Authentication Method"
-msgstr "Invitasjoner"
+msgstr "Autentiseringsmetode"
 
-#, fuzzy
 msgid "Local Account"
-msgstr "Opprett en konto"
+msgstr "Lokal konto"
 
 msgid "LDAP"
-msgstr ""
+msgstr "LDAP"
 
 msgid "Remember me"
 msgstr "Husk meg"
@@ -727,181 +724,173 @@ msgid "Sign in"
 msgstr "Logg inn"
 
 msgid "Authenticate with Passkey"
-msgstr ""
+msgstr "Autentiser med passnøkkel"
 
 msgid "Back to Login"
-msgstr ""
+msgstr "Tilbake til innlogging"
 
 msgid "Or"
-msgstr ""
+msgstr "Eller"
 
 msgid "Sign in with Passkey"
-msgstr ""
+msgstr "Logg inn med passnøkkel"
 
 msgid "Authenticating..."
-msgstr ""
+msgstr "Autentiserer …"
 
 msgid "Failed to complete 2FA login"
-msgstr ""
+msgstr "Kunne ikke fullføre 2FA-innlogging"
 
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
+"Autentisering med passnøkkel mislyktes. Prøv igjen eller bruk passordet ditt."
 
-#, fuzzy
 msgid "Password Reset Error"
-msgstr "Passord"
+msgstr "Feil ved tilbakestilling av passord"
 
 msgid "Error:"
-msgstr ""
+msgstr "Feil:"
 
 msgid "This password reset link is invalid."
-msgstr ""
+msgstr "Denne lenken for tilbakestilling av passord er ugyldig."
 
 msgid "This password reset link has already been used."
-msgstr ""
+msgstr "Denne lenken for tilbakestilling av passord er allerede brukt."
 
 msgid "This password reset link has expired."
-msgstr ""
+msgstr "Denne lenken for tilbakestilling av passord er utløpt."
 
 msgid "This password reset link is malformed."
-msgstr ""
+msgstr "Denne lenken for tilbakestilling av passord har ugyldig format."
 
 msgid "This password reset link is no longer valid."
-msgstr ""
+msgstr "Denne lenken for tilbakestilling av passord er ikke lenger gyldig."
 
 msgid ""
 "Please contact your server administrator to request a new password reset "
 "link."
 msgstr ""
+"Kontakt serveradministratoren for å be om en ny lenke for tilbakestilling av "
+"passord."
 
 msgid "Code:"
-msgstr ""
+msgstr "Kode:"
 
 msgid "Common reasons for this error:"
-msgstr ""
+msgstr "Vanlige årsaker til denne feilen:"
 
 msgid "The link has already been used"
-msgstr ""
+msgstr "Lenken er allerede brukt"
 
 msgid "The link has expired (24 hour limit)"
-msgstr ""
+msgstr "Lenken er utløpt (24-timersgrense)"
 
 msgid "The link was not copied correctly"
-msgstr ""
+msgstr "Lenken ble ikke kopiert riktig"
 
-#, fuzzy
 msgid "Reset Your Password"
-msgstr "Passord"
+msgstr "Tilbakestill passordet ditt"
 
-#, fuzzy
 msgid "Choose a new password"
-msgstr "Passord"
+msgstr "Velg et nytt passord"
 
-#, fuzzy
 msgid "For user:"
-msgstr "Hjem"
+msgstr "For bruker:"
 
 msgid "This link expires on"
-msgstr ""
+msgstr "Denne lenken utløper"
 
 msgid "Enter new password (8-128 characters)"
-msgstr ""
+msgstr "Skriv inn nytt passord (8–128 tegn)"
 
-#, fuzzy
 msgid "Confirm new password"
-msgstr "Passord"
+msgstr "Bekreft nytt passord"
 
-#, fuzzy
 msgid "Password must be:"
-msgstr "Passord"
+msgstr "Passordet må være:"
 
 msgid "Between 8 and 128 characters"
-msgstr ""
+msgstr "Mellom 8 og 128 tegn"
 
 msgid "Match the confirmation"
-msgstr ""
+msgstr "Være likt bekreftelsen"
 
-#, fuzzy
 msgid "Reset Password"
-msgstr "Passord"
+msgstr "Tilbakestill passord"
 
 msgid "Password Reset Successful!"
-msgstr ""
+msgstr "Passordet er tilbakestilt!"
 
-#, fuzzy
 msgid "The password for"
-msgstr "Passord"
+msgstr "Passordet for"
 
 msgid "has been successfully reset."
-msgstr ""
+msgstr "er tilbakestilt."
 
 msgid "You can now use your new password to log in to your media server."
 msgstr ""
+"Du kan nå bruke det nye passordet til å logge inn på medieserveren din."
 
 msgid "What's next?"
-msgstr ""
+msgstr "Hva nå?"
 
 msgid "Log in to your media server with your username and new password."
-msgstr ""
+msgstr "Logg inn på medieserveren med brukernavnet og det nye passordet ditt."
 
 msgid "Administrator"
-msgstr ""
+msgstr "Administrator"
 
 msgid "Change your account password for security."
-msgstr ""
+msgstr "Endre kontopassordet av sikkerhetshensyn."
 
-#, fuzzy
 msgid "Current Password"
-msgstr "Passord"
+msgstr "Nåværende passord"
 
 msgid "Confirm New Password"
-msgstr ""
+msgstr "Bekreft nytt passord"
 
-#, fuzzy
 msgid "Change Password"
-msgstr "Passord"
+msgstr "Endre passord"
 
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
-msgstr "Du har blitt invitert til %(name)s server!"
+msgstr "Du har blitt invitert til å bli med på %(name)s-serveren!"
 
 msgid "You've been invited!"
-msgstr ""
+msgstr "Du har blitt invitert!"
 
-#, fuzzy
 msgid "To join"
-msgstr "Ta del"
+msgstr "For å bli med"
 
 msgid "Join the ultimate media server experience."
-msgstr ""
+msgstr "Bli med på den ultimate medieserveropplevelsen."
 
-#, fuzzy
 msgid "Enter Code to Continue"
-msgstr "Invitasjonskodestreng"
+msgstr "Skriv inn kode for å fortsette"
 
-#, fuzzy
 msgid "Invitation Code"
 msgstr "Invitasjonskode"
 
-#, fuzzy
 msgid "Enter your code"
-msgstr "Invitasjonskode"
+msgstr "Skriv inn koden din"
 
-#, fuzzy
 msgid "Join Server"
-msgstr "Ta del i Plex-tjeneren"
+msgstr "Bli med"
 
 msgid "Secure invitation system powered by Wizarr"
-msgstr ""
+msgstr "Sikkert invitasjonssystem drevet av Wizarr"
 
 msgid "Pop-up blocked. Allow pop-ups for this site and try again."
 msgstr ""
+"Popup-vindu ble blokkert. Tillat popup-vinduer for dette nettstedet og prøv "
+"igjen."
 
 msgid "Sign-in cancelled. Hit Join Server to try again."
-msgstr ""
+msgstr "Innloggingen ble avbrutt. Trykk «Bli med» for å prøve igjen."
 
 msgid "Plex sign-in failed. Try again, or contact your server admin."
 msgstr ""
+"Plex-innlogging mislyktes. Prøv igjen, eller kontakt serveradministratoren."
 
 msgid "Invite User"
 msgstr "Inviter bruker"
@@ -910,605 +899,563 @@ msgid "Accept Invitation"
 msgstr "Godta invitasjon"
 
 msgid "Get ready to join the magic"
-msgstr ""
+msgstr "Gjør deg klar til å bli med"
 
-#, fuzzy
 msgid "Create Account"
-msgstr "Opprett en konto"
+msgstr "Opprett konto"
 
-#, fuzzy
 msgid "Set up your magical account"
-msgstr "Opprett en konto"
+msgstr "Sett opp kontoen din"
 
 msgid "Enter your username"
-msgstr ""
+msgstr "Skriv inn brukernavnet ditt"
 
 msgid "Email"
-msgstr "Epost"
+msgstr "E-post"
 
 msgid "Enter your email"
-msgstr ""
+msgstr "Skriv inn e-postadressen din"
 
-#, fuzzy
 msgid "Create a password"
-msgstr "Opprett en konto"
+msgstr "Opprett et passord"
 
 msgid "Invite Code"
 msgstr "Invitasjonskode"
 
-#, fuzzy
 msgid "Enter invite code"
-msgstr "Invitasjonskode"
+msgstr "Skriv inn invitasjonskode"
 
-#, fuzzy
 msgid "Creating account..."
-msgstr "Opprett en konto"
+msgstr "Oppretter konto …"
 
 msgid "Latest Accepted Invites"
-msgstr ""
+msgstr "Sist aksepterte invitasjoner"
 
 msgid "Recently joined"
-msgstr ""
+msgstr "Nylig blitt med"
 
 msgid "Showing"
-msgstr ""
+msgstr "Viser"
 
 msgid "of"
-msgstr ""
+msgstr "av"
 
 msgid "Prev"
-msgstr ""
+msgstr "Forrige"
 
 msgid "Page"
-msgstr ""
+msgstr "Side"
 
 msgid "Next"
 msgstr "Neste"
 
 msgid "No recent invitations accepted"
-msgstr ""
+msgstr "Ingen nylig aksepterte invitasjoner"
 
 msgid "Accepted invitations will appear here"
-msgstr ""
+msgstr "Aksepterte invitasjoner vises her"
 
 msgid "Dashboard"
-msgstr ""
+msgstr "Oversikt"
 
-#, fuzzy
 msgid "New Invite"
-msgstr "Hurtig Invitasjon"
+msgstr "Ny invitasjon"
 
 msgid "Now Playing"
-msgstr ""
+msgstr "Spilles nå"
 
 msgid "Invitations"
 msgstr "Invitasjoner"
 
 msgid "Library Breakdown"
-msgstr ""
+msgstr "Biblioteksfordeling"
 
-#, fuzzy
 msgid "Per Server"
-msgstr "Aldri"
+msgstr "Per server"
 
-#, fuzzy
 msgid "No libraries found"
-msgstr "Se etter bibliotek"
+msgstr "Fant ingen biblioteker"
 
 msgid "Configure your media servers to see library statistics"
-msgstr ""
+msgstr "Konfigurer medieserverne dine for å se bibliotekstatistikk"
 
-#, fuzzy
 msgid "Failed to load libraries"
-msgstr "Se etter bibliotek"
+msgstr "Kunne ikke laste inn biblioteker"
 
 msgid "Unknown error occurred"
-msgstr ""
+msgstr "Det oppsto en ukjent feil"
 
 msgid "Unable to load now playing"
-msgstr ""
+msgstr "Kunne ikke laste inn «Spilles nå»"
 
 msgid "There was an error connecting to your media servers"
-msgstr ""
+msgstr "Det oppsto en feil ved tilkobling til medieserverne dine"
 
 msgid "No one is streaming"
-msgstr ""
+msgstr "Ingen spiller av noe akkurat nå"
 
 msgid "No active media sessions found across your servers"
-msgstr ""
+msgstr "Ingen aktive medieøkter funnet på serverne dine"
 
 msgid "Recently Added"
-msgstr ""
+msgstr "Nylig lagt til"
 
 msgid "Showing latest 10 items"
-msgstr ""
+msgstr "Viser de 10 nyeste elementene"
 
 msgid "No recent content found"
-msgstr ""
+msgstr "Fant ikke noe nylig innhold"
 
 msgid "Add some content to your media servers to see it here"
-msgstr ""
+msgstr "Legg til innhold på medieserverne dine for å se det her"
 
 msgid "Failed to load recent content"
-msgstr ""
+msgstr "Kunne ikke laste inn nylig innhold"
 
-#, fuzzy
 msgid "Server Health"
-msgstr "Endre tjenerinnstillinger"
+msgstr "Serverstatus"
 
-#, fuzzy
 msgid "Online"
-msgstr "Ta del"
+msgstr "Tilkoblet"
 
 msgid "Offline"
-msgstr ""
+msgstr "Frakoblet"
 
-#, fuzzy
 msgid "Active"
-msgstr "Lagre"
+msgstr "Aktiv"
 
 msgid "Transcoding"
-msgstr ""
+msgstr "Transkoding"
 
 msgid "Users"
 msgstr "Brukere"
 
 msgid "Active Sessions"
-msgstr ""
+msgstr "Aktive økter"
 
 msgid "Server is currently unreachable"
-msgstr ""
+msgstr "Serveren er ikke tilgjengelig akkurat nå"
 
-#, fuzzy
 msgid "servers online"
-msgstr "Endre tjenerinnstillinger"
+msgstr "servere tilkoblet"
 
-#, fuzzy
 msgid "server(s) need attention"
-msgstr "Endre tjenerinnstillinger"
+msgstr "server(e) krever oppfølging"
 
 msgid "No servers configured"
-msgstr ""
+msgstr "Ingen servere konfigurert"
 
 msgid "Add media servers to monitor their health"
-msgstr ""
+msgstr "Legg til medieservere for å overvåke statusen deres"
 
 msgid "Failed to load server health"
-msgstr ""
+msgstr "Kunne ikke laste inn serverstatus"
 
-#, fuzzy
 msgid "Server Overview"
-msgstr "Endre tjenerinnstillinger"
+msgstr "Serveroversikt"
 
 msgid "Items"
-msgstr ""
+msgstr "Elementer"
 
 msgid "Server Breakdown"
-msgstr ""
+msgstr "Serverfordeling"
 
 msgid "No active servers found"
-msgstr ""
+msgstr "Fant ingen aktive servere"
 
 msgid "Failed to load statistics"
-msgstr ""
+msgstr "Kunne ikke laste inn statistikk"
 
 msgid "User Details"
-msgstr ""
+msgstr "Brukerdetaljer"
 
-#, fuzzy
 msgid "Joined"
-msgstr "Ta del"
+msgstr "Ble med"
 
 msgid "Account Details"
-msgstr ""
+msgstr "Kontodetaljer"
 
 msgid "Expires"
 msgstr "Utløper"
 
-#, fuzzy
 msgid "All libraries"
-msgstr "Plex-bibliotek"
+msgstr "Alle biblioteker"
 
-#, fuzzy
 msgid "Permissions"
-msgstr "Tilgang nektet."
+msgstr "Tillatelser"
 
-#, fuzzy
 msgid "Downloads"
-msgstr "Last ned"
+msgstr "Nedlastinger"
 
 msgid "Live TV"
-msgstr ""
+msgstr "Direktesendt TV"
 
 msgid "Camera Upload"
-msgstr ""
+msgstr "Kameraopplasting"
 
 msgid "Basic Access"
-msgstr ""
+msgstr "Grunntilgang"
 
 msgid "Close"
-msgstr ""
+msgstr "Lukk"
 
-#, fuzzy
 msgid "Edit User"
-msgstr "Aldri"
+msgstr "Rediger bruker"
 
 msgid "Close modal"
-msgstr ""
+msgstr "Lukk dialogvindu"
 
 msgid "Tabs"
-msgstr ""
+msgstr "Faner"
 
 msgid "Local"
-msgstr ""
+msgstr "Lokal"
 
 msgid "Notes"
-msgstr ""
+msgstr "Notater"
 
-#, fuzzy
 msgid "Permission Management"
-msgstr "Brukernavn"
+msgstr "Rettighetsstyring"
 
 msgid "Toggle downloads permission"
-msgstr ""
+msgstr "Slå av/på tillatelse for nedlastinger"
 
 msgid "Toggle live TV permission"
-msgstr ""
+msgstr "Slå av/på tillatelse for direktesendt TV"
 
-#, fuzzy
 msgid "Allow Camera Upload"
-msgstr "Last ned"
+msgstr "Tillat kameraopplasting"
 
 msgid "Toggle camera upload permission"
-msgstr ""
+msgstr "Slå av/på tillatelse for kameraopplasting"
 
-#, fuzzy
 msgid "Library Access"
-msgstr "Plex-bibliotek"
+msgstr "Bibliotektilgang"
 
-#, fuzzy
 msgid "No libraries available"
-msgstr "Se etter bibliotek"
+msgstr "Ingen biblioteker tilgjengelig"
 
 msgid "Scan libraries from the invitation page to enable library restrictions"
 msgstr ""
+"Skann biblioteker fra invitasjonssiden for å aktivere bibliotekbegrensninger"
 
 msgid "Click to toggle library access. Updates save automatically."
-msgstr ""
+msgstr "Klikk for å slå bibliotektilgang av/på. Endringer lagres automatisk."
 
-#, fuzzy
 msgid "Expiry Management"
-msgstr "Brukernavn"
+msgstr "Utløpshåndtering"
 
-#, fuzzy
 msgid "Expiry date"
-msgstr "Utløper"
+msgstr "Utløpsdato"
 
 msgid "Update"
-msgstr ""
+msgstr "Oppdater"
 
 msgid "Current expiry"
-msgstr ""
+msgstr "Gjeldende utløp"
 
-#, fuzzy
 msgid "No expiry set"
-msgstr "Utløper"
+msgstr "Ingen utløpsdato angitt"
 
-#, fuzzy
 msgid "User notes"
-msgstr "Brukere"
+msgstr "Brukernotater"
 
 msgid "Add notes about this user..."
-msgstr ""
+msgstr "Legg til notater om denne brukeren …"
 
 msgid "Update Notes"
-msgstr ""
+msgstr "Oppdater notater"
 
-#, fuzzy
 msgid "Link"
-msgstr "Logg inn"
+msgstr "Koble til"
 
 msgid "Unlink"
-msgstr ""
+msgstr "Koble fra"
 
 msgid "Delete"
 msgstr "Slett"
 
 #, python-brace-format
 msgid "Passkeys for {}"
-msgstr ""
+msgstr "Passnøkler for {}"
 
 msgid "Created"
 msgstr "Opprettet"
 
-#, fuzzy
 msgid "Last used"
-msgstr "Brukt"
+msgstr "Sist brukt"
 
 msgid "Reset All Passkeys"
-msgstr ""
+msgstr "Tilbakestill alle passnøkler"
 
 msgid "No passkeys registered for this user."
-msgstr ""
+msgstr "Ingen passnøkler er registrert for denne brukeren."
 
 msgid "Are you sure you want to delete this passkey?"
-msgstr ""
+msgstr "Er du sikker på at du vil slette denne passnøkkelen?"
 
 msgid "Failed to delete passkey"
-msgstr ""
+msgstr "Kunne ikke slette passnøkkelen"
 
 msgid "An error occurred while deleting the passkey"
-msgstr ""
+msgstr "Det oppsto en feil under sletting av passnøkkelen"
 
 #, python-brace-format
 msgid "Are you sure you want to reset ALL passkeys for {}?"
-msgstr ""
+msgstr "Er du sikker på at du vil tilbakestille ALLE passnøkler for {}?"
 
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Denne handlingen kan ikke angres."
 
 msgid "All passkeys have been reset"
-msgstr ""
+msgstr "Alle passnøkler er tilbakestilt"
 
 msgid "Failed to reset passkeys"
-msgstr ""
+msgstr "Kunne ikke tilbakestille passnøkler"
 
 msgid "An error occurred while resetting passkeys"
-msgstr ""
+msgstr "Det oppsto en feil under tilbakestilling av passnøkler"
 
 msgid "Add New Passkey"
-msgstr ""
+msgstr "Legg til ny passnøkkel"
 
-#, fuzzy
 msgid "Passkey Name"
-msgstr "Brukernavn"
+msgstr "Navn på passnøkkel"
 
 msgid "e.g., My iPhone, Work Laptop"
-msgstr ""
+msgstr "f.eks. min iPhone, jobb-PC"
 
 msgid "Cancel"
-msgstr ""
+msgstr "Avbryt"
 
-#, fuzzy
 msgid "Create Passkey"
-msgstr "Opprett en konto"
+msgstr "Opprett passnøkkel"
 
 msgid "Added"
-msgstr ""
+msgstr "Lagt til"
 
 msgid "No passkeys registered"
-msgstr ""
+msgstr "Ingen passnøkler registrert"
 
 msgid "Add your first passkey for enhanced security"
-msgstr ""
+msgstr "Legg til din første passnøkkel for bedre sikkerhet"
 
 msgid "Passkeys"
-msgstr ""
+msgstr "Passnøkler"
 
 msgid "Passkeys require HTTPS connection"
-msgstr ""
+msgstr "Passnøkler krever HTTPS-tilkobling"
 
 msgid "Add Passkey"
-msgstr ""
+msgstr "Legg til passnøkkel"
 
 msgid "To use passkeys, please access this page over HTTPS."
-msgstr ""
+msgstr "For å bruke passnøkler må du åpne denne siden via HTTPS."
 
 msgid "Manage your passkeys for passwordless authentication."
-msgstr ""
+msgstr "Administrer passnøklene dine for passordløs autentisering."
 
 msgid "Loading passkeys..."
-msgstr ""
+msgstr "Laster passnøkler …"
 
 msgid "Creating passkey for"
-msgstr ""
+msgstr "Oppretter passnøkkel for"
 
 msgid "Please follow your device's prompts to complete setup"
-msgstr ""
+msgstr "Følg instruksjonene på enheten din for å fullføre oppsettet"
 
 msgid "Failed to register passkey"
-msgstr ""
+msgstr "Kunne ikke registrere passnøkkel"
 
 msgid "Failed to complete passkey registration"
-msgstr ""
+msgstr "Kunne ikke fullføre registrering av passnøkkel"
 
 msgid "Permission denied."
 msgstr "Tilgang nektet."
 
 msgid "You are attempting to do something you shouldn't be doing..."
-msgstr "Du prøver å utføre noe du ikke burde …"
+msgstr "Du prøver å gjøre noe du ikke burde …"
 
 msgid "Something's missing."
 msgstr "Noe mangler."
 
 msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Finner ikke den siden. Den ser ikke ut til å eksistere."
+msgstr "Beklager, vi finner ikke den siden. Den ser ikke ut til å eksistere!"
 
 msgid "Internal Server Error."
-msgstr "Intern tjenerfeil"
+msgstr "Intern serverfeil."
 
-#, fuzzy
 msgid " Something has gone wrong. Please try again later."
 msgstr " Noe har gått galt. Prøv igjen senere."
 
 msgid "Add steps to bundle"
-msgstr ""
+msgstr "Legg til steg i pakken"
 
-#, fuzzy
 msgid "Untitled"
-msgstr "Ubegrenset"
+msgstr "Uten tittel"
 
 msgid "All steps are already included."
-msgstr ""
+msgstr "Alle steg er allerede inkludert."
 
 msgid "Add"
-msgstr ""
+msgstr "Legg til"
 
 msgid "Add New Connection"
-msgstr ""
+msgstr "Legg til ny tilkobling"
 
 msgid "Edit Connection"
-msgstr ""
+msgstr "Rediger tilkobling"
 
 msgid "Overseerr/Jellyseerr Information"
-msgstr ""
+msgstr "Informasjon om Overseerr/Jellyseerr"
 
 msgid ""
 "Overseerr and Jellyseerr automatically import new users by default. No API "
 "connection is required for Wizarr integration."
 msgstr ""
+"Overseerr og Jellyseerr importerer som standard nye brukere automatisk. Det "
+"kreves ingen API-tilkobling for Wizarr-integrasjon."
 
 msgid "To enable auto-import:"
-msgstr ""
+msgstr "Slik aktiverer du automatisk import:"
 
 msgid ""
 "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
 "users' and 'Import Jellyfin/Plex users'"
 msgstr ""
+"Gå til Overseerr/Jellyseerr → Innstillinger → Brukere → Aktiver «Auto-"
+"approve new users» og «Import Jellyfin/Plex users»"
 
 msgid "Testing connection..."
-msgstr ""
+msgstr "Tester tilkobling …"
 
-#, fuzzy
 msgid "Create Connection"
-msgstr "Opprett invitasjon"
+msgstr "Opprett tilkobling"
 
 msgid "Update Connection"
-msgstr ""
+msgstr "Oppdater tilkobling"
 
 msgid "Test Connection"
-msgstr ""
+msgstr "Test tilkobling"
 
 msgid "Add Administrator"
-msgstr ""
+msgstr "Legg til administrator"
 
-#, fuzzy
 msgid "API Key Created"
-msgstr "Opprettet"
+msgstr "API-nøkkel opprettet"
 
-#, fuzzy
 msgid "Create API Key"
-msgstr "Opprett en konto"
+msgstr "Opprett API-nøkkel"
 
 msgid "API Key Created Successfully"
-msgstr ""
+msgstr "API-nøkkelen er opprettet"
 
 msgid ""
 "Your API key has been created. Please copy it now as it will not be shown "
 "again."
 msgstr ""
+"API-nøkkelen din er opprettet. Kopier den nå, siden den ikke vises igjen."
 
-#, fuzzy
 msgid "Copy to clipboard"
-msgstr "Lenke kopiert til utklippstavlen."
+msgstr "Kopier til utklippstavlen"
 
-#, fuzzy
 msgid "Name:"
-msgstr "Brukernavn"
+msgstr "Navn:"
 
 msgid "Done"
-msgstr ""
+msgstr "Ferdig"
 
 msgid "API Key Name"
-msgstr ""
+msgstr "Navn på API-nøkkel"
 
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
+"Skriv inn et beskrivende navn som gjør det enkelt å identifisere API-"
+"nøkkelen senere."
 
 msgid "New Agent"
-msgstr ""
+msgstr "Ny agent"
 
 msgid "Channel ID"
-msgstr ""
+msgstr "Kanal-ID"
 
 msgid "Bot Token"
-msgstr ""
+msgstr "Bot-token"
 
 msgid "Chat ID"
-msgstr ""
+msgstr "Chat-ID"
 
-#, fuzzy
 msgid "Username (optional)"
-msgstr "(valgfritt)"
+msgstr "Brukernavn (valgfritt)"
 
-#, fuzzy
 msgid "Password (optional)"
-msgstr "(valgfritt)"
+msgstr "Passord (valgfritt)"
 
 msgid "Agent URL"
-msgstr ""
+msgstr "Agent-URL"
 
-#, fuzzy
 msgid "Notification Events"
-msgstr "Invitasjoner"
+msgstr "Varslingshendelser"
 
-#, fuzzy
 msgid "User Joined"
-msgstr "Ta del"
+msgstr "Bruker ble med"
 
 msgid "Update Available"
-msgstr ""
+msgstr "Oppdatering tilgjengelig"
 
 msgid "Test & Create Agent"
-msgstr ""
+msgstr "Test og opprett agent"
 
-#, fuzzy
 msgid "Add Server"
-msgstr "Aldri"
+msgstr "Legg til server"
 
 msgid "Test & Add"
-msgstr ""
+msgstr "Test og legg til"
 
 msgid "Edit Administrator"
-msgstr ""
+msgstr "Rediger administrator"
 
-#, fuzzy
 msgid "New Password (optional)"
-msgstr "(valgfritt)"
+msgstr "Nytt passord (valgfritt)"
 
 msgid "Save"
 msgstr "Lagre"
 
 msgid "Edit Identity"
-msgstr ""
+msgstr "Rediger identitet"
 
 msgid "Nickname"
-msgstr ""
+msgstr "Kallenavn"
 
-#, fuzzy
 msgid "Edit Agent"
-msgstr "Opprett en konto"
+msgstr "Rediger agent"
 
 msgid "Name"
-msgstr "Brukernavn"
+msgstr "Navn"
 
-#, fuzzy
 msgid "Notification Service"
-msgstr "Invitasjoner"
+msgstr "Varslingstjeneste"
 
 msgid "Test & Save Changes"
-msgstr ""
+msgstr "Test og lagre endringer"
 
-#, fuzzy
 msgid "Edit Server"
-msgstr "Aldri"
+msgstr "Rediger server"
 
 msgid "Create Invitation"
 msgstr "Opprett invitasjon"
 
-#, fuzzy
 msgid "Invitation Created"
-msgstr "Invitasjoner"
+msgstr "Invitasjon opprettet"
 
 msgid "Invite Code String"
-msgstr "Invitasjonskodestreng"
+msgstr "Invitasjonskode"
 
-#, fuzzy
 msgid "optional"
-msgstr "(valgfritt)"
+msgstr "valgfritt"
 
 msgid "E.g. XMFGEJIKNQ"
-msgstr ""
+msgstr "f.eks. XMFGEJIKNQ"
 
 msgid "Expiration"
 msgstr "Utløp"
@@ -1523,820 +1470,805 @@ msgid "1 month"
 msgstr "1 måned"
 
 msgid "Wizard bundle"
-msgstr ""
+msgstr "Veiviserpakke"
 
 msgid "Automatic"
-msgstr ""
+msgstr "Automatisk"
 
 msgid "Advanced Options"
-msgstr "Avanserte Innstillinger"
+msgstr "Avanserte alternativer"
 
-#, fuzzy
 msgid "Invite Settings"
-msgstr "Invitasjonskodestreng"
+msgstr "Invitasjonsinnstillinger"
 
 msgid "Unlimited Usages"
 msgstr "Ubegrenset bruk"
 
-#, fuzzy
 msgid "Duration"
-msgstr "Utløp"
+msgstr "Varighet"
 
-#, fuzzy
 msgid "in days"
-msgstr "1 dag"
+msgstr "i dager"
 
 msgid "Show Information"
-msgstr ""
+msgstr "Vis informasjon"
 
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
 msgstr ""
+"Når dette er angitt, fjernes inviterte brukere fra Plex-serveren etter et "
+"bestemt antall dager. (1–999)"
 
-#, fuzzy
 msgid "LDAP Integration"
-msgstr "Opprett invitasjon"
+msgstr "LDAP-integrasjon"
 
-#, fuzzy
 msgid "Create LDAP User"
-msgstr "Opprett en konto"
+msgstr "Opprett LDAP-bruker"
 
 msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
+msgstr "Opprett automatisk en LDAP-bruker når denne invitasjonen godtas"
 
-#, fuzzy
 msgid "Target servers"
-msgstr "Aldri"
+msgstr "Målservere"
 
-#, fuzzy
 msgid "Invite to Plex Home"
-msgstr "Invitasjonskode"
+msgstr "Inviter til Plex Home"
 
 msgid "Allow Live TV Access"
-msgstr ""
+msgstr "Tillat direktesendt TV"
 
-#, fuzzy
 msgid "Allow Mobile Uploads"
-msgstr "Last ned"
+msgstr "Tillat mobilopplastinger"
 
 msgid "Max Active Sessions"
-msgstr ""
+msgstr "Maks. aktive økter"
 
 msgid "simultaneous devices"
-msgstr ""
+msgstr "samtidige enheter"
 
 msgid ""
 "Number of devices that can stream simultaneously. Set to 0 for unlimited."
-msgstr ""
+msgstr "Antall enheter som kan strømme samtidig. Sett til 0 for ubegrenset."
 
-#, fuzzy
 msgid "Select Libraries"
-msgstr "Plex-bibliotek"
+msgstr "Velg biblioteker"
 
-#, fuzzy
 msgid "Loading…"
-msgstr "Logg inn"
+msgstr "Laster …"
 
 msgid "Successfully generated an Invitation!"
-msgstr "Invitasjon generert."
+msgstr "Invitasjonen er opprettet!"
 
-#, fuzzy
 msgid "Invitation Link"
-msgstr "Invitasjoner"
+msgstr "Invitasjonslenke"
 
 msgid "Copy"
 msgstr "Kopier"
 
 msgid "Link has been copied to clipboard!"
-msgstr "Lenke kopiert til utklippstavlen."
+msgstr "Lenken er kopiert til utklippstavlen!"
 
-#, fuzzy
 msgid "Create Another"
-msgstr "Opprett en konto"
+msgstr "Opprett en til"
 
 msgid "Please select at least one server for the invitation."
-msgstr ""
+msgstr "Velg minst én server for invitasjonen."
 
-#, fuzzy
 msgid "Password Reset Link"
-msgstr "(valgfritt)"
+msgstr "Lenke for tilbakestilling av passord"
 
 msgid "Generate Password Reset Link"
-msgstr ""
+msgstr "Generer lenke for tilbakestilling av passord"
 
-#, fuzzy
 msgid "Password reset link for"
-msgstr "Passord"
+msgstr "Lenke for tilbakestilling av passord for"
 
-#, fuzzy
 msgid "Link expires:"
-msgstr "Utløper"
+msgstr "Lenken utløper:"
 
 msgid "Reset Link (Click to copy)"
-msgstr ""
+msgstr "Tilbakestillingslenke (klikk for å kopiere)"
 
 msgid ""
 "Send this link to the user. They can use it once to reset their password."
 msgstr ""
+"Send denne lenken til brukeren. Den kan brukes én gang til å tilbakestille "
+"passordet."
 
 msgid "Reset Code"
-msgstr ""
+msgstr "Tilbakestillingskode"
 
-#, fuzzy
 msgid "Security Notes:"
-msgstr "Brukere"
+msgstr "Sikkerhetsmerknader:"
 
 msgid "This link can only be used once"
-msgstr ""
+msgstr "Denne lenken kan bare brukes én gang"
 
 msgid "It expires in 24 hours"
-msgstr ""
+msgstr "Den utløper om 24 timer"
 
 msgid "Send it securely (email, message, etc.)"
-msgstr ""
+msgstr "Send den på en sikker måte (e-post, melding osv.)"
 
 msgid "Generate a secure password reset link for"
-msgstr ""
+msgstr "Generer en sikker lenke for tilbakestilling av passord for"
 
-#, fuzzy
 msgid "Generate Reset Link"
-msgstr "Endre tjenerinnstillinger"
+msgstr "Generer tilbakestillingslenke"
 
 msgid "The link will be valid for 24 hours and can only be used once."
-msgstr ""
+msgstr "Lenken er gyldig i 24 timer og kan bare brukes én gang."
 
-#, fuzzy
 msgid "Copy Link"
-msgstr "Logg inn"
+msgstr "Kopier lenke"
 
-#, fuzzy
 msgid "Copied!"
-msgstr "Ta del"
+msgstr "Kopiert!"
 
-#, fuzzy
 msgid "Reset link copied to clipboard!"
-msgstr "Lenke kopiert til utklippstavlen."
+msgstr "Tilbakestillingslenken er kopiert til utklippstavlen!"
 
 msgid "Please manually copy the link"
-msgstr ""
+msgstr "Kopier lenken manuelt"
 
 msgid "Import Wizard Steps"
-msgstr ""
+msgstr "Importer veivisersteg"
 
 msgid "Click to upload"
-msgstr ""
+msgstr "Klikk for å laste opp"
 
 msgid "or drag and drop"
-msgstr ""
+msgstr "eller dra og slipp"
 
 msgid "JSON files only"
-msgstr ""
+msgstr "Kun JSON-filer"
 
-#, fuzzy
 msgid "Import Options"
-msgstr "(valgfritt)"
+msgstr "Importalternativer"
 
 msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
 "steps will be merged with existing ones."
 msgstr ""
+"Når dette er valgt, erstattes eksisterende steg. Når det ikke er valgt, slås "
+"importerte steg sammen med de eksisterende."
 
 msgid "Important Notice"
-msgstr ""
+msgstr "Viktig merknad"
 
 msgid ""
 "This action will modify your wizard steps configuration. Make sure to backup "
 "your current steps before importing if you want to preserve them."
 msgstr ""
+"Denne handlingen endrer konfigurasjonen av veiviserstegene dine. Ta "
+"sikkerhetskopi av gjeldende steg før import hvis du vil bevare dem."
 
 msgid "Import Steps"
-msgstr ""
+msgstr "Importer steg"
 
 msgid "Add Preset Wizard Step"
-msgstr ""
+msgstr "Legg til forhåndsinnstilt veivisersteg"
 
 msgid "Choose when this step should be shown to users"
-msgstr ""
+msgstr "Velg når dette steget skal vises til brukerne"
 
 msgid "Your Discord server ID"
-msgstr ""
+msgstr "Discord-server-ID-en din"
 
 msgid "URL to your Overseerr/Ombi instance"
-msgstr ""
+msgstr "URL til Overseerr/Ombi-instansen din"
 
-#, fuzzy
 msgid "Create Step"
-msgstr "Opprett en konto"
+msgstr "Opprett steg"
 
 msgid "Add..."
-msgstr ""
+msgstr "Legg til …"
 
 msgid "Widgets"
-msgstr ""
+msgstr "Widgeter"
 
 msgid "Recently Added Media"
-msgstr ""
+msgstr "Nylig lagt til medier"
 
 msgid "Show recent content"
-msgstr ""
+msgstr "Vis nylig innhold"
 
 msgid "Button"
-msgstr ""
+msgstr "Knapp"
 
 msgid "Add a clickable link button"
-msgstr ""
+msgstr "Legg til en klikkbar lenkeknapp"
 
-#, fuzzy
 msgid "Elements"
-msgstr "Opprett en konto"
+msgstr "Elementer"
 
 msgid "Card"
-msgstr ""
+msgstr "Kort"
 
 msgid "Add a styled content card"
-msgstr ""
+msgstr "Legg til et formatert innholdskort"
 
 msgid "Delete API Key"
-msgstr ""
+msgstr "Slett API-nøkkel"
 
 msgid "No API keys"
-msgstr ""
+msgstr "Ingen API-nøkler"
 
 msgid "Get started by creating a new API key."
-msgstr ""
+msgstr "Kom i gang ved å opprette en ny API-nøkkel."
 
-#, fuzzy
 msgid "Media Servers"
-msgstr "Aldri"
+msgstr "Medieservere"
 
 msgid "Type"
-msgstr ""
+msgstr "Type"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "Verified"
-msgstr ""
+msgstr "Verifisert"
 
 msgid "Actions"
-msgstr "Invitasjoner"
+msgstr "Handlinger"
 
 msgid "Edit"
-msgstr ""
+msgstr "Rediger"
 
 msgid "Delete this server?"
-msgstr ""
+msgstr "Vil du slette denne serveren?"
 
 msgid "No servers configured yet."
-msgstr ""
+msgstr "Ingen servere er konfigurert ennå."
 
-#, fuzzy
 msgid "Administrators"
-msgstr "Invitasjoner"
+msgstr "Administratorer"
 
 msgid "Manage Passkeys"
-msgstr ""
+msgstr "Administrer passnøkler"
 
 msgid "No administrators yet."
-msgstr ""
+msgstr "Ingen administratorer ennå."
 
 msgid "Add Admin"
-msgstr ""
+msgstr "Legg til administrator"
 
 msgid "API Keys"
-msgstr ""
+msgstr "API-nøkler"
 
 msgid "Connections"
-msgstr ""
+msgstr "Tilkoblinger"
 
 msgid "Manage external service connections for automated user invitations"
 msgstr ""
+"Administrer tilkoblinger til eksterne tjenester for automatiserte "
+"brukerinvitasjoner"
 
-#, fuzzy
 msgid "Add Connection"
-msgstr "Avanserte Innstillinger"
+msgstr "Legg til tilkobling"
 
 msgid "Connection Name"
-msgstr ""
+msgstr "Tilkoblingsnavn"
 
-#, fuzzy
 msgid "Media Server"
-msgstr "Aldri"
+msgstr "Medieserver"
 
 msgid "Overseerr (Info)"
-msgstr ""
+msgstr "Overseerr (info)"
 
 msgid "Ombi"
-msgstr ""
+msgstr "Ombi"
 
 msgid "Audiobookrequest"
-msgstr ""
+msgstr "Audiobookrequest"
 
 msgid "Auto-import enabled"
-msgstr ""
+msgstr "Automatisk import aktivert"
 
 msgid "Are you sure you want to delete this connection?"
-msgstr ""
+msgstr "Er du sikker på at du vil slette denne tilkoblingen?"
 
 msgid "No connections configured"
-msgstr ""
+msgstr "Ingen tilkoblinger er konfigurert"
 
 msgid ""
 "Connect your external services to automate user invitations when invites are "
 "created for specific media servers."
 msgstr ""
+"Koble til eksterne tjenester for å automatisere brukerinvitasjoner når "
+"invitasjoner opprettes for bestemte medieservere."
 
 msgid "Add Your First Connection"
-msgstr ""
+msgstr "Legg til din første tilkobling"
 
-#, fuzzy
 msgid "General Settings"
-msgstr "Endre tjenerinnstillinger"
+msgstr "Generelle innstillinger"
 
 msgid "Configure your application's basic settings and preferences"
-msgstr ""
+msgstr "Konfigurer grunnleggende innstillinger og preferanser for programmet"
 
-#, fuzzy
 msgid "Version"
-msgstr "Tilgang nektet."
+msgstr "Versjon"
 
 msgid "Display"
-msgstr ""
+msgstr "Visning"
 
 msgid "Configure how your application appears to users"
-msgstr ""
+msgstr "Konfigurer hvordan programmet vises for brukerne"
 
 msgid "Access Control"
-msgstr ""
+msgstr "Tilgangskontroll"
 
 msgid "Manage user access and permissions"
-msgstr ""
+msgstr "Administrer brukertilgang og tillatelser"
 
 msgid "Control access to the wizard setup process"
-msgstr ""
+msgstr "Kontroller tilgang til oppsettsveiviseren"
 
-#, fuzzy
 msgid "User Management"
-msgstr "Brukernavn"
+msgstr "Brukeradministrasjon"
 
 msgid "Configure how users are managed when invitations expire"
-msgstr ""
+msgstr "Konfigurer hvordan brukere håndteres når invitasjoner utløper"
 
-#, fuzzy
 msgid "Server Capabilities"
-msgstr "Endre tjenerinnstillinger"
+msgstr "Serverfunksjoner"
 
 msgid "Supports Disable:"
-msgstr ""
+msgstr "Støtter deaktivering:"
 
-#, fuzzy
 msgid "Delete Only:"
-msgstr "Opprett en konto"
+msgstr "Kun sletting:"
 
 msgid ""
 "If 'Disable User' is selected but the server does not support it, the user "
 "will be deleted instead."
 msgstr ""
+"Hvis «Deaktiver bruker» er valgt, men serveren ikke støtter dette, slettes "
+"brukeren i stedet."
 
 msgid "Choose what happens to users when their invitation expires"
-msgstr ""
+msgstr "Velg hva som skal skje med brukere når invitasjonen deres utløper"
 
 msgid "Immediately process all expired users based on the expiry action above"
 msgstr ""
+"Behandle alle utløpte brukere umiddelbart i henhold til utløpshandlingen "
+"ovenfor"
 
 msgid "API Key Management"
-msgstr ""
+msgstr "Administrasjon av API-nøkler"
 
 msgid "Manage API keys for accessing Wizarr programmatically"
-msgstr ""
+msgstr "Administrer API-nøkler for programmatisk tilgang til Wizarr"
 
 msgid "Your API Keys"
-msgstr ""
+msgstr "Dine API-nøkler"
 
 msgid "Create and manage API keys for external applications"
-msgstr ""
+msgstr "Opprett og administrer API-nøkler for eksterne programmer"
 
 msgid "Loading API keys..."
-msgstr ""
+msgstr "Laster API-nøkler …"
 
-#, fuzzy
 msgid "Save Settings"
-msgstr "Endre tjenerinnstillinger"
+msgstr "Lagre innstillinger"
 
 msgid "Settings"
-msgstr "-innstillinger"
+msgstr "Innstillinger"
 
 msgid "Manage your application settings and preferences"
-msgstr ""
+msgstr "Administrer programinnstillinger og preferanser"
 
 msgid "General"
-msgstr ""
+msgstr "Generelt"
 
 msgid "Alerts"
-msgstr ""
+msgstr "Varsler"
 
-#, fuzzy
 msgid "Servers"
-msgstr "Aldri"
+msgstr "Servere"
 
-#, fuzzy
 msgid "Activity"
-msgstr "Lagre"
+msgstr "Aktivitet"
 
 msgid "Admins"
-msgstr ""
+msgstr "Administratorer"
 
 msgid "Wizard"
-msgstr ""
+msgstr "Veiviser"
 
 msgid "Audit"
-msgstr ""
+msgstr "Revisjonslogg"
 
-#, fuzzy
 msgid "LDAP Settings"
-msgstr "Endre tjenerinnstillinger"
+msgstr "LDAP-innstillinger"
 
-#, fuzzy
 msgid "Experimental"
-msgstr "Opprett en konto"
+msgstr "Eksperimentelt"
 
 msgid "Configure LDAP for user authentication and management"
-msgstr ""
+msgstr "Konfigurer LDAP for brukerautentisering og administrasjon"
 
 msgid "Enable LDAP"
-msgstr ""
+msgstr "Aktiver LDAP"
 
 msgid "Turn on LDAP integration"
-msgstr ""
+msgstr "Slå på LDAP-integrasjon"
 
-#, fuzzy
 msgid "Connection"
-msgstr "Avanserte Innstillinger"
+msgstr "Tilkobling"
 
-#, fuzzy
 msgid "LDAP server connection"
-msgstr "Opprett invitasjon"
+msgstr "LDAP-servertilkobling"
 
 msgid "e.g., ldap://server:3890 or ldaps://server:6360"
-msgstr ""
+msgstr "f.eks. ldap://server:3890 eller ldaps://server:6360"
 
-#, fuzzy
 msgid "Use TLS"
-msgstr "Brukere"
+msgstr "Bruk TLS"
 
 msgid "Verify Cert"
-msgstr ""
+msgstr "Verifiser sertifikat"
 
 msgid "Encrypted before storage"
-msgstr ""
+msgstr "Kryptert før lagring"
 
-#, fuzzy
 msgid "User & Group Settings"
-msgstr "Endre tjenerinnstillinger"
+msgstr "Bruker- og gruppeinnstillinger"
 
 msgid "Where to find users and groups"
-msgstr ""
+msgstr "Hvor brukere og grupper finnes"
 
 msgid "Optional - only needed for admin group restriction"
-msgstr ""
+msgstr "Valgfritt – bare nødvendig ved begrensning til administratorgruppe"
 
 msgid "Sync Groups"
-msgstr ""
+msgstr "Synkroniser grupper"
 
 msgid "Sync LDAP groups to populate admin group selection"
-msgstr ""
+msgstr "Synkroniser LDAP-grupper for å fylle ut valg av administratorgruppe"
 
-#, fuzzy
 msgid "Advanced Settings"
-msgstr "Endre tjenerinnstillinger"
+msgstr "Avanserte innstillinger"
 
 msgid ""
 "Defaults are optimized for LLDAP. Only change if using a different LDAP "
 "server."
 msgstr ""
+"Standardverdiene er optimalisert for LLDAP. Endre bare hvis du bruker en "
+"annen LDAP-server."
 
 msgid "Manage all users - both LDAP and local authentication"
-msgstr ""
+msgstr "Administrer alle brukere – både LDAP- og lokal autentisering"
 
 msgid "Sync from LDAP"
-msgstr ""
+msgstr "Synkroniser fra LDAP"
 
 msgid ""
 "Users can authenticate via LDAP or locally. Sync automatically imports new "
 "users from LDAP."
 msgstr ""
+"Brukere kan autentisere via LDAP eller lokalt. Synkronisering importerer "
+"automatisk nye brukere fra LDAP."
 
 msgid "Admin Authentication"
-msgstr ""
+msgstr "Administratorautentisering"
 
 msgid "Allow administrators to log in using LDAP"
-msgstr ""
+msgstr "Tillat administratorer å logge inn med LDAP"
 
 msgid "Allow Admin Login via LDAP"
-msgstr ""
+msgstr "Tillat administratorinnlogging via LDAP"
 
 msgid "Enable admin login using LDAP credentials"
-msgstr ""
+msgstr "Aktiver administratorinnlogging med LDAP-legitimasjon"
 
 msgid "Optional: Restrict admin access to members of this LDAP group"
 msgstr ""
+"Valgfritt: Begrens administratortilgang til medlemmer av denne LDAP-gruppen"
 
 msgid "Notification Agents"
-msgstr ""
+msgstr "Varslingsagenter"
 
 msgid "Configure notification services to alert you about important events"
-msgstr ""
+msgstr "Konfigurer varslingstjenester for viktige hendelser"
 
-#, fuzzy
 msgid "Add Agent"
-msgstr "Opprett en konto"
+msgstr "Legg til agent"
 
-#, fuzzy
 msgid "Edit agent"
-msgstr "Opprett en konto"
+msgstr "Rediger agent"
 
 msgid "Are you sure you want to delete"
-msgstr ""
+msgstr "Er du sikker på at du vil slette"
 
-#, fuzzy
 msgid "Delete agent"
-msgstr "Opprett en konto"
+msgstr "Slett agent"
 
 msgid "Status"
-msgstr ""
+msgstr "Status"
 
-#, fuzzy
 msgid "Events"
-msgstr "Aldri"
+msgstr "Hendelser"
 
-#, fuzzy
 msgid "No notification agents"
-msgstr "Invitasjoner"
+msgstr "Ingen varslingsagenter"
 
 msgid "Get started by creating your first notification agent"
-msgstr ""
+msgstr "Kom i gang ved å opprette din første varslingsagent"
 
-#, fuzzy
 msgid "Unverified"
-msgstr "Ubegrenset"
+msgstr "Ikke verifisert"
 
 msgid "Checking..."
-msgstr ""
+msgstr "Sjekker …"
 
 msgid "Create a new external service connection for automated user invitations"
 msgstr ""
+"Opprett en ny tilkobling til en ekstern tjeneste for automatiserte "
+"brukerinvitasjoner"
 
 msgid "Update the connection settings"
-msgstr ""
+msgstr "Oppdater tilkoblingsinnstillingene"
 
 msgid "Select the type of connection to configure"
-msgstr ""
+msgstr "Velg typen tilkobling som skal konfigureres"
 
 msgid "A friendly name to identify this connection"
-msgstr ""
+msgstr "Et beskrivende navn for å identifisere denne tilkoblingen"
 
 msgid "Which media server should trigger invitations to this external service"
 msgstr ""
+"Hvilken medieserver som skal utløse invitasjoner til denne eksterne tjenesten"
 
 msgid "Open your Overseerr/Jellyseerr admin panel"
-msgstr ""
+msgstr "Åpne administratorpanelet i Overseerr/Jellyseerr"
 
 msgid "Navigate to Settings → Users"
-msgstr ""
+msgstr "Gå til Innstillinger → Brukere"
 
 msgid "Enable 'Auto-approve new users'"
-msgstr ""
+msgstr "Aktiver «Auto-approve new users»"
 
 msgid "Enable 'Import Jellyfin/Plex users'"
-msgstr ""
+msgstr "Aktiver «Import Jellyfin/Plex users»"
 
 msgid "The full URL to your external service instance"
-msgstr ""
+msgstr "Full URL til den eksterne tjenesten"
 
 msgid "API key from your external service settings"
-msgstr ""
+msgstr "API-nøkkel fra innstillingene for den eksterne tjenesten"
 
 msgid "Default Steps"
-msgstr ""
+msgstr "Standardsteg"
 
 msgid "Custom Bundles"
-msgstr ""
+msgstr "Egendefinerte pakker"
 
 msgid "Import"
-msgstr ""
+msgstr "Importer"
 
 msgid "Import Configuration"
-msgstr ""
+msgstr "Importer konfigurasjon"
 
 msgid "Import steps or bundles from JSON file"
-msgstr ""
+msgstr "Importer steg eller pakker fra JSON-fil"
 
-#, fuzzy
 msgid "Create"
-msgstr "Opprettet"
+msgstr "Opprett"
 
 msgid "Add a new wizard step"
-msgstr ""
+msgstr "Legg til et nytt veivisersteg"
 
-#, fuzzy
 msgid "Add Step to Bundle"
-msgstr "Opprettet"
+msgstr "Legg steg til pakke"
 
 msgid "No bundles available yet"
-msgstr ""
+msgstr "Ingen pakker tilgjengelig ennå"
 
 msgid "Add Preset"
-msgstr ""
+msgstr "Legg til forhåndsinnstilling"
 
 msgid "Create step from template"
-msgstr ""
+msgstr "Opprett steg fra mal"
 
-#, fuzzy
 msgid "Create Bundle"
-msgstr "Opprettet"
+msgstr "Opprett pakke"
 
 msgid "Create a collection of steps"
-msgstr ""
+msgstr "Opprett en samling med steg"
 
 msgid "No bundles found."
-msgstr ""
+msgstr "Fant ingen pakker."
 
 msgid "Preview Wizard"
-msgstr ""
+msgstr "Forhåndsvis veiviser"
 
 #, python-format
 msgid "Export %(bundle_name)s Bundle"
-msgstr ""
+msgstr "Eksporter %(bundle_name)s-pakken"
 
 msgid "Are you sure you want to delete this bundle?"
-msgstr ""
+msgstr "Er du sikker på at du vil slette denne pakken?"
 
 msgid "Before Invite Acceptance"
-msgstr ""
+msgstr "Før invitasjonen godtas"
 
 msgid "Steps shown to users before they accept the invitation"
-msgstr ""
+msgstr "Steg som vises før brukeren godtar invitasjonen"
 
 msgid "Are you sure you want to delete this step?"
-msgstr ""
+msgstr "Er du sikker på at du vil slette dette steget?"
 
 msgid "No pre-invite steps configured"
-msgstr ""
+msgstr "Ingen steg før invitasjon er konfigurert"
 
-#, fuzzy
 msgid "After Invite Acceptance"
-msgstr "Invitasjonskode"
+msgstr "Etter at invitasjonen er godtatt"
 
 msgid "Steps shown to users after they accept the invitation"
-msgstr ""
+msgstr "Steg som vises etter at brukeren har godtatt invitasjonen"
 
 msgid "No post-invite steps configured"
-msgstr ""
+msgstr "Ingen steg etter invitasjon er konfigurert"
 
 msgid "Additional Categories"
-msgstr ""
+msgstr "Flere kategorier"
 
 msgid "Steps that use custom categories keep their order here."
-msgstr ""
+msgstr "Steg som bruker egendefinerte kategorier, beholder rekkefølgen her."
 
 msgid "Orphaned Steps"
-msgstr ""
+msgstr "Foreldreløse steg"
 
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
 msgstr ""
+"Disse oppføringene har ikke lenger et tilknyttet steg. Fjern dem for å holde "
+"pakken ryddig."
 
 msgid "Step deleted (orphaned)"
-msgstr ""
+msgstr "Steg slettet (foreldreløst)"
 
 msgid "Are you sure you want to remove this orphaned step?"
-msgstr ""
+msgstr "Er du sikker på at du vil fjerne dette foreldreløse steget?"
 
 msgid "Remove orphaned step"
-msgstr ""
+msgstr "Fjern foreldreløst steg"
 
 msgid "Preview"
-msgstr ""
+msgstr "Forhåndsvis"
 
 msgid "Import Wizard Configuration"
-msgstr ""
+msgstr "Importer veiviserkonfigurasjon"
 
 msgid ""
 "Import wizard steps or bundles from a JSON file to quickly set up or restore "
 "your wizard configuration."
 msgstr ""
+"Importer veivisersteg eller pakker fra en JSON-fil for raskt å sette opp "
+"eller gjenopprette veiviserkonfigurasjonen."
 
 msgid "Select JSON File"
-msgstr ""
+msgstr "Velg JSON-fil"
 
 msgid "Steps or Bundle JSON files only (MAX. 10MB)"
-msgstr ""
+msgstr "Kun JSON-filer for steg eller pakker (maks. 10 MB)"
 
 msgid ""
 "When checked, all existing wizard steps and bundles will be removed and "
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
 msgstr ""
+"Når dette er valgt, fjernes alle eksisterende veivisersteg og pakker og "
+"erstattes med den importerte konfigurasjonen. Når det ikke er valgt, legges "
+"importerte elementer til ved siden av eksisterende."
 
 msgid "Important: Backup Recommended"
-msgstr ""
+msgstr "Viktig: Sikkerhetskopi anbefales"
 
 msgid ""
 "This action will modify your wizard configuration. Consider the following:"
-msgstr ""
+msgstr "Denne handlingen endrer veiviserkonfigurasjonen. Vurder følgende:"
 
 msgid "Export your current steps and bundles first as a backup"
-msgstr ""
+msgstr "Eksporter gjeldende steg og pakker først som sikkerhetskopi"
 
 msgid "Imported steps will use the file's step ordering and server types"
-msgstr ""
+msgstr "Importerte steg bruker rekkefølgen og servertypene fra filen"
 
 msgid "Imported bundles will preserve their step associations and ordering"
-msgstr ""
+msgstr "Importerte pakker beholder tilknytning og rekkefølge for steg"
 
 msgid ""
 "If replacing existing configuration, all current steps and bundles will be "
 "permanently removed"
 msgstr ""
+"Hvis eksisterende konfigurasjon erstattes, fjernes alle gjeldende steg og "
+"pakker permanent"
 
 msgid "Invalid or malformed JSON files will be rejected"
-msgstr ""
+msgstr "Ugyldige eller feilformaterte JSON-filer avvises"
 
 msgid "Expected JSON Format"
-msgstr ""
+msgstr "Forventet JSON-format"
 
 msgid "The JSON file can contain steps or bundles:"
-msgstr ""
+msgstr "JSON-filen kan inneholde steg eller pakker:"
 
 msgid "For steps export:"
-msgstr ""
+msgstr "For eksport av steg:"
 
 msgid "For bundle export:"
-msgstr ""
+msgstr "For eksport av pakke:"
 
 msgid "Back to Steps"
-msgstr ""
+msgstr "Tilbake til steg"
 
 msgid "Please select a JSON file to import."
-msgstr ""
+msgstr "Velg en JSON-fil som skal importeres."
 
 msgid "Please select a valid JSON file."
-msgstr ""
+msgstr "Velg en gyldig JSON-fil."
 
 msgid ""
 "This will permanently replace all existing wizard configuration (steps and "
 "bundles). Are you sure you want to continue?"
 msgstr ""
+"Dette erstatter all eksisterende veiviserkonfigurasjon (steg og pakker) "
+"permanent. Er du sikker på at du vil fortsette?"
 
 msgid "Wizard Steps"
-msgstr ""
+msgstr "Veivisersteg"
 
 msgid "Manage your wizard steps and bundles for user onboarding"
-msgstr ""
+msgstr "Administrer veivisersteg og pakker for introduksjon av brukere"
 
 msgid "No wizard steps found"
-msgstr ""
+msgstr "Fant ingen veivisersteg"
 
 msgid "Get started by creating your first wizard step"
-msgstr ""
+msgstr "Kom i gang ved å opprette ditt første veivisersteg"
 
 msgid "Server"
-msgstr "Aldri"
+msgstr "Server"
 
 msgid "steps configured"
-msgstr ""
+msgstr "steg konfigurert"
 
-#, fuzzy
 msgid "Untitled Step"
-msgstr "Ubegrenset bruk"
+msgstr "Steg uten tittel"
 
 msgid "Step"
-msgstr ""
+msgstr "Steg"
 
 msgid "Edit step"
-msgstr ""
+msgstr "Rediger steg"
 
 msgid "Delete step"
-msgstr ""
+msgstr "Slett steg"
 
 msgid "No steps found."
-msgstr ""
+msgstr "Fant ingen steg."
 
 #, python-format
 msgid ""
 "Are you sure you want to reset all steps for %(server)s to defaults? This "
 "will delete all custom steps and reimport the default ones."
 msgstr ""
+"Er du sikker på at du vil tilbakestille alle steg for %(server)s til "
+"standard? Dette sletter alle egendefinerte steg og importerer "
+"standardstegene på nytt."
 
 #, python-format
 msgid "Reset %(server)s Steps to Defaults"
-msgstr ""
+msgstr "Tilbakestill %(server)s-steg til standard"
 
 #, python-format
 msgid "Export %(server)s Steps"
-msgstr ""
+msgstr "Eksporter %(server)s-steg"
 
 msgid "Setup Wizarr"
 msgstr "Sett opp Wizarr"
@@ -2348,87 +2280,658 @@ msgid "Unlimited"
 msgstr "Ubegrenset"
 
 msgid "There are currently no invitations."
-msgstr ""
+msgstr "Det finnes ingen invitasjoner akkurat nå."
 
-#, fuzzy
 msgid "Used by"
-msgstr "Brukt"
+msgstr "Brukt av"
 
 msgid "Used"
 msgstr "Brukt"
 
-#, fuzzy
 msgid "Not used yet"
-msgstr "Brukt"
+msgstr "Ikke brukt ennå"
 
-#, fuzzy
 msgid "Bundle"
-msgstr "Opprettet"
+msgstr "Pakke"
 
-#, fuzzy
 msgid "days"
-msgstr "1 dag"
+msgstr "dager"
 
 msgid "Default"
-msgstr ""
+msgstr "Standard"
 
 msgid "Copy invite link"
-msgstr ""
+msgstr "Kopier invitasjonslenke"
 
-#, fuzzy
 msgid "Delete invite"
-msgstr "Opprett invitasjon"
+msgstr "Slett invitasjon"
 
 msgid "There are currently no users."
-msgstr ""
+msgstr "Det finnes ingen brukere akkurat nå."
 
 msgid "Edit nickname"
-msgstr ""
+msgstr "Rediger kallenavn"
 
 msgid "Home User"
-msgstr "Inviter bruker"
+msgstr "Hjemmebruker"
 
-#, fuzzy
 msgid "Invited"
-msgstr "Invitasjonskode"
+msgstr "Invitert"
 
 msgid "Disabled"
-msgstr ""
+msgstr "Deaktivert"
 
 msgid "Downloads enabled"
-msgstr ""
+msgstr "Nedlastinger aktivert"
 
 msgid "Live TV enabled"
-msgstr ""
+msgstr "Direktesendt TV aktivert"
 
-#, fuzzy
 msgid "View details"
-msgstr "Invitasjoner"
+msgstr "Vis detaljer"
 
-#, fuzzy
 msgid "Edit user"
-msgstr "Aldri"
+msgstr "Rediger bruker"
 
-#, fuzzy
 msgid "Reset password"
-msgstr "Passord"
+msgstr "Tilbakestill passord"
 
-#, fuzzy
 msgid "Remove user"
-msgstr "Hjem"
+msgstr "Fjern bruker"
 
-#, fuzzy
 msgid "Before Invitation"
-msgstr "Opprett invitasjon"
+msgstr "Før invitasjon"
 
-#, fuzzy
 msgid "After Invitation"
-msgstr "Opprett invitasjon"
+msgstr "Etter invitasjon"
 
 msgid "Previous"
-msgstr ""
+msgstr "Forrige"
 
 msgid "Click the link in this step to be able to continue"
+msgstr "Klikk på lenken i dette steget for å kunne fortsette"
+
+msgid "What is Audiobookshelf?"
+msgstr ""
+
+msgid "Welcome to Our Audiobookshelf Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **audiobook & podcast library** "
+"through Audiobookshelf!"
+msgstr ""
+
+msgid ""
+"Audiobookshelf is a self-hosted audiobook and podcast server that lets "
+"people share their audio collections with friends and family. If you're "
+"here, it means you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "What You'll Get"
+msgstr ""
+
+msgid "Access to our constantly updated audiobooks and podcasts"
+msgstr ""
+
+msgid "Listen on-demand or download for offline listening"
+msgstr ""
+
+msgid "Track your progress across all devices"
+msgstr ""
+
+msgid "Download Audiobookshelf Clients"
+msgstr ""
+
+msgid ""
+"Audiobookshelf has many clients from which you can listen to our audiobooks!"
+msgstr ""
+
+msgid "Listen Anywhere"
+msgstr ""
+
+msgid ""
+"Audiobookshelf works almost everywhere — install the app on your favourite "
+"devices:"
+msgstr ""
+
+msgid "Web App"
+msgstr ""
+
+msgid "Tips for the best experience"
+msgstr ""
+
+msgid "Get the best listening experience"
+msgstr ""
+
+msgid ""
+"Audiobookshelf offers great features, but here's how to make sure you get "
+"the best experience:"
+msgstr ""
+
+msgid "Download for offline listening"
+msgstr ""
+
+msgid "Tap any audiobook → Download to enjoy without internet"
+msgstr ""
+
+msgid "Adjust playback speed"
+msgstr ""
+
+msgid "Player controls → set speed from 0.5x to 3x"
+msgstr ""
+
+msgid "Enable sleep timer"
+msgstr ""
+
+msgid "Perfect for bedtime listening — auto-stops playback"
+msgstr ""
+
+msgid "Happy listening!"
+msgstr ""
+
+msgid "Go to Audiobookshelf"
+msgstr ""
+
+msgid "What is Emby?"
+msgstr ""
+
+msgid "Welcome to Our Emby Server"
+msgstr ""
+
+msgid "Great news — you now have access to our **media library** through Emby!"
+msgstr ""
+
+msgid ""
+"Emby is a powerful media server that lets people share their film and TV "
+"libraries with friends and family. If you're here, it means you've been "
+"invited to join ours — welcome!"
+msgstr ""
+
+msgid "Access to our constantly updated list of movies and shows"
+msgstr ""
+
+msgid "Watch on-demand or download for offline viewing"
+msgstr ""
+
+msgid "Personalised watchlists & recommendations"
+msgstr ""
+
+msgid "Download Emby Clients"
+msgstr ""
+
+msgid "Emby has many clients from which you can view our media!"
+msgstr ""
+
+msgid "Watch Anywhere"
+msgstr ""
+
+msgid ""
+"Emby works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "Mobile"
+msgstr ""
+
+msgid "iOS & Android phones/tablets"
+msgstr ""
+
+msgid "Desktop"
+msgstr ""
+
+msgid "Windows, macOS, Linux"
+msgstr ""
+
+msgid "Smart TVs & Streaming Devices"
+msgstr ""
+
+msgid "Apple TV, Fire TV, Roku, Chromecast, Android TV"
+msgstr ""
+
+msgid "Consoles"
+msgstr ""
+
+msgid "PlayStation & Xbox"
+msgstr ""
+
+msgid "Watch instantly in your browser"
+msgstr ""
+
+msgid "⬇️ Download Emby Clients"
+msgstr ""
+
+msgid "Get the best quality"
+msgstr ""
+
+msgid ""
+"Emby offers great quality, but here's how to make sure you get the best "
+"experience:"
+msgstr ""
+
+msgid "Force original quality"
+msgstr ""
+
+msgid "Settings → Playback → set"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "Maximum"
+msgstr ""
+
+msgid "Enable hardware decoding"
+msgstr ""
+
+msgid "Settings → Playback → enable for smoother 4K"
+msgstr ""
+
+msgid "Use a wired connection"
+msgstr ""
+
+msgid "if you're on a smart-TV for stutter-free 4K."
+msgstr ""
+
+msgid "Happy viewing!"
+msgstr ""
+
+msgid "Go to Emby"
+msgstr ""
+
+msgid "What is Jellyfin?"
+msgstr ""
+
+msgid "Welcome to Our Jellyfin Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **media library** through Jellyfin!"
+msgstr ""
+
+msgid ""
+"Jellyfin is a free, open-source media server that lets people share their "
+"film and TV libraries with friends and family. If you're here, it means "
+"you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "Download Jellyfin Clients"
+msgstr ""
+
+msgid "Jellyfin has many clients from which you can view our media!"
+msgstr ""
+
+msgid ""
+"Jellyfin works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "⬇️ Download Jellyfin Clients"
+msgstr ""
+
+msgid ""
+"Jellyfin offers great quality, but here's how to make sure you get the best "
+"experience:"
+msgstr ""
+
+msgid "Go to Jellyfin"
+msgstr ""
+
+msgid "Welcome to your digital library"
+msgstr ""
+
+msgid "Great news! You now have access to our comic and manga collection."
+msgstr ""
+
+msgid ""
+"Kavita lets people share their digital libraries with friends. Read comics, "
+"manga, and books directly in your browser or mobile app."
+msgstr ""
+
+msgid "How do I read stuff?"
+msgstr ""
+
+msgid ""
+"Open Kavita in your browser, sign in with your new account, and start "
+"reading. You can also use mobile apps for a better experience."
+msgstr ""
+
+msgid "Open Kavita"
+msgstr ""
+
+msgid "Want to read on your phone?"
+msgstr ""
+
+msgid "Download a comic reader app for the best mobile experience."
+msgstr ""
+
+msgid "Android"
+msgstr ""
+
+msgid "Popular manga reader with Kavita support"
+msgstr ""
+
+msgid "Great for comics and books"
+msgstr ""
+
+msgid "iOS"
+msgstr ""
+
+msgid "Premium comic reader with Kavita integration"
+msgstr ""
+
+msgid "Full-featured comic reader"
+msgstr ""
+
+msgid "Connect your app"
+msgstr ""
+
+msgid "Use this OPDS URL in your reader app:"
+msgstr ""
+
+msgid "Login with your Kavita username and password."
+msgstr ""
+
+msgid "Your library includes"
+msgstr ""
+
+msgid ""
+"Browse collections of comics, manga, light novels, and digital books. "
+"Everything is organized by series and automatically tracks your reading "
+"progress."
+msgstr ""
+
+msgid "Cool features"
+msgstr ""
+
+msgid "Pick up exactly where you left off"
+msgstr ""
+
+msgid "Create custom reading lists"
+msgstr ""
+
+msgid "Find content by title, author, or genre"
+msgstr ""
+
+msgid "Easy on the eyes for night reading"
+msgstr ""
+
+msgid "Get the best reading experience"
+msgstr ""
+
+msgid "Kavita has some handy settings to make reading more comfortable:"
+msgstr ""
+
+msgid "Set reading direction"
+msgstr ""
+
+msgid "Settings → Reader → set manga to right-to-left"
+msgstr ""
+
+msgid "Enable dark mode"
+msgstr ""
+
+msgid "Perfect for night reading"
+msgstr ""
+
+msgid "Use keyboard shortcuts"
+msgstr ""
+
+msgid "Space for next page, arrows to navigate"
+msgstr ""
+
+msgid "What is Komga?"
+msgstr ""
+
+msgid "Welcome to Our Komga Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **digital comic and manga library** "
+"through Komga!"
+msgstr ""
+
+msgid ""
+"Komga is a free, open-source media server designed specifically for comics, "
+"manga, and digital books. If you're here, it means you've been invited to "
+"join our library — welcome!"
+msgstr ""
+
+msgid "Access to our constantly updated collection of comics and manga"
+msgstr ""
+
+msgid "Read online directly in your browser"
+msgstr ""
+
+msgid "Download for offline reading on your favorite devices"
+msgstr ""
+
+msgid "Track your reading progress automatically"
+msgstr ""
+
+msgid "Support for multiple formats (CBZ, CBR, PDF, EPUB)"
+msgstr ""
+
+msgid "Download Komga Clients"
+msgstr ""
+
+msgid ""
+"Komga has many compatible readers from which you can enjoy your comics and "
+"manga!"
+msgstr ""
+
+msgid "Read Anywhere"
+msgstr ""
+
+msgid ""
+"Komga works with many popular comic readers — install apps on your favorite "
+"devices:"
+msgstr ""
+
+msgid "iOS (Panels, Chunky) & Android (Mihon/Tachiyomi, Komga Client)"
+msgstr ""
+
+msgid "Windows (CDisplayEx, YACReader), macOS & Linux (YACReader)"
+msgstr ""
+
+msgid "Tablets"
+msgstr ""
+
+msgid "iPad & Android tablets with comic reader apps"
+msgstr ""
+
+msgid "Read instantly in your browser at"
+msgstr ""
+
+msgid "E-Readers"
+msgstr ""
+
+msgid "KOReader and other OPDS-compatible readers"
+msgstr ""
+
+msgid "📚 View Compatible Readers"
+msgstr ""
+
+msgid "Library Features"
+msgstr ""
+
+msgid "Komga Features"
+msgstr ""
+
+msgid "Discover all the features available to enhance your reading experience!"
+msgstr ""
+
+msgid "Reading Experience"
+msgstr ""
+
+msgid "Webtoon Mode"
+msgstr ""
+
+msgid "Perfect for manga and webtoons with continuous scrolling"
+msgstr ""
+
+msgid "Page-by-Page"
+msgstr ""
+
+msgid "Traditional comic book reading experience"
+msgstr ""
+
+msgid "Zoom & Pan"
+msgstr ""
+
+msgid "Get detailed views of artwork"
+msgstr ""
+
+msgid "Auto Bookmarks"
+msgstr ""
+
+msgid "Your progress is saved automatically"
+msgstr ""
+
+msgid "Organization"
+msgstr ""
+
+msgid "Series Collections"
+msgstr ""
+
+msgid "Browse comics organized by series"
+msgstr ""
+
+msgid "Custom Collections"
+msgstr ""
+
+msgid "Curated collections by themes and genres"
+msgstr ""
+
+msgid "Smart Tags"
+msgstr ""
+
+msgid "Filter by genres, authors, publishers, and more"
+msgstr ""
+
+msgid "Advanced Search"
+msgstr ""
+
+msgid "Find specific titles instantly"
+msgstr ""
+
+msgid "Personal Features"
+msgstr ""
+
+msgid "Reading Progress"
+msgstr ""
+
+msgid "Track which issues you've completed"
+msgstr ""
+
+msgid "Continue Reading"
+msgstr ""
+
+msgid "Reading Lists"
+msgstr ""
+
+msgid "Create and manage custom reading lists"
+msgstr ""
+
+msgid "On Deck"
+msgstr ""
+
+msgid "See your next suggested reads"
+msgstr ""
+
+msgid ""
+"Komga offers a great reading experience, but here's how to make it even "
+"better:"
+msgstr ""
+
+msgid "Choose the right reader mode"
+msgstr ""
+
+msgid "Use webtoon mode for manga, page-by-page for traditional comics"
+msgstr ""
+
+msgid "Adjust reading direction"
+msgstr ""
+
+msgid "Settings → Reader → set right-to-left for manga"
+msgstr ""
+
+msgid "Easier on your eyes during night reading sessions"
+msgstr ""
+
+msgid "Use full-screen mode"
+msgstr ""
+
+msgid "Press F11 in browser for distraction-free reading"
+msgstr ""
+
+msgid "Download for offline"
+msgstr ""
+
+msgid "Download comics to mobile apps for reading without internet"
+msgstr ""
+
+msgid "Happy reading!"
+msgstr ""
+
+msgid "Go to Komga"
+msgstr ""
+
+msgid "What is Plex?"
+msgstr ""
+
+msgid "Welcome to Our Plex Server"
+msgstr ""
+
+msgid "Great news — you now have access to our **media library** through Plex!"
+msgstr ""
+
+msgid ""
+"Plex lets people share their film and TV libraries with friends and family. "
+"If you're here, it means you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "Download Plex Clients"
+msgstr ""
+
+msgid "Plex has many clients from which you can view our media!"
+msgstr ""
+
+msgid ""
+"Plex works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "Apple TV, Fire TV, Roku, Chromecast"
+msgstr ""
+
+msgid "⬇️ Download Plex Clients"
+msgstr ""
+
+msgid ""
+"Plex sometimes defaults to low quality or shows its own adverts first. "
+"Here's how to fix that:"
+msgstr ""
+
+msgid "Disable trailers & extras"
+msgstr ""
+
+msgid "Settings → Experience → untick"
+msgstr ""
+
+msgid "Show cinematic trailers"
+msgstr ""
+
+msgid "Original"
+msgstr ""
+
+msgid "Go to Plex"
+msgstr ""
+
+msgid "Welcome to RomM"
+msgstr ""
+
+msgid "Great news! You now have access to our game collection."
+msgstr ""
+
+msgid "Open RomM"
 msgstr ""
 
 #~ msgid "Invitation Details"

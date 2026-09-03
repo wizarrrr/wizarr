@@ -6,7 +6,7 @@ set for invites that carry none of their own. Library scans must therefore not
 reset it, and the legacy settings scan must not delete rows it does not own.
 """
 
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from app.models import AdminAccount, Library, MediaServer
 
@@ -291,3 +291,77 @@ def test_legacy_settings_scan_does_not_delete_other_servers_libraries(client, se
     # the unbound staging rows are still replaced, which is this route's job
     unbound = {lib.external_id for lib in Library.query.filter_by(server_id=None).all()}
     assert unbound == {"9"}
+
+
+# --- startup scan -----------------------------------------------------------
+# scan_all_server_libraries runs from create_app on every boot. It used to carry
+# its own copy of the upsert, which re-enabled every existing library it saw, so
+# a disabled library came back on the next restart. It now delegates to
+# upsert_scanned_libraries like the admin-triggered scans do.
+
+
+def _startup_scan(scan_result, authoritative=True):
+    """Drive the startup scan with a stubbed media client.
+
+    Patches the client factory rather than scan_libraries_for_server so the test
+    exercises whatever path the scanner takes internally, and fails on behaviour
+    rather than on which helper happens to be called.
+    """
+    from app.services.library_scanner import scan_all_server_libraries
+
+    client = Mock()
+    client.libraries.return_value = scan_result
+    client.libraries_scan_authoritative.return_value = authoritative
+
+    with patch(
+        "app.services.media.service.get_client_for_media_server",
+        return_value=client,
+    ):
+        return scan_all_server_libraries(show_logs=False)
+
+
+def test_startup_scan_preserves_disabled_libraries(session):
+    """A restart must not re-share a library the admin excluded."""
+    server = _server(session)
+    _libs(
+        session,
+        server,
+        {"1": ("Movies", True), "2": ("TV Shows", True), "3": ("Home Video", False)},
+    )
+
+    total, errors = _startup_scan(SCAN_RESULT)
+
+    assert errors == []
+    assert total == 3
+    assert _enabled_map(server.id) == {"1": True, "2": True, "3": False}
+
+
+def test_startup_scan_renames_without_re_enabling(session):
+    server = _server(session)
+    _libs(session, server, {"3": ("Old Name", False)})
+
+    _startup_scan({"3": "New Name"})
+
+    lib = Library.query.filter_by(external_id="3").one()
+    assert lib.name == "New Name"
+    assert lib.enabled is False
+
+
+def test_startup_scan_inserts_new_libraries_enabled(session):
+    server = _server(session)
+    _libs(session, server, {"1": ("Movies", True)})
+
+    _startup_scan(SCAN_RESULT)
+
+    assert _enabled_map(server.id) == {"1": True, "2": True, "3": True}
+
+
+def test_startup_scan_ignores_an_empty_result(session):
+    """An empty scan must not wipe the admin's defaults, as Plex can transiently
+    return no sections. The old inline upsert disabled or deleted everything."""
+    server = _server(session)
+    _libs(session, server, {"1": ("Movies", True), "3": ("Home Video", False)})
+
+    _startup_scan({})
+
+    assert _enabled_map(server.id) == {"1": True, "3": False}

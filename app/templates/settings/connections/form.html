@@ -79,7 +79,7 @@
             <!-- Connection Type -->
             <div>
               {{ form.connection_type.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-              {{ form.connection_type(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary", onchange="this.form.submit()") }}
+              {{ form.connection_type(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary", onchange="this.form.submit() ") }}
               {% if form.connection_type.errors %}
                 <div class="mt-1 text-sm text-red-600 dark:text-red-400">
                   {% for error in form.connection_type.errors %}<p>{{ error }}</p>{% endfor %}
@@ -89,8 +89,8 @@
             </div>
             <!-- Connection Name -->
             <div>
-              {{ form.name.label(class="block mb-2 text-sm font-medium " + ("text-gray-500" if form.connection_type.data == 'overseerr' else "text-gray-900 dark:text-white") ) }}
-              {{ form.name(class="text-sm rounded-lg block w-full p-2.5 " + ("bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" if form.connection_type.data == 'overseerr' else "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary") , disabled=(form.connection_type.data == 'overseerr')) }}
+              {{ form.name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.name(class="text-sm rounded-lg block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary") }}
               {% if form.name.errors %}
                 <div class="mt-1 text-sm text-red-600 dark:text-red-400">
                   {% for error in form.name.errors %}<p>{{ error }}</p>{% endfor %}
@@ -100,8 +100,8 @@
             </div>
             <!-- Media Server -->
             <div>
-              {{ form.media_server_id.label(class="block mb-2 text-sm font-medium " + ("text-gray-500" if form.connection_type.data == 'overseerr' else "text-gray-900 dark:text-white") ) }}
-              {{ form.media_server_id(class="text-sm rounded-lg block w-full p-2.5 " + ("bg-gray-100 border-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:border-gray-600 dark:text-gray-400" if form.connection_type.data == 'overseerr' else "bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary") , disabled=(form.connection_type.data == 'overseerr')) }}
+              {{ form.media_server_id.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ form.media_server_id(class="text-sm rounded-lg block w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 focus:ring-primary focus:border-primary dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary") }}
               {% if form.media_server_id.errors %}
                 <div class="mt-1 text-sm text-red-600 dark:text-red-400">
                   {% for error in form.media_server_id.errors %}<p>{{ error }}</p>{% endfor %}
