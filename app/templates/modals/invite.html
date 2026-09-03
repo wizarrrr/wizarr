@@ -277,6 +277,7 @@
                                    type="number"
                                    min="0"
                                    max="100"
+                                   {% if s.max_active_sessions is not none %}value="{{ s.max_active_sessions }}"{% endif %}
                                    placeholder="0 = unlimited"
                                    class="mt-1 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
                             <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
