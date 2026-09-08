@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-09-07 08:18+0000\n"
-"PO-Revision-Date: 2026-05-30 06:30+0000\n"
-"Last-Translator: nicobubulle <nicobubulle@gmail.com>\n"
+"PO-Revision-Date: 2026-09-08 08:05+0000\n"
+"Last-Translator: Damien Macq <damien@macq.xyz>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/fr/>\n"
 "Language: fr\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.9.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 msgid "Failed to load settings"
@@ -127,7 +127,7 @@ msgstr ""
 "cours d’exécution."
 
 msgid "An internal error has occurred."
-msgstr "Une erreur interne s'est produite"
+msgstr "Une erreur interne s'est produite."
 
 msgid "Unknown"
 msgstr "Inconnu(e)"
@@ -470,7 +470,7 @@ msgid "New Password"
 msgstr "Nouveau mot de passe"
 
 msgid "Please confirm the new password."
-msgstr "Veuillez confirmer le nouveau mot de passe"
+msgstr "Veuillez confirmer le nouveau mot de passe."
 
 msgid "Server Type"
 msgstr "Type de serveur"
@@ -499,9 +499,8 @@ msgstr "URL Overseerr/Ombi"
 msgid "Ombi API Key"
 msgstr "Clé d'API Ombi"
 
-#, fuzzy
 msgid "Discord ID"
-msgstr "Votre ID de serveur Discord"
+msgstr "Votre ID Discord"
 
 msgid "External URL"
 msgstr "URL externe"
@@ -576,10 +575,10 @@ msgid "API token lacks required permissions."
 msgstr "Le jeton d'API n'a pas les autorisations nécessaires."
 
 msgid "Could not connect to Drop server."
-msgstr ""
+msgstr "Impossible de se connecter au serveur Drop."
 
 msgid "Connection to Drop server timed out."
-msgstr ""
+msgstr "La connexion au serveur Drop a expiré."
 
 msgid "Drop API not found. Check the server URL."
 msgstr ""
@@ -587,9 +586,9 @@ msgstr ""
 msgid "Drop"
 msgstr ""
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "No default steps found for server type: {}"
-msgstr "Aucune étape trouvée pour le type de serveur : {}"
+msgstr "Pas d'étapes par défaut trouvées pour le type de serveur: {}"
 
 msgid "Admin"
 msgstr "Administrateur"
@@ -604,17 +603,16 @@ msgid "Complete your access"
 msgstr "Complétez votr accès"
 
 msgid "Choose a password for the remaining servers"
-msgstr ""
+msgstr "Choisissez un mot de passe pour les serveurs restants"
 
-#, fuzzy
 msgid "Confirm Password"
-msgstr "Mot de passe"
+msgstr "Confirmer le mot de passe"
 
 msgid "Generate a strong random password instead"
-msgstr ""
+msgstr "Générez plutôt un mot de passe fort aléatoire"
 
 msgid "Continue"
-msgstr ""
+msgstr "Continuer"
 
 msgid "Complete your account setup for local servers"
 msgstr ""
@@ -628,9 +626,8 @@ msgstr ""
 msgid "Now please set a password for your local server accounts."
 msgstr ""
 
-#, fuzzy
 msgid "Local Servers"
-msgstr "Serveur"
+msgstr "Serveurs locaux"
 
 msgid "Set Password for Local Servers"
 msgstr ""
@@ -664,9 +661,8 @@ msgstr ""
 msgid "Complete Setup"
 msgstr ""
 
-#, fuzzy
 msgid "Setting up..."
-msgstr "Paramètres"
+msgstr "Configuration..."
 
 msgid "What happens next?"
 msgstr ""
@@ -686,9 +682,8 @@ msgstr ""
 msgid "Skip local servers"
 msgstr ""
 
-#, fuzzy
 msgid "Password too short"
-msgstr "Mot de passe"
+msgstr "Mot de passe trop court"
 
 msgid "Password strength: Medium"
 msgstr ""
@@ -699,9 +694,8 @@ msgstr ""
 msgid "Passwords do not match"
 msgstr ""
 
-#, fuzzy
 msgid "Wizarr"
-msgstr "Assistant"
+msgstr "Wizarr"
 
 msgid "Invalid Invitation"
 msgstr "Invitation Invalide"
@@ -816,13 +810,11 @@ msgstr ""
 msgid "Reset Your Password"
 msgstr "Mot de passe"
 
-#, fuzzy
 msgid "Choose a new password"
-msgstr "Modifier le mot de passe"
+msgstr "Choisissez un nouveau mot de passe"
 
-#, fuzzy
 msgid "For user:"
-msgstr "Supprimer l'utilisateur"
+msgstr "Pour l'utilisateur :"
 
 msgid "This link expires on"
 msgstr ""
@@ -830,7 +822,6 @@ msgstr ""
 msgid "Enter new password (8-128 characters)"
 msgstr ""
 
-#, fuzzy
 msgid "Confirm new password"
 msgstr "Confirmer le nouveau mot de passe"
 

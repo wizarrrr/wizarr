@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-09-07 08:18+0000\n"
-"PO-Revision-Date: 2026-05-14 06:30+0000\n"
+"PO-Revision-Date: 2026-09-08 08:05+0000\n"
 "Last-Translator: Kisnov <gabrielmarfil0@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/ca/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5.dev0\n"
+"X-Generator: Weblate 2026.9.1\n"
 "Generated-By: Babel 2.17.0\n"
 
 msgid "Failed to load settings"
@@ -48,14 +48,15 @@ msgid "Failed to export activity data"
 msgstr "Error en l'exportació de les dades d'activitat"
 
 msgid "enabled"
-msgstr ""
+msgstr "activat"
 
 msgid "disabled"
-msgstr ""
+msgstr "desactivat"
 
 #, python-brace-format
 msgid "Activity tracking is {state}. The change can take up to 15 seconds."
 msgstr ""
+"El seguiment d'activitat està {state}. El canvi pot trigar fins a 15 segons."
 
 msgid "Monitoring restarted"
 msgstr "S'ha reiniciat el monitoreig"
@@ -208,7 +209,7 @@ msgid "LDAP authentication failed"
 msgstr "Error en l'autenticació LDAP"
 
 msgid "Invalid username or password"
-msgstr "Nom d'usuari o contrassenya incorrecte"
+msgstr "Nom d'usuari o contrasenya incorrectes"
 
 msgid "No pending 2FA authentication"
 msgstr "No hi ha autenticació 2FA pendent"
@@ -221,13 +222,13 @@ msgstr "Es requereix un tipus de connexió"
 
 #, python-format
 msgid "Connection test failed: %(message)s"
-msgstr "Prova de conexió fallida: %(message)s"
+msgstr "La prova de connexió ha fallat: %(message)s"
 
 msgid "Connection test successful!"
-msgstr "Prova de conexió satisfactoria!"
+msgstr "La prova de connexió ha estat correcta!"
 
 msgid "Unknown connection type"
-msgstr "Tipus de conexió desconegut"
+msgstr "Tipus de connexió desconegut"
 
 msgid "Connection created successfully!"
 msgstr "Connexió creada amb èxit!"
@@ -378,9 +379,9 @@ msgstr ""
 msgid "This bundle has no steps to preview."
 msgstr "Aquest paquet no té etapes per a la previsualització."
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
-msgstr "S'han netejat {} etapes orfanes."
+msgstr "S'han netejat {} etapes òrfenes"
 
 msgid "Step created"
 msgstr "Etapa creada"
@@ -415,7 +416,7 @@ msgstr "Etapa òrfena eliminada"
 
 #, python-brace-format
 msgid "No steps found for server type: {}"
-msgstr "Cap etapa trobada per el següent tipus de servidor: {}"
+msgstr "No s'ha trobat cap etapa per al tipus de servidor següent: {}"
 
 #, python-brace-format
 msgid "Export failed: {}"
@@ -425,69 +426,64 @@ msgstr "Exportació fallida: {}"
 msgid "Successfully imported {} items"
 msgstr "Importació amb èxit de {} articles"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid " and updated {} existing items"
-msgstr " i actualitzat {} elements existents"
+msgstr " i s'han actualitzat {} elements existents"
 
 #, python-brace-format
 msgid "Import failed: {}"
-msgstr ""
+msgstr "Ha fallat la importació: {}"
 
 msgid "Invalid JSON file"
-msgstr ""
+msgstr "Fitxer JSON no vàlid"
 
 #, python-brace-format
 msgid "Reset {} steps for {} (deleted {}, imported {})"
-msgstr ""
+msgstr "S'han restablert {} etapes de {} ({} suprimides, {} importades)"
 
 #, python-brace-format
 msgid "Failed to reset steps: {}"
-msgstr ""
+msgstr "No s'han pogut restablir les etapes: {}"
 
 msgid "Password must be at least 8 characters."
-msgstr ""
+msgstr "La contrasenya ha de tenir com a mínim 8 caràcters."
 
 msgid ""
 "Password must contain at least one uppercase letter, one lowercase letter, "
 "and one number."
 msgstr ""
+"La contrasenya ha de contenir com a mínim una lletra majúscula, una "
+"minúscula i un número."
 
 msgid "Username"
 msgstr "Nom d'usuari"
 
 msgid "Password"
-msgstr "Contrassenya"
+msgstr "Contrasenya"
 
 msgid "Confirm password"
-msgstr "Confirma la contrassenya"
+msgstr "Confirma la contrasenya"
 
-#, fuzzy
 msgid "Passwords must match."
-msgstr "Contrassenya"
+msgstr "Les contrasenyes han de coincidir."
 
-#, fuzzy
 msgid "New Password"
-msgstr "Contrassenya"
+msgstr "Contrasenya nova"
 
-#, fuzzy
 msgid "Please confirm the new password."
-msgstr "Contrassenya"
+msgstr "Confirma la contrasenya nova."
 
-#, fuzzy
 msgid "Server Type"
-msgstr "Mai"
+msgstr "Tipus de servidor"
 
-#, fuzzy
 msgid "Server Name"
-msgstr "Nom d'usuari"
+msgstr "Nom del servidor"
 
-#, fuzzy
 msgid "RomM Username"
-msgstr "Nom d'usuari"
+msgstr "Nom d'usuari de RomM"
 
-#, fuzzy
 msgid "RomM Password"
-msgstr "Contrassenya"
+msgstr "Contrasenya de RomM"
 
 msgid "Libraries"
 msgstr "Biblioteques"
@@ -496,51 +492,57 @@ msgid "Allow Downloads"
 msgstr "Permet les baixades"
 
 msgid "Allow Live TV"
-msgstr ""
+msgstr "Permet la TV en directe"
 
 msgid "Overseerr/Ombi URL"
-msgstr ""
+msgstr "URL d'Overseerr/Ombi"
 
-#, fuzzy
 msgid "Ombi API Key"
-msgstr "Predeterminat"
+msgstr "Clau API d'Ombi"
 
 msgid "Discord ID"
-msgstr ""
+msgstr "ID de Discord"
 
 msgid "External URL"
-msgstr ""
+msgstr "URL extern"
 
 #, python-format
 msgid "Server returned status code %(status_code)s"
-msgstr ""
+msgstr "El servidor ha retornat el codi d'estat %(status_code)s"
 
 #, python-format
 msgid "%(server_type)s server returned an error: %(error)s"
-msgstr ""
+msgstr "El servidor %(server_type)s ha retornat un error: %(error)s"
 
 #, python-format
 msgid ""
 "Could not connect to the %(server_type)s server. Please check if the server "
 "is running and the URL is correct."
 msgstr ""
+"No s'ha pogut connectar al servidor %(server_type)s. Comprova que el "
+"servidor s'estigui executant i que l'URL sigui correcte."
 
 #, python-format
 msgid ""
 "Connection to %(server_type)s server timed out. Please check if the server "
 "is running and accessible."
 msgstr ""
+"S'ha esgotat el temps de connexió al servidor %(server_type)s. Comprova que "
+"el servidor s'estigui executant i que hi puguis accedir."
 
 #, python-format
 msgid ""
 "An error occurred while connecting to the %(server_type)s server: %(error)s"
 msgstr ""
+"S'ha produït un error en connectar al servidor %(server_type)s: %(error)s"
 
 #, python-format
 msgid ""
 "An unexpected error occurred while connecting to the %(server_type)s server: "
 "%(error)s"
 msgstr ""
+"S'ha produït un error inesperat en connectar al servidor %(server_type)s: %"
+"(error)s"
 
 msgid "Plex"
 msgstr "Plex"
@@ -573,10 +575,10 @@ msgid "API token lacks required permissions."
 msgstr "El token d'API no té permisos necessaris."
 
 msgid "Could not connect to Drop server."
-msgstr "No s'ha pogut conectar al servidor Drop."
+msgstr "No s'ha pogut connectar al servidor Drop."
 
 msgid "Connection to Drop server timed out."
-msgstr "El temps de conexió al servidor Drop s'ha esgotat."
+msgstr "S'ha esgotat el temps de connexió al servidor Drop."
 
 msgid "Drop API not found. Check the server URL."
 msgstr "API de Drop no trobada. Comproveu l'URL del servidor."
@@ -586,7 +588,8 @@ msgstr "Drop"
 
 #, python-brace-format
 msgid "No default steps found for server type: {}"
-msgstr "Cap etapa per defecte trobada per el següent tipus de servidor: {}"
+msgstr ""
+"No s'ha trobat cap etapa predeterminada per al tipus de servidor següent: {}"
 
 msgid "Admin"
 msgstr "Administrador"
@@ -597,7 +600,6 @@ msgstr "Perfil"
 msgid "Logout"
 msgstr "Sortir"
 
-#, fuzzy
 msgid "Complete your access"
 msgstr "Completa el teu accés"
 
@@ -605,7 +607,7 @@ msgid "Choose a password for the remaining servers"
 msgstr "Tria una contrasenya pels servidors restants"
 
 msgid "Confirm Password"
-msgstr "Confirma la contrassenya"
+msgstr "Confirma la contrasenya"
 
 msgid "Generate a strong random password instead"
 msgstr "Generar una contrasenya aleatòria segura"
@@ -652,52 +654,50 @@ msgid "Confirm your password"
 msgstr "Confirmar la contrasenya"
 
 msgid "I agree to the"
-msgstr ""
+msgstr "Accepto els"
 
 msgid "Terms and Conditions"
-msgstr ""
+msgstr "Termes i condicions"
 
 msgid "Complete Setup"
-msgstr ""
+msgstr "Completa la configuració"
 
-#, fuzzy
 msgid "Setting up..."
-msgstr "Configuració"
+msgstr "S'està configurant..."
 
 msgid "What happens next?"
-msgstr ""
+msgstr "Què passarà ara?"
 
 msgid "Your Plex account is already set up and ready to use"
-msgstr ""
+msgstr "El teu compte de Plex ja està configurat i a punt"
 
 msgid "This password will be used to create accounts on your local servers"
 msgstr ""
+"Aquesta contrasenya s'utilitzarà per crear comptes als teus servidors locals"
 
 msgid "You'll be redirected to the setup wizard to complete configuration"
-msgstr ""
+msgstr "Se't redirigirà a l'auxiliar de configuració per acabar-la"
 
 msgid "Only want to use Plex?"
-msgstr ""
+msgstr "Només vols fer servir Plex?"
 
 msgid "Skip local servers"
-msgstr ""
+msgstr "Omet els servidors locals"
 
-#, fuzzy
 msgid "Password too short"
-msgstr "Contrassenya"
+msgstr "La contrasenya és massa curta"
 
 msgid "Password strength: Medium"
-msgstr ""
+msgstr "Seguretat de la contrasenya: mitjana"
 
 msgid "Password strength: Strong"
-msgstr ""
+msgstr "Seguretat de la contrasenya: alta"
 
 msgid "Passwords do not match"
-msgstr ""
+msgstr "Les contrasenyes no coincideixen"
 
-#, fuzzy
 msgid "Wizarr"
-msgstr "Configurar Wizarr"
+msgstr "Wizarr"
 
 msgid "Invalid Invitation"
 msgstr "Invitació no vàlida"
@@ -705,36 +705,35 @@ msgstr "Invitació no vàlida"
 msgid ""
 "This invitation link is no longer valid. Please request a new invitation."
 msgstr ""
+"Aquest enllaç d'invitació ja no és vàlid. Sol·licita una invitació nova."
 
 msgid "Two-Factor Authentication"
-msgstr ""
+msgstr "Autenticació de dos factors"
 
 msgid "Login"
 msgstr "Iniciar sessió"
 
 msgid "This is the administrator login page."
-msgstr ""
+msgstr "Aquesta és la pàgina d'inici de sessió de l'administrador."
 
 msgid "Go to your media server instead"
-msgstr ""
+msgstr "Ves al teu servidor multimèdia"
 
 #, python-brace-format
 msgid "Welcome back, {}!"
-msgstr ""
+msgstr "Ben tornat, {}!"
 
 msgid "Please authenticate with your passkey to complete login."
-msgstr ""
+msgstr "Autentica't amb la teva clau d'accés per completar l'inici de sessió."
 
-#, fuzzy
 msgid "Authentication Method"
-msgstr "Agents de notificació"
+msgstr "Mètode d'autenticació"
 
-#, fuzzy
 msgid "Local Account"
-msgstr "Crea un compte"
+msgstr "Compte local"
 
 msgid "LDAP"
-msgstr ""
+msgstr "LDAP"
 
 msgid "Remember me"
 msgstr "Recorda'm"
@@ -743,181 +742,180 @@ msgid "Sign in"
 msgstr "Registrar-se"
 
 msgid "Authenticate with Passkey"
-msgstr ""
+msgstr "Autentica't amb la clau d'accés"
 
 msgid "Back to Login"
-msgstr ""
+msgstr "Torna a l'inici de sessió"
 
 msgid "Or"
-msgstr ""
+msgstr "O"
 
 msgid "Sign in with Passkey"
-msgstr ""
+msgstr "Inicia la sessió amb una clau d'accés"
 
 msgid "Authenticating..."
-msgstr ""
+msgstr "S'està autenticant..."
 
 msgid "Failed to complete 2FA login"
-msgstr ""
+msgstr "No s'ha pogut completar l'inici de sessió amb 2FA"
 
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
+"Ha fallat l'autenticació amb clau d'accés. Torna-ho a provar o fes servir la "
+"contrasenya."
 
-#, fuzzy
 msgid "Password Reset Error"
-msgstr "Contrassenya"
+msgstr "Error en restablir la contrasenya"
 
 msgid "Error:"
-msgstr ""
+msgstr "Error:"
 
 msgid "This password reset link is invalid."
-msgstr ""
+msgstr "Aquest enllaç de restabliment de contrasenya no és vàlid."
 
 msgid "This password reset link has already been used."
-msgstr ""
+msgstr "Aquest enllaç de restabliment de contrasenya ja s'ha utilitzat."
 
 msgid "This password reset link has expired."
-msgstr ""
+msgstr "Aquest enllaç de restabliment de contrasenya ha caducat."
 
 msgid "This password reset link is malformed."
-msgstr ""
+msgstr "Aquest enllaç de restabliment de contrasenya està mal format."
 
 msgid "This password reset link is no longer valid."
-msgstr ""
+msgstr "Aquest enllaç de restabliment de contrasenya ja no és vàlid."
 
 msgid ""
 "Please contact your server administrator to request a new password reset "
 "link."
 msgstr ""
+"Contacta amb l'administrador del servidor per demanar un enllaç nou de "
+"restabliment de contrasenya."
 
 msgid "Code:"
-msgstr ""
+msgstr "Codi:"
 
 msgid "Common reasons for this error:"
-msgstr ""
+msgstr "Motius habituals d'aquest error:"
 
 msgid "The link has already been used"
-msgstr ""
+msgstr "L'enllaç ja s'ha utilitzat"
 
 msgid "The link has expired (24 hour limit)"
-msgstr ""
+msgstr "L'enllaç ha caducat (límit de 24 hores)"
 
 msgid "The link was not copied correctly"
-msgstr ""
+msgstr "L'enllaç no s'ha copiat correctament"
 
-#, fuzzy
 msgid "Reset Your Password"
-msgstr "Contrassenya"
+msgstr "Restableix la teva contrasenya"
 
-#, fuzzy
 msgid "Choose a new password"
-msgstr "Contrassenya"
+msgstr "Tria una contrasenya nova"
 
-#, fuzzy
 msgid "For user:"
-msgstr "Inici"
+msgstr "Per a l'usuari:"
 
 msgid "This link expires on"
-msgstr ""
+msgstr "Aquest enllaç caduca el"
 
 msgid "Enter new password (8-128 characters)"
-msgstr ""
+msgstr "Introdueix la contrasenya nova (8-128 caràcters)"
 
-#, fuzzy
 msgid "Confirm new password"
-msgstr "Contrassenya"
+msgstr "Confirma la contrasenya nova"
 
-#, fuzzy
 msgid "Password must be:"
-msgstr "Contrassenya"
+msgstr "La contrasenya ha de ser:"
 
 msgid "Between 8 and 128 characters"
-msgstr ""
+msgstr "Entre 8 i 128 caràcters"
 
 msgid "Match the confirmation"
-msgstr ""
+msgstr "Ha de coincidir amb la confirmació"
 
-#, fuzzy
 msgid "Reset Password"
-msgstr "Contrassenya"
+msgstr "Restableix la contrasenya"
 
 msgid "Password Reset Successful!"
-msgstr ""
+msgstr "S'ha restablert la contrasenya!"
 
-#, fuzzy
 msgid "The password for"
-msgstr "Contrassenya"
+msgstr "La contrasenya de"
 
 msgid "has been successfully reset."
-msgstr ""
+msgstr "s'ha restablert correctament."
 
 msgid "You can now use your new password to log in to your media server."
 msgstr ""
+"Ja pots fer servir la contrasenya nova per iniciar la sessió al teu servidor "
+"multimèdia."
 
 msgid "What's next?"
-msgstr ""
+msgstr "I ara què?"
 
 msgid "Log in to your media server with your username and new password."
 msgstr ""
+"Inicia la sessió al teu servidor multimèdia amb el teu nom d'usuari i la "
+"contrasenya nova."
 
 msgid "Administrator"
-msgstr ""
+msgstr "Administrador"
 
 msgid "Change your account password for security."
-msgstr ""
+msgstr "Canvia la contrasenya del teu compte per seguretat."
 
-#, fuzzy
 msgid "Current Password"
-msgstr "Contrassenya"
+msgstr "Contrasenya actual"
 
 msgid "Confirm New Password"
-msgstr ""
+msgstr "Confirma la contrasenya nova"
 
-#, fuzzy
 msgid "Change Password"
-msgstr "Contrassenya"
+msgstr "Canvia la contrasenya"
 
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "T'han convidat a unir-te al servidor %(name)s!"
 
 msgid "You've been invited!"
-msgstr ""
+msgstr "T'han convidat!"
 
-#, fuzzy
 msgid "To join"
-msgstr "Uneix-te"
+msgstr "Per unir-te"
 
 msgid "Join the ultimate media server experience."
-msgstr ""
+msgstr "Uneix-te a la millor experiència de servidor multimèdia."
 
-#, fuzzy
 msgid "Enter Code to Continue"
-msgstr "Convida cadena de codi"
+msgstr "Introdueix el codi per continuar"
 
-#, fuzzy
 msgid "Invitation Code"
 msgstr "Codi d'invitació"
 
-#, fuzzy
 msgid "Enter your code"
-msgstr "Codi d'invitació"
+msgstr "Introdueix el teu codi"
 
-#, fuzzy
 msgid "Join Server"
-msgstr "Uneix-te al servidor de Plex"
+msgstr "Uneix-te al servidor"
 
 msgid "Secure invitation system powered by Wizarr"
-msgstr ""
+msgstr "Sistema d'invitacions segur amb la tecnologia de Wizarr"
 
 msgid "Pop-up blocked. Allow pop-ups for this site and try again."
 msgstr ""
+"S'ha bloquejat la finestra emergent. Permet les finestres emergents en "
+"aquest lloc i torna-ho a provar."
 
 msgid "Sign-in cancelled. Hit Join Server to try again."
 msgstr ""
+"S'ha cancel·lat l'inici de sessió. Prem «Uneix-te al servidor» per tornar-ho "
+"a provar."
 
 msgid "Plex sign-in failed. Try again, or contact your server admin."
 msgstr ""
+"Ha fallat l'inici de sessió amb Plex. Torna-ho a provar o contacta amb "
+"l'administrador del servidor."
 
 msgid "Invite User"
 msgstr "Convidar l'usuari"
@@ -926,410 +924,384 @@ msgid "Accept Invitation"
 msgstr "Accepta la invitació"
 
 msgid "Get ready to join the magic"
-msgstr ""
+msgstr "Prepara't per unir-te a la màgia"
 
-#, fuzzy
 msgid "Create Account"
 msgstr "Crea un compte"
 
-#, fuzzy
 msgid "Set up your magical account"
-msgstr "Crea un Compte"
+msgstr "Configura el teu compte màgic"
 
 msgid "Enter your username"
-msgstr ""
+msgstr "Introdueix el teu nom d'usuari"
 
 msgid "Email"
 msgstr "Correu electrònic"
 
 msgid "Enter your email"
-msgstr ""
+msgstr "Introdueix el teu correu electrònic"
 
-#, fuzzy
 msgid "Create a password"
-msgstr "Crea un compte"
+msgstr "Crea una contrasenya"
 
 msgid "Invite Code"
 msgstr "Codi d'invitació"
 
-#, fuzzy
 msgid "Enter invite code"
-msgstr "Codi d'invitació"
+msgstr "Introdueix el codi d'invitació"
 
-#, fuzzy
 msgid "Creating account..."
-msgstr "Crea un compte"
+msgstr "S'està creant el compte..."
 
 msgid "Latest Accepted Invites"
-msgstr ""
+msgstr "Últimes invitacions acceptades"
 
 msgid "Recently joined"
-msgstr ""
+msgstr "S'hi han unit recentment"
 
 msgid "Showing"
-msgstr ""
+msgstr "Es mostren"
 
 msgid "of"
-msgstr ""
+msgstr "de"
 
-#, fuzzy
 msgid "Prev"
 msgstr "Anterior"
 
 msgid "Page"
-msgstr ""
+msgstr "Pàgina"
 
 msgid "Next"
 msgstr "Següent"
 
 msgid "No recent invitations accepted"
-msgstr ""
+msgstr "No s'ha acceptat cap invitació recentment"
 
 msgid "Accepted invitations will appear here"
-msgstr ""
+msgstr "Les invitacions acceptades apareixeran aquí"
 
 msgid "Dashboard"
-msgstr ""
+msgstr "Tauler"
 
-#, fuzzy
 msgid "New Invite"
-msgstr "Invitació ràpida"
+msgstr "Invitació nova"
 
 msgid "Now Playing"
-msgstr ""
+msgstr "S'està reproduint"
 
 msgid "Invitations"
 msgstr "Invitacions"
 
 msgid "Library Breakdown"
-msgstr ""
+msgstr "Desglossament de la biblioteca"
 
-#, fuzzy
 msgid "Per Server"
-msgstr "Mai"
+msgstr "Per servidor"
 
-#, fuzzy
 msgid "No libraries found"
-msgstr "Busca biblioteques"
+msgstr "No s'ha trobat cap biblioteca"
 
 msgid "Configure your media servers to see library statistics"
 msgstr ""
+"Configura els teus servidors multimèdia per veure les estadístiques de la "
+"biblioteca"
 
-#, fuzzy
 msgid "Failed to load libraries"
-msgstr "Busca biblioteques"
+msgstr "No s'han pogut carregar les biblioteques"
 
 msgid "Unknown error occurred"
-msgstr ""
+msgstr "S'ha produït un error desconegut"
 
 msgid "Unable to load now playing"
-msgstr ""
+msgstr "No s'ha pogut carregar el que s'està reproduint"
 
 msgid "There was an error connecting to your media servers"
-msgstr ""
+msgstr "S'ha produït un error en connectar amb els teus servidors multimèdia"
 
 msgid "No one is streaming"
-msgstr ""
+msgstr "No hi ha ningú reproduint res"
 
 msgid "No active media sessions found across your servers"
-msgstr ""
+msgstr "No s'ha trobat cap sessió multimèdia activa als teus servidors"
 
 msgid "Recently Added"
-msgstr ""
+msgstr "Afegit recentment"
 
 msgid "Showing latest 10 items"
-msgstr ""
+msgstr "Es mostren els 10 elements més recents"
 
 msgid "No recent content found"
-msgstr ""
+msgstr "No s'ha trobat contingut recent"
 
 msgid "Add some content to your media servers to see it here"
-msgstr ""
+msgstr "Afegeix contingut als teus servidors multimèdia per veure'l aquí"
 
 msgid "Failed to load recent content"
-msgstr ""
+msgstr "No s'ha pogut carregar el contingut recent"
 
-#, fuzzy
 msgid "Server Health"
-msgstr "Configuració del servidor"
+msgstr "Estat del servidor"
 
-#, fuzzy
 msgid "Online"
-msgstr "Uneix-te"
+msgstr "En línia"
 
 msgid "Offline"
-msgstr ""
+msgstr "Fora de línia"
 
-#, fuzzy
 msgid "Active"
-msgstr "Guardar"
+msgstr "Actiu"
 
 msgid "Transcoding"
-msgstr ""
+msgstr "Transcodificació"
 
 msgid "Users"
 msgstr "Usuaris"
 
 msgid "Active Sessions"
-msgstr ""
+msgstr "Sessions actives"
 
 msgid "Server is currently unreachable"
-msgstr ""
+msgstr "Ara mateix no es pot accedir al servidor"
 
-#, fuzzy
 msgid "servers online"
-msgstr "Configuració del servidor"
+msgstr "servidors en línia"
 
-#, fuzzy
 msgid "server(s) need attention"
-msgstr "Configuració del servidor"
+msgstr "servidor(s) requereixen atenció"
 
 msgid "No servers configured"
-msgstr ""
+msgstr "No hi ha cap servidor configurat"
 
 msgid "Add media servers to monitor their health"
-msgstr ""
+msgstr "Afegeix servidors multimèdia per supervisar-ne l'estat"
 
 msgid "Failed to load server health"
-msgstr ""
+msgstr "No s'ha pogut carregar l'estat del servidor"
 
-#, fuzzy
 msgid "Server Overview"
-msgstr "Configuració del servidor"
+msgstr "Resum del servidor"
 
 msgid "Items"
-msgstr ""
+msgstr "Elements"
 
 msgid "Server Breakdown"
-msgstr ""
+msgstr "Desglossament per servidor"
 
 msgid "No active servers found"
-msgstr ""
+msgstr "No s'ha trobat cap servidor actiu"
 
 msgid "Failed to load statistics"
-msgstr ""
+msgstr "No s'han pogut carregar les estadístiques"
 
 msgid "User Details"
-msgstr ""
+msgstr "Detalls de l'usuari"
 
-#, fuzzy
 msgid "Joined"
-msgstr "Uneix-te"
+msgstr "S'hi va unir"
 
 msgid "Account Details"
-msgstr ""
+msgstr "Detalls del compte"
 
 msgid "Expires"
 msgstr "Expira"
 
-#, fuzzy
 msgid "All libraries"
-msgstr "Biblioteques"
+msgstr "Totes les biblioteques"
 
-#, fuzzy
 msgid "Permissions"
-msgstr "Permís denegat."
+msgstr "Permisos"
 
-#, fuzzy
 msgid "Downloads"
-msgstr "Permet les baixades"
+msgstr "Baixades"
 
 msgid "Live TV"
-msgstr ""
+msgstr "TV en directe"
 
 msgid "Camera Upload"
-msgstr ""
+msgstr "Pujada des de la càmera"
 
 msgid "Basic Access"
-msgstr ""
+msgstr "Accés bàsic"
 
 msgid "Close"
-msgstr ""
+msgstr "Tanca"
 
-#, fuzzy
 msgid "Edit User"
-msgstr "Mai"
+msgstr "Edita l'usuari"
 
 msgid "Close modal"
-msgstr ""
+msgstr "Tanca la finestra"
 
 msgid "Tabs"
-msgstr ""
+msgstr "Pestanyes"
 
 msgid "Local"
-msgstr ""
+msgstr "Local"
 
 msgid "Notes"
-msgstr ""
+msgstr "Notes"
 
-#, fuzzy
 msgid "Permission Management"
-msgstr "Nom d'usuari"
+msgstr "Gestió de permisos"
 
 msgid "Toggle downloads permission"
-msgstr ""
+msgstr "Activa o desactiva el permís de baixades"
 
 msgid "Toggle live TV permission"
-msgstr ""
+msgstr "Activa o desactiva el permís de TV en directe"
 
-#, fuzzy
 msgid "Allow Camera Upload"
-msgstr "Permet les baixades"
+msgstr "Permet la pujada des de la càmera"
 
 msgid "Toggle camera upload permission"
-msgstr ""
+msgstr "Activa o desactiva el permís de pujada des de la càmera"
 
-#, fuzzy
 msgid "Library Access"
-msgstr "Biblioteques"
+msgstr "Accés a la biblioteca"
 
-#, fuzzy
 msgid "No libraries available"
-msgstr "Busca biblioteques"
+msgstr "No hi ha cap biblioteca disponible"
 
 msgid "Scan libraries from the invitation page to enable library restrictions"
 msgstr ""
+"Escaneja les biblioteques des de la pàgina d'invitació per activar les "
+"restriccions de biblioteca"
 
 msgid "Click to toggle library access. Updates save automatically."
 msgstr ""
+"Fes clic per activar o desactivar l'accés a la biblioteca. Els canvis es "
+"desen automàticament."
 
-#, fuzzy
 msgid "Expiry Management"
-msgstr "Nom d'usuari"
+msgstr "Gestió de la caducitat"
 
-#, fuzzy
 msgid "Expiry date"
-msgstr "Expira"
+msgstr "Data de caducitat"
 
 msgid "Update"
-msgstr ""
+msgstr "Actualitza"
 
-#, fuzzy
 msgid "Current expiry"
-msgstr "Edita la caducitat"
+msgstr "Caducitat actual"
 
-#, fuzzy
 msgid "No expiry set"
-msgstr "Expira"
+msgstr "Sense caducitat"
 
-#, fuzzy
 msgid "User notes"
-msgstr "Usuaris"
+msgstr "Notes de l'usuari"
 
 msgid "Add notes about this user..."
-msgstr ""
+msgstr "Afegeix notes sobre aquest usuari..."
 
 msgid "Update Notes"
-msgstr ""
+msgstr "Actualitza les notes"
 
-#, fuzzy
 msgid "Link"
-msgstr "Iniciar sessió"
+msgstr "Enllaç"
 
 msgid "Unlink"
-msgstr ""
+msgstr "Desenllaça"
 
-#, fuzzy
 msgid "Delete"
-msgstr "Predeterminat"
+msgstr "Suprimeix"
 
 #, python-brace-format
 msgid "Passkeys for {}"
-msgstr ""
+msgstr "Claus d'accés de {}"
 
 msgid "Created"
 msgstr "Creat"
 
-#, fuzzy
 msgid "Last used"
-msgstr "Utilitzat"
+msgstr "Últim ús"
 
 msgid "Reset All Passkeys"
-msgstr ""
+msgstr "Restableix totes les claus d'accés"
 
 msgid "No passkeys registered for this user."
-msgstr ""
+msgstr "Aquest usuari no té cap clau d'accés registrada."
 
 msgid "Are you sure you want to delete this passkey?"
-msgstr ""
+msgstr "Segur que vols suprimir aquesta clau d'accés?"
 
 msgid "Failed to delete passkey"
-msgstr ""
+msgstr "No s'ha pogut suprimir la clau d'accés"
 
 msgid "An error occurred while deleting the passkey"
-msgstr ""
+msgstr "S'ha produït un error en suprimir la clau d'accés"
 
 #, python-brace-format
 msgid "Are you sure you want to reset ALL passkeys for {}?"
-msgstr ""
+msgstr "Segur que vols restablir TOTES les claus d'accés de {}?"
 
 msgid "This action cannot be undone."
-msgstr ""
+msgstr "Aquesta acció no es pot desfer."
 
 msgid "All passkeys have been reset"
-msgstr ""
+msgstr "S'han restablert totes les claus d'accés"
 
 msgid "Failed to reset passkeys"
-msgstr ""
+msgstr "No s'han pogut restablir les claus d'accés"
 
 msgid "An error occurred while resetting passkeys"
-msgstr ""
+msgstr "S'ha produït un error en restablir les claus d'accés"
 
 msgid "Add New Passkey"
-msgstr ""
+msgstr "Afegeix una clau d'accés"
 
-#, fuzzy
 msgid "Passkey Name"
-msgstr "Nom d'usuari"
+msgstr "Nom de la clau d'accés"
 
 msgid "e.g., My iPhone, Work Laptop"
-msgstr ""
+msgstr "p. ex., el meu iPhone, portàtil de la feina"
 
 msgid "Cancel"
 msgstr "Cancel·la"
 
-#, fuzzy
 msgid "Create Passkey"
-msgstr "Crea un compte"
+msgstr "Crea una clau d'accés"
 
 msgid "Added"
-msgstr ""
+msgstr "Afegida"
 
 msgid "No passkeys registered"
-msgstr ""
+msgstr "No hi ha cap clau d'accés registrada"
 
 msgid "Add your first passkey for enhanced security"
-msgstr ""
+msgstr "Afegeix la teva primera clau d'accés per millorar la seguretat"
 
 msgid "Passkeys"
-msgstr ""
+msgstr "Claus d'accés"
 
 msgid "Passkeys require HTTPS connection"
-msgstr ""
+msgstr "Les claus d'accés requereixen una connexió HTTPS"
 
 msgid "Add Passkey"
-msgstr ""
+msgstr "Afegeix una clau d'accés"
 
 msgid "To use passkeys, please access this page over HTTPS."
 msgstr ""
+"Per utilitzar les claus d'accés, accedeix a aquesta pàgina mitjançant HTTPS."
 
 msgid "Manage your passkeys for passwordless authentication."
 msgstr ""
+"Gestiona les teves claus d'accés per a l'autenticació sense contrasenya."
 
 msgid "Loading passkeys..."
-msgstr ""
+msgstr "S'estan carregant les claus d'accés..."
 
 msgid "Creating passkey for"
-msgstr ""
+msgstr "S'està creant la clau d'accés per a"
 
 msgid "Please follow your device's prompts to complete setup"
 msgstr ""
+"Segueix les indicacions del teu dispositiu per completar la configuració"
 
 msgid "Failed to register passkey"
-msgstr ""
+msgstr "No s'ha pogut registrar la clau d'accés"
 
 msgid "Failed to complete passkey registration"
-msgstr ""
+msgstr "No s'ha pogut completar el registre de la clau d'accés"
 
 msgid "Permission denied."
 msgstr "Permís denegat."
@@ -1350,186 +1322,173 @@ msgid " Something has gone wrong. Please try again later."
 msgstr " Alguna cosa ha anat malament. Si us plau, intenta-ho més tard."
 
 msgid "Add steps to bundle"
-msgstr ""
+msgstr "Afegeix etapes al paquet"
 
-#, fuzzy
 msgid "Untitled"
-msgstr "Il·limitat"
+msgstr "Sense títol"
 
 msgid "All steps are already included."
-msgstr ""
+msgstr "Ja hi són totes les etapes."
 
 msgid "Add"
-msgstr ""
+msgstr "Afegeix"
 
 msgid "Add New Connection"
-msgstr ""
+msgstr "Afegeix una connexió"
 
 msgid "Edit Connection"
-msgstr ""
+msgstr "Edita la connexió"
 
 msgid "Overseerr/Jellyseerr Information"
-msgstr ""
+msgstr "Informació d'Overseerr/Jellyseerr"
 
 msgid ""
 "Overseerr and Jellyseerr automatically import new users by default. No API "
 "connection is required for Wizarr integration."
 msgstr ""
+"Overseerr i Jellyseerr importen automàticament els usuaris nous per defecte. "
+"No cal cap connexió d'API per a la integració amb Wizarr."
 
 msgid "To enable auto-import:"
-msgstr ""
+msgstr "Per activar la importació automàtica:"
 
 msgid ""
 "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
 "users' and 'Import Jellyfin/Plex users'"
 msgstr ""
+"Ves a la configuració d'Overseerr/Jellyseerr → Users → activa «Auto-approve "
+"new users» i «Import Jellyfin/Plex users»"
 
 msgid "Testing connection..."
-msgstr ""
+msgstr "S'està provant la connexió..."
 
-#, fuzzy
 msgid "Create Connection"
-msgstr "Crear Invitació"
+msgstr "Crea una connexió"
 
 msgid "Update Connection"
-msgstr ""
+msgstr "Actualitza la connexió"
 
 msgid "Test Connection"
-msgstr ""
+msgstr "Prova la connexió"
 
 msgid "Add Administrator"
-msgstr ""
+msgstr "Afegeix un administrador"
 
-#, fuzzy
 msgid "API Key Created"
-msgstr "Creat"
+msgstr "Clau API creada"
 
-#, fuzzy
 msgid "Create API Key"
-msgstr "Crea un compte"
+msgstr "Crea una clau API"
 
 msgid "API Key Created Successfully"
-msgstr ""
+msgstr "Clau API creada correctament"
 
 msgid ""
 "Your API key has been created. Please copy it now as it will not be shown "
 "again."
 msgstr ""
+"S'ha creat la teva clau API. Copia-la ara, perquè no es tornarà a mostrar."
 
-#, fuzzy
 msgid "Copy to clipboard"
-msgstr "L'enllaç s'ha copiat al porta-retalls!"
+msgstr "Copia al porta-retalls"
 
-#, fuzzy
 msgid "Name:"
-msgstr "Nom d'usuari"
+msgstr "Nom:"
 
 msgid "Done"
-msgstr ""
+msgstr "Fet"
 
 msgid "API Key Name"
-msgstr ""
+msgstr "Nom de la clau API"
 
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
+"Introdueix un nom descriptiu que t'ajudi a identificar aquesta clau API més "
+"endavant."
 
 msgid "New Agent"
 msgstr "Nou agent"
 
-#, fuzzy
 msgid "Channel ID"
-msgstr "Cancel·la"
+msgstr "ID del canal"
 
 msgid "Bot Token"
-msgstr ""
+msgstr "Testimoni del bot"
 
-#, fuzzy
 msgid "Chat ID"
-msgstr "Cancel·la"
+msgstr "ID del xat"
 
-#, fuzzy
 msgid "Username (optional)"
-msgstr "(opcional)"
+msgstr "Nom d'usuari (opcional)"
 
 msgid "Password (optional)"
-msgstr "Contrassenya (opcional)"
+msgstr "Contrasenya (opcional)"
 
 msgid "Agent URL"
-msgstr ""
+msgstr "URL de l'agent"
 
-#, fuzzy
 msgid "Notification Events"
-msgstr "Agents de notificació"
+msgstr "Esdeveniments de notificació"
 
-#, fuzzy
 msgid "User Joined"
-msgstr "Uneix-te"
+msgstr "S'hi ha unit un usuari"
 
 msgid "Update Available"
-msgstr ""
+msgstr "Actualització disponible"
 
 msgid "Test & Create Agent"
 msgstr "Prova i crea agent"
 
-#, fuzzy
 msgid "Add Server"
-msgstr "Mai"
+msgstr "Afegeix un servidor"
 
 msgid "Test & Add"
-msgstr ""
+msgstr "Prova i afegeix"
 
 msgid "Edit Administrator"
-msgstr ""
+msgstr "Edita l'administrador"
 
-#, fuzzy
 msgid "New Password (optional)"
-msgstr "Contrassenya (opcional)"
+msgstr "Contrasenya nova (opcional)"
 
 msgid "Save"
 msgstr "Guardar"
 
-#, fuzzy
 msgid "Edit Identity"
-msgstr "Edita la caducitat"
+msgstr "Edita la identitat"
 
 msgid "Nickname"
-msgstr ""
+msgstr "Àlies"
 
-#, fuzzy
 msgid "Edit Agent"
-msgstr "Nou agent"
+msgstr "Edita l'agent"
 
 msgid "Name"
 msgstr "Nom"
 
-#, fuzzy
 msgid "Notification Service"
-msgstr "Agents de notificació"
+msgstr "Servei de notificacions"
 
-#, fuzzy
 msgid "Test & Save Changes"
-msgstr "Prova i crea agent"
+msgstr "Prova i guarda els canvis"
 
-#, fuzzy
 msgid "Edit Server"
-msgstr "Mai"
+msgstr "Edita el servidor"
 
 msgid "Create Invitation"
 msgstr "Crear Invitació"
 
-#, fuzzy
 msgid "Invitation Created"
-msgstr "Invitacions"
+msgstr "Invitació creada"
 
 msgid "Invite Code String"
 msgstr "Convida cadena de codi"
 
-#, fuzzy
 msgid "optional"
-msgstr "(opcional)"
+msgstr "opcional"
 
 msgid "E.g. XMFGEJIKNQ"
-msgstr ""
+msgstr "P. ex. XMFGEJIKNQ"
 
 msgid "Expiration"
 msgstr "Expiració"
@@ -1544,17 +1503,16 @@ msgid "1 month"
 msgstr "1 mes"
 
 msgid "Wizard bundle"
-msgstr ""
+msgstr "Paquet de l'auxiliar"
 
 msgid "Automatic"
-msgstr ""
+msgstr "Automàtic"
 
 msgid "Advanced Options"
 msgstr "Opcions avançades"
 
-#, fuzzy
 msgid "Invite Settings"
-msgstr "Convida cadena de codi"
+msgstr "Configuració de la invitació"
 
 msgid "Unlimited Usages"
 msgstr "Usos il·limitats"
@@ -1562,815 +1520,799 @@ msgstr "Usos il·limitats"
 msgid "Duration"
 msgstr "Duració"
 
-#, fuzzy
 msgid "in days"
-msgstr "(en dies)"
+msgstr "en dies"
 
 msgid "Show Information"
 msgstr "Mostra informació"
 
-#, fuzzy
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
 msgstr ""
-"Quan configurat, els usuaris convidats seran eliminats del servidor de Plex "
-"després d'un\n"
-"nombre de\n"
-"dies. (1-999)"
+"Si s'estableix, els usuaris convidats s'eliminaran del servidor de Plex al "
+"cap d'uns quants dies. (1-999)"
 
-#, fuzzy
 msgid "LDAP Integration"
-msgstr "Crear Invitació"
+msgstr "Integració amb LDAP"
 
-#, fuzzy
 msgid "Create LDAP User"
-msgstr "Crea un compte"
+msgstr "Crea un usuari LDAP"
 
 msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
+msgstr "Crea automàticament un usuari LDAP quan s'accepti aquesta invitació"
 
-#, fuzzy
 msgid "Target servers"
-msgstr "Mai"
+msgstr "Servidors de destinació"
 
 msgid "Invite to Plex Home"
 msgstr "Convida a Plex Home"
 
 msgid "Allow Live TV Access"
-msgstr ""
+msgstr "Permet l'accés a la TV en directe"
 
-#, fuzzy
 msgid "Allow Mobile Uploads"
-msgstr "Permet les baixades"
+msgstr "Permet les pujades des del mòbil"
 
 msgid "Max Active Sessions"
-msgstr ""
+msgstr "Sessions actives màximes"
 
 msgid "simultaneous devices"
-msgstr ""
+msgstr "dispositius simultanis"
 
 msgid ""
 "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
+"Nombre de dispositius que poden reproduir alhora. Posa 0 per il·limitat."
 
-#, fuzzy
 msgid "Select Libraries"
-msgstr "Biblioteques"
+msgstr "Selecciona les biblioteques"
 
-#, fuzzy
 msgid "Loading…"
-msgstr "Iniciar sessió"
+msgstr "S'està carregant…"
 
 msgid "Successfully generated an Invitation!"
 msgstr "S'ha generat una invitació correctament!"
 
-#, fuzzy
 msgid "Invitation Link"
-msgstr "Invitacions"
+msgstr "Enllaç de la invitació"
 
 msgid "Copy"
-msgstr ""
+msgstr "Copia"
 
 msgid "Link has been copied to clipboard!"
 msgstr "L'enllaç s'ha copiat al porta-retalls!"
 
-#, fuzzy
 msgid "Create Another"
-msgstr "Crea un compte"
+msgstr "Crea'n una altra"
 
 msgid "Please select at least one server for the invitation."
-msgstr ""
+msgstr "Selecciona com a mínim un servidor per a la invitació."
 
-#, fuzzy
 msgid "Password Reset Link"
-msgstr "Contrassenya (opcional)"
+msgstr "Enllaç de restabliment de contrasenya"
 
 msgid "Generate Password Reset Link"
-msgstr ""
+msgstr "Genera un enllaç de restabliment de contrasenya"
 
-#, fuzzy
 msgid "Password reset link for"
-msgstr "Contrassenya"
+msgstr "Enllaç de restabliment de contrasenya per a"
 
-#, fuzzy
 msgid "Link expires:"
-msgstr "Expira"
+msgstr "L'enllaç caduca:"
 
 msgid "Reset Link (Click to copy)"
-msgstr ""
+msgstr "Enllaç de restabliment (fes clic per copiar)"
 
 msgid ""
 "Send this link to the user. They can use it once to reset their password."
 msgstr ""
+"Envia aquest enllaç a l'usuari. El pot fer servir un sol cop per restablir "
+"la contrasenya."
 
 msgid "Reset Code"
-msgstr ""
+msgstr "Codi de restabliment"
 
-#, fuzzy
 msgid "Security Notes:"
-msgstr "Usuaris"
+msgstr "Notes de seguretat:"
 
 msgid "This link can only be used once"
-msgstr ""
+msgstr "Aquest enllaç només es pot fer servir un cop"
 
 msgid "It expires in 24 hours"
-msgstr ""
+msgstr "Caduca al cap de 24 hores"
 
 msgid "Send it securely (email, message, etc.)"
-msgstr ""
+msgstr "Envia'l de manera segura (correu, missatge, etc.)"
 
 msgid "Generate a secure password reset link for"
-msgstr ""
+msgstr "Genera un enllaç segur de restabliment de contrasenya per a"
 
-#, fuzzy
 msgid "Generate Reset Link"
-msgstr "Configuració del servidor"
+msgstr "Genera l'enllaç de restabliment"
 
 msgid "The link will be valid for 24 hours and can only be used once."
-msgstr ""
+msgstr "L'enllaç serà vàlid durant 24 hores i només es pot fer servir un cop."
 
-#, fuzzy
 msgid "Copy Link"
-msgstr "Iniciar sessió"
+msgstr "Copia l'enllaç"
 
-#, fuzzy
 msgid "Copied!"
-msgstr "Uneix-te"
+msgstr "Copiat!"
 
-#, fuzzy
 msgid "Reset link copied to clipboard!"
-msgstr "L'enllaç s'ha copiat al porta-retalls!"
+msgstr "L'enllaç de restabliment s'ha copiat al porta-retalls!"
 
 msgid "Please manually copy the link"
-msgstr ""
+msgstr "Copia l'enllaç manualment"
 
 msgid "Import Wizard Steps"
-msgstr ""
+msgstr "Importa les etapes de l'auxiliar"
 
 msgid "Click to upload"
-msgstr ""
+msgstr "Fes clic per pujar"
 
 msgid "or drag and drop"
-msgstr ""
+msgstr "o arrossega-hi el fitxer"
 
 msgid "JSON files only"
-msgstr ""
+msgstr "Només fitxers JSON"
 
-#, fuzzy
 msgid "Import Options"
-msgstr "Contrassenya (opcional)"
+msgstr "Opcions d'importació"
 
 msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
 "steps will be merged with existing ones."
 msgstr ""
+"Si està marcat, les etapes existents se substituiran. Si no, les etapes "
+"importades es combinaran amb les existents."
 
 msgid "Important Notice"
-msgstr ""
+msgstr "Avís important"
 
 msgid ""
 "This action will modify your wizard steps configuration. Make sure to backup "
 "your current steps before importing if you want to preserve them."
 msgstr ""
+"Aquesta acció modificarà la configuració de les etapes de l'auxiliar. Fes "
+"una còpia de seguretat de les etapes actuals abans d'importar si les vols "
+"conservar."
 
 msgid "Import Steps"
-msgstr ""
+msgstr "Importa les etapes"
 
 msgid "Add Preset Wizard Step"
-msgstr ""
+msgstr "Afegeix una etapa predefinida de l'auxiliar"
 
 msgid "Choose when this step should be shown to users"
-msgstr ""
+msgstr "Tria quan s'ha de mostrar aquesta etapa als usuaris"
 
 msgid "Your Discord server ID"
-msgstr ""
+msgstr "L'ID del teu servidor de Discord"
 
 msgid "URL to your Overseerr/Ombi instance"
-msgstr ""
+msgstr "URL de la teva instància d'Overseerr/Ombi"
 
-#, fuzzy
 msgid "Create Step"
-msgstr "Crea un compte"
+msgstr "Crea una etapa"
 
 msgid "Add..."
-msgstr ""
+msgstr "Afegeix..."
 
 msgid "Widgets"
-msgstr ""
+msgstr "Widgets"
 
 msgid "Recently Added Media"
-msgstr ""
+msgstr "Contingut afegit recentment"
 
 msgid "Show recent content"
-msgstr ""
+msgstr "Mostra el contingut recent"
 
 msgid "Button"
-msgstr ""
+msgstr "Botó"
 
 msgid "Add a clickable link button"
-msgstr ""
+msgstr "Afegeix un botó d'enllaç clicable"
 
-#, fuzzy
 msgid "Elements"
-msgstr "Crea un compte"
+msgstr "Elements"
 
 msgid "Card"
-msgstr ""
+msgstr "Targeta"
 
 msgid "Add a styled content card"
-msgstr ""
+msgstr "Afegeix una targeta de contingut amb estil"
 
-#, fuzzy
 msgid "Delete API Key"
-msgstr "Predeterminat"
+msgstr "Suprimeix la clau API"
 
 msgid "No API keys"
-msgstr ""
+msgstr "Cap clau API"
 
 msgid "Get started by creating a new API key."
-msgstr ""
+msgstr "Comença creant una clau API nova."
 
-#, fuzzy
 msgid "Media Servers"
-msgstr "Mai"
+msgstr "Servidors multimèdia"
 
 msgid "Type"
-msgstr ""
+msgstr "Tipus"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "Verified"
-msgstr ""
+msgstr "Verificat"
 
 msgid "Actions"
 msgstr "Accions"
 
 msgid "Edit"
-msgstr ""
+msgstr "Edita"
 
 msgid "Delete this server?"
-msgstr ""
+msgstr "Vols suprimir aquest servidor?"
 
 msgid "No servers configured yet."
-msgstr ""
+msgstr "Encara no hi ha cap servidor configurat."
 
-#, fuzzy
 msgid "Administrators"
-msgstr "Invitacions"
+msgstr "Administradors"
 
 msgid "Manage Passkeys"
-msgstr ""
+msgstr "Gestiona les claus d'accés"
 
 msgid "No administrators yet."
-msgstr ""
+msgstr "Encara no hi ha cap administrador."
 
-#, fuzzy
 msgid "Add Admin"
-msgstr "Administrador"
+msgstr "Afegeix un administrador"
 
 msgid "API Keys"
-msgstr ""
+msgstr "Claus API"
 
 msgid "Connections"
-msgstr ""
+msgstr "Connexions"
 
 msgid "Manage external service connections for automated user invitations"
 msgstr ""
+"Gestiona les connexions amb serveis externs per a invitacions d'usuari "
+"automatitzades"
 
-#, fuzzy
 msgid "Add Connection"
-msgstr "Opcions avançades"
+msgstr "Afegeix una connexió"
 
 msgid "Connection Name"
-msgstr ""
+msgstr "Nom de la connexió"
 
-#, fuzzy
 msgid "Media Server"
-msgstr "Mai"
+msgstr "Servidor multimèdia"
 
 msgid "Overseerr (Info)"
-msgstr ""
+msgstr "Seerr (Info)"
 
 msgid "Ombi"
-msgstr ""
+msgstr "Ombi"
 
 msgid "Audiobookrequest"
-msgstr ""
+msgstr "Audiobookrequest"
 
 msgid "Auto-import enabled"
-msgstr ""
+msgstr "Importació automàtica activada"
 
 msgid "Are you sure you want to delete this connection?"
-msgstr ""
+msgstr "Segur que vols suprimir aquesta connexió?"
 
 msgid "No connections configured"
-msgstr ""
+msgstr "No hi ha cap connexió configurada"
 
 msgid ""
 "Connect your external services to automate user invitations when invites are "
 "created for specific media servers."
 msgstr ""
+"Connecta els teus serveis externs per automatitzar les invitacions d'usuari "
+"quan es creïn invitacions per a servidors multimèdia concrets."
 
 msgid "Add Your First Connection"
-msgstr ""
+msgstr "Afegeix la teva primera connexió"
 
-#, fuzzy
 msgid "General Settings"
-msgstr "Configuració del servidor"
+msgstr "Configuració general"
 
 msgid "Configure your application's basic settings and preferences"
-msgstr ""
+msgstr "Configura els paràmetres bàsics i les preferències de l'aplicació"
 
-#, fuzzy
 msgid "Version"
-msgstr "Permís denegat."
+msgstr "Versió"
 
 msgid "Display"
-msgstr ""
+msgstr "Visualització"
 
 msgid "Configure how your application appears to users"
-msgstr ""
+msgstr "Configura com veuen l'aplicació els usuaris"
 
 msgid "Access Control"
-msgstr ""
+msgstr "Control d'accés"
 
 msgid "Manage user access and permissions"
-msgstr ""
+msgstr "Gestiona l'accés i els permisos dels usuaris"
 
 msgid "Control access to the wizard setup process"
-msgstr ""
+msgstr "Controla l'accés al procés de configuració de l'auxiliar"
 
-#, fuzzy
 msgid "User Management"
-msgstr "Nom d'usuari"
+msgstr "Gestió d'usuaris"
 
 msgid "Configure how users are managed when invitations expire"
-msgstr ""
+msgstr "Configura com es gestionen els usuaris quan caduquen les invitacions"
 
-#, fuzzy
 msgid "Server Capabilities"
-msgstr "Configuració del servidor"
+msgstr "Capacitats del servidor"
 
 msgid "Supports Disable:"
-msgstr ""
+msgstr "Admet la desactivació:"
 
-#, fuzzy
 msgid "Delete Only:"
-msgstr "Crea un compte"
+msgstr "Només supressió:"
 
 msgid ""
 "If 'Disable User' is selected but the server does not support it, the user "
 "will be deleted instead."
 msgstr ""
+"Si se selecciona «Desactiva l'usuari» però el servidor no ho admet, l'usuari "
+"se suprimirà."
 
 msgid "Choose what happens to users when their invitation expires"
-msgstr ""
+msgstr "Tria què passa amb els usuaris quan caduca la seva invitació"
 
 msgid "Immediately process all expired users based on the expiry action above"
 msgstr ""
+"Processa immediatament tots els usuaris caducats segons l'acció de caducitat "
+"de dalt"
 
 msgid "API Key Management"
-msgstr ""
+msgstr "Gestió de claus API"
 
 msgid "Manage API keys for accessing Wizarr programmatically"
-msgstr ""
+msgstr "Gestiona les claus API per accedir a Wizarr de manera programàtica"
 
 msgid "Your API Keys"
-msgstr ""
+msgstr "Les teves claus API"
 
 msgid "Create and manage API keys for external applications"
-msgstr ""
+msgstr "Crea i gestiona claus API per a aplicacions externes"
 
 msgid "Loading API keys..."
-msgstr ""
+msgstr "S'estan carregant les claus API..."
 
-#, fuzzy
 msgid "Save Settings"
-msgstr "Configuració del servidor"
+msgstr "Guarda la configuració"
 
 msgid "Settings"
 msgstr "Configuració"
 
 msgid "Manage your application settings and preferences"
-msgstr ""
+msgstr "Gestiona la configuració i les preferències de l'aplicació"
 
 msgid "General"
-msgstr ""
+msgstr "General"
 
 msgid "Alerts"
-msgstr ""
+msgstr "Alertes"
 
-#, fuzzy
 msgid "Servers"
-msgstr "Mai"
+msgstr "Servidors"
 
-#, fuzzy
 msgid "Activity"
-msgstr "Guardar"
+msgstr "Activitat"
 
-#, fuzzy
 msgid "Admins"
-msgstr "Administrador"
+msgstr "Administradors"
 
 msgid "Wizard"
-msgstr ""
+msgstr "Auxiliar"
 
-#, fuzzy
 msgid "Audit"
-msgstr "Administrador"
+msgstr "Auditoria"
 
-#, fuzzy
 msgid "LDAP Settings"
-msgstr "Configuració del servidor"
+msgstr "Configuració d'LDAP"
 
-#, fuzzy
 msgid "Experimental"
-msgstr "Crea un compte"
+msgstr "Experimental"
 
 msgid "Configure LDAP for user authentication and management"
-msgstr ""
+msgstr "Configura LDAP per a l'autenticació i la gestió d'usuaris"
 
 msgid "Enable LDAP"
-msgstr ""
+msgstr "Activa LDAP"
 
 msgid "Turn on LDAP integration"
-msgstr ""
+msgstr "Activa la integració amb LDAP"
 
-#, fuzzy
 msgid "Connection"
-msgstr "Opcions avançades"
+msgstr "Connexió"
 
-#, fuzzy
 msgid "LDAP server connection"
-msgstr "Crear Invitació"
+msgstr "Connexió amb el servidor LDAP"
 
 msgid "e.g., ldap://server:3890 or ldaps://server:6360"
-msgstr ""
+msgstr "p. ex., ldap://servidor:3890 o ldaps://servidor:6360"
 
-#, fuzzy
 msgid "Use TLS"
-msgstr "Usuaris"
+msgstr "Utilitza TLS"
 
 msgid "Verify Cert"
-msgstr ""
+msgstr "Verifica el certificat"
 
 msgid "Encrypted before storage"
-msgstr ""
+msgstr "S'encripta abans de desar-se"
 
-#, fuzzy
 msgid "User & Group Settings"
-msgstr "Configuració del servidor"
+msgstr "Configuració d'usuaris i grups"
 
 msgid "Where to find users and groups"
-msgstr ""
+msgstr "On trobar els usuaris i els grups"
 
 msgid "Optional - only needed for admin group restriction"
-msgstr ""
+msgstr "Opcional: només cal per restringir el grup d'administradors"
 
 msgid "Sync Groups"
-msgstr ""
+msgstr "Sincronitza els grups"
 
 msgid "Sync LDAP groups to populate admin group selection"
 msgstr ""
+"Sincronitza els grups LDAP per omplir la selecció del grup d'administradors"
 
-#, fuzzy
 msgid "Advanced Settings"
-msgstr "Configuració del servidor"
+msgstr "Configuració avançada"
 
 msgid ""
 "Defaults are optimized for LLDAP. Only change if using a different LDAP "
 "server."
 msgstr ""
+"Els valors predeterminats estan optimitzats per a LLDAP. Canvia'ls només si "
+"fas servir un altre servidor LDAP."
 
 msgid "Manage all users - both LDAP and local authentication"
-msgstr ""
+msgstr "Gestiona tots els usuaris, tant els d'LDAP com els d'autenticació local"
 
 msgid "Sync from LDAP"
-msgstr ""
+msgstr "Sincronitza des d'LDAP"
 
 msgid ""
 "Users can authenticate via LDAP or locally. Sync automatically imports new "
 "users from LDAP."
 msgstr ""
+"Els usuaris es poden autenticar per LDAP o localment. La sincronització "
+"importa automàticament els usuaris nous d'LDAP."
 
-#, fuzzy
 msgid "Admin Authentication"
-msgstr "Agents de notificació"
+msgstr "Autenticació d'administrador"
 
 msgid "Allow administrators to log in using LDAP"
-msgstr ""
+msgstr "Permet que els administradors iniciïn la sessió amb LDAP"
 
 msgid "Allow Admin Login via LDAP"
-msgstr ""
+msgstr "Permet l'inici de sessió d'administrador per LDAP"
 
 msgid "Enable admin login using LDAP credentials"
-msgstr ""
+msgstr "Activa l'inici de sessió d'administrador amb credencials LDAP"
 
 msgid "Optional: Restrict admin access to members of this LDAP group"
 msgstr ""
+"Opcional: restringeix l'accés d'administrador als membres d'aquest grup LDAP"
 
 msgid "Notification Agents"
 msgstr "Agents de notificació"
 
 msgid "Configure notification services to alert you about important events"
 msgstr ""
+"Configura els serveis de notificació per rebre avisos d'esdeveniments "
+"importants"
 
-#, fuzzy
 msgid "Add Agent"
-msgstr "Nou agent"
+msgstr "Afegeix un agent"
 
-#, fuzzy
 msgid "Edit agent"
-msgstr "Nou agent"
+msgstr "Edita l'agent"
 
 msgid "Are you sure you want to delete"
-msgstr ""
+msgstr "Segur que vols suprimir"
 
-#, fuzzy
 msgid "Delete agent"
-msgstr "Crea un compte"
+msgstr "Suprimeix l'agent"
 
 msgid "Status"
-msgstr ""
+msgstr "Estat"
 
-#, fuzzy
 msgid "Events"
-msgstr "Mai"
+msgstr "Esdeveniments"
 
-#, fuzzy
 msgid "No notification agents"
-msgstr "Agents de notificació"
+msgstr "Cap agent de notificacions"
 
 msgid "Get started by creating your first notification agent"
-msgstr ""
+msgstr "Comença creant el teu primer agent de notificacions"
 
-#, fuzzy
 msgid "Unverified"
-msgstr "Il·limitat"
+msgstr "Sense verificar"
 
 msgid "Checking..."
-msgstr ""
+msgstr "S'està comprovant..."
 
 msgid "Create a new external service connection for automated user invitations"
 msgstr ""
+"Crea una connexió nova amb un servei extern per a invitacions d'usuari "
+"automatitzades"
 
 msgid "Update the connection settings"
-msgstr ""
+msgstr "Actualitza la configuració de la connexió"
 
 msgid "Select the type of connection to configure"
-msgstr ""
+msgstr "Selecciona el tipus de connexió que vols configurar"
 
 msgid "A friendly name to identify this connection"
-msgstr ""
+msgstr "Un nom fàcil de recordar per identificar aquesta connexió"
 
 msgid "Which media server should trigger invitations to this external service"
 msgstr ""
+"Quin servidor multimèdia ha d'activar les invitacions a aquest servei extern"
 
 msgid "Open your Overseerr/Jellyseerr admin panel"
-msgstr ""
+msgstr "Obre el tauler d'administració d'Overseerr/Jellyseerr"
 
 msgid "Navigate to Settings → Users"
-msgstr ""
+msgstr "Ves a Settings → Users"
 
 msgid "Enable 'Auto-approve new users'"
-msgstr ""
+msgstr "Activa «Auto-approve new users»"
 
 msgid "Enable 'Import Jellyfin/Plex users'"
-msgstr ""
+msgstr "Activa «Import Jellyfin/Plex users»"
 
 msgid "The full URL to your external service instance"
-msgstr ""
+msgstr "L'URL complet de la teva instància del servei extern"
 
 msgid "API key from your external service settings"
-msgstr ""
+msgstr "Clau API de la configuració del teu servei extern"
 
-#, fuzzy
 msgid "Default Steps"
-msgstr "Predeterminat"
+msgstr "Etapes predeterminades"
 
 msgid "Custom Bundles"
-msgstr ""
+msgstr "Paquets personalitzats"
 
 msgid "Import"
-msgstr ""
+msgstr "Importa"
 
 msgid "Import Configuration"
-msgstr ""
+msgstr "Importa la configuració"
 
 msgid "Import steps or bundles from JSON file"
-msgstr ""
+msgstr "Importa etapes o paquets des d'un fitxer JSON"
 
-#, fuzzy
 msgid "Create"
-msgstr "Creat"
+msgstr "Crea"
 
 msgid "Add a new wizard step"
-msgstr ""
+msgstr "Afegeix una etapa nova a l'auxiliar"
 
-#, fuzzy
 msgid "Add Step to Bundle"
-msgstr "Creat"
+msgstr "Afegeix una etapa al paquet"
 
 msgid "No bundles available yet"
-msgstr ""
+msgstr "Encara no hi ha cap paquet disponible"
 
 msgid "Add Preset"
-msgstr ""
+msgstr "Afegeix una plantilla"
 
 msgid "Create step from template"
-msgstr ""
+msgstr "Crea una etapa a partir d'una plantilla"
 
-#, fuzzy
 msgid "Create Bundle"
-msgstr "Creat"
+msgstr "Crea un paquet"
 
 msgid "Create a collection of steps"
-msgstr ""
+msgstr "Crea un conjunt d'etapes"
 
 msgid "No bundles found."
-msgstr ""
+msgstr "No s'ha trobat cap paquet."
 
 msgid "Preview Wizard"
-msgstr ""
+msgstr "Previsualitza l'auxiliar"
 
 #, python-format
 msgid "Export %(bundle_name)s Bundle"
-msgstr ""
+msgstr "Exporta el paquet %(bundle_name)s"
 
 msgid "Are you sure you want to delete this bundle?"
-msgstr ""
+msgstr "Segur que vols suprimir aquest paquet?"
 
 msgid "Before Invite Acceptance"
-msgstr ""
+msgstr "Abans d'acceptar la invitació"
 
 msgid "Steps shown to users before they accept the invitation"
-msgstr ""
+msgstr "Etapes que es mostren als usuaris abans que acceptin la invitació"
 
 msgid "Are you sure you want to delete this step?"
-msgstr ""
+msgstr "Segur que vols suprimir aquesta etapa?"
 
 msgid "No pre-invite steps configured"
-msgstr ""
+msgstr "No hi ha cap etapa prèvia a la invitació configurada"
 
-#, fuzzy
 msgid "After Invite Acceptance"
-msgstr "Codi d'invitació"
+msgstr "Després d'acceptar la invitació"
 
 msgid "Steps shown to users after they accept the invitation"
-msgstr ""
+msgstr "Etapes que es mostren als usuaris després que acceptin la invitació"
 
 msgid "No post-invite steps configured"
-msgstr ""
+msgstr "No hi ha cap etapa posterior a la invitació configurada"
 
 msgid "Additional Categories"
-msgstr ""
+msgstr "Categories addicionals"
 
 msgid "Steps that use custom categories keep their order here."
 msgstr ""
+"Les etapes que utilitzen categories personalitzades conserven aquí el seu "
+"ordre."
 
-#, fuzzy
 msgid "Orphaned Steps"
-msgstr "Edita la caducitat"
+msgstr "Etapes òrfenes"
 
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
 msgstr ""
+"Aquestes entrades ja no tenen cap etapa associada. Elimina-les per mantenir "
+"el paquet endreçat."
 
 msgid "Step deleted (orphaned)"
-msgstr ""
+msgstr "Etapa suprimida (orfe)"
 
 msgid "Are you sure you want to remove this orphaned step?"
-msgstr ""
+msgstr "Segur que vols eliminar aquesta etapa òrfena?"
 
 msgid "Remove orphaned step"
-msgstr ""
+msgstr "Elimina l'etapa òrfena"
 
-#, fuzzy
 msgid "Preview"
-msgstr "Anterior"
+msgstr "Vista prèvia"
 
 msgid "Import Wizard Configuration"
-msgstr ""
+msgstr "Importa la configuració de l'auxiliar"
 
 msgid ""
 "Import wizard steps or bundles from a JSON file to quickly set up or restore "
 "your wizard configuration."
 msgstr ""
+"Importa etapes o paquets de l'auxiliar des d'un fitxer JSON per configurar-"
+"lo ràpidament o restaurar-ne la configuració."
 
 msgid "Select JSON File"
-msgstr ""
+msgstr "Selecciona un fitxer JSON"
 
 msgid "Steps or Bundle JSON files only (MAX. 10MB)"
-msgstr ""
+msgstr "Només fitxers JSON d'etapes o de paquets (màx. 10 MB)"
 
 msgid ""
 "When checked, all existing wizard steps and bundles will be removed and "
 "replaced with the imported configuration. When unchecked, imported items "
 "will be added alongside existing ones."
 msgstr ""
+"Si està marcat, totes les etapes i paquets existents de l'auxiliar "
+"s'eliminaran i se substituiran per la configuració importada. Si no, els "
+"elements importats s'afegiran als existents."
 
 msgid "Important: Backup Recommended"
-msgstr ""
+msgstr "Important: es recomana fer una còpia de seguretat"
 
 msgid ""
 "This action will modify your wizard configuration. Consider the following:"
 msgstr ""
+"Aquesta acció modificarà la configuració de l'auxiliar. Tingues en compte "
+"això:"
 
 msgid "Export your current steps and bundles first as a backup"
 msgstr ""
+"Exporta primer les etapes i els paquets actuals com a còpia de seguretat"
 
 msgid "Imported steps will use the file's step ordering and server types"
 msgstr ""
+"Les etapes importades faran servir l'ordre i els tipus de servidor del fitxer"
 
 msgid "Imported bundles will preserve their step associations and ordering"
-msgstr ""
+msgstr "Els paquets importats conservaran les etapes associades i el seu ordre"
 
 msgid ""
 "If replacing existing configuration, all current steps and bundles will be "
 "permanently removed"
 msgstr ""
+"Si substitueixes la configuració existent, totes les etapes i els paquets "
+"actuals s'eliminaran permanentment"
 
 msgid "Invalid or malformed JSON files will be rejected"
-msgstr ""
+msgstr "Els fitxers JSON no vàlids o mal formats es rebutjaran"
 
 msgid "Expected JSON Format"
-msgstr ""
+msgstr "Format JSON esperat"
 
 msgid "The JSON file can contain steps or bundles:"
-msgstr ""
+msgstr "El fitxer JSON pot contenir etapes o paquets:"
 
 msgid "For steps export:"
-msgstr ""
+msgstr "Per a l'exportació d'etapes:"
 
 msgid "For bundle export:"
-msgstr ""
+msgstr "Per a l'exportació de paquets:"
 
 msgid "Back to Steps"
-msgstr ""
+msgstr "Torna a les etapes"
 
 msgid "Please select a JSON file to import."
-msgstr ""
+msgstr "Selecciona un fitxer JSON per importar."
 
 msgid "Please select a valid JSON file."
-msgstr ""
+msgstr "Selecciona un fitxer JSON vàlid."
 
 msgid ""
 "This will permanently replace all existing wizard configuration (steps and "
 "bundles). Are you sure you want to continue?"
 msgstr ""
+"Això substituirà permanentment tota la configuració de l'auxiliar (etapes i "
+"paquets). Segur que vols continuar?"
 
 msgid "Wizard Steps"
-msgstr ""
+msgstr "Etapes de l'auxiliar"
 
 msgid "Manage your wizard steps and bundles for user onboarding"
-msgstr ""
+msgstr "Gestiona les etapes i els paquets de l'auxiliar per a l'alta d'usuaris"
 
 msgid "No wizard steps found"
-msgstr ""
+msgstr "No s'ha trobat cap etapa de l'auxiliar"
 
 msgid "Get started by creating your first wizard step"
-msgstr ""
+msgstr "Comença creant la teva primera etapa de l'auxiliar"
 
 msgid "Server"
 msgstr "Servidor"
 
 msgid "steps configured"
-msgstr ""
+msgstr "etapes configurades"
 
-#, fuzzy
 msgid "Untitled Step"
-msgstr "Usos il·limitats"
+msgstr "Etapa sense títol"
 
 msgid "Step"
-msgstr ""
+msgstr "Etapa"
 
-#, fuzzy
 msgid "Edit step"
-msgstr "Edita la caducitat"
+msgstr "Edita l'etapa"
 
-#, fuzzy
 msgid "Delete step"
-msgstr "Predeterminat"
+msgstr "Suprimeix l'etapa"
 
 msgid "No steps found."
-msgstr ""
+msgstr "No s'ha trobat cap etapa."
 
 #, python-format
 msgid ""
 "Are you sure you want to reset all steps for %(server)s to defaults? This "
 "will delete all custom steps and reimport the default ones."
 msgstr ""
+"Segur que vols restablir totes les etapes de %(server)s als valors "
+"predeterminats? Això suprimirà totes les etapes personalitzades i tornarà a "
+"importar les predeterminades."
 
 #, python-format
 msgid "Reset %(server)s Steps to Defaults"
-msgstr ""
+msgstr "Restableix les etapes de %(server)s als valors predeterminats"
 
 #, python-format
 msgid "Export %(server)s Steps"
-msgstr ""
+msgstr "Exporta les etapes de %(server)s"
 
 msgid "Setup Wizarr"
 msgstr "Configurar Wizarr"
@@ -2384,669 +2326,723 @@ msgstr "Il·limitat"
 msgid "There are currently no invitations."
 msgstr "Actualment no hi ha cap invitació."
 
-#, fuzzy
 msgid "Used by"
-msgstr "Utilitzat"
+msgstr "Utilitzada per"
 
 msgid "Used"
 msgstr "Utilitzat"
 
-#, fuzzy
 msgid "Not used yet"
-msgstr "Utilitzat"
+msgstr "Encara no s'ha utilitzat"
 
-#, fuzzy
 msgid "Bundle"
-msgstr "Creat"
+msgstr "Paquet"
 
-#, fuzzy
 msgid "days"
-msgstr "1 dia"
+msgstr "dies"
 
 msgid "Default"
 msgstr "Predeterminat"
 
 msgid "Copy invite link"
-msgstr ""
+msgstr "Copia l'enllaç de la invitació"
 
-#, fuzzy
 msgid "Delete invite"
-msgstr "Predeterminat"
+msgstr "Suprimeix la invitació"
 
 msgid "There are currently no users."
 msgstr "Actualment no hi ha cap usuari."
 
 msgid "Edit nickname"
-msgstr ""
+msgstr "Edita l'àlies"
 
 msgid "Home User"
 msgstr "Usuari local"
 
-#, fuzzy
 msgid "Invited"
-msgstr "Codi d'invitació"
+msgstr "Convidat"
 
 msgid "Disabled"
-msgstr ""
+msgstr "Desactivat"
 
 msgid "Downloads enabled"
-msgstr ""
+msgstr "Baixades activades"
 
 msgid "Live TV enabled"
-msgstr ""
+msgstr "TV en directe activada"
 
-#, fuzzy
 msgid "View details"
-msgstr "Invitacions"
+msgstr "Mostra els detalls"
 
-#, fuzzy
 msgid "Edit user"
-msgstr "Mai"
+msgstr "Edita l'usuari"
 
-#, fuzzy
 msgid "Reset password"
-msgstr "Contrassenya"
+msgstr "Restableix la contrasenya"
 
-#, fuzzy
 msgid "Remove user"
-msgstr "Inici"
+msgstr "Elimina l'usuari"
 
-#, fuzzy
 msgid "Before Invitation"
-msgstr "Crear Invitació"
+msgstr "Abans de la invitació"
 
-#, fuzzy
 msgid "After Invitation"
-msgstr "Crear Invitació"
+msgstr "Després de la invitació"
 
 msgid "Previous"
 msgstr "Anterior"
 
 msgid "Click the link in this step to be able to continue"
-msgstr ""
+msgstr "Fes clic a l'enllaç d'aquesta etapa per poder continuar"
 
 msgid "What is Audiobookshelf?"
-msgstr ""
+msgstr "Què és Audiobookshelf?"
 
 msgid "Welcome to Our Audiobookshelf Server"
-msgstr ""
+msgstr "Benvingut al nostre servidor d'Audiobookshelf"
 
 msgid ""
 "Great news — you now have access to our **audiobook & podcast library** "
 "through Audiobookshelf!"
 msgstr ""
+"Bones notícies: ara tens accés a la nostra **biblioteca d'audiollibres i "
+"pòdcasts** a través d'Audiobookshelf!"
 
 msgid ""
 "Audiobookshelf is a self-hosted audiobook and podcast server that lets "
 "people share their audio collections with friends and family. If you're "
 "here, it means you've been invited to join ours — welcome!"
 msgstr ""
+"Audiobookshelf és un servidor autoallotjat d'audiollibres i pòdcasts que "
+"permet compartir col·leccions d'àudio amb amics i família. Si ets aquí, vol "
+"dir que t'han convidat a la nostra. Benvingut!"
 
 msgid "What You'll Get"
-msgstr ""
+msgstr "Què hi trobaràs"
 
 msgid "Access to our constantly updated audiobooks and podcasts"
-msgstr ""
+msgstr "Accés als nostres audiollibres i pòdcasts, actualitzats constantment"
 
 msgid "Listen on-demand or download for offline listening"
-msgstr ""
+msgstr "Escolta'ls a la carta o baixa'ls per escoltar-los sense connexió"
 
 msgid "Track your progress across all devices"
-msgstr ""
+msgstr "Fes el seguiment del teu progrés a tots els dispositius"
 
 msgid "Download Audiobookshelf Clients"
-msgstr ""
+msgstr "Baixa els clients d'Audiobookshelf"
 
 msgid ""
 "Audiobookshelf has many clients from which you can listen to our audiobooks!"
 msgstr ""
+"Audiobookshelf té molts clients des dels quals pots escoltar els nostres "
+"audiollibres!"
 
 msgid "Listen Anywhere"
-msgstr ""
+msgstr "Escolta on vulguis"
 
 msgid ""
 "Audiobookshelf works almost everywhere — install the app on your favourite "
 "devices:"
 msgstr ""
+"Audiobookshelf funciona gairebé a tot arreu: instal·la l'aplicació als teus "
+"dispositius preferits:"
 
 msgid "Web App"
-msgstr ""
+msgstr "Aplicació web"
 
 msgid "Tips for the best experience"
-msgstr ""
+msgstr "Consells per treure'n el màxim partit"
 
 msgid "Get the best listening experience"
-msgstr ""
+msgstr "Aconsegueix la millor experiència d'escolta"
 
 msgid ""
 "Audiobookshelf offers great features, but here's how to make sure you get "
 "the best experience:"
 msgstr ""
+"Audiobookshelf ofereix funcions molt bones; així t'asseguraràs de treure'n "
+"el màxim partit:"
 
 msgid "Download for offline listening"
-msgstr ""
+msgstr "Baixa'ls per escoltar sense connexió"
 
 msgid "Tap any audiobook → Download to enjoy without internet"
-msgstr ""
+msgstr "Toca qualsevol audiollibre → Baixa per gaudir-ne sense internet"
 
 msgid "Adjust playback speed"
-msgstr ""
+msgstr "Ajusta la velocitat de reproducció"
 
 msgid "Player controls → set speed from 0.5x to 3x"
-msgstr ""
+msgstr "Controls del reproductor → estableix la velocitat entre 0,5x i 3x"
 
 msgid "Enable sleep timer"
-msgstr ""
+msgstr "Activa el temporitzador de repòs"
 
 msgid "Perfect for bedtime listening — auto-stops playback"
 msgstr ""
+"Perfecte per escoltar abans de dormir: atura la reproducció automàticament"
 
 msgid "Happy listening!"
-msgstr ""
+msgstr "Bona escolta!"
 
 msgid "Go to Audiobookshelf"
-msgstr ""
+msgstr "Ves a Audiobookshelf"
 
 msgid "What is Emby?"
-msgstr ""
+msgstr "Què és Emby?"
 
 msgid "Welcome to Our Emby Server"
-msgstr ""
+msgstr "Benvingut al nostre servidor d'Emby"
 
 msgid "Great news — you now have access to our **media library** through Emby!"
 msgstr ""
+"Bones notícies: ara tens accés a la nostra **biblioteca multimèdia** a "
+"través d'Emby!"
 
 msgid ""
 "Emby is a powerful media server that lets people share their film and TV "
 "libraries with friends and family. If you're here, it means you've been "
 "invited to join ours — welcome!"
 msgstr ""
+"Emby és un servidor multimèdia potent que permet compartir biblioteques de "
+"pel·lícules i sèries amb amics i família. Si ets aquí, vol dir que t'han "
+"convidat a la nostra. Benvingut!"
 
 msgid "Access to our constantly updated list of movies and shows"
 msgstr ""
+"Accés a la nostra llista de pel·lícules i sèries, actualitzada constantment"
 
 msgid "Watch on-demand or download for offline viewing"
-msgstr ""
+msgstr "Mira-les a la carta o baixa-les per veure-les sense connexió"
 
 msgid "Personalised watchlists & recommendations"
-msgstr ""
+msgstr "Llistes de seguiment i recomanacions personalitzades"
 
 msgid "Download Emby Clients"
-msgstr ""
+msgstr "Baixa els clients d'Emby"
 
 msgid "Emby has many clients from which you can view our media!"
-msgstr ""
+msgstr "Emby té molts clients des dels quals pots veure el nostre contingut!"
 
 msgid "Watch Anywhere"
-msgstr ""
+msgstr "Mira-ho on vulguis"
 
 msgid ""
 "Emby works almost everywhere — install the app on your favourite devices:"
 msgstr ""
+"Emby funciona gairebé a tot arreu: instal·la l'aplicació als teus "
+"dispositius preferits:"
 
 msgid "Mobile"
-msgstr ""
+msgstr "Mòbil"
 
 msgid "iOS & Android phones/tablets"
-msgstr ""
+msgstr "Telèfons i tauletes iOS i Android"
 
 msgid "Desktop"
-msgstr ""
+msgstr "Escriptori"
 
 msgid "Windows, macOS, Linux"
-msgstr ""
+msgstr "Windows, macOS, Linux"
 
 msgid "Smart TVs & Streaming Devices"
-msgstr ""
+msgstr "Televisors intel·ligents i dispositius de streaming"
 
 msgid "Apple TV, Fire TV, Roku, Chromecast, Android TV"
-msgstr ""
+msgstr "Apple TV, Fire TV, Roku, Chromecast, Android TV"
 
 msgid "Consoles"
-msgstr ""
+msgstr "Consoles"
 
 msgid "PlayStation & Xbox"
-msgstr ""
+msgstr "PlayStation i Xbox"
 
 msgid "Watch instantly in your browser"
-msgstr ""
+msgstr "Mira-ho a l'instant al navegador"
 
 msgid "⬇️ Download Emby Clients"
-msgstr ""
+msgstr "⬇️ Baixa els clients d'Emby"
 
 msgid "Get the best quality"
-msgstr ""
+msgstr "Aconsegueix la millor qualitat"
 
 msgid ""
 "Emby offers great quality, but here's how to make sure you get the best "
 "experience:"
 msgstr ""
+"Emby ofereix molt bona qualitat; així t'asseguraràs de treure'n el màxim "
+"partit:"
 
 msgid "Force original quality"
-msgstr ""
+msgstr "Força la qualitat original"
 
 msgid "Settings → Playback → set"
-msgstr ""
+msgstr "Settings → Playback → estableix"
 
 msgid "to"
-msgstr ""
+msgstr "a"
 
 msgid "Maximum"
-msgstr ""
+msgstr "Maximum"
 
 msgid "Enable hardware decoding"
-msgstr ""
+msgstr "Activa la descodificació per maquinari"
 
 msgid "Settings → Playback → enable for smoother 4K"
-msgstr ""
+msgstr "Settings → Playback → activa-ho per a un 4K més fluid"
 
 msgid "Use a wired connection"
-msgstr ""
+msgstr "Fes servir una connexió per cable"
 
 msgid "if you're on a smart-TV for stutter-free 4K."
-msgstr ""
+msgstr "si ets en un televisor intel·ligent, per a un 4K sense talls."
 
 msgid "Happy viewing!"
-msgstr ""
+msgstr "Bona visualització!"
 
 msgid "Go to Emby"
-msgstr ""
+msgstr "Ves a Emby"
 
 msgid "What is Jellyfin?"
-msgstr ""
+msgstr "Què és Jellyfin?"
 
 msgid "Welcome to Our Jellyfin Server"
-msgstr ""
+msgstr "Benvingut al nostre servidor de Jellyfin"
 
 msgid ""
 "Great news — you now have access to our **media library** through Jellyfin!"
 msgstr ""
+"Bones notícies: ara tens accés a la nostra **biblioteca multimèdia** a "
+"través de Jellyfin!"
 
 msgid ""
 "Jellyfin is a free, open-source media server that lets people share their "
 "film and TV libraries with friends and family. If you're here, it means "
 "you've been invited to join ours — welcome!"
 msgstr ""
+"Jellyfin és un servidor multimèdia lliure i de codi obert que permet "
+"compartir biblioteques de pel·lícules i sèries amb amics i família. Si ets "
+"aquí, vol dir que t'han convidat a la nostra. Benvingut!"
 
 msgid "Download Jellyfin Clients"
-msgstr ""
+msgstr "Baixa els clients de Jellyfin"
 
 msgid "Jellyfin has many clients from which you can view our media!"
 msgstr ""
+"Jellyfin té molts clients des dels quals pots veure el nostre contingut!"
 
 msgid ""
 "Jellyfin works almost everywhere — install the app on your favourite devices:"
 msgstr ""
+"Jellyfin funciona gairebé a tot arreu: instal·la l'aplicació als teus "
+"dispositius preferits:"
 
 msgid "⬇️ Download Jellyfin Clients"
-msgstr ""
+msgstr "⬇️ Baixa els clients de Jellyfin"
 
 msgid ""
 "Jellyfin offers great quality, but here's how to make sure you get the best "
 "experience:"
 msgstr ""
+"Jellyfin ofereix molt bona qualitat; així t'asseguraràs de treure'n el màxim "
+"partit:"
 
 msgid "Go to Jellyfin"
-msgstr ""
+msgstr "Ves a Jellyfin"
 
 msgid "Welcome to your digital library"
-msgstr ""
+msgstr "Benvingut a la teva biblioteca digital"
 
 msgid "Great news! You now have access to our comic and manga collection."
 msgstr ""
+"Bones notícies! Ara tens accés a la nostra col·lecció de còmics i manga."
 
 msgid ""
 "Kavita lets people share their digital libraries with friends. Read comics, "
 "manga, and books directly in your browser or mobile app."
 msgstr ""
+"Kavita permet compartir biblioteques digitals amb els amics. Llegeix còmics, "
+"manga i llibres directament al navegador o a l'aplicació mòbil."
 
 msgid "How do I read stuff?"
-msgstr ""
+msgstr "Com hi puc llegir?"
 
 msgid ""
 "Open Kavita in your browser, sign in with your new account, and start "
 "reading. You can also use mobile apps for a better experience."
 msgstr ""
+"Obre Kavita al navegador, inicia la sessió amb el teu compte nou i comença a "
+"llegir. També pots fer servir les aplicacions mòbils per a una millor "
+"experiència."
 
 msgid "Open Kavita"
-msgstr ""
+msgstr "Obre Kavita"
 
 msgid "Want to read on your phone?"
-msgstr ""
+msgstr "Vols llegir al mòbil?"
 
 msgid "Download a comic reader app for the best mobile experience."
 msgstr ""
+"Baixa una aplicació de lectura de còmics per a la millor experiència mòbil."
 
 msgid "Android"
-msgstr ""
+msgstr "Android"
 
 msgid "Popular manga reader with Kavita support"
-msgstr ""
+msgstr "Lector de manga popular amb suport per a Kavita"
 
 msgid "Great for comics and books"
-msgstr ""
+msgstr "Molt bo per a còmics i llibres"
 
 msgid "iOS"
-msgstr ""
+msgstr "iOS"
 
 msgid "Premium comic reader with Kavita integration"
-msgstr ""
+msgstr "Lector de còmics premium amb integració amb Kavita"
 
 msgid "Full-featured comic reader"
-msgstr ""
+msgstr "Lector de còmics amb totes les funcions"
 
 msgid "Connect your app"
-msgstr ""
+msgstr "Connecta la teva aplicació"
 
 msgid "Use this OPDS URL in your reader app:"
-msgstr ""
+msgstr "Fes servir aquest URL d'OPDS a la teva aplicació de lectura:"
 
 msgid "Login with your Kavita username and password."
-msgstr ""
+msgstr "Inicia la sessió amb el teu nom d'usuari i contrasenya de Kavita."
 
 msgid "Your library includes"
-msgstr ""
+msgstr "La teva biblioteca inclou"
 
 msgid ""
 "Browse collections of comics, manga, light novels, and digital books. "
 "Everything is organized by series and automatically tracks your reading "
 "progress."
 msgstr ""
+"Explora col·leccions de còmics, manga, novel·les lleugeres i llibres "
+"digitals. Tot està organitzat per sèries i el progrés de lectura es desa "
+"automàticament."
 
 msgid "Cool features"
-msgstr ""
+msgstr "Funcions interessants"
 
 msgid "Pick up exactly where you left off"
-msgstr ""
+msgstr "Continua exactament on ho vas deixar"
 
 msgid "Create custom reading lists"
-msgstr ""
+msgstr "Crea llistes de lectura personalitzades"
 
 msgid "Find content by title, author, or genre"
-msgstr ""
+msgstr "Troba contingut per títol, autor o gènere"
 
 msgid "Easy on the eyes for night reading"
-msgstr ""
+msgstr "Còmode per a la vista quan llegeixes de nit"
 
 msgid "Get the best reading experience"
-msgstr ""
+msgstr "Aconsegueix la millor experiència de lectura"
 
 msgid "Kavita has some handy settings to make reading more comfortable:"
-msgstr ""
+msgstr "Kavita té alguns paràmetres pràctics per llegir més còmodament:"
 
 msgid "Set reading direction"
-msgstr ""
+msgstr "Estableix la direcció de lectura"
 
 msgid "Settings → Reader → set manga to right-to-left"
-msgstr ""
+msgstr "Settings → Reader → configura el manga de dreta a esquerra"
 
 msgid "Enable dark mode"
-msgstr ""
+msgstr "Activa el mode fosc"
 
 msgid "Perfect for night reading"
-msgstr ""
+msgstr "Perfecte per llegir de nit"
 
 msgid "Use keyboard shortcuts"
-msgstr ""
+msgstr "Fes servir les dreceres de teclat"
 
 msgid "Space for next page, arrows to navigate"
-msgstr ""
+msgstr "Espai per a la pàgina següent, fletxes per navegar"
 
 msgid "What is Komga?"
-msgstr ""
+msgstr "Què és Komga?"
 
 msgid "Welcome to Our Komga Server"
-msgstr ""
+msgstr "Benvingut al nostre servidor de Komga"
 
 msgid ""
 "Great news — you now have access to our **digital comic and manga library** "
 "through Komga!"
 msgstr ""
+"Bones notícies: ara tens accés a la nostra **biblioteca digital de còmics i "
+"manga** a través de Komga!"
 
 msgid ""
 "Komga is a free, open-source media server designed specifically for comics, "
 "manga, and digital books. If you're here, it means you've been invited to "
 "join our library — welcome!"
 msgstr ""
+"Komga és un servidor multimèdia lliure i de codi obert dissenyat "
+"específicament per a còmics, manga i llibres digitals. Si ets aquí, vol dir "
+"que t'han convidat a la nostra biblioteca. Benvingut!"
 
 msgid "Access to our constantly updated collection of comics and manga"
 msgstr ""
+"Accés a la nostra col·lecció de còmics i manga, actualitzada constantment"
 
 msgid "Read online directly in your browser"
-msgstr ""
+msgstr "Llegeix en línia directament al navegador"
 
 msgid "Download for offline reading on your favorite devices"
-msgstr ""
+msgstr "Baixa'ls per llegir sense connexió als teus dispositius preferits"
 
 msgid "Track your reading progress automatically"
-msgstr ""
+msgstr "Fes el seguiment automàtic del teu progrés de lectura"
 
 msgid "Support for multiple formats (CBZ, CBR, PDF, EPUB)"
-msgstr ""
+msgstr "Compatibilitat amb diversos formats (CBZ, CBR, PDF, EPUB)"
 
 msgid "Download Komga Clients"
-msgstr ""
+msgstr "Baixa els clients de Komga"
 
 msgid ""
 "Komga has many compatible readers from which you can enjoy your comics and "
 "manga!"
 msgstr ""
+"Komga té molts lectors compatibles amb els quals pots gaudir dels teus "
+"còmics i manga!"
 
 msgid "Read Anywhere"
-msgstr ""
+msgstr "Llegeix on vulguis"
 
 msgid ""
 "Komga works with many popular comic readers — install apps on your favorite "
 "devices:"
 msgstr ""
+"Komga funciona amb molts lectors de còmics populars: instal·la les "
+"aplicacions als teus dispositius preferits:"
 
 msgid "iOS (Panels, Chunky) & Android (Mihon/Tachiyomi, Komga Client)"
-msgstr ""
+msgstr "iOS (Panels, Chunky) i Android (Mihon/Tachiyomi, Komga Client)"
 
 msgid "Windows (CDisplayEx, YACReader), macOS & Linux (YACReader)"
-msgstr ""
+msgstr "Windows (CDisplayEx, YACReader), macOS i Linux (YACReader)"
 
 msgid "Tablets"
-msgstr ""
+msgstr "Tauletes"
 
 msgid "iPad & Android tablets with comic reader apps"
-msgstr ""
+msgstr "iPad i tauletes Android amb aplicacions de lectura de còmics"
 
 msgid "Read instantly in your browser at"
-msgstr ""
+msgstr "Llegeix a l'instant al navegador a"
 
 msgid "E-Readers"
-msgstr ""
+msgstr "Lectors electrònics"
 
 msgid "KOReader and other OPDS-compatible readers"
-msgstr ""
+msgstr "KOReader i altres lectors compatibles amb OPDS"
 
 msgid "📚 View Compatible Readers"
-msgstr ""
+msgstr "📚 Consulta els lectors compatibles"
 
 msgid "Library Features"
-msgstr ""
+msgstr "Funcions de la biblioteca"
 
 msgid "Komga Features"
-msgstr ""
+msgstr "Funcions de Komga"
 
 msgid "Discover all the features available to enhance your reading experience!"
 msgstr ""
+"Descobreix totes les funcions disponibles per millorar la teva experiència "
+"de lectura!"
 
 msgid "Reading Experience"
-msgstr ""
+msgstr "Experiència de lectura"
 
 msgid "Webtoon Mode"
-msgstr ""
+msgstr "Mode webtoon"
 
 msgid "Perfect for manga and webtoons with continuous scrolling"
-msgstr ""
+msgstr "Perfecte per a manga i webtoons, amb desplaçament continu"
 
 msgid "Page-by-Page"
-msgstr ""
+msgstr "Pàgina a pàgina"
 
 msgid "Traditional comic book reading experience"
-msgstr ""
+msgstr "L'experiència de lectura de còmic tradicional"
 
 msgid "Zoom & Pan"
-msgstr ""
+msgstr "Zoom i desplaçament"
 
 msgid "Get detailed views of artwork"
-msgstr ""
+msgstr "Mira els detalls de les il·lustracions"
 
 msgid "Auto Bookmarks"
-msgstr ""
+msgstr "Marcadors automàtics"
 
 msgid "Your progress is saved automatically"
-msgstr ""
+msgstr "El teu progrés es desa automàticament"
 
 msgid "Organization"
-msgstr ""
+msgstr "Organització"
 
 msgid "Series Collections"
-msgstr ""
+msgstr "Col·leccions de sèries"
 
 msgid "Browse comics organized by series"
-msgstr ""
+msgstr "Explora els còmics organitzats per sèries"
 
 msgid "Custom Collections"
-msgstr ""
+msgstr "Col·leccions personalitzades"
 
 msgid "Curated collections by themes and genres"
-msgstr ""
+msgstr "Col·leccions seleccionades per temes i gèneres"
 
 msgid "Smart Tags"
-msgstr ""
+msgstr "Etiquetes intel·ligents"
 
 msgid "Filter by genres, authors, publishers, and more"
-msgstr ""
+msgstr "Filtra per gèneres, autors, editorials i més"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Cerca avançada"
 
 msgid "Find specific titles instantly"
-msgstr ""
+msgstr "Troba títols concrets a l'instant"
 
 msgid "Personal Features"
-msgstr ""
+msgstr "Funcions personals"
 
 msgid "Reading Progress"
-msgstr ""
+msgstr "Progrés de lectura"
 
 msgid "Track which issues you've completed"
-msgstr ""
+msgstr "Fes el seguiment dels números que has acabat"
 
 msgid "Continue Reading"
-msgstr ""
+msgstr "Continua llegint"
 
 msgid "Reading Lists"
-msgstr ""
+msgstr "Llistes de lectura"
 
 msgid "Create and manage custom reading lists"
-msgstr ""
+msgstr "Crea i gestiona llistes de lectura personalitzades"
 
 msgid "On Deck"
-msgstr ""
+msgstr "A punt"
 
 msgid "See your next suggested reads"
-msgstr ""
+msgstr "Mira les properes lectures suggerides"
 
 msgid ""
 "Komga offers a great reading experience, but here's how to make it even "
 "better:"
 msgstr ""
+"Komga ofereix una gran experiència de lectura; així la pots millorar encara "
+"més:"
 
 msgid "Choose the right reader mode"
-msgstr ""
+msgstr "Tria el mode de lectura adequat"
 
 msgid "Use webtoon mode for manga, page-by-page for traditional comics"
 msgstr ""
+"Fes servir el mode webtoon per al manga i el mode pàgina a pàgina per als "
+"còmics tradicionals"
 
 msgid "Adjust reading direction"
-msgstr ""
+msgstr "Ajusta la direcció de lectura"
 
 msgid "Settings → Reader → set right-to-left for manga"
-msgstr ""
+msgstr "Settings → Reader → configura de dreta a esquerra per al manga"
 
 msgid "Easier on your eyes during night reading sessions"
-msgstr ""
+msgstr "Més còmode per a la vista quan llegeixes de nit"
 
 msgid "Use full-screen mode"
-msgstr ""
+msgstr "Fes servir el mode de pantalla completa"
 
 msgid "Press F11 in browser for distraction-free reading"
-msgstr ""
+msgstr "Prem F11 al navegador per llegir sense distraccions"
 
 msgid "Download for offline"
-msgstr ""
+msgstr "Baixa'ls per llegir sense connexió"
 
 msgid "Download comics to mobile apps for reading without internet"
-msgstr ""
+msgstr "Baixa còmics a les aplicacions mòbils per llegir-los sense internet"
 
 msgid "Happy reading!"
-msgstr ""
+msgstr "Bona lectura!"
 
 msgid "Go to Komga"
-msgstr ""
+msgstr "Ves a Komga"
 
 msgid "What is Plex?"
-msgstr ""
+msgstr "Què és Plex?"
 
 msgid "Welcome to Our Plex Server"
-msgstr ""
+msgstr "Benvingut al nostre servidor de Plex"
 
 msgid "Great news — you now have access to our **media library** through Plex!"
 msgstr ""
+"Bones notícies: ara tens accés a la nostra **biblioteca multimèdia** a "
+"través de Plex!"
 
 msgid ""
 "Plex lets people share their film and TV libraries with friends and family. "
 "If you're here, it means you've been invited to join ours — welcome!"
 msgstr ""
+"Plex permet compartir biblioteques de pel·lícules i sèries amb amics i "
+"família. Si ets aquí, vol dir que t'han convidat a la nostra. Benvingut!"
 
 msgid "Download Plex Clients"
-msgstr ""
+msgstr "Baixa els clients de Plex"
 
 msgid "Plex has many clients from which you can view our media!"
-msgstr ""
+msgstr "Plex té molts clients des dels quals pots veure el nostre contingut!"
 
 msgid ""
 "Plex works almost everywhere — install the app on your favourite devices:"
 msgstr ""
+"Plex funciona gairebé a tot arreu: instal·la l'aplicació als teus "
+"dispositius preferits:"
 
 msgid "Apple TV, Fire TV, Roku, Chromecast"
-msgstr ""
+msgstr "Apple TV, Fire TV, Roku, Chromecast"
 
 msgid "⬇️ Download Plex Clients"
-msgstr ""
+msgstr "⬇️ Baixa els clients de Plex"
 
 msgid ""
 "Plex sometimes defaults to low quality or shows its own adverts first. "
 "Here's how to fix that:"
 msgstr ""
+"De vegades Plex es posa per defecte en qualitat baixa o mostra primer els "
+"seus propis anuncis. Així ho pots arreglar:"
 
 msgid "Disable trailers & extras"
-msgstr ""
+msgstr "Desactiva els tràilers i els extres"
 
 msgid "Settings → Experience → untick"
-msgstr ""
+msgstr "Settings → Experience → desmarca"
 
 msgid "Show cinematic trailers"
-msgstr ""
+msgstr "Mostra tràilers cinematogràfics"
 
 msgid "Original"
-msgstr ""
+msgstr "Original"
 
 msgid "Go to Plex"
-msgstr ""
+msgstr "Ves a Plex"
 
 msgid "Welcome to RomM"
-msgstr ""
+msgstr "Benvingut a RomM"
 
 msgid "Great news! You now have access to our game collection."
-msgstr ""
+msgstr "Bones notícies! Ara tens accés a la nostra col·lecció de jocs."
 
 msgid "Open RomM"
-msgstr ""
+msgstr "Obre RomM"
 
 #~ msgid "Edit expiry"
 #~ msgstr "Edita la caducitat"
