@@ -15,6 +15,7 @@ from app.services.notifications import (  # your existing helpers
     _discord,
     _notifiarr,
     _ntfy,
+    _pushover,
     _telegram,
 )
 
@@ -49,6 +50,8 @@ def create():
             "channel_id": request.form.get("channel_id") or None,
             "telegram_bot_token": request.form.get("telegram_bot_token") or None,
             "telegram_chat_id": request.form.get("telegram_chat_id") or None,
+            "pushover_user_key": request.form.get("pushover_user_key") or None,
+            "pushover_api_token": request.form.get("pushover_api_token") or None,
             "notification_events": ",".join(events)
             if events
             else "user_joined,update_available",
@@ -99,6 +102,17 @@ def create():
                     url,
                     telegram_bot_token,
                     telegram_chat_id,
+                )
+        elif form["type"] == "pushover":
+            pushover_user_key = form.get("pushover_user_key")
+            pushover_api_token = form.get("pushover_api_token")
+
+            if pushover_user_key and pushover_api_token:
+                ok = _pushover(
+                    "Wizarr test message",
+                    "Test Notification",
+                    pushover_user_key,
+                    pushover_api_token,
                 )
 
         if ok:
@@ -144,6 +158,8 @@ def edit(agent_id):
             "channel_id": request.form.get("channel_id") or None,
             "telegram_bot_token": request.form.get("telegram_bot_token") or None,
             "telegram_chat_id": request.form.get("telegram_chat_id") or None,
+            "pushover_user_key": request.form.get("pushover_user_key") or None,
+            "pushover_api_token": request.form.get("pushover_api_token") or None,
             "notification_events": ",".join(events)
             if events
             else "user_joined,update_available",
@@ -195,6 +211,17 @@ def edit(agent_id):
                     telegram_bot_token,
                     telegram_chat_id,
                 )
+        elif form["type"] == "pushover":
+            pushover_user_key = form.get("pushover_user_key")
+            pushover_api_token = form.get("pushover_api_token")
+
+            if pushover_user_key and pushover_api_token:
+                ok = _pushover(
+                    "Wizarr test message",
+                    "Test Notification",
+                    pushover_user_key,
+                    pushover_api_token,
+                )
 
         if ok:
             # Update the agent with new values
@@ -206,6 +233,8 @@ def edit(agent_id):
             agent.channel_id = form["channel_id"]
             agent.telegram_bot_token = form["telegram_bot_token"]
             agent.telegram_chat_id = form["telegram_chat_id"]
+            agent.pushover_user_key = form["pushover_user_key"]
+            agent.pushover_api_token = form["pushover_api_token"]
             agent.notification_events = form["notification_events"]
             db.session.commit()
             return redirect(url_for(".list_agents"))

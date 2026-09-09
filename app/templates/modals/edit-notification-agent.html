@@ -44,8 +44,34 @@
                 <option value="notifiarr"
                         {% if agent.type == 'notifiarr' %}selected{% endif %}>Notifiarr</option>
                 <option value="ntfy" {% if agent.type == 'ntfy' %}selected{% endif %}>Ntfy</option>
+                <option value="pushover" {% if agent.type == 'pushover' %}selected{% endif %}>Pushover</option>
                 <option value="telegram" {% if agent.type == 'telegram' %}selected{% endif %}>Telegram</option>
               </select>
+            </div>
+            <div id="pushoverSection"
+                 class="notificationAgentInfo"
+                 style="display:
+                        {% if agent.type == 'pushover' %}
+                          block
+                        {% else %}
+                          none
+                        {% endif %}">
+              <label for="pushover_user_key"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("User Key") }}</label>
+              <input type="text"
+                     name="pushover_user_key"
+                     id="pushover_user_key"
+                     value="{{ agent.pushover_user_key or '' }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     {% if agent.type == 'pushover' %}required{% endif %}>
+              <label for="pushover_api_token"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("API Token") }}</label>
+              <input type="password"
+                     name="pushover_api_token"
+                     id="pushover_api_token"
+                     value="{{ agent.pushover_api_token or '' }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                     {% if agent.type == 'pushover' %}required{% endif %} />
             </div>
             <div id="notifiarrSection"
                  class="notificationAgentInfo"
@@ -116,7 +142,13 @@
                      value="{{ agent.password or '' }}"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
-            <div>
+            <div id="urlSection"
+                 style="display:
+                        {% if agent.type == 'pushover' %}
+                          none
+                        {% else %}
+                          block
+                        {% endif %}">
               <label for="url"
                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent URL") }}</label>
               <input type="text"
@@ -125,7 +157,7 @@
                      value="{{ agent.url }}"
                      placeholder="e.g. https://example.com"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                     required>
+                     {% if agent.type != 'pushover' %}required{% endif %}>
             </div>
             <div>
               <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Notification Events") }}</label>
@@ -192,6 +224,8 @@
             notifiarrSection.style.display = 'block';
         } else if (value === "telegram") {
             telegramSection.style.display = 'block';
+        } else if (value === "pushover") {
+            pushoverSection.style.display = 'block';
         }
 
         if (value === 'notifiarr') {
@@ -206,6 +240,18 @@
         } else {
             document.getElementById("telegram_bot_token").required = false
             document.getElementById("telegram_chat_id").required = false
+        }
+
+        if (value === 'pushover') {
+            document.getElementById("pushover_user_key").required = true
+            document.getElementById("pushover_api_token").required = true
+            document.getElementById("urlSection").style.display = 'none'
+            document.getElementById("url").required = false
+        } else {
+            document.getElementById("pushover_user_key").required = false
+            document.getElementById("pushover_api_token").required = false
+            document.getElementById("urlSection").style.display = 'block'
+            document.getElementById("url").required = true
         }
 
         const urlEle = document.getElementById('url');
