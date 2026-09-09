@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}QRIS Subscription{% endblock title %}
+{% block main %}
+<section class="bg-gray-50 dark:bg-gray-900 min-h-screen">
+  <div class="max-w-5xl px-6 py-12 mx-auto">
+    <div class="mb-8 text-center">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Pilih Paket Langganan</h1>
+      <p class="mt-3 text-gray-600 dark:text-gray-300">Bayar via Pakasir QRIS terlebih dahulu. Link undangan Wizarr dibuat otomatis setelah pembayaran terverifikasi.</p>
+    </div>
+
+    {% if config_error %}
+      <div class="p-4 mb-6 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-900 dark:text-red-200">
+        {{ config_error }}
+      </div>
+    {% endif %}
+
+    {% if webhook_url %}
+      <div class="p-4 mb-6 text-sm text-blue-700 bg-blue-100 rounded-lg dark:bg-blue-900 dark:text-blue-200">
+        Webhook URL Pakasir: <code>{{ webhook_url }}</code>
+      </div>
+    {% endif %}
+
+    {% if plans %}
+      <div class="grid gap-6 md:grid-cols-3">
+        {% for plan in plans %}
+          <form method="post" action="{{ url_for('qris.checkout') }}" class="p-6 bg-white rounded-lg shadow-sm dark:bg-gray-800 dark:border dark:border-gray-700">
+            <input type="hidden" name="plan_slug" value="{{ plan.slug }}">
+            <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ plan.name }}</h2>
+            <p class="mt-2 text-3xl font-bold text-gray-900 dark:text-white">Rp{{ "{:,.0f}".format(plan.amount).replace(',', '.') }}</p>
+            <p class="mt-2 text-sm text-gray-600 dark:text-gray-300">Akses {{ plan.duration_days }} hari setelah akun dibuat.</p>
+            <label class="block mt-4 text-sm font-medium text-gray-700 dark:text-gray-300">Email opsional</label>
+            <input type="email" name="email" class="w-full p-2 mt-1 text-sm border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white" placeholder="nama@email.com">
+            <button type="submit" class="w-full px-4 py-2 mt-5 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">Bayar QRIS</button>
+          </form>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="p-6 text-center bg-white rounded-lg shadow-sm dark:bg-gray-800">
+        <p class="text-gray-700 dark:text-gray-300">Belum ada paket aktif. Atur WIZARR_PAKASIR_PLANS_JSON untuk menampilkan paket.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock main %}

@@ -168,6 +168,72 @@ class Invitation(db.Model):
         return user in list(self.users)  # type: ignore
 
 
+class PakasirPlan(db.Model):
+    __tablename__ = "pakasir_plan"
+    id = db.Column(db.Integer, primary_key=True)
+    slug = db.Column(db.String, unique=True, nullable=False)
+    name = db.Column(db.String, nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
+    duration_days = db.Column(db.Integer, nullable=False)
+    server_ids = db.Column(db.Text, nullable=False)
+    library_ids = db.Column(db.Text, nullable=True)
+    allow_downloads = db.Column(db.Boolean, nullable=False, default=False)
+    allow_live_tv = db.Column(db.Boolean, nullable=False, default=False)
+    allow_mobile_uploads = db.Column(db.Boolean, nullable=False, default=False)
+    invite_expires_days = db.Column(db.Integer, nullable=True, default=7)
+    active = db.Column(db.Boolean, nullable=False, default=True)
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+    updated_at = db.Column(
+        db.DateTime,
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
+        nullable=False,
+    )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
+class PakasirOrder(db.Model):
+    __tablename__ = "pakasir_order"
+    id = db.Column(db.Integer, primary_key=True)
+    order_id = db.Column(db.String, unique=True, nullable=False)
+    project = db.Column(db.String, nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.String, nullable=False, default="pending")
+    payment_method = db.Column(db.String, nullable=False, default="qris")
+    payment_url = db.Column(db.Text, nullable=True)
+    buyer_email = db.Column(db.String, nullable=True)
+    plan_id = db.Column(
+        db.Integer,
+        db.ForeignKey("pakasir_plan.id", ondelete="RESTRICT"),
+        nullable=False,
+    )
+    plan = db.relationship("PakasirPlan", backref=db.backref("orders", lazy=True))
+    invitation_id = db.Column(
+        db.Integer, db.ForeignKey("invitation.id", ondelete="SET NULL"), nullable=True
+    )
+    invitation = db.relationship("Invitation", foreign_keys=[invitation_id])
+    completed_at = db.Column(db.DateTime, nullable=True)
+    verified_at = db.Column(db.DateTime, nullable=True)
+    raw_webhook_payload = db.Column(db.Text, nullable=True)
+    raw_detail_payload = db.Column(db.Text, nullable=True)
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+    updated_at = db.Column(
+        db.DateTime,
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
+        nullable=False,
+    )
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
 class Settings(db.Model):
     __tablename__ = "settings"
     id = db.Column(db.Integer, primary_key=True)

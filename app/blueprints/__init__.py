@@ -16,6 +16,7 @@ from .media_servers.routes import media_servers_bp
 from .notifications.routes import notify_bp
 from .plex.routes import plex_bp
 from .public.routes import public_bp
+from .qris.routes import qris_bp
 from .settings.routes import settings_bp
 from .setup.routes import setup_bp
 from .webauthn.routes import webauthn_bp
@@ -28,6 +29,7 @@ from .wizard_admin.routes import wizard_admin_bp
 
 all_blueprints = (
     public_bp,
+    qris_bp,
     wizard_bp,
     admin_bp,
     activity_bp,
