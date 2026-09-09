@@ -48,6 +48,11 @@ from app.services.servers import (
 media_servers_bp = Blueprint("media_servers", __name__, url_prefix="/settings/servers")
 
 
+def _parse_max_active_sessions(data: dict) -> int | None:
+    value = data.get("max_active_sessions")
+    return int(value.strip()) if value and str(value).strip().isdigit() else None
+
+
 def _check_connection(data: dict):
     stype = data["server_type"]
     if stype == "plex":
@@ -116,6 +121,7 @@ def create_server():
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))
         server.allow_live_tv = bool(data.get("allow_live_tv"))
+        server.max_active_sessions = _parse_max_active_sessions(data)
         server.verified = True
         db.session.add(server)
         db.session.commit()
@@ -209,6 +215,7 @@ def edit_server(server_id):
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))
         server.allow_live_tv = bool(data.get("allow_live_tv"))
+        server.max_active_sessions = _parse_max_active_sessions(data)
         # update libraries
         chosen = request.form.getlist("libraries")
         if chosen:
