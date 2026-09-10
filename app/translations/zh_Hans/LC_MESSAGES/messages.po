@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-09-10 08:08+0000\n"
-"PO-Revision-Date: 2026-06-10 07:16+0000\n"
-"Last-Translator: wanyuxi88 <wanyuxi@163.com>\n"
+"PO-Revision-Date: 2026-09-11 08:03+0000\n"
+"Last-Translator: wolfling45 <tdwangfei@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/wizarr/wizarr-universal/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
 msgid "Failed to load settings"
@@ -32,9 +32,8 @@ msgstr "加载历史数据失败"
 msgid "Failed to load activity data"
 msgstr "加载活动数据失败"
 
-#, fuzzy
 msgid "Failed to load activity summary"
-msgstr "加载活动数据失败"
+msgstr "活动摘要加载失败"
 
 msgid "Failed to get activity statistics"
 msgstr "获取活动统计数据失败"
@@ -49,20 +48,20 @@ msgid "Failed to export activity data"
 msgstr "导出活动数据失败"
 
 msgid "enabled"
-msgstr ""
+msgstr "已启用"
 
 msgid "disabled"
-msgstr ""
+msgstr "已禁用"
 
 #, python-brace-format
 msgid "Activity tracking is {state}. The change can take up to 15 seconds."
-msgstr ""
+msgstr "活动跟踪{state}。更改最多可能需要 15 秒才能生效。"
 
 msgid "Monitoring restarted"
-msgstr "监控已重新启动"
+msgstr "活动跟踪已重新启动"
 
 msgid "Monitor not available"
-msgstr "监控不可用"
+msgstr "活动跟踪不可用"
 
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
@@ -70,7 +69,7 @@ msgstr "已清理 {} 条旧活动记录"
 
 #, python-brace-format
 msgid "Ended {} stale sessions"
-msgstr "已终止 {} 个过期的会话"
+msgstr "已结束 {} 个过期会话"
 
 msgid "Unknown action"
 msgstr "未知操作"
@@ -180,13 +179,11 @@ msgstr "API 密钥创建成功。请立即复制，此密钥后续将不再显�
 msgid "API key deleted successfully"
 msgstr "API 密钥删除成功"
 
-#, fuzzy
 msgid "LDAP authentication is not enabled"
-msgstr "认证失败"
+msgstr "LDAP 身份验证尚未启用"
 
-#, fuzzy
 msgid "LDAP admin authentication is not allowed"
-msgstr "认证失败"
+msgstr "不允许使用 LDAP 管理员身份验证"
 
 msgid "Invalid LDAP credentials"
 msgstr "LDAP凭据无效"
@@ -200,9 +197,8 @@ msgstr "用户未被授权为管理员"
 msgid "Login successful"
 msgstr "登录成功"
 
-#, fuzzy
 msgid "LDAP authentication failed"
-msgstr "认证失败"
+msgstr "LDAP 身份验证失败"
 
 msgid "Invalid username or password"
 msgstr "用户名或密码无效"
@@ -280,17 +276,15 @@ msgid ""
 "undone."
 msgstr "你确定要清理所有过期用户吗？此操作无法撤销。"
 
-#, fuzzy
 msgid "Clean Expired Users"
-msgstr "未设置有效期"
+msgstr "清理过期用户"
 
 #, python-brace-format
 msgid "Failed to clean expired users: {error}"
 msgstr "清理过期用户失败：{error}"
 
-#, fuzzy
 msgid "LDAP configuration saved successfully"
-msgstr "连接更新成功！"
+msgstr "LDAP 配置已成功保存"
 
 msgid "LDAP not configured or disabled"
 msgstr "LDAP 未配置或已禁用"
@@ -298,13 +292,12 @@ msgstr "LDAP 未配置或已禁用"
 msgid "No groups found in LDAP"
 msgstr "在 LDAP 中未找到任何组"
 
-#, fuzzy
 msgid "LDAP is not configured"
-msgstr "已配置的步骤"
+msgstr "LDAP 未配置"
 
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to list LDAP users: %(error)s"
-msgstr "重置步骤失败：{}"
+msgstr "LDAP 用户列表获取失败：%(error)s"
 
 msgid "Admin account created – welcome!"
 msgstr "管理员账户创建成功 – 欢迎！"
@@ -683,9 +676,8 @@ msgstr "登录"
 msgid "This is the administrator login page."
 msgstr "这是管理员登录页面。"
 
-#, fuzzy
 msgid "Go to your media server instead"
-msgstr "您的Discord服务器ID"
+msgstr "前往媒体服务器"
 
 #, python-brace-format
 msgid "Welcome back, {}!"
@@ -694,16 +686,14 @@ msgstr "欢迎回来，{}！"
 msgid "Please authenticate with your passkey to complete login."
 msgstr "请使用您的通行密钥进行身份验证以完成登录。"
 
-#, fuzzy
 msgid "Authentication Method"
-msgstr "认证失败"
+msgstr "身份验证方式"
 
-#, fuzzy
 msgid "Local Account"
-msgstr "创建账户"
+msgstr "本地账户"
 
 msgid "LDAP"
-msgstr ""
+msgstr "LDAP"
 
 msgid "Remember me"
 msgstr "记住我"
@@ -732,9 +722,8 @@ msgstr "无法完成双重认证登录"
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr "密钥认证失败。请重试或使用您的密码。"
 
-#, fuzzy
 msgid "Password Reset Error"
-msgstr "密码太短"
+msgstr "密码重置错误"
 
 msgid "Error:"
 msgstr "错误："
@@ -766,7 +755,7 @@ msgid "Common reasons for this error:"
 msgstr "此错误的常见原因如下："
 
 msgid "The link has already been used"
-msgstr "该链接已被使用，无法再次使用。"
+msgstr "该链接已被使用"
 
 msgid "The link has expired (24 hour limit)"
 msgstr "该链接已过期（有效期为24小时）"
@@ -789,43 +778,35 @@ msgstr "该链接有效期至："
 msgid "Enter new password (8-128 characters)"
 msgstr "请输入新密码（8-128个字符）"
 
-#, fuzzy
 msgid "Confirm new password"
 msgstr "确认新密码"
 
-#, fuzzy
 msgid "Password must be:"
-msgstr "密码必须一致。"
+msgstr "密码必须符合以下要求："
 
 msgid "Between 8 and 128 characters"
 msgstr "长度需为 8 至 128 个字符"
 
-#, fuzzy
 msgid "Match the confirmation"
-msgstr "导入配置"
+msgstr "两次输入的密码必须一致"
 
-#, fuzzy
 msgid "Reset Password"
-msgstr "当前密码"
+msgstr "重置密码"
 
-#, fuzzy
 msgid "Password Reset Successful!"
-msgstr "连接测试成功！"
+msgstr "密码重置成功！"
 
-#, fuzzy
 msgid "The password for"
-msgstr "新密码"
+msgstr "用户"
 
-#, fuzzy
 msgid "has been successfully reset."
-msgstr "活动数据已成功删除（{} 条记录）。"
+msgstr "的密码已成功重置。"
 
 msgid "You can now use your new password to log in to your media server."
 msgstr "密码已重置成功，您现在可以使用新密码登录媒体服务器。"
 
-#, fuzzy
 msgid "What's next?"
-msgstr "接下来会发生什么？"
+msgstr "接下来做什么？"
 
 msgid "Log in to your media server with your username and new password."
 msgstr "请使用您的用户名和新密码登录媒体服务器。"
@@ -874,10 +855,10 @@ msgid "Secure invitation system powered by Wizarr"
 msgstr "由Wizarr提供支持的安全邀请系统"
 
 msgid "Pop-up blocked. Allow pop-ups for this site and try again."
-msgstr ""
+msgstr "弹窗被阻止。请允许此网站使用弹窗后重试。"
 
 msgid "Sign-in cancelled. Hit Join Server to try again."
-msgstr ""
+msgstr "登录已取消。点击加入服务器以重试。"
 
 msgid "Plex sign-in failed. Try again, or contact your server admin."
 msgstr ""
@@ -981,9 +962,8 @@ msgstr "无法加载当前播放内容"
 msgid "There was an error connecting to your media servers"
 msgstr "连接到您的媒体服务器时发生错误"
 
-#, fuzzy
 msgid "No one is streaming"
-msgstr "没有人正在观看"
+msgstr "当前无人播放"
 
 msgid "No active media sessions found across your servers"
 msgstr "在您的服务器上未找到任何活跃的媒体会话"
@@ -1090,16 +1070,14 @@ msgstr "基本权限"
 msgid "Close"
 msgstr "关闭"
 
-#, fuzzy
 msgid "Edit User"
 msgstr "编辑用户"
 
 msgid "Close modal"
 msgstr "关闭弹窗"
 
-#, fuzzy
 msgid "Tabs"
-msgstr "状态"
+msgstr "标签页"
 
 msgid "Local"
 msgstr "本地"
@@ -1107,9 +1085,8 @@ msgstr "本地"
 msgid "Notes"
 msgstr "备注"
 
-#, fuzzy
 msgid "Permission Management"
-msgstr "用户管理"
+msgstr "权限管理"
 
 msgid "Toggle downloads permission"
 msgstr "启用/禁用下载权限"
@@ -1117,30 +1094,26 @@ msgstr "启用/禁用下载权限"
 msgid "Toggle live TV permission"
 msgstr "允许观看直播电视"
 
-#, fuzzy
 msgid "Allow Camera Upload"
-msgstr "照片上传"
+msgstr "允许使用相机上传"
 
 msgid "Toggle camera upload permission"
 msgstr "允许相机自动上传"
 
-#, fuzzy
 msgid "Library Access"
-msgstr "媒体库"
+msgstr "媒体库访问权限"
 
-#, fuzzy
 msgid "No libraries available"
-msgstr "未找到媒体库"
+msgstr "暂无可用媒体库"
 
 msgid "Scan libraries from the invitation page to enable library restrictions"
-msgstr "请在邀请页面扫描媒体库，以启用媒体库访问限制。"
+msgstr "请从邀请页面扫描媒体库以启用媒体库访问限制"
 
 msgid "Click to toggle library access. Updates save automatically."
 msgstr "点击可切换媒体库访问权限，修改将自动保存。"
 
-#, fuzzy
 msgid "Expiry Management"
-msgstr "用户管理"
+msgstr "到期管理"
 
 msgid "Expiry date"
 msgstr "有效期日期"
@@ -1154,9 +1127,8 @@ msgstr "当前有效期"
 msgid "No expiry set"
 msgstr "未设置有效期"
 
-#, fuzzy
 msgid "User notes"
-msgstr "更新备注"
+msgstr "用户备注"
 
 msgid "Add notes about this user..."
 msgstr "添加关于此用户的备注..."
@@ -1373,13 +1345,11 @@ msgstr "新代理"
 msgid "Channel ID"
 msgstr "频道 ID"
 
-#, fuzzy
 msgid "Bot Token"
-msgstr "按钮"
+msgstr "机器人令牌"
 
-#, fuzzy
 msgid "Chat ID"
-msgstr "频道 ID"
+msgstr "聊天 ID"
 
 msgid "Username (optional)"
 msgstr "用户名（可选）"
@@ -1494,13 +1464,11 @@ msgid ""
 "number of days. (1-999)"
 msgstr "设置后，受邀用户将在若干天后从 Plex 服务器中移除。（1-999 天）"
 
-#, fuzzy
 msgid "LDAP Integration"
-msgstr "接受邀请"
+msgstr "LDAP 集成"
 
-#, fuzzy
 msgid "Create LDAP User"
-msgstr "创建API密钥"
+msgstr "创建 LDAP 用户"
 
 msgid "Automatically create an LDAP user when this invitation is accepted"
 msgstr "接受邀请后自动创建 LDAP 用户"
@@ -1517,9 +1485,8 @@ msgstr "允许访问直播电视"
 msgid "Allow Mobile Uploads"
 msgstr "允许移动设备上传"
 
-#, fuzzy
 msgid "Max Active Sessions"
-msgstr "活跃会话"
+msgstr "最大活动会话数"
 
 msgid "simultaneous devices"
 msgstr "同时在线设备数"
@@ -1552,20 +1519,17 @@ msgstr "创建另一个"
 msgid "Please select at least one server for the invitation."
 msgstr "请至少选择一个服务器进行邀请。"
 
-#, fuzzy
 msgid "Password Reset Link"
-msgstr "密码（可选）"
+msgstr "密码重置链接"
 
 msgid "Generate Password Reset Link"
 msgstr "生成密码重置链接"
 
-#, fuzzy
 msgid "Password reset link for"
-msgstr "密码太短"
+msgstr "密码重置链接："
 
-#, fuzzy
 msgid "Link expires:"
-msgstr "到期时间"
+msgstr "链接有效期至："
 
 msgid "Reset Link (Click to copy)"
 msgstr "重置链接（点击复制）"
@@ -1577,13 +1541,11 @@ msgstr "请将此链接发送给用户，该链接仅可用于一次性重置密
 msgid "Reset Code"
 msgstr "重置验证码"
 
-#, fuzzy
 msgid "Security Notes:"
-msgstr "更新备注"
+msgstr "安全须知："
 
-#, fuzzy
 msgid "This link can only be used once"
-msgstr "此操作无法撤销。"
+msgstr "此链接只能使用一次"
 
 msgid "It expires in 24 hours"
 msgstr "有效期为24小时"
@@ -1591,31 +1553,26 @@ msgstr "有效期为24小时"
 msgid "Send it securely (email, message, etc.)"
 msgstr "请通过安全方式发送（如电子邮件、消息等）"
 
-#, fuzzy
 msgid "Generate a secure password reset link for"
-msgstr "生成一个强随机密码代替"
+msgstr "为以下用户生成安全的密码重置链接："
 
-#, fuzzy
 msgid "Generate Reset Link"
-msgstr "常规设置"
+msgstr "生成重置链接"
 
 msgid "The link will be valid for 24 hours and can only be used once."
 msgstr "该链接有效期为24小时，且只能使用一次。"
 
-#, fuzzy
 msgid "Copy Link"
-msgstr "复制邀请链接"
+msgstr "复制链接"
 
-#, fuzzy
 msgid "Copied!"
-msgstr "加入时间"
+msgstr "已复制！"
 
-#, fuzzy
 msgid "Reset link copied to clipboard!"
-msgstr "链接已复制到剪贴板！"
+msgstr "重置链接已复制到剪贴板！"
 
 msgid "Please manually copy the link"
-msgstr "请手动复制链接。"
+msgstr "请手动复制链接"
 
 msgid "Import Wizard Steps"
 msgstr "导入向导步骤"
@@ -1828,7 +1785,7 @@ msgid "Choose what happens to users when their invitation expires"
 msgstr "选择用户邀请过期时的处理方式"
 
 msgid "Immediately process all expired users based on the expiry action above"
-msgstr "按照上方设置的过期处理方式，立即处理所有已过期用户。"
+msgstr "立即根据上述到期操作处理所有已过期用户"
 
 msgid "API Key Management"
 msgstr "API密钥管理"
@@ -1875,13 +1832,11 @@ msgstr "向导设置"
 msgid "Audit"
 msgstr "审计"
 
-#, fuzzy
 msgid "LDAP Settings"
-msgstr "保存设置"
+msgstr "LDAP 设置"
 
-#, fuzzy
 msgid "Experimental"
-msgstr "元素"
+msgstr "实验性"
 
 msgid "Configure LDAP for user authentication and management"
 msgstr "配置 LDAP 用于用户认证与管理"
@@ -1892,31 +1847,26 @@ msgstr "启用 LDAP"
 msgid "Turn on LDAP integration"
 msgstr "启用 LDAP 集成"
 
-#, fuzzy
 msgid "Connection"
 msgstr "连接"
 
-#, fuzzy
 msgid "LDAP server connection"
-msgstr "更新连接"
+msgstr "LDAP 服务器连接"
 
 msgid "e.g., ldap://server:3890 or ldaps://server:6360"
 msgstr "例如：ldap://server:3890 或 ldaps://server:6360"
 
-#, fuzzy
 msgid "Use TLS"
-msgstr "用户详情"
+msgstr "使用 TLS"
 
-#, fuzzy
 msgid "Verify Cert"
-msgstr "已验证"
+msgstr "验证证书"
 
 msgid "Encrypted before storage"
 msgstr "存储前加密"
 
-#, fuzzy
 msgid "User & Group Settings"
-msgstr "保存设置"
+msgstr "用户和组设置"
 
 msgid "Where to find users and groups"
 msgstr "在哪里查找用户和组"
@@ -1930,18 +1880,16 @@ msgstr "同步组"
 msgid "Sync LDAP groups to populate admin group selection"
 msgstr "同步 LDAP 组以填充管理员组选择列表"
 
-#, fuzzy
 msgid "Advanced Settings"
-msgstr "保存设置"
+msgstr "高级设置"
 
 msgid ""
 "Defaults are optimized for LLDAP. Only change if using a different LDAP "
 "server."
 msgstr "默认设置已针对 LLDAP 优化，仅在使用其他 LDAP 服务器时修改。"
 
-#, fuzzy
 msgid "Manage all users - both LDAP and local authentication"
-msgstr "管理您的通行密钥以实现无密码认证。"
+msgstr "管理所有用户，包括 LDAP 和本地身份验证用户"
 
 msgid "Sync from LDAP"
 msgstr "从 LDAP 同步"
@@ -1952,9 +1900,8 @@ msgid ""
 msgstr ""
 "用户可以通过 LDAP 或本地进行身份验证。同步功能会自动从 LDAP 导入新用户。"
 
-#, fuzzy
 msgid "Admin Authentication"
-msgstr "无待处理的双重身份验证"
+msgstr "管理员身份验证"
 
 msgid "Allow administrators to log in using LDAP"
 msgstr "允许管理员通过 LDAP 登录"
@@ -2320,9 +2267,8 @@ msgstr "查看详情"
 msgid "Edit user"
 msgstr "编辑用户"
 
-#, fuzzy
 msgid "Reset password"
-msgstr "当前密码"
+msgstr "重置密码"
 
 msgid "Remove user"
 msgstr "移除用户"
