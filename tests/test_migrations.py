@@ -21,14 +21,19 @@ class MigrationTestConfig(BaseConfig):
 @pytest.fixture
 def temp_db():
     """Create a temporary database file for migration testing."""
+    import contextlib
+
     with tempfile.NamedTemporaryFile(suffix=".db", delete=False) as f:
         db_path = f.name
 
     try:
         yield f"sqlite:///{db_path}"
     finally:
-        if os.path.exists(db_path):
-            os.unlink(db_path)
+        for ext in ["", "-wal", "-shm"]:
+            f_path = db_path + ext
+            if os.path.exists(f_path):
+                with contextlib.suppress(Exception):
+                    os.unlink(f_path)
 
 
 @pytest.fixture
@@ -39,6 +44,11 @@ def migration_app(temp_db):
 
     app = create_app(config)  # type: ignore
     yield app
+    from app.extensions import db
+
+    with app.app_context():
+        db.session.remove()
+        db.engine.dispose()
 
 
 def test_full_migration_upgrade(migration_app, temp_db):

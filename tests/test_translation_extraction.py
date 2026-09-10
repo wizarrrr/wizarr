@@ -24,13 +24,13 @@ def test_babel_config_extracts_default_wizard_steps():
         if "_(" in path.read_text()
     }
     extracted_wizard_files = {
-        filename
+        Path(filename).as_posix()
         for filename, *_rest in extracted
-        if filename.startswith("wizard_steps/")
+        if Path(filename).as_posix().startswith("wizard_steps/")
     }
 
     assert wizard_files <= extracted_wizard_files
     assert any(
-        filename == "wizard_steps/plex/01_what_is.md" and message == "What is Plex?"
+        Path(filename).as_posix() == "wizard_steps/plex/01_what_is.md" and message == "What is Plex?"
         for filename, _line, message, _comments, _context in extracted
     )
