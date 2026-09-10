@@ -198,6 +198,20 @@ Make sure disabled buttons don't get the pointer cursor.
   --animate-duration: 0.05s !important; /* Almost instant but still smooth */
 }
 
+/* Keep widget styles outside imported content. */
+@keyframes wizard-media-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.media-carousel-widget .animate-scroll {
+  animation: wizard-media-scroll 30s linear infinite;
+}
+
+.media-carousel-widget .carousel-container:hover .animate-scroll {
+  animation-play-state: paused;
+}
+
 /* Wizard mobile optimization */
 @media (max-width: 768px) {
   /* Container must be fixed height on mobile */

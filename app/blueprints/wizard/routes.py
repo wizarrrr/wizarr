@@ -1,4 +1,5 @@
 from pathlib import Path
+from uuid import uuid4
 
 import frontmatter
 import markdown
@@ -284,43 +285,45 @@ def _render(post, ctx: dict, server_type: str | None = None) -> str:
     Handles rendering errors gracefully by logging and returning error message.
     Requirement 13.6: Graceful degradation for missing/broken steps.
     """
+    from app.services.wizard_html import sanitize_wizard_html
+    from app.services.wizard_templates import render_wizard_template, wizard_context
     from app.services.wizard_widgets import (
+        WIDGET_PATTERN,
         process_card_delimiters,
         process_widget_placeholders,
     )
 
     try:
-        # Jinja templates inside the markdown files expect a top-level
-        # `settings` variable. Build a context copy that exposes the current
-        # config dictionary via this key while still passing through all
-        # existing entries and utilities (e.g. the _() gettext function).
-        render_ctx = ctx.copy()
-        render_ctx["settings"] = ctx
-
-        # Add server_type to context if provided and not None
+        render_ctx = wizard_context(ctx)
         if server_type is not None:
             render_ctx["server_type"] = server_type
 
-        # FIRST: Process card delimiters (|||) BEFORE widget placeholders
-        content_with_cards = process_card_delimiters(post.content)
+        # Keep widget calls out of Jinja. Insert their output after rendering.
+        widget_calls = {}
+        token_prefix = uuid4().hex
 
-        # SECOND: Process widget placeholders BEFORE Jinja rendering
-        # This prevents Jinja from trying to parse {{ widget:... }} syntax
-        content_with_widgets = content_with_cards
-        if server_type:
-            content_with_widgets = process_widget_placeholders(
-                content_with_cards, server_type, context=render_ctx
+        def save_widget(match):
+            token = f"WIZARR{token_prefix}WIDGET{len(widget_calls)}END"
+            widget_calls[token] = match.group(0)
+            return token
+
+        source = WIDGET_PATTERN.sub(save_widget, post.content)
+        rendered_content = render_wizard_template(source, render_ctx)
+        for token, widget_source in widget_calls.items():
+            widget_html = (
+                process_widget_placeholders(
+                    widget_source, server_type, context=render_ctx
+                )
+                if server_type and token in rendered_content
+                else ""
             )
+            rendered_content = rendered_content.replace(token, widget_html)
 
-        # THEN: Render Jinja templates in the processed content
-        env = current_app.jinja_env.overlay(autoescape=False)
-        template = env.from_string(content_with_widgets)
-        rendered_content = template.render(**render_ctx)
-
-        # Use simple markdown configuration - HTML should pass through by default
-        return markdown.markdown(
-            rendered_content, extensions=["fenced_code", "tables", "attr_list"]
+        html = markdown.markdown(
+            process_card_delimiters(rendered_content),
+            extensions=["fenced_code", "tables", "attr_list"],
         )
+        return sanitize_wizard_html(html)
     except Exception as e:
         current_app.logger.error(
             f"Error rendering wizard step for {server_type}: {e}", exc_info=True

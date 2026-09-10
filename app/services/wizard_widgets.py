@@ -16,11 +16,15 @@ This is the card content with **markdown** support.
 import logging
 import re
 from typing import Any
+from urllib.parse import urlsplit
 
 import markdown
 from flask import render_template_string
 
 from app.services.media.service import get_media_client
+from app.services.wizard_templates import render_wizard_template, wizard_context
+
+WIDGET_PATTERN = re.compile(r"""\{\{\s*(widget:(?:[^}"']|"[^"]*"|'[^']*')*)\}\}""")
 
 
 class WizardWidget:
@@ -91,24 +95,6 @@ class RecentlyAddedMediaWidget(WizardWidget):
                 </div>
             </div>
 
-            <style>
-            @keyframes scroll {
-                0% {
-                    transform: translateX(0);
-                }
-                100% {
-                    transform: translateX(-50%);
-                }
-            }
-
-            .animate-scroll {
-                animation: scroll 30s linear infinite;
-            }
-
-            .carousel-container:hover .animate-scroll {
-                animation-play-state: paused;
-            }
-            </style>
             {% else %}
             <div class="text-center py-8 text-gray-500 dark:text-gray-400">
                 <svg class="w-12 h-12 mx-auto mb-2 text-gray-300" fill="currentColor" viewBox="0 0 20 20">
@@ -206,12 +192,14 @@ class ButtonWidget(WizardWidget):
         try:
             import html
 
-            url = kwargs.get("url", "")
-            text = kwargs.get("text", "Click Here")
-            context = _context or kwargs.pop("context", {}) or {}
+            url = str(kwargs.get("url", ""))
+            text = str(kwargs.get("text", "Click Here"))
+            context = wizard_context(_context or kwargs.pop("context", {}) or {})
 
             # If URL is a Jinja variable name (no protocol and no slashes), try to resolve it from context
-            if (
+            if "{{" in url or "{%" in url:
+                url = render_wizard_template(url, context)
+            elif (
                 url
                 and not url.startswith(("http://", "https://", "//", "{{"))
                 and "/" not in url
@@ -222,43 +210,30 @@ class ButtonWidget(WizardWidget):
                 else:
                     # Try to render it as a Jinja variable
                     try:
-                        from flask_babel import gettext as _translate
-
-                        render_ctx = context.copy()
-                        render_ctx["_"] = _translate
-                        url = render_template_string(f"{{{{ {url} }}}}", **render_ctx)
+                        url = render_wizard_template(f"{{{{ {url} }}}}", context)
                     except Exception as exc:
                         # If rendering fails, keep original value
                         logging.debug(f"Failed to render URL template '{url}': {exc}")
 
-            # If text contains translation function call, render it first
-            text_str = str(text)
+            if text.startswith("_("):
+                text = render_wizard_template(f"{{{{ {text} }}}}", context)
+            elif "{{" in text or "{%" in text:
+                text = render_wizard_template(text, context)
 
-            if "_(" in text_str:
-                try:
-                    # Import gettext to make it available in the template context
-                    from flask_babel import gettext as _translate
-
-                    # Wrap _("...") in {{ }} to make it a Jinja expression
-                    template_str = f"{{{{ {text_str} }}}}"
-                    text = render_template_string(template_str, _=_translate)
-                except Exception as exc:
-                    # If rendering fails, use the text as-is
-                    logging.debug(
-                        f"Failed to render text translation '{text_str}': {exc}"
-                    )
-            elif "{{" in text_str:
-                # Already has Jinja syntax, render as-is
-                try:
-                    from flask_babel import gettext as _translate
-
-                    text = render_template_string(text_str, _=_translate)
-                except Exception as exc:
-                    # If rendering fails, use the text as-is
-                    logging.debug(f"Failed to render text template '{text_str}': {exc}")
+            url = str(url or "")
+            # Reject executable URL schemes before creating an anchor.
+            if any(ord(char) < 32 for char in url) or urlsplit(
+                url
+            ).scheme.lower() not in ("", "http", "https", "mailto"):
+                return ""
 
             # Ensure URL has proper protocol if missing
-            if url and not url.startswith(("http://", "https://", "//")) and "." in url:
+            if (
+                url
+                and not urlsplit(url).scheme
+                and not url.startswith(("/", "#"))
+                and "." in url
+            ):
                 # If it looks like a domain, prepend https://
                 url = f"https://{url}"
 
@@ -285,8 +260,9 @@ class ButtonWidget(WizardWidget):
 </div>
 '''
 
-        except Exception as e:
-            return f'\n\n<div class="text-sm text-gray-500 italic">Button widget error: {e}</div>\n\n'
+        except Exception:
+            logging.debug("Cannot render wizard button.", exc_info=True)
+            return '\n\n<div class="text-sm text-gray-500 italic">Button unavailable</div>\n\n'
 
 
 # Widget registry
@@ -400,5 +376,4 @@ def process_widget_placeholders(
         return f'<div class="text-sm text-red-500">Unknown widget: {widget_name}</div>'
 
     # Match {{ widget:... }} patterns specifically (not other {{ }} expressions)
-    pattern = r"\{\{\s*(widget:[^}]+)\s*\}\}"
-    return re.sub(pattern, replace_widget, content)
+    return WIDGET_PATTERN.sub(replace_widget, content)
