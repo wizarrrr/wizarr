@@ -4,6 +4,8 @@ Wizard widget system for embedding dynamic content in wizard steps.
 Widgets are inserted into markdown content using special syntax:
 {{ widget:recently_added_media }}
 {{ widget:recently_added_media limit=6 }}
+{{ widget:collection_media collection="My Collection" }}
+{{ widget:collection_media collection="My Collection" limit=15 }}
 {{ widget:button url="https://example.com" text="Click Here" }}
 
 Cards use delimiter syntax:
@@ -182,6 +184,76 @@ class RecentlyAddedMediaWidget(WizardWidget):
             return []
 
 
+class CollectionMediaWidget(RecentlyAddedMediaWidget):
+    """Show posters from a named Plex collection."""
+
+    def __init__(self):
+        # Reuse Wizarr's built-in carousel so upstream styling changes continue
+        # to apply to this custom widget.
+        super().__init__()
+        self.name = "collection_media"
+
+    def get_data(self, _server_type: str, **_kwargs) -> dict[str, Any]:
+        collection_name = str(_kwargs.get("collection", "")).strip()
+        try:
+            limit = max(0, int(_kwargs.get("limit", 15)))
+        except (TypeError, ValueError):
+            limit = 15
+
+        if not collection_name:
+            return {"items": [], "limit": limit}
+
+        try:
+            from app.models import MediaServer
+
+            server = MediaServer.query.filter_by(server_type=_server_type).first()
+            if server is None:
+                return {"items": [], "limit": limit}
+
+            client = get_media_client(server.server_type, server)
+            plex = getattr(client, "server", None)
+            if plex is None or not hasattr(plex, "library"):
+                return {"items": [], "limit": limit}
+
+            wanted = collection_name.casefold()
+            for section in plex.library.sections():
+                for collection in section.collections():
+                    if str(collection.title).casefold() != wanted:
+                        continue
+
+                    media_items = collection.items()
+                    if limit:
+                        media_items = media_items[:limit]
+
+                    return {
+                        "items": [
+                            self._normalise_item(item, client) for item in media_items
+                        ],
+                        "limit": limit,
+                    }
+        except Exception as exc:
+            logging.warning(
+                "Unable to render Plex collection %r: %s", collection_name, exc
+            )
+
+        return {"items": [], "limit": limit}
+
+    @staticmethod
+    def _normalise_item(item, client) -> dict[str, str]:
+        title = str(getattr(item, "title", ""))
+        thumb_url = ""
+
+        try:
+            # PlexAPI's thumbUrl is already an absolute, authenticated URL.
+            direct_url = getattr(item, "thumbUrl", "") or ""
+            if direct_url:
+                thumb_url = client.generate_image_proxy_url(direct_url)
+        except Exception as exc:
+            logging.debug("Failed to proxy artwork for %r: %s", title, exc)
+
+        return {"title": title, "thumb": thumb_url}
+
+
 class CardWidget(WizardWidget):
     """Widget to create a card - not used with standard widget syntax, rendered via delimiter."""
 
@@ -292,6 +364,7 @@ class ButtonWidget(WizardWidget):
 # Widget registry
 WIDGET_REGISTRY = {
     "recently_added_media": RecentlyAddedMediaWidget(),
+    "collection_media": CollectionMediaWidget(),
     "button": ButtonWidget(),
 }
 
@@ -343,6 +416,8 @@ def process_widget_placeholders(
     Supports syntax like:
     {{ widget:recently_added_media }}
     {{ widget:recently_added_media limit=6 }}
+    {{ widget:collection_media collection="My Collection" }}
+    {{ widget:collection_media collection="My Collection" limit=15 }}
     {{ widget:button url="https://example.com" text="Click Here" }}
     """
     context = context or {}
