@@ -1280,6 +1280,21 @@ class PlexClient(MediaClient):
 # ─── Invite & onboarding ────────────────────────────────────────────────
 
 
+def _provision_companions(app, token: str, server_id: int) -> None:
+    """Create the invited Plex user on opted-in companions, in the background.
+
+    Needs its own app context: the request that started it is long gone by the
+    time this finishes.
+    """
+    with app.app_context():
+        try:
+            from app.services.ombi_client import provision_plex_user_on_connections
+
+            provision_plex_user_on_connections(token, server_id)
+        except Exception as exc:
+            logging.warning("Companion provisioning failed: %s", exc)
+
+
 def handle_oauth_token(app, token: str, code: str) -> None:
     with app.app_context():
         account = MyPlexAccount(token=token)
@@ -1334,6 +1349,28 @@ def handle_oauth_token(app, token: str, code: str) -> None:
             db.session.commit()
 
             _invite_user(email, code, new_user.id, server)
+
+            # Create the user on any request system that asked for it, while we
+            # still hold their token. Otherwise their first visit there is a
+            # login screen, and watchlist syncing has no token to work with
+            # until they get to it.
+            #
+            # Off the request thread so a slow or unreachable companion cannot
+            # hold up the invite, and best effort throughout: a companion
+            # failing must never break an invite the user just accepted.
+            try:
+                from app.services.ombi_client import (
+                    has_plex_provisioning_connections,
+                )
+
+                if has_plex_provisioning_connections(server_id):
+                    threading.Thread(
+                        target=_provision_companions,
+                        args=(current_app._get_current_object(), token, server_id),  # type: ignore
+                        daemon=True,
+                    ).start()
+            except Exception as exc:
+                logging.warning("Companion provisioning failed: %s", exc)
 
             # Mark invitation as used for this server
             if inv:

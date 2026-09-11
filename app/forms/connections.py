@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import SelectField, StringField
-from wtforms.validators import URL, DataRequired, Optional
+from wtforms import BooleanField, SelectField, StringField
+from wtforms.validators import URL, DataRequired, Optional, ValidationError
 
 from app.models import MediaServer
 from app.services.companions import list_companion_types
@@ -16,6 +16,41 @@ class ConnectionForm(FlaskForm):
     media_server_id = SelectField(
         "Media Server", coerce=int, validators=[DataRequired()]
     )
+    provision_plex_users = BooleanField(
+        "Create accounts for invited Plex users",
+        description=(
+            "Sign invited users in to this service during the Plex invite, so "
+            "they do not have to visit it and log in themselves. Requires a "
+            "Service URL."
+        ),
+        default=False,
+    )
+    enable_watchlist_sync = BooleanField(
+        "Turn on watchlist syncing for those accounts",
+        description=(
+            "Switch on the new account's own Plex watchlist syncing, which "
+            "starts off unset, so titles they watchlist become requests "
+            "without them finding the setting first. Only applies while "
+            "creating accounts, above. The service still decides what they may "
+            "request: to have watchlisted titles requested automatically, "
+            "include Auto-Request in its default permissions."
+        ),
+        default=False,
+    )
+
+    def validate_enable_watchlist_sync(self, field):
+        """Refuse the combination that would quietly do nothing.
+
+        The setting is written during account creation, on the session that
+        creating the account returns. Without account creation there is no such
+        moment, so the box would stay ticked and never take effect, which is the
+        same silent nothing it exists to prevent.
+        """
+        if field.data and not self.provision_plex_users.data:
+            raise ValidationError(
+                "Turn on account creation as well, or watchlist syncing has "
+                "no account to set it on."
+            )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

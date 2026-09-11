@@ -75,17 +75,28 @@
               <div>
                 <h4 class="text-sm font-medium text-gray-900 dark:text-white mb-2">{{ _("Overseerr/Jellyseerr Information") }}</h4>
                 <p class="text-sm text-gray-600 dark:text-gray-300 mb-3">
-                  {{ _("Overseerr and Jellyseerr automatically import new users by default. No API connection is required for Wizarr integration.") }}
+                  {{ _("Overseerr and Jellyseerr create an account the first time someone signs in, so by default an invited user has no account there until they visit and log in themselves.") }}
                 </p>
                 <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md p-3">
                   <p class="text-sm text-blue-800 dark:text-blue-200">
-                    <strong>{{ _("To enable auto-import:") }}</strong>
-                    <br>
-                    {{ _("Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new users' and 'Import Jellyfin/Plex users'") }}
+                    {{ _("Set the Service URL and turn on account creation below, and Wizarr signs them in during the invite so their account exists before they arrive. This uses the service's own sign-in route rather than an API key, so it needs 'Enable New Plex Sign-In' under its Settings → Users.") }}
                   </p>
                 </div>
               </div>
             </div>
+          </div>
+          <!-- URL -->
+          <div>
+            {{ form.url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+            {{ form.url(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary", placeholder="https://requests.example.com") }}
+            {% if form.url.errors %}
+              <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                {% for error in form.url.errors %}<p>{{ error }}</p>{% endfor %}
+              </div>
+            {% endif %}
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">
+              {{ _("Must be https if the service has CSRF protection enabled, which sets its cookies Secure.") }}
+            </p>
           </div>
         {% else %}
           <!-- URL -->
@@ -123,6 +134,29 @@
             {% endif %}
           </div>
         {% endif %}
+        {% if form.connection_type.data == 'overseerr' %}
+          <!-- Create accounts for invited users; only the Overseerr/Jellyseerr client acts on this flag -->
+          <div>
+            <div class="flex items-center">
+              {{ form.provision_plex_users(class="w-4 h-4 text-primary bg-gray-50 border-gray-300 rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600") }}
+              {{ form.provision_plex_users.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-white") }}
+            </div>
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ form.provision_plex_users.description }}</p>
+          </div>
+          <!-- Turn on watchlist syncing for those accounts -->
+          <div>
+            <div class="flex items-center">
+              {{ form.enable_watchlist_sync(class="w-4 h-4 text-primary bg-gray-50 border-gray-300 rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600") }}
+              {{ form.enable_watchlist_sync.label(class="ml-2 text-sm font-medium text-gray-900 dark:text-white") }}
+            </div>
+            {% if form.enable_watchlist_sync.errors %}
+              <div class="mt-1 text-sm text-red-600 dark:text-red-400">
+                {% for error in form.enable_watchlist_sync.errors %}<p>{{ error }}</p>{% endfor %}
+              </div>
+            {% endif %}
+            <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ form.enable_watchlist_sync.description }}</p>
+          </div>
+        {% endif %}
         <!-- Test Result Area -->
         <div id="test-result-area" class="mt-4"></div>
         <!-- Test Spinner -->
@@ -149,14 +183,12 @@
               {{ _("Update Connection") }}
             {% endif %}
           </button>
-          {% if form.connection_type.data != 'overseerr' %}
-            <button type="button"
-                    class="py-2.5 px-5 ms-3 text-sm font-medium text-blue-700 focus:outline-none bg-blue-50 rounded-lg border border-blue-200 hover:bg-blue-100 focus:z-10 focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-700 dark:bg-blue-900 dark:text-blue-400 dark:border-blue-600 dark:hover:text-white dark:hover:bg-blue-800"
-                    hx-post="{{ url_for('connections.test_connection') }}"
-                    hx-target="#test-result-area"
-                    hx-include="form"
-                    hx-indicator="#test-spinner">{{ _("Test Connection") }}</button>
-          {% endif %}
+          <button type="button"
+                  class="py-2.5 px-5 ms-3 text-sm font-medium text-blue-700 focus:outline-none bg-blue-50 rounded-lg border border-blue-200 hover:bg-blue-100 focus:z-10 focus:ring-4 focus:ring-blue-100 dark:focus:ring-blue-700 dark:bg-blue-900 dark:text-blue-400 dark:border-blue-600 dark:hover:text-white dark:hover:bg-blue-800"
+                  hx-post="{{ url_for('connections.test_connection') }}"
+                  hx-target="#test-result-area"
+                  hx-include="form"
+                  hx-indicator="#test-spinner">{{ _("Test Connection") }}</button>
           <button type="button"
                   class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
                   onclick="document.getElementById('connection-modal-backdrop').remove()">{{ _("Cancel") }}</button>
