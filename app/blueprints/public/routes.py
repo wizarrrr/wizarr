@@ -94,6 +94,27 @@ def invite(code):
     return result.to_flask_response()
 
 
+# ─── Plex OAuth return target  /plex/callback ───────────────────────────────
+@public_bp.route("/plex/callback")
+@limiter.limit("50 per minute")
+def plex_callback():
+    """Page Plex forwards the browser back to once the user has signed in.
+
+    The invite page hands Plex a ``forwardUrl`` pointing here so the browser
+    leaves app.plex.tv by itself. Usually the window that started the sign-in is
+    still open and polling, and this page just closes itself. When that window
+    is gone - the normal outcome on mobile, where the sign-in window is a whole
+    tab and the one behind it may be discarded - this page finishes the sign-in
+    instead, using state left in localStorage. It needs no session and reads no
+    invitation rows.
+    """
+    name_setting = Settings.query.filter_by(key="server_name").first()
+    return render_template(
+        "plex-oauth-callback.html",
+        server_name=name_setting.value if name_setting else "Wizarr",
+    )
+
+
 # ─── Unified invitation processing ─────────────────────────────────────────
 @public_bp.route("/invitation/process", methods=["POST"])
 @limiter.limit("20 per minute")
