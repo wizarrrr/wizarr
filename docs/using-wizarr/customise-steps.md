@@ -132,6 +132,21 @@ Welcome to our **media server**! Here's what you need to know:
 - **Images**: Use standard Markdown syntax with optional classes
 - **Tailwind classes**: Add `{.class-name}` for custom styling
 
+### Plex Collection Carousel
+
+For Plex wizard steps, use the `collection_media` widget to show posters from a
+named collection:
+
+```markdown
+{{ widget:collection_media collection="Summer Blockbusters" limit=15 }}
+```
+
+The collection name is matched case-insensitively across the Plex server's
+libraries. The optional `limit` parameter caps the number of posters and
+defaults to 15. Set it to `0` to show the entire collection. The
+**Add... → Collection Media** menu item in the wizard-step editor inserts this
+syntax for you.
+
 ### Requiring User Interaction
 
 You can force users to engage with step content before allowing them to proceed to the next step. This is useful for ensuring users actually download apps, read important information, or acknowledge terms.
