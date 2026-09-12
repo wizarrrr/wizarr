@@ -12,25 +12,10 @@
   <section class="min-h-screen bg-gradient-to-br from-slate-900 via-orange-900 to-slate-900 relative overflow-hidden">
     <!-- Cinema Background Layer -->
     <div class="absolute inset-0 overflow-hidden">
-      <!-- Flowing Movie Poster Grid -->
-      <div class="poster-grid-container">
-        <!-- First row flowing left -->
-        <div class="poster-row poster-row-1" data-direction="left">
-          <!-- Posters will be dynamically added here -->
-        </div>
-        <!-- Second row flowing right -->
-        <div class="poster-row poster-row-2" data-direction="right">
-          <!-- Posters will be dynamically added here -->
-        </div>
-        <!-- Third row flowing left -->
-        <div class="poster-row poster-row-3" data-direction="left">
-          <!-- Posters will be dynamically added here -->
-        </div>
-        <!-- Fourth row flowing right -->
-        <div class="poster-row poster-row-4" data-direction="right">
-          <!-- Posters will be dynamically added here -->
-        </div>
-      </div>
+      <!-- Flowing Movie Poster Grid. Rows are built by the script at the foot
+           of this template: how many rows fit, and how many posters each needs
+           to cover the viewport without a gap, both depend on the window size. -->
+      <div class="poster-grid-container"></div>
     </div>
     <!-- Overlay gradient to ensure readability -->
     <div class="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-orange-900/60 to-slate-900/80"></div>
@@ -149,57 +134,45 @@
           opacity: 0.15;
       }
 
-      /* Poster rows */
+      /* Poster rows. Width comes from the content, and the script gives each
+         row a top, a direction and a duration - see loadCinemaPosters. */
       .poster-row {
           position: absolute;
-          height: 180px;
-          width: 300%;
+          left: 0;
           display: flex;
-          gap: 20px;
           align-items: center;
+          width: max-content;
           pointer-events: none;
+          will-change: transform;
+          animation-name: flow-left;
+          animation-timing-function: linear;
+          animation-iteration-count: infinite;
       }
 
-      .poster-row-1 {
-          top: 10%;
-          animation: flow-left 60s linear infinite;
+      .poster-row[data-direction="right"] {
+          animation-name: flow-right;
       }
 
-      .poster-row-2 {
-          top: 30%;
-          animation: flow-right 50s linear infinite;
-          animation-delay: -10s;
-      }
-
-      .poster-row-3 {
-          top: 50%;
-          animation: flow-left 55s linear infinite;
-          animation-delay: -20s;
-      }
-
-      .poster-row-4 {
-          top: 70%;
-          animation: flow-right 65s linear infinite;
-          animation-delay: -30s;
-      }
-
-      /* Flow animations */
+      /* Each row holds two identical halves and travels exactly half its own
+         width, so the reset is invisible. A trailing margin on every poster
+         (rather than a flex gap, which is omitted after the last child) is what
+         keeps the two halves the same width. */
       @keyframes flow-left {
-          0% {
+          from {
               transform: translateX(0);
           }
 
-          100% {
-              transform: translateX(-66.67%);
+          to {
+              transform: translateX(-50%);
           }
       }
 
       @keyframes flow-right {
-          0% {
-              transform: translateX(-66.67%);
+          from {
+              transform: translateX(-50%);
           }
 
-          100% {
+          to {
               transform: translateX(0);
           }
       }
@@ -208,6 +181,7 @@
       .poster-item {
           width: 120px;
           height: 160px;
+          margin-right: 20px;
           border-radius: 8px;
           flex-shrink: 0;
           background: linear-gradient(135deg, #92400e 0%, #451a03 100%);
@@ -263,130 +237,177 @@
 
       /* Responsive adjustments */
       @media (max-width: 768px) {
-          .poster-row {
-              height: 120px;
-          }
-
           .poster-item {
               width: 80px;
               height: 110px;
+              margin-right: 14px;
           }
 
           .poster-grid-container {
               opacity: 0.1;
           }
       }
+
+      @media (prefers-reduced-motion: reduce) {
+          .poster-row,
+          .animate-blob {
+              animation: none;
+          }
+      }
   </style>
   <script src="{{ url_for('static', filename='js/vendor/bowser.min.js', v=app_version) }}"></script> <!-- needed for plexHeaders -->
   <script>
-      // Load movie posters for flowing grid background with progressive loading
+      // Flowing poster background.
+      //
+      // Rows are sized from the viewport rather than declared in CSS. A row
+      // needs at least a viewport's worth of posters to cover the screen, and
+      // it needs that run twice so it can slide exactly half its own width and
+      // land back where it started. Both numbers depend on the window, so the
+      // browser is the only thing that can work them out.
+      const CINEMA_SPEED_PX_PER_SEC = 18;   // slow drift; this is background
+      const CINEMA_ROW_GAP_PX = 40;         // vertical breathing room
+      const CINEMA_MIN_ROWS = 3;
+      const CINEMA_MAX_ROWS = 7;
+      const CINEMA_REBUILD_DEBOUNCE_MS = 250;
+
+      let cinemaPosters = [];
+      let cinemaRebuildTimer = null;
+      let cinemaLastWidth = 0;
+      let cinemaLastHeight = 0;
+
+      // Read the poster size back out of CSS so the two cannot drift apart
+      // (the mobile breakpoint changes it).
+      function cinemaTileMetrics(grid) {
+          const probe = document.createElement('div');
+          probe.className = 'poster-item';
+          probe.style.visibility = 'hidden';
+          grid.appendChild(probe);
+          const style = window.getComputedStyle(probe);
+          const metrics = {
+              width: parseFloat(style.width) || 120,
+              height: parseFloat(style.height) || 160,
+              margin: parseFloat(style.marginRight) || 20,
+          };
+          grid.removeChild(probe);
+          return metrics;
+      }
+
+      function cinemaShuffled(list) {
+          const out = list.slice();
+          for (let i = out.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [out[i], out[j]] = [out[j], out[i]];
+          }
+          return out;
+      }
+
+      function cinemaTile(url) {
+          const tile = document.createElement('div');
+          tile.className = 'poster-item';
+          if (url) {
+              // Decode off the main thread, then swap in. A failure just leaves
+              // the placeholder gradient, which is a fine poster shape.
+              const img = new Image();
+              img.decoding = 'async';
+              img.onload = () => {
+                  tile.style.backgroundImage = `url('${url}')`;
+                  tile.classList.add('loaded');
+              };
+              img.src = url;
+          }
+          return tile;
+      }
+
+      function cinemaBuildRow(index, rowCount, metrics, viewport) {
+          const stride = metrics.width + metrics.margin;
+          // +2 so the row still overhangs both edges at the ends of the slide.
+          const perHalf = Math.ceil(viewport.width / stride) + 2;
+
+          const row = document.createElement('div');
+          row.className = 'poster-row';
+          row.dataset.direction = index % 2 === 0 ? 'left' : 'right';
+
+          const rowStride = viewport.height / rowCount;
+          row.style.top = Math.round(index * rowStride + (rowStride - metrics.height) / 2) + 'px';
+
+          // Each row takes its own window into the poster list so the rows do
+          // not mirror one another. Wrapping only happens when the server
+          // returned fewer posters than the screen can hold.
+          const urls = [];
+          for (let i = 0; i < perHalf; i++) {
+              urls.push(cinemaPosters.length ? cinemaPosters[(index * perHalf + i) % cinemaPosters.length] : null);
+          }
+
+          const half = document.createDocumentFragment();
+          urls.forEach(url => half.appendChild(cinemaTile(url)));
+          row.appendChild(half);
+          // Second, identical half: this is what makes translateX(-50%) loop
+          // without a seam.
+          urls.forEach(url => row.appendChild(cinemaTile(url)));
+
+          const halfWidth = perHalf * stride;
+          row.style.animationDuration = (halfWidth / CINEMA_SPEED_PX_PER_SEC).toFixed(2) + 's';
+          // Desynchronise the rows rather than waiting for them to drift apart.
+          row.style.animationDelay = '-' + (index * 7) + 's';
+
+          return row;
+      }
+
+      function cinemaBuild() {
+          const grid = document.querySelector('.poster-grid-container');
+          if (!grid) return;
+
+          const viewport = {
+              width: window.innerWidth || document.documentElement.clientWidth,
+              height: window.innerHeight || document.documentElement.clientHeight,
+          };
+          cinemaLastWidth = viewport.width;
+          cinemaLastHeight = viewport.height;
+
+          grid.textContent = '';
+          const metrics = cinemaTileMetrics(grid);
+
+          let rowCount = Math.round(viewport.height / (metrics.height + CINEMA_ROW_GAP_PX));
+          rowCount = Math.max(CINEMA_MIN_ROWS, Math.min(CINEMA_MAX_ROWS, rowCount));
+
+          const fragment = document.createDocumentFragment();
+          for (let i = 0; i < rowCount; i++) {
+              fragment.appendChild(cinemaBuildRow(i, rowCount, metrics, viewport));
+          }
+          grid.appendChild(fragment);
+      }
+
+      function cinemaScheduleRebuild() {
+          // Ignore the height changes phones fire as the address bar hides;
+          // only a real layout change is worth rebuilding for.
+          const width = window.innerWidth || document.documentElement.clientWidth;
+          const height = window.innerHeight || document.documentElement.clientHeight;
+          if (width === cinemaLastWidth && Math.abs(height - cinemaLastHeight) < 120) return;
+
+          window.clearTimeout(cinemaRebuildTimer);
+          cinemaRebuildTimer = window.setTimeout(cinemaBuild, CINEMA_REBUILD_DEBOUNCE_MS);
+      }
+
       async function loadCinemaPosters() {
+          if (!document.querySelector('.poster-grid-container')) return;
+
+          // Draw placeholder tiles straight away so the background is never
+          // empty, then upgrade them in place once the poster list arrives.
+          cinemaBuild();
+
           try {
               const response = await fetch('/cinema-posters');
-              const posterUrls = await response.json();
-
-              if (posterUrls && posterUrls.length > 0) {
-                  const posterRows = document.querySelectorAll('.poster-row');
-                  let loadQueue = [];
-
-                  // Populate each row with posters - ensure seamless repetition
-                  posterRows.forEach((row, rowIndex) => {
-                      // Reduced from 25 to 20 posters per row for better performance
-                      const postersPerRow = 20;
-
-                      // Create a subset of posters for this row to avoid having all rows identical
-                      const startOffset = Math.floor(rowIndex * posterUrls.length / 4);
-                      const rowPosters = [];
-
-                      // Fill row posters array by cycling through available posters
-                      for (let i = 0; i < postersPerRow; i++) {
-                          const posterIndex = (startOffset + i) % posterUrls.length;
-                          rowPosters.push(posterUrls[posterIndex]);
-                      }
-
-                      // Create poster elements immediately but load images progressively
-                      rowPosters.forEach((posterUrl, index) => {
-                          const posterItem = document.createElement('div');
-                          posterItem.className = 'poster-item';
-                          row.appendChild(posterItem);
-
-                          // Add to load queue with priority (visible items first)
-                          loadQueue.push({
-                              element: posterItem,
-                              url: posterUrl,
-                              priority: rowIndex < 2 ? 1 : 2 // Top 2 rows get priority
-                          });
-                      });
-                  });
-
-                  // Progressive loading with batching
-                  await loadPostersInBatches(loadQueue);
-
-              } else {
-                  createPlaceholderPosters();
+              const posterUrls = response.ok ? await response.json() : [];
+              if (Array.isArray(posterUrls) && posterUrls.length) {
+                  cinemaPosters = cinemaShuffled(posterUrls);
+                  cinemaBuild();
               }
           } catch (error) {
               console.warn('Failed to load cinema posters:', error);
-              createPlaceholderPosters();
           }
-      }
 
-      // Load posters in batches to avoid overwhelming the browser
-      async function loadPostersInBatches(loadQueue) {
-          // Sort by priority (visible items first)
-          loadQueue.sort((a, b) => a.priority - b.priority);
-
-          const batchSize = 8; // Load 8 images at a time
-          const delay = 100; // 100ms delay between batches
-
-          for (let i = 0; i < loadQueue.length; i += batchSize) {
-              const batch = loadQueue.slice(i, i + batchSize);
-
-              // Load batch concurrently
-              const promises = batch.map(item => loadPosterImage(item.element, item.url));
-              await Promise.allSettled(promises);
-
-              // Small delay before next batch
-              if (i + batchSize < loadQueue.length) {
-                  await new Promise(resolve => setTimeout(resolve, delay));
-              }
-          }
-      }
-
-      // Load individual poster with timeout
-      function loadPosterImage(element, url) {
-          return new Promise((resolve) => {
-              const img = new Image();
-              const timeout = setTimeout(() => {
-                  resolve(); // Resolve anyway to continue with other images
-              }, 2000); // 2s timeout per image
-
-              img.onload = () => {
-                  clearTimeout(timeout);
-                  element.style.backgroundImage = `url('${url}')`;
-                  element.classList.add('loaded');
-                  resolve();
-              };
-
-              img.onerror = () => {
-                  clearTimeout(timeout);
-                  resolve(); // Keep default gradient background
-              };
-
-              img.src = url;
-          });
-      }
-
-      // Create placeholder posters fallback
-      function createPlaceholderPosters() {
-          const posterRows = document.querySelectorAll('.poster-row');
-          posterRows.forEach(row => {
-              for (let i = 0; i < 20; i++) { // Reduced from 25 to 20
-                  const posterItem = document.createElement('div');
-                  posterItem.className = 'poster-item';
-                  row.appendChild(posterItem);
-              }
-          });
+          window.addEventListener('resize', cinemaScheduleRebuild);
+          window.addEventListener('orientationchange', cinemaScheduleRebuild);
       }
 
       // Load posters when page loads
