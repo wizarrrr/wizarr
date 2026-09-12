@@ -2,6 +2,7 @@ import os
 
 from flask import Flask
 
+from werkzeug.middleware.proxy_fix import ProxyFix
 from .config import DevelopmentConfig
 from .error_handlers import register_error_handlers
 from .extensions import init_extensions
@@ -31,6 +32,17 @@ def create_app(config_object=DevelopmentConfig):
         logger.step("Creating Flask application", "🌐")
     app = Flask(__name__)
     app.config.from_object(config_object)
+
+    # Apply ProxyFix if configured
+    if app.config.get("TRUST_PROXY_HEADERS"):
+        app.wsgi_app = ProxyFix(
+            app.wsgi_app,
+            x_for=app.config.get("PROXY_FIX_X_FOR", 1),
+            x_proto=app.config.get("PROXY_FIX_X_PROTO", 1),
+            x_host=app.config.get("PROXY_FIX_X_HOST", 1),
+            x_port=app.config.get("PROXY_FIX_X_PORT", 1),
+            x_prefix=app.config.get("PROXY_FIX_X_PREFIX", 1),
+        )
 
     # Step 3: Initialize extensions
     if show_startup:
