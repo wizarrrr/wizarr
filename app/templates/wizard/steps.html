@@ -178,7 +178,7 @@
        {% if not is_pre_final and idx == max_idx %}style="display:none"{% endif %}
        data-default-aria-label="{{ default_next_label }}"
        aria-label="{{ completion_label_text if is_pre_final else default_next_label }}"
-       {% if require_interaction %}
+       {% if require_interaction or gate_locked %}
          aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"
        {% endif %}>
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -244,7 +244,7 @@
        data-final-html="{{ completion_label_text }}"
        data-default-aria-label="{{ default_next_label }}"
        aria-label="{{ completion_label_text if is_pre_final else default_next_label }}"
-       {% if require_interaction %}
+       {% if require_interaction or gate_locked %}
          aria-disabled="true" data-disabled="1" title="{{ _('Click the link in this step to be able to continue') }}"
        {% endif %}>
       {% if is_pre_final %}
@@ -372,6 +372,7 @@
 
             const newIdx = parseInt(xhr.getResponseHeader('X-Wizard-Idx'));
             const requireInteraction = xhr.getResponseHeader('X-Require-Interaction') === 'true';
+            const gateLocked = xhr.getResponseHeader('X-Wizard-Gate-Locked') === 'true';
             const maxIdx = this.getMaxIdx();
             const serverType = this.getServerType();
             const newStepPhase = xhr.getResponseHeader('X-Wizard-Step-Phase');
@@ -413,7 +414,7 @@
             this.updateProgress(newIdx, maxIdx);
 
             // Update navigation buttons
-            this.updateButtons(newIdx, maxIdx, serverType, requireInteraction);
+            this.updateButtons(newIdx, maxIdx, serverType, requireInteraction || gateLocked);
         },
 
         updatePhaseBadges(phase) {
@@ -604,6 +605,12 @@
 
             // Reinitialize interaction gating for the new step
             if (typeof attachInteractionGating === 'function') {
+                // The latch is per-button and never self-clears, so a second
+                // gated step would otherwise render disabled but stay clickable.
+                ['wizard-next-btn', 'wizard-next-btn-desktop'].forEach(id => {
+                    const btn = document.getElementById(id);
+                    if (btn) delete btn.dataset.interactionGatingAttached;
+                });
                 attachInteractionGating(this.wrapper);
             }
         }

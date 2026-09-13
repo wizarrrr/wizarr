@@ -18,9 +18,14 @@ import re
 from typing import Any
 
 import markdown
-from flask import render_template_string
+from flask import render_template, render_template_string, url_for
 
 from app.services.media.service import get_media_client
+from app.services.wizard_api_check.config import DEFAULT_INTERVAL
+
+# Exported so other modules (e.g. the wizard step editor) can detect the
+# placeholder without depending on the widget registry.
+API_CHECK_PLACEHOLDER_RE = re.compile(r"\{\{\s*widget:api_check\b")
 
 
 class WizardWidget:
@@ -289,10 +294,71 @@ class ButtonWidget(WizardWidget):
             return f'\n\n<div class="text-sm text-gray-500 italic">Button widget error: {e}</div>\n\n'
 
 
+def _neutralize_jinja(html: str) -> str:
+    """Strip every brace from rendered widget HTML.
+
+    ``_render`` re-parses widget output as a Jinja template with autoescape
+    off, so any ``{{``/``{%`` that survives here would execute against that
+    template's context (e.g. leaking ``config.SECRET_KEY``). ``html.escape``
+    does not touch braces, so this is what actually neutralises admin-authored
+    text - applied after render_template, it also catches braces the config
+    layer's own filter might miss (e.g. lone ``{``/``}``).
+    """
+    return html.replace("{", "&#123;").replace("}", "&#125;")
+
+
+class ApiCheckWidget(WizardWidget):
+    """Widget for the wizard API-check gate's status card."""
+
+    def __init__(self):
+        # Empty template since we'll override render
+        super().__init__("api_check", "")
+
+    def render(self, server_type: str, _context: dict | None = None, **kwargs) -> str:  # noqa: ARG002
+        """Render the gate's status card, ignoring every markdown parameter.
+
+        Params on the placeholder must not be able to redirect the check or
+        change its timing, so only ``_context`` (server-derived) is trusted.
+        """
+        try:
+            context = _context or {}
+            step_id = context.get("wizard_step_id")
+            view = context.get("wizard_api_check")
+            if (
+                step_id is None
+                or not isinstance(view, dict)
+                or not view.get("is_active")
+            ):
+                return ""
+
+            passed = bool(context.get("wizard_gate_passed"))
+            interval = view.get("interval_seconds") or DEFAULT_INTERVAL
+
+            html_content = render_template(
+                "wizard/_api_check_card.html",
+                step_id=step_id,
+                state="passed" if passed else "pending",
+                message=view.get("success_message")
+                if passed
+                else view.get("pending_message"),
+                interval=interval,
+                retry_after=0,
+                check_url=url_for("wizard.api_check", step_id=step_id),
+                show_button=not passed,
+                trigger="" if passed else f"load, every {interval}s",
+            )
+            html_content = _neutralize_jinja(html_content)
+            return f'\n\n<div class="widget-container">\n{html_content}\n</div>\n\n'
+        except Exception:
+            # Fail gracefully in wizard context
+            return f'\n\n<div class="text-sm text-gray-500 italic">Widget "{self.name}" temporarily unavailable</div>\n\n'
+
+
 # Widget registry
 WIDGET_REGISTRY = {
     "recently_added_media": RecentlyAddedMediaWidget(),
     "button": ButtonWidget(),
+    "api_check": ApiCheckWidget(),
 }
 
 

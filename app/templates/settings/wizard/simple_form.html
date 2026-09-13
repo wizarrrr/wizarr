@@ -3,7 +3,9 @@
   <h1 class="text-xl font-bold mb-4 text-gray-900 dark:text-white">
     {{ _(action == 'create' and 'Create Step' or 'Edit Step') }}
   </h1>
-  <form method="post" class="space-y-4">
+  <form method="post"
+        class="space-y-4"
+        x-data="{ apiCheckCategory: '{{ form.category.data or 'post_invite' }}' }">
     <div>
       {{ form.title.label(class="block mb-1 text-sm font-medium text-gray-700 dark:text-gray-300") }}
       {{ form.title(class="w-full border rounded p-2 dark:bg-gray-700 dark:border-gray-600") }}
@@ -22,6 +24,7 @@
         <span class="text-xs text-gray-500 dark:text-gray-400">{{ form.require_interaction.description }}</span>
       </div>
     </div>
+    {% include "modals/_wizard_api_check_fields.html" %}
     <div class="flex gap-2">
       <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _("Save") }}</button>
       <a href="{{ url_for('wizard_admin.list_bundles') }}"

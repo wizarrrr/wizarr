@@ -30,6 +30,7 @@ from app.forms.wizard import (
     WizardStepForm,
 )
 from app.models import MediaServer, WizardBundle, WizardBundleStep, WizardStep
+from app.services.wizard_api_check.config import from_form, normalize, to_form
 from app.services.wizard_export_import import WizardExportImportService
 from app.services.wizard_presets import (
     create_step_from_preset,
@@ -156,57 +157,69 @@ def create_step():
         stype = "custom" if simple else (server_type_attr and server_type_attr.data)
 
         # Get category from form (defaults to 'post_invite')
-        category = form.category.data if hasattr(form, "category") else "post_invite"
-
-        max_pos = (
-            db.session.query(func.max(WizardStep.position))
-            .filter_by(server_type=stype, category=category)
-            .scalar()
+        category = (
+            form.category.data or "post_invite"
+            if hasattr(form, "category")
+            else "post_invite"
         )
-        next_pos = (max_pos or 0) + 1
 
-        cleaned_md = _strip_localization(form.markdown.data or "")
+        api_check_blob, api_check_errors = from_form(form, category=category)
 
-        step = WizardStep(
-            server_type=stype,
-            category=category,
-            position=next_pos,
-            title=(getattr(form, "title", None) and form.title.data) or None,
-            markdown=cleaned_md,
-            require_interaction=(
-                getattr(form, "require_interaction", None) is not None
-                and bool(form.require_interaction.data)
-            ),
-        )
-        db.session.add(step)
-        db.session.flush()  # get step.id
-
-        # If created from a bundle context attach immediately
-        if bundle_id:
-            max_bpos = (
-                db.session.query(func.max(WizardBundleStep.position))
-                .filter_by(bundle_id=bundle_id)
+        # A rejected gate field (bad URL, out-of-range interval, ...) refuses
+        # the whole save rather than silently dropping just the gate.
+        if not api_check_errors:
+            max_pos = (
+                db.session.query(func.max(WizardStep.position))
+                .filter_by(server_type=stype, category=category)
                 .scalar()
             )
-            next_bpos = (max_bpos or 0) + 1
-            db.session.add(
-                WizardBundleStep(
-                    bundle_id=bundle_id, step_id=step.id, position=next_bpos
+            next_pos = (max_pos or 0) + 1
+
+            cleaned_md = _strip_localization(form.markdown.data or "")
+
+            step = WizardStep(
+                server_type=stype,
+                category=category,
+                position=next_pos,
+                title=(getattr(form, "title", None) and form.title.data) or None,
+                markdown=cleaned_md,
+                require_interaction=(
+                    getattr(form, "require_interaction", None) is not None
+                    and bool(form.require_interaction.data)
+                ),
+                api_check=api_check_blob,
+            )
+            db.session.add(step)
+            db.session.flush()  # get step.id
+
+            # If created from a bundle context attach immediately
+            if bundle_id:
+                max_bpos = (
+                    db.session.query(func.max(WizardBundleStep.position))
+                    .filter_by(bundle_id=bundle_id)
+                    .scalar()
+                )
+                next_bpos = (max_bpos or 0) + 1
+                db.session.add(
+                    WizardBundleStep(
+                        bundle_id=bundle_id, step_id=step.id, position=next_bpos
+                    )
+                )
+
+            db.session.commit()
+            flash(_("Step created"), "success")
+
+            # HTMX target refresh depending on origin
+            if request.headers.get("HX-Request"):
+                return list_bundles() if bundle_id else list_steps()
+
+            return redirect(
+                url_for(
+                    "wizard_admin.list_bundles"
+                    if bundle_id
+                    else "wizard_admin.list_steps"
                 )
             )
-
-        db.session.commit()
-        flash(_("Step created"), "success")
-
-        # HTMX target refresh depending on origin
-        if request.headers.get("HX-Request"):
-            return list_bundles() if bundle_id else list_steps()
-
-        return redirect(
-            url_for(
-                "wizard_admin.list_bundles" if bundle_id else "wizard_admin.list_steps"
-            )
-        )
 
     # GET – choose modal / full template based on form type
     if simple:
@@ -217,7 +230,9 @@ def create_step():
         page_tmpl = "settings/wizard/form.html"
 
     tmpl = modal_tmpl if request.headers.get("HX-Request") else page_tmpl
-    return render_template(tmpl, form=form, action="create", bundle_id=bundle_id)
+    return render_template(
+        tmpl, form=form, action="create", bundle_id=bundle_id, has_api_key=False
+    )
 
 
 @wizard_admin_bp.route("/create-preset", methods=["GET", "POST"])
@@ -300,38 +315,60 @@ def edit_step(step_id: int):
     form = FormCls(request.form if request.method == "POST" else None, obj=step)
 
     if form.validate_on_submit():
-        if not simple:
-            server_type_attr = getattr(form, "server_type", None)
-            step.server_type = server_type_attr.data if server_type_attr else "custom"
-
-        # Update category if present on form
-        if hasattr(form, "category") and form.category.data:
-            step.category = form.category.data
-
-        step.title = (getattr(form, "title", None) and form.title.data) or None
-        cleaned_md = _strip_localization(form.markdown.data or "")
-        step.markdown = cleaned_md
-
-        # Update interaction requirement if present on this form
-        if getattr(form, "require_interaction", None) is not None:
-            step.require_interaction = bool(form.require_interaction.data)
-
-        db.session.commit()
-        flash(_("Step updated"), "success")
-
-        # HTMX refresh
-        if request.headers.get("HX-Request"):
-            return list_bundles() if simple else list_steps()
-
-        return redirect(
-            url_for(
-                "wizard_admin.list_bundles" if simple else "wizard_admin.list_steps"
-            )
+        # Category may change via this same submit, so resolve the candidate
+        # value up front - from_form's post-invite-only check needs it.
+        category = (
+            form.category.data
+            if hasattr(form, "category") and form.category.data
+            else step.category
         )
 
+        api_check_blob, api_check_errors = from_form(
+            form, category=category, existing=step.api_check
+        )
+
+        # A rejected gate field refuses the whole save, not just the gate -
+        # otherwise an unrelated title edit could silently persist a bad URL.
+        if not api_check_errors:
+            if not simple:
+                server_type_attr = getattr(form, "server_type", None)
+                step.server_type = (
+                    server_type_attr.data if server_type_attr else "custom"
+                )
+
+            step.category = category
+            step.title = (getattr(form, "title", None) and form.title.data) or None
+            cleaned_md = _strip_localization(form.markdown.data or "")
+            step.markdown = cleaned_md
+
+            # Update interaction requirement if present on this form
+            if getattr(form, "require_interaction", None) is not None:
+                step.require_interaction = bool(form.require_interaction.data)
+
+            step.api_check = api_check_blob
+
+            db.session.commit()
+            flash(_("Step updated"), "success")
+
+            # HTMX refresh
+            if request.headers.get("HX-Request"):
+                return list_bundles() if simple else list_steps()
+
+            return redirect(
+                url_for(
+                    "wizard_admin.list_bundles" if simple else "wizard_admin.list_steps"
+                )
+            )
+
     # GET: populate fields
+    cfg = normalize(step.api_check, category=step.category)
+    has_api_key = bool(cfg.api_key_enc)
     if request.method == "GET":
         form.markdown.data = _strip_localization(step.markdown)
+        for field_name, value in to_form(cfg).items():
+            if field_name == "has_api_key":
+                continue
+            getattr(form, field_name).data = value
 
     modal_tmpl = (
         "modals/wizard-simple-step-form.html"
@@ -342,7 +379,9 @@ def edit_step(step_id: int):
         "settings/wizard/simple_form.html" if simple else "settings/wizard/form.html"
     )
     tmpl = modal_tmpl if request.headers.get("HX-Request") else page_tmpl
-    return render_template(tmpl, form=form, action="edit", step=step)
+    return render_template(
+        tmpl, form=form, action="edit", step=step, has_api_key=has_api_key
+    )
 
 
 @wizard_admin_bp.route("/<int:step_id>/delete", methods=["POST"])
@@ -459,8 +498,26 @@ def reorder_steps():
 def preview_markdown():
     from markdown import markdown as md_to_html
 
+    from app.services.wizard_widgets import (
+        process_card_delimiters,
+        process_widget_placeholders,
+    )
+
     raw = request.form.get("markdown", "")
-    return md_to_html(raw, extensions=["fenced_code", "tables", "attr_list"])
+    server_type = request.form.get("server_type") or "plex"
+
+    # wizard_step_id=None is what keeps the api_check widget inert here: it
+    # bails out before touching hx-* attributes, since there is no real step
+    # for a re-check request to poll.
+    widget_ctx = {
+        "wizard_step_id": None,
+        "wizard_api_check": None,
+        "wizard_gate_passed": False,
+    }
+    content = process_card_delimiters(raw)
+    content = process_widget_placeholders(content, server_type, context=widget_ctx)
+
+    return md_to_html(content, extensions=["fenced_code", "tables", "attr_list"])
 
 
 # ─── bundle CRUD ─────────────────────────────────────────────────

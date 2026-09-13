@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 
 from app.extensions import db
 from app.models import WizardBundle, WizardBundleStep, WizardStep
+from app.services.wizard_api_check.config import normalize, public_view
 
 
 @dataclass(frozen=True)
@@ -25,10 +26,12 @@ class WizardStepDTO:
     requires: list[str] | None
     require_interaction: bool = False
     category: str = "post_invite"  # NEW: Category field for pre/post-invite distinction
+    api_check: dict[str, Any] | None = None
 
     @classmethod
     def from_model(cls, step: WizardStep) -> WizardStepDTO:
         """Create DTO from WizardStep model."""
+        category = getattr(step, "category", "post_invite")
         return cls(
             server_type=step.server_type,
             position=step.position,
@@ -36,7 +39,10 @@ class WizardStepDTO:
             markdown=step.markdown,
             requires=step.requires or [],
             require_interaction=bool(getattr(step, "require_interaction", False)),
-            category=getattr(step, "category", "post_invite"),  # NEW: Include category
+            category=category,  # NEW: Include category
+            # Redacted view: the encrypted credential must never reach an
+            # export file, even though the rest of the gate config should.
+            api_check=public_view(step.api_check, category=category),
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -49,6 +55,7 @@ class WizardStepDTO:
             "requires": self.requires or [],
             "require_interaction": bool(self.require_interaction),
             "category": self.category,  # NEW: Include category in export
+            "api_check": self.api_check,
         }
 
 
@@ -108,6 +115,18 @@ class WizardImportResult:
     skipped_count: int
     updated_count: int
     errors: list[str]
+
+
+def _imported_api_check(step_data: dict[str, Any], category: str) -> dict[str, Any]:
+    """Normalize an imported gate config with the credential stripped.
+
+    An import must never set a credential - combined with ``is_active``
+    requiring one for a signed gate, that leaves an imported signed gate
+    inert until an admin supplies a key by hand, so a shared JSON file can
+    never lock anyone out against a stranger's endpoint.
+    """
+    cfg = normalize(step_data.get("api_check"), category=category)
+    return cfg.without_key().to_dict()
 
 
 class WizardExportImportService:
@@ -195,7 +214,6 @@ class WizardExportImportService:
         """
         errors = []
 
-        # Check export type
         export_type = data.get("export_type", "steps")
         if export_type not in ["steps", "bundle"]:
             errors.append("Invalid export_type, must be 'steps' or 'bundle'")
@@ -320,6 +338,15 @@ class WizardExportImportService:
                     f"Step {index}: 'category' must be 'pre_invite' or 'post_invite'"
                 )
 
+        # NEW: api_check is untrusted input from here on - normalize() is what
+        # actually validates its contents, this just rejects the wrong shape.
+        if (
+            "api_check" in step
+            and step["api_check"] is not None
+            and not isinstance(step["api_check"], dict)
+        ):
+            errors.append(f"Step {index}: 'api_check' must be an object or null")
+
         return errors
 
     def import_data(
@@ -427,8 +454,10 @@ class WizardExportImportService:
                                         step_data.get("require_interaction") or False
                                     )
                                 # NEW: Update category with backward compatibility
-                                existing_step.category = step_data.get(
-                                    "category", "post_invite"
+                                category = step_data.get("category", "post_invite")
+                                existing_step.category = category
+                                existing_step.api_check = _imported_api_check(
+                                    step_data, category
                                 )
                                 updated_count += 1
                                 continue
@@ -438,6 +467,9 @@ class WizardExportImportService:
                             next_position += 1
                         else:
                             position = step_data["position"]
+
+                        # NEW: Include category with backward compatibility default
+                        category = step_data.get("category", "post_invite")
 
                         # Create new step
                         new_step = WizardStep(
@@ -449,8 +481,8 @@ class WizardExportImportService:
                             require_interaction=bool(
                                 step_data.get("require_interaction") or False
                             ),
-                            # NEW: Include category with backward compatibility default
-                            category=step_data.get("category", "post_invite"),
+                            category=category,
+                            api_check=_imported_api_check(step_data, category),
                         )
                         self.session.add(new_step)
                         imported_count += 1
@@ -544,6 +576,9 @@ class WizardExportImportService:
 
             for bundle_position, step_data in enumerate(bundle_data["steps"]):
                 try:
+                    # NEW: Include category with backward compatibility default
+                    category = step_data.get("category", "post_invite")
+
                     # Create the wizard step with server_type "custom"
                     wizard_step = WizardStep(
                         server_type="custom",
@@ -554,8 +589,8 @@ class WizardExportImportService:
                         require_interaction=bool(
                             step_data.get("require_interaction") or False
                         ),
-                        # NEW: Include category with backward compatibility default
-                        category=step_data.get("category", "post_invite"),
+                        category=category,
+                        api_check=_imported_api_check(step_data, category),
                     )
                     self.session.add(wizard_step)
                     self.session.flush()  # Get the step ID

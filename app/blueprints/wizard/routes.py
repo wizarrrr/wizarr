@@ -1,4 +1,6 @@
+import math
 from pathlib import Path
+from types import SimpleNamespace
 
 import frontmatter
 import markdown
@@ -23,12 +25,16 @@ from app.models import (
     Invitation,
     MediaServer,
     Settings,
+    User,
     WizardBundle,
     WizardBundleStep,
     WizardStep,
 )
 from app.services.invite_code_manager import InviteCodeManager
 from app.services.ombi_client import run_all_importers
+from app.services.wizard_api_check import gate
+from app.services.wizard_api_check.client import run_check
+from app.services.wizard_api_check.config import normalize, public_view
 
 wizard_bp = Blueprint("wizard", __name__, url_prefix="/wizard")
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent / "wizard_steps"
@@ -51,6 +57,12 @@ def restrict_wizard():
     # Skip further checks if the ACL feature is disabled
     if not acl_enabled:
         return None  # Allow everyone
+
+    # The gate poll endpoint does its own access control (session/current_user
+    # checks that always resolve to a card, never a redirect) - an HTMX 302
+    # here would swap the homepage into the status card.
+    if request.endpoint == "wizard.api_check":
+        return None
 
     # Enforce ACL: allow only authenticated users or invited sessions
     if current_user.is_authenticated:
@@ -223,12 +235,14 @@ def _steps(server: str, _cfg: dict, category: str = "post_invite"):
             used by helper functions: `.content` property and `.get()`.
             """
 
-            __slots__ = ("_require", "content")
+            __slots__ = ("_require", "api_check", "content", "step_id")
 
             def __init__(self, row: "WizardStep"):
                 self.content = row.markdown
                 # Mirror frontmatter key `require` from DB boolean
                 self._require = bool(getattr(row, "require_interaction", False))
+                self.step_id = row.id
+                self.api_check = normalize(row.api_check, category=row.category)
 
             def get(self, key, default=None):
                 if key == "require":
@@ -285,6 +299,8 @@ def _render(post, ctx: dict, server_type: str | None = None) -> str:
     Requirement 13.6: Graceful degradation for missing/broken steps.
     """
     from app.services.wizard_widgets import (
+        API_CHECK_PLACEHOLDER_RE,
+        WIDGET_REGISTRY,
         process_card_delimiters,
         process_widget_placeholders,
     )
@@ -308,9 +324,29 @@ def _render(post, ctx: dict, server_type: str | None = None) -> str:
         # This prevents Jinja from trying to parse {{ widget:... }} syntax
         content_with_widgets = content_with_cards
         if server_type:
+            # Kept separate from render_ctx: the gate config/step id must never
+            # reach the markdown template itself (an admin's own {{ }} could
+            # print it), only the widget that already knows how to redact it.
+            step_api_check = getattr(post, "api_check", None) or None
+            widget_ctx = render_ctx | {
+                "wizard_step_id": getattr(post, "step_id", None),
+                "wizard_api_check": public_view(step_api_check),
+                "wizard_gate_passed": gate.has_passed(getattr(post, "step_id", None)),
+            }
             content_with_widgets = process_widget_placeholders(
-                content_with_cards, server_type, context=render_ctx
+                content_with_cards, server_type, context=widget_ctx
             )
+
+            # An admin who enables the gate but forgets the placeholder would
+            # otherwise hard-block users with no UI and no way out.
+            if (
+                step_api_check is not None
+                and step_api_check.is_active
+                and not API_CHECK_PLACEHOLDER_RE.search(content_with_cards)
+            ):
+                content_with_widgets += WIDGET_REGISTRY["api_check"].render(
+                    server_type, _context=widget_ctx
+                )
 
         # THEN: Render Jinja templates in the processed content
         env = current_app.jinja_env.overlay(autoescape=False)
@@ -368,6 +404,10 @@ def _serve_wizard(
     direction = request.values.get("dir", "")
 
     idx = max(0, min(idx, len(steps) - 1))
+    locked = gate.first_locked_index(steps, exempt=current_user.is_authenticated)
+    if locked is not None and idx > locked:
+        idx = locked
+    gate_locked = locked is not None and locked == idx
     post = steps[idx]
 
     # Merge server-specific context (external_url, server_url, etc.) into config
@@ -419,6 +459,7 @@ def _serve_wizard(
         gradient_start=colors["gradient_start"],
         gradient_end=colors["gradient_end"],
         shadow_color=colors["shadow_color"],
+        gate_locked=gate_locked,
     )
 
     # Add custom headers for client-side updates (HTMX requests only)
@@ -431,6 +472,7 @@ def _serve_wizard(
             "true" if require_interaction else "false"
         )
         resp.headers["X-Wizard-Step-Phase"] = display_phase or ""
+        resp.headers["X-Wizard-Gate-Locked"] = "true" if gate_locked else "false"
         return resp
 
     return response
@@ -520,6 +562,150 @@ def _get_server_colors(server_type: str | None) -> dict[str, str]:
         server_type,
         color_schemes["plex"],
     )
+
+
+# ─── api_check gate helpers ────────────────────────────────────
+def _current_post_invite_step_ids() -> set[int] | None:
+    """Post-invite step ids the current session's flow may poll.
+
+    ``None`` means unrestricted, reserved for an authenticated admin with no
+    active invitation (so bundle/step previews still work). Everyone else gets
+    a concrete set, scoped to their bundle or their invitation's servers, so a
+    forged step id from another flow can never trigger an upstream call.
+    """
+    bundle_id = session.get("wizard_bundle_id")
+    if bundle_id:
+        try:
+            assocs = (
+                WizardBundleStep.query.filter_by(bundle_id=bundle_id)
+                .options(joinedload(WizardBundleStep.step))
+                .all()
+            )
+        except Exception as e:
+            current_app.logger.error(
+                f"Error resolving bundle steps for gate membership {bundle_id}: {e}",
+                exc_info=True,
+            )
+            return set()
+        return {
+            a.step_id for a in assocs if a.step and a.step.category == "post_invite"
+        }
+
+    code = session.get("wizard_access")
+    if code:
+        try:
+            invitation = Invitation.query.filter_by(code=code).first()
+        except Exception as e:
+            current_app.logger.error(
+                f"Error resolving invitation for gate membership: {e}", exc_info=True
+            )
+            invitation = None
+
+        server_types: set[str] = set()
+        if invitation:
+            servers = (
+                list(invitation.servers)
+                if invitation.servers
+                else ([invitation.server] if invitation.server else [])
+            )
+            server_types = {s.server_type for s in servers if s}
+
+        if not server_types:
+            return set()
+
+        rows = WizardStep.query.filter(
+            WizardStep.server_type.in_(server_types),
+            WizardStep.category == "post_invite",
+        ).all()
+        return {row.id for row in rows}
+
+    if current_user.is_authenticated:
+        return None
+
+    return set()
+
+
+def _gate_identity(server_type: str | None) -> tuple[str, str, str]:
+    """Resolve (code, username, email) to send to an api_check upstream."""
+    code = session.get("wizard_access") or ""
+    user = None
+    if code:
+        try:
+            candidates = User.query.filter_by(code=code).order_by(User.id).all()
+        except Exception as e:
+            current_app.logger.error(
+                f"Error resolving gate identity for code {code}: {e}", exc_info=True
+            )
+            candidates = []
+        user = next(
+            (u for u in candidates if u.server and u.server.server_type == server_type),
+            candidates[0] if candidates else None,
+        )
+    username = user.username if user else ""
+    email = (user.email or "") if user else ""
+    return code, username, email
+
+
+def _post_invite_gate_steps(cfg: dict) -> list:
+    """Rebuild the post-invite step order the current session can reach.
+
+    Used only by ``complete`` to find the first unsatisfied gate before the
+    wizard finishes - mirrors how post_wizard/combo/bundle_view resolve steps,
+    but returns plain objects carrying just what ``gate.first_locked_index``
+    needs.
+    """
+    bundle_id = session.get("wizard_bundle_id")
+    if bundle_id:
+        try:
+            assocs = (
+                WizardBundleStep.query.filter_by(bundle_id=bundle_id)
+                .options(joinedload(WizardBundleStep.step))
+                .order_by(WizardBundleStep.position)
+                .all()
+            )
+        except Exception as e:
+            current_app.logger.error(
+                f"Error loading bundle steps for gate check {bundle_id}: {e}",
+                exc_info=True,
+            )
+            return []
+        return [
+            SimpleNamespace(
+                step_id=a.step.id,
+                api_check=normalize(a.step.api_check, category=a.step.category),
+            )
+            for a in assocs
+            if a.step and a.step.category == "post_invite"
+        ]
+
+    inv_code = session.get("wizard_access")
+    if not inv_code:
+        return []
+
+    try:
+        invitation = Invitation.query.filter_by(code=inv_code).first()
+    except Exception as e:
+        current_app.logger.error(
+            f"Error loading invitation for gate check {inv_code}: {e}", exc_info=True
+        )
+        return []
+
+    if not invitation:
+        return []
+
+    servers = (
+        list(invitation.servers)
+        if invitation.servers
+        else ([invitation.server] if invitation.server else [])
+    )
+    seen: set[str] = set()
+    steps: list = []
+    for srv in servers:
+        if not srv or srv.server_type in seen:
+            continue
+        seen.add(srv.server_type)
+        steps.extend(_steps(srv.server_type, cfg, category="post_invite"))
+    return steps
 
 
 # ─── routes ─────────────────────────────────────────────────────
@@ -833,12 +1019,33 @@ def post_wizard(idx: int = 0):
 def complete():
     """Completion page shown after user finishes all wizard steps.
 
+    This is the chokepoint: the Next button is hidden on a gated last step,
+    but this URL is directly reachable, so it re-checks the whole post-invite
+    flow itself rather than trusting how the caller got here.
+
     This endpoint provides a dedicated completion experience with:
     - Success message confirming setup is complete
     - Clear call-to-action to proceed to the application
     - Automatic cleanup of all invitation-related session data
     - Cookie with media server URL for login page redirect
     """
+    try:
+        cfg = _settings()
+        gate_steps = _post_invite_gate_steps(cfg)
+        locked = gate.first_locked_index(
+            gate_steps, exempt=current_user.is_authenticated
+        )
+    except Exception as e:
+        # Graceful degradation (Requirement 13.6): a broken lookup must not
+        # trap a user mid-wizard, so an unresolvable gate state opens rather
+        # than blocks.
+        current_app.logger.error(
+            f"Error checking gate status before completion: {e}", exc_info=True
+        )
+        locked = None
+    if locked is not None:
+        return redirect(url_for("wizard.post_wizard", idx=locked))
+
     # Grab media server URL before clearing session data
     invite_code = InviteCodeManager.get_invite_code()
     media_server_url = None
@@ -858,6 +1065,7 @@ def complete():
     session.pop("wizard_access", None)
     session.pop("wizard_server_order", None)
     session.pop("wizard_bundle_id", None)
+    gate.clear()
 
     # Show success message
     flash(_("Setup complete! Welcome to your media server."), "success")
@@ -875,6 +1083,138 @@ def complete():
         )
 
     return resp
+
+
+@wizard_bp.route("/api-check/<int:step_id>")
+def api_check(step_id: int):
+    """Poll endpoint for the wizard API-check gate.
+
+    Unauthenticated by design (the invited user has no login yet), so this is
+    the only outbound-calling endpoint reachable without a session - every
+    branch below exists to refuse an upstream call rather than to grant one.
+    Always renders the status card fragment; a redirect here would let HTMX
+    swap the homepage into the card, and a 4xx would tip a caller off that
+    they guessed wrong instead of just looking inert. HTTP 286 tells HTMX to
+    stop polling; 200 lets it keep going.
+    """
+    check_url = url_for("wizard.api_check", step_id=step_id)
+
+    def card(
+        state,
+        *,
+        status,
+        gate_header,
+        message=None,
+        interval=0,
+        retry_after=0,
+        show_button=False,
+        trigger="",
+    ):
+        resp = make_response(
+            render_template(
+                "wizard/_api_check_card.html",
+                step_id=step_id,
+                state=state,
+                message=message,
+                interval=interval,
+                retry_after=retry_after,
+                check_url=check_url,
+                show_button=show_button,
+                trigger=trigger,
+            ),
+            status,
+        )
+        resp.headers["X-Wizarr-Gate"] = gate_header
+        return resp
+
+    def inert():
+        return card("inactive", status=286, gate_header="inactive")
+
+    if not session.get("wizard_access") and not current_user.is_authenticated:
+        return inert()
+
+    try:
+        step = db.session.get(WizardStep, step_id)
+    except Exception as e:
+        current_app.logger.error(
+            f"Error loading wizard step {step_id} for gate check: {e}", exc_info=True
+        )
+        return inert()
+
+    if step is None:
+        return inert()
+
+    if step.category != "post_invite":
+        return inert()
+
+    cfg = normalize(step.api_check, category=step.category)
+    if not cfg.is_active:
+        return inert()
+
+    allowed_ids = _current_post_invite_step_ids()
+    if allowed_ids is not None and step_id not in allowed_ids:
+        return inert()
+
+    if gate.has_passed(step_id):
+        return card(
+            "passed",
+            status=286,
+            gate_header="passed",
+            message=cfg.success_message,
+            interval=cfg.interval_seconds,
+        )
+
+    if gate.is_capped(step_id, max_poll_seconds=cfg.max_poll_seconds):
+        return card(
+            "capped",
+            status=286,
+            gate_header="capped",
+            message=cfg.pending_message,
+            interval=cfg.interval_seconds,
+            show_button=True,
+        )
+
+    wait = gate.reserve(step_id, interval=cfg.interval_seconds)
+    if wait > 0:
+        retry_after = max(1, math.ceil(wait))
+        resp = card(
+            "cooldown",
+            status=200,
+            gate_header="cooldown",
+            message=cfg.pending_message,
+            interval=cfg.interval_seconds,
+            retry_after=retry_after,
+            show_button=True,
+            trigger=f"load delay:{retry_after}s",
+        )
+        resp.headers["Retry-After"] = str(retry_after)
+        return resp
+
+    gate.note_poll_started(step_id)
+    code, username, email = _gate_identity(step.server_type)
+    outcome = run_check(cfg, code=code, username=username, email=email)
+
+    if outcome.passed:
+        gate.mark_passed(step_id)
+        resp = card(
+            "passed",
+            status=286,
+            gate_header="passed",
+            message=cfg.success_message,
+            interval=cfg.interval_seconds,
+        )
+        resp.headers["HX-Trigger"] = "wizard:gate-passed"
+        return resp
+
+    return card(
+        "pending",
+        status=200,
+        gate_header="pending",
+        message=cfg.pending_message,
+        interval=cfg.interval_seconds,
+        show_button=True,
+        trigger=f"every {cfg.interval_seconds}s",
+    )
 
 
 @wizard_bp.route("/")
@@ -1022,6 +1362,10 @@ def combo(category: str, idx: int = 0):
         return redirect(url_for("wizard.complete"))
 
     idx = max(0, min(idx, len(steps) - 1))
+    locked = gate.first_locked_index(steps, exempt=current_user.is_authenticated)
+    if locked is not None and idx > locked:
+        idx = locked
+    gate_locked = locked is not None and locked == idx
 
     # Check if we're on the last step and moving forward
     direction = request.values.get("dir", "")
@@ -1080,6 +1424,7 @@ def combo(category: str, idx: int = 0):
         gradient_start=colors["gradient_start"],
         gradient_end=colors["gradient_end"],
         shadow_color=colors["shadow_color"],
+        gate_locked=gate_locked,
     )
 
     # Add custom headers for client-side updates (HTMX requests only)
@@ -1097,6 +1442,7 @@ def combo(category: str, idx: int = 0):
         resp.headers["X-Current-Server-Type"] = (
             current_server_type  # NEW: Indicate current server
         )
+        resp.headers["X-Wizard-Gate-Locked"] = "true" if gate_locked else "false"
         return resp
 
     return response
@@ -1203,11 +1549,13 @@ def bundle_view(idx: int):
 
     # adapt to frontmatter-like interface
     class _RowAdapter:
-        __slots__ = ("_require", "content")
+        __slots__ = ("_require", "api_check", "content", "step_id")
 
         def __init__(self, row: WizardStep):
             self.content = row.markdown
             self._require = bool(getattr(row, "require_interaction", False))
+            self.step_id = row.id
+            self.api_check = normalize(row.api_check, category=row.category)
 
         def get(self, key, default=None):
             if key == "require":
@@ -1216,6 +1564,10 @@ def bundle_view(idx: int):
 
     steps = [_RowAdapter(s) for s in steps_raw]
     idx = max(0, min(idx, len(steps) - 1))
+    locked = gate.first_locked_index(steps, exempt=current_user.is_authenticated)
+    if locked is not None and idx > locked:
+        idx = locked
+    gate_locked = locked is not None and locked == idx
 
     # Get the server type and category for the current step from the WizardStep
     current_server_type = steps_raw[idx].server_type if idx < len(steps_raw) else None
@@ -1297,6 +1649,7 @@ def bundle_view(idx: int):
         gradient_start=colors["gradient_start"],
         gradient_end=colors["gradient_end"],
         shadow_color=colors["shadow_color"],
+        gate_locked=gate_locked,
     )
 
     # Add custom headers for client-side updates (HTMX requests only)
@@ -1309,6 +1662,7 @@ def bundle_view(idx: int):
             "true" if require_interaction else "false"
         )
         resp.headers["X-Wizard-Step-Phase"] = phase
+        resp.headers["X-Wizard-Gate-Locked"] = "true" if gate_locked else "false"
         return resp
 
     return response
@@ -1375,11 +1729,13 @@ def bundle_preview(bundle_id: int, idx: int):
 
     # Adapter for frontmatter-like interface
     class _RowAdapter:
-        __slots__ = ("_require", "content")
+        __slots__ = ("_require", "api_check", "content", "step_id")
 
         def __init__(self, row: WizardStep):
             self.content = row.markdown
             self._require = bool(getattr(row, "require_interaction", False))
+            self.step_id = row.id
+            self.api_check = normalize(row.api_check, category=row.category)
 
         def get(self, key, default=None):
             if key == "require":
@@ -1388,6 +1744,13 @@ def bundle_preview(bundle_id: int, idx: int):
 
     steps = [_RowAdapter(s) for s in steps_raw]
     idx = max(0, min(idx, len(steps) - 1))
+    # Admin-preview by construction, but the shared ACL also lets any accepted
+    # invitation reach this URL - keep the same is_authenticated-only exemption
+    # the other wizard routes use rather than trusting the route's intent.
+    locked = gate.first_locked_index(steps, exempt=current_user.is_authenticated)
+    if locked is not None and idx > locked:
+        idx = locked
+    gate_locked = locked is not None and locked == idx
 
     # Get the server type and category for the current step
     current_server_type = steps_raw[idx].server_type if idx < len(steps_raw) else None
@@ -1454,6 +1817,7 @@ def bundle_preview(bundle_id: int, idx: int):
         gradient_end=colors["gradient_end"],
         shadow_color=colors["shadow_color"],
         is_bundle_preview=True,  # Flag to help template generate correct URLs
+        gate_locked=gate_locked,
     )
 
     # Add custom headers for client-side updates (HTMX requests only)
@@ -1464,6 +1828,7 @@ def bundle_preview(bundle_id: int, idx: int):
             "true" if require_interaction else "false"
         )
         resp.headers["X-Wizard-Step-Phase"] = current_phase
+        resp.headers["X-Wizard-Gate-Locked"] = "true" if gate_locked else "false"
         return resp
 
     return response
