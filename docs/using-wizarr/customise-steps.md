@@ -132,6 +132,30 @@ Welcome to our **media server**! Here's what you need to know:
 - **Images**: Use standard Markdown syntax with optional classes
 - **Tailwind classes**: Add `{.class-name}` for custom styling
 
+### Templates in Shared Bundles
+
+You can import and export third-party bundles. Wizarr stores their content and applies the same rendering rules to imported and edited steps.
+
+Templates can use `server_name`, `server_type`, `server_url`, and `external_url`. The same values are available through `settings`, for example `settings.server_name`. Other application settings, credentials, sessions, and Python objects are not available.
+
+Use `{{ _("Welcome") }}` for translations. Use `{% if external_url %}...{% endif %}` for conditions. Supported filters are `default` (`d`), `escape` (`e`), `upper`, `lower`, `title`, `trim`, `capitalize`, `length`, and `urlencode`.
+
+Cards, buttons, and media widgets remain available. For example:
+
+```markdown
+|||
+## {{ _("Welcome") }}
+
+{{ server_name }}
+
+{{ widget:button url="external_url" text=_("Open") }}
+|||
+```
+
+Templates cannot use loops, assignments, macros, template imports, or arbitrary function calls. Rewrite these constructs as display text, conditions, or widgets. Wizarr shows a step error if a template uses an unsupported construct.
+
+Wizarr removes scripts, event handlers, executable links, and application action attributes from rendered HTML. Titles display as plain text. The Discord widget preset keeps its restricted iframe. Other iframe sources are removed. Put custom styles in the application stylesheet; imported style blocks are removed.
+
 ### Requiring User Interaction
 
 You can force users to engage with step content before allowing them to proceed to the next step. This is useful for ensuring users actually download apps, read important information, or acknowledge terms.
