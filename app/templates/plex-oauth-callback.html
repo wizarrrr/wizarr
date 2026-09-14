@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}
+  Signing you in
+{% endblock title %}
+{% block main %}
+  <section class="min-h-screen bg-gradient-to-br from-slate-900 via-orange-900 to-slate-900 flex items-center justify-center px-6">
+    <div class="w-full max-w-md">
+      <div class="bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 p-8 text-center space-y-4">
+        <svg id="plex-callback-spinner"
+             class="animate-spin h-8 w-8 text-primary mx-auto"
+             fill="none"
+             viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+        </svg>
+        <h1 id="plex-callback-heading" class="text-2xl font-bold text-white">{{ _("Signing you in") }}</h1>
+        <p id="plex-callback-message" class="text-gray-300 text-sm">
+          {{ _("Finishing up with Plex. This only takes a moment.") }}
+        </p>
+        <button id="plex-callback-retry"
+                type="button"
+                class="hidden w-full py-3 px-6 text-white font-semibold bg-gradient-to-r from-primary to-primary_hover rounded-xl transition-all duration-200">
+          {{ _("Back to your invitation") }}
+        </button>
+      </div>
+    </div>
+  </section>
+  <form id="plex-callback-form"
+        action="{{ url_for('public.join') }}"
+        method="post"
+        class="hidden">
+    <input type="hidden" name="code" id="plex-callback-code">
+    <input type="hidden" name="token" id="plex-callback-token">
+  </form>
+  <script src="{{ url_for('static', filename='js/plex-oauth.js', v=app_version) }}"></script>
+  <script>
+      (function () {
+          const spinner = document.getElementById("plex-callback-spinner");
+          const heading = document.getElementById("plex-callback-heading");
+          const message = document.getElementById("plex-callback-message");
+          const retry = document.getElementById("plex-callback-retry");
+
+          const state = plexOAuthRead();
+          const inviteBase = "{{ url_for('public.invite', code='') }}";
+
+          function stop(title, text, showRetry) {
+              spinner.classList.add("hidden");
+              heading.textContent = title;
+              message.textContent = text;
+              if (showRetry && state && state.code) {
+                  retry.onclick = function () {
+                      window.location.href = inviteBase + encodeURIComponent(state.code);
+                  };
+                  retry.classList.remove("hidden");
+              }
+          }
+
+          function nothingToFinish() {
+              // A bookmarked or directly opened callback URL, or storage we
+              // could not write to when the sign-in started.
+              stop("{{ _('Nothing to finish') }}",
+                   "{{ _('Open your invitation link again to sign in with Plex.') }}",
+                   false);
+          }
+
+          function goToWizard() {
+              window.location.href = "{{ url_for('wizard.start') }}";
+          }
+
+          // Is the window that opened us still on screen for the user?
+          //
+          // This is the whole question, and it is not "what kind of device is
+          // this". On a desktop the invite page is a separate window sitting
+          // behind this popup: still visible. On a phone the invite page is a
+          // background tab: hidden. The Page Visibility API reports exactly that,
+          // and the opener is same-origin (our own invite page) so we can read
+          // it directly. Touch screens, window size and zoom do not come into
+          // it - a visible window is a visible window.
+          //
+          // When the opener is visible it is already polling and will submit the
+          // sign-in in its own window and close this popup, so we do nothing and
+          // let it. When the opener is hidden or gone, this page is the only
+          // thing the user can see, so we finish here.
+          function openerIsVisible() {
+              try {
+                  const o = window.opener;
+                  return (
+                      !!o && !o.closed && o.document.visibilityState === "visible"
+                  );
+              } catch (e) {
+                  // Opener navigated away or is otherwise unreadable. Treat it as
+                  // gone and finish here, which is the safe default: better to
+                  // finish in a window we did not need to than to wait on a window
+                  // that is never coming back.
+                  return false;
+              }
+          }
+
+          async function finish() {
+              if (!(await plexOAuthClaim("callback"))) {
+                  // The opener redeemed the invite first. It shares our session,
+                  // so the wizard is reachable from here too - go there rather
+                  // than tell the user to find another window. The short wait lets
+                  // the opener's POST establish the session before we navigate.
+                  stop("{{ _('All set') }}",
+                       "{{ _('Taking you to the next step...') }}",
+                       false);
+                  setTimeout(goToWizard, 2000);
+                  return;
+              }
+
+              const deadline = Date.now() + 120000;
+              while (Date.now() < deadline) {
+                  let token;
+                  try {
+                      token = await plexOAuthPollToken(state);
+                  } catch (e) {
+                      stop("{{ _('Sign-in failed') }}", e.message, true);
+                      return;
+                  }
+                  if (token) {
+                      document.getElementById("plex-callback-code").value = state.code;
+                      document.getElementById("plex-callback-token").value = token;
+                      // Clear only when leaving this page actually commits. If
+                      // the submit fails to navigate, the stored state is the
+                      // only thing that lets the sign-in be retried.
+                      window.addEventListener("pagehide", plexOAuthClear);
+                      // Submitting navigates THIS window to the wizard, so the
+                      // user lands there in the window they are looking at. This
+                      // page never closes itself: closing a tab lets the browser
+                      // surface whatever it likes, which is the mobile failure the
+                      // page exists to prevent. On desktop the opener closes the
+                      // popup instead.
+                      document.getElementById("plex-callback-form").submit();
+                      return;
+                  }
+                  await new Promise((r) => setTimeout(r, 1000));
+              }
+              stop("{{ _('That took too long') }}",
+                   "{{ _('We did not hear back from Plex. Please try signing in again.') }}",
+                   true);
+          }
+
+          if (openerIsVisible()) {
+              // The invite page is on screen and finishing the job; it will close
+              // this popup. Sit tight. If it somehow never does - it died, or Plex
+              // returned here but the opener stopped polling - take over rather
+              // than leave the user on a spinner forever.
+              setTimeout(function () {
+                  if (state) {
+                      finish();
+                  } else {
+                      nothingToFinish();
+                  }
+              }, 60000);
+              return;
+          }
+
+          if (!state) {
+              nothingToFinish();
+              return;
+          }
+
+          finish();
+      })();
+  </script>
+{% endblock main %}
