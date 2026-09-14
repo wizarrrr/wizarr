@@ -444,6 +444,10 @@ class MediaServer(db.Model):
     allow_live_tv = db.Column(db.Boolean, default=False, nullable=False)
     allow_mobile_uploads = db.Column(db.Boolean, default=False, nullable=False)
 
+    # Jellyfin: default MaxActiveSessions applied to new invitations for this
+    # server unless the invitation overrides it (0 = unlimited).
+    max_active_sessions = db.Column(db.Integer, nullable=True)
+
     # Whether the connection credentials were validated successfully
     verified = db.Column(db.Boolean, default=False, nullable=False)
 
