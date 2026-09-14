@@ -511,12 +511,29 @@ def users_table():
         q = q.order_by(Invitation.created.asc().nullslast())
     elif order == "invited_desc":
         q = q.order_by(Invitation.created.desc().nullslast())
+    elif order == "expires_asc":
+        q = q.order_by(User.expires.asc().nullslast())
+    elif order == "expires_desc":
+        q = q.order_by(User.expires.desc().nullsfirst())
     else:
         q = q.order_by(db.func.lower(User.username))
 
     users = q.all()
 
     grouped = _group_users_for_display(users)
+
+    # Linked/multi-account identities are collapsed above, so re-sort the
+    # grouped cards by their earliest expiry to keep positions consistent
+    # regardless of which underlying account row the raw query surfaced first.
+    # "Never expires" (None) cards sort last ascending, first descending.
+    if order == "expires_asc":
+        grouped.sort(key=lambda u: (u.earliest_expires is None, u.earliest_expires))
+    elif order == "expires_desc":
+        with_expiry = [u for u in grouped if u.earliest_expires is not None]
+        without_expiry = [u for u in grouped if u.earliest_expires is None]
+        with_expiry.sort(key=lambda u: u.earliest_expires, reverse=True)
+        grouped = without_expiry + with_expiry
+
     return render_template("tables/user_card.html", users=grouped)
 
 
