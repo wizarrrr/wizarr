@@ -64,8 +64,25 @@
                 <option value="discord">Discord</option>
                 <option value="notifiarr">Notifiarr</option>
                 <option value="ntfy">Ntfy</option>
+                <option value="pushover">Pushover</option>
                 <option value="telegram">Telegram</option>
               </select>
+            </div>
+            <div id="pushoverSection"
+                 class="notificationAgentInfo"
+                 style="display: none">
+              <label for="pushover_user_key"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("User Key") }}</label>
+              <input type="text"
+                     name="pushover_user_key"
+                     id="pushover_user_key"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              <label for="pushover_api_token"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("API Token") }}</label>
+              <input type="password"
+                     name="pushover_api_token"
+                     id="pushover_api_token"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
             </div>
             <div id="notifiarrSection"
                  class="notificationAgentInfo"
@@ -113,7 +130,7 @@
                      id="password"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
             </div>
-            <div>
+            <div id="urlSection">
               <label for="url"
                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ _("Agent URL") }}</label>
               <input type="text"
@@ -190,6 +207,8 @@
             notifiarrSection.style.display = 'block';
         } else if (value === "telegram") {
             telegramSection.style.display = 'block';
+        } else if (value === "pushover") {
+            pushoverSection.style.display = 'block';
         }
 
         // Trigger required channel_id
@@ -206,6 +225,19 @@
         } else {
             document.getElementById("telegram_bot_token").required = false
             document.getElementById("telegram_chat_id").required = false
+        }
+
+        // Trigger required pushover fields; Pushover has no Agent URL
+        if (value === 'pushover') {
+            document.getElementById("pushover_user_key").required = true
+            document.getElementById("pushover_api_token").required = true
+            document.getElementById("urlSection").style.display = 'none'
+            document.getElementById("url").required = false
+        } else {
+            document.getElementById("pushover_user_key").required = false
+            document.getElementById("pushover_api_token").required = false
+            document.getElementById("urlSection").style.display = 'block'
+            document.getElementById("url").required = true
         }
 
         // Adjust placeholder text

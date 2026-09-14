@@ -372,6 +372,8 @@ class Notification(db.Model):
     channel_id = db.Column(db.Integer, nullable=True)
     telegram_bot_token = db.Column(db.String, nullable=True)
     telegram_chat_id = db.Column(db.String, nullable=True)
+    pushover_user_key = db.Column(db.String, nullable=True)
+    pushover_api_token = db.Column(db.String, nullable=True)
     notification_events = db.Column(
         db.String, nullable=False, default="user_joined,update_available"
     )
