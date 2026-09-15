@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-09-15 08:41+0000\n"
-"PO-Revision-Date: 2026-08-15 03:54+0000\n"
-"Last-Translator: Enrico Lehn <enrico.lehn@gmail.com>\n"
+"PO-Revision-Date: 2026-09-16 08:35+0000\n"
+"Last-Translator: Nivigro <Nickvincentdegroot@outlook.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9.dev0\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
 msgid "Failed to load settings"
@@ -48,20 +48,21 @@ msgid "Failed to export activity data"
 msgstr "Export der Aktivitätsdaten fehlgeschlagen"
 
 msgid "enabled"
-msgstr ""
+msgstr "aktiviert"
 
 msgid "disabled"
-msgstr ""
+msgstr "deaktiviert"
 
 #, python-brace-format
 msgid "Activity tracking is {state}. The change can take up to 15 seconds."
 msgstr ""
+"Aktivitätserfassung ist {state}. Die Änderung kann bis zu 15 Sekunden dauern."
 
 msgid "Monitoring restarted"
-msgstr "Monitor neu gestartet"
+msgstr "Überwachung neu gestartet"
 
 msgid "Monitor not available"
-msgstr "Monitor nicht verfügbar"
+msgstr "Überwachung nicht verfügbar"
 
 #, python-brace-format
 msgid "Cleaned up {} old activity records"
@@ -308,13 +309,12 @@ msgstr "LDAP nicht konfiguriert oder deaktiviert"
 msgid "No groups found in LDAP"
 msgstr "Keine Gruppen in LDAP gefunden"
 
-#, fuzzy
 msgid "LDAP is not configured"
-msgstr "Schritte konfiguriert"
+msgstr "LDAP ist nicht konfiguriert"
 
-#, fuzzy, python-format
+#, python-format
 msgid "Failed to list LDAP users: %(error)s"
-msgstr "Zurücksetzen der Schritte fehlgeschlagen: {}"
+msgstr "Die Auflistung der LDAP-Benutzer ist fehlgeschlagen: %(error)s"
 
 msgid "Admin account created – welcome!"
 msgstr "Administratorkonto erstellt – herzlich willkommen!"
@@ -464,32 +464,26 @@ msgstr "Passwort"
 msgid "Confirm password"
 msgstr "Passwort bestätigen"
 
-#, fuzzy
 msgid "Passwords must match."
-msgstr "Passwörter stimmen nicht überein"
+msgstr "Passwörter stimmen nicht überein."
 
 msgid "New Password"
 msgstr "Neues Passwort"
 
-#, fuzzy
 msgid "Please confirm the new password."
-msgstr "Neues Passwort bestätigen"
+msgstr "Neues Passwort bestätigen."
 
-#, fuzzy
 msgid "Server Type"
-msgstr "Server"
+msgstr "Servertyp"
 
-#, fuzzy
 msgid "Server Name"
-msgstr "Benutzername"
+msgstr "Servername"
 
-#, fuzzy
 msgid "RomM Username"
-msgstr "Dein Benutzername"
+msgstr "RomM-Benutzername"
 
-#, fuzzy
 msgid "RomM Password"
-msgstr "Dein Passwort"
+msgstr "RomM-Passwort"
 
 msgid "Libraries"
 msgstr "Bibliotheken"
@@ -497,20 +491,17 @@ msgstr "Bibliotheken"
 msgid "Allow Downloads"
 msgstr "Downloads zulassen"
 
-#, fuzzy
 msgid "Allow Live TV"
-msgstr "Live-TV-Zugang zulassen"
+msgstr "Live-TV zulassen"
 
 msgid "Overseerr/Ombi URL"
 msgstr "Overseerr/Ombi URL"
 
-#, fuzzy
 msgid "Ombi API Key"
-msgstr "Keine API-Schlüssel"
+msgstr "Ombi-API-Schlüssel"
 
-#, fuzzy
 msgid "Discord ID"
-msgstr "Deine Discord-Server-ID"
+msgstr "Discord-ID"
 
 msgid "External URL"
 msgstr "Externe URL"
@@ -596,9 +587,9 @@ msgstr "Drop API nicht gefunden. Überprüfen Sie die Server URL."
 msgid "Drop"
 msgstr "Drop"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "No default steps found for server type: {}"
-msgstr "Keine Schritte für Servertyp gefunden: {}"
+msgstr "Für diesen Servertyp wurden keine Standardschritte gefunden: {}"
 
 msgid "Admin"
 msgstr "Admin"
@@ -706,9 +697,8 @@ msgstr "Passwortstärke: Stark"
 msgid "Passwords do not match"
 msgstr "Passwörter stimmen nicht überein"
 
-#, fuzzy
 msgid "Wizarr"
-msgstr "Wizard"
+msgstr "Wizarr"
 
 msgid "Invalid Invitation"
 msgstr "Ungültige Einladung"
@@ -728,9 +718,8 @@ msgstr "Login"
 msgid "This is the administrator login page."
 msgstr ""
 
-#, fuzzy
 msgid "Go to your media server instead"
-msgstr "Deine Discord-Server-ID"
+msgstr "Geh stattdessen zu deinem Medienserver"
 
 #, python-brace-format
 msgid "Welcome back, {}!"
@@ -740,13 +729,11 @@ msgid "Please authenticate with your passkey to complete login."
 msgstr ""
 "Bitte logg dich mit deinem Passkey ein, um die Anmeldung abzuschließen."
 
-#, fuzzy
 msgid "Authentication Method"
-msgstr "Authentifizierung fehlgeschlagen"
+msgstr "Authentifizierungsmethode"
 
-#, fuzzy
 msgid "Local Account"
-msgstr "Konto erstellen"
+msgstr "Lokales Konto"
 
 msgid "LDAP"
 msgstr ""
@@ -773,115 +760,107 @@ msgid "Authenticating..."
 msgstr "Authentifizierung..."
 
 msgid "Failed to complete 2FA login"
-msgstr "Die 2FA-Anmeldung schlägt fehl"
+msgstr "Die 2FA-Anmeldung ist fehlgeschlagen"
 
 msgid "Passkey authentication failed. Please try again or use your password."
 msgstr ""
 "Die Passkey-Authentifizierung ist fehlgeschlagen. Versuch es erneut oder gib "
 "dein Passwort ein."
 
-#, fuzzy
 msgid "Password Reset Error"
-msgstr "Passwort zu kurz"
+msgstr "Fehler beim Zurücksetzen des Passworts"
 
-#, fuzzy
 msgid "Error:"
-msgstr "Fehler"
+msgstr "Fehler:"
 
 msgid "This password reset link is invalid."
-msgstr ""
+msgstr "Dieser Link zum Zurücksetzen des Passworts ist ungültig."
 
 msgid "This password reset link has already been used."
-msgstr ""
+msgstr "Dieser Link zum Zurücksetzen des Passworts wurde bereits verwendet."
 
 msgid "This password reset link has expired."
-msgstr ""
+msgstr "Dieser Link zum Zurücksetzen des Passworts ist abgelaufen."
 
 msgid "This password reset link is malformed."
-msgstr ""
+msgstr "Dieser Link zum Zurücksetzen des Passworts ist fehlerhaft."
 
 msgid "This password reset link is no longer valid."
-msgstr ""
+msgstr "Dieser Link zum Zurücksetzen des Passworts ist nicht mehr gültig."
 
 msgid ""
 "Please contact your server administrator to request a new password reset "
 "link."
 msgstr ""
+"Bitte wenden Sie sich an Ihren Serveradministrator, um einen neuen Link zum "
+"Zurücksetzen des Passworts anzufordern."
 
-#, fuzzy
 msgid "Code:"
-msgstr "Schließen"
+msgstr "Code:"
 
 msgid "Common reasons for this error:"
-msgstr ""
+msgstr "Häufige Ursachen für diesen Fehler:"
 
 msgid "The link has already been used"
-msgstr ""
+msgstr "Der Link wurde bereits verwendet"
 
 msgid "The link has expired (24 hour limit)"
-msgstr ""
+msgstr "Der Link ist abgelaufen (24-Stunden-Frist)"
 
 msgid "The link was not copied correctly"
-msgstr ""
+msgstr "Der Link wurde nicht korrekt kopiert"
 
-#, fuzzy
 msgid "Reset Your Password"
-msgstr "Dein Passwort"
+msgstr "Passwort zurücksetzen"
 
-#, fuzzy
 msgid "Choose a new password"
-msgstr "Passwort ändern"
+msgstr "Wählen Sie ein neues Passwort"
 
-#, fuzzy
 msgid "For user:"
-msgstr "Benutzer"
+msgstr "Für den Benutzer:"
 
 msgid "This link expires on"
-msgstr ""
+msgstr "Dieser Link läuft ab am"
 
 msgid "Enter new password (8-128 characters)"
-msgstr ""
+msgstr "Geben Sie ein neues Passwort ein (8–128 Zeichen)"
 
-#, fuzzy
 msgid "Confirm new password"
 msgstr "Neues Passwort bestätigen"
 
-#, fuzzy
 msgid "Password must be:"
-msgstr "Passwörter stimmen nicht überein"
+msgstr "Das Passwort muss:"
 
 msgid "Between 8 and 128 characters"
-msgstr ""
+msgstr "Zwischen 8 und 128 Zeichen"
 
 #, fuzzy
 msgid "Match the confirmation"
-msgstr "Konfiguration importieren"
+msgstr "Bestätigung abgleichen"
 
-#, fuzzy
 msgid "Reset Password"
-msgstr "Aktuelles Passwort"
+msgstr "Passwort zurücksetzen"
 
-#, fuzzy
 msgid "Password Reset Successful!"
-msgstr "Verbindungstest erfolgreich!"
+msgstr "Passwort erfolgreich zurückgesetzt!"
 
-#, fuzzy
 msgid "The password for"
-msgstr "Neues Passwort"
+msgstr "Das Passwort für"
 
-#, fuzzy
 msgid "has been successfully reset."
-msgstr "Die Aktivitätsdaten wurden erfolgreich gelöscht ({} Datensätze)."
+msgstr "wurde erfolgreich zurückgesetzt."
 
 msgid "You can now use your new password to log in to your media server."
 msgstr ""
+"Sie können sich nun mit Ihrem neuen Passwort bei Ihrem Medienserver anmelden."
 
-#, fuzzy
 msgid "What's next?"
 msgstr "Wie geht es weiter?"
 
 msgid "Log in to your media server with your username and new password."
 msgstr ""
+"Melden Sie sich mit Ihrem Benutzernamen und Ihrem neuen Passwort bei Ihrem "
+"Medienserver an."
 
 msgid "Administrator"
 msgstr "Administrator"
@@ -928,12 +907,19 @@ msgstr "Sicheres Einladungssystem dank Wizarr"
 
 msgid "Pop-up blocked. Allow pop-ups for this site and try again."
 msgstr ""
+"Pop-up blockiert. Bitte lassen Sie Pop-ups für diese Website zu und "
+"versuchen Sie es erneut."
 
+#, fuzzy
 msgid "Sign-in cancelled. Hit Join Server to try again."
 msgstr ""
+"Die Anmeldung wurde abgebrochen. Klicken Sie auf „Dem Server beitreten“, um "
+"es erneut zu versuchen."
 
 msgid "Plex sign-in failed. Try again, or contact your server admin."
 msgstr ""
+"Die Anmeldung bei Plex ist fehlgeschlagen. Versuchen Sie es erneut oder "
+"wenden Sie sich an Ihren Serveradministrator."
 
 msgid "Invite User"
 msgstr "Benutzer einladen"
@@ -977,15 +963,15 @@ msgstr "Neuste akzeptierte Einladungen"
 msgid "Recently joined"
 msgstr "Kürzlich beigetreten"
 
+#, fuzzy
 msgid "Showing"
-msgstr ""
+msgstr "zeigt"
 
 msgid "of"
 msgstr "von"
 
-#, fuzzy
 msgid "Prev"
-msgstr "Vorschau"
+msgstr "Vorh"
 
 #, fuzzy
 msgid "Page"
@@ -1037,9 +1023,8 @@ msgstr "Aktuelle Wiedergabe kann nicht geladen werden"
 msgid "There was an error connecting to your media servers"
 msgstr "Beim Verbinden mit deinen Medienservern ist ein Fehler aufgetreten"
 
-#, fuzzy
 msgid "No one is streaming"
-msgstr "Aktuell wird nichts gestreamt"
+msgstr "Es streamt gerade niemand"
 
 msgid "No active media sessions found across your servers"
 msgstr "Keine aktiven Mediensitzungen auf deinen Servern gefunden"
@@ -1146,57 +1131,61 @@ msgstr "Standardzugang"
 msgid "Close"
 msgstr "Schließen"
 
-#, fuzzy
 msgid "Edit User"
-msgstr "Server bearbeiten"
+msgstr "Benutzer bearbeiten"
 
 msgid "Close modal"
 msgstr "Modal schließen"
 
-#, fuzzy
 msgid "Tabs"
-msgstr "Status"
+msgstr "Tabs"
 
 msgid "Local"
-msgstr ""
+msgstr "Lokal"
 
 msgid "Notes"
 msgstr "Notizen"
 
-#, fuzzy
 msgid "Permission Management"
-msgstr "API-Schlüsselverwaltung"
-
-msgid "Toggle downloads permission"
-msgstr ""
-
-msgid "Toggle live TV permission"
-msgstr ""
+msgstr "Berechtigungsverwaltung"
 
 #, fuzzy
-msgid "Allow Camera Upload"
-msgstr "Kamera Upload"
+msgid "Toggle downloads permission"
+msgstr "Berechtigung für Downloads umschalten"
 
+#, fuzzy
+msgid "Toggle live TV permission"
+msgstr "Berechtigung für Live-TV umschalten"
+
+msgid "Allow Camera Upload"
+msgstr "Kamera-Upload zulassen"
+
+#, fuzzy
 msgid "Toggle camera upload permission"
-msgstr ""
+msgstr "Berechtigung zum Hochladen von Kameraaufnahmen umschalten"
 
 #, fuzzy
 msgid "Library Access"
-msgstr "Bibliotheken"
+msgstr "Zugang zur Bibliothek"
+
+msgid "No libraries available"
+msgstr "Keine Bibliotheken verfügbar"
 
 #, fuzzy
-msgid "No libraries available"
-msgstr "Keine Bibliotheken gefunden"
-
 msgid "Scan libraries from the invitation page to enable library restrictions"
 msgstr ""
+"Scannen Sie Bibliotheken von der Einladungsseite ein, um "
+"Bibliothekseinschränkungen zu aktivieren"
 
+#, fuzzy
 msgid "Click to toggle library access. Updates save automatically."
 msgstr ""
+"Klicken Sie hier, um den Zugriff auf die Bibliothek zu aktivieren bzw. zu "
+"deaktivieren. Änderungen werden automatisch gespeichert."
 
 #, fuzzy
 msgid "Expiry Management"
-msgstr "API-Schlüsselverwaltung"
+msgstr "Verfallsdatenverwaltung"
 
 msgid "Expiry date"
 msgstr "Ablaufdatum"
@@ -1210,9 +1199,8 @@ msgstr "Aktuelles Ablaufdatum"
 msgid "No expiry set"
 msgstr "Kein Ablaufdatum festgelegt"
 
-#, fuzzy
 msgid "User notes"
-msgstr "Notizen aktualisieren"
+msgstr "Anmerkungen des Benutzers"
 
 msgid "Add notes about this user..."
 msgstr "Notizen über diesen Benutzer hinzufügen..."
@@ -1440,11 +1428,10 @@ msgid "Channel ID"
 msgstr "Kanal-ID"
 
 msgid "Bot Token"
-msgstr ""
+msgstr "Bot-Token"
 
-#, fuzzy
 msgid "Chat ID"
-msgstr "Kanal-ID"
+msgstr "Chat-ID"
 
 msgid "Username (optional)"
 msgstr "Benutzername (optional)"
@@ -1455,16 +1442,14 @@ msgstr "Passwort (optional)"
 msgid "Agent URL"
 msgstr "Dienst-URL"
 
-#, fuzzy
 msgid "Notification Events"
-msgstr "Benachrichtigungsdienste"
+msgstr "Benachrichtigungsereignisse"
 
-#, fuzzy
 msgid "User Joined"
-msgstr "Beigetreten"
+msgstr "Benutzer ist beigetreten"
 
 msgid "Update Available"
-msgstr ""
+msgstr "Update verfügbar"
 
 msgid "Test & Create Agent"
 msgstr "Testen und Dienst anlegen"
@@ -1490,20 +1475,17 @@ msgstr "Identität bearbeiten"
 msgid "Nickname"
 msgstr "Nickname"
 
-#, fuzzy
 msgid "Edit Agent"
-msgstr "Neuer Dienst"
+msgstr "Agent bearbeiten"
 
 msgid "Name"
 msgstr "Name"
 
-#, fuzzy
 msgid "Notification Service"
-msgstr "Benachrichtigungsdienste"
+msgstr "Benachrichtigungsdienst"
 
-#, fuzzy
 msgid "Test & Save Changes"
-msgstr "Testen und Dienst anlegen"
+msgstr "Testen & Änderungen speichern"
 
 msgid "Edit Server"
 msgstr "Server bearbeiten"
@@ -1517,9 +1499,8 @@ msgstr "Einladung erstellt"
 msgid "Invite Code String"
 msgstr "Einladungscode"
 
-#, fuzzy
 msgid "optional"
-msgstr "(Optional)"
+msgstr "optional"
 
 msgid "E.g. XMFGEJIKNQ"
 msgstr "z.B. XMFGEJIKNQ"
@@ -1554,9 +1535,8 @@ msgstr "Unbegrenzte Nutzung"
 msgid "Duration"
 msgstr "Dauer"
 
-#, fuzzy
 msgid "in days"
-msgstr "(in Tagen)"
+msgstr "in Tagen"
 
 msgid "Show Information"
 msgstr "Informationen anzeigen"
@@ -1566,16 +1546,14 @@ msgid ""
 "number of days. (1-999)"
 msgstr "Entfernt eingeladene Benutzer nach X Tagen vom Plex Server. (1–999)"
 
-#, fuzzy
 msgid "LDAP Integration"
-msgstr "Einladung annehmen"
+msgstr "LDAP-Integration"
 
-#, fuzzy
 msgid "Create LDAP User"
-msgstr "API-Schlüssel erstellen"
+msgstr "LDAP-Benutzer erstellen"
 
 msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
+msgstr "Bei Annahme dieser Einladung automatisch einen LDAP-Benutzer erstellen"
 
 msgid "Target servers"
 msgstr "Ziel Server"
@@ -1589,16 +1567,18 @@ msgstr "Live-TV-Zugang zulassen"
 msgid "Allow Mobile Uploads"
 msgstr "Mobile Uploads zulassen"
 
-#, fuzzy
 msgid "Max Active Sessions"
-msgstr "Aktive Sitzungen"
+msgstr "Max. Anzahl aktiver Sitzungen"
 
+#, fuzzy
 msgid "simultaneous devices"
-msgstr ""
+msgstr "gleichzeitig verwendete Geräte"
 
 msgid ""
 "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
+"Anzahl der Geräte, die gleichzeitig streamen können. Setzen Sie den Wert auf "
+"0, um die Anzahl nicht zu begrenzen."
 
 msgid "Select Libraries"
 msgstr "Bibliotheken auswählen"
@@ -1624,70 +1604,62 @@ msgstr "Erstelle ein weiteres"
 msgid "Please select at least one server for the invitation."
 msgstr "Bitte wähle mindestens einen Server für die Einladung aus."
 
-#, fuzzy
 msgid "Password Reset Link"
-msgstr "Passwort (optional)"
+msgstr "Link zum Zurücksetzen des Passworts"
 
 msgid "Generate Password Reset Link"
-msgstr ""
+msgstr "Link zum Zurücksetzen des Passworts generieren"
 
-#, fuzzy
 msgid "Password reset link for"
-msgstr "Passwort zu kurz"
+msgstr "Link zum Zurücksetzen des Passworts für"
 
-#, fuzzy
 msgid "Link expires:"
-msgstr "Verfällt"
+msgstr "Link verfällt:"
 
 msgid "Reset Link (Click to copy)"
-msgstr ""
+msgstr "Zurücksetzungslink (Zum Kopieren anklicken)"
 
 msgid ""
 "Send this link to the user. They can use it once to reset their password."
 msgstr ""
+"Senden Sie diesen Link an den Nutzer. Er kann ihn einmalig verwenden, um "
+"sein Passwort zurückzusetzen."
 
 msgid "Reset Code"
-msgstr ""
+msgstr "Zurücksetzungscode"
 
-#, fuzzy
 msgid "Security Notes:"
-msgstr "Notizen aktualisieren"
+msgstr "Sicherheitshinweise:"
 
-#, fuzzy
 msgid "This link can only be used once"
-msgstr "Diese Aktion kann nicht rückgängig gemacht werden."
+msgstr "Dieser Link kann nur einmal verwendet werden"
 
 msgid "It expires in 24 hours"
-msgstr ""
+msgstr "Es läuft in 24 Stunden ab"
 
 msgid "Send it securely (email, message, etc.)"
-msgstr ""
+msgstr "Senden Sie es auf sicherem Weg (E-Mail, SMS usw.)"
 
-#, fuzzy
 msgid "Generate a secure password reset link for"
-msgstr "Erstelle stattdessen ein starkes, zufälliges Passwort"
+msgstr "Erstellen Sie einen sicheren Link zum Zurücksetzen des Passworts für"
 
-#, fuzzy
 msgid "Generate Reset Link"
-msgstr "Allgemeine Einstellungen"
+msgstr "Link zum Zurücksetzen generieren"
 
 msgid "The link will be valid for 24 hours and can only be used once."
-msgstr ""
+msgstr "Der Link ist 24 Stunden lang gültig und kann nur einmal genutzt werden."
 
-#, fuzzy
 msgid "Copy Link"
-msgstr "Einladungslink kopieren"
+msgstr "Link kopieren"
 
-#, fuzzy
 msgid "Copied!"
-msgstr "Beigetreten"
+msgstr "Kopiert!"
 
-#, fuzzy
 msgid "Reset link copied to clipboard!"
-msgstr "Link wurde in die Zwischenablage kopiert!"
+msgstr "Zurücksetzungslink wurde in die Zwischenablage kopiert!"
 
 msgid "Please manually copy the link"
-msgstr ""
+msgstr "Bitte kopieren Sie den Link manuell"
 
 msgid "Import Wizard Steps"
 msgstr "Wizard Schritte importieren"
@@ -1730,7 +1702,7 @@ msgid "Add Preset Wizard Step"
 msgstr "Vorlagen-Schritt hinzufügen"
 
 msgid "Choose when this step should be shown to users"
-msgstr ""
+msgstr "Legen Sie fest, wann dieser Schritt den Benutzern angezeigt werden soll"
 
 msgid "Your Discord server ID"
 msgstr "Deine Discord-Server-ID"
@@ -1743,35 +1715,33 @@ msgstr "Schritt erstellen"
 
 #, fuzzy
 msgid "Add..."
-msgstr "Hinzufügen"
+msgstr "Hinzufügen..."
 
 msgid "Widgets"
-msgstr ""
+msgstr "Widgets"
 
-#, fuzzy
 msgid "Recently Added Media"
-msgstr "Kürzlich hinzugefügt"
+msgstr "Kürzlich hinzugefügte Medien"
 
-#, fuzzy
 msgid "Show recent content"
-msgstr "Keine aktuellen Inhalte gefunden"
+msgstr "Neueste Inhalte anzeigen"
 
+#, fuzzy
 msgid "Button"
-msgstr ""
+msgstr "Schaltfläche"
 
+#, fuzzy
 msgid "Add a clickable link button"
-msgstr ""
+msgstr "Eine anklickbare Schaltfläche hinzufügen"
 
-#, fuzzy
 msgid "Elements"
-msgstr "Dienst löschen"
+msgstr "Elemente"
 
-#, fuzzy
 msgid "Card"
-msgstr "Wizard"
+msgstr "Karte"
 
 msgid "Add a styled content card"
-msgstr ""
+msgstr "Eine gestaltete Inhaltskarte hinzufügen"
 
 msgid "Delete API Key"
 msgstr "API-Schlüssel löschen"
@@ -1871,9 +1841,8 @@ msgstr "Allgemeine Einstellungen"
 msgid "Configure your application's basic settings and preferences"
 msgstr "Konfiguriere die Grundeinstellungen und Präferenzen deiner Anwendung"
 
-#, fuzzy
 msgid "Version"
-msgstr "Berechtigungen"
+msgstr "Version"
 
 msgid "Display"
 msgstr "Anzeige"
@@ -1890,34 +1859,36 @@ msgstr "Benutzerzugriff und Berechtigungen verwalten"
 msgid "Control access to the wizard setup process"
 msgstr "Wizard-Schritte-Prozess sperren oder öffentlich setzen"
 
-#, fuzzy
 msgid "User Management"
-msgstr "API-Schlüsselverwaltung"
+msgstr "Benutzerverwaltung"
 
 msgid "Configure how users are managed when invitations expire"
 msgstr ""
+"Konfigurieren Sie, wie Benutzer verwaltet werden, wenn Einladungen ablaufen"
 
-#, fuzzy
 msgid "Server Capabilities"
-msgstr "Server online"
+msgstr "Serverfunktionen"
 
 msgid "Supports Disable:"
-msgstr ""
+msgstr "Unterstützt „Deaktivieren“:"
 
-#, fuzzy
 msgid "Delete Only:"
-msgstr "Dienst löschen"
+msgstr "Lösche nur:"
 
 msgid ""
 "If 'Disable User' is selected but the server does not support it, the user "
 "will be deleted instead."
 msgstr ""
+"Wenn „Benutzer deaktivieren“ ausgewählt ist, der Server diese Funktion "
+"jedoch nicht unterstützt, wird der Benutzer stattdessen gelöscht."
 
 msgid "Choose what happens to users when their invitation expires"
 msgstr ""
+"Legen Sie fest, was mit Benutzern geschieht, wenn ihre Einladung abläuft"
 
+#, fuzzy
 msgid "Immediately process all expired users based on the expiry action above"
-msgstr ""
+msgstr "bearbeite alle abgelaufenen Benutzer gemäß der obigen Ablauf-Maßnahme"
 
 msgid "API Key Management"
 msgstr "API-Schlüsselverwaltung"
@@ -1952,9 +1923,8 @@ msgstr "Benachrichtigung"
 msgid "Servers"
 msgstr "Servers"
 
-#, fuzzy
 msgid "Activity"
-msgstr "Aktiv"
+msgstr "Aktivität"
 
 msgid "Admins"
 msgstr "Admins"
@@ -1964,99 +1934,98 @@ msgstr "Wizard"
 
 #, fuzzy
 msgid "Audit"
-msgstr "Bearbeiten"
+msgstr "Prüfe"
 
-#, fuzzy
 msgid "LDAP Settings"
-msgstr "Einstellungen speichern"
+msgstr "LDAP-Einstellungen"
 
-#, fuzzy
 msgid "Experimental"
-msgstr "Dienst löschen"
+msgstr "Experimentell"
 
 msgid "Configure LDAP for user authentication and management"
-msgstr ""
+msgstr "LDAP für die Benutzerauthentifizierung und -verwaltung konfigurieren"
 
 msgid "Enable LDAP"
-msgstr ""
+msgstr "LDAP aktivieren"
 
 msgid "Turn on LDAP integration"
-msgstr ""
+msgstr "LDAP-Integration aktivieren"
 
-#, fuzzy
 msgid "Connection"
-msgstr "Verbindungen"
+msgstr "Verbindung"
 
-#, fuzzy
 msgid "LDAP server connection"
-msgstr "Verbindung aktualisieren"
+msgstr "Verbindung zum LDAP-Server"
 
 msgid "e.g., ldap://server:3890 or ldaps://server:6360"
-msgstr ""
+msgstr "z.B., ldap://server:3890 oder ldaps://server:6360"
 
-#, fuzzy
 msgid "Use TLS"
-msgstr "Benutzerdetails"
+msgstr "TLS verwenden"
 
-#, fuzzy
 msgid "Verify Cert"
-msgstr "Verifiziert"
+msgstr "Zertifikat prüfen"
 
 msgid "Encrypted before storage"
-msgstr ""
+msgstr "Vor der Speicherung verschlüsselt"
 
-#, fuzzy
 msgid "User & Group Settings"
-msgstr "Einstellungen speichern"
+msgstr "Benutzer- und Gruppeneinstellungen"
 
 msgid "Where to find users and groups"
-msgstr ""
+msgstr "Wo man Benutzer und Gruppen findet"
 
+#, fuzzy
 msgid "Optional - only needed for admin group restriction"
-msgstr ""
+msgstr "Optional – wird nur für die Einschränkung auf die Admin-Gruppe benötigt"
 
 msgid "Sync Groups"
-msgstr ""
+msgstr "Gruppen synchronisieren"
 
 msgid "Sync LDAP groups to populate admin group selection"
 msgstr ""
+"LDAP-Gruppen synchronisieren, um die Auswahl der Administratorgruppen zu "
+"füllen"
 
-#, fuzzy
 msgid "Advanced Settings"
-msgstr "Einstellungen speichern"
+msgstr "Erweiterte Einstellungen"
 
 msgid ""
 "Defaults are optimized for LLDAP. Only change if using a different LDAP "
 "server."
 msgstr ""
+"Die Standardeinstellungen sind für LLDAP optimiert. Ändern Sie diese nur, "
+"wenn Sie einen anderen LDAP-Server verwenden."
 
-#, fuzzy
 msgid "Manage all users - both LDAP and local authentication"
-msgstr "Verwalte deine Passkeys für die passwortlose Authentifizierung."
+msgstr "Alle Benutzer verwalten – sowohl LDAP als auch lokale Authentifizierung"
 
 msgid "Sync from LDAP"
-msgstr ""
+msgstr "Mit LDAP synchronisieren"
 
 msgid ""
 "Users can authenticate via LDAP or locally. Sync automatically imports new "
 "users from LDAP."
 msgstr ""
+"Benutzer können sich über LDAP oder lokal authentifizieren. Die "
+"Synchronisierung importiert neue Benutzer automatisch aus LDAP."
 
-#, fuzzy
 msgid "Admin Authentication"
-msgstr "Keine ausstehende 2FA-Authentifizierung"
+msgstr "Admin-Authentifizierung"
 
 msgid "Allow administrators to log in using LDAP"
-msgstr ""
+msgstr "Administratoren die Anmeldung über LDAP ermöglichen"
 
 msgid "Allow Admin Login via LDAP"
-msgstr ""
+msgstr "Admin-Anmeldung über LDAP zulassen"
 
 msgid "Enable admin login using LDAP credentials"
-msgstr ""
+msgstr "Aktiviere Administrator-Anmeldung mit LDAP-Anmeldedaten"
 
 msgid "Optional: Restrict admin access to members of this LDAP group"
 msgstr ""
+"Optional: Den Administratorzugriff auf Mitglieder dieser LDAP-Gruppe "
+"beschränken"
 
 msgid "Notification Agents"
 msgstr "Benachrichtigungsdienste"
@@ -2069,9 +2038,8 @@ msgstr ""
 msgid "Add Agent"
 msgstr "Dienst hinzufügen"
 
-#, fuzzy
 msgid "Edit agent"
-msgstr "Neuer Dienst"
+msgstr "Agent bearbeiten"
 
 msgid "Are you sure you want to delete"
 msgstr "Bist du sicher, dass du löschen willst"
@@ -2082,9 +2050,8 @@ msgstr "Dienst löschen"
 msgid "Status"
 msgstr "Status"
 
-#, fuzzy
 msgid "Events"
-msgstr "Servers"
+msgstr "Events"
 
 msgid "No notification agents"
 msgstr "Kein Benachrichtigungsdienst vorhanden"
@@ -2157,10 +2124,11 @@ msgstr "Einen neuen Wizard-Schritt hinzufügen"
 
 #, fuzzy
 msgid "Add Step to Bundle"
-msgstr "Schritte zum Bündel hinzufügen"
+msgstr "Schritt zum Paket hinzufügen"
 
+#, fuzzy
 msgid "No bundles available yet"
-msgstr ""
+msgstr "Es sind noch keine Pakete verfügbar"
 
 msgid "Add Preset"
 msgstr "Voreinstellung hinzufügen"
@@ -2187,45 +2155,47 @@ msgstr "Exportiere %(bundle_name)s Bündel"
 msgid "Are you sure you want to delete this bundle?"
 msgstr "Bist du sicher, dass du dieses Bündel löschen willst?"
 
-#, fuzzy
 msgid "Before Invite Acceptance"
-msgstr "Keine kürzlich angenommene Einladungen"
+msgstr "Vor der Annahme der Einladung"
 
 msgid "Steps shown to users before they accept the invitation"
 msgstr ""
+"Schritte, die den Nutzern angezeigt werden, bevor sie die Einladung annehmen"
 
 msgid "Are you sure you want to delete this step?"
 msgstr "Bist du sicher, dass du diesen Schritt löschen willst?"
 
-#, fuzzy
 msgid "No pre-invite steps configured"
-msgstr "Schritte konfiguriert"
+msgstr "Es wurden keine Schritte vor der Einladung konfiguriert"
 
-#, fuzzy
 msgid "After Invite Acceptance"
-msgstr "Einladungscode eingeben"
+msgstr "Nach der Annahme der Einladung"
 
 msgid "Steps shown to users after they accept the invitation"
 msgstr ""
+"Schritte, die den Nutzern angezeigt werden, nachdem sie die Einladung "
+"angenommen haben"
 
-#, fuzzy
 msgid "No post-invite steps configured"
-msgstr "Keine Server konfiguriert"
+msgstr "Es sind keine Schritte nach der Einladung konfiguriert"
 
 msgid "Additional Categories"
-msgstr ""
+msgstr "Zusätzliche Kategorien"
 
 msgid "Steps that use custom categories keep their order here."
 msgstr ""
+"Schritte, die benutzerdefinierte Kategorien verwenden, behalten hier ihre "
+"Reihenfolge bei."
 
-#, fuzzy
 msgid "Orphaned Steps"
-msgstr "Verwaisten Schritt entfernen"
+msgstr "Verwaiste Schritte"
 
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
 "bundle tidy."
 msgstr ""
+"Diese Einträge sind nicht mehr mit einem Schritt verknüpft. Entfernen Sie "
+"sie, um das Paket übersichtlich zu halten."
 
 msgid "Step deleted (orphaned)"
 msgstr "Schritt gelöscht (verwaist)"
@@ -2360,10 +2330,14 @@ msgid ""
 "Are you sure you want to reset all steps for %(server)s to defaults? This "
 "will delete all custom steps and reimport the default ones."
 msgstr ""
+"Bist du sicher, dass du alle Schritte für %(server)s auf die "
+"Standardeinstellungen zurücksetzen willst? Dadurch werden alle "
+"benutzerdefinierten Schritte gelöscht und die Standardschritte wieder "
+"importiert."
 
-#, fuzzy, python-format
+#, python-format
 msgid "Reset %(server)s Steps to Defaults"
-msgstr "%(server)s Schritte exportieren"
+msgstr "%(server)s Schritte zurücksetzen"
 
 #, python-format
 msgid "Export %(server)s Steps"
@@ -2387,13 +2361,12 @@ msgstr "Verwendet von"
 msgid "Used"
 msgstr "Verwendet"
 
-#, fuzzy
 msgid "Not used yet"
-msgstr "Verwendet von"
+msgstr "Noch nicht verwendet"
 
 #, fuzzy
 msgid "Bundle"
-msgstr "Wizard Bündel"
+msgstr "Paket"
 
 msgid "days"
 msgstr "Tage"
@@ -2410,9 +2383,8 @@ msgstr "Einladung löschen"
 msgid "There are currently no users."
 msgstr "Derzeit sind keine Benutzer vorhanden."
 
-#, fuzzy
 msgid "Edit nickname"
-msgstr "Edit nickname"
+msgstr "Spitznamen bearbeiten"
 
 msgid "Home User"
 msgstr "Home Benutzer"
@@ -2420,9 +2392,8 @@ msgstr "Home Benutzer"
 msgid "Invited"
 msgstr "Eingeladen"
 
-#, fuzzy
 msgid "Disabled"
-msgstr "Live-TV deaktiviert"
+msgstr "Deaktiviert"
 
 msgid "Downloads enabled"
 msgstr "Downloads aktiviert"
@@ -2430,28 +2401,23 @@ msgstr "Downloads aktiviert"
 msgid "Live TV enabled"
 msgstr "Live-TV aktiviert"
 
-#, fuzzy
 msgid "View details"
-msgstr "Benutzerdetails"
+msgstr "Details anzeigen"
 
-#, fuzzy
 msgid "Edit user"
-msgstr "Server bearbeiten"
+msgstr "Benutzer bearbeiten"
 
-#, fuzzy
 msgid "Reset password"
-msgstr "Aktuelles Passwort"
+msgstr "Passwort zurücksetzen"
 
 msgid "Remove user"
 msgstr "Benutzer entfernen"
 
-#, fuzzy
 msgid "Before Invitation"
-msgstr "Einladung erstellen"
+msgstr "Vor der Einladung"
 
-#, fuzzy
 msgid "After Invitation"
-msgstr "Einladung erstellen"
+msgstr "Nach der Einladung"
 
 msgid "Previous"
 msgstr "Zurück"
@@ -2460,587 +2426,687 @@ msgid "Click the link in this step to be able to continue"
 msgstr "Klicke auf den Link in diesem Schritt, um weitermachen zu können"
 
 msgid "What is Audiobookshelf?"
-msgstr ""
+msgstr "Was ist Audiobookshelf?"
 
 msgid "Welcome to Our Audiobookshelf Server"
-msgstr ""
+msgstr "Willkommen auf unserem Audiobookshelf-Server"
 
 msgid ""
 "Great news — you now have access to our **audiobook & podcast library** "
 "through Audiobookshelf!"
 msgstr ""
+"Tolle Neuigkeiten – ab sofort haben Sie über Audiobookshelf Zugriff auf "
+"unsere **Hörbuch- und Podcast-Bibliothek**!"
 
+#, fuzzy
 msgid ""
 "Audiobookshelf is a self-hosted audiobook and podcast server that lets "
 "people share their audio collections with friends and family. If you're "
 "here, it means you've been invited to join ours — welcome!"
 msgstr ""
+"Audiobookshelf ist ein selbst gehosteter Hörbuch- und Podcast-Server, über "
+"den Nutzer ihre Audiosammlungen mit Freunden und Familie teilen können. Wenn "
+"du hier bist, bedeutet das, dass du eingeladen wurdest, unserem beizutreten "
+"– herzlich willkommen!"
 
 msgid "What You'll Get"
-msgstr ""
+msgstr "Was Sie erhalten"
 
 msgid "Access to our constantly updated audiobooks and podcasts"
-msgstr ""
+msgstr "Zugang zu unseren ständig aktualisierten Hörbüchern und Podcasts"
 
 msgid "Listen on-demand or download for offline listening"
-msgstr ""
+msgstr "Auf Abruf anhören oder zum Offline-Hören herunterladen"
 
 msgid "Track your progress across all devices"
-msgstr ""
+msgstr "Verfolgen Sie Ihre Fortschritte auf allen Geräten"
 
 msgid "Download Audiobookshelf Clients"
-msgstr ""
+msgstr "Audiobookshelf-Clients herunterladen"
 
 msgid ""
 "Audiobookshelf has many clients from which you can listen to our audiobooks!"
 msgstr ""
+"Audiobookshelf bietet zahlreiche Wiedergabeprogramme, mit denen Sie unsere "
+"Hörbücher anhören können!"
 
+#, fuzzy
 msgid "Listen Anywhere"
-msgstr ""
+msgstr "Überall anhören"
 
 msgid ""
 "Audiobookshelf works almost everywhere — install the app on your favourite "
 "devices:"
 msgstr ""
+"Audiobookshelf funktioniert fast überall – installiere die App auf deinen "
+"Lieblingsgeräten:"
 
 msgid "Web App"
-msgstr ""
+msgstr "Web-App"
 
+#, fuzzy
 msgid "Tips for the best experience"
-msgstr ""
+msgstr "Tipps für ein optimales Erlebnis"
 
 msgid "Get the best listening experience"
-msgstr ""
+msgstr "Genießen Sie das beste Hörerlebnis"
 
 msgid ""
 "Audiobookshelf offers great features, but here's how to make sure you get "
 "the best experience:"
 msgstr ""
+"Audiobookshelf bietet tolle Funktionen, aber so stellen Sie sicher, dass Sie "
+"das beste Erlebnis genießen:"
 
+#, fuzzy
 msgid "Download for offline listening"
-msgstr ""
+msgstr "Zum Herunterladen für die Offline-Wiedergabe"
 
 msgid "Tap any audiobook → Download to enjoy without internet"
 msgstr ""
+"Tippen Sie auf ein beliebiges Hörbuch → Laden Sie es herunter, um es ohne "
+"Internetverbindung zu genießen"
 
 msgid "Adjust playback speed"
-msgstr ""
+msgstr "Wiedergabegeschwindigkeit anpassen"
 
 msgid "Player controls → set speed from 0.5x to 3x"
-msgstr ""
+msgstr "Steuerung → Geschwindigkeit von 0,5x bis 3x einstellen"
 
 msgid "Enable sleep timer"
-msgstr ""
+msgstr "Schlaf-Timer aktivieren"
 
 msgid "Perfect for bedtime listening — auto-stops playback"
 msgstr ""
+"Perfekt zum Zuhören vor dem Schlafengehen – die Wiedergabe stoppt automatisch"
 
+#, fuzzy
 msgid "Happy listening!"
-msgstr ""
+msgstr "Viel Spaß beim hören!"
 
 msgid "Go to Audiobookshelf"
-msgstr ""
+msgstr "Gehen Sie zu Audiobookshelf"
 
 msgid "What is Emby?"
-msgstr ""
+msgstr "Was ist Emby?"
 
 msgid "Welcome to Our Emby Server"
-msgstr ""
+msgstr "Willkommen auf unserem Emby-Server"
 
 msgid "Great news — you now have access to our **media library** through Emby!"
 msgstr ""
+"Tolle Neuigkeiten – du hast jetzt über Emby Zugriff auf unsere "
+"**Medienbibliothek**!"
 
+#, fuzzy
 msgid ""
 "Emby is a powerful media server that lets people share their film and TV "
 "libraries with friends and family. If you're here, it means you've been "
 "invited to join ours — welcome!"
 msgstr ""
+"Emby ist ein leistungsstarker Medienserver, mit dem Nutzer ihre Film- und "
+"Fernsehsammlungen mit Freunden und Familie teilen können. Wenn Sie hier "
+"sind, bedeutet das, dass Sie eingeladen wurden, unsererem beizutreten – "
+"herzlich willkommen!"
 
 msgid "Access to our constantly updated list of movies and shows"
-msgstr ""
+msgstr "Zugriff auf unsere ständig aktualisierte Liste von Filmen und Serien"
 
 msgid "Watch on-demand or download for offline viewing"
-msgstr ""
+msgstr "Auf Abruf ansehen oder zum Offline-Ansehen herunterladen"
 
 msgid "Personalised watchlists & recommendations"
-msgstr ""
+msgstr "Individuelle Merklisten und Empfehlungen"
 
 msgid "Download Emby Clients"
-msgstr ""
+msgstr "Emby-Clients herunterladen"
 
 msgid "Emby has many clients from which you can view our media!"
-msgstr ""
+msgstr "Emby hat viele Clients, über die Sie unsere Medien ansehen können!"
 
+#, fuzzy
 msgid "Watch Anywhere"
-msgstr ""
+msgstr "Überall anschauen"
 
 msgid ""
 "Emby works almost everywhere — install the app on your favourite devices:"
 msgstr ""
+"Emby funktioniert fast überall – installiere die App auf deinen "
+"Lieblingsgeräten:"
 
 msgid "Mobile"
-msgstr ""
+msgstr "Mobiltelefon"
 
 msgid "iOS & Android phones/tablets"
-msgstr ""
+msgstr "iOS- & Android-Smartphones/Tablets"
 
 msgid "Desktop"
-msgstr ""
+msgstr "Desktop"
 
 msgid "Windows, macOS, Linux"
-msgstr ""
+msgstr "Windows, macOS, Linux"
 
 msgid "Smart TVs & Streaming Devices"
-msgstr ""
+msgstr "Smart-TVs und Streaming-Geräte"
 
 msgid "Apple TV, Fire TV, Roku, Chromecast, Android TV"
-msgstr ""
+msgstr "Apple TV, Fire TV, Roku, Chromecast, Android TV"
 
 msgid "Consoles"
-msgstr ""
+msgstr "Konsolen"
 
 msgid "PlayStation & Xbox"
-msgstr ""
+msgstr "PlayStation & Xbox"
 
 msgid "Watch instantly in your browser"
-msgstr ""
+msgstr "Sofort in Ihrem Browser ansehen"
 
 msgid "⬇️ Download Emby Clients"
-msgstr ""
+msgstr "⬇️ Emby-Clients herunterladen"
 
 msgid "Get the best quality"
-msgstr ""
+msgstr "Holen Sie sich die beste Qualität"
 
+#, fuzzy
 msgid ""
 "Emby offers great quality, but here's how to make sure you get the best "
 "experience:"
 msgstr ""
+"Emby bietet hervorragende Qualität, aber so stellen Sie sicher, dass Sie das "
+"bestmögliche Erlebnis genießen:"
 
 msgid "Force original quality"
-msgstr ""
+msgstr "Originalqualität erzwingen"
 
 msgid "Settings → Playback → set"
-msgstr ""
+msgstr "Einstellungen → Wiedergabe → einstellen"
 
+#, fuzzy
 msgid "to"
-msgstr ""
+msgstr "bis"
 
 msgid "Maximum"
-msgstr ""
+msgstr "Maximum"
 
 msgid "Enable hardware decoding"
-msgstr ""
+msgstr "Hardware-Decodierung aktivieren"
 
 msgid "Settings → Playback → enable for smoother 4K"
-msgstr ""
+msgstr "Einstellungen → Wiedergabe → Aktiviere für flüssigere 4K-Wiedergabe"
 
 msgid "Use a wired connection"
-msgstr ""
+msgstr "Verwenden Sie eine kabelgebundene Verbindung"
 
+#, fuzzy
 msgid "if you're on a smart-TV for stutter-free 4K."
-msgstr ""
+msgstr "Wenn du einen Smart-TV nutzt, um ruckelfreies 4K zu genießen."
 
 msgid "Happy viewing!"
-msgstr ""
+msgstr "Viel Spaß beim Fernsehen!"
 
 msgid "Go to Emby"
-msgstr ""
+msgstr "Zu Emby wechseln"
 
 msgid "What is Jellyfin?"
-msgstr ""
+msgstr "Was ist Jellyfin?"
 
 msgid "Welcome to Our Jellyfin Server"
-msgstr ""
+msgstr "Willkommen auf unserem Jellyfin-Server"
 
 msgid ""
 "Great news — you now have access to our **media library** through Jellyfin!"
 msgstr ""
+"Tolle Neuigkeiten – ihr habt jetzt über Jellyfin Zugriff auf unsere "
+"**Medienbibliothek**!"
 
+#, fuzzy
 msgid ""
 "Jellyfin is a free, open-source media server that lets people share their "
 "film and TV libraries with friends and family. If you're here, it means "
 "you've been invited to join ours — welcome!"
 msgstr ""
+"Jellyfin ist ein kostenloser Open-Source-Medienserver, mit dem Nutzer ihre "
+"Film- und Fernsehsammlungen mit Freunden und Familie teilen können. Wenn du "
+"hier bist, bedeutet das, dass du eingeladen wurdest, unsererem beizutreten – "
+"herzlich willkommen!"
 
 msgid "Download Jellyfin Clients"
-msgstr ""
+msgstr "Jellyfin-Clients herunterladen"
 
 msgid "Jellyfin has many clients from which you can view our media!"
-msgstr ""
+msgstr "Jellyfin hat viele Clients, über die Sie unsere Medien ansehen können!"
 
 msgid ""
 "Jellyfin works almost everywhere — install the app on your favourite devices:"
 msgstr ""
+"Jellyfin funktioniert fast überall – installiere die App auf deinen "
+"Lieblingsgeräten:"
 
 msgid "⬇️ Download Jellyfin Clients"
-msgstr ""
+msgstr "⬇️ Jellyfin-Clients herunterladen"
 
 msgid ""
 "Jellyfin offers great quality, but here's how to make sure you get the best "
 "experience:"
 msgstr ""
+"Jellyfin bietet hervorragende Qualität, aber so stellen Sie sicher, dass Sie "
+"das bestmögliche Erlebnis genießen:"
 
 msgid "Go to Jellyfin"
-msgstr ""
+msgstr "Wechseln Sie zu Jellyfin"
 
 msgid "Welcome to your digital library"
-msgstr ""
+msgstr "Willkommen in Ihrer digitalen Bibliothek"
 
 msgid "Great news! You now have access to our comic and manga collection."
 msgstr ""
+"Tolle Neuigkeiten! Du hast jetzt Zugang zu unserer Comic- und Manga-Sammlung."
 
 msgid ""
 "Kavita lets people share their digital libraries with friends. Read comics, "
 "manga, and books directly in your browser or mobile app."
 msgstr ""
+"Mit Kavita können Nutzer ihre digitalen Bibliotheken mit Freunden teilen. "
+"Lies Comics, Manga und Bücher direkt in deinem Browser oder in der mobilen "
+"App."
 
+#, fuzzy
 msgid "How do I read stuff?"
-msgstr ""
+msgstr "Wie lese ich Dinge?"
 
 msgid ""
 "Open Kavita in your browser, sign in with your new account, and start "
 "reading. You can also use mobile apps for a better experience."
 msgstr ""
+"Öffnen Sie Kavita in Ihrem Browser, melden Sie sich mit Ihrem neuen Konto an "
+"und beginnen Sie mit dem Lesen. Für ein noch besseres Erlebnis können Sie "
+"auch die mobilen Apps nutzen."
 
 msgid "Open Kavita"
-msgstr ""
+msgstr "Kavita öffnen"
 
 msgid "Want to read on your phone?"
-msgstr ""
+msgstr "Möchtest du auf deinem Smartphone lesen?"
 
 msgid "Download a comic reader app for the best mobile experience."
 msgstr ""
+"Lade dir eine Comic-Reader-App herunter, um das beste Erlebnis auf dem "
+"Smartphone zu genießen."
 
 msgid "Android"
-msgstr ""
+msgstr "Android"
 
 msgid "Popular manga reader with Kavita support"
-msgstr ""
+msgstr "Beliebter Manga-Reader mit Kavita-Unterstützung"
 
 msgid "Great for comics and books"
-msgstr ""
+msgstr "Großartig für Comics und Bücher"
 
 msgid "iOS"
-msgstr ""
+msgstr "iOS"
 
 msgid "Premium comic reader with Kavita integration"
-msgstr ""
+msgstr "Hochwertiger Comic-Reader mit Kavita-Integration"
 
 msgid "Full-featured comic reader"
-msgstr ""
+msgstr "Comic-Reader mit vollem Funktionsumfang"
 
 msgid "Connect your app"
-msgstr ""
+msgstr "Verbinden Sie Ihre App"
 
 msgid "Use this OPDS URL in your reader app:"
-msgstr ""
+msgstr "Verwenden Sie diese OPDS-URL in Ihrer Reader-App:"
 
 msgid "Login with your Kavita username and password."
-msgstr ""
+msgstr "Melden Sie sich mit Ihrem Kavita-Benutzernamen und Ihrem Passwort an."
 
 msgid "Your library includes"
-msgstr ""
+msgstr "Ihre Bibliothek enthält"
 
 msgid ""
 "Browse collections of comics, manga, light novels, and digital books. "
 "Everything is organized by series and automatically tracks your reading "
 "progress."
 msgstr ""
+"Stöbern Sie in Sammlungen von Comics, Manga, Light Novels und E-Books. Alles "
+"ist nach Serien geordnet, und Ihr Lesefortschritt wird automatisch erfasst."
 
 msgid "Cool features"
-msgstr ""
+msgstr "Coole Funktionen"
 
 msgid "Pick up exactly where you left off"
-msgstr ""
+msgstr "Machen Sie genau dort weiter, wo Sie aufgehört haben"
 
 msgid "Create custom reading lists"
-msgstr ""
+msgstr "Benutzerdefinierte Leselisten erstellen"
 
 msgid "Find content by title, author, or genre"
-msgstr ""
+msgstr "Inhalte nach Titel, Autor oder Genre suchen"
 
 msgid "Easy on the eyes for night reading"
-msgstr ""
+msgstr "Angenehm für die Augen beim Lesen am Abend"
 
 msgid "Get the best reading experience"
-msgstr ""
+msgstr "Genießen Sie das beste Leseerlebnis"
 
 msgid "Kavita has some handy settings to make reading more comfortable:"
 msgstr ""
+"Kavita bietet einige praktische Einstellungen, die das Lesen angenehmer "
+"machen:"
 
 msgid "Set reading direction"
-msgstr ""
+msgstr "Leserichtung festlegen"
 
 msgid "Settings → Reader → set manga to right-to-left"
-msgstr ""
+msgstr "Einstellungen → Reader → Manga von rechts nach links anzeigen"
 
 msgid "Enable dark mode"
-msgstr ""
+msgstr "Dunkelmodus aktivieren"
 
 msgid "Perfect for night reading"
-msgstr ""
+msgstr "Ideal zum Lesen am Abend"
 
 msgid "Use keyboard shortcuts"
-msgstr ""
+msgstr "Tastaturkürzel verwenden"
 
 msgid "Space for next page, arrows to navigate"
-msgstr ""
+msgstr "Leerschlag für die nächste Seite, Pfeile zum Blättern"
 
 msgid "What is Komga?"
-msgstr ""
+msgstr "Was ist Komga?"
 
 msgid "Welcome to Our Komga Server"
-msgstr ""
+msgstr "Willkommen auf unserem Komga-Server"
 
 msgid ""
 "Great news — you now have access to our **digital comic and manga library** "
 "through Komga!"
 msgstr ""
+"Tolle Neuigkeiten – ab sofort hast du über Komga Zugriff auf unsere "
+"**digitale Comic- und Manga-Bibliothek**!"
 
 msgid ""
 "Komga is a free, open-source media server designed specifically for comics, "
 "manga, and digital books. If you're here, it means you've been invited to "
 "join our library — welcome!"
 msgstr ""
+"Komga ist ein kostenloser Open-Source-Medienserver, der speziell für Comics, "
+"Manga und E-Books entwickelt wurde. Wenn du hier bist, bedeutet das, dass du "
+"eingeladen wurdest, unserer Bibliothek beizutreten – herzlich willkommen!"
 
 msgid "Access to our constantly updated collection of comics and manga"
-msgstr ""
+msgstr "Zugang zu unserer ständig aktualisierten Sammlung von Comics und Manga"
 
 msgid "Read online directly in your browser"
-msgstr ""
+msgstr "Direkt online in Ihrem Browser lesen"
 
 msgid "Download for offline reading on your favorite devices"
-msgstr ""
+msgstr "Für die Offline-Lektüre auf Ihren Lieblingsgeräten herunterladen"
 
 msgid "Track your reading progress automatically"
-msgstr ""
+msgstr "Verfolgen Sie Ihren Lesefortschritt automatisch"
 
 msgid "Support for multiple formats (CBZ, CBR, PDF, EPUB)"
-msgstr ""
+msgstr "Unterstützung mehrerer Formate (CBZ, CBR, PDF, EPUB)"
 
 msgid "Download Komga Clients"
-msgstr ""
+msgstr "Komga-Clients herunterladen"
 
 msgid ""
 "Komga has many compatible readers from which you can enjoy your comics and "
 "manga!"
 msgstr ""
+"Komga bietet zahlreiche kompatible Lesegeräte, mit denen Sie Ihre Comics und "
+"Mangas genießen können!"
 
+#, fuzzy
 msgid "Read Anywhere"
-msgstr ""
+msgstr "Überall lesen"
 
 msgid ""
 "Komga works with many popular comic readers — install apps on your favorite "
 "devices:"
 msgstr ""
+"Komga ist mit vielen beliebten Comic-Readern kompatibel – installiere die "
+"Apps auf deinen Lieblingsgeräten:"
 
+#, fuzzy
 msgid "iOS (Panels, Chunky) & Android (Mihon/Tachiyomi, Komga Client)"
-msgstr ""
+msgstr "iOS (Panel, Großformat) & Android (Mihon/Tachiyomi, Komga-Client)"
 
 msgid "Windows (CDisplayEx, YACReader), macOS & Linux (YACReader)"
-msgstr ""
+msgstr "Windows (CDisplayEx, YACReader), macOS & Linux (YACReader)"
 
 msgid "Tablets"
-msgstr ""
+msgstr "Tablets"
 
 msgid "iPad & Android tablets with comic reader apps"
-msgstr ""
+msgstr "iPad und Android-Tablets mit Comic-Reader-Apps"
 
 msgid "Read instantly in your browser at"
-msgstr ""
+msgstr "Sofort in Ihrem Browser lesen unter"
 
 msgid "E-Readers"
-msgstr ""
+msgstr "E-Readers"
 
+#, fuzzy
 msgid "KOReader and other OPDS-compatible readers"
-msgstr ""
+msgstr "KOReader und andere OPDS-kompatible Lesegeräte"
 
 msgid "📚 View Compatible Readers"
-msgstr ""
+msgstr "📚 Kompatible Lesegeräte anzeigen"
 
 msgid "Library Features"
-msgstr ""
+msgstr "Funktionen der Bibliothek"
 
 msgid "Komga Features"
-msgstr ""
+msgstr "Komga-Funktionen"
 
 msgid "Discover all the features available to enhance your reading experience!"
 msgstr ""
+"Entdecken Sie alle Funktionen, mit denen Sie Ihr Leseerlebnis noch "
+"angenehmer gestalten können!"
 
 msgid "Reading Experience"
-msgstr ""
+msgstr "Leseerlebnis"
 
 msgid "Webtoon Mode"
-msgstr ""
+msgstr "Webtoon-Modus"
 
+#, fuzzy
 msgid "Perfect for manga and webtoons with continuous scrolling"
-msgstr ""
+msgstr "Ideal für Manga und Webtoons mit endlosem Bildlauf"
 
 msgid "Page-by-Page"
-msgstr ""
+msgstr "Seite für Seite"
 
 msgid "Traditional comic book reading experience"
-msgstr ""
+msgstr "Klassisches Leseerlebnis beim Comic"
 
+#, fuzzy
 msgid "Zoom & Pan"
-msgstr ""
+msgstr "Zoomen und Schwenken"
 
 msgid "Get detailed views of artwork"
-msgstr ""
+msgstr "Detaillierte Ansichten der Kunstwerke anzeigen"
 
 msgid "Auto Bookmarks"
-msgstr ""
+msgstr "Automatische Lesezeichen"
 
 msgid "Your progress is saved automatically"
-msgstr ""
+msgstr "Dein Fortschritt wird automatisch gespeichert"
 
 msgid "Organization"
-msgstr ""
+msgstr "Organisation"
 
 msgid "Series Collections"
-msgstr ""
+msgstr "Serien-Sammlungen"
 
 msgid "Browse comics organized by series"
-msgstr ""
+msgstr "Comics nach Serien sortiert durchsuchen"
 
 msgid "Custom Collections"
-msgstr ""
+msgstr "Personalisierte Kollektionen"
 
+#, fuzzy
 msgid "Curated collections by themes and genres"
-msgstr ""
+msgstr "Nach Themen und Genres zusammengestellte Sammlungen"
 
+#, fuzzy
 msgid "Smart Tags"
-msgstr ""
+msgstr "Smart Tags"
 
+#, fuzzy
 msgid "Filter by genres, authors, publishers, and more"
-msgstr ""
+msgstr "Nach Genres, Autoren, Verlagen und mehr filtern"
 
 msgid "Advanced Search"
-msgstr ""
+msgstr "Erweiterte Suche"
 
 msgid "Find specific titles instantly"
-msgstr ""
+msgstr "Bestimmte Titel sofort finden"
 
 msgid "Personal Features"
-msgstr ""
+msgstr "Persönliche Funktionen"
 
 msgid "Reading Progress"
-msgstr ""
+msgstr "Lesefortschritt"
 
 msgid "Track which issues you've completed"
-msgstr ""
+msgstr "Verfolgen Sie nach, welche Aufgaben Sie bereits erledigt haben"
 
 msgid "Continue Reading"
-msgstr ""
+msgstr "Weiterlesen"
 
 msgid "Reading Lists"
-msgstr ""
+msgstr "Leselisten"
 
 msgid "Create and manage custom reading lists"
-msgstr ""
+msgstr "Benutzerdefinierte Leselisten erstellen und verwalten"
 
+#, fuzzy
 msgid "On Deck"
-msgstr ""
+msgstr "Als Nächstes"
 
+#, fuzzy
 msgid "See your next suggested reads"
-msgstr ""
+msgstr "Hier findest du deine nächsten Leseempfehlungen"
 
 msgid ""
 "Komga offers a great reading experience, but here's how to make it even "
 "better:"
 msgstr ""
+"Komga bietet ein großartiges Leseerlebnis, aber so kannst du es noch "
+"verbessern:"
 
 msgid "Choose the right reader mode"
-msgstr ""
+msgstr "Wählen Sie den passenden Lesemodus aus"
 
 msgid "Use webtoon mode for manga, page-by-page for traditional comics"
 msgstr ""
+"Verwende den Webtoon-Modus für Manga und den Modus „Seite für Seite“ für "
+"traditionelle Comics"
 
 msgid "Adjust reading direction"
-msgstr ""
+msgstr "Leserichtung anpassen"
 
 msgid "Settings → Reader → set right-to-left for manga"
-msgstr ""
+msgstr "Einstellungen → Reader → „Von rechts nach links“ für Manga einstellen"
 
 msgid "Easier on your eyes during night reading sessions"
-msgstr ""
+msgstr "Schont die Augen beim Lesen in der Nacht"
 
 msgid "Use full-screen mode"
-msgstr ""
+msgstr "Vollbildmodus verwenden"
 
 msgid "Press F11 in browser for distraction-free reading"
-msgstr ""
+msgstr "Drücken Sie im Browser die Taste F11, fürablenkungsfreies Lesen"
 
+#, fuzzy
 msgid "Download for offline"
-msgstr ""
+msgstr "für offline herunterladen"
 
 msgid "Download comics to mobile apps for reading without internet"
 msgstr ""
+"Comics in mobile Apps herunterladen, um sie ohne Internetverbindung zu lesen"
 
 msgid "Happy reading!"
-msgstr ""
+msgstr "Viel Spaß beim Lesen!"
 
 msgid "Go to Komga"
-msgstr ""
+msgstr "Wechseln Sie zu Komga"
 
 msgid "What is Plex?"
-msgstr ""
+msgstr "Was ist Plex?"
 
 msgid "Welcome to Our Plex Server"
-msgstr ""
+msgstr "Willkommen auf unserem Plex-Server"
 
 msgid "Great news — you now have access to our **media library** through Plex!"
 msgstr ""
+"Tolle Neuigkeiten – du hast jetzt über Plex Zugriff auf unsere "
+"**Medienbibliothek**!"
 
+#, fuzzy
 msgid ""
 "Plex lets people share their film and TV libraries with friends and family. "
 "If you're here, it means you've been invited to join ours — welcome!"
 msgstr ""
+"Mit Plex können Nutzer ihre Film- und Fernsehsammlungen mit Freunden und "
+"Familie teilen. Wenn Sie hier sind, bedeutet das, dass Sie eingeladen "
+"wurden, unsererem beizutreten – herzlich willkommen!"
 
 msgid "Download Plex Clients"
-msgstr ""
+msgstr "Plex-Clients herunterladen"
 
 msgid "Plex has many clients from which you can view our media!"
 msgstr ""
+"Plex bietet zahlreiche Clients, über die Sie unsere Medien ansehen können!"
 
 msgid ""
 "Plex works almost everywhere — install the app on your favourite devices:"
 msgstr ""
+"Plex funktioniert fast überall – installiere die App auf deinen "
+"Lieblingsgeräten:"
 
 msgid "Apple TV, Fire TV, Roku, Chromecast"
-msgstr ""
+msgstr "Apple TV, Fire TV, Roku, Chromecast"
 
 msgid "⬇️ Download Plex Clients"
-msgstr ""
+msgstr "⬇️ Plex-Clients herunterladen"
 
 msgid ""
 "Plex sometimes defaults to low quality or shows its own adverts first. "
 "Here's how to fix that:"
 msgstr ""
+"Plex stellt manchmal standardmäßig eine niedrige Qualität ein oder zeigt "
+"zuerst eigene Werbeanzeigen an. So beheben Sie das Problem:"
 
 msgid "Disable trailers & extras"
-msgstr ""
+msgstr "Trailer und Extras deaktivieren"
 
+#, fuzzy
 msgid "Settings → Experience → untick"
-msgstr ""
+msgstr "Einstellungen → Benutzererfahrung → Häkchen entfernen"
 
 msgid "Show cinematic trailers"
-msgstr ""
+msgstr "Filmtrailer anzeigen"
 
 msgid "Original"
-msgstr ""
+msgstr "Original"
 
 msgid "Go to Plex"
-msgstr ""
+msgstr "Wechlse zu Plex"
 
 msgid "Welcome to RomM"
-msgstr ""
+msgstr "Willkommen bei RomM"
 
+#, fuzzy
 msgid "Great news! You now have access to our game collection."
-msgstr ""
+msgstr "Tolle Neuigkeiten! Du hast jetzt Zugriff auf unsere Spielesammlung."
 
 msgid "Open RomM"
-msgstr ""
+msgstr "RomM öffnen"
 
 #~ msgid "Username must be 3 to 15 characters."
 #~ msgstr "Der Benutzername muss zwischen 3 und 15 Zeichen lang sein."
