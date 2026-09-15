@@ -183,11 +183,10 @@ def render_jinja(text: str) -> Markup:
     if not text:
         return Markup("")
 
-    from flask import render_template_string
+    from app.services.wizard_templates import render_wizard_template
 
     try:
-        rendered = render_template_string(text)
-        return Markup(rendered)  # noqa: S704  # render_template_string auto-escapes
+        return escape(render_wizard_template(text))
     except Exception:
         # If rendering fails, return the original text escaped
         return Markup(escape(text))  # noqa: S704  # Text is explicitly escaped

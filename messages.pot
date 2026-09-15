@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-03 08:03+0000\n"
+"POT-Creation-Date: 2026-09-15 08:41+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -400,70 +400,70 @@ msgstr ""
 msgid "Admin account created – welcome!"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:66
+#: app/blueprints/wizard/routes.py:67
 msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:331 app/blueprints/wizard/routes.py:1250
-#: app/blueprints/wizard/routes.py:1413
+#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1253
+#: app/blueprints/wizard/routes.py:1416
 msgid "Error Loading Step"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:334 app/blueprints/wizard/routes.py:1253
-#: app/blueprints/wizard/routes.py:1416
+#: app/blueprints/wizard/routes.py:337 app/blueprints/wizard/routes.py:1256
+#: app/blueprints/wizard/routes.py:1419
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:549 app/blueprints/wizard/routes.py:556
-#: app/blueprints/wizard/routes.py:660 app/blueprints/wizard/routes.py:1151
-#: app/blueprints/wizard/routes.py:1159
+#: app/blueprints/wizard/routes.py:552 app/blueprints/wizard/routes.py:559
+#: app/blueprints/wizard/routes.py:663 app/blueprints/wizard/routes.py:1154
+#: app/blueprints/wizard/routes.py:1162
 msgid "Invalid or expired invitation"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:609 app/blueprints/wizard/routes.py:775
+#: app/blueprints/wizard/routes.py:612 app/blueprints/wizard/routes.py:778
 msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:626
+#: app/blueprints/wizard/routes.py:629
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:650 app/blueprints/wizard/routes.py:987
-#: app/blueprints/wizard/routes.py:1272 app/templates/wizard/steps.html:21
+#: app/blueprints/wizard/routes.py:653 app/blueprints/wizard/routes.py:990
+#: app/blueprints/wizard/routes.py:1275 app/templates/wizard/steps.html:21
 msgid "Continue to Invite"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:703
+#: app/blueprints/wizard/routes.py:706
 msgid "Please log in to continue"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:815
+#: app/blueprints/wizard/routes.py:818
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:863
+#: app/blueprints/wizard/routes.py:866
 msgid "Setup complete! Welcome to your media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:972
+#: app/blueprints/wizard/routes.py:975
 msgid "Unable to load wizard configuration. Please try again."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:1129
+#: app/blueprints/wizard/routes.py:1132
 msgid "Unable to load wizard bundle. Please try again."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:1180
+#: app/blueprints/wizard/routes.py:1183
 msgid "Unable to load wizard steps. Please try again."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:1373
+#: app/blueprints/wizard/routes.py:1376
 msgid "This bundle has no steps to preview."
 msgstr ""
 
@@ -493,64 +493,64 @@ msgstr ""
 msgid "Step deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:478
+#: app/blueprints/wizard_admin/routes.py:482
 msgid "Bundle created"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:508
+#: app/blueprints/wizard_admin/routes.py:512
 msgid "Bundle updated"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:532
+#: app/blueprints/wizard_admin/routes.py:536
 msgid "Bundle deleted"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:684
+#: app/blueprints/wizard_admin/routes.py:688
 msgid "Steps added"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:696
+#: app/blueprints/wizard_admin/routes.py:700
 msgid "Orphaned step removed"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:714
+#: app/blueprints/wizard_admin/routes.py:718
 #, python-brace-format
 msgid "No steps found for server type: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:739
-#: app/blueprints/wizard_admin/routes.py:777
-#: app/blueprints/wizard_admin/routes.py:782
+#: app/blueprints/wizard_admin/routes.py:743
+#: app/blueprints/wizard_admin/routes.py:781
+#: app/blueprints/wizard_admin/routes.py:786
 #, python-brace-format
 msgid "Export failed: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:827
+#: app/blueprints/wizard_admin/routes.py:831
 #, python-brace-format
 msgid "Successfully imported {} items"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:831
+#: app/blueprints/wizard_admin/routes.py:835
 #, python-brace-format
 msgid " and updated {} existing items"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:836
-#: app/blueprints/wizard_admin/routes.py:843
+#: app/blueprints/wizard_admin/routes.py:840
+#: app/blueprints/wizard_admin/routes.py:847
 #, python-brace-format
 msgid "Import failed: {}"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:841
+#: app/blueprints/wizard_admin/routes.py:845
 msgid "Invalid JSON file"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:906 app/services/wizard_reset.py:119
+#: app/blueprints/wizard_admin/routes.py:910 app/services/wizard_reset.py:119
 #, python-brace-format
 msgid "Reset {} steps for {} (deleted {}, imported {})"
 msgstr ""
 
-#: app/blueprints/wizard_admin/routes.py:916 app/services/wizard_reset.py:134
+#: app/blueprints/wizard_admin/routes.py:920 app/services/wizard_reset.py:134
 #, python-brace-format
 msgid "Failed to reset steps: {}"
 msgstr ""
@@ -1690,15 +1690,15 @@ msgstr ""
 msgid "Update Notes"
 msgstr ""
 
-#: app/templates/admin/users.html:192
+#: app/templates/admin/users.html:194
 msgid "Link"
 msgstr ""
 
-#: app/templates/admin/users.html:198
+#: app/templates/admin/users.html:200
 msgid "Unlink"
 msgstr ""
 
-#: app/templates/admin/users.html:204 app/templates/servers/index.html:31
+#: app/templates/admin/users.html:206 app/templates/servers/index.html:31
 #: app/templates/settings/connections.html:137
 msgid "Delete"
 msgstr ""
