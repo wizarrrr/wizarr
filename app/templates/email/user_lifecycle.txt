@@ -1,0 +1,13 @@
+{{ content.headline }}
+{{ content.summary }}
+{{ _("Hello {username},").format(username=user.username) }}
+{{ _("Server") }}: {{ server_name }}
+{{ _("Email Address") }}: {{ user.email }}
+{% if expires_label %}{{ _("Expiry Date") }}: {{ expires_label }}{% endif %}
+{% if event_type == "activated" %}
+  {{ _("You can now sign in and start using your media access.") }}
+{% elif event_type == "expired" %}
+  {{ _("Your invitation has reached its end date and your account has been {action}.").format(action=action_label or _("updated")) }}
+{% else %}
+  {{ _("Your account has been removed. If you believe this was a mistake, please contact your administrator.") }}
+{% endif %}
