@@ -46,6 +46,11 @@ RUN mkdir -p app/static/js app/static/css && DOCKER_BUILD=true npm --prefix app/
 # ─── Stage 3: Runtime ─────────────────────────────────────────────────────
 FROM ghcr.io/astral-sh/uv:python3.13-alpine
 
+# Default bind values used by Gunicorn and Docker-level consumers such as HEALTHCHECK.
+# These can still be overridden at runtime with HOST/PORT environment variables.
+ENV HOST=0.0.0.0
+ENV PORT=5690
+
 # Set default environment variables for user/group IDs
 ENV PUID=1000
 ENV PGID=1000
