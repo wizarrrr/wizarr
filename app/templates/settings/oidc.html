@@ -1,0 +1,149 @@
+<section class="animate__animated animate__fadeIn">
+  <div class="p-6 space-y-8">
+    <!-- Page Header -->
+    <div class="border-b border-gray-200 dark:border-gray-700 pb-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900 dark:text-white">
+            {{ _("OIDC Sign-In") }}
+            <span class="ml-2 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300">{{ _("Experimental") }}</span>
+          </h1>
+          <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+            {{ _("Let administrators sign into the Wizarr admin panel via an external OpenID Connect provider (Authentik, Keycloak, Authelia, Okta, Auth0, ...). This does not affect how invited users join a media server.") }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Settings Content -->
+    <div class="w-full">
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+        <div class="p-6">
+          <form method="post"
+                hx-post="{{ url_for('settings.oidc_settings') }}"
+                hx-target="#tab-body"
+                hx-swap="innerHTML"
+                class="space-y-6">
+            {{ form.hidden_tag() }}
+            {# ───── Enable OIDC ──────────────────────────────────── #}
+            <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-4">
+              <div class="flex items-center justify-between">
+                <div>
+                  <label class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Enable OIDC Sign-In") }}</label>
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">{{ _("Show a \"Sign in with...\" button on the admin login page") }}</p>
+                </div>
+                <label class="inline-flex items-center cursor-pointer">
+                  {{ form.enabled(class="sr-only peer") }}
+                  <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary/20 dark:peer-focus:ring-primary/30 rounded-full peer dark:bg-gray-600 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
+                  </div>
+                </label>
+              </div>
+            </div>
+            {# ───── Provider ─────────────────────────────────────── #}
+            <div class="space-y-4">
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Provider") }}</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Your identity provider's OIDC application/client") }}</p>
+              </div>
+              <div>
+                {{ form.display_name.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.display_name(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", placeholder="Authentik") }}
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ _("Shown on the login button, e.g. \"Sign in with Authentik\"") }}</p>
+              </div>
+              <div>
+                {{ form.discovery_url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.discovery_url(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", placeholder="https://auth.example.com/application/o/wizarr/.well-known/openid-configuration") }}
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ _("The provider's .well-known/openid-configuration URL") }}</p>
+                {% for err in form.discovery_url.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+              <div>
+                {{ form.client_id.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.client_id(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+                {% for err in form.client_id.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+              <div>
+                {{ form.client_secret.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.client_secret(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white", type="password") }}
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ _("Encrypted before storage. Leave blank to keep the current secret.") }}</p>
+              </div>
+              <div>
+                {{ form.scopes.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.scopes(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+              </div>
+              <!-- Test Discovery URL -->
+              <div class="pt-4 border-t border-gray-200 dark:border-gray-600">
+                <button type="button"
+                        hx-post="{{ url_for('settings.test_oidc_connection') }}"
+                        hx-include="closest form"
+                        hx-target="#test-connection-result"
+                        hx-swap="innerHTML"
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-medium transition-colors">
+                  <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                  {{ _("Test Discovery URL") }}
+                </button>
+                <div id="test-connection-result" class="mt-3"></div>
+              </div>
+            </div>
+            {# ───── Redirect URI ──────────────────────────────────── #}
+            <div class="space-y-4">
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Redirect URI") }}</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Register this path with your identity provider") }}</p>
+              </div>
+              <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4 space-y-2">
+                <p class="text-sm text-blue-800 dark:text-blue-200">
+                  {{ _("Register the following as a valid redirect URI/callback URL on your identity provider, once for each address Wizarr is reachable at (e.g. a LAN address and a public domain):") }}
+                </p>
+                <code class="block text-sm bg-white dark:bg-gray-800 border border-blue-200 dark:border-blue-800 rounded px-3 py-2 text-gray-900 dark:text-gray-100">{{ request.url_root.rstrip('/') }}{{ url_for('auth.oidc_callback') }}</code>
+                <p class="text-xs text-blue-700 dark:text-blue-300">
+                  {{ _("Most providers (Authentik, Keycloak, Auth0, Okta, Azure AD) accept a list of valid redirect URIs per application, so you can register one per hostname Wizarr is reachable at.") }}
+                </p>
+              </div>
+            </div>
+            {# ───── Admin Authorization ────────────────────────────── #}
+            <div class="space-y-4">
+              <div class="border-b border-gray-200 dark:border-gray-700 pb-3">
+                <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Admin Authorization") }}</h2>
+                <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Restrict who can become a Wizarr admin via OIDC") }}</p>
+              </div>
+              {% if not form.admin_claim.data %}
+                <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                  <p class="text-sm text-red-800 dark:text-red-200">
+                    {{ _("No admin claim is configured. Anyone who can authenticate with this identity provider will be granted Wizarr admin access. Set a claim below to restrict this.") }}
+                  </p>
+                </div>
+              {% endif %}
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  {{ form.admin_claim.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                  {{ form.admin_claim(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", placeholder="groups") }}
+                  <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ _("Name of the ID-token claim to check, e.g. \"groups\" or \"role\"") }}</p>
+                </div>
+                <div>
+                  {{ form.admin_claim_values.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                  {{ form.admin_claim_values(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", placeholder="wizarr-admins, admins") }}
+                  <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">{{ _("Comma-separated. Login is allowed if the claim matches any of these.") }}</p>
+                </div>
+              </div>
+              <div>
+                {{ form.username_claim.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.username_claim(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full max-w-xs p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+              </div>
+            </div>
+            {# ───── Submit ───────────────────────────────────────── #}
+            <div class="pt-6 border-t border-gray-200 dark:border-gray-700">
+              <button type="submit"
+                      class="w-full sm:w-auto inline-flex items-center justify-center px-6 py-3 bg-primary hover:bg-primary/90 text-white font-medium rounded-lg text-sm focus:ring-4 focus:ring-primary/20 transition-colors">
+                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                {{ _("Save Settings") }}
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
