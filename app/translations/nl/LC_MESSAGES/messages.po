@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-09-24 08:27+0000\n"
-"PO-Revision-Date: 2026-09-09 08:09+0000\n"
+"PO-Revision-Date: 2026-09-25 07:09+0000\n"
 "Last-Translator: Jelmer Houtman <jelmerhout15@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/nl/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
 msgid "Failed to load settings"
@@ -189,13 +189,11 @@ msgstr ""
 msgid "API key deleted successfully"
 msgstr "API sleutel succesvol verwijderd"
 
-#, fuzzy
 msgid "LDAP authentication is not enabled"
-msgstr "Authenticatie gefaald"
+msgstr "LDAP-authenticatie is niet geactiveerd"
 
-#, fuzzy
 msgid "LDAP admin authentication is not allowed"
-msgstr "Authenticatie gefaald"
+msgstr "LDAP-administrator-authenticatie is niet toegestaan"
 
 msgid "Invalid LDAP credentials"
 msgstr "Ongeldige LDAP-inloggegevens"
@@ -206,13 +204,11 @@ msgstr "Gebruikers-DN niet gevonden in LDAP-response"
 msgid "User is not authorized as an administrator"
 msgstr "Gebruiker is niet gemachtigd als beheerder"
 
-#, fuzzy
 msgid "Login successful"
-msgstr "Verbinding test succesvol!"
+msgstr "Succesvol ingelogd!"
 
-#, fuzzy
 msgid "LDAP authentication failed"
-msgstr "Authenticatie gefaald"
+msgstr "LDAP-authenticatie mislukt"
 
 msgid "Invalid username or password"
 msgstr "Ongeldige gebruikersnaam of wachtwoord"
@@ -284,27 +280,25 @@ msgstr "Bibliotheek scan mislukt"
 msgid "Successfully cleaned {count} expired user(s)."
 msgstr "{count} verlopen gebruiker(s) succesvol opgeschoond."
 
-#, fuzzy
 msgid "No expired users found to clean."
-msgstr "Geen wizard stappen gevonden"
+msgstr "Geen ongebruikte gebruikers gevonden om op te ruimen."
 
-#, fuzzy
 msgid ""
 "Are you sure you want to clean all expired users? This action cannot be "
 "undone."
-msgstr "Weet je zeker dat je deze bundel wilt verwijderen?"
+msgstr ""
+"Weet u zeker dat u ongebruikte gebruikers wilt verwijderen? Deze actie kan "
+"niet ongedaan gemaakt worden."
 
-#, fuzzy
 msgid "Clean Expired Users"
-msgstr "Geen vervaldatum ingesteld"
+msgstr "Verwijder ongebruikte gebruikers"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to clean expired users: {error}"
-msgstr "Niet gelukt om de passkeys voor {} opnieuw in te stellen"
+msgstr "Ongebruikte gebruikers konden niet verwijderd worden: {error}"
 
-#, fuzzy
 msgid "LDAP configuration saved successfully"
-msgstr "Verbinding succesvol aangepast!"
+msgstr "LDAP-instellingen succesvol opgeslagen"
 
 msgid "LDAP not configured or disabled"
 msgstr "LDAP is niet geconfigureerd of uitgeschakeld"
@@ -312,9 +306,8 @@ msgstr "LDAP is niet geconfigureerd of uitgeschakeld"
 msgid "No groups found in LDAP"
 msgstr "Geen groepen gevonden in LDAP"
 
-#, fuzzy
 msgid "LDAP is not configured"
-msgstr "stappen geconfigureerd"
+msgstr "LDAP is niet ingesteld"
 
 #, fuzzy, python-format
 msgid "Failed to list LDAP users: %(error)s"
