@@ -1,7 +1,7 @@
 """Add opt-in flag for provisioning Plex users on a connection
 
 Revision ID: b7d1c93f4a26
-Revises: 20260401_repair
+Revises: 20260901_expired_unique
 Create Date: 2026-07-22 17:05:11.402913
 
 """
@@ -11,7 +11,7 @@ from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = "b7d1c93f4a26"
-down_revision = "20260401_repair"
+down_revision = "20260901_expired_unique"
 branch_labels = None
 depends_on = None
 
