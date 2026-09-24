@@ -254,16 +254,45 @@ class PlexClient(MediaClient):
             and not (hasattr(section, "shared") and section.shared is False)
         ]
 
+    def _enabled_section_titles(self) -> set[str] | None:
+        """Lower-cased names of the libraries the admin has left enabled.
+
+        /cinema-posters and the wizard carousel are shown to people who have
+        not signed in, so they should only draw from libraries the admin chose
+        to share. Returns None for a server that has never been scanned, and
+        callers then use every section as before.
+
+        Matched by name because external_id holds Plex's global section id,
+        not the local key that library.sections() returns.
+        """
+        try:
+            rows = Library.query.filter_by(server_id=self.server_id).all()
+        except Exception as exc:
+            logging.debug(f"PLEX: cannot read enabled libraries: {exc}")
+            return None
+
+        if not rows:
+            return None
+
+        return {row.name.strip().lower() for row in rows if row.enabled and row.name}
+
+    @staticmethod
+    def _section_allowed(section, allowed: set[str] | None) -> bool:
+        if allowed is None:
+            return True
+        return str(getattr(section, "title", "")).strip().lower() in allowed
+
     def get_movie_posters(self, limit: int = 10) -> list[str]:
         """Get movie poster URLs for background display."""
         if not self.url:
             return []
 
+        allowed = self._enabled_section_titles()
         poster_urls = []
         try:
             # Get movie libraries
             for library in self.server.library.sections():
-                if library.type == "movie":
+                if library.type == "movie" and self._section_allowed(library, allowed):
                     # Get recent movies from this library
                     movies = library.recentlyAdded(maxresults=limit)
                     for movie in movies[:limit]:
@@ -315,7 +344,12 @@ class PlexClient(MediaClient):
                 except Exception:
                     libraries = []
             else:
-                libraries = list(self.server.library.sections())
+                allowed = self._enabled_section_titles()
+                libraries = [
+                    section
+                    for section in self.server.library.sections()
+                    if self._section_allowed(section, allowed)
+                ]
 
             for library in libraries:
                 if len(items) >= limit:
