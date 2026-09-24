@@ -20,7 +20,7 @@ from app.services.notifications import notify
 
 from .client_base import MediaClient, get_http_session, register_media_client
 from .plex_custom import accept_invite_v2, update_shared_server
-from .utils import library_name_selected, newest_first
+from .utils import enabled_library_names, library_name_selected, newest_first
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
@@ -579,15 +579,23 @@ class PlexClient(MediaClient):
         )
 
     def get_movie_posters(self, limit: int = 10) -> list[str]:
-        """Get movie poster URLs for background display."""
+        """Get movie poster URLs for background display.
+
+        The background is shown before sign-in, so only libraries the admin
+        has enabled are used. A server that has never been scanned has no
+        library rows and uses every movie section.
+        """
         if not self.url:
             return []
 
+        enabled = enabled_library_names(self.server_id)
         poster_urls = []
         try:
             # Get movie libraries
             for library in self.server.library.sections():
-                if library.type == "movie":
+                if library.type == "movie" and library_name_selected(
+                    getattr(library, "title", None), enabled
+                ):
                     # Get recent movies from this library
                     movies = library.recentlyAdded(maxresults=limit)
                     for movie in movies[:limit]:
