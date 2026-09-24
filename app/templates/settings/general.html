@@ -50,6 +50,14 @@
                   {{ form.server_name(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
                   {% for err in form.server_name.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
                 </div>
+                <div class="col-span-1 md:col-span-2">
+                  {{ form.public_url.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                  {{ form.public_url(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", placeholder="https://invites.example.com") }}
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                    {{ _("Overrides the auto-detected address used in invite and password-reset links, so they always work no matter which URL you're using to manage Wizarr. Leave blank to keep the previous auto-detect behavior.") }}
+                  </p>
+                  {% for err in form.public_url.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+                </div>
               </div>
             </div>
             {# ───── Access Control ───────────────────────────────── #}
