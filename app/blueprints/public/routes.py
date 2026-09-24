@@ -102,11 +102,11 @@ def plex_callback():
 
     The invite page hands Plex a ``forwardUrl`` pointing here so the browser
     leaves app.plex.tv by itself. Usually the window that started the sign-in is
-    still open and polling, and this page just closes itself. When that window
-    is gone - the normal outcome on mobile, where the sign-in window is a whole
-    tab and the one behind it may be discarded - this page finishes the sign-in
-    instead, using state left in localStorage. It needs no session and reads no
-    invitation rows.
+    still open and polling; it finishes the sign-in and closes this popup. When
+    that window is hidden or gone - the normal outcome on mobile, where the
+    sign-in window is a whole tab and the one behind it may be discarded - this
+    page finishes the sign-in instead, using state left in localStorage. It never
+    closes itself. It needs no session and reads no invitation rows.
     """
     name_setting = Settings.query.filter_by(key="server_name").first()
     return render_template(
