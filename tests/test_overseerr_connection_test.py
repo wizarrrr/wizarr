@@ -129,13 +129,17 @@ def test_everything_in_place_passes():
     assert [c[0][0] for c in overseerr.get.call_args_list] == [STATUS_URL, SETTINGS_URL]
 
 
-def test_provisioning_off_is_informational_not_a_pass():
+def test_provisioning_off_is_informational_and_calls_nothing():
     """Nothing is wrong, but nothing is being called either, and saying
-    "success" would imply Wizarr creates accounts when it does not."""
-    with _overseerr():
+    "success" would imply Wizarr creates accounts when it does not. An
+    info-only connection must also save when the service is unreachable or
+    has new Plex sign-in off, since neither matters without account creation."""
+    with _overseerr(settings=_resp(200, {"newPlexLogin": False})) as overseerr:
         result = OverseerrClient().test_connection(_connection(provision=False))
 
     assert result["status"] == "info_only"
+    assert not overseerr.get.called
+    assert not overseerr.post.called
 
 
 def test_unreadable_settings_pass_but_say_so():

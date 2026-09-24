@@ -196,6 +196,15 @@ class OverseerrClient(CompanionClient):
                 ),
             }
 
+        if not connection.provision_plex_users:
+            return {
+                "status": "info_only",
+                "message": (
+                    "Account creation is off, so this connection is informational "
+                    "and Wizarr makes no calls to " + name + "."
+                ),
+            }
+
         base_url = connection.url.rstrip("/")
 
         try:
@@ -244,16 +253,6 @@ class OverseerrClient(CompanionClient):
                     f"Reached {name} {version}, but 'Enable New Plex Sign-In' is off "
                     "under its Settings → Users, so it will refuse to create the "
                     "account. Turn it on, or leave account creation off here."
-                ),
-            }
-
-        if not connection.provision_plex_users:
-            return {
-                "status": "info_only",
-                "message": (
-                    f"Reached {name} {version}. Account creation is off, so this "
-                    "connection is informational and invited users will sign in "
-                    f"to {name} themselves."
                 ),
             }
 
