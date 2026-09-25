@@ -17,8 +17,8 @@ from playwright.sync_api import Page, expect  # type: ignore
 # Fix for Python 3.14+ multiprocessing compatibility with pytest-flask live_server
 # GitHub Actions uses spawn/forkserver by default which can't pickle local functions
 # Force 'fork' method before any fixtures initialize
-with contextlib.suppress(RuntimeError):
-    # RuntimeError raised if method already set, which is fine
+with contextlib.suppress(RuntimeError, ValueError):
+    # RuntimeError raised if method already set, ValueError if 'fork' not available (e.g. Windows)
     multiprocessing.set_start_method("fork", force=True)
 
 from app import create_app
