@@ -3,11 +3,17 @@ import logging
 import time
 from contextlib import suppress
 
-from sqlalchemy.exc import ResourceClosedError
+from sqlalchemy.exc import ResourceClosedError, SQLAlchemyError
 
 from app.extensions import db
-from app.models import ExpiredUser, Invitation, User, invitation_servers
+from app.models import ExpiredUser, Invitation, Settings, User, invitation_servers
 from app.services.media.service import delete_user, disable_user
+
+# Display window for the "Recently Expired" panel. Stored in Settings so the
+# choice survives a page reload; None means "show the full history".
+EXPIRED_WINDOW_SETTING = "expired_users_window_days"
+EXPIRED_WINDOW_DEFAULT = 30
+EXPIRED_WINDOW_DAY_CHOICES = (30, 60, 90)
 
 
 def calculate_user_expiry(
@@ -308,18 +314,104 @@ def cleanup_expired_user_by_email(email: str) -> None:
         db.session.commit()
 
 
-def get_expired_users() -> list[ExpiredUser]:
+def parse_expired_users_window(raw: str | int | None) -> int | None:
     """
-    Get all expired users for display in the admin interface.
+    Coerce a stored or submitted window value onto the allowed choices.
+
+    Accepts an integer number of days, or "all"/"none" for the full history.
+    Anything unrecognised falls back to the default rather than raising, so a
+    hand-edited setting or a crafted query string cannot break the page.
+
+    Returns:
+        Number of days to show, or None for the full history
+    """
+    if raw is None:
+        return EXPIRED_WINDOW_DEFAULT
+
+    text = str(raw).strip().lower()
+    if text in {"all", "none"}:
+        return None
+    if not text:
+        return EXPIRED_WINDOW_DEFAULT
+
+    try:
+        days = int(text)
+    except ValueError:
+        return EXPIRED_WINDOW_DEFAULT
+
+    return days if days in EXPIRED_WINDOW_DAY_CHOICES else EXPIRED_WINDOW_DEFAULT
+
+
+def get_expired_users_window() -> int | None:
+    """
+    Return the stored display window for the expired-users panel.
+
+    Returns:
+        Number of days to show, or None for the full history
+    """
+    try:
+        setting = Settings.query.filter_by(key=EXPIRED_WINDOW_SETTING).first()
+    except (RuntimeError, SQLAlchemyError) as exc:
+        logging.warning("Failed to load expired-users window setting: %s", exc)
+        return EXPIRED_WINDOW_DEFAULT
+
+    if setting is None or setting.value is None:
+        return EXPIRED_WINDOW_DEFAULT
+
+    return parse_expired_users_window(setting.value)
+
+
+def set_expired_users_window(window_days: int | None) -> None:
+    """Store the display window for the expired-users panel."""
+    value = "all" if window_days is None else str(window_days)
+    setting = Settings.query.filter_by(key=EXPIRED_WINDOW_SETTING).first()
+
+    if setting is None:
+        db.session.add(Settings(key=EXPIRED_WINDOW_SETTING, value=value))
+    else:
+        setting.value = value
+
+    db.session.commit()
+
+
+def has_any_expired_users() -> bool:
+    """
+    Report whether any expired-user rows exist at all, ignoring the window.
+
+    The bounded panel uses this to keep its window selector reachable: without
+    it, a window that filters every row would hide the panel and the control
+    needed to widen it again.
+    """
+    return db.session.query(ExpiredUser.id).first() is not None
+
+
+def get_expired_users(
+    within_days: int | None = EXPIRED_WINDOW_DEFAULT,
+) -> list[ExpiredUser]:
+    """
+    Get expired users for display in the admin interface.
+
+    The panel this feeds is labelled "Recently Expired", so it is bounded by
+    default. Rows outside the window are still retained in the table; only the
+    display is limited.
+
+    Args:
+        within_days: Only include users deleted within this many days. Pass
+            None to return the full history.
 
     Returns:
         List of ExpiredUser objects ordered by deletion date (most recent first)
     """
-    return (
-        ExpiredUser.query.options(db.joinedload(ExpiredUser.server))
-        .order_by(ExpiredUser.deleted_at.desc())
-        .all()
-    )
+    query = ExpiredUser.query.options(db.joinedload(ExpiredUser.server))
+
+    if within_days is not None:
+        # deleted_at is a naive column holding UTC (see ExpiredUser.deleted_at),
+        # so the cutoff is built naive to keep the comparison naive-to-naive.
+        now_naive = datetime.datetime.now(datetime.UTC).replace(tzinfo=None)
+        cutoff = now_naive - datetime.timedelta(days=within_days)
+        query = query.filter(ExpiredUser.deleted_at >= cutoff)
+
+    return query.order_by(ExpiredUser.deleted_at.desc()).all()
 
 
 def get_expiring_this_week_users() -> list[dict]:
