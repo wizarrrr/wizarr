@@ -35,13 +35,9 @@
               <select name="server_type"
                       id="server_type"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                <option value="plex">Plex</option>
-                <option value="jellyfin">Jellyfin</option>
-                <option value="emby">Emby</option>
-                <option value="audiobookshelf">Audiobookshelf</option>
-                <option value="romm">Romm</option>
-                <option value="komga">Komga</option>
-                <option value="kavita">Kavita</option>
+                {% for value, label in server_types %}
+                  <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
               </select>
             </div>
             <div>
