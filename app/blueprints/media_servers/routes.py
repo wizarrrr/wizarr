@@ -35,6 +35,7 @@ from app.services.media.service import (
     invalidate_server_caches,
     list_users_for_server,
     scan_libraries_for_server,
+    server_type_choices,
     upsert_scanned_libraries,
 )
 
@@ -97,6 +98,7 @@ def create_server():
                     "modals/create-server.html",
                     error=error_msg,
                     values=_typed_values(),
+                    server_types=server_type_choices(),
                 )
             )
             resp.headers["HX-Retarget"] = "#create-server-modal"
@@ -146,7 +148,9 @@ def create_server():
 
         return redirect(url_for("media_servers.list_servers"))
     # GET
-    return render_template("modals/create-server.html", error="")
+    return render_template(
+        "modals/create-server.html", error="", server_types=server_type_choices()
+    )
 
 
 @media_servers_bp.post("/<int:server_id>/scan-libraries")
@@ -198,6 +202,7 @@ def edit_server(server_id):
                     server=server,
                     error=error_msg,
                     values=_typed_values(),
+                    server_types=server_type_choices(server.server_type),
                 )
             )
             resp.headers["HX-Retarget"] = "#create-server-modal"
@@ -221,7 +226,12 @@ def edit_server(server_id):
         invalidate_server_caches(server.id)
         return redirect(url_for("media_servers.list_servers"))
     # GET → modal
-    return render_template("modals/edit-server.html", server=server, error="")
+    return render_template(
+        "modals/edit-server.html",
+        server=server,
+        error="",
+        server_types=server_type_choices(server.server_type),
+    )
 
 
 @media_servers_bp.route("/", methods=["DELETE"])
