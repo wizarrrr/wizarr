@@ -28,6 +28,12 @@ EMAIL_RE = re.compile(r"[^@]+@[^@]+\.[^@]+")
 class DropClient(RestApiMixin):
     """Drop media server client using System token authentication."""
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_drop
+
+        return check_drop(url, token)
+
     def __init__(self, *args, **kwargs):
         # Defaults for historical callers
         kwargs.setdefault("url_key", "server_url")

@@ -120,6 +120,18 @@ def get_client(
     return client
 
 
+def check_server_connection(server_type: str, url: str, token: str) -> tuple[bool, str]:
+    """Run the registered client's connection check for ``server_type``.
+
+    An unknown type is refused with a message naming it, rather than being
+    checked as if it were some other server type.
+    """
+    client_class = CLIENTS.get(server_type)
+    if client_class is None:
+        return False, f"Unknown server type '{server_type}'"
+    return client_class.check_connection(url, token)
+
+
 def get_client_for_media_server(server: MediaServer):
     """Return a configured MediaClient instance for the given MediaServer row."""
     if server.server_type not in CLIENTS:

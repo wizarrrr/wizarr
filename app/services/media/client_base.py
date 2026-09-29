@@ -64,6 +64,17 @@ class MediaClient(ABC):
        compatibility – these will be removed in a future release.
     """
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:  # noqa: ARG003
+        """Check that a server of this type answers at ``url`` with ``token``.
+
+        Used when a server is created or edited. Clients override this; the
+        default refuses, so a client without a check can never be saved by
+        accident against a server it cannot talk to.
+        """
+        name = getattr(cls, "_server_type", cls.__name__)
+        return False, f"No connection check is implemented for server type '{name}'"
+
     url: str | None
     token: str | None
 

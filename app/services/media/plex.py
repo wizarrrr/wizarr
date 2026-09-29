@@ -92,6 +92,12 @@ class PlexInvitationError(Exception):
 class PlexClient(MediaClient):
     """Wrapper that connects to Plex using admin credentials."""
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_plex
+
+        return check_plex(url, token)
+
     def __init__(self, *args, **kwargs):
         if "url_key" not in kwargs:
             kwargs["url_key"] = "server_url"
