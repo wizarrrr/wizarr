@@ -6,7 +6,7 @@ import logging
 import traceback
 from functools import wraps
 
-from flask import Blueprint, request
+from flask import Blueprint, request, url_for
 from flask_login import current_user
 from flask_restx import Resource, abort
 from sqlalchemy import func
@@ -18,6 +18,8 @@ from app.models import (
     Invitation,
     Library,
     MediaServer,
+    PakasirOrder,
+    PakasirPlan,
     User,
     WebAuthnCredential,
 )
@@ -38,6 +40,12 @@ from .models import (
     invitation_create_response,
     invitation_list_model,
     library_list_model,
+    qris_order_create_request,
+    qris_order_model,
+    qris_order_response,
+    qris_plan_list_model,
+    qris_plan_model,
+    qris_plan_upsert_request,
     server_list_model,
     status_model,
     success_message_model,
@@ -67,6 +75,7 @@ libraries_ns = api.namespace("libraries", description="Library information opera
 servers_ns = api.namespace("servers", description="Server information operations")
 api_keys_ns = api.namespace("api-keys", description="API key management operations")
 admins_ns = api.namespace("admins", description="Admin management operations")
+qris_ns = api.namespace("qris", description="Pakasir QRIS payment operations")
 
 
 def require_api_key(f):
@@ -153,6 +162,77 @@ def require_api_key_or_session(f):
 
     return decorated_function
 
+
+def _qris_list(value: str | None) -> list[int]:
+    """Parse JSON list values stored on QRIS plans."""
+    import json
+
+    if not value:
+        return []
+    try:
+        data = json.loads(value)
+    except json.JSONDecodeError:
+        return []
+    if not isinstance(data, list):
+        return []
+    parsed = []
+    for item in data:
+        try:
+            parsed.append(int(item))
+        except (TypeError, ValueError):
+            continue
+    return parsed
+
+
+def _qris_json_list(value) -> str:
+    """Serialize QRIS plan list fields for storage."""
+    import json
+
+    if value is None:
+        return "[]"
+    if isinstance(value, str):
+        return value
+    return json.dumps(value)
+
+
+def _serialize_qris_plan(plan: PakasirPlan) -> dict:
+    return {
+        "id": plan.id,
+        "slug": plan.slug,
+        "name": plan.name,
+        "amount": plan.amount,
+        "duration_days": plan.duration_days,
+        "server_ids": _qris_list(plan.server_ids),
+        "library_ids": _qris_list(plan.library_ids),
+        "allow_downloads": plan.allow_downloads,
+        "allow_live_tv": plan.allow_live_tv,
+        "allow_mobile_uploads": plan.allow_mobile_uploads,
+        "invite_expires_days": plan.invite_expires_days,
+        "active": plan.active,
+    }
+
+
+def _serialize_qris_order(order: PakasirOrder) -> dict:
+    invitation_url = None
+    if order.invitation:
+        invitation_url = _generate_invitation_url(order.invitation.code)
+    return {
+        "order_id": order.order_id,
+        "plan_slug": order.plan.slug if order.plan else None,
+        "amount": order.amount,
+        "status": order.status,
+        "payment_method": order.payment_method,
+        "payment_url": order.payment_url,
+        "status_url": url_for(
+            "qris.order_status", order_id=order.order_id, _external=False
+        ),
+        "invitation_url": invitation_url,
+        "created_at": order.created_at.isoformat() if order.created_at else None,
+        "completed_at": (
+            order.completed_at.isoformat() if order.completed_at else None
+        ),
+        "verified_at": order.verified_at.isoformat() if order.verified_at else None,
+    }
 
 def _generate_invitation_url(code):
     """Generate the stable invitation path for the given code."""
@@ -1045,6 +1125,133 @@ class ApiKeyResource(Resource):
             logger.error("Error deleting API key %s: %s", key_id, str(e))
             logger.error(traceback.format_exc())
             return {"error": "Internal server error"}, 500
+
+
+@qris_ns.route("/plans")
+class QrisPlansResource(Resource):
+    @api.doc("list_qris_plans", security="apikey")
+    @api.marshal_with(qris_plan_list_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self):
+        """List Pakasir QRIS subscription plans."""
+        try:
+            from app.services.payments.pakasir import sync_plans_from_env
+
+            sync_plans_from_env()
+            plans = PakasirPlan.query.order_by(PakasirPlan.amount.asc()).all()
+            plan_list = [_serialize_qris_plan(plan) for plan in plans]
+            return {"plans": plan_list, "count": len(plan_list)}
+        except Exception as e:
+            logger.error("Error listing QRIS plans: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+    @api.doc("upsert_qris_plan", security="apikey")
+    @api.expect(qris_plan_upsert_request)
+    @api.response(200, "QRIS plan saved", qris_plan_model)
+    @api.response(400, "Bad request", error_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def post(self):
+        """Create or update a Pakasir QRIS subscription plan."""
+        data = api.payload or {}
+        required = ["slug", "name", "amount", "duration_days", "server_ids"]
+        missing = [key for key in required if data.get(key) in (None, "", [])]
+        if missing:
+            return {"error": f"Missing required fields: {', '.join(missing)}"}, 400
+
+        try:
+            amount = int(data.get("amount"))
+            duration_days = int(data.get("duration_days"))
+        except (TypeError, ValueError):
+            return {"error": "amount and duration_days must be integers"}, 400
+        if amount <= 0 or duration_days <= 0:
+            return {"error": "amount and duration_days must be positive"}, 400
+
+        server_ids = data.get("server_ids") or []
+        if not isinstance(server_ids, list):
+            return {"error": "server_ids must be an array"}, 400
+
+        try:
+            slug = str(data["slug"]).strip()
+            plan = PakasirPlan.query.filter_by(slug=slug).first()
+            if not plan:
+                plan = PakasirPlan(slug=slug)
+                db.session.add(plan)
+
+            plan.name = str(data["name"]).strip()
+            plan.amount = amount
+            plan.duration_days = duration_days
+            plan.server_ids = _qris_json_list(server_ids)
+            plan.library_ids = _qris_json_list(data.get("library_ids", []))
+            plan.allow_downloads = bool(data.get("allow_downloads", False))
+            plan.allow_live_tv = bool(data.get("allow_live_tv", False))
+            plan.allow_mobile_uploads = bool(data.get("allow_mobile_uploads", False))
+            plan.invite_expires_days = int(data.get("invite_expires_days") or 7)
+            plan.active = bool(data.get("active", True))
+            db.session.commit()
+            return _serialize_qris_plan(plan)
+        except Exception as e:
+            db.session.rollback()
+            logger.error("Error saving QRIS plan: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@qris_ns.route("/orders")
+class QrisOrdersResource(Resource):
+    @api.doc("create_qris_order", security="apikey")
+    @api.expect(qris_order_create_request)
+    @api.response(201, "QRIS order created", qris_order_response)
+    @api.response(400, "Bad request", error_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def post(self):
+        """Create a Pakasir QRIS checkout order for a plan."""
+        data = api.payload or {}
+        plan_slug = str(data.get("plan_slug", "")).strip()
+        if not plan_slug:
+            return {"error": "plan_slug is required"}, 400
+
+        try:
+            from app.services.payments.pakasir import (
+                create_order,
+                sync_plans_from_env,
+            )
+
+            sync_plans_from_env()
+            plan = PakasirPlan.query.filter_by(slug=plan_slug, active=True).first()
+            if not plan:
+                return {"error": "QRIS plan not found"}, 404
+            order = create_order(plan, data.get("buyer_email"))
+            return {
+                "message": "QRIS order created successfully",
+                "order": _serialize_qris_order(order),
+            }, 201
+        except Exception as e:
+            logger.error("Error creating QRIS order: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@qris_ns.route("/orders/<string:order_id>")
+class QrisOrderResource(Resource):
+    @api.doc("get_qris_order", security="apikey")
+    @api.marshal_with(qris_order_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(404, "QRIS order not found", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self, order_id):
+        """Get Pakasir QRIS order status and generated invite URL, if paid."""
+        order = PakasirOrder.query.filter_by(order_id=order_id).first()
+        if not order:
+            abort(404, error="QRIS order not found")
+        return _serialize_qris_order(order)
 
 
 @users_ns.route("/<int:user_id>/reset-password")
