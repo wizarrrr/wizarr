@@ -12,6 +12,26 @@ from app.utils.session_cache import RobustFileSystemCache
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
+
+def env_bool(key: str, default: bool = False) -> bool:
+    value = os.getenv(key)
+    if value is None:
+        return default
+
+    return value.lower() in {"1", "true", "yes", "on"}
+
+
+def env_int(key: str, default: int) -> int:
+    value = os.getenv(key)
+    if value is None:
+        return default
+
+    try:
+        return int(value)
+    except ValueError:
+        return default
+    
+
 # Initialize session cache at module level so Flask-Session can access it
 
 # Ensure database directory exists
@@ -79,6 +99,14 @@ class BaseConfig:
     # Sessions
     SESSION_TYPE = "cachelib"  # Changed from 'filesystem' to 'cachelib'
     SESSION_CACHELIB = SESSION_CACHELIB  # Reference the module-level cache
+
+    # Reverse proxy support
+    TRUST_PROXY_HEADERS = env_bool("TRUST_PROXY_HEADERS", False)
+    PROXY_FIX_X_FOR = env_int("PROXY_FIX_X_FOR", 1)
+    PROXY_FIX_X_PROTO = env_int("PROXY_FIX_X_PROTO", 1)
+    PROXY_FIX_X_HOST = env_int("PROXY_FIX_X_HOST", 1)
+    PROXY_FIX_X_PORT = env_int("PROXY_FIX_X_PORT", 1)
+    PROXY_FIX_X_PREFIX = env_int("PROXY_FIX_X_PREFIX", 1)
 
     # Babel / i18n
     LANGUAGES: ClassVar[dict[str, str]] = {
