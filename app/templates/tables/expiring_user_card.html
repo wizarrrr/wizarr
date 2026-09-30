@@ -32,7 +32,7 @@
                 {% endif %}
               </div>
               <div class="text-xs text-gray-500 dark:text-gray-400">
-                Expires {{ item.user.expires.strftime("%Y-%m-%d %H:%M") if item.user.expires else 'Never' }}
+                Expires {{ item.user.expires|local_date("%Y-%m-%d %H:%M") if item.user.expires else 'Never' }}
               </div>
             </div>
           </div>
