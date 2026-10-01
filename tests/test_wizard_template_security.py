@@ -275,6 +275,48 @@ def test_button_rejects_executable_urls(render_app, url):
     assert "href=" not in ButtonWidget().render("custom", url=url, text="Open")
 
 
+def test_presentational_markup_is_kept(render_app):
+    output = _render(
+        SimpleNamespace(
+            content='<p align="center" style="font-size: 18px; margin-top: 8px">Hi</p>'
+            '<div style="max-width: 640px; padding: 12px; border-radius: 8px">Box</div>'
+        ),
+        {},
+    )
+    assert 'align="center"' in output
+    assert "font-size:18px" in output
+    assert "margin-top:8px" in output
+    assert "max-width:640px" in output
+    assert "padding:12px" in output
+    assert "border-radius:8px" in output
+
+
+def test_layout_escape_styles_are_removed(render_app):
+    output = _render(
+        SimpleNamespace(
+            content='<p style="position: fixed; top: 0; z-index: 99; font-weight: bold">x</p>'
+            '<p style="background: url(https://example.com/x.png)">bg</p>'
+        ),
+        {},
+    )
+    assert "position" not in output
+    assert "z-index" not in output
+    assert "url(" not in output
+    assert "font-weight:bold" in output
+
+
+def test_align_does_not_loosen_active_content(render_app):
+    output = _render(
+        SimpleNamespace(
+            content='<p align="center" onclick="alert(1)"><script>alert(1)</script>ok</p>'
+        ),
+        {},
+    )
+    assert 'align="center"' in output
+    assert "onclick" not in output
+    assert "<script" not in output
+
+
 def test_imported_title_is_safe_in_settings(app, client, session):
     session.add(
         MediaServer(name="Media", server_type="plex", url="https://example.com")
