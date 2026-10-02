@@ -156,6 +156,8 @@ def local_date(date_value, format_str="%m/%d %H:%M") -> str:
             date_value = date_value.replace(tzinfo=UTC)
 
         local_time = date_value.astimezone(_LOCAL_TIMEZONE or None)
+        if os.name == "nt":
+            format_str = format_str.replace("%-", "%#")
         return local_time.strftime(format_str)
 
     return str(date_value)
