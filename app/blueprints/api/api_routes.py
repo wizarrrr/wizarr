@@ -21,6 +21,7 @@ from app.models import (
     User,
     WebAuthnCredential,
 )
+from app.services.instance_url_resolver import get_configured_public_url
 from app.services.invites import create_invite
 from app.services.media.service import (
     delete_user,
@@ -155,8 +156,19 @@ def require_api_key_or_session(f):
 
 
 def _generate_invitation_url(code):
-    """Generate the stable invitation path for the given code."""
+    """Generate the invitation URL for the given code.
+
+    Returns an absolute URL when a "Public Wizarr URL" is configured in
+    General settings, since API consumers benefit from a link that's
+    usable as-is. Otherwise falls back to the previous behavior of a
+    host-relative path, so existing consumers that prepend their own base
+    URL keep working unchanged.
+    """
     try:
+        configured = get_configured_public_url()
+        if configured:
+            return f"{configured}/j/{code}"
+
         from flask import url_for
 
         return url_for("public.invite", code=code, _external=False)
