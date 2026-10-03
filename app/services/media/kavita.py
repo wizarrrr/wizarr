@@ -71,6 +71,12 @@ class KavitaClient(RestApiMixin):
         - Series listing requires POST with FilterDto (even for basic queries)
     """
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_kavita
+
+        return check_kavita(url, token)
+
     def __init__(self, *args, **kwargs):
         # Ensure default url/token keys if caller didn't override.
         if "url_key" not in kwargs:

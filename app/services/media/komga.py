@@ -22,6 +22,12 @@ EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 class KomgaClient(RestApiMixin):
     """Wrapper around the Komga REST API using credentials from Settings."""
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_komga
+
+        return check_komga(url, token)
+
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("url_key", "server_url")
         kwargs.setdefault("token_key", "api_key")

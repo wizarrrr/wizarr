@@ -24,6 +24,12 @@ if TYPE_CHECKING:
 class AudiobookshelfClient(RestApiMixin):
     """Very small wrapper around the Audiobookshelf REST API."""
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_audiobookshelf
+
+        return check_audiobookshelf(url, token)
+
     #: API prefix that all modern ABS endpoints share
     API_PREFIX = "/api"
 
