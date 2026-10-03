@@ -30,7 +30,15 @@ from app.models import (
     invitation_servers,
     invitation_users,
 )
-from app.services.expiry import get_expired_users, get_expiring_this_week_users
+from app.services.expiry import (
+    EXPIRED_WINDOW_DAY_CHOICES,
+    get_expired_users,
+    get_expired_users_window,
+    get_expiring_this_week_users,
+    has_any_expired_users,
+    parse_expired_users_window,
+    set_expired_users_window,
+)
 from app.services.invites import create_invite
 from app.services.media.service import (
     EMAIL_RE,
@@ -467,13 +475,17 @@ def users():
 
     servers = MediaServer.query.order_by(MediaServer.name).all()
     expiring_users = get_expiring_this_week_users()
-    expired_users = get_expired_users()
+    expired_window = get_expired_users_window()
+    expired_users = get_expired_users(within_days=expired_window)
 
     return render_template(
         "admin/users.html",
         servers=servers,
         expiring_users=expiring_users,
         expired_users=expired_users,
+        expired_window=expired_window,
+        expired_window_choices=EXPIRED_WINDOW_DAY_CHOICES,
+        expired_any=has_any_expired_users(),
     )
 
 
@@ -1382,9 +1394,13 @@ def server_health_card():
 @admin_bp.route("/expired-users/table")
 @login_required
 def expired_users_table():
-    """Return a table of expired users for monitoring."""
+    """Return the complete expired-user history.
+
+    This feeds the "All Expired Users" section, which is deliberately
+    unbounded; the bounded view is the "Recently Expired" panel above it.
+    """
     try:
-        expired_users = get_expired_users()
+        expired_users = get_expired_users(within_days=None)
         return render_template(
             "tables/expired_user_card.html", expired_users=expired_users
         )
@@ -1392,6 +1408,40 @@ def expired_users_table():
         logging.error(f"Failed to get expired users: {e}")
         return render_template(
             "tables/expired_user_card.html", expired_users=[], error=str(e)
+        )
+
+
+@admin_bp.route("/recently-expired/table")
+@login_required
+def recently_expired_table():
+    """Return the bounded "Recently Expired" panel.
+
+    An explicit ?days= value (30, 60, 90 or "all") changes the window and is
+    stored, so the choice survives a reload. Without it the stored window
+    applies.
+    """
+    try:
+        raw_window = request.args.get("days")
+        if raw_window is None:
+            window = get_expired_users_window()
+        else:
+            window = parse_expired_users_window(raw_window)
+            set_expired_users_window(window)
+
+        return render_template(
+            "tables/recently_expired_card.html",
+            expired_users=get_expired_users(within_days=window),
+            expired_window=window,
+            expired_window_choices=EXPIRED_WINDOW_DAY_CHOICES,
+        )
+    except Exception as e:
+        logging.error(f"Failed to get recently expired users: {e}")
+        return render_template(
+            "tables/recently_expired_card.html",
+            expired_users=[],
+            expired_window=None,
+            expired_window_choices=EXPIRED_WINDOW_DAY_CHOICES,
+            error=str(e),
         )
 
 
