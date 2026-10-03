@@ -100,6 +100,35 @@ def server_name_tag(server_type: str, server_name: str) -> Markup:
     return Markup(html)  # noqa: S704  # User input is escaped, colour from safe dict
 
 
+def to_local(value):
+    """Convert a stored datetime to the configured local timezone.
+
+    Datetimes are stored as UTC, and SQLite hands them back naive, so a naive
+    value is treated as UTC. Anything that isn't a datetime (a plain date, a
+    string) is returned unchanged.
+    """
+    if not isinstance(value, datetime):
+        return value
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=UTC)
+    return value.astimezone(_LOCAL_TIMEZONE or None)
+
+
+def local_to_utc(value: datetime) -> datetime:
+    """Convert a datetime entered in local time (e.g. a datetime-local input) to UTC.
+
+    A naive value is taken to be in the configured local timezone, the same one
+    ``to_local`` renders in, so a value shown in the UI round-trips unchanged.
+    """
+    if value.tzinfo is None:
+        value = (
+            value.replace(tzinfo=_LOCAL_TIMEZONE)
+            if _LOCAL_TIMEZONE
+            else value.astimezone()
+        )
+    return value.astimezone(UTC)
+
+
 def human_date(date_value) -> str:
     """Format date to 'Jan 15, 2024 at 2:30 PM'."""
     if not date_value:
@@ -128,7 +157,7 @@ def human_date(date_value) -> str:
 
     # Handle datetime objects
     if hasattr(date_value, "strftime"):
-        return date_value.strftime("%b %-d, %Y at %-I:%M %p")
+        return to_local(date_value).strftime("%b %-d, %Y at %-I:%M %p")
 
     # Fallback for unknown types
     return str(date_value)[:16]
@@ -152,11 +181,7 @@ def local_date(date_value, format_str="%m/%d %H:%M") -> str:
 
     # Format datetime object
     if hasattr(date_value, "strftime"):
-        if date_value.tzinfo is None:
-            date_value = date_value.replace(tzinfo=UTC)
-
-        local_time = date_value.astimezone(_LOCAL_TIMEZONE or None)
-        return local_time.strftime(format_str)
+        return to_local(date_value).strftime(format_str)
 
     return str(date_value)
 
