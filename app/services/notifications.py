@@ -131,6 +131,24 @@ def _telegram(
     return _send(url, data, headers)
 
 
+def _pushover(
+    msg: str,
+    title: str,
+    user_key: str,
+    api_token: str,
+) -> bool:
+    data = json.dumps(
+        {
+            "token": api_token,
+            "user": user_key,
+            "title": title,
+            "message": msg,
+        }
+    )
+    headers = {"Content-Type": "application/json"}
+    return _send("https://api.pushover.net/1/messages.json", data, headers)
+
+
 def notify(
     title: str,
     message: str,
@@ -163,4 +181,11 @@ def notify(
                 agent.url,
                 agent.telegram_bot_token,
                 agent.telegram_chat_id,
+            )
+        elif agent.type == "pushover":
+            _pushover(
+                message,
+                title,
+                agent.pushover_user_key,
+                agent.pushover_api_token,
             )
