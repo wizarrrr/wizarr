@@ -156,6 +156,8 @@ Templates cannot use loops, assignments, macros, template imports, or arbitrary 
 
 Wizarr removes scripts, event handlers, executable links, and application action attributes from rendered HTML. Titles display as plain text. The Discord widget preset keeps its restricted iframe. Other iframe sources are removed. Put custom styles in the application stylesheet; imported style blocks are removed.
 
+Presentational markup is kept: the `align` attribute, and inline `style` limited to display properties (color and background color, text alignment and decoration, font size, style and weight, margins, padding, borders and border radius, width, max-width and height). Other style properties are removed, including anything that loads a resource or positions an element outside the normal flow.
+
 ### Requiring User Interaction
 
 You can force users to engage with step content before allowing them to proceed to the next step. This is useful for ensuring users actually download apps, read important information, or acknowledge terms.
