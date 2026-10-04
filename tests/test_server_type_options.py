@@ -7,7 +7,7 @@ check then ran against the wrong server type, so the edit could never be saved.
 """
 
 import re
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from app.models import AdminAccount, MediaServer
 from app.services.media.client_base import CLIENTS
@@ -99,10 +99,11 @@ def test_editing_a_navidrome_server_keeps_its_type(client, session):
     submitted_type = _selected(html)
     assert submitted_type is not None, "no option selected: browser would send Plex"
 
-    with patch(
-        "app.blueprints.media_servers.routes.check_navidrome",
-        return_value=(True, ""),
-    ) as check:
+    # Patch the HTTP call, not an import: where the Navidrome check is imported
+    # from changes with the route's wiring, the ping request does not.
+    ok = Mock(status_code=200, url="http://navidrome.local:4533/rest/ping")
+    ok.json.return_value = {"subsonic-response": {"status": "ok"}}
+    with patch("app.services.servers.requests.get", return_value=ok) as check:
         resp = client.post(
             f"/settings/servers/{server.id}/edit",
             data={
@@ -115,6 +116,7 @@ def test_editing_a_navidrome_server_keeps_its_type(client, session):
 
     assert resp.status_code in {302, 303}
     check.assert_called_once()
+    assert check.call_args.args[0] == "http://navidrome.local:4533/rest/ping"
     session.refresh(server)
     assert server.server_type == "navidrome"
     assert server.name == "Renamed"
