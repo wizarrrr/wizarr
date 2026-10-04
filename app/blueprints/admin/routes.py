@@ -1411,22 +1411,22 @@ def expired_users_table():
         )
 
 
-@admin_bp.route("/recently-expired/table")
+@admin_bp.route("/recently-expired/table", methods=["GET", "POST"])
 @login_required
 def recently_expired_table():
     """Return the bounded "Recently Expired" panel.
 
-    An explicit ?days= value (30, 60, 90 or "all") changes the window and is
-    stored, so the choice survives a reload. Without it the stored window
-    applies.
+    GET is read-only: it renders the stored window. POST with a days value
+    (30, 60, 90 or "all") changes the window and stores it, so the choice
+    survives a reload. The write is a POST so a cross-site request cannot
+    change the stored setting.
     """
     try:
-        raw_window = request.args.get("days")
-        if raw_window is None:
-            window = get_expired_users_window()
-        else:
-            window = parse_expired_users_window(raw_window)
+        if request.method == "POST":
+            window = parse_expired_users_window(request.form.get("days"))
             set_expired_users_window(window)
+        else:
+            window = get_expired_users_window()
 
         return render_template(
             "tables/recently_expired_card.html",

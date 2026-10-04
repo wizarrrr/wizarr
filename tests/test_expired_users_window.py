@@ -231,7 +231,7 @@ def test_recently_expired_route_defaults_to_the_stored_window(
     assert "staleuser" not in body
 
 
-def test_recently_expired_route_persists_an_explicit_window(
+def test_recently_expired_post_persists_an_explicit_window(
     app, session, client, admin_user
 ):
     with app.app_context():
@@ -239,15 +239,44 @@ def test_recently_expired_route_persists_an_explicit_window(
         _expired_row(username="staleuser", days_ago=200, server_id=server.id)
 
     _login(client)
-    body = client.get("/recently-expired/table?days=all").get_data(as_text=True)
+    body = client.post("/recently-expired/table", data={"days": "all"}).get_data(
+        as_text=True
+    )
     assert "staleuser" in body
 
     with app.app_context():
         assert get_expired_users_window() is None
 
-    # the stored choice now applies without the query string
+    # the stored choice now applies to a plain GET
     body = client.get("/recently-expired/table").get_data(as_text=True)
     assert "staleuser" in body
+
+
+def test_recently_expired_get_never_writes_the_window(app, session, client, admin_user):
+    """A GET (e.g. a cross-site <img>) must not change the stored window."""
+    with app.app_context():
+        server = _server()
+        _expired_row(username="staleuser", days_ago=200, server_id=server.id)
+
+    _login(client)
+    body = client.get("/recently-expired/table?days=all").get_data(as_text=True)
+
+    assert "staleuser" not in body
+    with app.app_context():
+        assert Settings.query.filter_by(key=EXPIRED_WINDOW_SETTING).first() is None
+        assert get_expired_users_window() == EXPIRED_WINDOW_DEFAULT
+
+
+def test_selector_posts_instead_of_getting(app, session, client, admin_user):
+    with app.app_context():
+        server = _server()
+        _expired_row(username="freshuser", days_ago=2, server_id=server.id)
+
+    _login(client)
+    body = client.get("/recently-expired/table").get_data(as_text=True)
+
+    assert 'hx-post="/recently-expired/table"' in body
+    assert 'hx-get="/recently-expired/table"' not in body
 
 
 def test_all_expired_users_route_stays_unbounded(app, session, client, admin_user):
@@ -268,7 +297,7 @@ def test_selector_marks_the_active_window(app, session, client, admin_user):
         _expired_row(username="freshuser", days_ago=2, server_id=server.id)
 
     _login(client)
-    body = client.get("/recently-expired/table?days=60").get_data(as_text=True)
+    body = client.post("/recently-expired/table", data={"days": "60"}).get_data(as_text=True)
 
     assert 'id="expired_window_sel"' in body
     assert '<option value="60" selected>' in body
@@ -282,7 +311,7 @@ def test_empty_window_keeps_the_selector_reachable(app, session, client, admin_u
         _expired_row(username="staleuser", days_ago=300, server_id=server.id)
 
     _login(client)
-    body = client.get("/recently-expired/table?days=30").get_data(as_text=True)
+    body = client.post("/recently-expired/table", data={"days": "30"}).get_data(as_text=True)
 
     assert "staleuser" not in body
     assert 'id="expired_window_sel"' in body

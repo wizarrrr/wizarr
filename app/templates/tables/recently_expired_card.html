@@ -29,7 +29,7 @@
             <select id="expired_window_sel"
                     name="days"
                     class="w-36 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-primary focus:border-primary p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                    hx-get="/recently-expired/table"
+                    hx-post="/recently-expired/table"
                     hx-target="#recently_expired_panel"
                     hx-swap="outerHTML">
               {% for days in expired_window_choices %}
@@ -98,7 +98,7 @@
         <select id="expired_window_sel"
                 name="days"
                 class="w-36 bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-lg focus:ring-primary focus:border-primary p-2 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-                hx-get="/recently-expired/table"
+                hx-post="/recently-expired/table"
                 hx-target="#recently_expired_panel"
                 hx-swap="outerHTML">
           {% for days in expired_window_choices %}
