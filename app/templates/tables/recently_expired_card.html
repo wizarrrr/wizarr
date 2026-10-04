@@ -55,7 +55,7 @@
                 <div>
                   <div class="text-sm font-medium text-gray-900 dark:text-white">{{ user.username or 'Unknown' }}</div>
                   <div class="text-xs text-gray-500 dark:text-gray-400">
-                    Expired {{ user.expired_at.strftime("%Y-%m-%d %H:%M") if user.expired_at else 'Unknown' }}
+                    Expired {{ user.expired_at|local_date("%Y-%m-%d %H:%M") if user.expired_at else 'Unknown' }}
                   </div>
                 </div>
               </div>

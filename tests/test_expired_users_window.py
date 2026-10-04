@@ -319,7 +319,9 @@ def test_selector_marks_the_active_window(app, session, client, admin_user):
         _expired_row(username="freshuser", days_ago=2, server_id=server.id)
 
     _login(client)
-    body = client.post("/recently-expired/table", data={"days": "60"}).get_data(as_text=True)
+    body = client.post("/recently-expired/table", data={"days": "60"}).get_data(
+        as_text=True
+    )
 
     assert 'id="expired_window_sel"' in body
     assert '<option value="60" selected>' in body
@@ -333,8 +335,43 @@ def test_empty_window_keeps_the_selector_reachable(app, session, client, admin_u
         _expired_row(username="staleuser", days_ago=300, server_id=server.id)
 
     _login(client)
-    body = client.post("/recently-expired/table", data={"days": "30"}).get_data(as_text=True)
+    body = client.post("/recently-expired/table", data={"days": "30"}).get_data(
+        as_text=True
+    )
 
     assert "staleuser" not in body
     assert 'id="expired_window_sel"' in body
     assert "No users expired in the last" in body
+
+
+def test_card_shows_expiry_in_local_time(app, session, client, admin_user, monkeypatch):
+    """The panel must render expired_at in the local zone, not raw UTC."""
+    from zoneinfo import ZoneInfo
+
+    from app import jinja_filters
+
+    monkeypatch.setattr(jinja_filters, "_LOCAL_TIMEZONE", ZoneInfo("America/Edmonton"))
+    with app.app_context():
+        server = _server()
+        now = datetime.datetime.now(datetime.UTC).replace(tzinfo=None)
+        # a fixed January instant so the offset is MST (UTC-7) whatever today is
+        db.session.add(
+            ExpiredUser(
+                original_user_id=1,
+                username="tzuser",
+                server_id=server.id,
+                expired_at=datetime.datetime(
+                    2025, 1, 15, 7, 0, tzinfo=datetime.UTC
+                ).replace(tzinfo=None),
+                deleted_at=now,
+            )
+        )
+        db.session.commit()
+
+    _login(client)
+    body = client.post("/recently-expired/table", data={"days": "all"}).get_data(
+        as_text=True
+    )
+
+    assert "Expired 2025-01-15 00:00" in body
+    assert "2025-01-15 07:00" not in body
