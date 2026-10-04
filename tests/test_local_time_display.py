@@ -116,3 +116,36 @@ def test_user_modal_expiry_round_trips_in_local_time(
     with app.app_context():
         saved = db.session.get(User, user_id).expires
         assert saved.replace(tzinfo=None) == _naive(2025, 3, 1, 7, 0)
+
+
+def test_resolver_prefers_localtime_link_over_tzname(monkeypatch):
+    """Without TZ, an abbreviation like "MST" must not win over the host zone."""
+    monkeypatch.delenv("TZ", raising=False)
+    monkeypatch.setattr(jinja_filters.time, "tzname", ("MST", "MDT"))
+    monkeypatch.setattr(jinja_filters.time, "daylight", 1)
+    monkeypatch.setattr(jinja_filters, "_zone_from_localtime_link", lambda: EDMONTON)
+
+    assert jinja_filters._resolve_local_timezone() is EDMONTON
+
+
+def test_resolver_does_not_use_tzname_abbreviation_when_dst_applies(monkeypatch):
+    monkeypatch.delenv("TZ", raising=False)
+    monkeypatch.setattr(jinja_filters.time, "tzname", ("MST", "MDT"))
+    monkeypatch.setattr(jinja_filters.time, "daylight", 1)
+    monkeypatch.setattr(jinja_filters, "_zone_from_localtime_link", lambda: None)
+
+    assert jinja_filters._resolve_local_timezone() != ZoneInfo("MST")
+
+
+def test_zone_from_localtime_link_reads_the_symlink(monkeypatch):
+    monkeypatch.setattr(
+        jinja_filters.os.path,
+        "realpath",
+        lambda _p: "/usr/share/zoneinfo/America/Edmonton",
+    )
+    assert jinja_filters._zone_from_localtime_link() == EDMONTON
+
+
+def test_zone_from_localtime_link_ignores_non_zoneinfo_target(monkeypatch):
+    monkeypatch.setattr(jinja_filters.os.path, "realpath", lambda _p: "/etc/localtime")
+    assert jinja_filters._zone_from_localtime_link() is None

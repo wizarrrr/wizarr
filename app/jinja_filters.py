@@ -26,6 +26,27 @@ _SERVER_TAG_COLOURS = {
 _DEFAULT_COLOUR = "#E0E0E0"  # neutral grey fallback
 
 
+def _zone_from_localtime_link():
+    """Return the IANA zone /etc/localtime points at, or None.
+
+    This is the only source on a TZ-less host that carries DST rules.
+    time.tzname holds an abbreviation ("MST"), and ZoneInfo("MST") is a
+    fixed UTC-7 zone with no DST.
+    """
+    try:
+        target = os.path.realpath("/etc/localtime")
+    except OSError:
+        return None
+    marker = "zoneinfo/"
+    if marker not in target:
+        return None
+    try:
+        return ZoneInfo(target.split(marker, 1)[1])
+    except Exception as exc:
+        logging.debug(f"Failed to load timezone from {target}: {exc}")
+        return None
+
+
 def _resolve_local_timezone():
     """Determine the timezone to use for rendering timestamps."""
     tz_name = os.environ.get("TZ")
@@ -42,15 +63,21 @@ def _resolve_local_timezone():
             except Exception as exc:
                 logging.debug(f"Failed to load timezone {tz_name}: {exc}")
 
-        # Fall back to system tzname if available
-        try:
-            local_name = time.tzname[0] if time.tzname else None
-            if local_name:
-                return ZoneInfo(local_name)
-        except Exception as exc:
-            logging.debug(f"Failed to load system timezone {local_name}: {exc}")
+        # Then the host's configured zone, which keeps its DST rules
+        zone = _zone_from_localtime_link()
+        if zone is not None:
+            return zone
 
-    # Fallback: use the system local timezone as determined by datetime
+        # Last named-zone option: time.tzname is an abbreviation, so only trust
+        # it when the host has no DST (a fixed-offset zone is then correct).
+        if not time.daylight and time.tzname:
+            try:
+                return ZoneInfo(time.tzname[0])
+            except Exception as exc:
+                logging.debug(f"Failed to load system timezone {time.tzname[0]}: {exc}")
+
+    # Fallback: use the system local timezone as determined by datetime. This
+    # is a fixed offset, so it cannot follow DST changes.
     try:
         return datetime.now().astimezone().tzinfo
     except Exception:
