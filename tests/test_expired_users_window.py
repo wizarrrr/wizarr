@@ -279,6 +279,28 @@ def test_selector_posts_instead_of_getting(app, session, client, admin_user):
     assert 'hx-get="/recently-expired/table"' not in body
 
 
+def test_window_filters_on_expired_at_not_deleted_at(app, session):
+    """The card prints expired_at, so the window must filter on it."""
+    with app.app_context():
+        server = _server()
+        now = datetime.datetime.now(datetime.UTC).replace(tzinfo=None)
+        # access lapsed 100 days ago, but the row was only written yesterday
+        late = ExpiredUser(
+            original_user_id=1,
+            username="late_processed",
+            server_id=server.id,
+            expired_at=now - datetime.timedelta(days=100),
+            deleted_at=now - datetime.timedelta(days=1),
+        )
+        db.session.add(late)
+        db.session.commit()
+
+        assert get_expired_users(within_days=30) == []
+        assert [u.username for u in get_expired_users(within_days=None)] == [
+            "late_processed"
+        ]
+
+
 def test_all_expired_users_route_stays_unbounded(app, session, client, admin_user):
     """The "All Expired Users" section must keep showing the full history."""
     with app.app_context():

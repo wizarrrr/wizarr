@@ -396,22 +396,24 @@ def get_expired_users(
     display is limited.
 
     Args:
-        within_days: Only include users deleted within this many days. Pass
-            None to return the full history.
+        within_days: Only include users whose access expired within this many
+            days. Pass None to return the full history.
 
     Returns:
-        List of ExpiredUser objects ordered by deletion date (most recent first)
+        List of ExpiredUser objects ordered by expiry date (most recent first)
     """
     query = ExpiredUser.query.options(db.joinedload(ExpiredUser.server))
 
     if within_days is not None:
-        # deleted_at is a naive column holding UTC (see ExpiredUser.deleted_at),
-        # so the cutoff is built naive to keep the comparison naive-to-naive.
+        # The panel shows "Expired <expired_at>", so the window filters on that
+        # same column; deleted_at can lag it when the scheduler was down. Both
+        # are naive columns holding UTC, so the cutoff is built naive to keep
+        # the comparison naive-to-naive.
         now_naive = datetime.datetime.now(datetime.UTC).replace(tzinfo=None)
         cutoff = now_naive - datetime.timedelta(days=within_days)
-        query = query.filter(ExpiredUser.deleted_at >= cutoff)
+        query = query.filter(ExpiredUser.expired_at >= cutoff)
 
-    return query.order_by(ExpiredUser.deleted_at.desc()).all()
+    return query.order_by(ExpiredUser.expired_at.desc(), ExpiredUser.id.desc()).all()
 
 
 def get_expiring_this_week_users() -> list[dict]:
