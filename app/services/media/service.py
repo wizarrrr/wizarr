@@ -120,6 +120,34 @@ def get_client(
     return client
 
 
+# Order of the server-type picker, kept as it has always appeared. Anything else
+# registered is appended alphabetically, so a new client shows up in the create and
+# edit modals without anyone editing a template.
+_SERVER_TYPE_ORDER = (
+    "plex",
+    "jellyfin",
+    "emby",
+    "audiobookshelf",
+    "romm",
+    "komga",
+    "kavita",
+)
+
+
+def server_type_choices(current: str | None = None) -> list[tuple[str, str]]:
+    """Return ``(server_type, label)`` pairs for every registered media client.
+
+    ``current`` is the type of a server being edited. It is always included, even
+    when no client is registered for it, so saving the edit form can never
+    silently rewrite the stored type to whichever option happens to come first.
+    """
+    names = [n for n in _SERVER_TYPE_ORDER if n in CLIENTS]
+    names += sorted(n for n in CLIENTS if n not in _SERVER_TYPE_ORDER)
+    if current and current not in names:
+        names.insert(0, current)
+    return [(name, name.title()) for name in names]
+
+
 def get_client_for_media_server(server: MediaServer):
     """Return a configured MediaClient instance for the given MediaServer row."""
     if server.server_type not in CLIENTS:
