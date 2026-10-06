@@ -7,6 +7,7 @@ from sqlalchemy.exc import ResourceClosedError
 
 from app.extensions import db
 from app.models import ExpiredUser, Invitation, User, invitation_servers
+from app.services.email import send_user_lifecycle_email
 from app.services.media.service import delete_user, disable_user
 
 
@@ -221,6 +222,13 @@ def disable_or_delete_user_if_expired() -> list[int]:
                 # Try to disable the user using the service function
                 try:
                     if disable_user(user.id, commit=False):
+                        send_user_lifecycle_email(
+                            user,
+                            event_type="expired",
+                            server_name=user.server.name if user.server else None,
+                            expires_at=user.expires,
+                            action_label="disabled",
+                        )
                         # Successfully disabled the user
                         user.is_disabled = True
                         db.session.flush()
@@ -244,7 +252,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
                         disable_exc,
                     )
                     # Fallback to deletion using service function
-                    delete_user(user.id, commit=False)
+                    delete_user(user.id, commit=False, email_event="expired")
                     processed.append(user.id)
                     logging.info(
                         "🗑️ Expired user %s (%s) deleted (disable fallback)",
@@ -256,7 +264,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
                     time.sleep(1)
             else:
                 # Delete the user (either by setting or server doesn't support disable)
-                delete_user(user.id, commit=False)
+                delete_user(user.id, commit=False, email_event="expired")
                 processed.append(user.id)
                 action_reason = (
                     "setting" if expiry_action == "delete" else "unsupported"
