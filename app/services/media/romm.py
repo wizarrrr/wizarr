@@ -48,6 +48,12 @@ EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 class RommClient(RestApiMixin):
     """Very small wrapper around the RomM REST API."""
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_romm
+
+        return check_romm(url, token)
+
     API_PREFIX = "/api"
 
     def __init__(self, *args, **kwargs):

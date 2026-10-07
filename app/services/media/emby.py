@@ -26,6 +26,12 @@ log = structlog.get_logger(__name__)
 class EmbyClient(JellyfinClient):
     """Wrapper around the Emby REST API using credentials from Settings."""
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_emby
+
+        return check_emby(url, token)
+
     @staticmethod
     def _library_policy_id(item: dict) -> str:
         """Return the folder identifier Emby expects in user policies."""
