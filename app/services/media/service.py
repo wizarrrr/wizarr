@@ -579,7 +579,10 @@ def _auto_link_identities():
         if len(same) < 2:
             continue  # nothing to link
 
-        identity = same[0].identity or Identity(
+        # Keep an existing Identity (it may carry a nickname) whichever
+        # account in the group holds it.
+        existing = next((u.identity for u in same if u.identity), None)
+        identity = existing or Identity(
             primary_email=same[0].email,
             primary_username=same[0].username,
         )
