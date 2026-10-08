@@ -1,5 +1,4 @@
 import logging
-import re
 from typing import TYPE_CHECKING
 
 import requests
@@ -17,7 +16,6 @@ if TYPE_CHECKING:
     pass
 
 # Reuse the same email regex as jellyfin
-EMAIL_RE = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
 log = structlog.get_logger(__name__)
 

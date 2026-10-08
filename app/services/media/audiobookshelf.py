@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import logging
-import re
 import time
 from typing import TYPE_CHECKING, Any
 
@@ -13,7 +12,7 @@ from app.extensions import db
 from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid
 
-from .client_base import RestApiMixin, register_media_client
+from .client_base import EMAIL_RE, RestApiMixin, register_media_client
 from .utils import StandardizedPermissions
 
 if TYPE_CHECKING:
@@ -26,8 +25,6 @@ class AudiobookshelfClient(RestApiMixin):
 
     #: API prefix that all modern ABS endpoints share
     API_PREFIX = "/api"
-
-    EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 
     def __init__(self, *args, **kwargs):
         # Provide defaults for legacy compatibility
@@ -757,7 +754,7 @@ class AudiobookshelfClient(RestApiMixin):
         code: str,
     ):
         """Public invite flow for Audiobookshelf users."""
-        if not self.EMAIL_RE.fullmatch(email):
+        if not EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."
         if not 8 <= len(password) <= 128:
             return False, "Password must be 8–128 characters."
