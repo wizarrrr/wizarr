@@ -267,6 +267,39 @@ def health():
     return jsonify(status="ok"), 200
 
 
+def _cinema_poster_servers(code: str | None) -> list[MediaServer]:
+    """Servers to take join-page posters from, in order of preference.
+
+    The ``cinema_posters_source`` setting picks them: empty for the first
+    server, ``invite`` for the servers on the visitor's invite, or a server id.
+    Invite mode returns nothing without a valid code, so the endpoint never
+    falls back to a server the visitor wasn't invited to.
+    """
+    setting = Settings.query.filter_by(key="cinema_posters_source").first()
+    source = (setting.value or "").strip() if setting else ""
+
+    if source == "invite":
+        if not code or not is_invite_valid(code)[0]:
+            return []
+        invitation = Invitation.query.filter(
+            db.func.lower(Invitation.code) == code.lower()
+        ).first()
+        if invitation is None:
+            return []
+        servers = list(invitation.servers)
+        if not servers and invitation.server is not None:
+            servers = [invitation.server]
+        return servers
+
+    if source.isdigit():
+        server = db.session.get(MediaServer, int(source))
+        if server is not None:
+            return [server]
+
+    first = MediaServer.query.order_by(MediaServer.id).first()
+    return [first] if first else []
+
+
 @public_bp.route("/cinema-posters")
 def cinema_posters():
     """Get movie poster URLs for cinema background display."""
@@ -275,42 +308,30 @@ def cinema_posters():
 
         from flask import current_app
 
-        from app.models import MediaServer
         from app.services.media.service import get_client_for_media_server
 
-        # Cache key for poster URLs
-        cache_key = "cinema_posters"
         cache_duration = 1800  # 30 minutes
+        cache = current_app.config.setdefault("POSTER_CACHE", {})
 
-        # Check cache first
-        cached_data = current_app.config.get("POSTER_CACHE", {})
-        cached_entry = cached_data.get(cache_key)
+        for server in _cinema_poster_servers(request.args.get("code")):
+            # Keyed per server so one server's posters are never served for another
+            cache_key = f"cinema_posters:{server.id}"
+            cached_entry = cache.get(cache_key)
+            if (
+                cached_entry
+                and (time.time() - cached_entry["timestamp"]) < cache_duration
+            ):
+                return jsonify(cached_entry["data"])
 
-        if cached_entry and (time.time() - cached_entry["timestamp"]) < cache_duration:
-            return jsonify(cached_entry["data"])
+            client = get_client_for_media_server(server)
+            if not hasattr(client, "get_movie_posters"):
+                continue
 
-        # Get the primary media server (or first available)
-        server = MediaServer.query.first()
-        if not server:
-            return jsonify([])
-
-        # Get media client for the server
-        client = get_client_for_media_server(server)
-
-        # Check if client has get_movie_posters method
-        poster_urls = []
-        if hasattr(client, "get_movie_posters"):
             poster_urls = client.get_movie_posters(limit=80)
+            cache[cache_key] = {"data": poster_urls, "timestamp": time.time()}
+            return jsonify(poster_urls)
 
-        # Cache the results
-        if "POSTER_CACHE" not in current_app.config:
-            current_app.config["POSTER_CACHE"] = {}
-        current_app.config["POSTER_CACHE"][cache_key] = {
-            "data": poster_urls,
-            "timestamp": time.time(),
-        }
-
-        return jsonify(poster_urls)
+        return jsonify([])
 
     except Exception as e:
         import logging

@@ -282,7 +282,8 @@
       // Load movie posters for flowing grid background with progressive loading
       async function loadCinemaPosters() {
           try {
-              const response = await fetch('/cinema-posters');
+              const posterCode = {{ (code or '')|tojson }};
+              const response = await fetch(posterCode ? '/cinema-posters?code=' + encodeURIComponent(posterCode) : '/cinema-posters');
               const posterUrls = await response.json();
 
               if (posterUrls && posterUrls.length > 0) {
