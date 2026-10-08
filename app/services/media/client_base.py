@@ -15,6 +15,7 @@ import os
 import re
 import threading
 from abc import ABC, abstractmethod
+from dataclasses import dataclass
 from http.cookiejar import DefaultCookiePolicy
 from typing import TYPE_CHECKING
 
@@ -114,6 +115,55 @@ def register_media_client(name: str):
 
 
 # ---------------------------------------------------------------------------
+# Capabilities
+# ---------------------------------------------------------------------------
+
+# Order the public join form shows its fields in. ``confirm_password`` always
+# travels with ``password``.
+JOIN_FIELD_ORDER = ("username", "email", "password")
+
+
+@dataclass(frozen=True)
+class ClientCapabilities:
+    """What a server type supports, declared on its client.
+
+    Code that needs to know what a type can do asks ``capabilities_for()``
+    instead of keeping its own list of server types, so a new client only has
+    to declare itself here.
+    """
+
+    # Fields an invitee fills in on the public join form. A server that only
+    # needs an address declares ("email",).
+    join_fields: tuple[str, ...] = JOIN_FIELD_ORDER
+    # The server can disable a user without deleting them. Expiry with the
+    # "disable" action deletes instead when this is False.
+    disable: bool = False
+
+
+DEFAULT_CAPABILITIES = ClientCapabilities()
+
+
+def capabilities_for(server_type: str) -> ClientCapabilities:
+    """The capabilities a server type's client declares (defaults if unknown)."""
+    client = CLIENTS.get(server_type)
+    return client.capabilities if client else DEFAULT_CAPABILITIES
+
+
+def join_fields_for(server_types) -> list[str]:
+    """Fields the public join form must collect for an invite to these servers.
+
+    The union of what each server type declares, in form order. No servers at
+    all also gets the full form.
+    """
+    wanted: set[str] = set()
+    for server_type in server_types:
+        wanted.update(capabilities_for(server_type).join_fields)
+    if not wanted:
+        wanted.update(JOIN_FIELD_ORDER)
+    return [field for field in JOIN_FIELD_ORDER if field in wanted]
+
+
+# ---------------------------------------------------------------------------
 # Base class
 # ---------------------------------------------------------------------------
 
@@ -155,6 +205,7 @@ class MediaClient(ABC):
     # throttle reads this value, so that it does not count such a call as a
     # successful sync.
     remote_errors: int = 0
+    capabilities: ClientCapabilities = DEFAULT_CAPABILITIES
 
     # NOTE: keep *url_key* & *token_key* keyword arguments so older subclass
     # calls (e.g. super().__init__(url_key="server_url")) continue to work.
