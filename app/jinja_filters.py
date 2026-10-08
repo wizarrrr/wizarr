@@ -26,6 +26,29 @@ _SERVER_TAG_COLOURS = {
 _DEFAULT_COLOUR = "#E0E0E0"  # neutral grey fallback
 
 
+def _zone_from_localtime_link():
+    """Return the IANA zone /etc/localtime points at, or None.
+
+    This is the only source on a TZ-less host that carries DST rules.
+    time.tzname holds an abbreviation ("MST"), and ZoneInfo("MST") is a
+    fixed UTC-7 zone with no DST.
+    """
+    if ZoneInfo is None:
+        return None
+    try:
+        target = os.path.realpath("/etc/localtime")
+    except OSError:
+        return None
+    marker = "zoneinfo/"
+    if marker not in target:
+        return None
+    try:
+        return ZoneInfo(target.split(marker, 1)[1])
+    except Exception as exc:
+        logging.debug(f"Failed to load timezone from {target}: {exc}")
+        return None
+
+
 def _resolve_local_timezone():
     """Determine the timezone to use for rendering timestamps."""
     tz_name = os.environ.get("TZ")
@@ -42,15 +65,21 @@ def _resolve_local_timezone():
             except Exception as exc:
                 logging.debug(f"Failed to load timezone {tz_name}: {exc}")
 
-        # Fall back to system tzname if available
-        try:
-            local_name = time.tzname[0] if time.tzname else None
-            if local_name:
-                return ZoneInfo(local_name)
-        except Exception as exc:
-            logging.debug(f"Failed to load system timezone {local_name}: {exc}")
+        # Then the host's configured zone, which keeps its DST rules
+        zone = _zone_from_localtime_link()
+        if zone is not None:
+            return zone
 
-    # Fallback: use the system local timezone as determined by datetime
+        # Last named-zone option: time.tzname is an abbreviation, so only trust
+        # it when the host has no DST (a fixed-offset zone is then correct).
+        if not time.daylight and time.tzname:
+            try:
+                return ZoneInfo(time.tzname[0])
+            except Exception as exc:
+                logging.debug(f"Failed to load system timezone {time.tzname[0]}: {exc}")
+
+    # Fallback: use the system local timezone as determined by datetime. This
+    # is a fixed offset, so it cannot follow DST changes.
     try:
         return datetime.now().astimezone().tzinfo
     except Exception:
@@ -100,6 +129,35 @@ def server_name_tag(server_type: str, server_name: str) -> Markup:
     return Markup(html)  # noqa: S704  # User input is escaped, colour from safe dict
 
 
+def to_local(value):
+    """Convert a stored datetime to the configured local timezone.
+
+    Datetimes are stored as UTC, and SQLite hands them back naive, so a naive
+    value is treated as UTC. Anything that isn't a datetime (a plain date, a
+    string) is returned unchanged.
+    """
+    if not isinstance(value, datetime):
+        return value
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=UTC)
+    return value.astimezone(_LOCAL_TIMEZONE or None)
+
+
+def local_to_utc(value: datetime) -> datetime:
+    """Convert a datetime entered in local time (e.g. a datetime-local input) to UTC.
+
+    A naive value is taken to be in the configured local timezone, the same one
+    ``to_local`` renders in, so a value shown in the UI round-trips unchanged.
+    """
+    if value.tzinfo is None:
+        value = (
+            value.replace(tzinfo=_LOCAL_TIMEZONE)
+            if _LOCAL_TIMEZONE
+            else value.astimezone()
+        )
+    return value.astimezone(UTC)
+
+
 def human_date(date_value) -> str:
     """Format date to 'Jan 15, 2024 at 2:30 PM'."""
     if not date_value:
@@ -128,7 +186,7 @@ def human_date(date_value) -> str:
 
     # Handle datetime objects
     if hasattr(date_value, "strftime"):
-        return date_value.strftime("%b %-d, %Y at %-I:%M %p")
+        return to_local(date_value).strftime("%b %-d, %Y at %-I:%M %p")
 
     # Fallback for unknown types
     return str(date_value)[:16]
@@ -152,11 +210,7 @@ def local_date(date_value, format_str="%m/%d %H:%M") -> str:
 
     # Format datetime object
     if hasattr(date_value, "strftime"):
-        if date_value.tzinfo is None:
-            date_value = date_value.replace(tzinfo=UTC)
-
-        local_time = date_value.astimezone(_LOCAL_TIMEZONE or None)
-        return local_time.strftime(format_str)
+        return to_local(date_value).strftime(format_str)
 
     return str(date_value)
 

@@ -18,6 +18,7 @@ from flask_babel import _
 from flask_login import login_required
 
 from app.extensions import db, limiter
+from app.jinja_filters import local_to_utc
 from app.models import (
     Identity,
     Invitation,
@@ -556,12 +557,10 @@ def user_detail(db_id: int):
         if "expires" in request.form:
             raw_expires = request.form.get("expires")
             if raw_expires:
-                user_expires = datetime.datetime.fromisoformat(raw_expires)
-                # Ensure timezone-aware datetime
-                user.expires = (
-                    user_expires
-                    if user_expires.tzinfo
-                    else user_expires.replace(tzinfo=datetime.UTC)
+                # The datetime-local input is rendered in local time, so read
+                # it back as local time and store UTC.
+                user.expires = local_to_utc(
+                    datetime.datetime.fromisoformat(raw_expires)
                 )
             else:
                 user.expires = None
