@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING, Any
 
 import structlog
 from cachetools import TTLCache, cached
+from plexapi.exceptions import NotFound
 from plexapi.myplex import MyPlexAccount
 from plexapi.server import PlexServer
 
@@ -905,14 +906,20 @@ class PlexClient(MediaClient):
             return False
 
     def delete_user(self, email: str) -> None:
-        """Remove a user from the Plex server."""
+        """Remove a user from the Plex server.
+
+        Raises if Plex could not remove them. A user Plex no longer lists
+        counts as removed.
+        """
         try:
             self.admin.removeHomeUser(email)
-        except Exception:
-            try:
-                self.admin.removeFriend(email)
-            except Exception as e:
-                logging.error("Error removing friend: %s", e)
+            return
+        except Exception as exc:
+            logging.debug("Plex: %s is not a home user (%s)", email, exc)
+        try:
+            self.admin.removeFriend(email)
+        except NotFound:
+            logging.info("Plex user %s is already removed", email)
 
     @cached(cache=TTLCache(maxsize=1024, ttl=600))
     def list_users(self) -> list[User]:
