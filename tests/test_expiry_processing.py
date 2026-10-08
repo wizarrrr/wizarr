@@ -130,7 +130,9 @@ def test_reenabled_expired_user_reuses_history(app, session, monkeypatch, action
         history = ExpiredUser.query.one()
         assert (history.id, history.deleted_at) == (history_id, recorded_at)
         if action == "disable":
-            assert db.session.get(User, user_id).is_disabled is True
+            refreshed = db.session.get(User, user_id)
+            assert refreshed is not None
+            assert refreshed.is_disabled is True
             assert media_client.disable_user.call_count == 2
             media_client.delete_user.assert_not_called()
         else:
