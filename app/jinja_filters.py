@@ -33,6 +33,8 @@ def _zone_from_localtime_link():
     time.tzname holds an abbreviation ("MST"), and ZoneInfo("MST") is a
     fixed UTC-7 zone with no DST.
     """
+    if ZoneInfo is None:
+        return None
     try:
         target = os.path.realpath("/etc/localtime")
     except OSError:

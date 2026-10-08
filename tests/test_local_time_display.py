@@ -114,7 +114,9 @@ def test_user_modal_expiry_round_trips_in_local_time(
     client.post(f"/user/{user_id}", data={"expires": "2025-03-01T00:00"})
 
     with app.app_context():
-        saved = db.session.get(User, user_id).expires
+        saved_user = db.session.get(User, user_id)
+        assert saved_user is not None
+        saved = saved_user.expires
         assert saved.replace(tzinfo=None) == _naive(2025, 3, 1, 7, 0)
 
 
