@@ -7,6 +7,7 @@ from sqlalchemy.exc import IntegrityError
 from app.extensions import db
 from app.models import ExpiredUser, MediaServer, Settings, User
 from app.services import expiry
+from app.services.media import service as media_service
 
 
 def _expired_user(*, server_id: int | None = None) -> User:
@@ -82,3 +83,81 @@ def test_expired_user_event_is_unique(app, session):
 
         with pytest.raises(IntegrityError):
             session.commit()
+
+
+@pytest.mark.parametrize("action", ["disable", "delete", "legacy_delete"])
+def test_reenabled_expired_user_reuses_history(app, session, monkeypatch, action):
+    with app.app_context():
+        server = MediaServer(
+            name="Jellyfin",
+            server_type="jellyfin",
+            url="http://jellyfin.example.com",
+            api_key="test-key",
+        )
+        session.add(server)
+        session.flush()
+        user = _expired_user(server_id=server.id)
+        setting = Settings(key="expiry_action", value="disable")
+        session.add_all([user, setting])
+        session.commit()
+        user_id = user.id
+        original_expiry = user.expires
+        media_client = Mock()
+        media_client.disable_user.return_value = True
+        media_client.enable_user.return_value = True
+        monkeypatch.setattr(
+            media_service, "get_client_for_media_server", lambda _server: media_client
+        )
+        monkeypatch.setattr(expiry.time, "sleep", lambda _seconds: None)
+
+        assert expiry.disable_or_delete_user_if_expired() == [user_id]
+        history = ExpiredUser.query.one()
+        history_id, recorded_at = history.id, history.deleted_at
+        # Exercise the same service called by the API enable endpoint.
+        assert media_service.enable_user(user_id) is True
+        assert user.is_disabled is False
+        assert user.expires == original_expiry
+        setting.value = "delete" if action == "delete" else "disable"
+        session.commit()
+
+        process = (
+            expiry.delete_user_if_expired
+            if action == "legacy_delete"
+            else expiry.disable_or_delete_user_if_expired
+        )
+        assert process() == [user_id]
+        assert process() == []
+        history = ExpiredUser.query.one()
+        assert (history.id, history.deleted_at) == (history_id, recorded_at)
+        if action == "disable":
+            assert db.session.get(User, user_id).is_disabled is True
+            assert media_client.disable_user.call_count == 2
+            media_client.delete_user.assert_not_called()
+        else:
+            assert db.session.get(User, user_id) is None
+            media_client.delete_user.assert_called_once()
+
+
+def test_concurrent_new_history_claim_failure_prevents_media_action(
+    app, session, monkeypatch
+):
+    with app.app_context():
+        user = _expired_user()
+        session.add(user)
+        session.commit()
+        delete_user = Mock()
+        monkeypatch.setattr(expiry, "delete_user", delete_user)
+        original_flush = db.session.flush
+
+        def reject_new_event(*args, **kwargs):
+            if any(isinstance(row, ExpiredUser) for row in db.session.new):
+                raise IntegrityError(
+                    "synthetic concurrent claim", {}, Exception("duplicate")
+                )
+            return original_flush(*args, **kwargs)
+
+        monkeypatch.setattr(db.session, "flush", reject_new_event)
+        assert expiry.disable_or_delete_user_if_expired() == []
+        delete_user.assert_not_called()
+        assert ExpiredUser.query.count() == 0
+        assert db.session.get(User, user.id) is not None
