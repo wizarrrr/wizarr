@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.13"
 
 [[package]]
@@ -1910,8 +1910,9 @@ wheels = [
 
 [[package]]
 name = "wizarr"
-version = "2026.9.1"
+version = "2026.10.0"
 source = { virtual = "." }
+default-groups = []
 dependencies = [
     { name = "apprise" },
     { name = "cachetools" },
