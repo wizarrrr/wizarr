@@ -148,7 +148,7 @@ class InvitationWorkflow(ABC):
 
                     # Mark invitation as used for this server
                     from app.models import Invitation
-                    from app.services.invites import mark_server_used
+                    from app.services.invites import find_joined_user, mark_server_used
 
                     invitation = Invitation.query.filter_by(
                         code=invitation_code
@@ -157,30 +157,16 @@ class InvitationWorkflow(ABC):
                         # Find the user that was created for this server
                         # Flush and commit to ensure we can see the newly created user
                         from app.extensions import db
-                        from app.models import User
 
                         db.session.flush()
                         db.session.commit()
 
-                        user = User.query.filter_by(
-                            username=form_data.get("username"), server_id=server.id
-                        ).first()
-
-                        # If user not found, log debug info
-                        if not user:
-                            import logging
-
-                            all_users_for_server = User.query.filter_by(
-                                server_id=server.id
-                            ).all()
-                            all_users_with_code = User.query.filter_by(
-                                code=invitation_code
-                            ).all()
-                            logging.error(
-                                f"User lookup failed for code={invitation_code}, server_id={server.id}. "
-                                f"Server has {len(all_users_for_server)} users, "
-                                f"code has {len(all_users_with_code)} users globally."
-                            )
+                        user = find_joined_user(
+                            invitation_code,
+                            server.id,
+                            username=form_data.get("username", ""),
+                            email=form_data.get("email", ""),
+                        )
                         # Only set used_by for unlimited invites if not already set
                         # For limited invites, used_by should track the single user
                         if user and (
