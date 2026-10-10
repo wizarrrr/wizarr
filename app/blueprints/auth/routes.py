@@ -8,6 +8,7 @@ from werkzeug.security import check_password_hash
 
 from app.extensions import db, limiter
 from app.models import AdminAccount, AdminUser, Settings
+from app.services import cloudflare_access
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -15,6 +16,22 @@ auth_bp = Blueprint("auth", __name__)
 @auth_bp.route("/login", methods=["GET", "POST"])
 @limiter.limit("10 per minute")
 def login():
+    # Cloudflare Access mode takes precedence over every other login method,
+    # including DISABLE_BUILTIN_AUTH: no valid Access token, no admin session.
+    if cloudflare_access.enabled():
+        claims = cloudflare_access.verified_claims()
+        if claims is None:
+            return (
+                _("Sign in through Cloudflare Access to reach the admin pages."),
+                403,
+            )
+        logging.info(
+            "Admin login via Cloudflare Access: %s",
+            claims.get("email") or claims.get("common_name") or "unknown",
+        )
+        login_user(AdminUser())
+        return redirect("/")
+
     if os.getenv("DISABLE_BUILTIN_AUTH", "").lower() == "true":
         login_user(AdminUser(), remember=bool(request.form.get("remember")))
         return redirect("/")
