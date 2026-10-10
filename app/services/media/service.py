@@ -7,7 +7,6 @@ dispatches requests to the appropriate media client implementation.
 
 import copy
 import logging
-import re
 from collections import defaultdict
 from time import monotonic
 from typing import Any
@@ -15,7 +14,7 @@ from typing import Any
 from app.extensions import db
 from app.models import Identity, MediaServer, Settings, User
 
-from .client_base import CLIENTS
+from .client_base import CLIENTS, EMAIL_RE
 
 _NOW_PLAYING_CACHE_TTL = 5.0  # seconds
 _now_playing_cache: dict[str, Any] = {"timestamp": 0.0, "sessions": []}
@@ -552,9 +551,6 @@ def get_now_playing_for_server(server_id: int):
             f"Failed to get now playing from server {server.name} ({server.server_type}): {exc}"
         )
         return []
-
-
-EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
 
 
 def _auto_link_identities():
