@@ -1,4 +1,5 @@
 import logging
+from collections.abc import Collection
 from typing import TYPE_CHECKING, Any
 
 import requests
@@ -11,6 +12,7 @@ from app.services.invites import is_invite_valid
 
 from .auth_headers import media_browser_auth_headers
 from .client_base import EMAIL_RE, RestApiMixin, register_media_client
+from .utils import library_name_selected, newest_first
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
@@ -963,9 +965,40 @@ class JellyfinClient(RestApiMixin):
         }
 
     def get_recent_items(
-        self, library_id: str | None = None, limit: int = 10
+        self,
+        library_id: str | None = None,
+        limit: int = 10,
+        library_names: Collection[str] | None = None,
     ) -> list[dict]:
-        """Get recently added items from Jellyfin server."""
+        """Get the newest items of the selected Jellyfin libraries.
+
+        Without ``library_names``, one request gets the newest items of all
+        libraries. With names, each selected library gives its newest *limit*
+        items, and the result is the newest *limit* items of all of them.
+        """
+        if library_id or library_names is None:
+            return self._recent_items_in(library_id, limit)
+
+        items: list[dict] = []
+        for folder_id in self._library_folder_ids(library_names):
+            items.extend(self._recent_items_in(folder_id, limit))
+        return newest_first(items, limit)
+
+    def _library_folder_ids(self, library_names: Collection[str]) -> list[str]:
+        """Return the IDs of the library folders that have the given names."""
+        try:
+            folders = self.get("/Library/MediaFolders").json()["Items"]
+        except Exception as exc:
+            logging.warning("Jellyfin: failed to fetch libraries – %s", exc)
+            return []
+        return [
+            folder["Id"]
+            for folder in folders
+            if library_name_selected(folder.get("Name", ""), library_names)
+        ]
+
+    def _recent_items_in(self, parent_id: str | None, limit: int) -> list[dict]:
+        """Get the newest items in one folder, or in all libraries if no folder."""
         try:
             # Use the regular Items endpoint with proper sorting for recently added content
             # Only include items that have proper vertical poster images (exclude Episodes which use horizontal thumbnails)
@@ -980,8 +1013,8 @@ class JellyfinClient(RestApiMixin):
                 "IncludeItemTypes": "Movie,Series,MusicAlbum",  # Only types with vertical posters
             }
 
-            if library_id:
-                params["ParentId"] = library_id
+            if parent_id:
+                params["ParentId"] = parent_id
 
             response = self.get("/Items", params=params)
             response_data = response.json()

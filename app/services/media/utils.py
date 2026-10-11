@@ -2,6 +2,7 @@
 
 import datetime
 import logging
+from collections.abc import Collection
 
 from app.models import Library
 from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
@@ -235,6 +236,16 @@ def create_standardized_user_details(
         allow_camera_upload=permissions.allow_camera_upload,
         library_access=library_access,
     )
+
+
+def library_name_selected(name: object, library_names: Collection[str] | None) -> bool:
+    """Return True if *name* is one of *library_names*. Case does not matter.
+
+    ``None`` selects all libraries.
+    """
+    if library_names is None:
+        return True
+    return str(name).casefold() in {wanted.casefold() for wanted in library_names}
 
 
 def newest_first(items: list[dict], limit: int) -> list[dict]:

@@ -1,4 +1,5 @@
 import logging
+from collections.abc import Collection
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -13,6 +14,10 @@ from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid
 
 from .client_base import EMAIL_RE, RestApiMixin, register_media_client
+from .utils import library_name_selected
+
+# Number of latest books to read when the widget shows only some libraries.
+FILTERED_LATEST_BOOKS = 100
 
 
 @register_media_client("komga")
@@ -643,12 +648,15 @@ class KomgaClient(RestApiMixin):
         self,
         library_id: str | None = None,  # noqa: ARG002
         limit: int = 6,
+        library_names: Collection[str] | None = None,
     ) -> list[dict[str, str]]:
         """Get recently added books from Komga for the wizard widget.
 
         Args:
             library_id: Optional library ID to filter by
             limit: Maximum number of items to return
+            library_names: Optional library names to filter by. Case does
+                not matter. ``None`` uses all libraries.
 
         Returns:
             list: List of dicts with 'title' and 'thumb' keys
@@ -657,12 +665,19 @@ class KomgaClient(RestApiMixin):
             return []
 
         try:
-            # Get latest books from Komga API
-            response = self.get(f"/api/v1/books/latest?size={limit}")
-            books = response.json().get("content", [])
+            library_ids = self._recent_library_ids(library_names)
+            # Komga has one list of latest books for all libraries. With a
+            # library filter, get more books, then keep those in the libraries.
+            size = limit if library_ids is None else max(limit, FILTERED_LATEST_BOOKS)
+            response = self.get(f"/api/v1/books/latest?size={size}")
+            books = [
+                book
+                for book in response.json().get("content", [])
+                if library_ids is None or book.get("libraryId") in library_ids
+            ]
 
             items = []
-            for book in books:
+            for book in books[:limit]:
                 # Get book ID for thumbnail
                 book_id = book.get("id")
 
@@ -688,3 +703,18 @@ class KomgaClient(RestApiMixin):
         except Exception as e:
             logging.warning(f"Failed to get recent items from Komga: {e}")
             return []
+
+    def _recent_library_ids(
+        self, library_names: Collection[str] | None
+    ) -> set[str] | None:
+        """Return the IDs of the libraries that have the given names.
+
+        ``None`` means that all libraries are allowed.
+        """
+        if library_names is None:
+            return None
+        return {
+            lib_id
+            for lib_id, name in self.libraries().items()
+            if library_name_selected(name, library_names)
+        }

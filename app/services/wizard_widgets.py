@@ -4,6 +4,7 @@ Wizard widget system for embedding dynamic content in wizard steps.
 Widgets are inserted into markdown content using special syntax:
 {{ widget:recently_added_media }}
 {{ widget:recently_added_media limit=6 }}
+{{ widget:recently_added_media libraries="Movies, TV Shows" limit=12 }}
 {{ widget:collection_media collection="My Collection" }}
 {{ widget:collection_media collection="My Collection" limit=15 }}
 {{ widget:button url="https://example.com" text="Click Here" }}
@@ -132,8 +133,10 @@ class RecentlyAddedMediaWidget(WizardWidget):
             if not client:
                 return {"items": [], "limit": limit}
 
-            # Get recently added items
-            recent_items = self._get_recent_items(client, limit)
+            library_names = widget_library_names(server, _kwargs.get("libraries"))
+            recent_items = client.get_recent_items(
+                limit=limit, library_names=library_names
+            )
 
             return {"items": recent_items, "limit": limit}
 
@@ -141,33 +144,24 @@ class RecentlyAddedMediaWidget(WizardWidget):
             # Return empty data on any error to fail gracefully
             return {"items": [], "limit": limit}
 
-    def _get_recent_items(self, client, limit: int):
-        """Extract recent items from media client."""
-        try:
-            # Use the new get_recent_items method if available
-            if hasattr(client, "get_recent_items"):
-                return client.get_recent_items(limit=limit)
 
-            # Fallback: try to get recent content from libraries
-            libraries = client.libraries()
-            recent_items = []
+def widget_library_names(server, requested: object = None) -> set[str] | None:
+    """Return the names of the libraries that a media widget can show.
 
-            # For each library, try to get recent content
-            for library in libraries[:3]:  # Limit to first 3 libraries
-                try:
-                    if hasattr(client, "get_recent_items"):
-                        items = client.get_recent_items(library.get("id"), limit=2)
-                        recent_items.extend(items)
-                except Exception as exc:
-                    logging.debug(
-                        f"Failed to get recent items for library {library.get('id')}: {exc}"
-                    )
-                    continue
+    ``requested`` is the ``libraries`` argument: names with commas between
+    them. Without it, the widget uses the libraries that are enabled in
+    Wizarr for the server. ``None`` means that Wizarr has no library list for
+    the server, so the widget can show all libraries.
+    """
+    if requested is not None and str(requested).strip():
+        return {name.strip() for name in str(requested).split(",") if name.strip()}
 
-            return recent_items[:limit]
+    from app.models import Library
 
-        except Exception:
-            return []
+    libraries = Library.query.filter_by(server_id=server.id).all()
+    if not libraries:
+        return None
+    return {library.name for library in libraries if library.enabled}
 
 
 class CollectionMediaWidget(RecentlyAddedMediaWidget):
@@ -392,6 +386,7 @@ def process_widget_placeholders(
     Supports syntax like:
     {{ widget:recently_added_media }}
     {{ widget:recently_added_media limit=6 }}
+    {{ widget:recently_added_media libraries="Movies, TV Shows" limit=12 }}
     {{ widget:collection_media collection="My Collection" }}
     {{ widget:collection_media collection="My Collection" limit=15 }}
     {{ widget:button url="https://example.com" text="Click Here" }}

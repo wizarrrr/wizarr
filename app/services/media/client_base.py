@@ -26,6 +26,8 @@ from app.models import MediaServer, Settings, User
 from app.services.notifications import notify
 
 if TYPE_CHECKING:
+    from collections.abc import Collection
+
     from app.services.media.user_details import MediaUserDetails
 
 # ---------------------------------------------------------------------------
@@ -522,12 +524,15 @@ class MediaClient(ABC):
         self,
         library_id: str | None = None,  # noqa: ARG002
         limit: int = 10,  # noqa: ARG002
+        library_names: Collection[str] | None = None,  # noqa: ARG002
     ) -> list[dict]:
         """Get recently added items from the media server.
 
         Args:
             library_id: Optional library ID to filter by
             limit: Maximum number of items to return
+            library_names: Optional library names to filter by. Case does
+                not matter. ``None`` uses all libraries.
 
         Returns:
             list: A list of recently added items with standardized keys:

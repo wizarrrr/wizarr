@@ -1,6 +1,7 @@
 import logging
 import re
 import threading
+from collections.abc import Collection
 from contextlib import suppress
 from typing import TYPE_CHECKING, Any
 
@@ -19,7 +20,7 @@ from app.services.notifications import notify
 
 from .client_base import MediaClient, get_http_session, register_media_client
 from .plex_custom import accept_invite_v2, update_shared_server
-from .utils import newest_first
+from .utils import library_name_selected, newest_first
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
@@ -611,9 +612,12 @@ class PlexClient(MediaClient):
         return poster_urls[:limit]
 
     def get_recent_items(
-        self, library_id: str | None = None, limit: int = 10
+        self,
+        library_id: str | None = None,
+        limit: int = 10,
+        library_names: Collection[str] | None = None,
     ) -> list[dict]:
-        """Get the newest items of all the Plex libraries.
+        """Get the newest items of all the selected Plex libraries.
 
         Each library gives its newest *limit* items. The result is the newest
         *limit* items of all the libraries together, so one library cannot
@@ -623,7 +627,7 @@ class PlexClient(MediaClient):
             return []
 
         try:
-            sections = self._recent_sections(library_id)
+            sections = self._recent_sections(library_id, library_names)
         except Exception as exc:
             logging.debug(f"Failed to list Plex libraries: {exc}")
             return []
@@ -637,14 +641,20 @@ class PlexClient(MediaClient):
                 logging.debug(f"Failed to process Plex media item: {exc}")
         return newest_first(items, limit)
 
-    def _recent_sections(self, library_id: str | None) -> list:
+    def _recent_sections(
+        self, library_id: str | None, library_names: Collection[str] | None
+    ) -> list:
         """Return the library sections that give the recent items."""
         if library_id:
             try:
                 return [self.server.library.sectionByID(library_id)]
             except Exception:
                 return []
-        return list(self.server.library.sections())
+        return [
+            section
+            for section in self.server.library.sections()
+            if library_name_selected(section.title, library_names)
+        ]
 
     def _recent_item(self, item) -> dict | None:
         """Return the widget data of a Plex item, or None if it has no poster."""

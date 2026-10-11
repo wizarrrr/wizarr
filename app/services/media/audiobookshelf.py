@@ -3,6 +3,7 @@ from __future__ import annotations
 import datetime
 import logging
 import time
+from collections.abc import Collection
 from typing import TYPE_CHECKING, Any
 
 import requests
@@ -14,7 +15,7 @@ from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid
 
 from .client_base import EMAIL_RE, RestApiMixin, register_media_client
-from .utils import StandardizedPermissions, newest_first
+from .utils import StandardizedPermissions, library_name_selected, newest_first
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
@@ -190,15 +191,25 @@ class AudiobookshelfClient(RestApiMixin):
             return {"results": [], "total": 0, "limit": limit, "page": page}
 
     def get_recent_items(
-        self, library_id: str | None = None, limit: int = 10
+        self,
+        library_id: str | None = None,
+        limit: int = 10,
+        library_names: Collection[str] | None = None,
     ) -> list[dict]:
-        """Get the newest items of the Audiobookshelf libraries.
+        """Get the newest items of the selected Audiobookshelf libraries.
 
         Each library gives the items of its "newest items" shelf. The result
         is the newest *limit* items of all the libraries together, so one
         library cannot fill the list.
         """
-        library_ids = [library_id] if library_id else list(self.libraries())
+        if library_id:
+            library_ids = [library_id]
+        else:
+            library_ids = [
+                lib_id
+                for lib_id, name in self.libraries().items()
+                if library_name_selected(name, library_names)
+            ]
 
         items: list[dict] = []
         for lib_id in library_ids:
