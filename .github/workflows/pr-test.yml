@@ -32,7 +32,7 @@ jobs:
     - name: Install dependencies
       run: uv sync --dev
 
-    - uses: astral-sh/ruff-action@v4
+    - uses: astral-sh/ruff-action@v4.1.0
     - run: ruff check --fix app/
     - run: ruff format app/
     
