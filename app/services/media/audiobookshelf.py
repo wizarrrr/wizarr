@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import datetime
 import logging
 import time
 from typing import TYPE_CHECKING, Any
@@ -13,7 +14,7 @@ from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid
 
 from .client_base import EMAIL_RE, RestApiMixin, register_media_client
-from .utils import StandardizedPermissions
+from .utils import StandardizedPermissions, newest_first
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
@@ -191,111 +192,77 @@ class AudiobookshelfClient(RestApiMixin):
     def get_recent_items(
         self, library_id: str | None = None, limit: int = 10
     ) -> list[dict]:
-        """Get recently added items from AudiobookShelf server."""
+        """Get the newest items of the Audiobookshelf libraries.
+
+        Each library gives the items of its "newest items" shelf. The result
+        is the newest *limit* items of all the libraries together, so one
+        library cannot fill the list.
+        """
+        library_ids = [library_id] if library_id else list(self.libraries())
+
+        items: list[dict] = []
+        for lib_id in library_ids:
+            items.extend(self._library_recent_items(lib_id))
+        return newest_first(items, limit)
+
+    def _library_recent_items(self, library_id: str) -> list[dict]:
+        """Return the items of the "newest items" shelf of one library."""
         try:
-            items = []
+            response = self.get(
+                f"{self.API_PREFIX}/libraries/{library_id}/personalized"
+            )
+            response.raise_for_status()
+            shelves = response.json()
 
-            # Get all libraries or specific library if provided
-            if library_id:
-                libraries = [{"id": library_id}]
-            else:
-                try:
-                    libs_response = self.libraries()
-                    libraries = [{"id": lib_id} for lib_id in libs_response]
-                except Exception:
-                    libraries = []
+            for shelf in shelves:
+                if (
+                    shelf.get("category") == "newestItems"
+                    or "recent" in shelf.get("label", "").lower()
+                ):
+                    entities = shelf.get("entities", [])
+                    items = [item for item in map(self._recent_item, entities) if item]
+                    if items:
+                        return items
+        except Exception as exc:
+            logging.debug(f"Failed to get recent items for library: {exc}")
+        return []
 
-            for library in libraries:
-                if len(items) >= limit:
-                    break
+    def _recent_item(self, entity: dict) -> dict | None:
+        """Return the widget data of a library item, or None if it has no cover."""
+        media = entity.get("media", {})
+        if not media.get("coverPath"):
+            return None
 
-                try:
-                    # Get personalized view which includes recently added items
-                    response = self.get(
-                        f"{self.API_PREFIX}/libraries/{library['id']}/personalized"
-                    )
-                    response.raise_for_status()
-                    data = response.json()
+        metadata = media.get("metadata", {})
+        cover_url = f"{self.url}/api/items/{entity.get('id')}/cover"
+        return {
+            "title": metadata.get("title") or entity.get("name", "Unknown"),
+            "year": self._published_year(metadata),
+            # Generate secure proxy URL with opaque token
+            "thumb": self.generate_image_proxy_url(cover_url),
+            "type": entity.get("mediaType", "book").lower(),
+            "added_at": self._added_at_iso(entity.get("addedAt")),
+        }
 
-                    # Look for recently added items in the personalized view
-                    for view in data:
-                        if (
-                            view.get("category") == "newestItems"
-                            or "recent" in view.get("label", "").lower()
-                        ):
-                            entities = view.get("entities", [])
+    @staticmethod
+    def _published_year(metadata: dict) -> int | None:
+        """Return the publication year of an item, if it is a valid number."""
+        try:
+            return int(metadata.get("publishedYear") or 0) or None
+        except (ValueError, TypeError):
+            return None
 
-                            for entity in entities:
-                                if len(items) >= limit:
-                                    break
-
-                                # Only include items with cover images (posters)
-                                media = entity.get("media", {})
-                                cover_path = media.get("coverPath")
-
-                                if cover_path:
-                                    # Use the proper API endpoint for item covers
-                                    cover_url = (
-                                        f"{self.url}/api/items/{entity.get('id')}/cover"
-                                    )
-
-                                    # Generate secure proxy URL with opaque token
-                                    thumb_url = self.generate_image_proxy_url(cover_url)
-
-                                    # Extract metadata
-                                    metadata = media.get("metadata", {})
-                                    title = metadata.get("title") or entity.get(
-                                        "name", "Unknown"
-                                    )
-
-                                    # Extract year from publication date
-                                    year = None
-                                    pub_year = metadata.get("publishedYear")
-                                    if pub_year:
-                                        from contextlib import suppress
-
-                                        with suppress(ValueError, TypeError):
-                                            year = int(pub_year)
-
-                                    # Get media type (book, podcast, etc.)
-                                    media_type = entity.get("mediaType", "book").lower()
-
-                                    # Get added date
-                                    added_at = entity.get("addedAt")
-                                    if added_at:
-                                        try:
-                                            # Convert timestamp to ISO format
-                                            import datetime
-
-                                            dt = datetime.datetime.fromtimestamp(
-                                                added_at / 1000, tz=datetime.UTC
-                                            )
-                                            added_at = dt.isoformat()
-                                        except Exception:
-                                            added_at = None
-
-                                    items.append(
-                                        {
-                                            "title": title,
-                                            "year": year,
-                                            "thumb": thumb_url,
-                                            "type": media_type,
-                                            "added_at": added_at,
-                                        }
-                                    )
-
-                            # Found recently added items, break from views loop
-                            if items:
-                                break
-
-                except Exception as exc:
-                    logging.debug(f"Failed to get recent items for library: {exc}")
-                    continue
-
-            return items
-
+    @staticmethod
+    def _added_at_iso(added_at: int | float | None) -> str | None:
+        """Convert an Audiobookshelf timestamp (milliseconds) to an ISO date."""
+        if not added_at:
+            return None
+        try:
+            return datetime.datetime.fromtimestamp(
+                added_at / 1000, tz=datetime.UTC
+            ).isoformat()
         except Exception:
-            return []
+            return None
 
     # --- users ---------------------------------------------------------
 
