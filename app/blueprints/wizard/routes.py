@@ -30,6 +30,7 @@ from app.models import (
 )
 from app.services.invite_code_manager import InviteCodeManager
 from app.services.ombi_client import run_all_importers
+from app.services.wizard_access import public_wizard_guides, wizard_acl_enabled
 
 wizard_bp = Blueprint("wizard", __name__, url_prefix="/wizard")
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent / "wizard_steps"
@@ -43,14 +44,12 @@ def restrict_wizard():
     Also validates invite codes on each request to prevent session expiration issues.
     Requirement 13.2: Session expiration checks with user-friendly error messages.
     """
-    # Determine if the Wizard ACL is enabled (default: True)
-    acl_row = Settings.query.filter_by(key="wizard_acl_enabled").first()
-    acl_enabled = True  # default behaviour – restrict access
-    if acl_row and acl_row.value is not None:
-        acl_enabled = str(acl_row.value).lower() != "false"
+    # The help page has no protected content, so everyone can open it.
+    if request.endpoint == "wizard.no_access":
+        return None
 
     # Skip further checks if the ACL feature is disabled
-    if not acl_enabled:
+    if not wizard_acl_enabled():
         return None  # Allow everyone
 
     # Enforce ACL: allow only authenticated users or invited sessions
@@ -79,7 +78,8 @@ def restrict_wizard():
             request.referrer and "/j/" in request.referrer
         ):
             return None
-        return redirect("/")
+        # Show the help page, not the admin login (#997).
+        return redirect(url_for("wizard.no_access"))
     return None
 
 
@@ -701,9 +701,8 @@ def post_wizard(idx: int = 0):
     # Check authentication (user must have accepted invitation)
     # Allow access if user is authenticated OR has wizard_access session
     if not current_user.is_authenticated and not session.get("wizard_access"):
-        flash(_("Please log in to continue"), "warning")
         current_app.logger.warning("Post-wizard accessed without authentication")
-        return redirect(url_for("auth.login"))
+        return redirect(url_for("wizard.no_access"))
 
     # Determine server type from invitation or first configured server
     server_type = None
@@ -887,7 +886,8 @@ def start():
 
     - Authenticated users → /post-wizard (they've already accepted an invitation)
     - Users with invite code → /pre-wizard (they're in the invitation flow)
-    - Others → home page (no context available)
+    - Others → a help page. If the wizard is public, the page links to the
+      wizard steps. It does not send users to the admin login (#997).
     """
     run_all_importers()
 
@@ -906,11 +906,22 @@ def start():
         is_valid, invitation = InviteCodeManager.validate_invite_code(invite_code)
         if is_valid and invitation:
             return redirect(url_for("wizard.pre_wizard"))
-        # Invalid invite code - clear it and fall through to home redirect
+        # Invalid invite code - clear it and fall through to the help page
         InviteCodeManager.clear_invite_data()
 
-    # Priority 3: No context available - redirect to home page
-    return redirect(url_for("public.root"))
+    # Priority 3: No context available - show the help page
+    return redirect(url_for("wizard.no_access"))
+
+
+@wizard_bp.route("/help")
+def no_access():
+    """Help page for visitors who cannot open the wizard steps (#997).
+
+    It tells invited users to open the link from their invitation. If the
+    wizard is public ("Protect Wizard Access" is off), it links to the wizard
+    steps of each server type. This page never redirects.
+    """
+    return render_template("wizard/no_access.html", guides=public_wizard_guides())
 
 
 @wizard_bp.route("/<server>/<int:idx>")

@@ -16,10 +16,10 @@ class TestPreWizardRouteRegistration:
             assert "/wizard/pre-wizard/<int:idx>" in rules
 
     def test_pre_wizard_redirects_without_invite_code(self, app, client):
-        """Test that accessing pre-wizard without invite code redirects to home."""
+        """Test that pre-wizard without invite code redirects to the help page."""
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
         assert response.status_code == 302
-        assert response.location == "/"
+        assert response.location == "/wizard/help"
 
     def test_pre_wizard_redirects_with_invalid_invite_code(self, app, client):
         """Test that accessing pre-wizard with invalid code redirects to home."""

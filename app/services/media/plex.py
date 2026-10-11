@@ -1,6 +1,8 @@
 import logging
 import re
 import threading
+from collections.abc import Collection
+from contextlib import suppress
 from typing import TYPE_CHECKING, Any
 
 import requests
@@ -18,6 +20,7 @@ from app.services.notifications import notify
 
 from .client_base import MediaClient, get_http_session, register_media_client
 from .plex_custom import accept_invite_v2, update_shared_server
+from .utils import library_name_selected, newest_first
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
@@ -609,87 +612,73 @@ class PlexClient(MediaClient):
         return poster_urls[:limit]
 
     def get_recent_items(
-        self, library_id: str | None = None, limit: int = 10
+        self,
+        library_id: str | None = None,
+        limit: int = 10,
+        library_names: Collection[str] | None = None,
     ) -> list[dict]:
-        """Get recently added items from Plex server."""
+        """Get the newest items of all the selected Plex libraries.
+
+        Each library gives its newest *limit* items. The result is the newest
+        *limit* items of all the libraries together, so one library cannot
+        fill the list.
+        """
         if not self.url:
             return []
 
         try:
-            items = []
-
-            # Get all library sections or specific library if provided
-            if library_id:
-                try:
-                    library = self.server.library.sectionByID(library_id)
-                    libraries = [library] if library else []
-                except Exception:
-                    libraries = []
-            else:
-                libraries = list(self.server.library.sections())
-
-            for library in libraries:
-                if len(items) >= limit:
-                    break
-
-                try:
-                    # Get recently added items from this library
-                    recent_items = library.recentlyAdded(maxresults=limit - len(items))
-
-                    for item in recent_items:
-                        if len(items) >= limit:
-                            break
-
-                        # Only use posters - skip items without proper posters
-                        thumb_url = self._small_image_url(self._poster_key(item))
-                        if thumb_url:
-                            # Generate secure proxy URL with opaque token
-                            thumb_url = self.generate_image_proxy_url(thumb_url)
-
-                            # Extract year from releaseDate
-                            year = None
-                            if hasattr(item, "year") and item.year:
-                                year = item.year
-                            elif (
-                                hasattr(item, "originallyAvailableAt")
-                                and item.originallyAvailableAt
-                            ):
-                                from contextlib import suppress
-
-                                with suppress(Exception):
-                                    year = item.originallyAvailableAt.year
-
-                            # Get item type
-                            item_type = getattr(item, "type", "unknown").lower()
-
-                            # Get added date
-                            added_at = None
-                            if hasattr(item, "addedAt") and item.addedAt:
-                                from contextlib import suppress
-
-                                with suppress(Exception):
-                                    # Convert to ISO format string like Jellyfin
-                                    added_at = item.addedAt.isoformat() + "Z"
-
-                            # Only add items that have poster images
-                            items.append(
-                                {
-                                    "title": getattr(item, "title", "Unknown"),
-                                    "year": year,
-                                    "thumb": thumb_url,
-                                    "type": item_type,
-                                    "added_at": added_at,
-                                }
-                            )
-
-                except Exception as exc:
-                    logging.debug(f"Failed to process Plex media item: {exc}")
-                    continue
-
-            return items
-
-        except Exception:
+            sections = self._recent_sections(library_id, library_names)
+        except Exception as exc:
+            logging.debug(f"Failed to list Plex libraries: {exc}")
             return []
+
+        items: list[dict] = []
+        for section in sections:
+            try:
+                recent = section.recentlyAdded(maxresults=limit)
+                items.extend(filter(None, map(self._recent_item, recent)))
+            except Exception as exc:
+                logging.debug(f"Failed to process Plex media item: {exc}")
+        return newest_first(items, limit)
+
+    def _recent_sections(
+        self, library_id: str | None, library_names: Collection[str] | None
+    ) -> list:
+        """Return the library sections that give the recent items."""
+        if library_id:
+            try:
+                return [self.server.library.sectionByID(library_id)]
+            except Exception:
+                return []
+        return [
+            section
+            for section in self.server.library.sections()
+            if library_name_selected(section.title, library_names)
+        ]
+
+    def _recent_item(self, item) -> dict | None:
+        """Return the widget data of a Plex item, or None if it has no poster."""
+        thumb_url = self._small_image_url(self._poster_key(item))
+        if not thumb_url:
+            return None
+
+        year = getattr(item, "year", None) or None
+        if year is None:
+            with suppress(Exception):
+                year = item.originallyAvailableAt.year
+
+        added_at = None
+        with suppress(Exception):
+            # Use an ISO date, as Jellyfin does.
+            added_at = item.addedAt.isoformat() + "Z"
+
+        return {
+            "title": getattr(item, "title", "Unknown"),
+            "year": year,
+            "thumb": self.generate_image_proxy_url(thumb_url),
+            "type": getattr(item, "type", "unknown").lower(),
+            "added_at": added_at,
+        }
 
     def scan_libraries(
         self, url: str | None = None, token: str | None = None

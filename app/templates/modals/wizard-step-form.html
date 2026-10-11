@@ -175,7 +175,7 @@
         let widgetSyntax = '';
         switch (widgetType) {
             case 'recently_added_media':
-                widgetSyntax = '\n\n{' + '{ widget:recently_added_media }' + '}\n\n';
+                widgetSyntax = '\n\n{' + '{ widget:recently_added_media libraries="" limit=6 }' + '}\n\n';
                 break;
             case 'collection_media':
                 widgetSyntax = '\n\n{' + '{ widget:collection_media collection="Collection Name" limit=15 }' + '}\n\n';

@@ -2,6 +2,7 @@
 
 import datetime
 import logging
+from collections.abc import Collection
 
 from app.models import Library
 from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
@@ -235,3 +236,32 @@ def create_standardized_user_details(
         allow_camera_upload=permissions.allow_camera_upload,
         library_access=library_access,
     )
+
+
+def library_name_selected(name: object, library_names: Collection[str] | None) -> bool:
+    """Return True if *name* is one of *library_names*. Case does not matter.
+
+    ``None`` selects all libraries.
+    """
+    if library_names is None:
+        return True
+    return str(name).casefold() in {wanted.casefold() for wanted in library_names}
+
+
+def newest_first(items: list[dict], limit: int) -> list[dict]:
+    """Sort recent items by ``added_at``, newest first, and keep *limit* items."""
+    return sorted(items, key=_added_at_sort_key, reverse=True)[:limit]
+
+
+def _added_at_sort_key(item: dict) -> datetime.datetime:
+    """Return the ``added_at`` ISO date of *item* as an aware datetime.
+
+    An item without a valid date goes to the end of the list.
+    """
+    try:
+        added_at = datetime.datetime.fromisoformat(str(item.get("added_at")))
+    except ValueError:
+        return datetime.datetime.min.replace(tzinfo=datetime.UTC)
+    if added_at.tzinfo is None:
+        added_at = added_at.replace(tzinfo=datetime.UTC)
+    return added_at

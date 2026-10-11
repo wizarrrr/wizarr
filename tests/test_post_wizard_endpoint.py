@@ -28,9 +28,9 @@ class TestPostWizardAuthentication:
         # Try to access post-wizard without authentication or wizard_access
         response = client.get("/wizard/post-wizard", follow_redirects=False)
 
-        # Should redirect (either to login or home depending on auth config)
+        # Should redirect to the help page, not to the admin login
         assert response.status_code == 302
-        assert response.location in ["/login", "/"]
+        assert response.location == "/wizard/help"
 
     def test_allow_access_with_wizard_access_session(self, app, client, session):
         """Test that users with wizard_access session can access post-wizard."""

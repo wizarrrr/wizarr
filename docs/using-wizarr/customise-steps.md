@@ -132,6 +132,30 @@ Welcome to our **media server**! Here's what you need to know:
 - **Images**: Use standard Markdown syntax with optional classes
 - **Tailwind classes**: Add `{.class-name}` for custom styling
 
+### Recently Added Media Carousel
+
+Use the `recently_added_media` widget to show the posters of the newest items
+on the media server:
+
+```markdown
+{{ widget:recently_added_media }}
+{{ widget:recently_added_media libraries="Movies, TV Shows" limit=12 }}
+```
+
+The widget reads the newest items of each library. Then it sorts all the items
+by the date they were added, newest first, and shows the first items. Thus one
+library cannot fill the carousel.
+
+- `libraries` (optional): the names of the libraries to show, with commas
+  between them. Case does not matter. A name that is not on the server gives no
+  items. If you do not set `libraries`, the widget uses the libraries that are
+  enabled in Wizarr for the server. If Wizarr has no library list for the
+  server, the widget uses all the libraries.
+- `limit` (optional): the maximum number of posters. The default is 6.
+
+The **Add... → Recently Added Media** menu item in the wizard-step editor
+inserts this syntax for you.
+
 ### Plex Collection Carousel
 
 For Plex wizard steps, use the `collection_media` widget to show posters from a
@@ -266,6 +290,17 @@ By default, wizard access is restricted to:
 ### Disabling Access Control
 
 Set the `wizard_acl_enabled` setting to `false` to allow unrestricted access to the wizard.
+
+### Visitors Without Access
+
+When a visitor opens `/wizard/` or a wizard step without access, Wizarr shows a
+help page at `/wizard/help`. It does not show the admin login.
+
+- If **Protect Wizard Access** is on, the help page tells the visitor to open
+  the link from their invitation. It does not show wizard steps.
+- If **Protect Wizard Access** is off, the help page has a link to the wizard
+  steps of each server type. Thus you can send `/wizard/` to users who want to
+  read the steps again after they sign up.
 
 ***
 
