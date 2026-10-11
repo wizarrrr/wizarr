@@ -470,6 +470,10 @@ class MediaServer(db.Model):
     allow_live_tv = db.Column(db.Boolean, default=False, nullable=False)
     allow_mobile_uploads = db.Column(db.Boolean, default=False, nullable=False)
 
+    # Jellyfin only: hide the users that Wizarr creates from the login screens.
+    # Jellyfin hides new users by default, so True keeps that behaviour.
+    hide_users_from_login = db.Column(db.Boolean, default=True, nullable=False)
+
     # Whether the connection credentials were validated successfully
     verified = db.Column(db.Boolean, default=False, nullable=False)
 

@@ -110,6 +110,7 @@ def create_server():
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))
         server.allow_live_tv = bool(data.get("allow_live_tv"))
+        server.hide_users_from_login = bool(data.get("hide_users_from_login"))
         server.verified = True
         db.session.add(server)
         db.session.commit()
@@ -210,6 +211,7 @@ def edit_server(server_id):
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))
         server.allow_live_tv = bool(data.get("allow_live_tv"))
+        server.hide_users_from_login = bool(data.get("hide_users_from_login"))
         # update libraries
         chosen = request.form.getlist("libraries")
         if chosen:

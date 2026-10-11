@@ -18,6 +18,7 @@ from flask_babel import gettext as _
 from app.extensions import db, limiter
 from app.models import Invitation, MediaServer, Settings, User
 from app.services.invites import is_invite_valid
+from app.services.media.jellyfin import login_screen_policy
 from app.services.media.plex import PlexInvitationError, handle_oauth_token
 
 public_bp = Blueprint("public", __name__)
@@ -58,6 +59,7 @@ def _apply_safe_media_user_policy(
     max_sessions = getattr(invitation, "max_active_sessions", None)
     if server.server_type == "jellyfin" and max_sessions is not None:
         current_policy["MaxActiveSessions"] = max_sessions
+    current_policy.update(login_screen_policy(server))
 
     client.set_policy(user_id, current_policy)
     return permissions

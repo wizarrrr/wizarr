@@ -7,7 +7,7 @@ import structlog
 from sqlalchemy import or_
 
 from app.extensions import db
-from app.models import Invitation, Library, User
+from app.models import Invitation, Library, MediaServer, User
 from app.services.invites import is_invite_valid
 
 from .auth_headers import media_browser_auth_headers
@@ -26,6 +26,19 @@ POSTER_IMAGE_PARAMS = "maxWidth=240&quality=80"
 NOW_PLAYING_POSTER_PARAMS = "maxHeight=400&quality=85"
 # The now-playing card shows the backdrop blurred, so a small image is enough.
 NOW_PLAYING_BACKDROP_PARAMS = "maxWidth=480&quality=60"
+
+
+def login_screen_policy(server: MediaServer | None) -> dict[str, bool]:
+    """Return the policy field that shows or hides a new user on login screens.
+
+    Only Jellyfin servers use the option. Jellyfin hides new users by default,
+    and the option keeps that unless the admin turns it off. Emby has three
+    flags (IsHidden, IsHiddenRemotely and IsHiddenFromUnusedDevices) with other
+    defaults, so Wizarr keeps the Emby defaults.
+    """
+    if server is None or server.server_type != "jellyfin":
+        return {}
+    return {"IsHidden": bool(server.hide_users_from_login)}
 
 
 @register_media_client("jellyfin")
@@ -642,6 +655,9 @@ class JellyfinClient(RestApiMixin):
             current_policy = self.get(f"/Users/{user_id}").json().get("Policy", {})
             current_policy["EnableContentDownloading"] = allow_downloads
             current_policy["EnableLiveTvAccess"] = allow_live_tv
+            current_policy.update(
+                login_screen_policy(getattr(self, "server_row", None))
+            )
 
             # Apply Jellyfin max active sessions setting
             max_sessions = getattr(inv, "max_active_sessions", None)
