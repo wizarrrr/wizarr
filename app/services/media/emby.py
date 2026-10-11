@@ -100,7 +100,9 @@ class EmbyClient(JellyfinClient):
             # Get sessions once - used for both user and server stats
             sessions = self.get("/Sessions").json()
             active_sessions = [s for s in sessions if s.get("NowPlayingItem")]
-            transcoding_sessions = [s for s in sessions if s.get("TranscodingInfo")]
+            transcoding_sessions = [
+                s for s in active_sessions if self._playback_mode(s)[0]
+            ]
 
             # User statistics - only what's displayed in UI
             try:
