@@ -111,6 +111,53 @@ def test_create_user_success(mock_server, mock_connection, ldap_config):
 
 @patch("app.services.ldap.client.Connection")
 @patch("app.services.ldap.client.Server")
+def test_create_user_sends_schema_required_cn_and_sn(
+    mock_server, mock_connection, ldap_config
+):
+    """Schema-strict servers reject an inetOrgPerson without cn and sn."""
+    mock_conn = MagicMock()
+    mock_conn.add.return_value = True
+    mock_conn.extend.standard.modify_password.return_value = True
+    mock_conn.entries = []
+    mock_connection.return_value = mock_conn
+
+    LDAPClient(ldap_config).create_user(
+        username="newuser", email="newuser@example.com", password="password123"
+    )
+
+    attrs = mock_conn.add.call_args.kwargs["attributes"]
+    assert attrs == {
+        "objectClass": ["inetOrgPerson"],
+        "uid": "newuser",
+        "mail": "newuser@example.com",
+        "cn": "newuser",
+        "sn": "newuser",
+    }
+
+
+@patch("app.services.ldap.client.Connection")
+@patch("app.services.ldap.client.Server")
+def test_create_user_keeps_mapped_cn(mock_server, mock_connection, ldap_config):
+    """A username mapped to cn is not replaced by the schema default."""
+    ldap_config.username_attribute = "cn"
+    mock_conn = MagicMock()
+    mock_conn.add.return_value = True
+    mock_conn.extend.standard.modify_password.return_value = True
+    mock_conn.entries = []
+    mock_connection.return_value = mock_conn
+
+    LDAPClient(ldap_config).create_user(
+        username="newuser", email="newuser@example.com", password="password123"
+    )
+
+    attrs = mock_conn.add.call_args.kwargs["attributes"]
+    assert attrs["cn"] == "newuser"
+    assert attrs["sn"] == "newuser"
+    assert "uid" not in attrs
+
+
+@patch("app.services.ldap.client.Connection")
+@patch("app.services.ldap.client.Server")
 def test_search_groups(mock_server, mock_connection, ldap_config):
     mock_conn = MagicMock()
     mock_conn.search.return_value = True

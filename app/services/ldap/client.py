@@ -253,6 +253,13 @@ class LDAPClient:
             self.config.username_attribute: username,
             self.config.email_attribute: email,
         }
+        # inetOrgPerson inherits cn and sn as MUST attributes from person.
+        # Servers that enforce the schema (389 DS, OpenLDAP, FreeIPA) reject
+        # the add without them, while LLDAP does not check. The username is
+        # the only value available for both, and a mapped attribute keeps its
+        # configured value.
+        attrs.setdefault("cn", username)
+        attrs.setdefault("sn", username)
 
         success = conn.add(user_dn, attributes=attrs)
         if not success:
