@@ -285,7 +285,6 @@ def _render(post, ctx: dict, server_type: str | None = None) -> str:
     Handles rendering errors gracefully by logging and returning error message.
     Requirement 13.6: Graceful degradation for missing/broken steps.
     """
-    from app.services.wizard_html import sanitize_wizard_html
     from app.services.wizard_templates import render_wizard_template, wizard_context
     from app.services.wizard_widgets import (
         WIDGET_PATTERN,
@@ -319,11 +318,10 @@ def _render(post, ctx: dict, server_type: str | None = None) -> str:
             )
             rendered_content = rendered_content.replace(token, widget_html)
 
-        html = markdown.markdown(
+        return markdown.markdown(
             process_card_delimiters(rendered_content),
             extensions=["fenced_code", "tables", "attr_list"],
         )
-        return sanitize_wizard_html(html)
     except Exception as e:
         current_app.logger.error(
             f"Error rendering wizard step for {server_type}: {e}", exc_info=True

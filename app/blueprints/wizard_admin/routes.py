@@ -459,12 +459,8 @@ def reorder_steps():
 def preview_markdown():
     from markdown import markdown as md_to_html
 
-    from app.services.wizard_html import sanitize_wizard_html
-
     raw = request.form.get("markdown", "")
-    return sanitize_wizard_html(
-        md_to_html(raw, extensions=["fenced_code", "tables", "attr_list"])
-    )
+    return md_to_html(raw, extensions=["fenced_code", "tables", "attr_list"])
 
 
 # ─── bundle CRUD ─────────────────────────────────────────────────
