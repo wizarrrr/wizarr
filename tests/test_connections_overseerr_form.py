@@ -86,3 +86,25 @@ def test_create_overseerr_connection_persists(admin_client, media_server, app):
         assert conn.connection_type == "overseerr"
         assert conn.media_server_id == media_server
         assert conn.url == "https://jellyseerr.example.com"
+
+
+@pytest.mark.parametrize("htmx", [False, True], ids=["page", "modal"])
+def test_connection_type_is_labelled_seerr(admin_client, media_server, htmx):
+    """Overseerr and Jellyseerr merged into Seerr (#1419).
+
+    The label names Seerr, but the stored value stays ``overseerr`` so that
+    existing connections keep their type.
+    """
+    headers = {"HX-Request": "true"} if htmx else {}
+    resp = admin_client.get(
+        "/settings/connections/create?connection_type=overseerr", headers=headers
+    )
+    assert resp.status_code == 200
+    html = resp.get_data(as_text=True)
+
+    option = re.search(
+        r"<option\b[^>]*\bvalue=\"overseerr\"[^>]*>([^<]*)</option>", html
+    )
+    assert option is not None
+    assert option.group(1).strip() == "Seerr (Overseerr/Jellyseerr)"
+    assert "Seerr Information" in html

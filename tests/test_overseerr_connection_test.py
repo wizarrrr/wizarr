@@ -87,7 +87,7 @@ def test_something_that_is_not_overseerr_is_not_a_pass():
         result = OverseerrClient().test_connection(_connection())
 
     assert result["status"] == "error"
-    assert "not with Overseerr/Jellyseerr's API" in result["message"]
+    assert "not with Seerr's API" in result["message"]
 
 
 def test_csrf_rejection_points_at_https():

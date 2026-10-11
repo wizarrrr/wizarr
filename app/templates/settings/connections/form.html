@@ -112,7 +112,7 @@
               </p>
             </div>
             {% if form.connection_type.data == 'overseerr' %}
-              <!-- Overseerr Info Section -->
+              <!-- Seerr Info Section -->
               <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
                 <div class="flex items-start">
                   <svg class="w-6 h-6 text-blue-500 mt-1 mr-4 flex-shrink-0"
@@ -122,9 +122,9 @@
                     </path>
                   </svg>
                   <div>
-                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">{{ _("Overseerr/Jellyseerr Information") }}</h3>
+                    <h3 class="text-lg font-medium text-gray-900 dark:text-white mb-3">{{ _("Seerr Information") }}</h3>
                     <p class="text-gray-600 dark:text-gray-300 mb-4">
-                      {{ _("Overseerr and Jellyseerr create an account the first time someone signs in, so by default an invited user has no account there until they visit and log in themselves.") }}
+                      {{ _("Seerr creates an account the first time someone signs in, so by default an invited user has no account there until they visit and log in themselves. Overseerr and Jellyseerr, which merged into Seerr, work the same way.") }}
                     </p>
                     <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
                       <h4 class="text-sm font-semibold text-blue-900 dark:text-blue-200 mb-2">
@@ -194,7 +194,7 @@
               </div>
             {% endif %}
             {% if form.connection_type.data == 'overseerr' %}
-              <!-- Provision Plex users; only the Overseerr/Jellyseerr client acts on this flag -->
+              <!-- Provision Plex users; only the Seerr client acts on this flag -->
               <div>
                 <div class="flex items-center">
                   {{ form.provision_plex_users(class="w-4 h-4 text-primary bg-gray-50 border-gray-300 rounded focus:ring-primary dark:bg-gray-700 dark:border-gray-600") }}
