@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-10 09:51+0000\n"
+"POT-Creation-Date: 2026-10-11 10:00+0000\n"
 "PO-Revision-Date: 2026-08-12 22:34+0000\n"
 "Last-Translator: Thomas Jensen <thomas.jensen1992@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/wizarr/"
@@ -203,6 +203,9 @@ msgstr "Du er logget inn"
 
 msgid "LDAP authentication failed"
 msgstr "LDAP-autentisering mislyktes"
+
+msgid "Sign in through Cloudflare Access to reach the admin pages."
+msgstr ""
 
 msgid "Invalid username or password"
 msgstr "Ugyldig brukernavn eller passord"
@@ -837,6 +840,36 @@ msgstr "Hva nå?"
 msgid "Log in to your media server with your username and new password."
 msgstr "Logg inn på medieserveren med brukernavnet og det nye passordet ditt."
 
+msgid "Signing you in"
+msgstr ""
+
+msgid "Finishing up with Plex. This only takes a moment."
+msgstr ""
+
+msgid "Back to your invitation"
+msgstr ""
+
+msgid "Nothing to finish"
+msgstr ""
+
+msgid "Open your invitation link again to sign in with Plex."
+msgstr ""
+
+msgid "All set"
+msgstr ""
+
+msgid "Taking you to the next step..."
+msgstr ""
+
+msgid "Sign-in failed"
+msgstr ""
+
+msgid "That took too long"
+msgstr ""
+
+msgid "We did not hear back from Plex. Please try signing in again."
+msgstr ""
+
 msgid "Administrator"
 msgstr "Administrator"
 
@@ -1310,21 +1343,22 @@ msgid "Overseerr/Jellyseerr Information"
 msgstr "Informasjon om Overseerr/Jellyseerr"
 
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No API "
-"connection is required for Wizarr integration."
+"Overseerr and Jellyseerr create an account the first time someone signs in, "
+"so by default an invited user has no account there until they visit and log "
+"in themselves."
 msgstr ""
-"Overseerr og Jellyseerr importerer som standard nye brukere automatisk. Det "
-"kreves ingen API-tilkobling for Wizarr-integrasjon."
-
-msgid "To enable auto-import:"
-msgstr "Slik aktiverer du automatisk import:"
 
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
-"users' and 'Import Jellyfin/Plex users'"
+"Set the Service URL and turn on account creation below, and Wizarr signs "
+"them in during the invite so their account exists before they arrive. This "
+"uses the service's own sign-in route rather than an API key, so it needs "
+"'Enable New Plex Sign-In' under its Settings → Users."
 msgstr ""
-"Gå til Overseerr/Jellyseerr → Innstillinger → Brukere → Aktiver «Auto-"
-"approve new users» og «Import Jellyfin/Plex users»"
+
+msgid ""
+"Must be https if the service has CSRF protection enabled, which sets its "
+"cookies Secure."
+msgstr ""
 
 msgid "Testing connection..."
 msgstr "Tester tilkobling …"
@@ -1754,6 +1788,9 @@ msgstr "Tilkoblingsnavn"
 msgid "Media Server"
 msgstr "Medieserver"
 
+msgid "Overseerr"
+msgstr ""
+
 msgid "Overseerr (Info)"
 msgstr "Overseerr (info)"
 
@@ -1796,6 +1833,11 @@ msgstr "Visning"
 
 msgid "Configure how your application appears to users"
 msgstr "Konfigurer hvordan programmet vises for brukerne"
+
+msgid ""
+"Which server's posters fill the background of the public join page. 'The "
+"server the invite is for' shows nothing without a valid invite."
+msgstr ""
 
 msgid "Access Control"
 msgstr "Tilgangskontroll"
@@ -2022,17 +2064,22 @@ msgid "Which media server should trigger invitations to this external service"
 msgstr ""
 "Hvilken medieserver som skal utløse invitasjoner til denne eksterne tjenesten"
 
-msgid "Open your Overseerr/Jellyseerr admin panel"
-msgstr "Åpne administratorpanelet i Overseerr/Jellyseerr"
+msgid "To have Wizarr create the account instead:"
+msgstr ""
 
-msgid "Navigate to Settings → Users"
-msgstr "Gå til Innstillinger → Brukere"
+msgid "Set the Service URL below"
+msgstr ""
 
-msgid "Enable 'Auto-approve new users'"
-msgstr "Aktiver «Auto-approve new users»"
+msgid "Turn on account creation below"
+msgstr ""
 
-msgid "Enable 'Import Jellyfin/Plex users'"
-msgstr "Aktiver «Import Jellyfin/Plex users»"
+msgid "In the service, enable Settings → Users → 'Enable New Plex Sign-In'"
+msgstr ""
+
+msgid ""
+"This uses the service's own sign-in route, so there is no API key to "
+"configure."
+msgstr ""
 
 msgid "The full URL to your external service instance"
 msgstr "Full URL til den eksterne tjenesten"
@@ -2933,6 +2980,35 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid ""
+#~ "Overseerr and Jellyseerr automatically import new users by default. No "
+#~ "API connection is required for Wizarr integration."
+#~ msgstr ""
+#~ "Overseerr og Jellyseerr importerer som standard nye brukere automatisk. "
+#~ "Det kreves ingen API-tilkobling for Wizarr-integrasjon."
+
+#~ msgid "To enable auto-import:"
+#~ msgstr "Slik aktiverer du automatisk import:"
+
+#~ msgid ""
+#~ "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
+#~ "new users' and 'Import Jellyfin/Plex users'"
+#~ msgstr ""
+#~ "Gå til Overseerr/Jellyseerr → Innstillinger → Brukere → Aktiver «Auto-"
+#~ "approve new users» og «Import Jellyfin/Plex users»"
+
+#~ msgid "Open your Overseerr/Jellyseerr admin panel"
+#~ msgstr "Åpne administratorpanelet i Overseerr/Jellyseerr"
+
+#~ msgid "Navigate to Settings → Users"
+#~ msgstr "Gå til Innstillinger → Brukere"
+
+#~ msgid "Enable 'Auto-approve new users'"
+#~ msgstr "Aktiver «Auto-approve new users»"
+
+#~ msgid "Enable 'Import Jellyfin/Plex users'"
+#~ msgstr "Aktiver «Import Jellyfin/Plex users»"
 
 #~ msgid "Invitation Details"
 #~ msgstr "Invitasjoner"

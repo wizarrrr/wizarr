@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-10 09:51+0000\n"
+"POT-Creation-Date: 2026-10-11 10:00+0000\n"
 "PO-Revision-Date: 2026-09-11 08:03+0000\n"
 "Last-Translator: wolfling45 <tdwangfei@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -199,6 +199,9 @@ msgstr "登录成功"
 
 msgid "LDAP authentication failed"
 msgstr "LDAP 身份验证失败"
+
+msgid "Sign in through Cloudflare Access to reach the admin pages."
+msgstr ""
 
 msgid "Invalid username or password"
 msgstr "用户名或密码无效"
@@ -811,6 +814,36 @@ msgstr "接下来做什么？"
 msgid "Log in to your media server with your username and new password."
 msgstr "请使用您的用户名和新密码登录媒体服务器。"
 
+msgid "Signing you in"
+msgstr ""
+
+msgid "Finishing up with Plex. This only takes a moment."
+msgstr ""
+
+msgid "Back to your invitation"
+msgstr ""
+
+msgid "Nothing to finish"
+msgstr ""
+
+msgid "Open your invitation link again to sign in with Plex."
+msgstr ""
+
+msgid "All set"
+msgstr ""
+
+msgid "Taking you to the next step..."
+msgstr ""
+
+msgid "Sign-in failed"
+msgstr ""
+
+msgid "That took too long"
+msgstr ""
+
+msgid "We did not hear back from Plex. Please try signing in again."
+msgstr ""
+
 msgid "Administrator"
 msgstr "管理员"
 
@@ -1280,20 +1313,22 @@ msgid "Overseerr/Jellyseerr Information"
 msgstr "Overseerr/Jellyseerr 信息"
 
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No API "
-"connection is required for Wizarr integration."
+"Overseerr and Jellyseerr create an account the first time someone signs in, "
+"so by default an invited user has no account there until they visit and log "
+"in themselves."
 msgstr ""
-"Overseerr 和 Jellyseerr 默认会自动导入新用户。Wizarr 集成不需要 API 连接。"
-
-msgid "To enable auto-import:"
-msgstr "要启用自动导入："
 
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
-"users' and 'Import Jellyfin/Plex users'"
+"Set the Service URL and turn on account creation below, and Wizarr signs "
+"them in during the invite so their account exists before they arrive. This "
+"uses the service's own sign-in route rather than an API key, so it needs "
+"'Enable New Plex Sign-In' under its Settings → Users."
 msgstr ""
-"前往您的 Overseerr/Jellyseerr 设置 → 用户 → 启用“自动批准新用户”和“导入 "
-"Jellyfin/Plex 用户”"
+
+msgid ""
+"Must be https if the service has CSRF protection enabled, which sets its "
+"cookies Secure."
+msgstr ""
 
 msgid "Testing connection..."
 msgstr "正在测试连接..."
@@ -1711,6 +1746,9 @@ msgstr "连接名称"
 msgid "Media Server"
 msgstr "媒体服务器"
 
+msgid "Overseerr"
+msgstr ""
+
 msgid "Overseerr (Info)"
 msgstr "Overseerr (信息)"
 
@@ -1751,6 +1789,11 @@ msgstr "显示设置"
 
 msgid "Configure how your application appears to users"
 msgstr "配置您的应用程序呈现给用户的外观方式"
+
+msgid ""
+"Which server's posters fill the background of the public join page. 'The "
+"server the invite is for' shows nothing without a valid invite."
+msgstr ""
 
 msgid "Access Control"
 msgstr "访问控制"
@@ -1966,17 +2009,22 @@ msgstr "一个友好的名称来标识此连接"
 msgid "Which media server should trigger invitations to this external service"
 msgstr "哪个媒体服务器应该触发对此外部服务的邀请"
 
-msgid "Open your Overseerr/Jellyseerr admin panel"
-msgstr "打开你的 Overseerr/Jellyseerr 管理面板"
+msgid "To have Wizarr create the account instead:"
+msgstr ""
 
-msgid "Navigate to Settings → Users"
-msgstr "导航到 设置 → 用户"
+msgid "Set the Service URL below"
+msgstr ""
 
-msgid "Enable 'Auto-approve new users'"
-msgstr "启用“自动批准新用户”"
+msgid "Turn on account creation below"
+msgstr ""
 
-msgid "Enable 'Import Jellyfin/Plex users'"
-msgstr "启用“导入 Jellyfin/Plex 用户”"
+msgid "In the service, enable Settings → Users → 'Enable New Plex Sign-In'"
+msgstr ""
+
+msgid ""
+"This uses the service's own sign-in route, so there is no API key to "
+"configure."
+msgstr ""
 
 msgid "The full URL to your external service instance"
 msgstr "您外部服务实例的完整 URL"
@@ -2867,6 +2915,34 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid ""
+#~ "Overseerr and Jellyseerr automatically import new users by default. No "
+#~ "API connection is required for Wizarr integration."
+#~ msgstr ""
+#~ "Overseerr 和 Jellyseerr 默认会自动导入新用户。Wizarr 集成不需要 API 连接。"
+
+#~ msgid "To enable auto-import:"
+#~ msgstr "要启用自动导入："
+
+#~ msgid ""
+#~ "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
+#~ "new users' and 'Import Jellyfin/Plex users'"
+#~ msgstr ""
+#~ "前往您的 Overseerr/Jellyseerr 设置 → 用户 → 启用“自动批准新用户”和“导入 "
+#~ "Jellyfin/Plex 用户”"
+
+#~ msgid "Open your Overseerr/Jellyseerr admin panel"
+#~ msgstr "打开你的 Overseerr/Jellyseerr 管理面板"
+
+#~ msgid "Navigate to Settings → Users"
+#~ msgstr "导航到 设置 → 用户"
+
+#~ msgid "Enable 'Auto-approve new users'"
+#~ msgstr "启用“自动批准新用户”"
+
+#~ msgid "Enable 'Import Jellyfin/Plex users'"
+#~ msgstr "启用“导入 Jellyfin/Plex 用户”"
 
 #~ msgid "Username must be 3 to 15 characters."
 #~ msgstr "用户名必须为3到15个字符。"
