@@ -178,7 +178,11 @@ class EmbyClient(JellyfinClient):
         return poster_urls[:limit]
 
     def create_user(self, username: str, password: str) -> str:
-        """Create user and set password."""
+        """Create user and set password.
+
+        If the password can't be set, the new user is removed again and the
+        error raised, so no account is left without a password.
+        """
         # Step 1: Create user without password
         user = self.post("/Users/New", json={"Name": username}).json()
         user_id = user["Id"]
@@ -197,7 +201,13 @@ class EmbyClient(JellyfinClient):
             logging.info("Password set response: %s", password_response.status_code)
         except Exception as e:
             logging.error("Failed to set password for user %s: %s", username, e)
-            # Continue with user creation even if password setting fails
+            try:
+                self.delete_user(user_id)
+            except Exception as cleanup_exc:
+                logging.error(
+                    "Could not remove passwordless user %s: %s", username, cleanup_exc
+                )
+            raise
 
         return user_id
 
