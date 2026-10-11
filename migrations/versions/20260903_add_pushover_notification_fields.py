@@ -1,7 +1,7 @@
 """Add Pushover notification fields
 
 Revision ID: 20260903_pushover
-Revises: 20260901_expired_unique
+Revises: 9c3e5a7d1b20
 Create Date: 2026-09-03 00:00:00.000000
 
 """
@@ -11,7 +11,7 @@ from alembic import op
 
 # revision identifiers, used by Alembic.
 revision = "20260903_pushover"
-down_revision = "20260901_expired_unique"
+down_revision = "9c3e5a7d1b20"
 branch_labels = None
 depends_on = None
 
