@@ -1,5 +1,4 @@
 import logging
-import re
 from typing import TYPE_CHECKING, Any
 
 import requests
@@ -11,12 +10,10 @@ from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid
 
 from .auth_headers import media_browser_auth_headers
-from .client_base import RestApiMixin, register_media_client
+from .client_base import EMAIL_RE, RestApiMixin, register_media_client
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
-
-EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 
 
 @register_media_client("jellyfin")

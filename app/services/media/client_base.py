@@ -11,6 +11,7 @@
 from __future__ import annotations
 
 import logging
+import re
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
@@ -29,6 +30,9 @@ if TYPE_CHECKING:
 
 # Holds mapping of server_type -> MediaClient subclass
 CLIENTS: dict[str, type[MediaClient]] = {}
+
+# The one e-mail check every client and the join flow use.
+EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
 
 
 def register_media_client(name: str):
@@ -185,7 +189,6 @@ class MediaClient(ABC):
         # Check if this is part of a multi-server invitation
         if code:
             from app.models import Invitation
-            from app.services.media.service import EMAIL_RE
 
             invitation = Invitation.query.filter_by(code=code).first()
 
