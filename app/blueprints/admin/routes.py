@@ -16,6 +16,7 @@ from flask import (
 )
 from flask_babel import _
 from flask_login import login_required
+from markupsafe import escape
 from sqlalchemy.orm.attributes import set_committed_value
 
 from app.extensions import db, limiter
@@ -46,6 +47,12 @@ from app.services.update_check import (
     check_update_available,
     get_manifest_last_fetch,
     get_sponsors,
+)
+from app.services.user_email import (
+    InvalidEmailError,
+    current_email,
+    editable_email_accounts,
+    set_user_email,
 )
 
 admin_bp = Blueprint("admin", __name__)
@@ -655,6 +662,14 @@ def user_detail(db_id: int):
         # Only update fields that are actually present in the form to avoid
         # clearing fields that weren't submitted
 
+        # Update the e-mail only if present in form. Wizarr keeps it and does
+        # not send it to the media server.
+        if "email" in request.form:
+            try:
+                set_user_email(user, request.form["email"])
+            except InvalidEmailError:
+                return _invalid_email_response()
+
         # Update expiry only if present in form
         if "expires" in request.form:
             raw_expires = request.form.get("expires")
@@ -721,7 +736,18 @@ def user_detail(db_id: int):
         user=user,
         related_users=related_users,
         user_libraries_map=user_libraries_map,
+        email_editable=bool(editable_email_accounts(user)),
+        email_value=current_email(user),
     )
+
+
+def _invalid_email_response() -> Response:
+    """Show the e-mail error in the user modal and keep the modal open."""
+    message = escape(_("Enter a valid email address, or leave the field empty."))
+    response = Response(message)
+    response.headers["HX-Retarget"] = "#user-email-error"
+    response.headers["HX-Reswap"] = "innerHTML"
+    return response
 
 
 @admin_bp.route("/user/<int:db_id>/libraries", methods=["GET"])
