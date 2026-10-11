@@ -30,7 +30,7 @@ def env_int(key: str, default: int) -> int:
         return int(value)
     except ValueError:
         return default
-    
+
 
 # Initialize session cache at module level so Flask-Session can access it
 

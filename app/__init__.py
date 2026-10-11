@@ -1,8 +1,8 @@
 import os
 
 from flask import Flask
-
 from werkzeug.middleware.proxy_fix import ProxyFix
+
 from .config import DevelopmentConfig
 from .error_handlers import register_error_handlers
 from .extensions import init_extensions
