@@ -30,6 +30,11 @@ class ActivityService:
     def record_activity_event(self, event: ActivityEvent) -> ActivitySession | None:
         return self.ingestion.record_activity_event(event)
 
+    def record_activity_events(
+        self, events: list[ActivityEvent]
+    ) -> list[ActivitySession | None]:
+        return self.ingestion.record_activity_events(events)
+
     # Query helpers ---------------------------------------------------
     def get_activity_sessions(
         self,
@@ -67,6 +72,9 @@ class ActivityService:
     # Maintenance -----------------------------------------------------
     def cleanup_old_activity(self, retention_days: int = 90) -> int:
         return self.maintenance.cleanup_old_activity(retention_days)
+
+    def backfill_session_links(self) -> int:
+        return self.maintenance.backfill_session_links()
 
     def end_stale_sessions(self, timeout_hours: int = 24) -> int:
         return self.maintenance.end_stale_sessions(timeout_hours)

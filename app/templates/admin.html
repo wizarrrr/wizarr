@@ -35,50 +35,9 @@
                           hx-target="#content"
                           hx-swap="innerHTML"
                           hx-push-url="{{ hash }}"
-                          class="nav-btn block px-4 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-primary hover:bg-gray-50 dark:hover:text-white dark:hover:bg-gray-800 transition-all duration-200"
-                          onmouseenter="this.nextElementSibling.dispatchEvent(new Event('hover'))">
+                          class="nav-btn block px-4 py-2 rounded-lg text-gray-600 dark:text-gray-400 hover:text-primary hover:bg-gray-50 dark:hover:text-white dark:hover:bg-gray-800 transition-all duration-200">
                     {{ _(label) }}
                   </button>
-                  <!-- Page-specific prefetches -->
-                  {% if href == "/home" %}
-                    <div hx-get="/now-playing-cards"
-                         hx-trigger="hover once"
-                         hx-swap="none"
-                         style="display: none"></div>
-                  {% elif href == "/invites" %}
-                    <div hx-post="/invite/table"
-                         hx-trigger="hover once"
-                         hx-swap="none"
-                         style="display: none"></div>
-                  {% elif href == "/users" %}
-                    <div hx-get="/users/table"
-                         hx-trigger="hover once"
-                         hx-swap="none"
-                         style="display: none"></div>
-                  {% elif href == activity_url %}
-                    <div hx-get="{{ url_for('activity.activity_grid') }}"
-                         hx-trigger="hover once"
-                         hx-swap="none"
-                         style="display: none"></div>
-                    <div hx-get="{{ url_for('activity.activity_stats') }}"
-                         hx-trigger="hover once"
-                         hx-swap="none"
-                         style="display: none"></div>
-                  {% elif href == "/plus" %}
-                    <div hx-get="/plus/overview"
-                         hx-trigger="hover once"
-                         hx-swap="none"
-                         style="display: none"></div>
-                  {% elif href == "/settings" %}
-                    <div hx-get="/settings/general"
-                         hx-trigger="hover once"
-                         hx-swap="none"
-                         style="display: none"></div>
-                    <div hx-get="/settings/api-keys"
-                         hx-trigger="hover once"
-                         hx-swap="none"
-                         style="display: none"></div>
-                  {% endif %}
                 </li>
               {% endfor %}
             </ul>
@@ -387,3 +346,7 @@
       document.body.addEventListener('htmx:afterSwap', highlightNav);
   </script>
 {% endblock main %}
+{# Admin pages load the wizard editor libraries. They do not need the in-app browser escape. #}
+{% block layout_scripts %}
+  {% include "partials/editor_assets.html" %}
+{% endblock layout_scripts %}

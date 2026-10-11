@@ -83,11 +83,34 @@ class LibraryAccessHelper:
 
     @staticmethod
     def create_restricted_access(
-        enabled_libraries: list[str], server_id: int
+        enabled_libraries: list[str],
+        server_id: int,
+        *,
+        library_names_by_id: dict[str, str] | None = None,
     ) -> list[UserLibraryAccess]:
-        """Create library access list for restricted users."""
+        """Create library access list for restricted users.
+
+        Give ``library_names_by_id`` ({external_id: name} for the server) when
+        you build access for many users. Then this method does no query.
+        """
         if not enabled_libraries:
             return []
+
+        if library_names_by_id is not None:
+            wanted = {str(lib_id) for lib_id in enabled_libraries}
+            matches = sorted(
+                (
+                    (name, external_id)
+                    for external_id, name in library_names_by_id.items()
+                    if str(external_id) in wanted
+                ),
+            )
+            return [
+                UserLibraryAccess(
+                    library_id=external_id, library_name=name, has_access=True
+                )
+                for name, external_id in matches
+            ]
 
         libs_q = (
             Library.query.filter(

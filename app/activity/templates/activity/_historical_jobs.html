@@ -1,3 +1,13 @@
+{# Poll only while a job is queued or running, and only while the browser
+   tab is visible. The poll replaces this partial, so polling stops when
+   all jobs are done. #}
+{% if jobs and jobs|selectattr('is_active')|list %}
+    <div class="hidden"
+         hx-get="{{ url_for('activity.historical_import_jobs', server_id=selected_server_id) if selected_server_id else url_for('activity.historical_import_jobs') }}"
+         hx-trigger="every 8s [document.visibilityState === 'visible']"
+         hx-target="#historical-jobs-container"
+         hx-swap="innerHTML"></div>
+{% endif %}
 {% if jobs %}
     <div class="space-y-3">
     {% for job in jobs %}

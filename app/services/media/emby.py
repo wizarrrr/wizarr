@@ -10,7 +10,7 @@ from app.models import Invitation, MediaServer, User
 
 from .auth_headers import media_browser_auth_headers
 from .client_base import register_media_client
-from .jellyfin import JellyfinClient
+from .jellyfin import POSTER_IMAGE_PARAMS, JellyfinClient
 
 if TYPE_CHECKING:
     pass
@@ -170,8 +170,13 @@ class EmbyClient(JellyfinClient):
                         # proxy. The api_key is deliberately kept out of the URL;
                         # the proxy re-attaches it as a header server-side (see
                         # ImageProxyService.get_server_headers), so the admin
-                        # token is never exposed to the client.
-                        poster_url = f"{self.url}/Items/{item_id}/Images/Primary"
+                        # token is never exposed to the client. We ask for a
+                        # resized image: the full-size poster is much larger
+                        # than the join page shows.
+                        poster_url = (
+                            f"{self.url}/Items/{item_id}/Images/Primary"
+                            f"?{POSTER_IMAGE_PARAMS}"
+                        )
                         poster_urls.append(self.generate_image_proxy_url(poster_url))
 
         except Exception as e:

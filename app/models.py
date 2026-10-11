@@ -73,13 +73,14 @@ invitation_users = db.Table(
         db.ForeignKey("media_server.id", ondelete="SET NULL"),
         nullable=True,
     ),
+    db.Index("ix_invitation_user_user_id", "user_id"),
 )
 
 
 class Invitation(db.Model):
     __tablename__ = "invitation"
     id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String, nullable=False)
+    code = db.Column(db.String, nullable=False, index=True)
     used = db.Column(db.Boolean, default=False, nullable=False)
     used_at = db.Column(db.DateTime, nullable=True)
     created = db.Column(db.DateTime, default=lambda: datetime.now(UTC), nullable=False)
@@ -218,6 +219,13 @@ class User(db.Model, UserMixin):
 
     # Legacy metadata caching fields (will be phased out)
     library_access_json = db.Column(db.Text, nullable=True)
+
+    __table_args__ = (
+        db.Index("ix_user_server_email", "server_id", "email"),
+        db.Index("ix_user_server_token", "server_id", "token"),
+        db.Index("ix_user_server_lower_username", "server_id", db.func.lower(username)),
+        db.Index("ix_user_identity_id", "identity_id"),
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -802,11 +810,11 @@ class ActivitySession(db.Model):
         db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=False
     )
     session_id = db.Column(db.String, nullable=False, index=True)
-    reference_id = db.Column(db.Integer, nullable=True, index=True)
+    reference_id = db.Column(db.Integer, nullable=True)
     user_name = db.Column(db.String, nullable=False, index=True)
     user_id = db.Column(db.String, nullable=True)
     media_title = db.Column(db.String, nullable=False)
-    media_type = db.Column(db.String, nullable=True, index=True)
+    media_type = db.Column(db.String, nullable=True)
     media_id = db.Column(db.String, nullable=True)
     series_name = db.Column(db.String, nullable=True)
     season_number = db.Column(db.Integer, nullable=True)
@@ -864,6 +872,8 @@ class ActivitySession(db.Model):
     __table_args__ = (
         db.Index("ix_activity_session_server_started", "server_id", "started_at"),
         db.Index("ix_activity_session_user_started", "user_name", "started_at"),
+        db.Index("ix_activity_session_reference_started", "reference_id", "started_at"),
+        db.Index("ix_activity_session_updated_at", "updated_at"),
     )
 
     def get_transcoding_info(self) -> dict[str, Any]:
@@ -1068,13 +1078,12 @@ class ActivitySnapshot(db.Model):
         db.Integer,
         db.ForeignKey("activity_session.id", ondelete="CASCADE"),
         nullable=False,
-        index=True,
     )
     timestamp = db.Column(
         db.DateTime, nullable=False, index=True, default=lambda: datetime.now(UTC)
     )
     position_ms = db.Column(db.BigInteger, nullable=True)
-    state = db.Column(db.String, nullable=False, index=True)
+    state = db.Column(db.String, nullable=False)
     transcoding_details = db.Column(db.Text, nullable=True)
     bandwidth_kbps = db.Column(db.Integer, nullable=True)
     quality = db.Column(db.String, nullable=True)

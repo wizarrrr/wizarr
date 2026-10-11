@@ -221,38 +221,41 @@ class KomgaClient(RestApiMixin):
         try:
             response = self.get("/api/v2/users")
             komga_users = {u["id"]: u for u in response.json()}
+            server_id = getattr(self, "server_id", None)
 
-            known_users = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
+            known_users = User.query.filter(User.server_id == server_id).all()
             if self._skip_prune_on_empty_remote(not komga_users, known_users):
                 return known_users
 
-            for komga_user in komga_users.values():
-                existing = User.query.filter_by(token=komga_user["id"]).first()
-                if not existing:
+            # Fetch the server's libraries one time, before any DB write, and
+            # only if a user can see all libraries. Before, this remote call
+            # ran once per such user while the write transaction was open.
+            all_library_ids: list[str] | None = None
+            if any(u.get("sharedAllLibraries", False) for u in komga_users.values()):
+                all_library_ids = list(self.libraries().keys())
+
+            # Use the rows that are already loaded, not one query for each
+            # remote user. The match is for this server only, so a user with
+            # the same id on another server does not block this one.
+            users: list[User] = []
+            for db_user in known_users:
+                if db_user.token in komga_users:
+                    users.append(db_user)
+                else:
+                    db.session.delete(db_user)
+
+            known_tokens = {user.token for user in users}
+            for token, komga_user in komga_users.items():
+                if token not in known_tokens:
                     new_user = User(
-                        token=komga_user["id"],
+                        token=token,
                         username=komga_user["email"],
                         email=komga_user["email"],
                         code="empty",
-                        server_id=getattr(self, "server_id", None),
+                        server_id=server_id,
                     )
                     db.session.add(new_user)
-            db.session.commit()
-
-            to_check = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
-            for db_user in to_check:
-                if db_user.token not in komga_users:
-                    db.session.delete(db_user)
-            db.session.commit()
-
-            # Get users with default policy information
-            users = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
+                    users.append(new_user)
 
             # Add policy attributes including library access from Komga
             for user in users:
@@ -268,7 +271,12 @@ class KomgaClient(RestApiMixin):
                 user.allow_live_tv = False  # Komga doesn't have Live TV
                 user.is_admin = "ADMIN" in roles
 
-            # Single commit for all metadata updates
+            # Cache detailed metadata for all users (including library access)
+            self._cache_user_metadata_from_bulk_response(
+                users, komga_users, all_library_ids=all_library_ids
+            )
+
+            # Single commit for all user and metadata updates
             try:
                 db.session.commit()
             except Exception as e:
@@ -276,40 +284,43 @@ class KomgaClient(RestApiMixin):
                 db.session.rollback()
                 return []
 
-            # Cache detailed metadata for all users (including library access)
-            self._cache_user_metadata_from_bulk_response(users, komga_users)
-
-            # Commit the standardized metadata updates
-            try:
-                db.session.commit()
-            except Exception as e:
-                logging.error(
-                    f"Komga: failed to commit standardized metadata updates: {e}"
-                )
-                db.session.rollback()
-
             return users
         except Exception as e:
             logging.error(f"Failed to list Komga users: {e}")
             return []
 
     def _cache_user_metadata_from_bulk_response(
-        self, users: list[User], komga_users: dict
+        self,
+        users: list[User],
+        komga_users: dict,
+        *,
+        all_library_ids: list[str] | None = None,
     ) -> None:
         """Cache user metadata from bulk API response without individual API calls.
 
         Args:
             users: List of User objects to cache metadata for
             komga_users: Dictionary of raw user data from bulk /api/v2/users response
+            all_library_ids: IDs of all server libraries. Give them when you
+                have them, so that this method does not fetch them again.
         """
         if not users or not komga_users:
             return
 
+        from app.models import Library
         from app.services.media.utils import (
             DateHelper,
             LibraryAccessHelper,
             StandardizedPermissions,
             create_standardized_user_details,
+        )
+
+        server_id: int = getattr(self, "server_id", 0)
+        # Read the library rows one time for all users, not once per user.
+        library_names_by_id = dict(
+            Library.query.with_entities(Library.external_id, Library.name)
+            .filter(Library.server_id == server_id)
+            .all()
         )
 
         cached_count = 0
@@ -331,18 +342,21 @@ class KomgaClient(RestApiMixin):
 
                 # Handle library access - always return actual library names
                 if raw_user.get("sharedAllLibraries", False):
-                    # User has access to all libraries - fetch all library IDs from server
-                    all_libraries = self.libraries()  # Returns {id: name} mapping
-                    shared_library_ids = list(all_libraries.keys())
+                    # User has access to all libraries - fetch all library IDs
+                    # from the server one time only.
+                    if all_library_ids is None:
+                        all_library_ids = list(self.libraries().keys())
+                    shared_library_ids = all_library_ids
                 else:
                     # User has restricted library access
                     shared_library_ids = raw_user.get("sharedLibrariesIds", [])
 
                 # Always create restricted access with the actual library IDs
-                server_id: int = getattr(self, "server_id", 0)
                 library_access = (
                     LibraryAccessHelper.create_restricted_access(
-                        shared_library_ids, server_id
+                        shared_library_ids,
+                        server_id,
+                        library_names_by_id=library_names_by_id,
                     )
                     if shared_library_ids
                     else []

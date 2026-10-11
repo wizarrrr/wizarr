@@ -60,17 +60,27 @@ def handle_connection_error(e: Exception, server_type: str) -> tuple[bool, str]:
     return False, error_msg
 
 
+# (connect, read) timeout in seconds for Plex connection checks. Without a
+# connect timeout, an offline host holds the request for a long time.
+PLEX_CHECK_TIMEOUT: tuple[float, float] = (5, 30)
+
+
 def check_plex(url: str, token: str) -> tuple[bool, str]:
     try:
-        PlexServer(url, token=token)
+        PlexServer(url, token=token, timeout=PLEX_CHECK_TIMEOUT)
         return True, ""
     except Exception as e:
         return handle_connection_error(e, _("Plex"))
 
 
 def check_jellyfin_or_emby_internal(url: str, token: str) -> tuple[bool, str]:
+    # /System/Info needs a valid token, so it checks the token. It returns a
+    # small object. /Users also checks the token, but it returns all users
+    # with their policies, which is several MB on a large server.
     resp = requests.get(
-        f"{url}/Users", headers=media_browser_auth_headers(token), timeout=10
+        f"{url.rstrip('/')}/System/Info",
+        headers=media_browser_auth_headers(token),
+        timeout=10,
     )
     if resp.status_code != 200:
         raise ServerResponseError(resp.status_code, resp.url)

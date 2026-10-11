@@ -348,14 +348,16 @@ function updateLiveTimers() {
     // Update timers immediately
     updateLiveTimers();
 
-    // Then update every second
-    setInterval(updateLiveTimers, 1000);
+    // This script runs again on each grid reload. Start one interval and one
+    // listener only, so that reloads do not add more timers.
+    if (!window.wizarrLiveTimerInterval) {
+        window.wizarrLiveTimerInterval = setInterval(updateLiveTimers, 1000);
+        // Also update timers when new content is loaded via HTMX
+        document.addEventListener('htmx:afterSwap', function() {
+            updateLiveTimers();
+        });
+    }
 })();
-
-// Also update timers when new content is loaded via HTMX
-document.addEventListener('htmx:afterSwap', function() {
-    updateLiveTimers();
-});
 
 function viewSessionDetails(sessionId) {
     fetch(`{{ url_for('activity.activity_session', session_id=0) }}`.replace('0', sessionId))

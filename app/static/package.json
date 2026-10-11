@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Wizarr",
   "scripts": {
-    "build:css": "npx @tailwindcss/cli -i src/style.css -o css/main.css",
+    "build:css": "npx @tailwindcss/cli -i src/style.css -o css/main.css --minify",
     "watch:css": "npx @tailwindcss/cli -i src/style.css -o css/main.css --watch",
     "build:js": "node copy-assets.js",
     "build": "npm run build:css && npm run build:js"
@@ -18,7 +18,6 @@
   "dependencies": {
     "@alpinejs/collapse": "^3.17.1",
     "alpinejs": "^3.17.1",
-    "animate.css": "^4.1.1",
     "animejs": "^4.5.0",
     "bowser": "^2.14.1",
     "flowbite": "^4.0.2",

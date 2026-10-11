@@ -36,7 +36,7 @@
         <div id="nowPlayingContent"
              class="relative z-20"
              hx-get="/now-playing-cards"
-             hx-trigger="load, every 10s"
+             hx-trigger="load, every 10s [document.visibilityState === 'visible'], visibilitychange[document.visibilityState === 'visible'] from:document"
              hx-swap="innerHTML settle:0ms">
           <!-- Now playing cards container -->
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
@@ -54,7 +54,7 @@
         <div id="latestInvitesContainer"
              class="min-h-[400px]"
              hx-get="/accepted-invites-card"
-             hx-trigger="load, every 30s"
+             hx-trigger="load, every 30s [document.visibilityState === 'visible'], visibilitychange[document.visibilityState === 'visible'] from:document"
              hx-swap="innerHTML">
           <!-- Loading placeholder -->
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 h-full flex items-center justify-center">
@@ -65,7 +65,7 @@
         <div id="serverHealthContainer"
              class="min-h-[400px]"
              hx-get="/server-health-card"
-             hx-trigger="load, every 45s"
+             hx-trigger="load, every 45s [document.visibilityState === 'visible'], visibilitychange[document.visibilityState === 'visible'] from:document"
              hx-swap="innerHTML">
           <!-- Loading placeholder -->
           <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-4 h-full flex items-center justify-center">
@@ -89,19 +89,36 @@
       }
 
       function closeInviteModal() {
-          document.getElementById('invite-modal').innerHTML = '';
+          const inviteModal = document.getElementById('invite-modal');
+          if (inviteModal) inviteModal.innerHTML = '';
       }
 
-      // Close modal on escape key
-      document.addEventListener('keydown', function(e) {
-          if (e.key === 'Escape') {
-              closeInviteModal();
-          }
-      });
+      // HTMX navigation keeps the document, and runs this script again on
+      // each visit. Function declarations and "var" can run again with no
+      // problem ("let" cannot). Listeners must be added one time only, so
+      // flags on window guard them.
 
-      // Live timestamp updating
-      let liveTimers = [];
-      let nowPlayingTimers = [];
+      // Close modal on escape key. invites.html uses the same flag.
+      if (!window.wizarrInviteModalEscapeListener) {
+          window.wizarrInviteModalEscapeListener = true;
+          document.addEventListener('keydown', function(e) {
+              if (e.key === 'Escape') {
+                  closeInviteModal();
+              }
+          });
+      }
+
+      // Live timestamp updating. Keep the timer lists of an earlier visit,
+      // so that the next swap can stop those timers.
+      var liveTimers = window.liveTimers || [];
+      var nowPlayingTimers = window.nowPlayingTimers || [];
+
+      function stopDashboardTimers() {
+          liveTimers.forEach(timer => clearInterval(timer));
+          liveTimers = [];
+          nowPlayingTimers.forEach(timer => clearInterval(timer));
+          nowPlayingTimers = [];
+      }
 
       function startLiveTimers() {
           // Find all live timestamp elements and start their timers
@@ -223,33 +240,24 @@
           }
       }
 
-      document.addEventListener('htmx:afterSwap', function(evt) {
-          if (evt.target && evt.target.id === 'nowPlayingContent') {
-              reinitFlowbitePopovers();
-              // Restart live-timer so newly swapped cards animate correctly
-              liveTimers.forEach(timer => clearInterval(timer));
-              liveTimers = [];
-              startLiveTimers();
+      if (!window.wizarrDashboardListeners) {
+          window.wizarrDashboardListeners = true;
+          document.addEventListener('htmx:afterSwap', function(evt) {
+              if (evt.target && evt.target.id === 'nowPlayingContent') {
+                  reinitFlowbitePopovers();
+                  // Restart live-timer so newly swapped cards animate correctly
+                  liveTimers.forEach(timer => clearInterval(timer));
+                  liveTimers = [];
+                  startLiveTimers();
 
-              // Start live time updates for now playing cards
-              startNowPlayingTimers();
-
-              // Removed adaptive additionalWidgets logic since those widgets are no longer present
-          }
-      });
-
-      document.addEventListener('DOMContentLoaded', function() {
-          // Initialize live timers
-          startLiveTimers();
-
-          // Initialize now playing timers
-          startNowPlayingTimers();
-
-          // Initialize Flowbite popovers
-          reinitFlowbitePopovers();
-
-          // Removed adaptive additionalWidgets logic since those widgets are no longer present
-      });
+                  // Start live time updates for now playing cards
+                  startNowPlayingTimers();
+              } else if (!document.getElementById('nowPlayingContent')) {
+                  // The dashboard is not on the page now. Stop its timers.
+                  stopDashboardTimers();
+              }
+          });
+      }
   </script>
   <style>
       /* Ensure equal height cards in widget grid on desktop */

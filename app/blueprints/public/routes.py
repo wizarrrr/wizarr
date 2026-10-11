@@ -505,10 +505,15 @@ def password_prompt(code):
     return render_template("choose-password.html", code=code)
 
 
+# Proxied images are posters and artwork, which seldom change. A long browser
+# cache saves the same download on each page load.
+IMAGE_PROXY_MAX_AGE = 24 * 3600  # 1 day
+
+
 def _image_proxy_response(data: bytes, content_type: str) -> Response:
     """Build a browser-safe, cacheable response for proxied image bytes."""
     response = Response(data, content_type=content_type)
-    response.headers["Cache-Control"] = "public, max-age=3600"
+    response.headers["Cache-Control"] = f"public, max-age={IMAGE_PROXY_MAX_AGE}"
     response.headers["X-Content-Type-Options"] = "nosniff"
     return response
 
@@ -536,17 +541,20 @@ def image_proxy():
         if not mapping:
             return Response(status=403)  # Invalid or expired token
 
-        # Cache hits still require a currently valid token. In particular, this
-        # keeps cached image bytes from bypassing token expiry or SECRET_KEY
-        # removal/rotation.
-        cached_image = ImageProxyService.get_cached_image(token)
+        url = mapping["url"]
+        server_id = mapping.get("server_id")
+
+        # The cache key is the upstream image, not the token, so the entry
+        # stays valid when the hourly token changes. Cache hits still require
+        # a currently valid token: validate_token ran above. In particular,
+        # this keeps cached image bytes from bypassing token expiry or
+        # SECRET_KEY removal/rotation.
+        cache_key = ImageProxyService.image_cache_key(server_id, url)
+        cached_image = ImageProxyService.get_cached_image(cache_key)
         if cached_image:
             return _image_proxy_response(
                 cached_image["data"], cached_image["content_type"]
             )
-
-        url = mapping["url"]
-        server_id = mapping.get("server_id")
 
         # Prepare headers for authenticated requests (cached per server)
         headers = ImageProxyService.get_server_headers(server_id, url).copy()
@@ -599,7 +607,7 @@ def image_proxy():
             content_type = r.headers.get("Content-Type", "image/jpeg")
 
         # Cache the image
-        ImageProxyService.cache_image(token, image_data, content_type)
+        ImageProxyService.cache_image(cache_key, image_data, content_type)
 
         return _image_proxy_response(image_data, content_type)
 

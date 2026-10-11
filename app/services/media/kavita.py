@@ -11,7 +11,12 @@ from app.extensions import db
 from app.models import Invitation, User
 from app.services.invites import is_invite_valid
 
-from .client_base import EMAIL_RE, RestApiMixin, register_media_client
+from .client_base import (
+    EMAIL_RE,
+    RestApiMixin,
+    get_http_session,
+    register_media_client,
+)
 from .utils import (
     DateHelper,
     LibraryAccessHelper,
@@ -139,16 +144,17 @@ class KavitaClient(RestApiMixin):
             return ""
 
         try:
-            import requests
-
             # Make direct request to avoid circular dependency with _headers()
-            # Include pluginName parameter as shown in Kavita docs
+            # Include pluginName parameter as shown in Kavita docs. Use the
+            # shared pooled session, so the next API call reuses the connection.
             url = f"{(self.url or '').rstrip('/')}/api/Plugin/authenticate"
             params = {"apiKey": self.token, "pluginName": "Wizarr"}
             headers = {"Content-Type": "application/json"}
 
             logging.info(f"Authenticating with Kavita API (cache miss): {url}")
-            response = requests.post(url, params=params, headers=headers, timeout=10)
+            response = get_http_session().post(
+                url, params=params, headers=headers, timeout=(5, 10)
+            )
 
             response.raise_for_status()
 
@@ -662,39 +668,36 @@ class KavitaClient(RestApiMixin):
                 return []
 
             users_dict = {str(u["id"]): u for u in kavita_users}
+            server_id = getattr(self, "server_id", None)
 
-            known_users = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
+            known_users = User.query.filter(User.server_id == server_id).all()
             if self._skip_prune_on_empty_remote(not users_dict, known_users):
                 return known_users
 
-            for kavita_user in users_dict.values():
-                existing = User.query.filter_by(token=str(kavita_user["id"])).first()
-                if not existing:
+            # Use the rows that are already loaded, not one query for each
+            # remote user. The match is for this server only, so a user with
+            # the same id on another server does not block this one.
+            users: list[User] = []
+            for dbu in known_users:
+                if dbu.token in users_dict:
+                    users.append(dbu)
+                else:
+                    # Delete local users that no longer exist upstream
+                    db.session.delete(dbu)
+
+            known_tokens = {user.token for user in users}
+            for token, kavita_user in users_dict.items():
+                if token not in known_tokens:
                     new = User(
-                        token=str(kavita_user["id"]),
+                        token=token,
                         username=kavita_user.get("username")
                         or kavita_user.get("userName", "kavita-user"),
                         email=kavita_user.get("email", "empty"),
                         code="empty",
-                        server_id=getattr(self, "server_id", None),
+                        server_id=server_id,
                     )
                     db.session.add(new)
-            db.session.commit()
-
-            # Delete local users that no longer exist upstream
-            to_check = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
-            for dbu in to_check:
-                if dbu.token not in users_dict:
-                    db.session.delete(dbu)
-            db.session.commit()
-
-            users = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
+                    users.append(new)
 
             for user in users:
                 permissions = StandardizedPermissions.for_basic_server(

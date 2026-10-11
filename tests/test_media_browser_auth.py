@@ -5,7 +5,7 @@ from app.services.servers import check_jellyfin_or_emby_internal
 
 class _Response:
     status_code = 200
-    url = "http://jellyfin.local/Users"
+    url = "http://jellyfin.local/System/Info"
 
 
 def test_media_browser_auth_headers_include_modern_and_legacy_tokens():
@@ -41,7 +41,8 @@ def test_jellyfin_health_check_uses_modern_media_browser_auth_header(monkeypatch
         True,
         "",
     )
-    assert captured["url"] == "http://jellyfin.local/Users"
+    # /System/Info checks the token without a download of the full user list.
+    assert captured["url"] == "http://jellyfin.local/System/Info"
     assert captured["headers"]["Authorization"] == 'MediaBrowser Token="test-token"'
     assert captured["headers"]["X-Emby-Token"] == "test-token"
     assert captured["timeout"] == 10

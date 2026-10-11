@@ -109,46 +109,40 @@ class DropClient(RestApiMixin):
 
             remote_by_id = {str(u.get("id")): u for u in remote_users if u.get("id")}
 
-            known_users = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
+            server_id = getattr(self, "server_id", None)
+            known_users = User.query.filter(User.server_id == server_id).all()
             if self._skip_prune_on_empty_remote(not remote_by_id, known_users):
                 return known_users
 
+            # Use the rows that are already loaded, not one query for each
+            # remote user. The first local row with a token is the match.
+            users: list[User] = []
+            rows_by_token: dict[str, User] = {}
+            for local in known_users:
+                if local.token in remote_by_id:
+                    users.append(local)
+                    rows_by_token.setdefault(local.token, local)
+                else:
+                    # Remove local users that no longer exist upstream
+                    db.session.delete(local)
+
             # Upsert user rows in local DB
             for user_id, drop_user in remote_by_id.items():
-                db_row: User | None = User.query.filter_by(
-                    token=user_id, server_id=getattr(self, "server_id", None)
-                ).first()
-
-                if not db_row:
+                db_row = rows_by_token.get(user_id)
+                if db_row is None:
                     db_row = User(
                         token=user_id,
                         username=drop_user.get("username", "drop-user"),
                         email=drop_user.get("email", ""),
                         code="drop",  # placeholder – no invite code
-                        server_id=getattr(self, "server_id", None),
+                        server_id=server_id,
                     )
                     db.session.add(db_row)
+                    users.append(db_row)
                 else:
                     # Update existing user
                     db_row.username = drop_user.get("username", db_row.username)
                     db_row.email = drop_user.get("email", db_row.email)
-
-            db.session.commit()
-
-            # Remove local users that no longer exist upstream
-            for local in User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all():
-                if local.token not in remote_by_id:
-                    db.session.delete(local)
-            db.session.commit()
-
-            # Get users with default policy information
-            users = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
 
             # Add policy attributes based on actual Drop user data
             for user in users:
@@ -337,16 +331,11 @@ class DropClient(RestApiMixin):
     def now_playing(self) -> list[dict]:
         """Return currently playing sessions.
 
-        Note: Drop may not have session tracking functionality.
-        Returns empty list as placeholder.
+        The Drop API has no session endpoint, so this makes no request and
+        always returns []. There is no fetch that can fail.
         """
-        try:
-            # Drop API doesn't seem to have session tracking endpoints
-            logging.debug("Drop: No session tracking available")
-            return []
-        except Exception as exc:
-            logging.warning("Drop: failed to get now playing – %s", exc)
-            return []
+        logging.debug("Drop: No session tracking available")
+        return []
 
     def statistics(self):
         """Return Drop server statistics for the dashboard."""

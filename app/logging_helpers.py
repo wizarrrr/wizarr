@@ -85,9 +85,8 @@ class AppLogger:
 
 def is_gunicorn_master() -> bool:
     """Check if running in Gunicorn master process."""
-    return os.getenv("SERVER_SOFTWARE", "").startswith("gunicorn") and not os.getenv(
-        "GUNICORN_WORKER_PID"
-    )
+    # gunicorn.conf.py records the PID of the master.
+    return os.getenv("WIZARR_GUNICORN_MASTER_PID") == str(os.getpid())
 
 
 def is_gunicorn_worker() -> bool:

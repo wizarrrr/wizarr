@@ -77,24 +77,37 @@ def test_admin_delete_still_removes_the_local_row(expired_user, monkeypatch):
     assert db.session.get(User, expired_user) is None
 
 
-def _plex_client(remove_home, remove_friend):
+def _plex_client(remove_home, remove_friend, users=()):
     client = PlexClient.__new__(PlexClient)
     admin = Mock()
+    admin.users.return_value = list(users)
     admin.removeHomeUser.side_effect = remove_home
     admin.removeFriend.side_effect = remove_friend
     client._admin = admin
     return client, admin
 
 
+def _plex_friend():
+    return Mock(title="sam", username="sam", email="sam@example.com", id=7, home=False)
+
+
 def test_plex_delete_raises_when_plex_fails():
     client, _admin = _plex_client(
-        BadRequest("not home"), requests.ConnectionError("down")
+        BadRequest("not home"), requests.ConnectionError("down"), [_plex_friend()]
     )
     with pytest.raises(requests.ConnectionError):
         client.delete_user("sam@example.com")
 
 
 def test_plex_delete_of_unknown_user_counts_as_removed():
+    # delete_user looks the user up first; a user Plex does not list is gone.
     client, admin = _plex_client(NotFound("no user"), NotFound("no user"))
     client.delete_user("sam@example.com")
-    admin.removeFriend.assert_called_once_with("sam@example.com")
+    admin.removeFriend.assert_not_called()
+
+
+def test_plex_delete_of_user_removed_meanwhile_counts_as_removed():
+    friend = _plex_friend()
+    client, admin = _plex_client(NotFound("no user"), NotFound("no user"), [friend])
+    client.delete_user("sam@example.com")
+    admin.removeFriend.assert_called_once_with(friend)

@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    {# url_for('static') adds a content hash as "v" (app/static_assets.py). #}
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/main.css', v=app_version) }}" />
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/tiny-mde.min.css', v=app_version) }}" />
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/vendor/animate.min.css', v=app_version) }}">
-    <script src="{{ url_for('static', filename='js/vendor/htmx.min.js', v=app_version) }}"></script>
-    <script src="{{ url_for('static', filename='js/vendor/htmx-preload.min.js', v=app_version) }}"></script>
+    {# defer: no inline script calls htmx while the page parses. #}
+    <script defer
+            src="{{ url_for('static', filename='js/vendor/htmx.min.js', v=app_version) }}"></script>
+    <script defer
+            src="{{ url_for('static', filename='js/vendor/htmx-preload.min.js', v=app_version) }}"></script>
     <link rel="icon"
           type="image/x-icon"
           href="{{ url_for('static', filename='favicon.ico') }}">
@@ -128,14 +128,19 @@
     <script src="{{ url_for('static', filename='js/vendor/alpine.min.js', v=app_version) }}"></script>
     <script src="{{ url_for('static', filename='js/vendor/flowbite.min.js', v=app_version) }}"></script>
     <script src="{{ url_for('static', filename='js/dark-mode-switch.js', v=app_version) }}"></script>
-    <script src="{{ url_for('static', filename='js/tiny-mde.min.js', v=app_version) }}"></script>
-    <script src="{{ url_for('static', filename='js/init-tinymde.js', v=app_version) }}"></script>
-    <script src="{{ url_for('static', filename='js/sortable.min.js', v=app_version) }}"></script>
+    {# The public wizard also uses wizard-steps.js (interaction gating). #}
     <script src="{{ url_for('static', filename='js/wizard-steps.js', v=app_version) }}"></script>
     <script src="{{ url_for('static', filename='js/pwa-registration.js', v=app_version) }}"></script>
-    <!-- In-app browser escape -->
-    <script src="{{ url_for('static', filename='js/vendor/bowser.min.js', v=app_version) }}"></script>
-    <script src="{{ url_for('static', filename='js/vendor/inapp-spy.min.js', v=app_version) }}"></script>
-    <script src="{{ url_for('static', filename='js/in-app-escape.js', v=app_version) }}"></script>
+    {% block layout_scripts %}
+      {# The settings page can also load as a full page without admin.html. #}
+      {% if request.blueprint == "settings" and not request.headers.get("HX-Request") %}
+        {% include "partials/editor_assets.html" %}
+      {% endif %}
+      {# In-app browser escape: public pages only, on a full page load. #}
+      {% if not request.headers.get("HX-Request") %}
+        <script src="{{ url_for('static', filename='js/vendor/inapp-spy.min.js', v=app_version) }}"></script>
+        <script src="{{ url_for('static', filename='js/in-app-escape.js', v=app_version) }}"></script>
+      {% endif %}
+    {% endblock layout_scripts %}
   </body>
 </html>
