@@ -6,6 +6,7 @@ import tempfile
 from datetime import UTC, datetime
 from typing import cast
 
+import structlog
 from flask import (
     Blueprint,
     abort,
@@ -20,6 +21,7 @@ from flask import (
 from flask_babel import gettext as _
 from flask_login import login_required
 from sqlalchemy import func
+from sqlalchemy.exc import IntegrityError
 
 from app.extensions import db
 from app.forms.wizard import (
@@ -43,6 +45,8 @@ wizard_admin_bp = Blueprint(
     url_prefix="/settings/wizard",
 )
 
+logger = structlog.get_logger("wizarr.wizard_admin")
+
 # Matches {{ _( "Some text" ) }} or {{ _( 'Some text' ) }} with arbitrary
 # whitespace.
 _I18N_PATTERN = re.compile(r"{{\s*_\(\s*(['\"])(.*?)\1\s*\)\s*}}", re.DOTALL)
@@ -57,6 +61,96 @@ def _strip_localization(md: str) -> str:
         return text.replace("\\'", "'").replace('"', '"')
 
     return _I18N_PATTERN.sub(_replace, md)
+
+
+def _commit_or_rollback() -> bool:
+    """Commit the session. Return False if a database constraint stops it.
+
+    On failure, roll back the session so that the rest of the request can
+    use the database, and flash an error for the admin.
+    """
+    try:
+        db.session.commit()
+    except IntegrityError:
+        db.session.rollback()
+        logger.warning("wizard_admin_commit_failed", exc_info=True)
+        flash(
+            _(
+                "Cannot save the change because it conflicts with other wizard "
+                "data. Refresh the page and try again."
+            ),
+            "error",
+        )
+        return False
+    return True
+
+
+def _commit_reorder():
+    """Commit a reorder and return the JSON response for the client."""
+    if not _commit_or_rollback():
+        return jsonify({"status": "error"}), 409
+    return jsonify({"status": "ok"})
+
+
+def _next_free_position(server_type: str, category: str) -> int:
+    """Return the position after the last step of a server type and category."""
+    # Do not flush pending changes: they can hold a position that is not free yet.
+    with db.session.no_autoflush:
+        max_pos = (
+            db.session.query(func.max(WizardStep.position))
+            .filter_by(server_type=server_type, category=category)
+            .scalar()
+        )
+    return 0 if max_pos is None else max_pos + 1
+
+
+def _move_step(step: WizardStep, server_type: str, category: str) -> None:
+    """Set the server type and category of a step.
+
+    If the group changes, the old position can belong to a step of the new
+    group. Thus the step goes to the end of the new group.
+    """
+    if (server_type, category) != (step.server_type, step.category):
+        step.position = _next_free_position(server_type, category)
+    step.server_type = server_type
+    step.category = category
+
+
+def _steps_in_order(ids: list[int]) -> list[WizardStep]:
+    """Load the steps with these IDs in this order. Skip duplicate and unknown IDs."""
+    ids = list(dict.fromkeys(ids))
+    by_id = {s.id: s for s in WizardStep.query.filter(WizardStep.id.in_(ids))}
+    return [by_id[i] for i in ids if i in by_id]
+
+
+def _renumber_steps(server_type: str, category: str, steps: list[WizardStep]) -> None:
+    """Put the steps into one group in this order, with positions 0 to n-1.
+
+    Steps of the group that are not in the list go to the end. Thus two steps
+    never get the same position, also when the client sends an old list.
+    """
+    rest = (
+        WizardStep.query.filter(
+            WizardStep.server_type == server_type,
+            WizardStep.category == category,
+            WizardStep.id.notin_([s.id for s in steps]),
+        )
+        .order_by(WizardStep.position)
+        .all()
+    )
+    steps = steps + rest
+
+    # Phase 1: temporary negative positions. They do not collide with the
+    # current positions or with the final positions.
+    for tmp_pos, step in enumerate(steps, start=1):
+        step.server_type = server_type
+        step.category = category
+        step.position = -tmp_pos
+    db.session.flush()
+
+    # Phase 2: final 0-based positions.
+    for final_pos, step in enumerate(steps):
+        step.position = final_pos
 
 
 @wizard_admin_bp.route("/", methods=["GET"])
@@ -122,8 +216,10 @@ def list_bundles():
     if orphaned_steps:
         for orphaned in orphaned_steps:
             db.session.delete(orphaned)
-        db.session.commit()
-        flash(_("Cleaned up {} orphaned step(s)").format(len(orphaned_steps)), "info")
+        if _commit_or_rollback():
+            flash(
+                _("Cleaned up {} orphaned step(s)").format(len(orphaned_steps)), "info"
+            )
 
     bundles = WizardBundle.query.order_by(WizardBundle.id).all()
 
@@ -195,8 +291,8 @@ def create_step():
                 )
             )
 
-        db.session.commit()
-        flash(_("Step created"), "success")
+        if _commit_or_rollback():
+            flash(_("Step created"), "success")
 
         # HTMX target refresh depending on origin
         if request.headers.get("HX-Request"):
@@ -271,9 +367,8 @@ def create_preset():
                 markdown=markdown_content,
             )
             db.session.add(step)
-            db.session.commit()
-
-            flash(_("Preset step created successfully"), "success")
+            if _commit_or_rollback():
+                flash(_("Preset step created successfully"), "success")
 
             # HTMX refresh
             if request.headers.get("HX-Request"):
@@ -300,14 +395,17 @@ def edit_step(step_id: int):
     form = FormCls(request.form if request.method == "POST" else None, obj=step)
 
     if form.validate_on_submit():
+        server_type = step.server_type
         if not simple:
             server_type_attr = getattr(form, "server_type", None)
-            step.server_type = server_type_attr.data if server_type_attr else "custom"
+            server_type = server_type_attr.data if server_type_attr else "custom"
 
         # Update category if present on form
+        category = step.category
         if hasattr(form, "category") and form.category.data:
-            step.category = form.category.data
+            category = form.category.data
 
+        _move_step(step, server_type, category)
         step.title = (getattr(form, "title", None) and form.title.data) or None
         cleaned_md = _strip_localization(form.markdown.data or "")
         step.markdown = cleaned_md
@@ -316,8 +414,8 @@ def edit_step(step_id: int):
         if getattr(form, "require_interaction", None) is not None:
             step.require_interaction = bool(form.require_interaction.data)
 
-        db.session.commit()
-        flash(_("Step updated"), "success")
+        if _commit_or_rollback():
+            flash(_("Step updated"), "success")
 
         # HTMX refresh
         if request.headers.get("HX-Request"):
@@ -354,8 +452,8 @@ def delete_step(step_id: int):
     is_custom_step = step.server_type == "custom"
 
     db.session.delete(step)
-    db.session.commit()
-    flash(_("Step deleted"), "success")
+    if _commit_or_rollback():
+        flash(_("Step deleted"), "success")
 
     # For HTMX requests return the updated steps list fragment so the client
     # can refresh the table without a full page reload. Otherwise fall back
@@ -380,28 +478,12 @@ def reorder_steps():
 
     # Handle legacy format (array of IDs)
     if isinstance(data, list):
-        order = cast(list[int], data)
-        rows = WizardStep.query.filter(WizardStep.id.in_(order)).all()
-        id_to_row = {r.id: r for r in rows}
-
-        # Phase 1: assign temporary negative positions
-        for tmp_pos, step_id in enumerate(order, start=1):
-            row = id_to_row.get(step_id)
-            if row is None:
-                continue
-            row.position = -tmp_pos
-
-        db.session.flush()
-
-        # Phase 2: set final 0-based positions
-        for final_pos, step_id in enumerate(order):
-            row = id_to_row.get(step_id)
-            if row is None:
-                continue
-            row.position = final_pos
-
-        db.session.commit()
-        return jsonify({"status": "ok"})
+        steps = _steps_in_order(cast(list[int], data))
+        # Each step stays in its group. Renumber each group separately.
+        for group in dict.fromkeys((s.server_type, s.category) for s in steps):
+            members = [s for s in steps if (s.server_type, s.category) == group]
+            _renumber_steps(group[0], group[1], members)
+        return _commit_reorder()
 
     # Handle new format (object with server_type, category, order)
     if not isinstance(data, dict):
@@ -423,35 +505,11 @@ def reorder_steps():
     if category not in ["pre_invite", "post_invite"]:
         abort(400)
 
-    rows = WizardStep.query.filter(WizardStep.id.in_(order_list)).all()
-    id_to_row = {r.id: r for r in rows}
-
-    # ------------------------------------------------------------------
-    # Phase 1: assign *temporary* negative positions to avoid violating the
-    # unique (server_type, category, position) constraint during in-place updates.
-    # Also update category and server_type if changed.
-    # ------------------------------------------------------------------
-    for tmp_pos, step_id in enumerate(order_list, start=1):
-        row = id_to_row.get(step_id)
-        if row is None:
-            continue
-        row.position = -tmp_pos  # e.g. -1, -2, … distinct & negative
-        row.category = category  # Update category (may have changed via drag-and-drop)
-        row.server_type = server_type  # Ensure server_type is correct
-
-    db.session.flush()  # issues UPDATEs but keeps transaction open
-
-    # ------------------------------------------------------------------
-    # Phase 2: set final 0-based positions
-    # ------------------------------------------------------------------
-    for final_pos, step_id in enumerate(order_list):
-        row = id_to_row.get(step_id)
-        if row is None:
-            continue
-        row.position = final_pos
-
-    db.session.commit()
-    return jsonify({"status": "ok"})
+    # The listed steps move into this group (drag and drop between categories).
+    _renumber_steps(
+        cast(str, server_type), cast(str, category), _steps_in_order(order_list)
+    )
+    return _commit_reorder()
 
 
 @wizard_admin_bp.route("/preview", methods=["POST"])
@@ -474,8 +532,8 @@ def create_bundle():
             name=form.name.data, description=form.description.data or None
         )
         db.session.add(bundle)
-        db.session.commit()
-        flash(_("Bundle created"), "success")
+        if _commit_or_rollback():
+            flash(_("Bundle created"), "success")
 
         # For HTMX requests return the updated bundles list fragment so the client
         # can refresh the table without a full page reload. Otherwise fall back
@@ -504,8 +562,8 @@ def edit_bundle(bundle_id: int):
     if form.validate_on_submit():
         bundle.name = form.name.data
         bundle.description = form.description.data or None
-        db.session.commit()
-        flash(_("Bundle updated"), "success")
+        if _commit_or_rollback():
+            flash(_("Bundle updated"), "success")
 
         # For HTMX requests return the updated bundles list fragment so the client
         # can refresh the table without a full page reload. Otherwise fall back
@@ -528,8 +586,8 @@ def edit_bundle(bundle_id: int):
 def delete_bundle(bundle_id: int):
     bundle = db.get_or_404(WizardBundle, bundle_id)
     db.session.delete(bundle)
-    db.session.commit()
-    flash(_("Bundle deleted"), "success")
+    if _commit_or_rollback():
+        flash(_("Bundle deleted"), "success")
 
     if request.headers.get("HX-Request"):
         return list_bundles()
@@ -579,17 +637,21 @@ def reorder_bundle(bundle_id: int):
     else:
         abort(400)
 
-    rows = WizardBundleStep.query.filter(
-        WizardBundleStep.bundle_id == bundle_id,
-        WizardBundleStep.step_id.in_(order),
-    ).all()
+    rows = (
+        WizardBundleStep.query.filter_by(bundle_id=bundle_id)
+        .order_by(WizardBundleStep.position)
+        .all()
+    )
     id_to_row = {r.step_id: r for r in rows}
+    listed = [
+        id_to_row[step_id] for step_id in dict.fromkeys(order) if step_id in id_to_row
+    ]
+    # Rows that the request does not list go to the end. Thus two rows never
+    # get the same position, also when the client sends an old list.
+    rows = listed + [r for r in rows if r not in listed]
 
     # Phase 1 – temporary negative positions to satisfy unique constraint
-    for tmp_pos, step_id in enumerate(order, start=1):
-        row = id_to_row.get(step_id)
-        if row is None:
-            continue
+    for tmp_pos, row in enumerate(rows, start=1):
         row.position = -tmp_pos
 
     db.session.flush()
@@ -613,15 +675,7 @@ def reorder_bundle(bundle_id: int):
         def get_next_position(server_type: str, category: str) -> int:
             key = (server_type, category)
             if key not in next_positions:
-                max_pos = (
-                    db.session.query(func.max(WizardStep.position))
-                    .filter(
-                        WizardStep.server_type == server_type,
-                        WizardStep.category == category,
-                    )
-                    .scalar()
-                )
-                next_positions[key] = (max_pos or -1) + 1
+                next_positions[key] = _next_free_position(server_type, category)
             else:
                 next_positions[key] += 1
             return next_positions[key]
@@ -632,14 +686,10 @@ def reorder_bundle(bundle_id: int):
                 step.position = get_next_position(step.server_type, desired_category)
 
     # Phase 2 – final 0-based positions
-    for final_pos, step_id in enumerate(order):
-        row = id_to_row.get(step_id)
-        if row is None:
-            continue
+    for final_pos, row in enumerate(rows):
         row.position = final_pos
 
-    db.session.commit()
-    return jsonify({"status": "ok"})
+    return _commit_reorder()
 
 
 # ─── add steps modal & handler ───────────────────────────────────
@@ -680,8 +730,8 @@ def add_steps(bundle_id: int):
             continue
         bundle.steps.append(WizardBundleStep(step_id=sid_int, position=next_pos))
         next_pos += 1
-    db.session.commit()
-    flash(_("Steps added"), "success")
+    if _commit_or_rollback():
+        flash(_("Steps added"), "success")
     if request.headers.get("HX-Request"):
         return list_bundles()
     return redirect(url_for("wizard_admin.list_bundles"))
@@ -692,8 +742,8 @@ def add_steps(bundle_id: int):
 def delete_bundle_step(bundle_step_id: int):
     bundle_step = db.get_or_404(WizardBundleStep, bundle_step_id)
     db.session.delete(bundle_step)
-    db.session.commit()
-    flash(_("Orphaned step removed"), "success")
+    if _commit_or_rollback():
+        flash(_("Orphaned step removed"), "success")
 
     if request.headers.get("HX-Request"):
         return list_bundles()

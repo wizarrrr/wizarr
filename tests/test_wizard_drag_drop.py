@@ -11,7 +11,6 @@ This module tests the drag-and-drop reordering of wizard steps, including:
 import json
 
 import pytest
-from sqlalchemy.exc import IntegrityError
 
 from app.extensions import db
 from app.models import AdminAccount, Library, MediaServer, User, WizardStep
@@ -436,28 +435,34 @@ class TestDragDropEdgeCases:
         assert all(s.id in plex_pre_ids for s in steps)
 
     def test_reorder_with_duplicate_ids(self, client, admin_user, wizard_steps):
-        """Test reordering with duplicate step IDs causes constraint violation."""
+        """Test that reordering with duplicate step IDs skips the duplicates."""
         authenticate_client(client, admin_user)
 
         plex_pre_ids = wizard_steps["plex_pre"]
-        # Include first ID twice - this will cause a unique constraint violation
-        # because the same step ID will try to have the same position twice
+        # Include first ID twice. The route must use each step only once.
         order_with_duplicate = [plex_pre_ids[0], plex_pre_ids[0], plex_pre_ids[1]]
 
-        # This should fail with a 500 error due to database constraint
-        # In a production system, this would be caught and handled gracefully
-        with pytest.raises(IntegrityError):
-            client.post(
-                "/settings/wizard/reorder",
-                data=json.dumps(
-                    {
-                        "server_type": "plex",
-                        "category": "pre_invite",
-                        "order": order_with_duplicate,
-                    }
-                ),
-                content_type="application/json",
-            )
+        response = client.post(
+            "/settings/wizard/reorder",
+            data=json.dumps(
+                {
+                    "server_type": "plex",
+                    "category": "pre_invite",
+                    "order": order_with_duplicate,
+                }
+            ),
+            content_type="application/json",
+        )
+
+        assert response.status_code == 200
+        steps = (
+            WizardStep.query.filter_by(server_type="plex", category="pre_invite")
+            .order_by(WizardStep.position)
+            .all()
+        )
+        # The step that the request does not list goes to the end.
+        assert [s.id for s in steps] == plex_pre_ids
+        assert [s.position for s in steps] == [0, 1, 2]
 
     def test_reorder_with_invalid_json(self, client, admin_user):
         """Test reordering with invalid JSON."""

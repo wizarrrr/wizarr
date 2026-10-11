@@ -54,6 +54,17 @@ def _check_connection(data: dict):
     )
 
 
+def _typed_values() -> dict[str, str]:
+    """Return the server form values that the admin typed, without the password.
+
+    A server modal that renders again after a failed connection test shows
+    these values, so that the admin does not have to type them again.
+    """
+    values = request.form.to_dict()
+    values.pop("server_password", None)
+    return values
+
+
 @media_servers_bp.route("", methods=["GET"])  # list all
 @login_required
 def list_servers():
@@ -82,7 +93,11 @@ def create_server():
         if not ok:
             # Re-render modal with error
             resp = make_response(
-                render_template("modals/create-server.html", error=error_msg)
+                render_template(
+                    "modals/create-server.html",
+                    error=error_msg,
+                    values=_typed_values(),
+                )
             )
             resp.headers["HX-Retarget"] = "#create-server-modal"
             return resp
@@ -179,7 +194,10 @@ def edit_server(server_id):
         if not ok:
             resp = make_response(
                 render_template(
-                    "modals/edit-server.html", server=server, error=error_msg
+                    "modals/edit-server.html",
+                    server=server,
+                    error=error_msg,
+                    values=_typed_values(),
                 )
             )
             resp.headers["HX-Retarget"] = "#create-server-modal"
