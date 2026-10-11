@@ -1,25 +1,29 @@
 import logging
-import re
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
 
 import requests
+import structlog
 from sqlalchemy import or_
 
 from app.extensions import db
 from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid
 
-from .client_base import RestApiMixin, register_media_client
-
-EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
+from .client_base import EMAIL_RE, RestApiMixin, register_media_client
 
 
 @register_media_client("komga")
 class KomgaClient(RestApiMixin):
     """Wrapper around the Komga REST API using credentials from Settings."""
+
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_komga
+
+        return check_komga(url, token)
 
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("url_key", "server_url")
@@ -29,7 +33,7 @@ class KomgaClient(RestApiMixin):
     def _headers(self) -> dict[str, str]:
         headers = {"Accept": "application/json"}
         if self.token:
-            headers["Authorization"] = f"Bearer {self.token}"
+            headers["X-API-Key"] = self.token
         return headers
 
     def libraries(self) -> dict[str, str]:
@@ -56,7 +60,7 @@ class KomgaClient(RestApiMixin):
         """
         try:
             if url and token:
-                headers = {"Authorization": f"Bearer {token}"}
+                headers = {"X-API-Key": token}
                 response = requests.get(
                     f"{url.rstrip('/')}/api/v1/libraries", headers=headers, timeout=10
                 )
@@ -71,20 +75,75 @@ class KomgaClient(RestApiMixin):
             logging.warning("Komga: failed to scan libraries – %s", exc)
             return {}
 
-    def create_user(self, username: str, password: str, email: str) -> str:
-        """Create a new Komga user and return the user ID."""
-        payload = {"email": email, "password": password, "roles": ["USER"]}
-        response = self.post("/api/v1/users", json=payload)
+    def create_user(
+        self, _username: str, password: str, email: str, allow_downloads: bool = False
+    ) -> str:
+        """Create a new Komga user and return the user ID.
+
+        Args:
+            _username: Username for the new user (unused - Komga uses email as username)
+            password: Password for the new user
+            email: Email address for the new user
+            allow_downloads: Whether to grant FILE_DOWNLOAD role
+
+        Returns:
+            str: The new user's ID
+        """
+        roles = ["USER"]
+        if allow_downloads:
+            roles.append("FILE_DOWNLOAD")
+
+        payload = {"email": email, "password": password, "roles": roles}
+        response = self.post("/api/v2/users", json=payload)
         return response.json()["id"]
 
     def update_user(self, user_id: str, updates: dict[str, Any]) -> dict[str, Any]:
         """Update a Komga user."""
-        response = self.patch(f"/api/v1/users/{user_id}", json=updates)
+        response = self.patch(f"/api/v2/users/{user_id}", json=updates)
         return response.json()
+
+    def enable_user(self, user_id: str) -> bool:  # noqa: ARG002
+        """Enable a user account on Komga.
+
+        Args:
+            user_id: The user's Komga ID (unused - Komga doesn't support enable/disable)
+
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            # Komga doesn't have a direct enable feature
+            # Return False to indicate this operation is not supported
+            structlog.get_logger().warning(
+                "Komga does not support enabling users. They need to be given library access."
+            )
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable Komga user: {e}")
+            return False
+
+    def disable_user(self, user_id: str) -> bool:
+        """Disable a user account on Komga.
+
+        Args:
+            user_id: The user's Komga ID
+
+        Returns:
+            bool: True if the user was successfully disabled, False otherwise
+        """
+        try:
+            # Komga doesn't have a direct disable feature
+            # We can remove all library access to effectively disable the user
+            user_data = {"sharedLibrariesIds": []}
+            response = self.patch(f"/api/v2/users/{user_id}", json=user_data)
+            return response.status_code in {204, 200}
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to disable Komga user: {e}")
+            return False
 
     def delete_user(self, user_id: str) -> None:
         """Delete a Komga user."""
-        self.delete(f"/api/v1/users/{user_id}")
+        self.delete(f"/api/v2/users/{user_id}")
 
     def get_user(self, user_id: str) -> dict[str, Any]:
         """Get user info in legacy format for backward compatibility."""
@@ -102,8 +161,9 @@ class KomgaClient(RestApiMixin):
             else None,
         }
 
-    def get_user_details(self, user_id: str) -> "MediaUserDetails":
+    def get_user_details(self, user_identifier: str | int) -> "MediaUserDetails":
         """Get detailed user information in standardized format."""
+        user_id = str(user_identifier)
         from app.services.media.utils import (
             DateHelper,
             LibraryAccessHelper,
@@ -112,18 +172,34 @@ class KomgaClient(RestApiMixin):
         )
 
         # Get raw user data from Komga API
-        response = self.get(f"/api/v1/users/{user_id}")
+        response = self.get(f"/api/v2/users/{user_id}")
         raw_user = response.json()
 
         # Extract permissions using utility
+        roles = raw_user.get("roles", [])
         permissions = StandardizedPermissions.for_basic_server(
             "komga",
-            is_admin="ADMIN" in raw_user.get("roles", []),
-            allow_downloads=True,  # Comic reader allows downloads
+            is_admin="ADMIN" in roles,
+            allow_downloads="FILE_DOWNLOAD" in roles,
         )
 
-        # Komga gives full access to all libraries
-        library_access = LibraryAccessHelper.create_full_access()
+        # Handle library access - always return actual library names
+
+        if raw_user.get("sharedAllLibraries", False):
+            # User has access to all libraries - fetch all library IDs from server
+            all_libraries = self.libraries()  # Returns {id: name} mapping
+            shared_library_ids = list(all_libraries.keys())
+        else:
+            # User has restricted library access
+            shared_library_ids = raw_user.get("sharedLibrariesIds", [])
+
+        # Always create restricted access with the actual library IDs
+        server_id: int = getattr(self, "server_id", 0)
+        library_access = (
+            LibraryAccessHelper.create_restricted_access(shared_library_ids, server_id)
+            if shared_library_ids
+            else []
+        )
 
         # Parse dates
         created_at = DateHelper.parse_iso_date(raw_user.get("createdDate"))
@@ -135,7 +211,6 @@ class KomgaClient(RestApiMixin):
             email=raw_user.get("email"),
             permissions=permissions,
             library_access=library_access,
-            raw_policies=raw_user,
             created_at=created_at,
             last_active=last_active,
             is_enabled=True,  # Komga doesn't have a disabled state in API
@@ -144,49 +219,64 @@ class KomgaClient(RestApiMixin):
     def list_users(self) -> list[User]:
         """Sync users from Komga into the local DB and return the list of User records."""
         try:
-            response = self.get("/api/v1/users")
+            response = self.get("/api/v2/users")
             komga_users = {u["id"]: u for u in response.json()}
+            server_id = getattr(self, "server_id", None)
 
-            for komga_user in komga_users.values():
-                existing = User.query.filter_by(token=komga_user["id"]).first()
-                if not existing:
+            known_users = User.query.filter(User.server_id == server_id).all()
+            if self._skip_prune_on_empty_remote(not komga_users, known_users):
+                return known_users
+
+            # Fetch the server's libraries one time, before any DB write, and
+            # only if a user can see all libraries. Before, this remote call
+            # ran once per such user while the write transaction was open.
+            all_library_ids: list[str] | None = None
+            if any(u.get("sharedAllLibraries", False) for u in komga_users.values()):
+                all_library_ids = list(self.libraries().keys())
+
+            # Use the rows that are already loaded, not one query for each
+            # remote user. The match is for this server only, so a user with
+            # the same id on another server does not block this one.
+            users: list[User] = []
+            for db_user in known_users:
+                if db_user.token in komga_users:
+                    users.append(db_user)
+                else:
+                    db.session.delete(db_user)
+
+            known_tokens = {user.token for user in users}
+            for token, komga_user in komga_users.items():
+                if token not in known_tokens:
                     new_user = User(
-                        token=komga_user["id"],
+                        token=token,
                         username=komga_user["email"],
                         email=komga_user["email"],
                         code="empty",
-                        server_id=getattr(self, "server_id", None),
+                        server_id=server_id,
                     )
                     db.session.add(new_user)
-            db.session.commit()
+                    users.append(new_user)
 
-            to_check = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
-            for db_user in to_check:
-                if db_user.token not in komga_users:
-                    db.session.delete(db_user)
-            db.session.commit()
-
-            # Get users with default policy information
-            users = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
-
-            # Add default policy attributes (Komga doesn't have specific download/live TV policies)
+            # Add policy attributes including library access from Komga
             for user in users:
-                # Store both server-specific and standardized keys in policies dict
-                komga_policies = {
-                    # Server-specific data (Komga user info would go here)
-                    "enabled": True,  # Komga users are enabled by default
-                    # Standardized permission keys for UI display
-                    "allow_downloads": True,  # Default to True for reading apps
-                    "allow_live_tv": False,  # Komga doesn't have Live TV
-                    "allow_sync": True,  # Default to True for reading apps
-                }
-                user.set_raw_policies(komga_policies)
+                # Get the full user data from Komga to extract library info
+                komga_user_data = komga_users.get(user.token, {})
+                roles = komga_user_data.get("roles", [])
 
-            # Single commit for all metadata updates
+                # Check for FILE_DOWNLOAD role to determine download permission
+                allow_downloads = "FILE_DOWNLOAD" in roles
+
+                # Update standardized User model columns
+                user.allow_downloads = allow_downloads
+                user.allow_live_tv = False  # Komga doesn't have Live TV
+                user.is_admin = "ADMIN" in roles
+
+            # Cache detailed metadata for all users (including library access)
+            self._cache_user_metadata_from_bulk_response(
+                users, komga_users, all_library_ids=all_library_ids
+            )
+
+            # Single commit for all user and metadata updates
             try:
                 db.session.commit()
             except Exception as e:
@@ -199,19 +289,127 @@ class KomgaClient(RestApiMixin):
             logging.error(f"Failed to list Komga users: {e}")
             return []
 
+    def _cache_user_metadata_from_bulk_response(
+        self,
+        users: list[User],
+        komga_users: dict,
+        *,
+        all_library_ids: list[str] | None = None,
+    ) -> None:
+        """Cache user metadata from bulk API response without individual API calls.
+
+        Args:
+            users: List of User objects to cache metadata for
+            komga_users: Dictionary of raw user data from bulk /api/v2/users response
+            all_library_ids: IDs of all server libraries. Give them when you
+                have them, so that this method does not fetch them again.
+        """
+        if not users or not komga_users:
+            return
+
+        from app.models import Library
+        from app.services.media.utils import (
+            DateHelper,
+            LibraryAccessHelper,
+            StandardizedPermissions,
+            create_standardized_user_details,
+        )
+
+        server_id: int = getattr(self, "server_id", 0)
+        # Read the library rows one time for all users, not once per user.
+        library_names_by_id = dict(
+            Library.query.with_entities(Library.external_id, Library.name)
+            .filter(Library.server_id == server_id)
+            .all()
+        )
+
+        cached_count = 0
+        for user in users:
+            try:
+                # Get the raw user data from bulk response
+                raw_user = komga_users.get(user.token)
+                if not raw_user:
+                    continue
+
+                roles = raw_user.get("roles", [])
+
+                # Extract standardized permissions
+                permissions = StandardizedPermissions.for_basic_server(
+                    "komga",
+                    is_admin="ADMIN" in roles,
+                    allow_downloads="FILE_DOWNLOAD" in roles,
+                )
+
+                # Handle library access - always return actual library names
+                if raw_user.get("sharedAllLibraries", False):
+                    # User has access to all libraries - fetch all library IDs
+                    # from the server one time only.
+                    if all_library_ids is None:
+                        all_library_ids = list(self.libraries().keys())
+                    shared_library_ids = all_library_ids
+                else:
+                    # User has restricted library access
+                    shared_library_ids = raw_user.get("sharedLibrariesIds", [])
+
+                # Always create restricted access with the actual library IDs
+                library_access = (
+                    LibraryAccessHelper.create_restricted_access(
+                        shared_library_ids,
+                        server_id,
+                        library_names_by_id=library_names_by_id,
+                    )
+                    if shared_library_ids
+                    else []
+                )
+
+                # Parse dates
+                created_at = DateHelper.parse_iso_date(raw_user.get("createdDate"))
+                last_active = DateHelper.parse_iso_date(raw_user.get("lastActiveDate"))
+
+                # Create standardized user details
+                details = create_standardized_user_details(
+                    user_id=user.token,
+                    username=raw_user.get("email", "Unknown"),
+                    email=raw_user.get("email"),
+                    permissions=permissions,
+                    library_access=library_access,
+                    created_at=created_at,
+                    last_active=last_active,
+                    is_enabled=True,  # Komga doesn't have a disabled state
+                )
+
+                # Update the standardized metadata columns in the User record
+                user.update_standardized_metadata(details)
+                cached_count += 1
+
+            except Exception as e:
+                logging.warning(
+                    f"Failed to cache metadata for Komga user {user.token}: {e}"
+                )
+                continue
+
+        if cached_count > 0:
+            logging.info(f"Cached metadata for {cached_count} Komga users")
+
     def _set_library_access(self, user_id: str, library_ids: list[str]) -> None:
         """Set library access for a user."""
         if not library_ids:
             return
 
         try:
-            for library_id in library_ids:
-                self.put(f"/api/v1/users/{user_id}/shared-libraries/{library_id}")
+            # Use v2 API to set library access via user update
+            updates = {"sharedLibraries": {"all": False, "libraryIds": library_ids}}
+            self.patch(f"/api/v2/users/{user_id}", json=updates)
         except Exception as e:
             logging.warning(f"Failed to set library access for user {user_id}: {e}")
 
     def _do_join(
-        self, username: str, password: str, confirm: str, email: str, code: str
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
     ) -> tuple[bool, str]:
         """Handle public sign-up via invite for Komga servers."""
         if not EMAIL_RE.fullmatch(email):
@@ -233,11 +431,27 @@ class KomgaClient(RestApiMixin):
             return False, "User or e-mail already exists."
 
         try:
-            user_id = self.create_user(username, password, email)
-
             inv = Invitation.query.filter_by(code=code).first()
-
             current_server_id = getattr(self, "server_id", None)
+
+            # Get download permission from invitation, or fall back to server default
+            if inv and inv.allow_downloads is not None:
+                allow_downloads = inv.allow_downloads
+            else:
+                # Use server's default download policy
+                from app.models import MediaServer
+
+                server = (
+                    MediaServer.query.get(current_server_id)
+                    if current_server_id
+                    else None
+                )
+                allow_downloads = server.allow_downloads if server else False
+
+            user_id = self.create_user(
+                username, password, email, allow_downloads=allow_downloads
+            )
+
             if inv and inv.libraries:
                 library_ids = [
                     lib.external_id
@@ -314,7 +528,7 @@ class KomgaClient(RestApiMixin):
 
             # User statistics - only what's displayed in UI
             try:
-                users_response = self.get("/api/v1/users").json()
+                users_response = self.get("/api/v2/users").json()
                 stats["user_stats"] = {
                     "total_users": len(users_response),
                     "active_sessions": 0,  # Komga doesn't have active sessions concept
@@ -364,7 +578,7 @@ class KomgaClient(RestApiMixin):
                 else:
                     # Ultimate fallback: API call
                     try:
-                        users = self.get("/api/v1/users").json()
+                        users = self.get("/api/v2/users").json()
                         count = len(users) if isinstance(users, list) else 0
                     except Exception as api_error:
                         logging.warning(f"Komga API fallback failed: {api_error}")
@@ -424,3 +638,53 @@ class KomgaClient(RestApiMixin):
                 "content_stats": {},
                 "error": str(e),
             }
+
+    def get_recent_items(
+        self,
+        library_id: str | None = None,  # noqa: ARG002
+        limit: int = 6,
+    ) -> list[dict[str, str]]:
+        """Get recently added books from Komga for the wizard widget.
+
+        Args:
+            library_id: Optional library ID to filter by
+            limit: Maximum number of items to return
+
+        Returns:
+            list: List of dicts with 'title' and 'thumb' keys
+        """
+        if not self.url:
+            return []
+
+        try:
+            # Get latest books from Komga API
+            response = self.get(f"/api/v1/books/latest?size={limit}")
+            books = response.json().get("content", [])
+
+            items = []
+            for book in books:
+                # Get book ID for thumbnail
+                book_id = book.get("id")
+
+                if book_id:
+                    # Construct thumbnail URL with authentication
+                    thumb_url = (
+                        f"{self.url.rstrip('/')}/api/v1/books/{book_id}/thumbnail"
+                    )
+
+                    # Generate secure proxy URL with opaque token
+                    thumb_url = self.generate_image_proxy_url(thumb_url)
+
+                    items.append(
+                        {
+                            "title": book.get("metadata", {}).get("title")
+                            or book.get("name", "Unknown"),
+                            "thumb": thumb_url,
+                        }
+                    )
+
+            return items
+
+        except Exception as e:
+            logging.warning(f"Failed to get recent items from Komga: {e}")
+            return []

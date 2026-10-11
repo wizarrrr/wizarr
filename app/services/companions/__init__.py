@@ -14,8 +14,8 @@ from .overseerr import OverseerrClient
 __all__ = [
     "CompanionClient",
     "get_companion_client",
-    "register_companion_client",
     "list_companion_types",
+    "register_companion_client",
 ]
 
 # Registry of companion client implementations
@@ -43,7 +43,7 @@ def list_companion_types() -> list[tuple[str, str]]:
     """Return list of (value, label) tuples for all registered companion types."""
     return [
         ("ombi", "Ombi"),
-        ("overseerr", "Overseerr/Jellyseerr (Info Only)"),
+        ("overseerr", "Overseerr/Jellyseerr"),
         ("audiobookrequest", "Audiobookrequest"),
     ]
 

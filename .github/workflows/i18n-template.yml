@@ -7,27 +7,27 @@ on:
 
 jobs:
   pot:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # don’t run if the commit came from the Weblate bot
     if: github.actor != 'weblate'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install uv
-        uses: astral-sh/setup-uv@v5
+        uses: astral-sh/setup-uv@v10.2.0
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version-file: pyproject.toml 
 
-      - name: Re-generate POT
+      - name: Re-generate POT template
         run: |
-          uv run pybabel extract -F babel.cfg -k _l -o messages.pot .
+          PYTHONPATH=. uv run pybabel extract -F babel.cfg -k _l -o messages.pot .
           if ! git diff --quiet messages.pot; then
-            git config user.name  "i18n-bot"
-            git config user.email "i18n-bot@users.noreply.github.com"
+            git config user.name  "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add messages.pot
-            git commit -m "i18n: refresh POT [skip ci]"
+            git commit -m "i18n: refresh POT template [skip ci]"
             git push
           fi

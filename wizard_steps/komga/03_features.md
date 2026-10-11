@@ -1,42 +1,34 @@
 ---
-title: "Library Features"
+title: "{{ _('Library Features') }}"
 ---
 
-# ✨ {{ _("Library Features") }}
+## ✨ {{ _('Komga Features') }}
 
-## 📖 {{ _("Reading Experience") }}
+{{ _('Discover all the features available to enhance your reading experience!') }}
 
-- **Webtoon Mode**: {{ _("Perfect for manga and webtoons") }}
-- **Page-by-Page**: {{ _("Traditional comic reading") }}
-- **Zoom & Pan**: {{ _("Detailed view of artwork") }}
-- **Bookmarks**: {{ _("Save your progress automatically") }}
+|||
+### 📖 {{ _('Reading Experience') }}
 
-## 🗂️ {{ _("Organization") }}
+- **{{ _('Webtoon Mode') }}**: {{ _('Perfect for manga and webtoons with continuous scrolling') }}
+- **{{ _('Page-by-Page') }}**: {{ _('Traditional comic book reading experience') }}
+- **{{ _('Zoom & Pan') }}**: {{ _('Get detailed views of artwork') }}
+- **{{ _('Auto Bookmarks') }}**: {{ _('Your progress is saved automatically') }}
+|||
 
-- **Series**: {{ _("Comics grouped by series") }}
-- **Collections**: {{ _("Curated collections by themes") }}
-- **Tags**: {{ _("Filter by genres, authors, and more") }}
-- **Search**: {{ _("Find specific titles quickly") }}
+|||
+### 🗂️ {{ _('Organization') }}
 
-## 👤 {{ _("Personal Features") }}
+- **{{ _('Series Collections') }}**: {{ _('Browse comics organized by series') }}
+- **{{ _('Custom Collections') }}**: {{ _('Curated collections by themes and genres') }}
+- **{{ _('Smart Tags') }}**: {{ _('Filter by genres, authors, publishers, and more') }}
+- **{{ _('Advanced Search') }}**: {{ _('Find specific titles instantly') }}
+|||
 
-- **Reading Progress**: {{ _("Track which issues you've read") }}
-- **Continue Reading**: {{ _("Pick up where you left off") }}
-- **Reading Lists**: {{ _("Create custom reading lists") }}
-- **Favorites**: {{ _("Mark your favorite series") }}
+|||
+### 👤 {{ _('Personal Features') }}
 
-## 🔍 {{ _("Discovery") }}
-
-- **Latest Releases**: {{ _("See newly added comics") }}
-- **Recently Updated**: {{ _("Series with new issues") }}
-- **Recommendations**: {{ _("Based on your reading history") }}
-
-## 💾 {{ _("Offline Reading") }}
-
-{{ _("Many compatible apps allow you to:") }}
-
-- **Download**: {{ _("Save comics locally") }}
-- **Sync**: {{ _("Keep progress synchronized") }}
-- **Offline Mode**: {{ _("Read without internet") }}
-
-{{ _("Your reading progress syncs back when you reconnect!") }} 
+- **{{ _('Reading Progress') }}**: {{ _('Track which issues you\'ve completed') }}
+- **{{ _('Continue Reading') }}**: {{ _('Pick up exactly where you left off') }}
+- **{{ _('Reading Lists') }}**: {{ _('Create and manage custom reading lists') }}
+- **{{ _('On Deck') }}**: {{ _('See your next suggested reads') }}
+|||

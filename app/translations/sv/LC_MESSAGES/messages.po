@@ -1,413 +1,3102 @@
 # Swedish translations for PROJECT.
-# Copyright (C) 2023 ORGANIZATION
+# Copyright (C) 2025 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2025-05-26 00:01+0000\n"
-"Last-Translator: Hannes Brolin Lagerstedt <mainhannes@gmail.com>\n"
-"Language-Team: Swedish <https://hosted.weblate.org/projects/wizarr/"
-"wizarr-universal/sv/>\n"
+"POT-Creation-Date: 2026-10-11 10:00+0000\n"
+"PO-Revision-Date: 2026-08-12 21:00+0000\n"
+"Last-Translator: Noah <contact@bruck.is>\n"
+"Language-Team: Swedish <https://hosted.weblate.org/projects/wizarr/wizarr-"
+"universal/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.12-dev\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/auth/routes.py:44
+msgid "Failed to load settings"
+msgstr "Misslyckades att ladda inställningar"
+
+msgid "Failed to load dashboard data"
+msgstr "Misslyckades att ladda data till infopanelen"
+
+msgid "Failed to load history data"
+msgstr "Misslyckades att ladda historik"
+
+msgid "Failed to load activity data"
+msgstr "Misslyckades att ladda aktivitetsdata"
+
+msgid "Failed to load activity summary"
+msgstr "Misslyckades att ladda aktivitetssammanfattning"
+
+msgid "Failed to get activity statistics"
+msgstr "Misslyckades att hämta aktivitetsstatistik"
+
+msgid "Database not available"
+msgstr "Databas ej tillgänglig"
+
+msgid "Failed to get session details"
+msgstr "Misslyckades att hämta sessionsdetaljer"
+
+msgid "Failed to export activity data"
+msgstr "Misslyckades att exportera aktivitetsdata"
+
+msgid "enabled"
+msgstr ""
+
+msgid "disabled"
+msgstr ""
+
+#, python-brace-format
+msgid "Activity tracking is {state}. The change can take up to 15 seconds."
+msgstr ""
+
+msgid "Monitoring restarted"
+msgstr "Övervakning omstartad"
+
+msgid "Monitor not available"
+msgstr "Övervakare ej tillgänglig"
+
+#, python-brace-format
+msgid "Cleaned up {} old activity records"
+msgstr "Rensade {} gamla aktivitetsprotokoll"
+
+#, python-brace-format
+msgid "Ended {} stale sessions"
+msgstr "Avslutate {} gamla sessioner"
+
+msgid "Unknown action"
+msgstr "Okänd åtgärd"
+
+msgid "Failed to update settings"
+msgstr "Misslyckades att uppdatera inställningar"
+
+#, python-brace-format
+msgid "Activity data has been successfully deleted ({} records)."
+msgstr "Aktivitetsdata har tagits bort ({} inlägg)."
+
+#, python-brace-format
+msgid "Failed to delete activity data: {}"
+msgstr "Misslyckates att ta bort aktivitetsdata: {}"
+
+msgid "Please select a media server."
+msgstr "Vänligen välj en mediaserver."
+
+msgid "Media server not found."
+msgstr "Mediaserver kunde inte hittas."
+
+msgid ""
+"Historical data import is currently only supported for Plex, Jellyfin, Emby, "
+"and AudiobookShelf servers."
+msgstr ""
+"Importering av historisk data har i dagsläget endast stöd för Plex, "
+"Jellyfin, Emby och AudiobookShelf servrar."
+
+#, python-brace-format
+msgid ""
+"Historical import job #{job_id} started for {server} (last {days} days)."
+msgstr ""
+"Importering av historisk data #{job_id} påbörjat för {server} (pågår i "
+"{days} dagar)."
+
+#, python-brace-format
+msgid "Failed to import historical data: {}"
+msgstr "Misslyckades att importera historisk data: {}"
+
+#, python-brace-format
+msgid "Successfully cleared {} historical entries."
+msgstr "{} inlägg historisk data borttagen."
+
+#, python-brace-format
+msgid "Failed to clear historical data: {}"
+msgstr "Misslyckades att rensa historisk data: {}"
+
+msgid "Unknown error"
+msgstr "Okänt fel"
+
+msgid "Cannot remove a job that is still queued or running."
+msgstr "Kan inte ta bort ett job som fortfarande kör eller är i kön."
+
+msgid "An internal error has occurred."
+msgstr "Ett internt fel har uppstått."
+
+msgid "Unknown"
+msgstr "Okänd"
+
+msgid "Never"
+msgstr "Aldrig"
+
+msgid "Expired"
+msgstr "Löpt ut"
+
+#, python-format
+msgid "in %(n)d d"
+msgstr "om %(n)d d"
+
+msgid "in 1 d"
+msgstr ""
+
+#, python-format
+msgid "in %(n)d h"
+msgstr ""
+
+#, python-format
+msgid "in %(n)d m"
+msgstr ""
+
+msgid "soon"
+msgstr ""
+
+#, fuzzy
+msgid "Admin created"
+msgstr "Skapad"
+
+msgid "Admin updated"
+msgstr ""
+
+#, python-brace-format
+msgid "All passkeys for {} have been reset"
+msgstr ""
+
+#, python-brace-format
+msgid "Failed to reset passkeys for {}"
+msgstr ""
+
+msgid ""
+"No admin account found. Please set up a proper admin account before creating "
+"API keys."
+msgstr ""
+
+msgid "Failed to create API key due to a database error."
+msgstr ""
+
+msgid ""
+"API key created successfully. Please copy it now as it won't be shown again."
+msgstr ""
+
+msgid "API key deleted successfully"
+msgstr ""
+
+#, fuzzy
+msgid "LDAP authentication is not enabled"
+msgstr "Notifierings Agenter"
+
+#, fuzzy
+msgid "LDAP admin authentication is not allowed"
+msgstr "Notifierings Agenter"
+
+msgid "Invalid LDAP credentials"
+msgstr ""
+
+msgid "User DN not found in LDAP response"
+msgstr ""
+
+msgid "User is not authorized as an administrator"
+msgstr ""
+
+msgid "Login successful"
+msgstr ""
+
+#, fuzzy
+msgid "LDAP authentication failed"
+msgstr "Notifierings Agenter"
+
+msgid "Sign in through Cloudflare Access to reach the admin pages."
+msgstr ""
+
 msgid "Invalid username or password"
 msgstr "Felaktigt användarnamn eller lösenord"
 
-#: app/blueprints/settings/routes.py:131
+msgid "No pending 2FA authentication"
+msgstr ""
+
+#, fuzzy
+msgid "Authentication failed"
+msgstr "Notifierings Agenter"
+
+msgid "Connection type is required"
+msgstr ""
+
+#, python-format
+msgid "Connection test failed: %(message)s"
+msgstr ""
+
+msgid "Connection test successful!"
+msgstr ""
+
+msgid "Unknown connection type"
+msgstr ""
+
+msgid "Connection created successfully!"
+msgstr ""
+
+msgid "Connection updated successfully!"
+msgstr ""
+
+msgid "Connection deleted successfully!"
+msgstr ""
+
+msgid "Please refresh the page and try again (CSRF token expired)"
+msgstr ""
+
+#, python-format
+msgid "Invalid form data: %(errors)s"
+msgstr ""
+
+msgid ""
+"There was an issue setting up your access. Please contact your server admin."
+msgstr ""
+
+msgid "Settings saved successfully!"
+msgstr ""
+
+msgid "Server URL"
+msgstr "Server adress"
+
+msgid "API Key"
+msgstr ""
+
+#, fuzzy
+msgid "Username/Password"
+msgstr "Felaktigt användarnamn eller lösenord"
+
+#, python-brace-format
+msgid "Missing required fields: {fields}"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
 msgid "Library scan failed"
 msgstr "Bibliotek hittades inte"
 
-#: app/templates/admin.html:5
-msgid "Admin"
-msgstr "Administratör"
+#, python-brace-format
+msgid "Successfully cleaned {count} expired user(s)."
+msgstr ""
 
-#: app/templates/admin.html:31
-msgid "Home"
-msgstr "Hem"
+msgid "No expired users found to clean."
+msgstr ""
 
-#: app/templates/admin.html:36
-msgid "Invitations"
-msgstr "Inbjudningar"
+msgid ""
+"Are you sure you want to clean all expired users? This action cannot be "
+"undone."
+msgstr ""
 
-#: app/templates/admin.html:41
-msgid "Users"
-msgstr "Användare"
+#, fuzzy
+msgid "Clean Expired Users"
+msgstr "Löper ut"
 
-#: app/templates/admin.html:46 app/templates/settings/index.html:3
-msgid "Settings"
-msgstr "Inställningar"
+#, python-brace-format
+msgid "Failed to clean expired users: {error}"
+msgstr ""
 
-#: app/templates/invalid-invite.html:16
-msgid "Invalid Invitation"
+msgid "LDAP configuration saved successfully"
+msgstr ""
+
+msgid "LDAP not configured or disabled"
+msgstr ""
+
+msgid "No groups found in LDAP"
+msgstr ""
+
+msgid "LDAP is not configured"
+msgstr ""
+
+#, python-format
+msgid "Failed to list LDAP users: %(error)s"
+msgstr ""
+
+msgid "Admin account created – welcome!"
+msgstr ""
+
+msgid ""
+"Your invitation has expired or is no longer valid. Please request a new "
+"invitation."
+msgstr ""
+
+msgid "Error Loading Step"
+msgstr ""
+
+msgid ""
+"This step could not be loaded. Please contact the administrator or skip to "
+"the next step."
+msgstr ""
+
+#, fuzzy
+msgid "Invalid or expired invitation"
 msgstr "Ogiltig Inbjudan"
 
-#: app/templates/login.html:18
-msgid "Login"
-msgstr "Logga in"
+msgid ""
+"No media servers are configured. Please contact the administrator to set up "
+"a media server."
+msgstr ""
 
-#: app/templates/login.html:23 app/templates/welcome-jellyfin.html:30
+msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
+msgstr ""
+
+#, fuzzy
+msgid "Continue to Invite"
+msgstr "Snabbinbjudning"
+
+msgid "Please log in to continue"
+msgstr ""
+
+msgid ""
+"Unable to load wizard steps. Setup complete! Welcome to your media server."
+msgstr ""
+
+msgid "Setup complete! Welcome to your media server."
+msgstr ""
+
+msgid "Unable to load wizard configuration. Please try again."
+msgstr ""
+
+msgid "Unable to load wizard bundle. Please try again."
+msgstr ""
+
+msgid "Unable to load wizard steps. Please try again."
+msgstr ""
+
+msgid "This bundle has no steps to preview."
+msgstr ""
+
+#, python-brace-format
+msgid "Cleaned up {} orphaned step(s)"
+msgstr ""
+
+#, fuzzy
+msgid "Step created"
+msgstr "Skapad"
+
+msgid "Preset step created successfully"
+msgstr ""
+
+#, python-brace-format
+msgid "Error creating preset: {}"
+msgstr ""
+
+msgid "Step updated"
+msgstr ""
+
+#, fuzzy
+msgid "Step deleted"
+msgstr "Ta bort"
+
+#, fuzzy
+msgid "Bundle created"
+msgstr "Skapad"
+
+msgid "Bundle updated"
+msgstr ""
+
+#, fuzzy
+msgid "Bundle deleted"
+msgstr "Ta bort"
+
+msgid "Steps added"
+msgstr ""
+
+msgid "Orphaned step removed"
+msgstr ""
+
+#, python-brace-format
+msgid "No steps found for server type: {}"
+msgstr ""
+
+#, python-brace-format
+msgid "Export failed: {}"
+msgstr ""
+
+#, fuzzy, python-brace-format
+msgid "Successfully imported {} items"
+msgstr "Skapandet av en inbjudan lyckades!"
+
+#, python-brace-format
+msgid " and updated {} existing items"
+msgstr ""
+
+#, python-brace-format
+msgid "Import failed: {}"
+msgstr ""
+
+msgid "Invalid JSON file"
+msgstr ""
+
+#, python-brace-format
+msgid "Reset {} steps for {} (deleted {}, imported {})"
+msgstr ""
+
+#, python-brace-format
+msgid "Failed to reset steps: {}"
+msgstr ""
+
+msgid "Password must be at least 8 characters."
+msgstr ""
+
+msgid ""
+"Password must contain at least one uppercase letter, one lowercase letter, "
+"and one number."
+msgstr ""
+
 msgid "Username"
 msgstr "Användarnamn"
 
-#: app/templates/login.html:29 app/templates/welcome-jellyfin.html:47
 msgid "Password"
 msgstr "Lösenord"
 
-#: app/templates/login.html:41
+msgid "Confirm password"
+msgstr "Bekräfta lösenord"
+
+#, fuzzy
+msgid "Passwords must match."
+msgstr "Lösenord"
+
+#, fuzzy
+msgid "New Password"
+msgstr "Lösenord"
+
+#, fuzzy
+msgid "Please confirm the new password."
+msgstr "Lösenord"
+
+#, fuzzy
+msgid "Server Type"
+msgstr "Server"
+
+#, fuzzy
+msgid "Server Name"
+msgstr "Användarnamn"
+
+#, fuzzy
+msgid "RomM Username"
+msgstr "Användarnamn"
+
+#, fuzzy
+msgid "RomM Password"
+msgstr "Lösenord"
+
+msgid "Libraries"
+msgstr "Bibliotek"
+
+msgid "Allow Downloads"
+msgstr "Tillåt nedladdningar"
+
+msgid "Allow Live TV"
+msgstr ""
+
+msgid "Overseerr/Ombi URL"
+msgstr ""
+
+#, fuzzy
+msgid "Ombi API Key"
+msgstr "Ta bort"
+
+msgid "Discord ID"
+msgstr ""
+
+msgid "External URL"
+msgstr ""
+
+#, python-format
+msgid "Server returned status code %(status_code)s"
+msgstr ""
+
+#, python-format
+msgid "%(server_type)s server returned an error: %(error)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"Could not connect to the %(server_type)s server. Please check if the server "
+"is running and the URL is correct."
+msgstr ""
+
+#, python-format
+msgid ""
+"Connection to %(server_type)s server timed out. Please check if the server "
+"is running and accessible."
+msgstr ""
+
+#, python-format
+msgid ""
+"An error occurred while connecting to the %(server_type)s server: %(error)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"An unexpected error occurred while connecting to the %(server_type)s server: "
+"%(error)s"
+msgstr ""
+
+msgid "Plex"
+msgstr ""
+
+msgid "Jellyfin"
+msgstr ""
+
+msgid "Emby"
+msgstr ""
+
+msgid "Audiobookshelf"
+msgstr ""
+
+msgid "RomM"
+msgstr ""
+
+msgid "Komga"
+msgstr ""
+
+msgid "Kavita"
+msgstr ""
+
+msgid "Navidrome"
+msgstr ""
+
+msgid "Invalid API token or insufficient permissions."
+msgstr ""
+
+msgid "API token lacks required permissions."
+msgstr ""
+
+msgid "Could not connect to Drop server."
+msgstr ""
+
+msgid "Connection to Drop server timed out."
+msgstr ""
+
+msgid "Drop API not found. Check the server URL."
+msgstr ""
+
+msgid "Drop"
+msgstr ""
+
+#, python-brace-format
+msgid "No default steps found for server type: {}"
+msgstr ""
+
+msgid "Admin"
+msgstr "Administratör"
+
+msgid "Profile"
+msgstr ""
+
+msgid "Logout"
+msgstr ""
+
+msgid "Complete your access"
+msgstr ""
+
+msgid "Choose a password for the remaining servers"
+msgstr ""
+
+#, fuzzy
+msgid "Confirm Password"
+msgstr "Lösenord"
+
+msgid "Generate a strong random password instead"
+msgstr ""
+
+msgid "Continue"
+msgstr ""
+
+msgid "Complete your account setup for local servers"
+msgstr ""
+
+msgid "Complete Your Account Setup"
+msgstr ""
+
+msgid "Plex Authentication Complete!"
+msgstr ""
+
+msgid "Now please set a password for your local server accounts."
+msgstr ""
+
+#, fuzzy
+msgid "Local Servers"
+msgstr "Server"
+
+msgid "Set Password for Local Servers"
+msgstr ""
+
+msgid "Error!"
+msgstr ""
+
+#, fuzzy
+msgid "Your username"
+msgstr "Användarnamn"
+
+msgid "Email Address"
+msgstr ""
+
+msgid "your.email@example.com"
+msgstr ""
+
+#, fuzzy
+msgid "Your password"
+msgstr "Lösenord"
+
+msgid "Confirm your password"
+msgstr ""
+
+msgid "I agree to the"
+msgstr ""
+
+msgid "Terms and Conditions"
+msgstr ""
+
+msgid "Complete Setup"
+msgstr ""
+
+#, fuzzy
+msgid "Setting up..."
+msgstr "Inställningar"
+
+msgid "What happens next?"
+msgstr ""
+
+msgid "Your Plex account is already set up and ready to use"
+msgstr ""
+
+msgid "This password will be used to create accounts on your local servers"
+msgstr ""
+
+msgid "You'll be redirected to the setup wizard to complete configuration"
+msgstr ""
+
+msgid "Only want to use Plex?"
+msgstr ""
+
+msgid "Skip local servers"
+msgstr ""
+
+#, fuzzy
+msgid "Password too short"
+msgstr "Lösenord"
+
+msgid "Password strength: Medium"
+msgstr ""
+
+msgid "Password strength: Strong"
+msgstr ""
+
+msgid "Passwords do not match"
+msgstr ""
+
+#, fuzzy
+msgid "Wizarr"
+msgstr "Konfigurera Wizarr"
+
+msgid "Invalid Invitation"
+msgstr "Ogiltig Inbjudan"
+
+msgid ""
+"This invitation link is no longer valid. Please request a new invitation."
+msgstr ""
+
+msgid "Two-Factor Authentication"
+msgstr ""
+
+msgid "Login"
+msgstr "Logga in"
+
+msgid "This is the administrator login page."
+msgstr ""
+
+msgid "Go to your media server instead"
+msgstr ""
+
+#, python-brace-format
+msgid "Welcome back, {}!"
+msgstr ""
+
+msgid "Please authenticate with your passkey to complete login."
+msgstr ""
+
+#, fuzzy
+msgid "Authentication Method"
+msgstr "Notifierings Agenter"
+
+#, fuzzy
+msgid "Local Account"
+msgstr "Skapa ett konto"
+
+msgid "LDAP"
+msgstr ""
+
 msgid "Remember me"
 msgstr "Kom ihåg mig"
 
-#: app/templates/login.html:46
 msgid "Sign in"
 msgstr "Logga in"
 
-#: app/templates/settings.html:13
-msgid "Server settings"
-msgstr "Serverinställningar"
+msgid "Authenticate with Passkey"
+msgstr ""
 
-#: app/templates/settings.html:22
-msgid "Notification agents"
-msgstr "Notifikationsagenter"
+msgid "Back to Login"
+msgstr ""
 
-#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
-#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
+msgid "Or"
+msgstr ""
+
+msgid "Sign in with Passkey"
+msgstr ""
+
+msgid "Authenticating..."
+msgstr ""
+
+msgid "Failed to complete 2FA login"
+msgstr ""
+
+msgid "Passkey authentication failed. Please try again or use your password."
+msgstr ""
+
+#, fuzzy
+msgid "Password Reset Error"
+msgstr "Lösenord"
+
+msgid "Error:"
+msgstr ""
+
+msgid "This password reset link is invalid."
+msgstr ""
+
+msgid "This password reset link has already been used."
+msgstr ""
+
+msgid "This password reset link has expired."
+msgstr ""
+
+msgid "This password reset link is malformed."
+msgstr ""
+
+msgid "This password reset link is no longer valid."
+msgstr ""
+
+msgid ""
+"Please contact your server administrator to request a new password reset "
+"link."
+msgstr ""
+
+msgid "Code:"
+msgstr ""
+
+msgid "Common reasons for this error:"
+msgstr ""
+
+msgid "The link has already been used"
+msgstr ""
+
+msgid "The link has expired (24 hour limit)"
+msgstr ""
+
+msgid "The link was not copied correctly"
+msgstr ""
+
+#, fuzzy
+msgid "Reset Your Password"
+msgstr "Lösenord"
+
+#, fuzzy
+msgid "Choose a new password"
+msgstr "Lösenord"
+
+#, fuzzy
+msgid "For user:"
+msgstr "Home användare"
+
+msgid "This link expires on"
+msgstr ""
+
+msgid "Enter new password (8-128 characters)"
+msgstr ""
+
+#, fuzzy
+msgid "Confirm new password"
+msgstr "Lösenord"
+
+#, fuzzy
+msgid "Password must be:"
+msgstr "Lösenord"
+
+msgid "Between 8 and 128 characters"
+msgstr ""
+
+msgid "Match the confirmation"
+msgstr ""
+
+#, fuzzy
+msgid "Reset Password"
+msgstr "Lösenord"
+
+msgid "Password Reset Successful!"
+msgstr ""
+
+#, fuzzy
+msgid "The password for"
+msgstr "Lösenord"
+
+msgid "has been successfully reset."
+msgstr ""
+
+msgid "You can now use your new password to log in to your media server."
+msgstr ""
+
+msgid "What's next?"
+msgstr ""
+
+msgid "Log in to your media server with your username and new password."
+msgstr ""
+
+msgid "Signing you in"
+msgstr ""
+
+msgid "Finishing up with Plex. This only takes a moment."
+msgstr ""
+
+msgid "Back to your invitation"
+msgstr ""
+
+msgid "Nothing to finish"
+msgstr ""
+
+msgid "Open your invitation link again to sign in with Plex."
+msgstr ""
+
+msgid "All set"
+msgstr ""
+
+msgid "Taking you to the next step..."
+msgstr ""
+
+msgid "Sign-in failed"
+msgstr ""
+
+msgid "That took too long"
+msgstr ""
+
+msgid "We did not hear back from Plex. Please try signing in again."
+msgstr ""
+
+msgid "Administrator"
+msgstr ""
+
+msgid "Change your account password for security."
+msgstr ""
+
+#, fuzzy
+msgid "Current Password"
+msgstr "Lösenord"
+
+msgid "Confirm New Password"
+msgstr ""
+
+#, fuzzy
+msgid "Change Password"
+msgstr "Lösenord"
+
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "Du har blivit inbjuden till %(name)s!"
 
-#: app/templates/user-plex-login.html:23
-msgid "Join the Plex Server"
-msgstr "Ta del av Plex-servern"
+msgid "You've been invited!"
+msgstr ""
 
-#: app/templates/tables/user_card.html:57 app/templates/user-plex-login.html:29
-#: app/templates/user-plex-login.html:40
-msgid "Invite Code"
-msgstr "Inbjudningskod"
-
-#: app/templates/user-plex-login.html:45
-msgid "Oops!"
-msgstr "Hoppsan!"
-
-#: app/templates/user-plex-login.html:52
-msgid "Join"
+#, fuzzy
+msgid "To join"
 msgstr "Gå med"
 
-#: app/templates/users.html:5
+msgid "Join the ultimate media server experience."
+msgstr ""
+
+#, fuzzy
+msgid "Enter Code to Continue"
+msgstr "Inbjudningskod"
+
+#, fuzzy
+msgid "Invitation Code"
+msgstr "Inbjudningskod"
+
+#, fuzzy
+msgid "Enter your code"
+msgstr "Inbjudningskod"
+
+#, fuzzy
+msgid "Join Server"
+msgstr "Ta del av Plex-servern"
+
+msgid "Secure invitation system powered by Wizarr"
+msgstr ""
+
+msgid "Pop-up blocked. Allow pop-ups for this site and try again."
+msgstr ""
+
+msgid "Sign-in cancelled. Hit Join Server to try again."
+msgstr ""
+
+msgid "Plex sign-in failed. Try again, or contact your server admin."
+msgstr ""
+
 msgid "Invite User"
 msgstr "Bjud in Användare"
 
-#: app/templates/welcome-jellyfin.html:22
-msgid "Set up Account"
+msgid "Accept Invitation"
+msgstr "Acceptera inbjudan"
+
+msgid "Get ready to join the magic"
+msgstr ""
+
+#, fuzzy
+msgid "Create Account"
 msgstr "Skapa ett konto"
 
-#: app/templates/welcome-jellyfin.html:38
+#, fuzzy
+msgid "Set up your magical account"
+msgstr "Skapa ett konto"
+
+msgid "Enter your username"
+msgstr ""
+
 msgid "Email"
 msgstr "Epost"
 
-#: app/templates/welcome-jellyfin.html:55
-msgid ""
-"Confirm\n"
-"                                password"
+msgid "Enter your email"
 msgstr ""
-"Bekräfta \n"
-"                                lösenord"
 
-#: app/templates/welcome-jellyfin.html:63
-msgid ""
-"Invite\n"
-"                                Code"
-msgstr ""
-"Inbjudnings\n"
-"                                kod"
-
-#: app/templates/setup/admin_account.html:58
-#: app/templates/welcome-jellyfin.html:72
-msgid "Create an account"
+#, fuzzy
+msgid "Create a password"
 msgstr "Skapa ett konto"
 
-#: app/templates/admin/invite.html:6
-msgid "Quick Invite"
-msgstr "Snabbinbjudning"
-
-#: app/templates/admin/invite.html:12
-msgid "Invite user"
-msgstr "Bjud in användare"
-
-#: app/templates/admin/invite.html:18
-msgid "Invite Code String"
+msgid "Invite Code"
 msgstr "Inbjudningskod"
 
-#: app/templates/admin/invite.html:19
-msgid "(optional)"
-msgstr "(valfritt)"
+#, fuzzy
+msgid "Enter invite code"
+msgstr "Inbjudningskod"
 
-#: app/templates/admin/invite.html:26
-msgid "Expiration"
-msgstr "Löper ut"
+#, fuzzy
+msgid "Creating account..."
+msgstr "Skapa ett konto"
 
-#: app/templates/admin/invite.html:29
-msgid "1 day"
-msgstr "1 dag"
-
-#: app/templates/admin/invite.html:30
-msgid "1 week"
-msgstr "1 vecka"
-
-#: app/templates/admin/invite.html:31
-msgid "1 month"
-msgstr "1 månad"
-
-#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
-#: app/templates/tables/user_card.html:46
-msgid "Never"
-msgstr "Aldrig"
-
-#: app/templates/admin/invite.html:37
-msgid "Advanced Options"
-msgstr "Avancerade inställningar"
-
-#: app/templates/admin/invite.html:45
-msgid "Unlimited Usages"
-msgstr "Obegränsad användning"
-
-#: app/templates/admin/invite.html:53
-msgid "Invite to Plex Home"
-msgstr "Bjud in till Plex Home"
-
-#: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
-#: app/templates/tables/invite_card.html:86
-msgid "Duration"
-msgstr "Varaktighet"
-
-#: app/templates/admin/invite.html:63
-msgid "(in days)"
-msgstr "(inom dagar)"
-
-#: app/templates/admin/invite.html:74
-msgid "Show Information"
-msgstr "Visa information"
-
-#: app/templates/admin/invite.html:80
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a\n"
-"                                        number of\n"
-"                                        days. (1-999)"
+msgid "Latest Accepted Invites"
 msgstr ""
-"När satt kommer inbjuden användare bli borttagen från Plex servern efter"
-" \n"
-"                                        antal\n"
-"                                        dagar. (1-999)"
 
-#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
-#: app/templates/tables/user_card.html:67
-msgid "Allow Downloads"
-msgstr "Tillåt nedladdningar"
-
-#: app/templates/admin/invite.html:102
-msgid ""
-"Specific\n"
-"                                Libraries"
+msgid "Recently joined"
 msgstr ""
-"Specifika\n"
-"                                bibliotek"
 
-#: app/templates/admin/invite.html:111
-#: app/templates/settings/partials/server_form.html:87
-msgid "Scan For Libraries"
-msgstr "Sök efter bibliotek"
-
-#: app/templates/admin/invite.html:119
-msgid "Create Invitation"
-msgstr "Skapa inbjudan"
-
-#: app/templates/admin/invite.html:126
-msgid "Successfully generated an Invitation!"
-msgstr "Skapandet av en inbjudan lyckades!"
-
-#: app/templates/admin/invite.html:131
-msgid "Link has been copied to clipboard!"
-msgstr "Länken har kopierats till urklipp!"
-
-#: app/templates/admin/invite.html:139
-msgid "Back"
-msgstr "Tillbaka"
-
-#: app/templates/admin/invite.html:144
-msgid "Share"
-msgstr "Dela"
-
-#: app/templates/admin/user_modal.html:17
-msgid "Edit expiry"
-msgstr "Ändra utgångstid"
-
-#: app/templates/admin/user_modal.html:27
-msgid "Expiry date (leave blank for never)"
-msgstr "Utgångsdatum (lämna tomt för aldrig)"
-
-#: app/templates/admin/user_modal.html:41
-#: app/templates/modals/create-notification-agent.html:85
-msgid "Cancel"
-msgstr "Avbryt"
-
-#: app/templates/admin/user_modal.html:48
-#: app/templates/settings/partials/server_form.html:132
-msgid "Save"
-msgstr "Spara"
-
-#: app/templates/error/401.html:20
-msgid "Permission denied."
-msgstr "Åtkomst nekad."
-
-#: app/templates/error/401.html:23
-msgid "You are attempting to do something you shouldn't be doing..."
-msgstr "Du försöker göra något som du inte borde göra..."
-
-#: app/templates/error/404.html:19
-msgid "Something's missing."
-msgstr "Något saknas."
-
-#: app/templates/error/404.html:21
-msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Ledsen, vi kan inte hitta den sidan. Den verkar inte finnas!"
-
-#: app/templates/error/500.html:19
-msgid "Internal Server Error."
-msgstr "Internt serverfel."
-
-#: app/templates/error/500.html:21
-msgid " Something has gone wrong. Please try again later."
-msgstr " Något har gått fel. Vänligen försök igen senare."
-
-#: app/templates/modals/create-notification-agent.html:31
-msgid "New Agent"
-msgstr "Ny agent"
-
-#: app/templates/modals/create-notification-agent.html:60
-msgid ""
-"Username\n"
-"                                (optional)"
+msgid "Showing"
 msgstr ""
-"Användarnamn\n"
-"                                (valfritt)"
 
-#: app/templates/modals/create-notification-agent.html:65
-msgid "Password (optional)"
-msgstr "Lösenord(valfritt)"
-
-#: app/templates/modals/create-notification-agent.html:70
-msgid ""
-"Agent\n"
-"                                URL"
+msgid "of"
 msgstr ""
-"Agent\n"
-"                                URL"
 
-#: app/templates/modals/create-notification-agent.html:81
-msgid "Test & Create Agent"
-msgstr "Testa & Skapa Agent"
+#, fuzzy
+msgid "Prev"
+msgstr "Föregående"
 
-#: app/templates/settings/index.html:24
-msgid "Server"
+msgid "Page"
+msgstr ""
+
+msgid "Next"
+msgstr "Nästa"
+
+msgid "No recent invitations accepted"
+msgstr ""
+
+msgid "Accepted invitations will appear here"
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+#, fuzzy
+msgid "New Invite"
+msgstr "Snabbinbjudning"
+
+msgid "Now Playing"
+msgstr ""
+
+msgid "Invitations"
+msgstr "Inbjudningar"
+
+msgid "Library Breakdown"
+msgstr ""
+
+#, fuzzy
+msgid "Per Server"
 msgstr "Server"
 
-#: app/templates/settings/index.html:39
-msgid "Notifications"
-msgstr "Notifieringar"
+#, fuzzy
+msgid "No libraries found"
+msgstr "Sök efter bibliotek"
 
-#: app/templates/settings/notifications.html:11
-msgid "Notification Agents"
-msgstr "Notifierings Agenter"
+msgid "Configure your media servers to see library statistics"
+msgstr ""
 
-#: app/templates/settings/notifications.html:27
-msgid "Delete"
-msgstr "Ta bort"
+#, fuzzy
+msgid "Failed to load libraries"
+msgstr "Sök efter bibliotek"
 
-#: app/templates/settings/notifications.html:37
-msgid "Create Agent"
-msgstr "Lägg till Agent"
+msgid "Unknown error occurred"
+msgstr ""
 
-#: app/templates/settings/partials/server_form.html:13
-msgid "Server Settings"
+msgid "Unable to load now playing"
+msgstr ""
+
+msgid "There was an error connecting to your media servers"
+msgstr ""
+
+msgid "No one is streaming"
+msgstr ""
+
+msgid "No active media sessions found across your servers"
+msgstr ""
+
+msgid "Recently Added"
+msgstr ""
+
+msgid "Showing latest 10 items"
+msgstr ""
+
+msgid "No recent content found"
+msgstr ""
+
+msgid "Add some content to your media servers to see it here"
+msgstr ""
+
+msgid "Failed to load recent content"
+msgstr ""
+
+#, fuzzy
+msgid "Server Health"
 msgstr "Serverinställningar"
 
-#: app/templates/settings/partials/server_form.html:103
-#: app/templates/settings/partials/server_form.html:111
-#: app/templates/settings/partials/server_form.html:120
-msgid "Optional, leave empty to disable"
-msgstr "Valfritt, lämna tomt för att avaktivera"
+#, fuzzy
+msgid "Online"
+msgstr "Gå med"
 
-#: app/templates/setup/admin_account.html:14
-msgid "Setup Wizarr"
-msgstr "Konfigurera Wizarr"
+msgid "Offline"
+msgstr ""
 
-#: app/templates/tables/invite_card.html:3
-msgid "There are currently no invitations."
-msgstr "Det finns inga inbjudningar."
+#, fuzzy
+msgid "Active"
+msgstr "Spara"
 
-#: app/templates/tables/invite_card.html:16
-msgid "Available"
-msgstr "Tillgänglig"
+msgid "Transcoding"
+msgstr ""
 
-#: app/templates/tables/invite_card.html:23
-#: app/templates/tables/invite_card.html:51
-msgid "Used"
-msgstr "Använd"
+msgid "Users"
+msgstr "Användare"
 
-#: app/templates/tables/invite_card.html:36
-msgid "Created"
-msgstr "Skapad"
+msgid "Active Sessions"
+msgstr ""
 
-#: app/templates/tables/invite_card.html:44
-#: app/templates/tables/user_card.html:39
+msgid "Server is currently unreachable"
+msgstr ""
+
+#, fuzzy
+msgid "servers online"
+msgstr "Serverinställningar"
+
+#, fuzzy
+msgid "server(s) need attention"
+msgstr "Serverinställningar"
+
+msgid "No servers configured"
+msgstr ""
+
+msgid "Add media servers to monitor their health"
+msgstr ""
+
+msgid "Failed to load server health"
+msgstr ""
+
+#, fuzzy
+msgid "Server Overview"
+msgstr "Serverinställningar"
+
+msgid "Items"
+msgstr ""
+
+msgid "Server Breakdown"
+msgstr ""
+
+msgid "No active servers found"
+msgstr ""
+
+msgid "Failed to load statistics"
+msgstr ""
+
+msgid "User Details"
+msgstr ""
+
+#, fuzzy
+msgid "Joined"
+msgstr "Gå med"
+
+msgid "Account Details"
+msgstr ""
+
 msgid "Expires"
 msgstr "Löper ut"
 
-#: app/templates/tables/invite_card.html:47
-msgid "Expired"
-msgstr "Löpt ut"
-
-#: app/templates/tables/invite_card.html:70
-msgid "Libraries"
+#, fuzzy
+msgid "All libraries"
 msgstr "Bibliotek"
 
-#: app/templates/tables/invite_card.html:75
-msgid "Default"
+#, fuzzy
+msgid "Permissions"
+msgstr "Åtkomst nekad."
+
+#, fuzzy
+msgid "Downloads"
+msgstr "Tillåt nedladdningar"
+
+msgid "Live TV"
+msgstr ""
+
+msgid "Camera Upload"
+msgstr ""
+
+msgid "Basic Access"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+#, fuzzy
+msgid "Edit User"
+msgstr "Server"
+
+msgid "Close modal"
+msgstr ""
+
+msgid "Tabs"
+msgstr ""
+
+msgid "Local"
+msgstr ""
+
+msgid "Notes"
+msgstr ""
+
+#, fuzzy
+msgid "Permission Management"
+msgstr "Användarnamn"
+
+msgid "Toggle downloads permission"
+msgstr ""
+
+msgid "Toggle live TV permission"
+msgstr ""
+
+#, fuzzy
+msgid "Allow Camera Upload"
+msgstr "Tillåt nedladdningar"
+
+msgid "Toggle camera upload permission"
+msgstr ""
+
+#, fuzzy
+msgid "Library Access"
+msgstr "Bibliotek"
+
+#, fuzzy
+msgid "No libraries available"
+msgstr "Sök efter bibliotek"
+
+msgid "Scan libraries from the invitation page to enable library restrictions"
+msgstr ""
+
+msgid "Click to toggle library access. Updates save automatically."
+msgstr ""
+
+#, fuzzy
+msgid "Expiry Management"
+msgstr "Användarnamn"
+
+#, fuzzy
+msgid "Expiry date"
+msgstr "Löper ut"
+
+msgid "Update"
+msgstr ""
+
+#, fuzzy
+msgid "Current expiry"
+msgstr "Ändra utgångstid"
+
+#, fuzzy
+msgid "No expiry set"
+msgstr "Löper ut"
+
+#, fuzzy
+msgid "User notes"
+msgstr "Användare"
+
+msgid "Add notes about this user..."
+msgstr ""
+
+msgid "Update Notes"
+msgstr ""
+
+#, fuzzy
+msgid "Link"
+msgstr "Logga in"
+
+msgid "Unlink"
+msgstr ""
+
+msgid "Delete"
+msgstr "Ta bort"
+
+#, python-brace-format
+msgid "Passkeys for {}"
+msgstr ""
+
+msgid "Created"
+msgstr "Skapad"
+
+#, fuzzy
+msgid "Last used"
+msgstr "Använd"
+
+msgid "Reset All Passkeys"
+msgstr ""
+
+msgid "No passkeys registered for this user."
+msgstr ""
+
+msgid "Are you sure you want to delete this passkey?"
+msgstr ""
+
+msgid "Failed to delete passkey"
+msgstr ""
+
+msgid "An error occurred while deleting the passkey"
+msgstr ""
+
+#, python-brace-format
+msgid "Are you sure you want to reset ALL passkeys for {}?"
+msgstr ""
+
+msgid "This action cannot be undone."
+msgstr ""
+
+msgid "All passkeys have been reset"
+msgstr ""
+
+msgid "Failed to reset passkeys"
+msgstr ""
+
+msgid "An error occurred while resetting passkeys"
+msgstr ""
+
+msgid "Add New Passkey"
+msgstr ""
+
+#, fuzzy
+msgid "Passkey Name"
+msgstr "Användarnamn"
+
+msgid "e.g., My iPhone, Work Laptop"
+msgstr ""
+
+msgid "Cancel"
+msgstr "Avbryt"
+
+#, fuzzy
+msgid "Create Passkey"
+msgstr "Lägg till Agent"
+
+msgid "Added"
+msgstr ""
+
+msgid "No passkeys registered"
+msgstr ""
+
+msgid "Add your first passkey for enhanced security"
+msgstr ""
+
+msgid "Passkeys"
+msgstr ""
+
+msgid "Passkeys require HTTPS connection"
+msgstr ""
+
+msgid "Add Passkey"
+msgstr ""
+
+msgid "To use passkeys, please access this page over HTTPS."
+msgstr ""
+
+msgid "Manage your passkeys for passwordless authentication."
+msgstr ""
+
+msgid "Loading passkeys..."
+msgstr ""
+
+msgid "Creating passkey for"
+msgstr ""
+
+msgid "Please follow your device's prompts to complete setup"
+msgstr ""
+
+msgid "Failed to register passkey"
+msgstr ""
+
+msgid "Failed to complete passkey registration"
+msgstr ""
+
+msgid "Permission denied."
+msgstr "Åtkomst nekad."
+
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr "Du försöker göra något som du inte borde göra..."
+
+msgid "Something's missing."
+msgstr "Något saknas."
+
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr "Ledsen, vi kan inte hitta den sidan. Den verkar inte finnas!"
+
+msgid "Internal Server Error."
+msgstr "Internt serverfel."
+
+msgid " Something has gone wrong. Please try again later."
+msgstr " Något har gått fel. Vänligen försök igen senare."
+
+msgid "Add steps to bundle"
+msgstr ""
+
+#, fuzzy
+msgid "Untitled"
+msgstr "Obegränsad"
+
+msgid "All steps are already included."
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Add New Connection"
+msgstr ""
+
+msgid "Edit Connection"
+msgstr ""
+
+msgid "Overseerr/Jellyseerr Information"
+msgstr ""
+
+msgid ""
+"Overseerr and Jellyseerr create an account the first time someone signs in, "
+"so by default an invited user has no account there until they visit and log "
+"in themselves."
+msgstr ""
+
+msgid ""
+"Set the Service URL and turn on account creation below, and Wizarr signs "
+"them in during the invite so their account exists before they arrive. This "
+"uses the service's own sign-in route rather than an API key, so it needs "
+"'Enable New Plex Sign-In' under its Settings → Users."
+msgstr ""
+
+msgid ""
+"Must be https if the service has CSRF protection enabled, which sets its "
+"cookies Secure."
+msgstr ""
+
+msgid "Testing connection..."
+msgstr ""
+
+#, fuzzy
+msgid "Create Connection"
+msgstr "Skapa inbjudan"
+
+msgid "Update Connection"
+msgstr ""
+
+msgid "Test Connection"
+msgstr ""
+
+msgid "Add Administrator"
+msgstr ""
+
+#, fuzzy
+msgid "API Key Created"
+msgstr "Skapad"
+
+#, fuzzy
+msgid "Create API Key"
+msgstr "Lägg till Agent"
+
+msgid "API Key Created Successfully"
+msgstr ""
+
+msgid ""
+"Your API key has been created. Please copy it now as it will not be shown "
+"again."
+msgstr ""
+
+#, fuzzy
+msgid "Copy to clipboard"
+msgstr "Länken har kopierats till urklipp!"
+
+#, fuzzy
+msgid "Name:"
+msgstr "Användarnamn"
+
+msgid "Done"
+msgstr ""
+
+msgid "API Key Name"
+msgstr ""
+
+msgid "Enter a descriptive name to help you identify this API key later."
+msgstr ""
+
+msgid "New Agent"
+msgstr "Ny agent"
+
+#, fuzzy
+msgid "Channel ID"
+msgstr "Avbryt"
+
+msgid "Bot Token"
+msgstr ""
+
+#, fuzzy
+msgid "Chat ID"
+msgstr "Avbryt"
+
+#, fuzzy
+msgid "Username (optional)"
+msgstr "(valfritt)"
+
+msgid "Password (optional)"
+msgstr "Lösenord(valfritt)"
+
+msgid "Agent URL"
+msgstr ""
+
+#, fuzzy
+msgid "Notification Events"
+msgstr "Notifierings Agenter"
+
+#, fuzzy
+msgid "User Joined"
+msgstr "Gå med"
+
+msgid "Update Available"
+msgstr ""
+
+msgid "Test & Create Agent"
+msgstr "Testa & Skapa Agent"
+
+#, fuzzy
+msgid "Add Server"
+msgstr "Server"
+
+msgid "Test & Add"
+msgstr ""
+
+msgid "Edit Administrator"
+msgstr ""
+
+#, fuzzy
+msgid "New Password (optional)"
+msgstr "Lösenord(valfritt)"
+
+msgid "Save"
+msgstr "Spara"
+
+#, fuzzy
+msgid "Edit Identity"
+msgstr "Ändra utgångstid"
+
+msgid "Nickname"
+msgstr ""
+
+#, fuzzy
+msgid "Edit Agent"
+msgstr "Ny agent"
+
+msgid "Name"
+msgstr "Användarnamn"
+
+#, fuzzy
+msgid "Notification Service"
+msgstr "Notifierings Agenter"
+
+#, fuzzy
+msgid "Test & Save Changes"
+msgstr "Testa & Skapa Agent"
+
+#, fuzzy
+msgid "Edit Server"
+msgstr "Server"
+
+msgid "Create Invitation"
+msgstr "Skapa inbjudan"
+
+#, fuzzy
+msgid "Invitation Created"
+msgstr "Inbjudningar"
+
+msgid "Invite Code String"
+msgstr "Inbjudningskod"
+
+#, fuzzy
+msgid "optional"
+msgstr "(valfritt)"
+
+msgid "E.g. XMFGEJIKNQ"
+msgstr ""
+
+msgid "Expiration"
+msgstr "Löper ut"
+
+msgid "1 day"
+msgstr "1 dag"
+
+msgid "1 week"
+msgstr "1 vecka"
+
+msgid "1 month"
+msgstr "1 månad"
+
+msgid "Wizard bundle"
+msgstr ""
+
+msgid "Automatic"
+msgstr ""
+
+msgid "Advanced Options"
+msgstr "Avancerade inställningar"
+
+#, fuzzy
+msgid "Invite Settings"
+msgstr "Inbjudningskod"
+
+msgid "Unlimited Usages"
+msgstr "Obegränsad användning"
+
+msgid "Duration"
+msgstr "Varaktighet"
+
+#, fuzzy
+msgid "in days"
+msgstr "(inom dagar)"
+
+msgid "Show Information"
+msgstr "Visa information"
+
+#, fuzzy
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"När satt kommer inbjuden användare bli borttagen från Plex servern efter \n"
+"                                        antal\n"
+"                                        dagar. (1-999)"
+
+#, fuzzy
+msgid "LDAP Integration"
+msgstr "Skapa inbjudan"
+
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "Lägg till Agent"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
+
+#, fuzzy
+msgid "Target servers"
+msgstr "Server"
+
+msgid "Invite to Plex Home"
+msgstr "Bjud in till Plex Home"
+
+msgid "Allow Live TV Access"
+msgstr ""
+
+#, fuzzy
+msgid "Allow Mobile Uploads"
+msgstr "Tillåt nedladdningar"
+
+msgid "Max Active Sessions"
+msgstr ""
+
+msgid "simultaneous devices"
+msgstr ""
+
+msgid ""
+"Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgstr ""
+
+#, fuzzy
+msgid "Select Libraries"
+msgstr "Bibliotek"
+
+#, fuzzy
+msgid "Loading…"
+msgstr "Logga in"
+
+msgid "Successfully generated an Invitation!"
+msgstr "Skapandet av en inbjudan lyckades!"
+
+#, fuzzy
+msgid "Invitation Link"
+msgstr "Inbjudningar"
+
+msgid "Copy"
+msgstr "Kopiera"
+
+msgid "Link has been copied to clipboard!"
+msgstr "Länken har kopierats till urklipp!"
+
+#, fuzzy
+msgid "Create Another"
+msgstr "Skapa ett konto"
+
+msgid "Please select at least one server for the invitation."
+msgstr ""
+
+#, fuzzy
+msgid "Password Reset Link"
+msgstr "Lösenord(valfritt)"
+
+msgid "Generate Password Reset Link"
+msgstr ""
+
+#, fuzzy
+msgid "Password reset link for"
+msgstr "Lösenord"
+
+#, fuzzy
+msgid "Link expires:"
+msgstr "Löper ut"
+
+msgid "Reset Link (Click to copy)"
+msgstr ""
+
+msgid ""
+"Send this link to the user. They can use it once to reset their password."
+msgstr ""
+
+msgid "Reset Code"
+msgstr ""
+
+#, fuzzy
+msgid "Security Notes:"
+msgstr "Användare"
+
+msgid "This link can only be used once"
+msgstr ""
+
+msgid "It expires in 24 hours"
+msgstr ""
+
+msgid "Send it securely (email, message, etc.)"
+msgstr ""
+
+msgid "Generate a secure password reset link for"
+msgstr ""
+
+#, fuzzy
+msgid "Generate Reset Link"
+msgstr "Serverinställningar"
+
+msgid "The link will be valid for 24 hours and can only be used once."
+msgstr ""
+
+#, fuzzy
+msgid "Copy Link"
+msgstr "Logga in"
+
+#, fuzzy
+msgid "Copied!"
+msgstr "Gå med"
+
+#, fuzzy
+msgid "Reset link copied to clipboard!"
+msgstr "Länken har kopierats till urklipp!"
+
+msgid "Please manually copy the link"
+msgstr ""
+
+msgid "Import Wizard Steps"
+msgstr ""
+
+msgid "Click to upload"
+msgstr ""
+
+msgid "or drag and drop"
+msgstr ""
+
+msgid "JSON files only"
+msgstr ""
+
+#, fuzzy
+msgid "Import Options"
+msgstr "Lösenord(valfritt)"
+
+msgid ""
+"When checked, existing steps will be replaced. When unchecked, imported "
+"steps will be merged with existing ones."
+msgstr ""
+
+msgid "Important Notice"
+msgstr ""
+
+msgid ""
+"This action will modify your wizard steps configuration. Make sure to backup "
+"your current steps before importing if you want to preserve them."
+msgstr ""
+
+msgid "Import Steps"
+msgstr ""
+
+msgid "Add Preset Wizard Step"
+msgstr ""
+
+msgid "Choose when this step should be shown to users"
+msgstr ""
+
+msgid "Your Discord server ID"
+msgstr ""
+
+msgid "URL to your Overseerr/Ombi instance"
+msgstr ""
+
+#, fuzzy
+msgid "Create Step"
+msgstr "Lägg till Agent"
+
+msgid "Add..."
+msgstr ""
+
+msgid "Widgets"
+msgstr ""
+
+msgid "Recently Added Media"
+msgstr ""
+
+msgid "Show recent content"
+msgstr ""
+
+msgid "Button"
+msgstr ""
+
+msgid "Add a clickable link button"
+msgstr ""
+
+#, fuzzy
+msgid "Elements"
+msgstr "Lägg till Agent"
+
+msgid "Card"
+msgstr ""
+
+msgid "Add a styled content card"
+msgstr ""
+
+#, fuzzy
+msgid "Delete API Key"
+msgstr "Ta bort"
+
+msgid "No API keys"
+msgstr ""
+
+msgid "Get started by creating a new API key."
+msgstr ""
+
+#, fuzzy
+msgid "Media Servers"
+msgstr "Server"
+
+msgid "Type"
+msgstr ""
+
+msgid "URL"
+msgstr ""
+
+msgid "Verified"
+msgstr ""
+
+msgid "Actions"
+msgstr "Inbjudan"
+
+msgid "Edit"
+msgstr ""
+
+msgid "Delete this server?"
+msgstr ""
+
+msgid "No servers configured yet."
+msgstr ""
+
+#, fuzzy
+msgid "Administrators"
+msgstr "Inbjudningar"
+
+msgid "Manage Passkeys"
+msgstr ""
+
+msgid "No administrators yet."
+msgstr ""
+
+#, fuzzy
+msgid "Add Admin"
+msgstr "Administratör"
+
+msgid "API Keys"
+msgstr ""
+
+msgid "Connections"
+msgstr ""
+
+msgid "Manage external service connections for automated user invitations"
+msgstr ""
+
+#, fuzzy
+msgid "Add Connection"
+msgstr "Avancerade inställningar"
+
+msgid "Connection Name"
+msgstr ""
+
+#, fuzzy
+msgid "Media Server"
+msgstr "Server"
+
+msgid "Overseerr"
+msgstr ""
+
+msgid "Overseerr (Info)"
+msgstr ""
+
+msgid "Ombi"
+msgstr ""
+
+msgid "Audiobookrequest"
+msgstr ""
+
+msgid "Auto-import enabled"
+msgstr ""
+
+msgid "Are you sure you want to delete this connection?"
+msgstr ""
+
+msgid "No connections configured"
+msgstr ""
+
+msgid ""
+"Connect your external services to automate user invitations when invites are "
+"created for specific media servers."
+msgstr ""
+
+msgid "Add Your First Connection"
+msgstr ""
+
+#, fuzzy
+msgid "General Settings"
+msgstr "Serverinställningar"
+
+msgid "Configure your application's basic settings and preferences"
+msgstr ""
+
+#, fuzzy
+msgid "Version"
+msgstr "Åtkomst nekad."
+
+msgid "Display"
+msgstr ""
+
+msgid "Configure how your application appears to users"
+msgstr ""
+
+msgid ""
+"Which server's posters fill the background of the public join page. 'The "
+"server the invite is for' shows nothing without a valid invite."
+msgstr ""
+
+msgid "Access Control"
+msgstr ""
+
+msgid "Manage user access and permissions"
+msgstr ""
+
+msgid "Control access to the wizard setup process"
+msgstr ""
+
+#, fuzzy
+msgid "User Management"
+msgstr "Användarnamn"
+
+msgid "Configure how users are managed when invitations expire"
+msgstr ""
+
+#, fuzzy
+msgid "Server Capabilities"
+msgstr "Serverinställningar"
+
+msgid "Supports Disable:"
+msgstr ""
+
+#, fuzzy
+msgid "Delete Only:"
+msgstr "Lägg till Agent"
+
+msgid ""
+"If 'Disable User' is selected but the server does not support it, the user "
+"will be deleted instead."
+msgstr ""
+
+msgid "Choose what happens to users when their invitation expires"
+msgstr ""
+
+msgid "Immediately process all expired users based on the expiry action above"
+msgstr ""
+
+msgid "API Key Management"
+msgstr ""
+
+msgid "Manage API keys for accessing Wizarr programmatically"
+msgstr ""
+
+msgid "Your API Keys"
+msgstr ""
+
+msgid "Create and manage API keys for external applications"
+msgstr ""
+
+msgid "Loading API keys..."
+msgstr ""
+
+#, fuzzy
+msgid "Save Settings"
+msgstr "Serverinställningar"
+
+msgid "Settings"
+msgstr "Inställningar"
+
+msgid "Manage your application settings and preferences"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Alerts"
+msgstr ""
+
+#, fuzzy
+msgid "Servers"
+msgstr "Server"
+
+#, fuzzy
+msgid "Activity"
+msgstr "Spara"
+
+#, fuzzy
+msgid "Admins"
+msgstr "Administratör"
+
+msgid "Wizard"
+msgstr ""
+
+#, fuzzy
+msgid "Audit"
+msgstr "Administratör"
+
+#, fuzzy
+msgid "LDAP Settings"
+msgstr "Serverinställningar"
+
+#, fuzzy
+msgid "Experimental"
+msgstr "Lägg till Agent"
+
+msgid "Configure LDAP for user authentication and management"
+msgstr ""
+
+msgid "Enable LDAP"
+msgstr ""
+
+msgid "Turn on LDAP integration"
+msgstr ""
+
+#, fuzzy
+msgid "Connection"
+msgstr "Avancerade inställningar"
+
+#, fuzzy
+msgid "LDAP server connection"
+msgstr "Skapa inbjudan"
+
+msgid "e.g., ldap://server:3890 or ldaps://server:6360"
+msgstr ""
+
+#, fuzzy
+msgid "Use TLS"
+msgstr "Användare"
+
+msgid "Verify Cert"
+msgstr ""
+
+msgid "Encrypted before storage"
+msgstr ""
+
+#, fuzzy
+msgid "User & Group Settings"
+msgstr "Serverinställningar"
+
+msgid "Where to find users and groups"
+msgstr ""
+
+msgid "Optional - only needed for admin group restriction"
+msgstr ""
+
+msgid "Sync Groups"
+msgstr ""
+
+msgid "Sync LDAP groups to populate admin group selection"
+msgstr ""
+
+#, fuzzy
+msgid "Advanced Settings"
+msgstr "Serverinställningar"
+
+msgid ""
+"Defaults are optimized for LLDAP. Only change if using a different LDAP "
+"server."
+msgstr ""
+
+msgid "Manage all users - both LDAP and local authentication"
+msgstr ""
+
+msgid "Sync from LDAP"
+msgstr ""
+
+msgid ""
+"Users can authenticate via LDAP or locally. Sync automatically imports new "
+"users from LDAP."
+msgstr ""
+
+#, fuzzy
+msgid "Admin Authentication"
+msgstr "Notifierings Agenter"
+
+msgid "Allow administrators to log in using LDAP"
+msgstr ""
+
+msgid "Allow Admin Login via LDAP"
+msgstr ""
+
+msgid "Enable admin login using LDAP credentials"
+msgstr ""
+
+msgid "Optional: Restrict admin access to members of this LDAP group"
+msgstr ""
+
+msgid "Notification Agents"
+msgstr "Notifierings Agenter"
+
+msgid "Configure notification services to alert you about important events"
+msgstr ""
+
+#, fuzzy
+msgid "Add Agent"
+msgstr "Ny agent"
+
+#, fuzzy
+msgid "Edit agent"
+msgstr "Ny agent"
+
+msgid "Are you sure you want to delete"
+msgstr ""
+
+#, fuzzy
+msgid "Delete agent"
+msgstr "Lägg till Agent"
+
+msgid "Status"
+msgstr ""
+
+#, fuzzy
+msgid "Events"
+msgstr "Server"
+
+#, fuzzy
+msgid "No notification agents"
+msgstr "Notifierings Agenter"
+
+msgid "Get started by creating your first notification agent"
+msgstr ""
+
+#, fuzzy
+msgid "Unverified"
+msgstr "Obegränsad"
+
+msgid "Checking..."
+msgstr ""
+
+msgid "Create a new external service connection for automated user invitations"
+msgstr ""
+
+msgid "Update the connection settings"
+msgstr ""
+
+msgid "Select the type of connection to configure"
+msgstr ""
+
+msgid "A friendly name to identify this connection"
+msgstr ""
+
+msgid "Which media server should trigger invitations to this external service"
+msgstr ""
+
+msgid "To have Wizarr create the account instead:"
+msgstr ""
+
+msgid "Set the Service URL below"
+msgstr ""
+
+msgid "Turn on account creation below"
+msgstr ""
+
+msgid "In the service, enable Settings → Users → 'Enable New Plex Sign-In'"
+msgstr ""
+
+msgid ""
+"This uses the service's own sign-in route, so there is no API key to "
+"configure."
+msgstr ""
+
+msgid "The full URL to your external service instance"
+msgstr ""
+
+msgid "API key from your external service settings"
+msgstr ""
+
+#, fuzzy
+msgid "Default Steps"
 msgstr "Standard"
 
-#: app/templates/tables/invite_card.html:86
-msgid "days"
-msgstr "dagar"
+msgid "Custom Bundles"
+msgstr ""
 
-#: app/templates/tables/invite_card.html:106
+msgid "Import"
+msgstr ""
+
+msgid "Import Configuration"
+msgstr ""
+
+msgid "Import steps or bundles from JSON file"
+msgstr ""
+
+#, fuzzy
+msgid "Create"
+msgstr "Skapad"
+
+msgid "Add a new wizard step"
+msgstr ""
+
+#, fuzzy
+msgid "Add Step to Bundle"
+msgstr "Skapad"
+
+msgid "No bundles available yet"
+msgstr ""
+
+msgid "Add Preset"
+msgstr ""
+
+msgid "Create step from template"
+msgstr ""
+
+#, fuzzy
+msgid "Create Bundle"
+msgstr "Skapad"
+
+msgid "Create a collection of steps"
+msgstr ""
+
+msgid "No bundles found."
+msgstr ""
+
+msgid "Preview Wizard"
+msgstr ""
+
+#, python-format
+msgid "Export %(bundle_name)s Bundle"
+msgstr ""
+
+msgid "Are you sure you want to delete this bundle?"
+msgstr ""
+
+msgid "Before Invite Acceptance"
+msgstr ""
+
+msgid "Steps shown to users before they accept the invitation"
+msgstr ""
+
+msgid "Are you sure you want to delete this step?"
+msgstr ""
+
+msgid "No pre-invite steps configured"
+msgstr ""
+
+#, fuzzy
+msgid "After Invite Acceptance"
+msgstr "Inbjudningskod"
+
+msgid "Steps shown to users after they accept the invitation"
+msgstr ""
+
+msgid "No post-invite steps configured"
+msgstr ""
+
+msgid "Additional Categories"
+msgstr ""
+
+msgid "Steps that use custom categories keep their order here."
+msgstr ""
+
+#, fuzzy
+msgid "Orphaned Steps"
+msgstr "Ändra utgångstid"
+
+msgid ""
+"These entries no longer have an associated step. Remove them to keep the "
+"bundle tidy."
+msgstr ""
+
+msgid "Step deleted (orphaned)"
+msgstr ""
+
+msgid "Are you sure you want to remove this orphaned step?"
+msgstr ""
+
+msgid "Remove orphaned step"
+msgstr ""
+
+#, fuzzy
+msgid "Preview"
+msgstr "Föregående"
+
+msgid "Import Wizard Configuration"
+msgstr ""
+
+msgid ""
+"Import wizard steps or bundles from a JSON file to quickly set up or restore "
+"your wizard configuration."
+msgstr ""
+
+msgid "Select JSON File"
+msgstr ""
+
+msgid "Steps or Bundle JSON files only (MAX. 10MB)"
+msgstr ""
+
+msgid ""
+"When checked, all existing wizard steps and bundles will be removed and "
+"replaced with the imported configuration. When unchecked, imported items "
+"will be added alongside existing ones."
+msgstr ""
+
+msgid "Important: Backup Recommended"
+msgstr ""
+
+msgid ""
+"This action will modify your wizard configuration. Consider the following:"
+msgstr ""
+
+msgid "Export your current steps and bundles first as a backup"
+msgstr ""
+
+msgid "Imported steps will use the file's step ordering and server types"
+msgstr ""
+
+msgid "Imported bundles will preserve their step associations and ordering"
+msgstr ""
+
+msgid ""
+"If replacing existing configuration, all current steps and bundles will be "
+"permanently removed"
+msgstr ""
+
+msgid "Invalid or malformed JSON files will be rejected"
+msgstr ""
+
+msgid "Expected JSON Format"
+msgstr ""
+
+msgid "The JSON file can contain steps or bundles:"
+msgstr ""
+
+msgid "For steps export:"
+msgstr ""
+
+msgid "For bundle export:"
+msgstr ""
+
+msgid "Back to Steps"
+msgstr ""
+
+msgid "Please select a JSON file to import."
+msgstr ""
+
+msgid "Please select a valid JSON file."
+msgstr ""
+
+msgid ""
+"This will permanently replace all existing wizard configuration (steps and "
+"bundles). Are you sure you want to continue?"
+msgstr ""
+
+msgid "Wizard Steps"
+msgstr ""
+
+msgid "Manage your wizard steps and bundles for user onboarding"
+msgstr ""
+
+msgid "No wizard steps found"
+msgstr ""
+
+msgid "Get started by creating your first wizard step"
+msgstr ""
+
+msgid "Server"
+msgstr "Server"
+
+msgid "steps configured"
+msgstr ""
+
+#, fuzzy
+msgid "Untitled Step"
+msgstr "Obegränsad användning"
+
+msgid "Step"
+msgstr ""
+
+#, fuzzy
+msgid "Edit step"
+msgstr "Ändra utgångstid"
+
+#, fuzzy
+msgid "Delete step"
+msgstr "Ta bort"
+
+msgid "No steps found."
+msgstr ""
+
+#, python-format
+msgid ""
+"Are you sure you want to reset all steps for %(server)s to defaults? This "
+"will delete all custom steps and reimport the default ones."
+msgstr ""
+
+#, python-format
+msgid "Reset %(server)s Steps to Defaults"
+msgstr ""
+
+#, python-format
+msgid "Export %(server)s Steps"
+msgstr ""
+
+msgid "Setup Wizarr"
+msgstr "Konfigurera Wizarr"
+
+msgid "Create an account"
+msgstr "Skapa ett konto"
+
 msgid "Unlimited"
 msgstr "Obegränsad"
 
-#: app/templates/tables/user_card.html:3
+msgid "There are currently no invitations."
+msgstr "Det finns inga inbjudningar."
+
+#, fuzzy
+msgid "Used by"
+msgstr "Använd"
+
+msgid "Used"
+msgstr "Använd"
+
+#, fuzzy
+msgid "Not used yet"
+msgstr "Använd"
+
+#, fuzzy
+msgid "Bundle"
+msgstr "Skapad"
+
+msgid "days"
+msgstr "dagar"
+
+msgid "Default"
+msgstr "Standard"
+
+msgid "Copy invite link"
+msgstr ""
+
+#, fuzzy
+msgid "Delete invite"
+msgstr "Ta bort"
+
 msgid "There are currently no users."
 msgstr "Det finns för närvarande inga användare."
 
-#: app/templates/tables/user_card.html:26
+msgid "Edit nickname"
+msgstr ""
+
 msgid "Home User"
+msgstr "Hemma användare"
+
+#, fuzzy
+msgid "Invited"
+msgstr "Inbjudningskod"
+
+msgid "Disabled"
+msgstr ""
+
+msgid "Downloads enabled"
+msgstr ""
+
+msgid "Live TV enabled"
+msgstr ""
+
+#, fuzzy
+msgid "View details"
+msgstr "Inbjudningar"
+
+#, fuzzy
+msgid "Edit user"
+msgstr "Server"
+
+#, fuzzy
+msgid "Reset password"
+msgstr "Lösenord"
+
+#, fuzzy
+msgid "Remove user"
 msgstr "Home användare"
 
-#: app/templates/wizard/frame.html:34
+#, fuzzy
+msgid "Before Invitation"
+msgstr "Skapa inbjudan"
+
+#, fuzzy
+msgid "After Invitation"
+msgstr "Skapa inbjudan"
+
 msgid "Previous"
 msgstr "Föregående"
 
-#: app/templates/wizard/frame.html:42
-msgid "Next"
-msgstr "Nästa"
+msgid "Click the link in this step to be able to continue"
+msgstr ""
+
+msgid "What is Audiobookshelf?"
+msgstr ""
+
+msgid "Welcome to Our Audiobookshelf Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **audiobook & podcast library** "
+"through Audiobookshelf!"
+msgstr ""
+
+msgid ""
+"Audiobookshelf is a self-hosted audiobook and podcast server that lets "
+"people share their audio collections with friends and family. If you're "
+"here, it means you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "What You'll Get"
+msgstr ""
+
+msgid "Access to our constantly updated audiobooks and podcasts"
+msgstr ""
+
+msgid "Listen on-demand or download for offline listening"
+msgstr ""
+
+msgid "Track your progress across all devices"
+msgstr ""
+
+msgid "Download Audiobookshelf Clients"
+msgstr ""
+
+msgid ""
+"Audiobookshelf has many clients from which you can listen to our audiobooks!"
+msgstr ""
+
+msgid "Listen Anywhere"
+msgstr ""
+
+msgid ""
+"Audiobookshelf works almost everywhere — install the app on your favourite "
+"devices:"
+msgstr ""
+
+msgid "Web App"
+msgstr ""
+
+msgid "Tips for the best experience"
+msgstr ""
+
+msgid "Get the best listening experience"
+msgstr ""
+
+msgid ""
+"Audiobookshelf offers great features, but here's how to make sure you get "
+"the best experience:"
+msgstr ""
+
+msgid "Download for offline listening"
+msgstr ""
+
+msgid "Tap any audiobook → Download to enjoy without internet"
+msgstr ""
+
+msgid "Adjust playback speed"
+msgstr ""
+
+msgid "Player controls → set speed from 0.5x to 3x"
+msgstr ""
+
+msgid "Enable sleep timer"
+msgstr ""
+
+msgid "Perfect for bedtime listening — auto-stops playback"
+msgstr ""
+
+msgid "Happy listening!"
+msgstr ""
+
+msgid "Go to Audiobookshelf"
+msgstr ""
+
+msgid "What is Emby?"
+msgstr ""
+
+msgid "Welcome to Our Emby Server"
+msgstr ""
+
+msgid "Great news — you now have access to our **media library** through Emby!"
+msgstr ""
+
+msgid ""
+"Emby is a powerful media server that lets people share their film and TV "
+"libraries with friends and family. If you're here, it means you've been "
+"invited to join ours — welcome!"
+msgstr ""
+
+msgid "Access to our constantly updated list of movies and shows"
+msgstr ""
+
+msgid "Watch on-demand or download for offline viewing"
+msgstr ""
+
+msgid "Personalised watchlists & recommendations"
+msgstr ""
+
+msgid "Download Emby Clients"
+msgstr ""
+
+msgid "Emby has many clients from which you can view our media!"
+msgstr ""
+
+msgid "Watch Anywhere"
+msgstr ""
+
+msgid ""
+"Emby works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "Mobile"
+msgstr ""
+
+msgid "iOS & Android phones/tablets"
+msgstr ""
+
+msgid "Desktop"
+msgstr ""
+
+msgid "Windows, macOS, Linux"
+msgstr ""
+
+msgid "Smart TVs & Streaming Devices"
+msgstr ""
+
+msgid "Apple TV, Fire TV, Roku, Chromecast, Android TV"
+msgstr ""
+
+msgid "Consoles"
+msgstr ""
+
+msgid "PlayStation & Xbox"
+msgstr ""
+
+msgid "Watch instantly in your browser"
+msgstr ""
+
+msgid "⬇️ Download Emby Clients"
+msgstr ""
+
+msgid "Get the best quality"
+msgstr ""
+
+msgid ""
+"Emby offers great quality, but here's how to make sure you get the best "
+"experience:"
+msgstr ""
+
+msgid "Force original quality"
+msgstr ""
+
+msgid "Settings → Playback → set"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "Maximum"
+msgstr ""
+
+msgid "Enable hardware decoding"
+msgstr ""
+
+msgid "Settings → Playback → enable for smoother 4K"
+msgstr ""
+
+msgid "Use a wired connection"
+msgstr ""
+
+msgid "if you're on a smart-TV for stutter-free 4K."
+msgstr ""
+
+msgid "Happy viewing!"
+msgstr ""
+
+msgid "Go to Emby"
+msgstr ""
+
+msgid "What is Jellyfin?"
+msgstr ""
+
+msgid "Welcome to Our Jellyfin Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **media library** through Jellyfin!"
+msgstr ""
+
+msgid ""
+"Jellyfin is a free, open-source media server that lets people share their "
+"film and TV libraries with friends and family. If you're here, it means "
+"you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "Download Jellyfin Clients"
+msgstr ""
+
+msgid "Jellyfin has many clients from which you can view our media!"
+msgstr ""
+
+msgid ""
+"Jellyfin works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "⬇️ Download Jellyfin Clients"
+msgstr ""
+
+msgid ""
+"Jellyfin offers great quality, but here's how to make sure you get the best "
+"experience:"
+msgstr ""
+
+msgid "Go to Jellyfin"
+msgstr ""
+
+msgid "Welcome to your digital library"
+msgstr ""
+
+msgid "Great news! You now have access to our comic and manga collection."
+msgstr ""
+
+msgid ""
+"Kavita lets people share their digital libraries with friends. Read comics, "
+"manga, and books directly in your browser or mobile app."
+msgstr ""
+
+msgid "How do I read stuff?"
+msgstr ""
+
+msgid ""
+"Open Kavita in your browser, sign in with your new account, and start "
+"reading. You can also use mobile apps for a better experience."
+msgstr ""
+
+msgid "Open Kavita"
+msgstr ""
+
+msgid "Want to read on your phone?"
+msgstr ""
+
+msgid "Download a comic reader app for the best mobile experience."
+msgstr ""
+
+msgid "Android"
+msgstr ""
+
+msgid "Popular manga reader with Kavita support"
+msgstr ""
+
+msgid "Great for comics and books"
+msgstr ""
+
+msgid "iOS"
+msgstr ""
+
+msgid "Premium comic reader with Kavita integration"
+msgstr ""
+
+msgid "Full-featured comic reader"
+msgstr ""
+
+msgid "Connect your app"
+msgstr ""
+
+msgid "Use this OPDS URL in your reader app:"
+msgstr ""
+
+msgid "Login with your Kavita username and password."
+msgstr ""
+
+msgid "Your library includes"
+msgstr ""
+
+msgid ""
+"Browse collections of comics, manga, light novels, and digital books. "
+"Everything is organized by series and automatically tracks your reading "
+"progress."
+msgstr ""
+
+msgid "Cool features"
+msgstr ""
+
+msgid "Pick up exactly where you left off"
+msgstr ""
+
+msgid "Create custom reading lists"
+msgstr ""
+
+msgid "Find content by title, author, or genre"
+msgstr ""
+
+msgid "Easy on the eyes for night reading"
+msgstr ""
+
+msgid "Get the best reading experience"
+msgstr ""
+
+msgid "Kavita has some handy settings to make reading more comfortable:"
+msgstr ""
+
+msgid "Set reading direction"
+msgstr ""
+
+msgid "Settings → Reader → set manga to right-to-left"
+msgstr ""
+
+msgid "Enable dark mode"
+msgstr ""
+
+msgid "Perfect for night reading"
+msgstr ""
+
+msgid "Use keyboard shortcuts"
+msgstr ""
+
+msgid "Space for next page, arrows to navigate"
+msgstr ""
+
+msgid "What is Komga?"
+msgstr ""
+
+msgid "Welcome to Our Komga Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **digital comic and manga library** "
+"through Komga!"
+msgstr ""
+
+msgid ""
+"Komga is a free, open-source media server designed specifically for comics, "
+"manga, and digital books. If you're here, it means you've been invited to "
+"join our library — welcome!"
+msgstr ""
+
+msgid "Access to our constantly updated collection of comics and manga"
+msgstr ""
+
+msgid "Read online directly in your browser"
+msgstr ""
+
+msgid "Download for offline reading on your favorite devices"
+msgstr ""
+
+msgid "Track your reading progress automatically"
+msgstr ""
+
+msgid "Support for multiple formats (CBZ, CBR, PDF, EPUB)"
+msgstr ""
+
+msgid "Download Komga Clients"
+msgstr ""
+
+msgid ""
+"Komga has many compatible readers from which you can enjoy your comics and "
+"manga!"
+msgstr ""
+
+msgid "Read Anywhere"
+msgstr ""
+
+msgid ""
+"Komga works with many popular comic readers — install apps on your favorite "
+"devices:"
+msgstr ""
+
+msgid "iOS (Panels, Chunky) & Android (Mihon/Tachiyomi, Komga Client)"
+msgstr ""
+
+msgid "Windows (CDisplayEx, YACReader), macOS & Linux (YACReader)"
+msgstr ""
+
+msgid "Tablets"
+msgstr ""
+
+msgid "iPad & Android tablets with comic reader apps"
+msgstr ""
+
+msgid "Read instantly in your browser at"
+msgstr ""
+
+msgid "E-Readers"
+msgstr ""
+
+msgid "KOReader and other OPDS-compatible readers"
+msgstr ""
+
+msgid "📚 View Compatible Readers"
+msgstr ""
+
+msgid "Library Features"
+msgstr ""
+
+msgid "Komga Features"
+msgstr ""
+
+msgid "Discover all the features available to enhance your reading experience!"
+msgstr ""
+
+msgid "Reading Experience"
+msgstr ""
+
+msgid "Webtoon Mode"
+msgstr ""
+
+msgid "Perfect for manga and webtoons with continuous scrolling"
+msgstr ""
+
+msgid "Page-by-Page"
+msgstr ""
+
+msgid "Traditional comic book reading experience"
+msgstr ""
+
+msgid "Zoom & Pan"
+msgstr ""
+
+msgid "Get detailed views of artwork"
+msgstr ""
+
+msgid "Auto Bookmarks"
+msgstr ""
+
+msgid "Your progress is saved automatically"
+msgstr ""
+
+msgid "Organization"
+msgstr ""
+
+msgid "Series Collections"
+msgstr ""
+
+msgid "Browse comics organized by series"
+msgstr ""
+
+msgid "Custom Collections"
+msgstr ""
+
+msgid "Curated collections by themes and genres"
+msgstr ""
+
+msgid "Smart Tags"
+msgstr ""
+
+msgid "Filter by genres, authors, publishers, and more"
+msgstr ""
+
+msgid "Advanced Search"
+msgstr ""
+
+msgid "Find specific titles instantly"
+msgstr ""
+
+msgid "Personal Features"
+msgstr ""
+
+msgid "Reading Progress"
+msgstr ""
+
+msgid "Track which issues you've completed"
+msgstr ""
+
+msgid "Continue Reading"
+msgstr ""
+
+msgid "Reading Lists"
+msgstr ""
+
+msgid "Create and manage custom reading lists"
+msgstr ""
+
+msgid "On Deck"
+msgstr ""
+
+msgid "See your next suggested reads"
+msgstr ""
+
+msgid ""
+"Komga offers a great reading experience, but here's how to make it even "
+"better:"
+msgstr ""
+
+msgid "Choose the right reader mode"
+msgstr ""
+
+msgid "Use webtoon mode for manga, page-by-page for traditional comics"
+msgstr ""
+
+msgid "Adjust reading direction"
+msgstr ""
+
+msgid "Settings → Reader → set right-to-left for manga"
+msgstr ""
+
+msgid "Easier on your eyes during night reading sessions"
+msgstr ""
+
+msgid "Use full-screen mode"
+msgstr ""
+
+msgid "Press F11 in browser for distraction-free reading"
+msgstr ""
+
+msgid "Download for offline"
+msgstr ""
+
+msgid "Download comics to mobile apps for reading without internet"
+msgstr ""
+
+msgid "Happy reading!"
+msgstr ""
+
+msgid "Go to Komga"
+msgstr ""
+
+msgid "What is Plex?"
+msgstr ""
+
+msgid "Welcome to Our Plex Server"
+msgstr ""
+
+msgid "Great news — you now have access to our **media library** through Plex!"
+msgstr ""
+
+msgid ""
+"Plex lets people share their film and TV libraries with friends and family. "
+"If you're here, it means you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "Download Plex Clients"
+msgstr ""
+
+msgid "Plex has many clients from which you can view our media!"
+msgstr ""
+
+msgid ""
+"Plex works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "Apple TV, Fire TV, Roku, Chromecast"
+msgstr ""
+
+msgid "⬇️ Download Plex Clients"
+msgstr ""
+
+msgid ""
+"Plex sometimes defaults to low quality or shows its own adverts first. "
+"Here's how to fix that:"
+msgstr ""
+
+msgid "Disable trailers & extras"
+msgstr ""
+
+msgid "Settings → Experience → untick"
+msgstr ""
+
+msgid "Show cinematic trailers"
+msgstr ""
+
+msgid "Original"
+msgstr ""
+
+msgid "Go to Plex"
+msgstr ""
+
+msgid "Welcome to RomM"
+msgstr ""
+
+msgid "Great news! You now have access to our game collection."
+msgstr ""
+
+msgid "Open RomM"
+msgstr ""
+
+#~ msgid "Edit expiry"
+#~ msgstr "Ändra utgångstid"
+
+#~ msgid "Expiry date (leave blank for never)"
+#~ msgstr "Utgångsdatum (lämna tomt för aldrig)"
+
+#~ msgid "Invitation Details"
+#~ msgstr "Inbjudningar"
+
+#~ msgid "Invitation expires"
+#~ msgstr "Inbjudningar"
 
 #~ msgid ""
 #~ "Request\n"
@@ -433,57 +3122,43 @@ msgstr "Nästa"
 
 #~ msgid "Something went wrong. Please try again or contact an administrator."
 #~ msgstr ""
-#~ "Någonting gick fel. Vänligen försök igen"
-#~ " eller kontakta en administratör."
+#~ "Någonting gick fel. Vänligen försök igen eller kontakta en administratör."
 
 #~ msgid "I've logged in but I am overwhelmed with content!"
 #~ msgstr "Jag har loggat in, men jag är överväldigad av allt innehåll!"
 
 #~ msgid ""
-#~ "While Plex is a free service, they"
-#~ " do have to generate revenue in "
-#~ "order to continue providing the "
-#~ "platform. One way they do this is"
-#~ " by displaying their own content "
-#~ "before the content of the server "
-#~ "you are joining."
+#~ "While Plex is a free service, they do have to generate revenue in order "
+#~ "to continue providing the platform. One way they do this is by displaying "
+#~ "their own content before the content of the server you are joining."
 #~ msgstr ""
-#~ "Då Plex är en gratis tjänst så "
-#~ "måste dom få in intäckter för att"
-#~ " kunna fortsätta tillhandhålla platformen. "
-#~ "Ett sätt att göra det på för "
-#~ "dom är att visa sitt egna innehåll"
-#~ " innan du ser innehållet på den "
-#~ "servern du precis har gått med i."
+#~ "Då Plex är en gratis tjänst så måste dom få in intäckter för att kunna "
+#~ "fortsätta tillhandhålla platformen. Ett sätt att göra det på för dom är "
+#~ "att visa sitt egna innehåll innan du ser innehållet på den servern du "
+#~ "precis har gått med i."
 
-#~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
+#~ msgid ""
+#~ "On the left-hand side of your screen, you'll see a menu. Click on the "
 #~ msgstr "Till vänster på skärmen ska du se en meny. klicka på den. "
 
 #~ msgid "More"
 #~ msgstr "Expandera"
 
-#~ msgid "button to reveal all the different types of media you have access to."
-#~ msgstr "knapparna för att visa alla typer av media som du har tillgång till."
+#~ msgid ""
+#~ "button to reveal all the different types of media you have access to."
+#~ msgstr ""
+#~ "knapparna för att visa alla typer av media som du har tillgång till."
 
 #~ msgid ""
-#~ "To avoid seeing Plex's content first,"
-#~ " we recommend hiding it. To do "
-#~ "this, select all the content types "
-#~ "you don't want (such as 'Movies "
-#~ "and TV on Plex') and 'Unpin' them"
-#~ " from your home screen. This way "
-#~ "you'll only see the content that "
-#~ "you really want to watch!"
+#~ "To avoid seeing Plex's content first, we recommend hiding it. To do this, "
+#~ "select all the content types you don't want (such as 'Movies and TV on "
+#~ "Plex') and 'Unpin' them from your home screen. This way you'll only see "
+#~ "the content that you really want to watch!"
 #~ msgstr ""
-#~ "För att slippa se Plex egna "
-#~ "innehåll så rekommenderar vi att gömma"
-#~ " det. För att göra det, välj de"
-#~ " innehållet du inte vill se (som "
-#~ "'Filmer och TV på plex') och Ta"
-#~ " bort/lossa från hemmskärmen. På de "
-#~ "sättet ska du nu bara kunna se "
-#~ "innehållet från servern du precis gått"
-#~ " med i!"
+#~ "För att slippa se Plex egna innehåll så rekommenderar vi att gömma det. "
+#~ "För att göra det, välj de innehållet du inte vill se (som 'Filmer och TV "
+#~ "på plex') och Ta bort/lossa från hemmskärmen. På de sättet ska du nu bara "
+#~ "kunna se innehållet från servern du precis gått med i!"
 
 #~ msgid "Now that everything we"
 #~ msgstr "Nu när allt som vi"
@@ -500,22 +3175,14 @@ msgstr "Nästa"
 #~ msgid " want!"
 #~ msgstr " ha!"
 
-#~ msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
-#~ msgstr ""
-
 #~ msgid ""
-#~ "By default, Plex plays all content "
-#~ "at a lower quality. This can be"
-#~ " a bit of a disappointment. But "
-#~ "don't worry, it's a simple fix! "
-#~ "You can easily change the settings "
-#~ "to increase the quality of the "
-#~ "media that you're streaming."
+#~ "By default, Plex plays all content at a lower quality. This can be a bit "
+#~ "of a disappointment. But don't worry, it's a simple fix! You can easily "
+#~ "change the settings to increase the quality of the media that you're "
+#~ "streaming."
 #~ msgstr ""
-#~ "Standard är att Plex alltid spelar "
-#~ "upp innehållet i en längre kavlié. "
-#~ "Det kan du enkelt ändra i "
-#~ "inställningarna för det du streamar."
+#~ "Standard är att Plex alltid spelar upp innehållet i en längre kavlié. Det "
+#~ "kan du enkelt ändra i inställningarna för det du streamar."
 
 #~ msgid "Go to the Plex "
 #~ msgstr "Gå till Plex "
@@ -524,10 +3191,10 @@ msgstr "Nästa"
 #~ msgstr "Inställningar "
 
 #~ msgid ""
-#~ "page. This is usually in the top"
-#~ " right hand corner, depending on the"
-#~ " device you are on."
-#~ msgstr ". Det är oftast uppe till höger, beroende på vilken enhet du sitter på."
+#~ "page. This is usually in the top right hand corner, depending on the "
+#~ "device you are on."
+#~ msgstr ""
+#~ ". Det är oftast uppe till höger, beroende på vilken enhet du sitter på."
 
 #~ msgid "Go to the "
 #~ msgstr "Gå till "
@@ -560,30 +3227,13 @@ msgstr "Nästa"
 #~ msgstr "Lokal strömmning "
 
 #~ msgid ""
-#~ "And there you have it! In case "
-#~ "you encounter buffering issues, remember "
-#~ "that you can always adjust the "
-#~ "playback quality just like you do "
-#~ "in YouTube. This way you can get"
-#~ " the best streaming experience possible."
+#~ "And there you have it! In case you encounter buffering issues, remember "
+#~ "that you can always adjust the playback quality just like you do in "
+#~ "YouTube. This way you can get the best streaming experience possible."
 #~ msgstr ""
-#~ "Nu är du klar! Skulle du uppleva"
-#~ " buffer, så går det alltid att "
-#~ "ändra kvalité precis som du gör på"
-#~ " Youtube. På de sättet får du "
-#~ "bästa möjliga upplevelse."
-
-#~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now sharing with you - they "
-#~ "also, by default, play content at "
-#~ "a lower quality. "
-#~ msgstr ""
-
-#~ msgid "We highly recommend you to go through those steps first!"
-#~ msgstr ""
+#~ "Nu är du klar! Skulle du uppleva buffer, så går det alltid att ändra "
+#~ "kvalité precis som du gör på Youtube. På de sättet får du bästa möjliga "
+#~ "upplevelse."
 
 #~ msgid "Join our Discord Server"
 #~ msgstr "Gå med i vår Discord Server"
@@ -598,97 +3248,57 @@ msgstr "Nästa"
 #~ msgstr "Gå med & ladda ner Plex för denna enhet"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use "
-#~ "it with Plex."
+#~ "Great news! You now have access to our server's media collection. Let's "
+#~ "make sure you know how to use it with Plex."
 #~ msgstr ""
-#~ "Nu har du åtkomst till vårat "
-#~ "serverinnehåll. Gå vidare för att veta"
-#~ " hur du använder Plex."
+#~ "Nu har du åtkomst till vårat serverinnehåll. Gå vidare för att veta hur "
+#~ "du använder Plex."
 
 #~ msgid "Skip"
 #~ msgstr "Hoppa över"
 
 #~ msgid ""
-#~ "Congratulations on joining %(name)s! You're"
-#~ " now one step closer to enjoying "
-#~ "all kinds of amazing\n"
+#~ "Congratulations on joining %(name)s! You're now one step closer to "
+#~ "enjoying all kinds of amazing\n"
 #~ "        content."
 #~ msgstr ""
-#~ "Grattis, du har nu accepterat inbjudan"
-#~ " till Plex! Nu är du ett steg"
-#~ " närmare till att kunna njuta av "
-#~ "innehållet på våran server. "
+#~ "Grattis, du har nu accepterat inbjudan till Plex! Nu är du ett steg "
+#~ "närmare till att kunna njuta av innehållet på våran server. "
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "      you've received this invitation, "
-#~ "it means someone wants to share "
-#~ "their library with you. With Plex, "
-#~ "you'll have\n"
-#~ "      access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "      you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "      access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "Bra fråga! Plex är ett program som"
-#~ " tillåter ägaren att dela med sig "
-#~ "av sitt innehåll till andra. Har "
-#~ "du fått en inbjudan så betyder det"
-#~ " att någon vill dela sitt innehåll"
-#~ " med dig. Med plex så kommer du"
-#~ " att få tillgång till Filmer, Serier,"
-#~ " Musik och bilder som de vill "
-#~ "dela med sig av på sin server "
-#~ "till dig!"
+#~ "Bra fråga! Plex är ett program som tillåter ägaren att dela med sig av "
+#~ "sitt innehåll till andra. Har du fått en inbjudan så betyder det att "
+#~ "någon vill dela sitt innehåll med dig. Med plex så kommer du att få "
+#~ "tillgång till Filmer, Serier, Musik och bilder som de vill dela med sig "
+#~ "av på sin server till dig!"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "      smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "      smartphones, and TVs. All you need to do is download the Plex app "
+#~ "on your device, sign in with your account, and\n"
 #~ "      you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "Plex finns tillgängligt på massor av "
-#~ "enheter, datorer, surfplatta, telefoner och"
-#~ " smart-tv. Allt du behöver göra "
-#~ "är att leta reda på plex där "
-#~ "appar finns. Logga sedan in me "
-#~ "ditt konto, så är du redo att "
-#~ "streama!"
-
-#~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "      sharing with you - they "
-#~ "also, by default, play content at "
-#~ "a lower quality. "
-#~ msgstr ""
-
-#~ msgid ""
-#~ "We highly\n"
-#~ "        recommend you to go through those steps first!"
-#~ msgstr ""
+#~ "Plex finns tillgängligt på massor av enheter, datorer, surfplatta, "
+#~ "telefoner och smart-tv. Allt du behöver göra är att leta reda på plex där "
+#~ "appar finns. Logga sedan in me ditt konto, så är du redo att streama!"
 
 #~ msgid "You've been invited to join %(name)s!"
 #~ msgstr "Du har blivit inbjuden till %(name)s!"
 
 #~ msgid ""
-#~ "To join our Plex server, create a"
-#~ " Plex account! Once you're done, come"
-#~ " back here!"
+#~ "To join our Plex server, create a Plex account! Once you're done, come "
+#~ "back here!"
 #~ msgstr ""
-#~ "För att bli inbjuden till Plex "
-#~ "server, skapa ett Plex konto! När "
-#~ "du har gjort det, kom tillbaka "
-#~ "hit!"
+#~ "För att bli inbjuden till Plex server, skapa ett Plex konto! När du har "
+#~ "gjort det, kom tillbaka hit!"
 
 #~ msgid "Create Plex Account"
 #~ msgstr "Skapa ett Plex konto"
@@ -699,15 +3309,6 @@ msgstr "Nästa"
 #~ msgid "Used At"
 #~ msgstr "Använd vid"
 
-#~ msgid "Copy"
-#~ msgstr "Kopiera"
-
-#~ msgid "Delete"
-#~ msgstr "Ta bort"
-
-#~ msgid "Accept Invitation"
-#~ msgstr "Acceptera inbjudan"
-
 #~ msgid "Accept our invitation"
 #~ msgstr "Acceptera vår inbjudan"
 
@@ -715,19 +3316,14 @@ msgstr "Nästa"
 #~ msgstr "Vi har skickat en inbjudan till ditt Plex-konto. Nästan där!"
 
 #~ msgid ""
-#~ "Click the button below to be taken"
-#~ " to Plex, here you will see an"
-#~ " invitation from us."
+#~ "Click the button below to be taken to Plex, here you will see an "
+#~ "invitation from us."
 #~ msgstr ""
-#~ "Klicka på knappen nedan för att "
-#~ "tas till Plex. Där kommer du se"
-#~ " en inbjudan från oss."
+#~ "Klicka på knappen nedan för att tas till Plex. Där kommer du se en "
+#~ "inbjudan från oss."
 
 #~ msgid "Accept"
 #~ msgstr "Acceptera"
-
-#~ msgid "Next"
-#~ msgstr "Nästa"
 
 #~ msgid "Great! Now, let's get you invited!"
 #~ msgstr "Toppen! Låt oss få dig inbjuden!"
@@ -741,23 +3337,8 @@ msgstr "Nästa"
 #~ msgid "Get one here."
 #~ msgstr "Skaffa ett här."
 
-#~ msgid ""
-#~ "Plex Display\n"
-#~ "              Name"
-#~ msgstr ""
-
 #~ msgid "Plex URL"
 #~ msgstr "Plex URL"
-
-#~ msgid ""
-#~ "Plex\n"
-#~ "              Token"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Plex\n"
-#~ "              Libraries"
-#~ msgstr ""
 
 #~ msgid "Plex Display Name"
 #~ msgstr "Plex visningsnamn"
@@ -773,29 +3354,17 @@ msgstr "Nästa"
 
 #~ msgid ""
 #~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n"
-#~ ""
+#~ "                    deprecated and replaced by a secure sign-up. Please "
+#~ "visit \n"
 #~ "\n"
 #~ msgstr ""
-#~ "Miljövariabler fasas ut och ersätts av"
-#~ " en säker registrering. Vänligen besök"
-#~ " \n"
+#~ "Miljövariabler fasas ut och ersätts av en säker registrering. Vänligen "
+#~ "besök \n"
 
 #~ msgid ""
 #~ "/settings.\n"
 #~ "                        See Repo for more info"
 #~ msgstr "/settings. Se källkodsförvaringen för mer information"
-
-#~ msgid ""
-#~ "Server\n"
-#~ "              Libraries"
-#~ msgstr ""
-
-#~ msgid ""
-#~ "Custom\n"
-#~ "              HTML"
-#~ msgstr ""
 
 #~ msgid "Plex Requests"
 #~ msgstr "Plex förfrågningar"
@@ -843,9 +3412,6 @@ msgstr "Nästa"
 #~ msgid "User"
 #~ msgstr "Användare"
 
-#~ msgid "Home User"
-#~ msgstr "Hemma användare"
-
 #~ msgid "Passwords do not match."
 #~ msgstr "Lösenorden matchar inte."
 
@@ -861,16 +3427,15 @@ msgstr "Nästa"
 #~ msgid "It is likely that your token does not work."
 #~ msgstr "Det verkar som att ditt Plex-token inte fungerar."
 
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
-#~ msgstr "Kan inte ansluta till din Plex-server. Se loggarna för mer information."
+#~ msgid ""
+#~ "Unable to connect to your Plex server. See Logs for more information."
+#~ msgstr ""
+#~ "Kan inte ansluta till din Plex-server. Se loggarna för mer information."
 
 #~ msgid "Unable to connect to your Jellyfin server."
 #~ msgstr ""
-#~ "Kan inte ansluta till din Jellyfin-"
-#~ "server. Se loggarna för mer information."
-
-#~ msgid "Confirm password"
-#~ msgstr "Bekräfta lösenord"
+#~ "Kan inte ansluta till din Jellyfin-server. Se loggarna för mer "
+#~ "information."
 
 #~ msgid ""
 #~ "Server Display\n"
@@ -878,12 +3443,6 @@ msgstr "Nästa"
 #~ msgstr ""
 #~ "Server uppvisning\n"
 #~ "                Namn"
-
-#~ msgid "Server"
-#~ msgstr "Server adress"
-
-#~ msgid "Server URL"
-#~ msgstr "Server adress"
 
 #~ msgid ""
 #~ "Server\n"
@@ -905,9 +3464,6 @@ msgstr "Nästa"
 #~ msgstr ""
 #~ "Förfrågningar\n"
 #~ "                exempel (Ombi, Overseerr...)"
-
-#~ msgid "Ombi API Key (Only used for user import currently.)"
-#~ msgstr ""
 
 #~ msgid ""
 #~ "Discord\n"
@@ -933,36 +3489,26 @@ msgstr "Nästa"
 #~ msgstr "Automatiska Media Förfrågningar"
 
 #~ msgid ""
-#~ "We are excited to offer you a "
-#~ "wide selection of media to choose "
-#~ "from. If you're having trouble finding"
-#~ "\n"
-#~ "    something you like, don't worry! "
-#~ "We have a user-friendly request "
-#~ "system that can automatically search for"
-#~ " the\n"
+#~ "We are excited to offer you a wide selection of media to choose from. If "
+#~ "you're having trouble finding\n"
+#~ "    something you like, don't worry! We have a user-friendly request "
+#~ "system that can automatically search for the\n"
 #~ "    media you're looking for. "
 #~ msgstr ""
-#~ "Vi är glada att kunna erbjuda dig"
-#~ " ett brett utbud av titlar att "
-#~ "välja mellan. Om du har svårt att"
-#~ " hitta\n"
-#~ " något du gillar, oroa dig inte!"
-#~ " Vi har ett användarvänligt "
-#~ "förfrågningssystem som automatiskt kan söka"
-#~ " efter\n"
+#~ "Vi är glada att kunna erbjuda dig ett brett utbud av titlar att välja "
+#~ "mellan. Om du har svårt att hitta\n"
+#~ " något du gillar, oroa dig inte! Vi har ett användarvänligt "
+#~ "förfrågningssystem som automatiskt kan söka efter\n"
 #~ " de titlar du söker. "
 
 #~ msgid "Request any available Movie or TV Show"
 #~ msgstr "Förfråga efter en tillgänglig film eller TV-serie"
 
 #~ msgid ""
-#~ "Requested media will be automatically "
-#~ "downloaded and added to the library "
+#~ "Requested media will be automatically downloaded and added to the library "
 #~ "(if available)"
 #~ msgstr ""
-#~ "Förfrågad titel kommer att automatiskt "
-#~ "laddas ner och läggas till i "
+#~ "Förfrågad titel kommer att automatiskt laddas ner och läggas till i "
 #~ "biblioteket (om tillgängligt)"
 
 #~ msgid "If enabled, receive notifications"
@@ -979,26 +3525,20 @@ msgstr "Nästa"
 #~ "            till denna enhet"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Jellyfin."
 #~ msgstr ""
-#~ "Fantastiska nyheter! Du har nu tillgång"
-#~ " till vår servers media samling. Låt"
-#~ " oss se till att du vet hur "
-#~ "du använder det\n"
+#~ "Fantastiska nyheter! Du har nu tillgång till vår servers media samling. "
+#~ "Låt oss se till att du vet hur du använder det\n"
 #~ "        med Jellyfin."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Jellyfin for this "
+#~ "Planning on watching Movies on this device? Download Jellyfin for this "
 #~ "device."
 #~ msgstr ""
-#~ "Kommer du att titta på filmer och"
-#~ " serier på den här enheten? Ladda "
-#~ "ner Jellyfin för denna enhet här."
+#~ "Kommer du att titta på filmer och serier på den här enheten? Ladda ner "
+#~ "Jellyfin för denna enhet här."
 
 #~ msgid "Download"
 #~ msgstr "Ladda ner"
@@ -1007,53 +3547,35 @@ msgstr "Nästa"
 #~ msgstr "Okej, så vad är Jellyfin?"
 
 #~ msgid ""
-#~ "Jellyfin is a platform that lets "
-#~ "you stream all your favorite movies, "
-#~ "TV shows, and music in one place."
-#~ "\n"
-#~ "        It's like having your own "
-#~ "personal movie theater right at your "
-#~ "fingertips! Think of it as a "
-#~ "digital library of\n"
-#~ "        your favorite content that you"
-#~ " can access from anywhere, on any "
-#~ "device - your phone, tablet, laptop, "
-#~ "smart TV,\n"
+#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
+#~ "shows, and music in one place.\n"
+#~ "        It's like having your own personal movie theater right at your "
+#~ "fingertips! Think of it as a digital library of\n"
+#~ "        your favorite content that you can access from anywhere, on any "
+#~ "device - your phone, tablet, laptop, smart TV,\n"
 #~ "        you name it."
 #~ msgstr ""
-#~ "Jellyfin är en plattform som låter "
-#~ "dig strömma alla dina favorit filmer,"
-#~ " tv-serier och musik på en "
-#~ "plats.\n"
-#~ "        Det är som att ha sin "
-#~ "egen personliga film salong vid sina "
-#~ "fingerspetsar! Tänkt på det som ett "
-#~ "digitalt bibliotek av\n"
-#~ "        ditt favoritinnehåll som du kan"
-#~ " komma åt var du än är och "
-#~ "på vilken enhet du vill (telefon, "
-#~ "surfplatta, bärbar dator eller smart "
-#~ "TV),\n"
+#~ "Jellyfin är en plattform som låter dig strömma alla dina favorit filmer, "
+#~ "tv-serier och musik på en plats.\n"
+#~ "        Det är som att ha sin egen personliga film salong vid sina "
+#~ "fingerspetsar! Tänkt på det som ett digitalt bibliotek av\n"
+#~ "        ditt favoritinnehåll som du kan komma åt var du än är och på "
+#~ "vilken enhet du vill (telefon, surfplatta, bärbar dator eller smart TV),\n"
 #~ "        du bestämmer."
 
 #~ msgid "Right, so how do I watch stuff?"
 #~ msgstr "Jag förstår, hur kollar jag på innehållet?"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Jellyfin is "
-#~ "available on a wide variety of "
+#~ "It couldn't be simpler! Jellyfin is available on a wide variety of "
 #~ "devices including laptops, tablets,\n"
-#~ "        smartphones, and TVs. All you"
-#~ " need to do is download the "
-#~ "Jellyfin app on your device, sign "
-#~ "in with your account,\n"
+#~ "        smartphones, and TVs. All you need to do is download the Jellyfin "
+#~ "app on your device, sign in with your account,\n"
 #~ "        and\n"
 #~ "        you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "Det kan inte vara enklare! Jellyfin "
-#~ "finns tillgängligt på massor av enheter,"
-#~ " datorer, surfplatta, telefoner och "
-#~ "smart-tv. \n"
+#~ "Det kan inte vara enklare! Jellyfin finns tillgängligt på massor av "
+#~ "enheter, datorer, surfplatta, telefoner och smart-tv. \n"
 #~ "Allt du behöver göra är att leta reda på var Jellyfin appar finns. \n"
 #~ "Logga sedan in med ditt konto, så är du redo att strömma!"
 
@@ -1068,89 +3590,62 @@ msgstr "Nästa"
 #~ "            för denna enhet"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Plex."
 #~ msgstr ""
-#~ "Fantastiska nyheter! Nu har du åtkomst"
-#~ " till vår media samling. Gå vidare"
-#~ " för att veta hur du använder \n"
-#~ ""
+#~ "Fantastiska nyheter! Nu har du åtkomst till vår media samling. Gå vidare "
+#~ "för att veta hur du använder \n"
 #~ "         det med Plex."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Plex for this device."
+#~ "Planning on watching Movies on this device? Download Plex for this device."
 #~ msgstr ""
-#~ "Kommer du att titta på filmer och"
-#~ " serier på den här enheten? Ladda "
-#~ "ner Plex här."
+#~ "Kommer du att titta på filmer och serier på den här enheten? Ladda ner "
+#~ "Plex här."
 
 #~ msgid "Eh, So, What is Plex exactly?"
 #~ msgstr "Okej, så vad är Plex?"
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "    you've received this invitation, it"
-#~ " means someone wants to share their"
-#~ " library with you. With Plex, you'll"
-#~ " have\n"
-#~ "    access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "    you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "    access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "Bra fråga! Plex är ett program som"
-#~ " tillåter ägaren att dela med sig "
-#~ "av sitt innehåll till andra. Har "
-#~ "du fått en inbjudan så betyder det"
-#~ " att någon vill dela sitt innehåll"
-#~ " med dig. Med Plex så kommer du"
-#~ " att få tillgång till Filmer, Serier,"
-#~ " Musik och bilder som de vill "
-#~ "dela med sig av på sin server "
-#~ "till dig!"
+#~ "Bra fråga! Plex är ett program som tillåter ägaren att dela med sig av "
+#~ "sitt innehåll till andra. Har du fått en inbjudan så betyder det att "
+#~ "någon vill dela sitt innehåll med dig. Med Plex så kommer du att få "
+#~ "tillgång till Filmer, Serier, Musik och bilder som de vill dela med sig "
+#~ "av på sin server till dig!"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "    smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you need to do is download the Plex app on "
+#~ "your device, sign in with your account, and\n"
 #~ "    you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
 #~ "Plex finns tillgängligt på massor av enheter, datorer, surfplatta, \n"
-#~ "    telefoner och smart-tv. Allt "
-#~ "du behöver göra är att leta reda"
-#~ " på Plex där appar finns. Logga "
-#~ "sedan in med ditt konto, \n"
+#~ "    telefoner och smart-tv. Allt du behöver göra är att leta reda på Plex "
+#~ "där appar finns. Logga sedan in med ditt konto, \n"
 #~ "    så är du redo att strömma!"
 
 #~ msgid "How can I make sure to have the best experience?"
 #~ msgstr "Hur kan jag säkerställa så att jag får den bästa upplevelsen?"
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "    sharing with you - they also,"
-#~ " by default, play content at a "
-#~ "lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the "
+#~ "awesome content your friend is now\n"
+#~ "    sharing with you - they also, by default, play content at a lower "
+#~ "quality. "
 #~ msgstr ""
-#~ "Eftersom att Plex är en gratis "
-#~ "plattform i sig, så behöver dom på"
-#~ " intäkter igenom att visa sitt eget"
-#~ " innehåll av filmer och serier. \n"
-#~ "    Det är de första du ser "
-#~ "när du loggar in på Plex - "
-#~ "de spelar även upp innehåll i "
-#~ "lägre kvalité. "
+#~ "Eftersom att Plex är en gratis plattform i sig, så behöver dom på "
+#~ "intäkter igenom att visa sitt eget innehåll av filmer och serier. \n"
+#~ "    Det är de första du ser när du loggar in på Plex - de spelar även upp "
+#~ "innehåll i lägre kvalité. "
 
 #~ msgid "No need to worry though, this can be easily resolved"
 #~ msgstr "Det är dock enkelt att fixa"
@@ -1166,19 +3661,88 @@ msgstr "Nästa"
 #~ msgstr "Konfigurera Plex in din webbläsare"
 
 #~ msgid "Configure Plex's app on your computer, mobile device or TV"
-#~ msgstr "Konfigurera Plex applikationen på din dator, mobila enhet eller din TV"
+#~ msgstr ""
+#~ "Konfigurera Plex applikationen på din dator, mobila enhet eller din TV"
 
 #~ msgid "Open Plex"
 #~ msgstr "Öppna Plex"
 
-#~ msgid "User Configuration"
+#~ msgid "Home"
+#~ msgstr "Hem"
+
+#~ msgid "Server settings"
+#~ msgstr "Serverinställningar"
+
+#~ msgid "Notification agents"
+#~ msgstr "Notifikationsagenter"
+
+#~ msgid "Oops!"
+#~ msgstr "Hoppsan!"
+
+#~ msgid ""
+#~ "Confirm\n"
+#~ "                                password"
 #~ msgstr ""
+#~ "Bekräfta \n"
+#~ "                                lösenord"
 
-#~ msgid "User Policy"
+#~ msgid ""
+#~ "Invite\n"
+#~ "                                Code"
 #~ msgstr ""
+#~ "Inbjudnings\n"
+#~ "                                kod"
 
-#~ msgid "Name"
-#~ msgstr "Användarnamn"
+#~ msgid "Invite user"
+#~ msgstr "Bjud in användare"
 
-#~ msgid "Actions"
-#~ msgstr "Inbjudan"
+#~ msgid ""
+#~ "Specific\n"
+#~ "                                Libraries"
+#~ msgstr ""
+#~ "Specifika\n"
+#~ "                                bibliotek"
+
+#~ msgid "Back"
+#~ msgstr "Tillbaka"
+
+#~ msgid "Share"
+#~ msgstr "Dela"
+
+#~ msgid ""
+#~ "Username\n"
+#~ "                                (optional)"
+#~ msgstr ""
+#~ "Användarnamn\n"
+#~ "                                (valfritt)"
+
+#~ msgid ""
+#~ "Agent\n"
+#~ "                                URL"
+#~ msgstr ""
+#~ "Agent\n"
+#~ "                                URL"
+
+#~ msgid "Notifications"
+#~ msgstr "Notifieringar"
+
+#~ msgid "Optional, leave empty to disable"
+#~ msgstr "Valfritt, lämna tomt för att avaktivera"
+
+#~ msgid "Available"
+#~ msgstr "Tillgänglig"
+
+#~ msgid "Limit"
+#~ msgstr "Obegränsad"
+
+#~ msgid "libs"
+#~ msgstr "Bibliotek"
+
+#~ msgid "Pre-Invite"
+#~ msgstr "Föregående"
+
+#~ msgid "Post-Invite"
+#~ msgstr "Inbjudningskod"
+
+#~ msgid "Partial"
+#~ msgstr "(valfritt)"

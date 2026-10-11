@@ -76,11 +76,11 @@ def api_key(app):
 def sample_data(app):
     """Create sample data for testing."""
     with app.app_context():
-        # Clean up any existing data first
-        MediaServer.query.delete()
-        Library.query.delete()
+        # Clean up any existing data first - delete in correct order to respect foreign keys
         User.query.delete()
         Invitation.query.delete()
+        Library.query.delete()
+        MediaServer.query.delete()
         db.session.commit()
 
         # Create media server
@@ -246,6 +246,35 @@ class TestAPIUsers:
         assert data["error"] == "User not found"
 
 
+class TestAPIAdmins:
+    """Test the API admins endpoints."""
+
+    def test_list_admins_unauthorized(self, client):
+        """Test admins list without authentication."""
+        response = client.get("/api/admins")
+        assert response.status_code == 401
+        data = response.get_json()
+        assert data["error"] == "Unauthorized"
+
+    def test_list_admins_success(self, client, api_key, sample_data):
+        """Test successful admins list."""
+        response = client.get("/api/admins", headers={"X-API-Key": api_key})
+        assert response.status_code == 200
+
+        data = response.get_json()
+        assert "admins" in data
+        assert "count" in data
+        assert data["count"] == len(data["admins"])
+
+        # Check admin data structure
+        if data["admins"]:
+            admin = data["admins"][0]
+            assert "id" in admin
+            assert "username" in admin
+            assert "passkeys" in admin
+            assert "created" in admin
+
+
 class TestAPIInvitations:
     """Test the API invitations endpoints."""
 
@@ -274,6 +303,19 @@ class TestAPIInvitations:
             assert "status" in invitation
             assert "url" in invitation
             assert invitation["status"] == "pending"
+
+    def test_list_invitations_returns_relative_url_for_loopback_host(
+        self, client, api_key, sample_data
+    ):
+        """Test invitation URLs do not include internal loopback hosts."""
+        response = client.get(
+            "/api/invitations",
+            headers={"X-API-Key": api_key, "Host": "127.0.0.1:5690"},
+        )
+        assert response.status_code == 200
+
+        invitation = response.get_json()["invitations"][0]
+        assert invitation["url"] == f"/j/{invitation['code']}"
 
     def test_create_invitation_unauthorized(self, client):
         """Test invitation creation without authentication."""

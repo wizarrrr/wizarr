@@ -351,7 +351,7 @@ class MockPlexClient:
             return True, ""
 
         except Exception as e:
-            return False, f"Plex error: {str(e)}"
+            return False, f"Plex error: {e!s}"
 
     def join(
         self, username: str, password: str, confirm: str, email: str, code: str
@@ -437,7 +437,7 @@ class MockAudiobookshelfClient:
             return True, ""
 
         except Exception as e:
-            return False, f"Audiobookshelf error: {str(e)}"
+            return False, f"Audiobookshelf error: {e!s}"
 
     def join(
         self, username: str, password: str, confirm: str, email: str, code: str

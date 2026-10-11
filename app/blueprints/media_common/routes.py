@@ -8,7 +8,47 @@ from flask import Blueprint, abort, jsonify, redirect, render_template, request
 from flask_login import login_required
 
 from app.forms.join import JoinForm
+from app.models import Invitation, MediaServer
+from app.services.invitation_flow.workflows import _get_server_colors
 from app.services.invitation_manager import InvitationManager, LibraryScanner
+from app.services.server_name_resolver import resolve_invitation_server_name
+
+
+def _join_template_context(
+    server_type: str, form: JoinForm, error: str | None = None
+) -> dict:
+    """Build the complete context needed to render the join form."""
+    code = form.code.data or request.form.get("code")
+    servers = []
+
+    if code:
+        invitation = Invitation.query.filter_by(code=code).first()
+        if invitation and invitation.servers:
+            servers = [s for s in invitation.servers if s.server_type == server_type]
+            if not servers:
+                servers = list(invitation.servers)
+        elif invitation and invitation.server:
+            servers = [invitation.server]
+
+    if not servers:
+        server = MediaServer.query.filter_by(server_type=server_type).first()
+        if server:
+            servers = [server]
+
+    colors = _get_server_colors(server_type)
+    context = {
+        "form": form,
+        "server_type": server_type,
+        "server_name": resolve_invitation_server_name(servers),
+        "servers": servers,
+        "gradient_start": colors["gradient_start"],
+        "gradient_end": colors["gradient_end"],
+        "shadow_color": colors["shadow_color"],
+        "show_form": bool(error) or bool(form.errors),
+    }
+    if error:
+        context["error"] = error
+    return context
 
 
 def create_media_blueprint(server_type: str, url_prefix: str) -> Blueprint:
@@ -75,9 +115,7 @@ def create_media_blueprint(server_type: str, url_prefix: str) -> Blueprint:
 
         return render_template(
             "welcome-jellyfin.html",
-            form=form,
-            server_type=server_type,
-            error=error,
+            **_join_template_context(server_type, form, error),
         )
 
     return bp

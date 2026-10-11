@@ -11,10 +11,15 @@
 from __future__ import annotations
 
 import logging
+import os
+import re
+import threading
 from abc import ABC, abstractmethod
+from http.cookiejar import DefaultCookiePolicy
 from typing import TYPE_CHECKING
 
 import requests
+from requests.adapters import HTTPAdapter
 
 from app.extensions import db
 from app.models import MediaServer, Settings, User
@@ -24,11 +29,70 @@ if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
 
 # ---------------------------------------------------------------------------
+# Shared HTTP session
+# ---------------------------------------------------------------------------
+
+# Timeout as (connect, read) seconds. The short connect timeout makes an
+# offline host fail fast. The long read timeout keeps slow calls (for example
+# a large user list) working.
+DEFAULT_TIMEOUT: tuple[float, float] = (5, 60)
+
+# Number of hosts that keep a pool, and number of kept connections per host.
+_POOL_HOSTS = 32
+_POOL_CONNECTIONS_PER_HOST = 16
+
+_http_session: requests.Session | None = None
+_http_session_pid: int | None = None
+_http_session_lock = threading.Lock()
+
+
+def get_http_session() -> requests.Session:
+    """Return the process-wide pooled ``requests.Session`` for outbound calls.
+
+    We use one module Session with a mounted HTTPAdapter, not one Session per
+    thread. The now-playing, health and library-scan calls run in short-lived
+    worker threads, so a per-thread Session would open new connections on each
+    call. The urllib3 pool in the adapter is thread-safe, so all threads can
+    share it.
+
+    The Session refuses all cookies. Before, each call used a new Session, so
+    no cookie went from one call to the next. This keeps that behavior and
+    prevents cookies from one server going to another.
+
+    The Session is made again after a fork, so that a gunicorn worker never
+    uses sockets that its parent process opened.
+    """
+    global _http_session, _http_session_pid
+
+    pid = os.getpid()
+    session = _http_session
+    if session is not None and _http_session_pid == pid:
+        return session
+
+    with _http_session_lock:
+        if _http_session is None or _http_session_pid != pid:
+            new_session = requests.Session()
+            adapter = HTTPAdapter(
+                pool_connections=_POOL_HOSTS,
+                pool_maxsize=_POOL_CONNECTIONS_PER_HOST,
+            )
+            new_session.mount("http://", adapter)
+            new_session.mount("https://", adapter)
+            new_session.cookies.set_policy(DefaultCookiePolicy(allowed_domains=[]))
+            _http_session = new_session
+            _http_session_pid = pid
+        return _http_session
+
+
+# ---------------------------------------------------------------------------
 # Registry helpers
 # ---------------------------------------------------------------------------
 
 # Holds mapping of server_type -> MediaClient subclass
 CLIENTS: dict[str, type[MediaClient]] = {}
+
+# The one e-mail check every client and the join flow use.
+EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
 
 
 def register_media_client(name: str):
@@ -40,7 +104,7 @@ def register_media_client(name: str):
     """
 
     def decorator(cls):
-        cls._server_type = name  # type: ignore[attr-defined]
+        cls._server_type = name  # type: ignore
         CLIENTS[name] = cls
         return cls
 
@@ -64,8 +128,31 @@ class MediaClient(ABC):
        compatibility – these will be removed in a future release.
     """
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:  # noqa: ARG003
+        """Check that a server of this type answers at ``url`` with ``token``.
+
+        Used when a server is created or edited. Clients override this; the
+        default refuses, so a client without a check can never be saved by
+        accident against a server it cannot talk to.
+        """
+        name = getattr(cls, "_server_type", cls.__name__)
+        return False, f"No connection check is implemented for server type '{name}'"
+
     url: str | None
     token: str | None
+
+    # Timeout for outbound calls, as (connect, read) seconds or one number.
+    # Set it on an instance to use shorter timeouts, for example for health
+    # checks and now-playing polls. A class attribute, so that clients made
+    # with ``__new__`` (as in tests) also have it.
+    timeout: float | tuple[float, float] = DEFAULT_TIMEOUT
+
+    # Number of failed remote calls of this instance. Some ``list_users()``
+    # methods catch a remote error and return the stored users. The user sync
+    # throttle reads this value, so that it does not count such a call as a
+    # successful sync.
+    remote_errors: int = 0
 
     # NOTE: keep *url_key* & *token_key* keyword arguments so older subclass
     # calls (e.g. super().__init__(url_key="server_url")) continue to work.
@@ -75,7 +162,7 @@ class MediaClient(ABC):
         media_server: MediaServer | None = None,
         *,
         url_key: str = "server_url",
-        token_key: str = "api_key",
+        token_key: str = "api_key",  # noqa: S107  # Parameter name, not actual password
     ) -> None:
         # ------------------------------------------------------------------
         # 1. Direct MediaServer row supplied
@@ -113,9 +200,53 @@ class MediaClient(ABC):
     def _attach_server_row(self, row: MediaServer) -> None:
         """Populate instance attributes from a MediaServer row."""
         self.server_row: MediaServer = row
-        self.server_id: int = row.id  # type: ignore[attr-defined]
-        self.url = row.url  # type: ignore[attr-defined]
-        self.token = row.api_key  # type: ignore[attr-defined]
+        self.server_id: int = row.id  # type: ignore
+        self.url = row.url  # type: ignore
+        self.token = row.api_key  # type: ignore
+
+    def _skip_prune_on_empty_remote(
+        self, remote_is_empty: bool, known_users: list[User]
+    ) -> bool:
+        """Return True when an empty remote user set must NOT prune local users.
+
+        ``list_users`` runs automatically when the Users page loads. A
+        successful fetch that yields no users is far more likely to be a
+        transient upstream condition or an identity/filter mismatch than the
+        admin genuinely removing everyone, so pruning here would silently delete
+        every local user (and cascade to their activity sessions) with no
+        confirmation. When this returns True the caller should return its
+        existing users unchanged; explicit deletion from the UI is unaffected.
+        """
+        if remote_is_empty and known_users:
+            logging.warning(
+                "%s returned no users for server_id=%s but %d are known locally; "
+                "skipping prune to avoid deleting them.",
+                type(self).__name__,
+                getattr(self, "server_id", None),
+                len(known_users),
+            )
+            return True
+        return False
+
+    def generate_image_proxy_url(self, image_url: str) -> str:
+        """
+        Generate a secure proxy URL for an image.
+
+        Args:
+            image_url: The raw image URL from the media server
+
+        Returns:
+            Secure proxy URL with opaque token: /image-proxy?token=xxx
+        """
+        from urllib.parse import quote_plus
+
+        from app.services.image_proxy import ImageProxyService
+
+        # Generate opaque token for this URL
+        token = ImageProxyService.generate_token(image_url, server_id=self.server_id)
+
+        # Return proxy URL with token
+        return f"/image-proxy?token={quote_plus(token)}"
 
     def _create_user_with_identity_linking(self, user_kwargs: dict) -> User:
         """Create a User record with intelligent identity linking based on invitation type.
@@ -141,7 +272,6 @@ class MediaClient(ABC):
         # Check if this is part of a multi-server invitation
         if code:
             from app.models import Invitation
-            from app.services.media.service import EMAIL_RE
 
             invitation = Invitation.query.filter_by(code=code).first()
 
@@ -151,15 +281,12 @@ class MediaClient(ABC):
                     existing_user = User.query.filter_by(code=code).first()
                     if existing_user and existing_user.identity_id:
                         user_kwargs["identity_id"] = existing_user.identity_id
-                else:
-                    # UNLIMITED invites: Only link if same email (same person across servers)
-                    # Different emails = different people, should remain separate
-                    if email and EMAIL_RE.fullmatch(email):
-                        existing_user = User.query.filter_by(
-                            code=code, email=email
-                        ).first()
-                        if existing_user and existing_user.identity_id:
-                            user_kwargs["identity_id"] = existing_user.identity_id
+                # UNLIMITED invites: Only link if same email (same person across servers)
+                # Different emails = different people, should remain separate
+                elif email and EMAIL_RE.fullmatch(email):
+                    existing_user = User.query.filter_by(code=code, email=email).first()
+                    if existing_user and existing_user.identity_id:
+                        user_kwargs["identity_id"] = existing_user.identity_id
 
         # Clean up any expired user records for this email address
         if email:
@@ -175,6 +302,18 @@ class MediaClient(ABC):
     def libraries(self):
         raise NotImplementedError
 
+    def libraries_scan_authoritative(self, scan_result) -> bool:  # noqa: ARG002
+        """Whether `scan_result` (this call's `libraries()` return value) can be
+        trusted to reconcile libraries that are missing from it as removed.
+
+        Default True: most backends are queried directly, so a result either
+        reflects the server's real state or the request raised and never got
+        here. Override this only if a backend's scan source can silently
+        return a partial view of a healthy server without raising - see
+        PlexClient, whose account-level global-id lookup does exactly that.
+        """
+        return True
+
     @abstractmethod
     def create_user(self, *args, **kwargs):
         raise NotImplementedError
@@ -184,8 +323,90 @@ class MediaClient(ABC):
         raise NotImplementedError
 
     @abstractmethod
+    def enable_user(self, user_id: str) -> bool:
+        """Enable a user account on the media server.
+
+        Args:
+            user_id: The user's ID on the media server
+
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def disable_user(self, user_id: str) -> bool:
+        """Disable a user account on the media server.
+
+        Args:
+            user_id: The user's ID on the media serverFailed to disable
+
+        Returns:
+            bool: True if the user was successfully disabled, False otherwise
+        """
+        raise NotImplementedError
+
+    @abstractmethod
     def delete_user(self, *args, **kwargs):
         raise NotImplementedError
+
+    def reset_password(self, user_identifier: str, new_password: str) -> bool:  # noqa: ARG002
+        """Reset a user's password on the media server.
+
+        Default implementation does nothing and returns False. MediaClient
+        subclasses that support password resets should override this method.
+
+        Args:
+            user_identifier: User ID, email, or token depending on server type
+            new_password: The new password to set
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        logging.warning(f"{self.__class__.__name__} does not implement password resets")
+        return False
+
+    def update_user_permissions(
+        self, _user_identifier: str, _permissions: dict[str, bool]
+    ) -> bool:
+        """Update user permissions on the media server.
+
+        Args:
+            _user_identifier: User ID, email, or token depending on server type
+            _permissions: Dict with keys: allow_downloads, allow_live_tv, allow_camera_upload
+
+        Returns:
+            bool: True if successful, False otherwise
+
+        Note:
+            Default implementation returns False. Media servers that support
+            permission updates should override this method.
+        """
+        logging.warning(
+            f"{self.__class__.__name__} does not support permission updates"
+        )
+        return False
+
+    def update_user_libraries(
+        self, _user_identifier: str, _library_names: list[str] | None
+    ) -> bool:
+        """Update user's library access on the media server.
+
+        Args:
+            _user_identifier: User ID, email, or token depending on server type
+            _library_names: List of library names to grant access to, or None for all libraries
+
+        Returns:
+            bool: True if successful, False otherwise
+
+        Note:
+            Default implementation returns False. Media servers that support
+            library access updates should override this method.
+        """
+        logging.warning(
+            f"{self.__class__.__name__} does not support library access updates"
+        )
+        return False
 
     @abstractmethod
     def get_user(self, *args, **kwargs):
@@ -213,7 +434,6 @@ class MediaClient(ABC):
             user_id=str(user_identifier),
             username=raw_details.get("username", "Unknown"),
             email=raw_details.get("email"),
-            raw_policies=raw_details,
         )
 
     def _cache_user_metadata_batch(self, users: list[User]) -> None:
@@ -239,8 +459,8 @@ class MediaClient(ABC):
                 # Get detailed metadata from the server
                 details = self.get_user_details(user_identifier)
 
-                # Cache the metadata in the User record
-                user.cache_metadata(details)
+                # Update the standardized metadata columns in the User record
+                user.update_standardized_metadata(details)
                 cached_count += 1
 
             except Exception as e:
@@ -297,6 +517,29 @@ class MediaClient(ABC):
                 - session_id: Unique identifier for the session
         """
         raise NotImplementedError
+
+    def get_recent_items(
+        self,
+        library_id: str | None = None,  # noqa: ARG002
+        limit: int = 10,  # noqa: ARG002
+    ) -> list[dict]:
+        """Get recently added items from the media server.
+
+        Args:
+            library_id: Optional library ID to filter by
+            limit: Maximum number of items to return
+
+        Returns:
+            list: A list of recently added items with standardized keys:
+                - title: Title of the media item
+                - year: Release year (if available)
+                - thumb: Thumbnail URL (if available)
+                - type: Media type (movie, episode, track, etc.)
+                - added_at: Unix timestamp when item was added
+        """
+        # Default implementation returns empty list
+        # Subclasses should override this method
+        return []
 
     @abstractmethod
     def statistics(self):
@@ -378,7 +621,14 @@ class MediaClient(ABC):
             "content_stats": {},  # Minimal for health cards
         }
 
-    def join(self, username: str, password: str, confirm: str, email: str, code: str):
+    def join(
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
+    ):
         """Process user invitation for this media server.
 
         This is a template method that handles notifications after successful user creation.
@@ -404,6 +654,7 @@ class MediaClient(ABC):
                     "New User",
                     f"User {username} has joined your server! 🎉",
                     tags="tada",
+                    event_type="user_joined",
                 )
             except Exception as e:
                 logging.warning(f"Failed to send join notification: {e}")
@@ -412,7 +663,12 @@ class MediaClient(ABC):
 
     @abstractmethod
     def _do_join(
-        self, username: str, password: str, confirm: str, email: str, code: str
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
     ):
         """Process user invitation for this media server (implementation method).
 
@@ -489,7 +745,7 @@ class RestApiMixin(MediaClient):
     # Customisation hooks
     # ------------------------------------------------------------------
 
-    def _headers(self) -> dict[str, str]:  # noqa: D401
+    def _headers(self) -> dict[str, str]:
         """Return default headers for every request (override as needed)."""
         return {
             "Accept": "application/json",
@@ -500,22 +756,31 @@ class RestApiMixin(MediaClient):
     # ------------------------------------------------------------------
 
     def _request(self, method: str, path: str, **kwargs):
-        """Make HTTP request with consistent error handling and logging."""
+        """Make HTTP request with consistent error handling and logging.
+
+        The call uses the shared pooled session, so it reuses TCP/TLS
+        connections. A ``timeout`` keyword overrides ``self.timeout`` for this
+        call only.
+        """
         if self.url is None:
             raise ValueError("Media server URL is not configured")
 
         url = f"{self.url.rstrip('/')}{path}"
-        headers = {**self._headers(), **kwargs.pop("headers", {})}
+        timeout = kwargs.pop("timeout", None) or self.timeout
 
         logging.info("%s %s", method.upper(), url)
         try:
-            response = requests.request(
-                method, url, headers=headers, timeout=10, **kwargs
+            # Some clients get an auth token in _headers(). Count a failure
+            # there as a remote error too.
+            headers = {**self._headers(), **kwargs.pop("headers", {})}
+            response = get_http_session().request(
+                method, url, headers=headers, timeout=timeout, **kwargs
             )
             logging.info("→ %s", response.status_code)
             response.raise_for_status()
             return response
         except Exception as e:
+            self.remote_errors += 1
             logging.error("Request failed: %s", e)
             raise
 

@@ -27,19 +27,19 @@ class AuthenticationStrategy(ABC):
         Returns:
             (success, message, user_data)
         """
-        pass
 
     @abstractmethod
     def get_required_fields(self) -> list[str]:
         """Get list of required form fields."""
-        pass
 
 
 class FormBasedStrategy(AuthenticationStrategy):
     """Strategy for traditional form-based authentication."""
 
     def authenticate(
-        self, servers: list[MediaServer], form_data: dict[str, Any]
+        self,
+        servers: list[MediaServer],  # noqa: ARG002
+        form_data: dict[str, Any],
     ) -> tuple[bool, str, dict[str, Any]]:
         """Authenticate using form data."""
         # Validate required fields
@@ -70,7 +70,9 @@ class PlexOAuthStrategy(AuthenticationStrategy):
     """Strategy for Plex OAuth authentication."""
 
     def authenticate(
-        self, servers: list[MediaServer], form_data: dict[str, Any]
+        self,
+        servers: list[MediaServer],  # noqa: ARG002
+        form_data: dict[str, Any],
     ) -> tuple[bool, str, dict[str, Any]]:
         """Authenticate using Plex OAuth."""
         # Check if we have OAuth token from session or form
@@ -105,7 +107,6 @@ class HybridStrategy(AuthenticationStrategy):
         self, servers: list[MediaServer], form_data: dict[str, Any]
     ) -> tuple[bool, str, dict[str, Any]]:
         """Authenticate using hybrid approach."""
-        # plex_servers = [s for s in servers if s.server_type == "plex"]
         other_servers = [s for s in servers if s.server_type != "plex"]
 
         # Check if we have Plex OAuth token

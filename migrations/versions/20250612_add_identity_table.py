@@ -39,7 +39,9 @@ def upgrade():
     email_to_id = {}
     for email in emails:
         res = conn.execute(identity_tbl.insert().values(primary_email=email))
-        email_to_id[email] = res.inserted_primary_key[0]
+        row = res.inserted_primary_key
+        assert row is not None
+        email_to_id[email] = row[0]
 
     # update users
     for email, iid in email_to_id.items():

@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _("Activity Monitoring") }} - Wizarr{% endblock %}
+
+{% block main %}
+<div class="container mx-auto px-4 py-6 max-w-7xl">
+    <!-- Header -->
+    <div class="mb-6">
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ _("Activity Monitoring") }}</h1>
+        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("Real-time and historical media playback activity") }}</p>
+    </div>
+
+    {% if error %}
+        <div class="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6">
+            <div class="flex">
+                <svg class="flex-shrink-0 w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                </svg>
+                <div class="ml-3">
+                    <h3 class="text-sm font-medium text-red-800 dark:text-red-200">{{ error }}</h3>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <!-- Activity Table -->
+    {% set current_sort_by = request.args.get('sort_by', 'started_at') %}
+    {% set current_sort_direction = request.args.get('sort_direction', 'desc') %}
+    {% set current_sort_value = current_sort_by ~ ':' ~ current_sort_direction %}
+
+    <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+        <div class="mx-auto max-w-screen-xl px-4 lg:px-12">
+            <div class="bg-white dark:bg-gray-800 relative shadow-md sm:rounded-lg overflow-hidden">
+                <div class="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 p-4 gap-4">
+                    <div class="w-full md:w-2/5">
+                        <form class="flex items-center" method="GET" hx-get="{{ url_for('activity.activity_dashboard') }}" hx-target="body" hx-push-url="true">
+                            <label for="simple-search" class="sr-only">{{ _("Search") }}</label>
+                            <div class="relative w-full">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewbox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                                    </svg>
+                                </div>
+                                <input type="text" id="simple-search" name="user_name" value="{{ selected_user_name or '' }}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5 h-10 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="{{ _("Search by username...") }}">
+                            </div>
+                        </form>
+                    </div>
+                    <div class="w-full md:w-3/5 flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end gap-4">
+                        <select name="server_id" id="server-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full md:w-48 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" onchange="filterActivities()">
+                            <option value="">{{ _("All Servers") }}</option>
+                            {% for server in servers %}
+                                <option value="{{ server.id }}" {% if server.id == selected_server_id %}selected{% endif %}>
+                                    {{ server.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                        <select name="media_type" id="media-type-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full md:w-48 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" onchange="filterActivities()">
+                            <option value="">{{ _("All Media Types") }}</option>
+                            <option value="movie" {% if selected_media_type == 'movie' %}selected{% endif %}>{{ _("Movies") }}</option>
+                            <option value="episode" {% if selected_media_type == 'episode' %}selected{% endif %}>{{ _("TV Episodes") }}</option>
+                            <option value="track" {% if selected_media_type == 'track' %}selected{% endif %}>{{ _("Music") }}</option>
+                            <option value="audiobook" {% if selected_media_type == 'audiobook' %}selected{% endif %}>{{ _("Audiobooks") }}</option>
+                        </select>
+                        <select id="sort-order" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full md:w-60 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" onchange="filterActivities()">
+                            <option value="started_at:desc" {% if current_sort_value == 'started_at:desc' %}selected{% endif %}>{{ _("Start Time · Newest first") }}</option>
+                            <option value="started_at:asc" {% if current_sort_value == 'started_at:asc' %}selected{% endif %}>{{ _("Start Time · Oldest first") }}</option>
+                            <option value="user_name:asc" {% if current_sort_value == 'user_name:asc' %}selected{% endif %}>{{ _("User · A → Z") }}</option>
+                            <option value="user_name:desc" {% if current_sort_value == 'user_name:desc' %}selected{% endif %}>{{ _("User · Z → A") }}</option>
+                            <option value="playback:desc" {% if current_sort_value == 'playback:desc' %}selected{% endif %}>{{ _("Playback · Transcoding first") }}</option>
+                            <option value="playback:asc" {% if current_sort_value == 'playback:asc' %}selected{% endif %}>{{ _("Playback · Direct play first") }}</option>
+                        </select>
+
+                        <button type="button"
+                                id="activity-refresh-button"
+                                class="inline-flex items-center justify-center h-10 px-4 rounded-lg border border-gray-300 text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 transition dark:border-gray-600 dark:text-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600"
+                                onclick="refreshActivities({ manual: true })"
+                                title="{{ _('Refresh activity list') }}">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9M20 20v-5h-.581m-15.357-2a8.003 8.003 0 0015.357 2" />
+                            </svg>
+                            {{ _("Refresh") }}
+                            <span id="activity-refresh-pending" class="ml-2 hidden text-xs font-semibold text-orange-600 dark:text-orange-300">• {{ _("updates ready") }}</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <div id="activity-table-container"
+                         hx-get="{{ url_for('activity.activity_grid') }}?{{ request.query_string.decode() }}"
+                         hx-trigger="load"
+                         hx-swap="innerHTML">
+                        <!-- Loading placeholder -->
+                        <div class="text-center py-12">
+                            <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                            <p class="text-gray-500 dark:text-gray-400">{{ _("Loading activity data...") }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+if (typeof window.ensureActivityState !== 'function') {
+    window.ensureActivityState = function ensureActivityState() {
+        if (!window.wizarrActivityState) {
+            window.wizarrActivityState = {
+                detailOpen: false,
+                pendingRefresh: false,
+                summaryTimer: null,
+                lastSummary: null,
+                summaryInFlight: false,
+            };
+        }
+        return window.wizarrActivityState;
+    };
+}
+
+function buildActivityParams(extra = {}) {
+    const params = new URLSearchParams();
+
+    const searchInput =
+        document.getElementById('simple-search') ||
+        document.getElementById('user-search');
+    const userName = (searchInput?.value || '').trim();
+    const serverFilter = document.getElementById('server-filter')?.value;
+    const mediaTypeFilter = document.getElementById('media-type-filter')?.value;
+    const sortOrder = document.getElementById('sort-order')?.value;
+
+    if (userName) params.set('user_name', userName);
+    if (serverFilter) params.set('server_id', serverFilter);
+    if (mediaTypeFilter) params.set('media_type', mediaTypeFilter);
+
+    if (sortOrder) {
+        const [sortBy, sortDirection] = sortOrder.split(':');
+        if (sortBy) params.set('sort_by', sortBy);
+        if (sortDirection) params.set('sort_direction', sortDirection);
+    }
+
+    if (typeof extra.page !== 'undefined') {
+        params.set('page', extra.page);
+    }
+    if (typeof extra.limit !== 'undefined') {
+        params.set('limit', extra.limit);
+    }
+
+    return params;
+}
+
+function refreshActivities(options = {}) {
+    const { page, manual } = options;
+    const params = buildActivityParams({ page });
+    const queryString = params.toString();
+    const url = queryString
+        ? '{{ url_for("activity.activity_grid") }}?' + queryString
+        : '{{ url_for("activity.activity_grid") }}';
+
+    htmx.ajax('GET', url, {
+        target: '#activity-table-container'
+    });
+
+    const state = ensureActivityState();
+    state.pendingRefresh = false;
+    if (manual) {
+        state.lastSummary = null;
+    }
+
+    const indicator = document.getElementById('activity-refresh-pending');
+    if (indicator) {
+        indicator.classList.add('hidden');
+    }
+}
+
+function filterActivities() {
+    refreshActivities({ page: 1 });
+}
+
+// htmx runs this script again on each tab load. A top-level "const" fails on
+// the second run, so use "var".
+var ACTIVITY_SUMMARY_URL = '{{ url_for("activity.activity_summary") }}';
+
+async function checkActivitySummary() {
+    const state = ensureActivityState();
+    if (state.summaryInFlight) {
+        return;
+    }
+
+    // Stop when the history table is not on the page any more (for example
+    // after a tab change). Do not poll while the browser tab is hidden.
+    if (!document.getElementById('activity-table-container')) {
+        stopActivitySummaryPolling();
+        return;
+    }
+    if (document.visibilityState !== 'visible') {
+        return;
+    }
+
+    state.summaryInFlight = true;
+
+    try {
+        const response = await fetch(ACTIVITY_SUMMARY_URL, { cache: 'no-store' });
+        if (!response.ok) {
+            return;
+        }
+
+        const data = await response.json();
+        if (!data) {
+            return;
+        }
+
+        if (!state.lastSummary) {
+            state.lastSummary = data;
+            return;
+        }
+
+        // Reload the grid only when a session starts or ends. Progress
+        // updates change latest_updated_at only, and the grid shows a live
+        // timer for active sessions, so they do not need a reload.
+        const activeChanged =
+            data.active_sessions !== state.lastSummary.active_sessions;
+        const sessionsChanged =
+            data.latest_session_id !== state.lastSummary.latest_session_id ||
+            data.latest_started_at !== state.lastSummary.latest_started_at;
+
+        if (activeChanged || sessionsChanged) {
+            state.lastSummary = data;
+
+            if (state.detailOpen) {
+                state.pendingRefresh = true;
+                const indicator = document.getElementById('activity-refresh-pending');
+                if (indicator) {
+                    indicator.classList.remove('hidden');
+                }
+            } else {
+                refreshActivities();
+            }
+        }
+    } catch (error) {
+        console.debug('Activity summary poll failed', error);
+    } finally {
+        ensureActivityState().summaryInFlight = false;
+    }
+}
+
+function stopActivitySummaryPolling() {
+    const state = ensureActivityState();
+    if (state.summaryTimer) {
+        clearInterval(state.summaryTimer);
+        state.summaryTimer = null;
+    }
+}
+
+function scheduleActivitySummaryPolling() {
+    const state = ensureActivityState();
+    stopActivitySummaryPolling();
+
+    const container = document.getElementById('activity-table-container');
+    if (!container) {
+        return;
+    }
+
+    state.summaryTimer = setInterval(checkActivitySummary, 15000);
+    checkActivitySummary();
+
+    // Check at once when the browser tab becomes visible again.
+    if (!window.wizarrActivityVisibilityListener) {
+        window.wizarrActivityVisibilityListener = true;
+        document.addEventListener('visibilitychange', () => {
+            if (
+                document.visibilityState === 'visible' &&
+                ensureActivityState().summaryTimer
+            ) {
+                checkActivitySummary();
+            }
+        });
+    }
+}
+
+scheduleActivitySummaryPolling();
+</script>
+{% endblock %}

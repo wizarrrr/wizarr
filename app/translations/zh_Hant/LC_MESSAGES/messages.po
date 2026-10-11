@@ -1,425 +1,3094 @@
 # Chinese (Traditional) translations for PROJECT.
-# Copyright (C) 2023 ORGANIZATION
+# Copyright (C) 2025 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2023-05-08 06:07+0000\n"
-"Last-Translator: chuanru <roe081499roe@gmail.com>\n"
+"POT-Creation-Date: 2026-10-11 10:00+0000\n"
+"PO-Revision-Date: 2025-11-03 20:11+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
+"projects/wizarr/wizarr-universal/zh_Hant/>\n"
 "Language: zh_Hant\n"
-"Language-Team: Chinese (Traditional) "
-"<https://hosted.weblate.org/projects/wizarr/app/zh_Hant/>\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/auth/routes.py:44
+#, fuzzy
+msgid "Failed to load settings"
+msgstr "掃描媒體庫"
+
+#, fuzzy
+msgid "Failed to load dashboard data"
+msgstr "掃描媒體庫"
+
+#, fuzzy
+msgid "Failed to load history data"
+msgstr "掃描媒體庫"
+
+#, fuzzy
+msgid "Failed to load activity data"
+msgstr "掃描媒體庫"
+
+#, fuzzy
+msgid "Failed to load activity summary"
+msgstr "掃描媒體庫"
+
+msgid "Failed to get activity statistics"
+msgstr ""
+
+msgid "Database not available"
+msgstr ""
+
+msgid "Failed to get session details"
+msgstr ""
+
+msgid "Failed to export activity data"
+msgstr ""
+
+msgid "enabled"
+msgstr ""
+
+msgid "disabled"
+msgstr ""
+
+#, python-brace-format
+msgid "Activity tracking is {state}. The change can take up to 15 seconds."
+msgstr ""
+
+#, fuzzy
+msgid "Monitoring restarted"
+msgstr "建立"
+
+msgid "Monitor not available"
+msgstr ""
+
+#, python-brace-format
+msgid "Cleaned up {} old activity records"
+msgstr ""
+
+#, python-brace-format
+msgid "Ended {} stale sessions"
+msgstr ""
+
+msgid "Unknown action"
+msgstr ""
+
+#, fuzzy
+msgid "Failed to update settings"
+msgstr "邀請代碼"
+
+#, python-brace-format
+msgid "Activity data has been successfully deleted ({} records)."
+msgstr ""
+
+#, python-brace-format
+msgid "Failed to delete activity data: {}"
+msgstr ""
+
+msgid "Please select a media server."
+msgstr ""
+
+#, fuzzy
+msgid "Media server not found."
+msgstr "從不"
+
+msgid ""
+"Historical data import is currently only supported for Plex, Jellyfin, Emby, "
+"and AudiobookShelf servers."
+msgstr ""
+
+#, python-brace-format
+msgid ""
+"Historical import job #{job_id} started for {server} (last {days} days)."
+msgstr ""
+
+#, python-brace-format
+msgid "Failed to import historical data: {}"
+msgstr ""
+
+#, fuzzy, python-brace-format
+msgid "Successfully cleared {} historical entries."
+msgstr "已成功產生邀請！"
+
+#, python-brace-format
+msgid "Failed to clear historical data: {}"
+msgstr ""
+
+msgid "Unknown error"
+msgstr ""
+
+msgid "Cannot remove a job that is still queued or running."
+msgstr ""
+
+msgid "An internal error has occurred."
+msgstr ""
+
+msgid "Unknown"
+msgstr ""
+
+msgid "Never"
+msgstr "從不"
+
+msgid "Expired"
+msgstr "已到期"
+
+#, python-format
+msgid "in %(n)d d"
+msgstr ""
+
+msgid "in 1 d"
+msgstr ""
+
+#, python-format
+msgid "in %(n)d h"
+msgstr ""
+
+#, python-format
+msgid "in %(n)d m"
+msgstr ""
+
+msgid "soon"
+msgstr ""
+
+#, fuzzy
+msgid "Admin created"
+msgstr "建立"
+
+msgid "Admin updated"
+msgstr ""
+
+#, python-brace-format
+msgid "All passkeys for {} have been reset"
+msgstr ""
+
+#, python-brace-format
+msgid "Failed to reset passkeys for {}"
+msgstr ""
+
+msgid ""
+"No admin account found. Please set up a proper admin account before creating "
+"API keys."
+msgstr ""
+
+msgid "Failed to create API key due to a database error."
+msgstr ""
+
+msgid ""
+"API key created successfully. Please copy it now as it won't be shown again."
+msgstr ""
+
+msgid "API key deleted successfully"
+msgstr ""
+
+msgid "LDAP authentication is not enabled"
+msgstr ""
+
+msgid "LDAP admin authentication is not allowed"
+msgstr ""
+
+msgid "Invalid LDAP credentials"
+msgstr ""
+
+msgid "User DN not found in LDAP response"
+msgstr ""
+
+msgid "User is not authorized as an administrator"
+msgstr ""
+
+msgid "Login successful"
+msgstr ""
+
+msgid "LDAP authentication failed"
+msgstr ""
+
+msgid "Sign in through Cloudflare Access to reach the admin pages."
+msgstr ""
+
 #, fuzzy
 msgid "Invalid username or password"
 msgstr "使用者名稱或密碼錯誤"
 
-#: app/blueprints/settings/routes.py:131
+msgid "No pending 2FA authentication"
+msgstr ""
+
+msgid "Authentication failed"
+msgstr ""
+
+msgid "Connection type is required"
+msgstr ""
+
+#, python-format
+msgid "Connection test failed: %(message)s"
+msgstr ""
+
+msgid "Connection test successful!"
+msgstr ""
+
+msgid "Unknown connection type"
+msgstr ""
+
+msgid "Connection created successfully!"
+msgstr ""
+
+msgid "Connection updated successfully!"
+msgstr ""
+
+msgid "Connection deleted successfully!"
+msgstr ""
+
+msgid "Please refresh the page and try again (CSRF token expired)"
+msgstr ""
+
+#, python-format
+msgid "Invalid form data: %(errors)s"
+msgstr ""
+
+msgid ""
+"There was an issue setting up your access. Please contact your server admin."
+msgstr ""
+
+msgid "Settings saved successfully!"
+msgstr ""
+
+msgid "Server URL"
+msgstr "伺服器網址"
+
+msgid "API Key"
+msgstr ""
+
+#, fuzzy
+msgid "Username/Password"
+msgstr "使用者名稱或密碼錯誤"
+
+#, python-brace-format
+msgid "Missing required fields: {fields}"
+msgstr ""
+
+msgid "Error"
+msgstr ""
+
 msgid "Library scan failed"
 msgstr ""
 
-#: app/templates/admin.html:5
+#, python-brace-format
+msgid "Successfully cleaned {count} expired user(s)."
+msgstr ""
+
+msgid "No expired users found to clean."
+msgstr ""
+
+msgid ""
+"Are you sure you want to clean all expired users? This action cannot be "
+"undone."
+msgstr ""
+
+#, fuzzy
+msgid "Clean Expired Users"
+msgstr "到期"
+
+#, python-brace-format
+msgid "Failed to clean expired users: {error}"
+msgstr ""
+
+msgid "LDAP configuration saved successfully"
+msgstr ""
+
+msgid "LDAP not configured or disabled"
+msgstr ""
+
+msgid "No groups found in LDAP"
+msgstr ""
+
+msgid "LDAP is not configured"
+msgstr ""
+
+#, python-format
+msgid "Failed to list LDAP users: %(error)s"
+msgstr ""
+
+msgid "Admin account created – welcome!"
+msgstr ""
+
+msgid ""
+"Your invitation has expired or is no longer valid. Please request a new "
+"invitation."
+msgstr ""
+
+msgid "Error Loading Step"
+msgstr ""
+
+msgid ""
+"This step could not be loaded. Please contact the administrator or skip to "
+"the next step."
+msgstr ""
+
+#, fuzzy
+msgid "Invalid or expired invitation"
+msgstr "邀請"
+
+msgid ""
+"No media servers are configured. Please contact the administrator to set up "
+"a media server."
+msgstr ""
+
+msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
+msgstr ""
+
+#, fuzzy
+msgid "Continue to Invite"
+msgstr "快速邀請"
+
+msgid "Please log in to continue"
+msgstr ""
+
+msgid ""
+"Unable to load wizard steps. Setup complete! Welcome to your media server."
+msgstr ""
+
+msgid "Setup complete! Welcome to your media server."
+msgstr ""
+
+msgid "Unable to load wizard configuration. Please try again."
+msgstr ""
+
+msgid "Unable to load wizard bundle. Please try again."
+msgstr ""
+
+msgid "Unable to load wizard steps. Please try again."
+msgstr ""
+
+msgid "This bundle has no steps to preview."
+msgstr ""
+
+#, python-brace-format
+msgid "Cleaned up {} orphaned step(s)"
+msgstr ""
+
+#, fuzzy
+msgid "Step created"
+msgstr "建立"
+
+msgid "Preset step created successfully"
+msgstr ""
+
+#, python-brace-format
+msgid "Error creating preset: {}"
+msgstr ""
+
+msgid "Step updated"
+msgstr ""
+
+#, fuzzy
+msgid "Step deleted"
+msgstr "預設"
+
+#, fuzzy
+msgid "Bundle created"
+msgstr "建立"
+
+msgid "Bundle updated"
+msgstr ""
+
+#, fuzzy
+msgid "Bundle deleted"
+msgstr "預設"
+
+msgid "Steps added"
+msgstr ""
+
+msgid "Orphaned step removed"
+msgstr ""
+
+#, python-brace-format
+msgid "No steps found for server type: {}"
+msgstr ""
+
+#, python-brace-format
+msgid "Export failed: {}"
+msgstr ""
+
+#, fuzzy, python-brace-format
+msgid "Successfully imported {} items"
+msgstr "已成功產生邀請！"
+
+#, python-brace-format
+msgid " and updated {} existing items"
+msgstr ""
+
+#, python-brace-format
+msgid "Import failed: {}"
+msgstr ""
+
+msgid "Invalid JSON file"
+msgstr ""
+
+#, python-brace-format
+msgid "Reset {} steps for {} (deleted {}, imported {})"
+msgstr ""
+
+#, python-brace-format
+msgid "Failed to reset steps: {}"
+msgstr ""
+
+msgid "Password must be at least 8 characters."
+msgstr ""
+
+msgid ""
+"Password must contain at least one uppercase letter, one lowercase letter, "
+"and one number."
+msgstr ""
+
+msgid "Username"
+msgstr "用戶名稱"
+
+msgid "Password"
+msgstr "密碼"
+
+msgid "Confirm password"
+msgstr "確認密碼"
+
+#, fuzzy
+msgid "Passwords must match."
+msgstr "密碼"
+
+#, fuzzy
+msgid "New Password"
+msgstr "密碼"
+
+#, fuzzy
+msgid "Please confirm the new password."
+msgstr "密碼"
+
+#, fuzzy
+msgid "Server Type"
+msgstr "從不"
+
+#, fuzzy
+msgid "Server Name"
+msgstr "用戶名稱"
+
+#, fuzzy
+msgid "RomM Username"
+msgstr "用戶名稱"
+
+#, fuzzy
+msgid "RomM Password"
+msgstr "密碼"
+
+msgid "Libraries"
+msgstr "媒體庫"
+
+#, fuzzy
+msgid "Allow Downloads"
+msgstr "下載"
+
+msgid "Allow Live TV"
+msgstr ""
+
+msgid "Overseerr/Ombi URL"
+msgstr ""
+
+#, fuzzy
+msgid "Ombi API Key"
+msgstr "預設"
+
+msgid "Discord ID"
+msgstr ""
+
+msgid "External URL"
+msgstr ""
+
+#, python-format
+msgid "Server returned status code %(status_code)s"
+msgstr ""
+
+#, python-format
+msgid "%(server_type)s server returned an error: %(error)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"Could not connect to the %(server_type)s server. Please check if the server "
+"is running and the URL is correct."
+msgstr ""
+
+#, python-format
+msgid ""
+"Connection to %(server_type)s server timed out. Please check if the server "
+"is running and accessible."
+msgstr ""
+
+#, python-format
+msgid ""
+"An error occurred while connecting to the %(server_type)s server: %(error)s"
+msgstr ""
+
+#, python-format
+msgid ""
+"An unexpected error occurred while connecting to the %(server_type)s server: "
+"%(error)s"
+msgstr ""
+
+msgid "Plex"
+msgstr ""
+
+msgid "Jellyfin"
+msgstr ""
+
+msgid "Emby"
+msgstr ""
+
+msgid "Audiobookshelf"
+msgstr ""
+
+msgid "RomM"
+msgstr ""
+
+msgid "Komga"
+msgstr ""
+
+msgid "Kavita"
+msgstr ""
+
+msgid "Navidrome"
+msgstr ""
+
+msgid "Invalid API token or insufficient permissions."
+msgstr ""
+
+msgid "API token lacks required permissions."
+msgstr ""
+
+msgid "Could not connect to Drop server."
+msgstr ""
+
+msgid "Connection to Drop server timed out."
+msgstr ""
+
+msgid "Drop API not found. Check the server URL."
+msgstr ""
+
+msgid "Drop"
+msgstr ""
+
+#, python-brace-format
+msgid "No default steps found for server type: {}"
+msgstr ""
+
 msgid "Admin"
 msgstr "管理員"
 
-#: app/templates/admin.html:31
-msgid "Home"
-msgstr "主頁"
+msgid "Profile"
+msgstr ""
 
-#: app/templates/admin.html:36
-msgid "Invitations"
-msgstr "邀請"
+msgid "Logout"
+msgstr ""
 
-#: app/templates/admin.html:41
-msgid "Users"
-msgstr "使用者"
+msgid "Complete your access"
+msgstr ""
 
-#: app/templates/admin.html:46 app/templates/settings/index.html:3
-msgid "Settings"
+msgid "Choose a password for the remaining servers"
+msgstr ""
+
+#, fuzzy
+msgid "Confirm Password"
+msgstr "密碼"
+
+msgid "Generate a strong random password instead"
+msgstr ""
+
+msgid "Continue"
+msgstr ""
+
+msgid "Complete your account setup for local servers"
+msgstr ""
+
+msgid "Complete Your Account Setup"
+msgstr ""
+
+msgid "Plex Authentication Complete!"
+msgstr ""
+
+msgid "Now please set a password for your local server accounts."
+msgstr ""
+
+#, fuzzy
+msgid "Local Servers"
+msgstr "從不"
+
+msgid "Set Password for Local Servers"
+msgstr ""
+
+msgid "Error!"
+msgstr ""
+
+#, fuzzy
+msgid "Your username"
+msgstr "用戶名稱"
+
+msgid "Email Address"
+msgstr ""
+
+msgid "your.email@example.com"
+msgstr ""
+
+#, fuzzy
+msgid "Your password"
+msgstr "密碼"
+
+msgid "Confirm your password"
+msgstr ""
+
+msgid "I agree to the"
+msgstr ""
+
+msgid "Terms and Conditions"
+msgstr ""
+
+msgid "Complete Setup"
+msgstr ""
+
+#, fuzzy
+msgid "Setting up..."
 msgstr "設定"
 
-#: app/templates/invalid-invite.html:16
+msgid "What happens next?"
+msgstr ""
+
+msgid "Your Plex account is already set up and ready to use"
+msgstr ""
+
+msgid "This password will be used to create accounts on your local servers"
+msgstr ""
+
+msgid "You'll be redirected to the setup wizard to complete configuration"
+msgstr ""
+
+msgid "Only want to use Plex?"
+msgstr ""
+
+msgid "Skip local servers"
+msgstr ""
+
+#, fuzzy
+msgid "Password too short"
+msgstr "密碼"
+
+msgid "Password strength: Medium"
+msgstr ""
+
+msgid "Password strength: Strong"
+msgstr ""
+
+msgid "Passwords do not match"
+msgstr ""
+
+#, fuzzy
+msgid "Wizarr"
+msgstr "設定 Wizarr"
+
 #, fuzzy
 msgid "Invalid Invitation"
 msgstr "邀請"
 
-#: app/templates/login.html:18
+msgid ""
+"This invitation link is no longer valid. Please request a new invitation."
+msgstr ""
+
+msgid "Two-Factor Authentication"
+msgstr ""
+
 msgid "Login"
 msgstr "登入"
 
-#: app/templates/login.html:23 app/templates/welcome-jellyfin.html:30
-msgid "Username"
-msgstr "用戶名稱"
+msgid "This is the administrator login page."
+msgstr ""
 
-#: app/templates/login.html:29 app/templates/welcome-jellyfin.html:47
-msgid "Password"
-msgstr "密碼"
+msgid "Go to your media server instead"
+msgstr ""
 
-#: app/templates/login.html:41
+#, python-brace-format
+msgid "Welcome back, {}!"
+msgstr ""
+
+msgid "Please authenticate with your passkey to complete login."
+msgstr ""
+
+#, fuzzy
+msgid "Authentication Method"
+msgstr "邀請"
+
+#, fuzzy
+msgid "Local Account"
+msgstr "建立一個帳號"
+
+msgid "LDAP"
+msgstr ""
+
 msgid "Remember me"
 msgstr "記住我"
 
-#: app/templates/login.html:46
 msgid "Sign in"
 msgstr "登入"
 
-#: app/templates/settings.html:13
-#, fuzzy
-msgid "Server settings"
-msgstr "伺服器設定"
-
-#: app/templates/settings.html:22
-msgid "Notification agents"
+msgid "Authenticate with Passkey"
 msgstr ""
 
-#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
-#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
+msgid "Back to Login"
+msgstr ""
+
+msgid "Or"
+msgstr ""
+
+msgid "Sign in with Passkey"
+msgstr ""
+
+msgid "Authenticating..."
+msgstr ""
+
+msgid "Failed to complete 2FA login"
+msgstr ""
+
+msgid "Passkey authentication failed. Please try again or use your password."
+msgstr ""
+
+#, fuzzy
+msgid "Password Reset Error"
+msgstr "密碼"
+
+msgid "Error:"
+msgstr ""
+
+msgid "This password reset link is invalid."
+msgstr ""
+
+msgid "This password reset link has already been used."
+msgstr ""
+
+msgid "This password reset link has expired."
+msgstr ""
+
+msgid "This password reset link is malformed."
+msgstr ""
+
+msgid "This password reset link is no longer valid."
+msgstr ""
+
+msgid ""
+"Please contact your server administrator to request a new password reset "
+"link."
+msgstr ""
+
+msgid "Code:"
+msgstr ""
+
+msgid "Common reasons for this error:"
+msgstr ""
+
+msgid "The link has already been used"
+msgstr ""
+
+msgid "The link has expired (24 hour limit)"
+msgstr ""
+
+msgid "The link was not copied correctly"
+msgstr ""
+
+#, fuzzy
+msgid "Reset Your Password"
+msgstr "密碼"
+
+#, fuzzy
+msgid "Choose a new password"
+msgstr "密碼"
+
+#, fuzzy
+msgid "For user:"
+msgstr "主頁"
+
+msgid "This link expires on"
+msgstr ""
+
+msgid "Enter new password (8-128 characters)"
+msgstr ""
+
+#, fuzzy
+msgid "Confirm new password"
+msgstr "密碼"
+
+#, fuzzy
+msgid "Password must be:"
+msgstr "密碼"
+
+msgid "Between 8 and 128 characters"
+msgstr ""
+
+msgid "Match the confirmation"
+msgstr ""
+
+#, fuzzy
+msgid "Reset Password"
+msgstr "密碼"
+
+msgid "Password Reset Successful!"
+msgstr ""
+
+#, fuzzy
+msgid "The password for"
+msgstr "密碼"
+
+msgid "has been successfully reset."
+msgstr ""
+
+msgid "You can now use your new password to log in to your media server."
+msgstr ""
+
+msgid "What's next?"
+msgstr ""
+
+msgid "Log in to your media server with your username and new password."
+msgstr ""
+
+msgid "Signing you in"
+msgstr ""
+
+msgid "Finishing up with Plex. This only takes a moment."
+msgstr ""
+
+msgid "Back to your invitation"
+msgstr ""
+
+msgid "Nothing to finish"
+msgstr ""
+
+msgid "Open your invitation link again to sign in with Plex."
+msgstr ""
+
+msgid "All set"
+msgstr ""
+
+msgid "Taking you to the next step..."
+msgstr ""
+
+msgid "Sign-in failed"
+msgstr ""
+
+msgid "That took too long"
+msgstr ""
+
+msgid "We did not hear back from Plex. Please try signing in again."
+msgstr ""
+
+msgid "Administrator"
+msgstr ""
+
+msgid "Change your account password for security."
+msgstr ""
+
+#, fuzzy
+msgid "Current Password"
+msgstr "密碼"
+
+msgid "Confirm New Password"
+msgstr ""
+
+#, fuzzy
+msgid "Change Password"
+msgstr "密碼"
+
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "您已經被邀請加入 %(name)s 伺服器！"
 
-#: app/templates/user-plex-login.html:23
-msgid "Join the Plex Server"
-msgstr "加入 Plex 伺服器"
+msgid "You've been invited!"
+msgstr ""
 
-#: app/templates/tables/user_card.html:57 app/templates/user-plex-login.html:29
-#: app/templates/user-plex-login.html:40
-msgid "Invite Code"
-msgstr "邀請代碼"
-
-#: app/templates/user-plex-login.html:45
-msgid "Oops!"
-msgstr "哎呀！"
-
-#: app/templates/user-plex-login.html:52
-msgid "Join"
+#, fuzzy
+msgid "To join"
 msgstr "加入"
 
-#: app/templates/users.html:5
+msgid "Join the ultimate media server experience."
+msgstr ""
+
+#, fuzzy
+msgid "Enter Code to Continue"
+msgstr "邀請代碼"
+
+#, fuzzy
+msgid "Invitation Code"
+msgstr "邀請代碼"
+
+#, fuzzy
+msgid "Enter your code"
+msgstr "邀請代碼"
+
+#, fuzzy
+msgid "Join Server"
+msgstr "加入 Plex 伺服器"
+
+msgid "Secure invitation system powered by Wizarr"
+msgstr ""
+
+msgid "Pop-up blocked. Allow pop-ups for this site and try again."
+msgstr ""
+
+msgid "Sign-in cancelled. Hit Join Server to try again."
+msgstr ""
+
+msgid "Plex sign-in failed. Try again, or contact your server admin."
+msgstr ""
+
 msgid "Invite User"
 msgstr "邀請使用者"
 
-#: app/templates/welcome-jellyfin.html:22
-msgid "Set up Account"
+#, fuzzy
+msgid "Accept Invitation"
+msgstr "建立邀請"
+
+msgid "Get ready to join the magic"
+msgstr ""
+
+#, fuzzy
+msgid "Create Account"
+msgstr "建立一個帳號"
+
+#, fuzzy
+msgid "Set up your magical account"
 msgstr "設定帳戶"
 
-#: app/templates/welcome-jellyfin.html:38
+msgid "Enter your username"
+msgstr ""
+
 msgid "Email"
 msgstr "電子郵件"
 
-#: app/templates/welcome-jellyfin.html:55
-msgid ""
-"Confirm\n"
-"                                password"
+msgid "Enter your email"
 msgstr ""
-"確認\n"
-"                                密碼"
 
-#: app/templates/welcome-jellyfin.html:63
-msgid ""
-"Invite\n"
-"                                Code"
-msgstr ""
-"邀請\n"
-"                                代碼"
-
-#: app/templates/setup/admin_account.html:58
-#: app/templates/welcome-jellyfin.html:72
-msgid "Create an account"
+#, fuzzy
+msgid "Create a password"
 msgstr "建立一個帳號"
 
-#: app/templates/admin/invite.html:6
-msgid "Quick Invite"
+msgid "Invite Code"
+msgstr "邀請代碼"
+
+#, fuzzy
+msgid "Enter invite code"
+msgstr "邀請代碼"
+
+#, fuzzy
+msgid "Creating account..."
+msgstr "建立一個帳號"
+
+msgid "Latest Accepted Invites"
+msgstr ""
+
+msgid "Recently joined"
+msgstr ""
+
+msgid "Showing"
+msgstr ""
+
+msgid "of"
+msgstr ""
+
+msgid "Prev"
+msgstr ""
+
+msgid "Page"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "No recent invitations accepted"
+msgstr ""
+
+msgid "Accepted invitations will appear here"
+msgstr ""
+
+msgid "Dashboard"
+msgstr ""
+
+#, fuzzy
+msgid "New Invite"
 msgstr "快速邀請"
 
-#: app/templates/admin/invite.html:12
-msgid "Invite user"
-msgstr "邀請使用者"
+msgid "Now Playing"
+msgstr ""
 
-#: app/templates/admin/invite.html:18
+msgid "Invitations"
+msgstr "邀請"
+
+msgid "Library Breakdown"
+msgstr ""
+
+#, fuzzy
+msgid "Per Server"
+msgstr "從不"
+
+#, fuzzy
+msgid "No libraries found"
+msgstr "掃描媒體庫"
+
+msgid "Configure your media servers to see library statistics"
+msgstr ""
+
+#, fuzzy
+msgid "Failed to load libraries"
+msgstr "掃描媒體庫"
+
+msgid "Unknown error occurred"
+msgstr ""
+
+msgid "Unable to load now playing"
+msgstr ""
+
+msgid "There was an error connecting to your media servers"
+msgstr ""
+
+msgid "No one is streaming"
+msgstr ""
+
+msgid "No active media sessions found across your servers"
+msgstr ""
+
+msgid "Recently Added"
+msgstr ""
+
+msgid "Showing latest 10 items"
+msgstr ""
+
+msgid "No recent content found"
+msgstr ""
+
+msgid "Add some content to your media servers to see it here"
+msgstr ""
+
+msgid "Failed to load recent content"
+msgstr ""
+
+#, fuzzy
+msgid "Server Health"
+msgstr "伺服器設定"
+
+#, fuzzy
+msgid "Online"
+msgstr "加入"
+
+msgid "Offline"
+msgstr ""
+
+#, fuzzy
+msgid "Active"
+msgstr "儲存"
+
+msgid "Transcoding"
+msgstr ""
+
+msgid "Users"
+msgstr "使用者"
+
+msgid "Active Sessions"
+msgstr ""
+
+msgid "Server is currently unreachable"
+msgstr ""
+
+#, fuzzy
+msgid "servers online"
+msgstr "伺服器設定"
+
+#, fuzzy
+msgid "server(s) need attention"
+msgstr "伺服器設定"
+
+msgid "No servers configured"
+msgstr ""
+
+msgid "Add media servers to monitor their health"
+msgstr ""
+
+msgid "Failed to load server health"
+msgstr ""
+
+#, fuzzy
+msgid "Server Overview"
+msgstr "伺服器設定"
+
+msgid "Items"
+msgstr ""
+
+msgid "Server Breakdown"
+msgstr ""
+
+msgid "No active servers found"
+msgstr ""
+
+msgid "Failed to load statistics"
+msgstr ""
+
+msgid "User Details"
+msgstr ""
+
+#, fuzzy
+msgid "Joined"
+msgstr "加入"
+
+msgid "Account Details"
+msgstr ""
+
+msgid "Expires"
+msgstr "到期"
+
+#, fuzzy
+msgid "All libraries"
+msgstr "媒體庫"
+
+#, fuzzy
+msgid "Permissions"
+msgstr "權限不足。"
+
+#, fuzzy
+msgid "Downloads"
+msgstr "下載"
+
+msgid "Live TV"
+msgstr ""
+
+msgid "Camera Upload"
+msgstr ""
+
+msgid "Basic Access"
+msgstr ""
+
+msgid "Close"
+msgstr ""
+
+#, fuzzy
+msgid "Edit User"
+msgstr "從不"
+
+msgid "Close modal"
+msgstr ""
+
+msgid "Tabs"
+msgstr ""
+
+msgid "Local"
+msgstr ""
+
+msgid "Notes"
+msgstr ""
+
+#, fuzzy
+msgid "Permission Management"
+msgstr "用戶名稱"
+
+msgid "Toggle downloads permission"
+msgstr ""
+
+msgid "Toggle live TV permission"
+msgstr ""
+
+#, fuzzy
+msgid "Allow Camera Upload"
+msgstr "下載"
+
+msgid "Toggle camera upload permission"
+msgstr ""
+
+#, fuzzy
+msgid "Library Access"
+msgstr "媒體庫"
+
+#, fuzzy
+msgid "No libraries available"
+msgstr "掃描媒體庫"
+
+msgid "Scan libraries from the invitation page to enable library restrictions"
+msgstr ""
+
+msgid "Click to toggle library access. Updates save automatically."
+msgstr ""
+
+#, fuzzy
+msgid "Expiry Management"
+msgstr "用戶名稱"
+
+#, fuzzy
+msgid "Expiry date"
+msgstr "到期"
+
+msgid "Update"
+msgstr ""
+
+msgid "Current expiry"
+msgstr ""
+
+#, fuzzy
+msgid "No expiry set"
+msgstr "到期"
+
+#, fuzzy
+msgid "User notes"
+msgstr "使用者"
+
+msgid "Add notes about this user..."
+msgstr ""
+
+msgid "Update Notes"
+msgstr ""
+
+#, fuzzy
+msgid "Link"
+msgstr "登入"
+
+msgid "Unlink"
+msgstr ""
+
+#, fuzzy
+msgid "Delete"
+msgstr "預設"
+
+#, python-brace-format
+msgid "Passkeys for {}"
+msgstr ""
+
+msgid "Created"
+msgstr "建立"
+
+#, fuzzy
+msgid "Last used"
+msgstr "已使用"
+
+msgid "Reset All Passkeys"
+msgstr ""
+
+msgid "No passkeys registered for this user."
+msgstr ""
+
+msgid "Are you sure you want to delete this passkey?"
+msgstr ""
+
+msgid "Failed to delete passkey"
+msgstr ""
+
+msgid "An error occurred while deleting the passkey"
+msgstr ""
+
+#, python-brace-format
+msgid "Are you sure you want to reset ALL passkeys for {}?"
+msgstr ""
+
+msgid "This action cannot be undone."
+msgstr ""
+
+msgid "All passkeys have been reset"
+msgstr ""
+
+msgid "Failed to reset passkeys"
+msgstr ""
+
+msgid "An error occurred while resetting passkeys"
+msgstr ""
+
+msgid "Add New Passkey"
+msgstr ""
+
+#, fuzzy
+msgid "Passkey Name"
+msgstr "用戶名稱"
+
+msgid "e.g., My iPhone, Work Laptop"
+msgstr ""
+
+msgid "Cancel"
+msgstr ""
+
+#, fuzzy
+msgid "Create Passkey"
+msgstr "建立一個帳號"
+
+msgid "Added"
+msgstr ""
+
+msgid "No passkeys registered"
+msgstr ""
+
+msgid "Add your first passkey for enhanced security"
+msgstr ""
+
+msgid "Passkeys"
+msgstr ""
+
+msgid "Passkeys require HTTPS connection"
+msgstr ""
+
+msgid "Add Passkey"
+msgstr ""
+
+msgid "To use passkeys, please access this page over HTTPS."
+msgstr ""
+
+msgid "Manage your passkeys for passwordless authentication."
+msgstr ""
+
+msgid "Loading passkeys..."
+msgstr ""
+
+msgid "Creating passkey for"
+msgstr ""
+
+msgid "Please follow your device's prompts to complete setup"
+msgstr ""
+
+msgid "Failed to register passkey"
+msgstr ""
+
+msgid "Failed to complete passkey registration"
+msgstr ""
+
+msgid "Permission denied."
+msgstr "權限不足。"
+
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr "您嘗試做一些你不該做的事..."
+
+msgid "Something's missing."
+msgstr "有些東西不見了。"
+
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr "抱歉，我們找不到該頁面。 它似乎不存在！"
+
+msgid "Internal Server Error."
+msgstr "内部伺服器錯誤。"
+
+msgid " Something has gone wrong. Please try again later."
+msgstr " 出了點問題。請稍後在試。"
+
+msgid "Add steps to bundle"
+msgstr ""
+
+#, fuzzy
+msgid "Untitled"
+msgstr "無限制"
+
+msgid "All steps are already included."
+msgstr ""
+
+msgid "Add"
+msgstr ""
+
+msgid "Add New Connection"
+msgstr ""
+
+msgid "Edit Connection"
+msgstr ""
+
+msgid "Overseerr/Jellyseerr Information"
+msgstr ""
+
+msgid ""
+"Overseerr and Jellyseerr create an account the first time someone signs in, "
+"so by default an invited user has no account there until they visit and log "
+"in themselves."
+msgstr ""
+
+msgid ""
+"Set the Service URL and turn on account creation below, and Wizarr signs "
+"them in during the invite so their account exists before they arrive. This "
+"uses the service's own sign-in route rather than an API key, so it needs "
+"'Enable New Plex Sign-In' under its Settings → Users."
+msgstr ""
+
+msgid ""
+"Must be https if the service has CSRF protection enabled, which sets its "
+"cookies Secure."
+msgstr ""
+
+msgid "Testing connection..."
+msgstr ""
+
+#, fuzzy
+msgid "Create Connection"
+msgstr "建立邀請"
+
+msgid "Update Connection"
+msgstr ""
+
+msgid "Test Connection"
+msgstr ""
+
+msgid "Add Administrator"
+msgstr ""
+
+#, fuzzy
+msgid "API Key Created"
+msgstr "建立"
+
+#, fuzzy
+msgid "Create API Key"
+msgstr "建立一個帳號"
+
+msgid "API Key Created Successfully"
+msgstr ""
+
+msgid ""
+"Your API key has been created. Please copy it now as it will not be shown "
+"again."
+msgstr ""
+
+#, fuzzy
+msgid "Copy to clipboard"
+msgstr "邀請連結以複製到剪貼簿！"
+
+#, fuzzy
+msgid "Name:"
+msgstr "用戶名稱"
+
+msgid "Done"
+msgstr ""
+
+msgid "API Key Name"
+msgstr ""
+
+msgid "Enter a descriptive name to help you identify this API key later."
+msgstr ""
+
+msgid "New Agent"
+msgstr ""
+
+msgid "Channel ID"
+msgstr ""
+
+msgid "Bot Token"
+msgstr ""
+
+msgid "Chat ID"
+msgstr ""
+
+#, fuzzy
+msgid "Username (optional)"
+msgstr "(可選)"
+
+#, fuzzy
+msgid "Password (optional)"
+msgstr "(可選)"
+
+msgid "Agent URL"
+msgstr ""
+
+#, fuzzy
+msgid "Notification Events"
+msgstr "邀請"
+
+#, fuzzy
+msgid "User Joined"
+msgstr "加入"
+
+msgid "Update Available"
+msgstr ""
+
+msgid "Test & Create Agent"
+msgstr ""
+
+#, fuzzy
+msgid "Add Server"
+msgstr "從不"
+
+msgid "Test & Add"
+msgstr ""
+
+msgid "Edit Administrator"
+msgstr ""
+
+#, fuzzy
+msgid "New Password (optional)"
+msgstr "(可選)"
+
+msgid "Save"
+msgstr "儲存"
+
+msgid "Edit Identity"
+msgstr ""
+
+msgid "Nickname"
+msgstr ""
+
+#, fuzzy
+msgid "Edit Agent"
+msgstr "建立一個帳號"
+
+msgid "Name"
+msgstr "名稱"
+
+#, fuzzy
+msgid "Notification Service"
+msgstr "邀請"
+
+msgid "Test & Save Changes"
+msgstr ""
+
+#, fuzzy
+msgid "Edit Server"
+msgstr "從不"
+
+msgid "Create Invitation"
+msgstr "建立邀請"
+
+#, fuzzy
+msgid "Invitation Created"
+msgstr "邀請"
+
 msgid "Invite Code String"
 msgstr "邀請代碼"
 
-#: app/templates/admin/invite.html:19
-msgid "(optional)"
+#, fuzzy
+msgid "optional"
 msgstr "(可選)"
 
-#: app/templates/admin/invite.html:26
+msgid "E.g. XMFGEJIKNQ"
+msgstr ""
+
 msgid "Expiration"
 msgstr "到期"
 
-#: app/templates/admin/invite.html:29
 msgid "1 day"
 msgstr "1天"
 
-#: app/templates/admin/invite.html:30
 msgid "1 week"
 msgstr "一週"
 
-#: app/templates/admin/invite.html:31
 msgid "1 month"
 msgstr "一個月"
 
-#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
-#: app/templates/tables/user_card.html:46
-msgid "Never"
-msgstr "從不"
+msgid "Wizard bundle"
+msgstr ""
 
-#: app/templates/admin/invite.html:37
+msgid "Automatic"
+msgstr ""
+
 msgid "Advanced Options"
 msgstr "進階選項"
 
-#: app/templates/admin/invite.html:45
+#, fuzzy
+msgid "Invite Settings"
+msgstr "邀請代碼"
+
 msgid "Unlimited Usages"
 msgstr "無限制使用"
 
-#: app/templates/admin/invite.html:53
-#, fuzzy
-msgid "Invite to Plex Home"
-msgstr "邀請代碼"
-
-#: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
-#: app/templates/tables/invite_card.html:86
 msgid "Duration"
 msgstr "持續時間"
 
-#: app/templates/admin/invite.html:63
-msgid "(in days)"
+#, fuzzy
+msgid "in days"
 msgstr "(以天為單位)"
 
-#: app/templates/admin/invite.html:74
 msgid "Show Information"
 msgstr "顯示資訊"
 
-#: app/templates/admin/invite.html:80
+#, fuzzy
 msgid ""
-"When set, invited user(s) will be removed from the Plex server after a\n"
-"                                        number of\n"
-"                                        days. (1-999)"
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
 msgstr ""
 "當設定時，被邀請的使用者將在以下情况下被從 Plex 伺服器上删除\n"
 "                                        用戶數\n"
 "                                        天候從 Plex 伺服器上删除。(1-999)"
 
-#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
-#: app/templates/tables/user_card.html:67
 #, fuzzy
-msgid "Allow Downloads"
-msgstr "下載"
-
-#: app/templates/admin/invite.html:102
-msgid ""
-"Specific\n"
-"                                Libraries"
-msgstr ""
-"特定\n"
-"                                媒體庫"
-
-#: app/templates/admin/invite.html:111
-#: app/templates/settings/partials/server_form.html:87
-msgid "Scan For Libraries"
-msgstr "掃描媒體庫"
-
-#: app/templates/admin/invite.html:119
-msgid "Create Invitation"
+msgid "LDAP Integration"
 msgstr "建立邀請"
 
-#: app/templates/admin/invite.html:126
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "建立一個帳號"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
+
+#, fuzzy
+msgid "Target servers"
+msgstr "從不"
+
+#, fuzzy
+msgid "Invite to Plex Home"
+msgstr "邀請代碼"
+
+msgid "Allow Live TV Access"
+msgstr ""
+
+#, fuzzy
+msgid "Allow Mobile Uploads"
+msgstr "下載"
+
+msgid "Max Active Sessions"
+msgstr ""
+
+msgid "simultaneous devices"
+msgstr ""
+
+msgid ""
+"Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgstr ""
+
+#, fuzzy
+msgid "Select Libraries"
+msgstr "媒體庫"
+
+#, fuzzy
+msgid "Loading…"
+msgstr "登入"
+
 msgid "Successfully generated an Invitation!"
 msgstr "已成功產生邀請！"
 
-#: app/templates/admin/invite.html:131
+#, fuzzy
+msgid "Invitation Link"
+msgstr "邀請"
+
+msgid "Copy"
+msgstr ""
+
 msgid "Link has been copied to clipboard!"
 msgstr "邀請連結以複製到剪貼簿！"
 
-#: app/templates/admin/invite.html:139
-msgid "Back"
-msgstr "返回"
-
-#: app/templates/admin/invite.html:144
-msgid "Share"
-msgstr "分享"
-
-#: app/templates/admin/user_modal.html:17
-msgid "Edit expiry"
-msgstr ""
-
-#: app/templates/admin/user_modal.html:27
-msgid "Expiry date (leave blank for never)"
-msgstr ""
-
-#: app/templates/admin/user_modal.html:41
-#: app/templates/modals/create-notification-agent.html:85
-msgid "Cancel"
-msgstr ""
-
-#: app/templates/admin/user_modal.html:48
-#: app/templates/settings/partials/server_form.html:132
-msgid "Save"
-msgstr "儲存"
-
-#: app/templates/error/401.html:20
-msgid "Permission denied."
-msgstr "權限不足。"
-
-#: app/templates/error/401.html:23
-msgid "You are attempting to do something you shouldn't be doing..."
-msgstr "您嘗試做一些你不該做的事..."
-
-#: app/templates/error/404.html:19
-msgid "Something's missing."
-msgstr "有些東西不見了。"
-
-#: app/templates/error/404.html:21
-msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "抱歉，我們找不到該頁面。 它似乎不存在！"
-
-#: app/templates/error/500.html:19
-msgid "Internal Server Error."
-msgstr "内部伺服器錯誤。"
-
-#: app/templates/error/500.html:21
-msgid " Something has gone wrong. Please try again later."
-msgstr " 出了點問題。請稍後在試。"
-
-#: app/templates/modals/create-notification-agent.html:31
-msgid "New Agent"
-msgstr ""
-
-#: app/templates/modals/create-notification-agent.html:60
 #, fuzzy
-msgid ""
-"Username\n"
-"                                (optional)"
-msgstr ""
-"邀請\n"
-"                                代碼"
+msgid "Create Another"
+msgstr "建立一個帳號"
 
-#: app/templates/modals/create-notification-agent.html:65
+msgid "Please select at least one server for the invitation."
+msgstr ""
+
 #, fuzzy
-msgid "Password (optional)"
+msgid "Password Reset Link"
 msgstr "(可選)"
 
-#: app/templates/modals/create-notification-agent.html:70
+msgid "Generate Password Reset Link"
+msgstr ""
+
 #, fuzzy
+msgid "Password reset link for"
+msgstr "密碼"
+
+#, fuzzy
+msgid "Link expires:"
+msgstr "到期"
+
+msgid "Reset Link (Click to copy)"
+msgstr ""
+
 msgid ""
-"Agent\n"
-"                                URL"
-msgstr ""
-"邀請\n"
-"                                代碼"
-
-#: app/templates/modals/create-notification-agent.html:81
-msgid "Test & Create Agent"
+"Send this link to the user. They can use it once to reset their password."
 msgstr ""
 
-#: app/templates/settings/index.html:24
+msgid "Reset Code"
+msgstr ""
+
 #, fuzzy
-msgid "Server"
+msgid "Security Notes:"
+msgstr "使用者"
+
+msgid "This link can only be used once"
+msgstr ""
+
+msgid "It expires in 24 hours"
+msgstr ""
+
+msgid "Send it securely (email, message, etc.)"
+msgstr ""
+
+msgid "Generate a secure password reset link for"
+msgstr ""
+
+#, fuzzy
+msgid "Generate Reset Link"
+msgstr "伺服器設定"
+
+msgid "The link will be valid for 24 hours and can only be used once."
+msgstr ""
+
+#, fuzzy
+msgid "Copy Link"
+msgstr "登入"
+
+#, fuzzy
+msgid "Copied!"
+msgstr "加入"
+
+#, fuzzy
+msgid "Reset link copied to clipboard!"
+msgstr "邀請連結以複製到剪貼簿！"
+
+msgid "Please manually copy the link"
+msgstr ""
+
+msgid "Import Wizard Steps"
+msgstr ""
+
+msgid "Click to upload"
+msgstr ""
+
+msgid "or drag and drop"
+msgstr ""
+
+msgid "JSON files only"
+msgstr ""
+
+#, fuzzy
+msgid "Import Options"
+msgstr "(可選)"
+
+msgid ""
+"When checked, existing steps will be replaced. When unchecked, imported "
+"steps will be merged with existing ones."
+msgstr ""
+
+msgid "Important Notice"
+msgstr ""
+
+msgid ""
+"This action will modify your wizard steps configuration. Make sure to backup "
+"your current steps before importing if you want to preserve them."
+msgstr ""
+
+msgid "Import Steps"
+msgstr ""
+
+msgid "Add Preset Wizard Step"
+msgstr ""
+
+msgid "Choose when this step should be shown to users"
+msgstr ""
+
+msgid "Your Discord server ID"
+msgstr ""
+
+msgid "URL to your Overseerr/Ombi instance"
+msgstr ""
+
+#, fuzzy
+msgid "Create Step"
+msgstr "建立一個帳號"
+
+msgid "Add..."
+msgstr ""
+
+msgid "Widgets"
+msgstr ""
+
+msgid "Recently Added Media"
+msgstr ""
+
+msgid "Show recent content"
+msgstr ""
+
+msgid "Button"
+msgstr ""
+
+msgid "Add a clickable link button"
+msgstr ""
+
+#, fuzzy
+msgid "Elements"
+msgstr "建立一個帳號"
+
+msgid "Card"
+msgstr ""
+
+msgid "Add a styled content card"
+msgstr ""
+
+#, fuzzy
+msgid "Delete API Key"
+msgstr "預設"
+
+msgid "No API keys"
+msgstr ""
+
+msgid "Get started by creating a new API key."
+msgstr ""
+
+#, fuzzy
+msgid "Media Servers"
 msgstr "從不"
 
-#: app/templates/settings/index.html:39
+msgid "Type"
+msgstr ""
+
+msgid "URL"
+msgstr ""
+
+msgid "Verified"
+msgstr ""
+
+msgid "Actions"
+msgstr "動作"
+
+msgid "Edit"
+msgstr ""
+
+msgid "Delete this server?"
+msgstr ""
+
+msgid "No servers configured yet."
+msgstr ""
+
 #, fuzzy
-msgid "Notifications"
+msgid "Administrators"
 msgstr "邀請"
 
-#: app/templates/settings/notifications.html:11
+msgid "Manage Passkeys"
+msgstr ""
+
+msgid "No administrators yet."
+msgstr ""
+
+#, fuzzy
+msgid "Add Admin"
+msgstr "管理員"
+
+msgid "API Keys"
+msgstr ""
+
+msgid "Connections"
+msgstr ""
+
+msgid "Manage external service connections for automated user invitations"
+msgstr ""
+
+#, fuzzy
+msgid "Add Connection"
+msgstr "進階選項"
+
+msgid "Connection Name"
+msgstr ""
+
+#, fuzzy
+msgid "Media Server"
+msgstr "從不"
+
+msgid "Overseerr"
+msgstr ""
+
+msgid "Overseerr (Info)"
+msgstr ""
+
+msgid "Ombi"
+msgstr ""
+
+msgid "Audiobookrequest"
+msgstr ""
+
+msgid "Auto-import enabled"
+msgstr ""
+
+msgid "Are you sure you want to delete this connection?"
+msgstr ""
+
+msgid "No connections configured"
+msgstr ""
+
+msgid ""
+"Connect your external services to automate user invitations when invites are "
+"created for specific media servers."
+msgstr ""
+
+msgid "Add Your First Connection"
+msgstr ""
+
+#, fuzzy
+msgid "General Settings"
+msgstr "伺服器設定"
+
+msgid "Configure your application's basic settings and preferences"
+msgstr ""
+
+#, fuzzy
+msgid "Version"
+msgstr "權限不足。"
+
+msgid "Display"
+msgstr ""
+
+msgid "Configure how your application appears to users"
+msgstr ""
+
+msgid ""
+"Which server's posters fill the background of the public join page. 'The "
+"server the invite is for' shows nothing without a valid invite."
+msgstr ""
+
+msgid "Access Control"
+msgstr ""
+
+msgid "Manage user access and permissions"
+msgstr ""
+
+msgid "Control access to the wizard setup process"
+msgstr ""
+
+#, fuzzy
+msgid "User Management"
+msgstr "用戶名稱"
+
+msgid "Configure how users are managed when invitations expire"
+msgstr ""
+
+#, fuzzy
+msgid "Server Capabilities"
+msgstr "伺服器設定"
+
+msgid "Supports Disable:"
+msgstr ""
+
+#, fuzzy
+msgid "Delete Only:"
+msgstr "建立一個帳號"
+
+msgid ""
+"If 'Disable User' is selected but the server does not support it, the user "
+"will be deleted instead."
+msgstr ""
+
+msgid "Choose what happens to users when their invitation expires"
+msgstr ""
+
+msgid "Immediately process all expired users based on the expiry action above"
+msgstr ""
+
+msgid "API Key Management"
+msgstr ""
+
+msgid "Manage API keys for accessing Wizarr programmatically"
+msgstr ""
+
+msgid "Your API Keys"
+msgstr ""
+
+msgid "Create and manage API keys for external applications"
+msgstr ""
+
+msgid "Loading API keys..."
+msgstr ""
+
+#, fuzzy
+msgid "Save Settings"
+msgstr "伺服器設定"
+
+msgid "Settings"
+msgstr "設定"
+
+msgid "Manage your application settings and preferences"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "Alerts"
+msgstr ""
+
+#, fuzzy
+msgid "Servers"
+msgstr "從不"
+
+#, fuzzy
+msgid "Activity"
+msgstr "儲存"
+
+#, fuzzy
+msgid "Admins"
+msgstr "管理員"
+
+msgid "Wizard"
+msgstr ""
+
+#, fuzzy
+msgid "Audit"
+msgstr "管理員"
+
+#, fuzzy
+msgid "LDAP Settings"
+msgstr "伺服器設定"
+
+#, fuzzy
+msgid "Experimental"
+msgstr "建立一個帳號"
+
+msgid "Configure LDAP for user authentication and management"
+msgstr ""
+
+msgid "Enable LDAP"
+msgstr ""
+
+msgid "Turn on LDAP integration"
+msgstr ""
+
+#, fuzzy
+msgid "Connection"
+msgstr "進階選項"
+
+#, fuzzy
+msgid "LDAP server connection"
+msgstr "建立邀請"
+
+msgid "e.g., ldap://server:3890 or ldaps://server:6360"
+msgstr ""
+
+#, fuzzy
+msgid "Use TLS"
+msgstr "使用者"
+
+msgid "Verify Cert"
+msgstr ""
+
+msgid "Encrypted before storage"
+msgstr ""
+
+#, fuzzy
+msgid "User & Group Settings"
+msgstr "伺服器設定"
+
+msgid "Where to find users and groups"
+msgstr ""
+
+msgid "Optional - only needed for admin group restriction"
+msgstr ""
+
+msgid "Sync Groups"
+msgstr ""
+
+msgid "Sync LDAP groups to populate admin group selection"
+msgstr ""
+
+#, fuzzy
+msgid "Advanced Settings"
+msgstr "伺服器設定"
+
+msgid ""
+"Defaults are optimized for LLDAP. Only change if using a different LDAP "
+"server."
+msgstr ""
+
+msgid "Manage all users - both LDAP and local authentication"
+msgstr ""
+
+msgid "Sync from LDAP"
+msgstr ""
+
+msgid ""
+"Users can authenticate via LDAP or locally. Sync automatically imports new "
+"users from LDAP."
+msgstr ""
+
+msgid "Admin Authentication"
+msgstr ""
+
+msgid "Allow administrators to log in using LDAP"
+msgstr ""
+
+msgid "Allow Admin Login via LDAP"
+msgstr ""
+
+msgid "Enable admin login using LDAP credentials"
+msgstr ""
+
+msgid "Optional: Restrict admin access to members of this LDAP group"
+msgstr ""
+
 msgid "Notification Agents"
 msgstr ""
 
-#: app/templates/settings/notifications.html:27
-#, fuzzy
-msgid "Delete"
-msgstr "預設"
-
-#: app/templates/settings/notifications.html:37
-#, fuzzy
-msgid "Create Agent"
-msgstr "建立一個帳號"
-
-#: app/templates/settings/partials/server_form.html:13
-msgid "Server Settings"
-msgstr "伺服器設定"
-
-#: app/templates/settings/partials/server_form.html:103
-#: app/templates/settings/partials/server_form.html:111
-#: app/templates/settings/partials/server_form.html:120
-msgid "Optional, leave empty to disable"
+msgid "Configure notification services to alert you about important events"
 msgstr ""
 
-#: app/templates/setup/admin_account.html:14
+#, fuzzy
+msgid "Add Agent"
+msgstr "建立一個帳號"
+
+#, fuzzy
+msgid "Edit agent"
+msgstr "建立一個帳號"
+
+msgid "Are you sure you want to delete"
+msgstr ""
+
+#, fuzzy
+msgid "Delete agent"
+msgstr "建立一個帳號"
+
+msgid "Status"
+msgstr ""
+
+#, fuzzy
+msgid "Events"
+msgstr "從不"
+
+#, fuzzy
+msgid "No notification agents"
+msgstr "邀請"
+
+msgid "Get started by creating your first notification agent"
+msgstr ""
+
+#, fuzzy
+msgid "Unverified"
+msgstr "無限制"
+
+msgid "Checking..."
+msgstr ""
+
+msgid "Create a new external service connection for automated user invitations"
+msgstr ""
+
+msgid "Update the connection settings"
+msgstr ""
+
+msgid "Select the type of connection to configure"
+msgstr ""
+
+msgid "A friendly name to identify this connection"
+msgstr ""
+
+msgid "Which media server should trigger invitations to this external service"
+msgstr ""
+
+msgid "To have Wizarr create the account instead:"
+msgstr ""
+
+msgid "Set the Service URL below"
+msgstr ""
+
+msgid "Turn on account creation below"
+msgstr ""
+
+msgid "In the service, enable Settings → Users → 'Enable New Plex Sign-In'"
+msgstr ""
+
+msgid ""
+"This uses the service's own sign-in route, so there is no API key to "
+"configure."
+msgstr ""
+
+msgid "The full URL to your external service instance"
+msgstr ""
+
+msgid "API key from your external service settings"
+msgstr ""
+
+#, fuzzy
+msgid "Default Steps"
+msgstr "預設"
+
+msgid "Custom Bundles"
+msgstr ""
+
+msgid "Import"
+msgstr ""
+
+msgid "Import Configuration"
+msgstr ""
+
+msgid "Import steps or bundles from JSON file"
+msgstr ""
+
+#, fuzzy
+msgid "Create"
+msgstr "建立"
+
+msgid "Add a new wizard step"
+msgstr ""
+
+#, fuzzy
+msgid "Add Step to Bundle"
+msgstr "建立"
+
+msgid "No bundles available yet"
+msgstr ""
+
+msgid "Add Preset"
+msgstr ""
+
+msgid "Create step from template"
+msgstr ""
+
+#, fuzzy
+msgid "Create Bundle"
+msgstr "建立"
+
+msgid "Create a collection of steps"
+msgstr ""
+
+msgid "No bundles found."
+msgstr ""
+
+msgid "Preview Wizard"
+msgstr ""
+
+#, python-format
+msgid "Export %(bundle_name)s Bundle"
+msgstr ""
+
+msgid "Are you sure you want to delete this bundle?"
+msgstr ""
+
+msgid "Before Invite Acceptance"
+msgstr ""
+
+msgid "Steps shown to users before they accept the invitation"
+msgstr ""
+
+msgid "Are you sure you want to delete this step?"
+msgstr ""
+
+msgid "No pre-invite steps configured"
+msgstr ""
+
+#, fuzzy
+msgid "After Invite Acceptance"
+msgstr "邀請代碼"
+
+msgid "Steps shown to users after they accept the invitation"
+msgstr ""
+
+msgid "No post-invite steps configured"
+msgstr ""
+
+msgid "Additional Categories"
+msgstr ""
+
+msgid "Steps that use custom categories keep their order here."
+msgstr ""
+
+msgid "Orphaned Steps"
+msgstr ""
+
+msgid ""
+"These entries no longer have an associated step. Remove them to keep the "
+"bundle tidy."
+msgstr ""
+
+msgid "Step deleted (orphaned)"
+msgstr ""
+
+msgid "Are you sure you want to remove this orphaned step?"
+msgstr ""
+
+msgid "Remove orphaned step"
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Import Wizard Configuration"
+msgstr ""
+
+msgid ""
+"Import wizard steps or bundles from a JSON file to quickly set up or restore "
+"your wizard configuration."
+msgstr ""
+
+msgid "Select JSON File"
+msgstr ""
+
+msgid "Steps or Bundle JSON files only (MAX. 10MB)"
+msgstr ""
+
+msgid ""
+"When checked, all existing wizard steps and bundles will be removed and "
+"replaced with the imported configuration. When unchecked, imported items "
+"will be added alongside existing ones."
+msgstr ""
+
+msgid "Important: Backup Recommended"
+msgstr ""
+
+msgid ""
+"This action will modify your wizard configuration. Consider the following:"
+msgstr ""
+
+msgid "Export your current steps and bundles first as a backup"
+msgstr ""
+
+msgid "Imported steps will use the file's step ordering and server types"
+msgstr ""
+
+msgid "Imported bundles will preserve their step associations and ordering"
+msgstr ""
+
+msgid ""
+"If replacing existing configuration, all current steps and bundles will be "
+"permanently removed"
+msgstr ""
+
+msgid "Invalid or malformed JSON files will be rejected"
+msgstr ""
+
+msgid "Expected JSON Format"
+msgstr ""
+
+msgid "The JSON file can contain steps or bundles:"
+msgstr ""
+
+msgid "For steps export:"
+msgstr ""
+
+msgid "For bundle export:"
+msgstr ""
+
+msgid "Back to Steps"
+msgstr ""
+
+msgid "Please select a JSON file to import."
+msgstr ""
+
+msgid "Please select a valid JSON file."
+msgstr ""
+
+msgid ""
+"This will permanently replace all existing wizard configuration (steps and "
+"bundles). Are you sure you want to continue?"
+msgstr ""
+
+msgid "Wizard Steps"
+msgstr ""
+
+msgid "Manage your wizard steps and bundles for user onboarding"
+msgstr ""
+
+msgid "No wizard steps found"
+msgstr ""
+
+msgid "Get started by creating your first wizard step"
+msgstr ""
+
+msgid "Server"
+msgstr "伺服器"
+
+msgid "steps configured"
+msgstr ""
+
+#, fuzzy
+msgid "Untitled Step"
+msgstr "無限制使用"
+
+msgid "Step"
+msgstr ""
+
+msgid "Edit step"
+msgstr ""
+
+#, fuzzy
+msgid "Delete step"
+msgstr "預設"
+
+msgid "No steps found."
+msgstr ""
+
+#, python-format
+msgid ""
+"Are you sure you want to reset all steps for %(server)s to defaults? This "
+"will delete all custom steps and reimport the default ones."
+msgstr ""
+
+#, python-format
+msgid "Reset %(server)s Steps to Defaults"
+msgstr ""
+
+#, python-format
+msgid "Export %(server)s Steps"
+msgstr ""
+
 msgid "Setup Wizarr"
 msgstr "設定 Wizarr"
 
-#: app/templates/tables/invite_card.html:3
+msgid "Create an account"
+msgstr "建立一個帳號"
+
+msgid "Unlimited"
+msgstr "無限制"
+
 msgid "There are currently no invitations."
 msgstr ""
 
-#: app/templates/tables/invite_card.html:16
-msgid "Available"
-msgstr "允許的"
+#, fuzzy
+msgid "Used by"
+msgstr "已使用"
 
-#: app/templates/tables/invite_card.html:23
-#: app/templates/tables/invite_card.html:51
 msgid "Used"
 msgstr "已使用"
 
-#: app/templates/tables/invite_card.html:36
-msgid "Created"
+#, fuzzy
+msgid "Not used yet"
+msgstr "已使用"
+
+#, fuzzy
+msgid "Bundle"
 msgstr "建立"
 
-#: app/templates/tables/invite_card.html:44
-#: app/templates/tables/user_card.html:39
-msgid "Expires"
-msgstr "到期"
-
-#: app/templates/tables/invite_card.html:47
-msgid "Expired"
-msgstr "已到期"
-
-#: app/templates/tables/invite_card.html:70
-msgid "Libraries"
-msgstr "媒體庫"
-
-#: app/templates/tables/invite_card.html:75
-msgid "Default"
-msgstr "預設"
-
-#: app/templates/tables/invite_card.html:86
 #, fuzzy
 msgid "days"
 msgstr "1天"
 
-#: app/templates/tables/invite_card.html:106
-msgid "Unlimited"
-msgstr "無限制"
+msgid "Default"
+msgstr "預設"
 
-#: app/templates/tables/user_card.html:3
+msgid "Copy invite link"
+msgstr ""
+
+#, fuzzy
+msgid "Delete invite"
+msgstr "預設"
+
 msgid "There are currently no users."
 msgstr ""
 
-#: app/templates/tables/user_card.html:26
-#, fuzzy
+msgid "Edit nickname"
+msgstr ""
+
 msgid "Home User"
+msgstr "家庭使用者"
+
+#, fuzzy
+msgid "Invited"
+msgstr "邀請代碼"
+
+msgid "Disabled"
+msgstr ""
+
+msgid "Downloads enabled"
+msgstr ""
+
+msgid "Live TV enabled"
+msgstr ""
+
+#, fuzzy
+msgid "View details"
+msgstr "邀請"
+
+#, fuzzy
+msgid "Edit user"
+msgstr "從不"
+
+#, fuzzy
+msgid "Reset password"
+msgstr "密碼"
+
+#, fuzzy
+msgid "Remove user"
 msgstr "主頁"
 
-#: app/templates/wizard/frame.html:34
+#, fuzzy
+msgid "Before Invitation"
+msgstr "建立邀請"
+
+#, fuzzy
+msgid "After Invitation"
+msgstr "建立邀請"
+
 msgid "Previous"
 msgstr ""
 
-#: app/templates/wizard/frame.html:42
-msgid "Next"
+msgid "Click the link in this step to be able to continue"
 msgstr ""
+
+msgid "What is Audiobookshelf?"
+msgstr ""
+
+msgid "Welcome to Our Audiobookshelf Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **audiobook & podcast library** "
+"through Audiobookshelf!"
+msgstr ""
+
+msgid ""
+"Audiobookshelf is a self-hosted audiobook and podcast server that lets "
+"people share their audio collections with friends and family. If you're "
+"here, it means you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "What You'll Get"
+msgstr ""
+
+msgid "Access to our constantly updated audiobooks and podcasts"
+msgstr ""
+
+msgid "Listen on-demand or download for offline listening"
+msgstr ""
+
+msgid "Track your progress across all devices"
+msgstr ""
+
+msgid "Download Audiobookshelf Clients"
+msgstr ""
+
+msgid ""
+"Audiobookshelf has many clients from which you can listen to our audiobooks!"
+msgstr ""
+
+msgid "Listen Anywhere"
+msgstr ""
+
+msgid ""
+"Audiobookshelf works almost everywhere — install the app on your favourite "
+"devices:"
+msgstr ""
+
+msgid "Web App"
+msgstr ""
+
+msgid "Tips for the best experience"
+msgstr ""
+
+msgid "Get the best listening experience"
+msgstr ""
+
+msgid ""
+"Audiobookshelf offers great features, but here's how to make sure you get "
+"the best experience:"
+msgstr ""
+
+msgid "Download for offline listening"
+msgstr ""
+
+msgid "Tap any audiobook → Download to enjoy without internet"
+msgstr ""
+
+msgid "Adjust playback speed"
+msgstr ""
+
+msgid "Player controls → set speed from 0.5x to 3x"
+msgstr ""
+
+msgid "Enable sleep timer"
+msgstr ""
+
+msgid "Perfect for bedtime listening — auto-stops playback"
+msgstr ""
+
+msgid "Happy listening!"
+msgstr ""
+
+msgid "Go to Audiobookshelf"
+msgstr ""
+
+msgid "What is Emby?"
+msgstr ""
+
+msgid "Welcome to Our Emby Server"
+msgstr ""
+
+msgid "Great news — you now have access to our **media library** through Emby!"
+msgstr ""
+
+msgid ""
+"Emby is a powerful media server that lets people share their film and TV "
+"libraries with friends and family. If you're here, it means you've been "
+"invited to join ours — welcome!"
+msgstr ""
+
+msgid "Access to our constantly updated list of movies and shows"
+msgstr ""
+
+msgid "Watch on-demand or download for offline viewing"
+msgstr ""
+
+msgid "Personalised watchlists & recommendations"
+msgstr ""
+
+msgid "Download Emby Clients"
+msgstr ""
+
+msgid "Emby has many clients from which you can view our media!"
+msgstr ""
+
+msgid "Watch Anywhere"
+msgstr ""
+
+msgid ""
+"Emby works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "Mobile"
+msgstr ""
+
+msgid "iOS & Android phones/tablets"
+msgstr ""
+
+msgid "Desktop"
+msgstr ""
+
+msgid "Windows, macOS, Linux"
+msgstr ""
+
+msgid "Smart TVs & Streaming Devices"
+msgstr ""
+
+msgid "Apple TV, Fire TV, Roku, Chromecast, Android TV"
+msgstr ""
+
+msgid "Consoles"
+msgstr ""
+
+msgid "PlayStation & Xbox"
+msgstr ""
+
+msgid "Watch instantly in your browser"
+msgstr ""
+
+msgid "⬇️ Download Emby Clients"
+msgstr ""
+
+msgid "Get the best quality"
+msgstr ""
+
+msgid ""
+"Emby offers great quality, but here's how to make sure you get the best "
+"experience:"
+msgstr ""
+
+msgid "Force original quality"
+msgstr ""
+
+msgid "Settings → Playback → set"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "Maximum"
+msgstr ""
+
+msgid "Enable hardware decoding"
+msgstr ""
+
+msgid "Settings → Playback → enable for smoother 4K"
+msgstr ""
+
+msgid "Use a wired connection"
+msgstr ""
+
+msgid "if you're on a smart-TV for stutter-free 4K."
+msgstr ""
+
+msgid "Happy viewing!"
+msgstr ""
+
+msgid "Go to Emby"
+msgstr ""
+
+msgid "What is Jellyfin?"
+msgstr ""
+
+msgid "Welcome to Our Jellyfin Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **media library** through Jellyfin!"
+msgstr ""
+
+msgid ""
+"Jellyfin is a free, open-source media server that lets people share their "
+"film and TV libraries with friends and family. If you're here, it means "
+"you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "Download Jellyfin Clients"
+msgstr ""
+
+msgid "Jellyfin has many clients from which you can view our media!"
+msgstr ""
+
+msgid ""
+"Jellyfin works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "⬇️ Download Jellyfin Clients"
+msgstr ""
+
+msgid ""
+"Jellyfin offers great quality, but here's how to make sure you get the best "
+"experience:"
+msgstr ""
+
+msgid "Go to Jellyfin"
+msgstr ""
+
+msgid "Welcome to your digital library"
+msgstr ""
+
+msgid "Great news! You now have access to our comic and manga collection."
+msgstr ""
+
+msgid ""
+"Kavita lets people share their digital libraries with friends. Read comics, "
+"manga, and books directly in your browser or mobile app."
+msgstr ""
+
+msgid "How do I read stuff?"
+msgstr ""
+
+msgid ""
+"Open Kavita in your browser, sign in with your new account, and start "
+"reading. You can also use mobile apps for a better experience."
+msgstr ""
+
+msgid "Open Kavita"
+msgstr ""
+
+msgid "Want to read on your phone?"
+msgstr ""
+
+msgid "Download a comic reader app for the best mobile experience."
+msgstr ""
+
+msgid "Android"
+msgstr ""
+
+msgid "Popular manga reader with Kavita support"
+msgstr ""
+
+msgid "Great for comics and books"
+msgstr ""
+
+msgid "iOS"
+msgstr ""
+
+msgid "Premium comic reader with Kavita integration"
+msgstr ""
+
+msgid "Full-featured comic reader"
+msgstr ""
+
+msgid "Connect your app"
+msgstr ""
+
+msgid "Use this OPDS URL in your reader app:"
+msgstr ""
+
+msgid "Login with your Kavita username and password."
+msgstr ""
+
+msgid "Your library includes"
+msgstr ""
+
+msgid ""
+"Browse collections of comics, manga, light novels, and digital books. "
+"Everything is organized by series and automatically tracks your reading "
+"progress."
+msgstr ""
+
+msgid "Cool features"
+msgstr ""
+
+msgid "Pick up exactly where you left off"
+msgstr ""
+
+msgid "Create custom reading lists"
+msgstr ""
+
+msgid "Find content by title, author, or genre"
+msgstr ""
+
+msgid "Easy on the eyes for night reading"
+msgstr ""
+
+msgid "Get the best reading experience"
+msgstr ""
+
+msgid "Kavita has some handy settings to make reading more comfortable:"
+msgstr ""
+
+msgid "Set reading direction"
+msgstr ""
+
+msgid "Settings → Reader → set manga to right-to-left"
+msgstr ""
+
+msgid "Enable dark mode"
+msgstr ""
+
+msgid "Perfect for night reading"
+msgstr ""
+
+msgid "Use keyboard shortcuts"
+msgstr ""
+
+msgid "Space for next page, arrows to navigate"
+msgstr ""
+
+msgid "What is Komga?"
+msgstr ""
+
+msgid "Welcome to Our Komga Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **digital comic and manga library** "
+"through Komga!"
+msgstr ""
+
+msgid ""
+"Komga is a free, open-source media server designed specifically for comics, "
+"manga, and digital books. If you're here, it means you've been invited to "
+"join our library — welcome!"
+msgstr ""
+
+msgid "Access to our constantly updated collection of comics and manga"
+msgstr ""
+
+msgid "Read online directly in your browser"
+msgstr ""
+
+msgid "Download for offline reading on your favorite devices"
+msgstr ""
+
+msgid "Track your reading progress automatically"
+msgstr ""
+
+msgid "Support for multiple formats (CBZ, CBR, PDF, EPUB)"
+msgstr ""
+
+msgid "Download Komga Clients"
+msgstr ""
+
+msgid ""
+"Komga has many compatible readers from which you can enjoy your comics and "
+"manga!"
+msgstr ""
+
+msgid "Read Anywhere"
+msgstr ""
+
+msgid ""
+"Komga works with many popular comic readers — install apps on your favorite "
+"devices:"
+msgstr ""
+
+msgid "iOS (Panels, Chunky) & Android (Mihon/Tachiyomi, Komga Client)"
+msgstr ""
+
+msgid "Windows (CDisplayEx, YACReader), macOS & Linux (YACReader)"
+msgstr ""
+
+msgid "Tablets"
+msgstr ""
+
+msgid "iPad & Android tablets with comic reader apps"
+msgstr ""
+
+msgid "Read instantly in your browser at"
+msgstr ""
+
+msgid "E-Readers"
+msgstr ""
+
+msgid "KOReader and other OPDS-compatible readers"
+msgstr ""
+
+msgid "📚 View Compatible Readers"
+msgstr ""
+
+msgid "Library Features"
+msgstr ""
+
+msgid "Komga Features"
+msgstr ""
+
+msgid "Discover all the features available to enhance your reading experience!"
+msgstr ""
+
+msgid "Reading Experience"
+msgstr ""
+
+msgid "Webtoon Mode"
+msgstr ""
+
+msgid "Perfect for manga and webtoons with continuous scrolling"
+msgstr ""
+
+msgid "Page-by-Page"
+msgstr ""
+
+msgid "Traditional comic book reading experience"
+msgstr ""
+
+msgid "Zoom & Pan"
+msgstr ""
+
+msgid "Get detailed views of artwork"
+msgstr ""
+
+msgid "Auto Bookmarks"
+msgstr ""
+
+msgid "Your progress is saved automatically"
+msgstr ""
+
+msgid "Organization"
+msgstr ""
+
+msgid "Series Collections"
+msgstr ""
+
+msgid "Browse comics organized by series"
+msgstr ""
+
+msgid "Custom Collections"
+msgstr ""
+
+msgid "Curated collections by themes and genres"
+msgstr ""
+
+msgid "Smart Tags"
+msgstr ""
+
+msgid "Filter by genres, authors, publishers, and more"
+msgstr ""
+
+msgid "Advanced Search"
+msgstr ""
+
+msgid "Find specific titles instantly"
+msgstr ""
+
+msgid "Personal Features"
+msgstr ""
+
+msgid "Reading Progress"
+msgstr ""
+
+msgid "Track which issues you've completed"
+msgstr ""
+
+msgid "Continue Reading"
+msgstr ""
+
+msgid "Reading Lists"
+msgstr ""
+
+msgid "Create and manage custom reading lists"
+msgstr ""
+
+msgid "On Deck"
+msgstr ""
+
+msgid "See your next suggested reads"
+msgstr ""
+
+msgid ""
+"Komga offers a great reading experience, but here's how to make it even "
+"better:"
+msgstr ""
+
+msgid "Choose the right reader mode"
+msgstr ""
+
+msgid "Use webtoon mode for manga, page-by-page for traditional comics"
+msgstr ""
+
+msgid "Adjust reading direction"
+msgstr ""
+
+msgid "Settings → Reader → set right-to-left for manga"
+msgstr ""
+
+msgid "Easier on your eyes during night reading sessions"
+msgstr ""
+
+msgid "Use full-screen mode"
+msgstr ""
+
+msgid "Press F11 in browser for distraction-free reading"
+msgstr ""
+
+msgid "Download for offline"
+msgstr ""
+
+msgid "Download comics to mobile apps for reading without internet"
+msgstr ""
+
+msgid "Happy reading!"
+msgstr ""
+
+msgid "Go to Komga"
+msgstr ""
+
+msgid "What is Plex?"
+msgstr ""
+
+msgid "Welcome to Our Plex Server"
+msgstr ""
+
+msgid "Great news — you now have access to our **media library** through Plex!"
+msgstr ""
+
+msgid ""
+"Plex lets people share their film and TV libraries with friends and family. "
+"If you're here, it means you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "Download Plex Clients"
+msgstr ""
+
+msgid "Plex has many clients from which you can view our media!"
+msgstr ""
+
+msgid ""
+"Plex works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "Apple TV, Fire TV, Roku, Chromecast"
+msgstr ""
+
+msgid "⬇️ Download Plex Clients"
+msgstr ""
+
+msgid ""
+"Plex sometimes defaults to low quality or shows its own adverts first. "
+"Here's how to fix that:"
+msgstr ""
+
+msgid "Disable trailers & extras"
+msgstr ""
+
+msgid "Settings → Experience → untick"
+msgstr ""
+
+msgid "Show cinematic trailers"
+msgstr ""
+
+msgid "Original"
+msgstr ""
+
+msgid "Go to Plex"
+msgstr ""
+
+msgid "Welcome to RomM"
+msgstr ""
+
+msgid "Great news! You now have access to our game collection."
+msgstr ""
+
+msgid "Open RomM"
+msgstr ""
+
+#~ msgid "Invitation Details"
+#~ msgstr "邀請"
+
+#~ msgid "Invitation expires"
+#~ msgstr "邀請"
 
 #~ msgid "Change Server Settings"
 #~ msgstr "更改伺服器設定"
@@ -429,9 +3098,6 @@ msgstr ""
 
 #~ msgid "User"
 #~ msgstr "使用者"
-
-#~ msgid "Home User"
-#~ msgstr "家庭使用者"
 
 #~ msgid "Passwords do not match."
 #~ msgstr "密碼不正確。"
@@ -448,14 +3114,12 @@ msgstr ""
 #~ msgid "It is likely that your token does not work."
 #~ msgstr "您的 token 很可能不起作用。"
 
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgid ""
+#~ "Unable to connect to your Plex server. See Logs for more information."
 #~ msgstr "無法連線至 Plex 伺服器。有關詳細訊息，請參閱 Log 檔。"
 
 #~ msgid "Unable to connect to your Jellyfin server."
 #~ msgstr "無法連線到你的Jellyfin伺服器。"
-
-#~ msgid "Confirm password"
-#~ msgstr "確認密碼"
 
 #~ msgid ""
 #~ "Server Display\n"
@@ -463,12 +3127,6 @@ msgstr ""
 #~ msgstr ""
 #~ "伺服器\n"
 #~ "              名稱"
-
-#~ msgid "Server"
-#~ msgstr "伺服器"
-
-#~ msgid "Server URL"
-#~ msgstr "伺服器網址"
 
 #~ msgid ""
 #~ "Server\n"
@@ -518,17 +3176,14 @@ msgstr ""
 #~ msgstr "自動媒體請求"
 
 #~ msgid ""
-#~ "We are excited to offer you a "
-#~ "wide selection of media to choose "
-#~ "from. If you're having trouble finding"
-#~ "\n"
-#~ "    something you like, don't worry! "
-#~ "We have a user-friendly request "
-#~ "system that can automatically search for"
-#~ " the\n"
+#~ "We are excited to offer you a wide selection of media to choose from. If "
+#~ "you're having trouble finding\n"
+#~ "    something you like, don't worry! We have a user-friendly request "
+#~ "system that can automatically search for the\n"
 #~ "    media you're looking for. "
 #~ msgstr ""
-#~ "我們很高興為您提供多種媒體供您選擇。 如果您找不到自己喜歡的東西，請不要擔心！\n"
+#~ "我們很高興為您提供多種媒體供您選擇。 如果您找不到自己喜歡的東西，請不要擔"
+#~ "心！\n"
 #~ "    我們有一個使用者優化的請求系統，\n"
 #~ "    可以自動搜索您正在尋找的媒體。 "
 
@@ -536,8 +3191,7 @@ msgstr ""
 #~ msgstr "請求任何可用的電影或電視節目"
 
 #~ msgid ""
-#~ "Requested media will be automatically "
-#~ "downloaded and added to the library "
+#~ "Requested media will be automatically downloaded and added to the library "
 #~ "(if available)"
 #~ msgstr "要求的媒體將自動下載并添加到媒體庫中（如果可用的話）"
 
@@ -555,18 +3209,15 @@ msgstr ""
 #~ "            提供給此裝置"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Jellyfin."
 #~ msgstr ""
 #~ "好消息！你現在可以訪問我們伺服器的媒體收藏\n"
 #~ "        讓我們確保您知道如何在 Jellyfin 上使用它。"
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Jellyfin for this "
+#~ "Planning on watching Movies on this device? Download Jellyfin for this "
 #~ "device."
 #~ msgstr "計畫在此裝置上觀看電影？下载此裝置的 Jellyfin。"
 
@@ -577,22 +3228,18 @@ msgstr ""
 #~ msgstr "嗯，那麼，Jellyfin 到底是什麼？"
 
 #~ msgid ""
-#~ "Jellyfin is a platform that lets "
-#~ "you stream all your favorite movies, "
-#~ "TV shows, and music in one place."
-#~ "\n"
-#~ "        It's like having your own "
-#~ "personal movie theater right at your "
-#~ "fingertips! Think of it as a "
-#~ "digital library of\n"
-#~ "        your favorite content that you"
-#~ " can access from anywhere, on any "
-#~ "device - your phone, tablet, laptop, "
-#~ "smart TV,\n"
+#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
+#~ "shows, and music in one place.\n"
+#~ "        It's like having your own personal movie theater right at your "
+#~ "fingertips! Think of it as a digital library of\n"
+#~ "        your favorite content that you can access from anywhere, on any "
+#~ "device - your phone, tablet, laptop, smart TV,\n"
 #~ "        you name it."
 #~ msgstr ""
-#~ "Jellyfin 是一個平台，可讓您在一個地方流式傳輸所有喜愛的電影、電視節目和音樂。\n"
-#~ "        這就像觸手可及的私人電影院！ 把它想象成一个包含您最喜爱内容的數位媒體庫，\n"
+#~ "Jellyfin 是一個平台，可讓您在一個地方流式傳輸所有喜愛的電影、電視節目和音"
+#~ "樂。\n"
+#~ "        這就像觸手可及的私人電影院！ 把它想象成一个包含您最喜爱内容的數位"
+#~ "媒體庫，\n"
 #~ "        您可以從任何地方在任何設備上瀏覽您最喜愛的內容\n"
 #~ "        （您的手機、平板電腦、筆記型電腦、智慧電視）。"
 
@@ -600,18 +3247,17 @@ msgstr ""
 #~ msgstr "對，那我該如何觀看？"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Jellyfin is "
-#~ "available on a wide variety of "
+#~ "It couldn't be simpler! Jellyfin is available on a wide variety of "
 #~ "devices including laptops, tablets,\n"
-#~ "        smartphones, and TVs. All you"
-#~ " need to do is download the "
-#~ "Jellyfin app on your device, sign "
-#~ "in with your account,\n"
+#~ "        smartphones, and TVs. All you need to do is download the Jellyfin "
+#~ "app on your device, sign in with your account,\n"
 #~ "        and\n"
 #~ "        you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "再簡單不過了！Jellyfin 適用於多種設備，包括筆記型電腦、平板電腦、智慧手機和電視。\n"
-#~ "        您需要做的就是在您的設備上下載 Jellyfin 應用程序，使用您的帳戶登錄，\n"
+#~ "再簡單不過了！Jellyfin 適用於多種設備，包括筆記型電腦、平板電腦、智慧手機"
+#~ "和電視。\n"
+#~ "        您需要做的就是在您的設備上下載 Jellyfin 應用程序，使用您的帳戶登"
+#~ "錄，\n"
 #~ "        然後\n"
 #~ "        您就可以開始串流媒體了。 就這麼簡單！"
 
@@ -626,50 +3272,42 @@ msgstr ""
 #~ "            提供給此裝置"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Plex."
 #~ msgstr ""
 #~ "好消息！你現在可以訪問我們伺服器的媒體收藏\n"
 #~ "        讓我們確保您知道如何在 Plex 上使用它。"
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Plex for this device."
+#~ "Planning on watching Movies on this device? Download Plex for this device."
 #~ msgstr "計畫在此裝置上觀看電影？下载此裝置的 Plex。"
 
 #~ msgid "Eh, So, What is Plex exactly?"
 #~ msgstr "嗯，那麼，Plex到底是什麼？"
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "    you've received this invitation, it"
-#~ " means someone wants to share their"
-#~ " library with you. With Plex, you'll"
-#~ " have\n"
-#~ "    access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "    you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "    access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
 #~ msgstr ""
 #~ "好問題！ Plex 是一種允許個人與他人共享媒體收藏的程式。\n"
 #~ "    如果您收到此邀請，則表示有人想與您共享他們的媒體庫。\n"
-#~ "    使用 Plex，您可以瀏覽存儲在其伺服器上的所有電影、電視節目、音樂和照片。 享受愉快！"
+#~ "    使用 Plex，您可以瀏覽存儲在其伺服器上的所有電影、電視節目、音樂和照"
+#~ "片。 享受愉快！"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "    smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you need to do is download the Plex app on "
+#~ "your device, sign in with your account, and\n"
 #~ "    you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "再簡單不過了！ Plex 適用於多種設備，包括筆記型電腦、平板電腦、智慧手機和電視。\n"
+#~ "再簡單不過了！ Plex 適用於多種設備，包括筆記型電腦、平板電腦、智慧手機和電"
+#~ "視。\n"
 #~ "    您需要做的就是在您的設備上下載 Plex 應用程序，使用您的帳戶登錄，\n"
 #~ "    然後您就可以開始串流媒體了。 就這麼簡單！"
 
@@ -677,15 +3315,13 @@ msgstr ""
 #~ msgstr "我怎樣才能確保擁有最好的體驗？"
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "    sharing with you - they also,"
-#~ " by default, play content at a "
-#~ "lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the "
+#~ "awesome content your friend is now\n"
+#~ "    sharing with you - they also, by default, play content at a lower "
+#~ "quality. "
 #~ msgstr ""
-#~ "因為 Plex 是一項免費服務，所以他們會在您朋友現在的精彩內容之前宣傳自己的內容\n"
+#~ "因為 Plex 是一項免費服務，所以他們會在您朋友現在的精彩內容之前宣傳自己的內"
+#~ "容\n"
 #~ "    與您分享 - 默認情況下，他們還以較低質量播放內容。 "
 
 #~ msgid "No need to worry though, this can be easily resolved"
@@ -713,9 +3349,73 @@ msgstr ""
 #~ msgid "User Policy"
 #~ msgstr "使用者政策"
 
-#~ msgid "Name"
-#~ msgstr "名稱"
+#~ msgid "Home"
+#~ msgstr "主頁"
 
-#~ msgid "Actions"
-#~ msgstr "動作"
+#~ msgid "Server settings"
+#~ msgstr "伺服器設定"
 
+#~ msgid "Oops!"
+#~ msgstr "哎呀！"
+
+#~ msgid ""
+#~ "Confirm\n"
+#~ "                                password"
+#~ msgstr ""
+#~ "確認\n"
+#~ "                                密碼"
+
+#~ msgid ""
+#~ "Invite\n"
+#~ "                                Code"
+#~ msgstr ""
+#~ "邀請\n"
+#~ "                                代碼"
+
+#~ msgid "Invite user"
+#~ msgstr "邀請使用者"
+
+#~ msgid ""
+#~ "Specific\n"
+#~ "                                Libraries"
+#~ msgstr ""
+#~ "特定\n"
+#~ "                                媒體庫"
+
+#~ msgid "Back"
+#~ msgstr "返回"
+
+#~ msgid "Share"
+#~ msgstr "分享"
+
+#~ msgid ""
+#~ "Username\n"
+#~ "                                (optional)"
+#~ msgstr ""
+#~ "邀請\n"
+#~ "                                代碼"
+
+#~ msgid ""
+#~ "Agent\n"
+#~ "                                URL"
+#~ msgstr ""
+#~ "邀請\n"
+#~ "                                代碼"
+
+#~ msgid "Available"
+#~ msgstr "允許的"
+
+#~ msgid "Limit"
+#~ msgstr "無限制"
+
+#~ msgid "libs"
+#~ msgstr "媒體庫"
+
+#~ msgid "Pre-Invite"
+#~ msgstr "邀請代碼"
+
+#~ msgid "Post-Invite"
+#~ msgstr "邀請代碼"
+
+#~ msgid "Partial"
+#~ msgstr "(可選)"

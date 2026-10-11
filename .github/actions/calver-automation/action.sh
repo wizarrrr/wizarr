@@ -53,87 +53,241 @@ calculate_next_version() {
     fi
 }
 
-# Get commits since last release
-get_commits_since_last_release() {
-    local last_tag
-    last_tag=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-    
-    if [[ -z "$last_tag" ]]; then
-        # No previous tag, get all commits
-        git log --oneline --no-merges
-    else
-        # Get commits since last tag
-        git log "${last_tag}..HEAD" --oneline --no-merges
+# Return true for commits that should not appear in release notes.
+is_ignored_changelog_commit() {
+    local commit_hash="$1"
+    local commit_msg="$2"
+    local author
+    author=$(git show -s --format='%an <%ae>' "$commit_hash" 2>/dev/null || echo "")
+
+    # Weblate and template-refresh commits are high-volume bookkeeping. They
+    # drown out product changes when listed individually in release notes.
+    if [[ "$author" == *"weblate"* ]] || [[ "$author" == *"Weblate"* ]]; then
+        return 0
     fi
+
+    if [[ "$commit_msg" =~ ^i18n:\ refresh\ POT\ template ]]; then
+        return 0
+    fi
+
+    if [[ "$commit_msg" == "Update translation files" ]]; then
+        return 0
+    fi
+
+    if [[ "$commit_msg" =~ ^Translated\ using\ Weblate ]]; then
+        return 0
+    fi
+
+    return 1
 }
 
-# Generate changelog
+filter_changelog_commits() {
+    local line
+    while IFS= read -r line; do
+        [[ -z "$line" ]] && continue
+
+        local commit_hash
+        local commit_msg
+        commit_hash=$(echo "$line" | cut -d' ' -f1)
+        commit_msg=$(echo "$line" | sed 's/^[a-fA-F0-9]* //')
+
+        if is_ignored_changelog_commit "$commit_hash" "$commit_msg"; then
+            continue
+        fi
+
+        echo "$line"
+    done
+}
+
+# Get commits since last release
+get_commits_since_last_release() {
+    local last_release_tag
+    local commits
+
+    # Get the latest ACTUAL release tag (not RC or pre-release)
+    # Sort by version and get the latest non-pre-release tag
+    last_release_tag=$(git tag -l | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | sort -V | tail -1 2>/dev/null || echo "")
+
+    if [[ -z "$last_release_tag" ]]; then
+        # No previous release tag, get all commits
+        commits=$(git log --oneline --no-merges)
+    else
+        # Get commits since last actual release (not RC/beta)
+        commits=$(git log "${last_release_tag}..HEAD" --oneline --no-merges)
+    fi
+
+    filter_changelog_commits <<< "$commits"
+}
+
+# Generate changelog with improved conventional commit detection
 generate_changelog() {
     local version="$1"
     local commits
     commits=$(get_commits_since_last_release)
-    
+
     if [[ -z "$commits" ]]; then
         echo "No changes since last release."
         return
     fi
-    
+
     echo "## What's Changed"
     echo ""
-    
-    # Group commits by type
+
+    # Group commits by type with more comprehensive detection
     local features=""
     local fixes=""
+    local docs=""
+    local perf=""
+    local refactor=""
+    local test=""
+    local build=""
+    local ci=""
+    local style=""
+    local chore=""
+    local breaking=""
     local other=""
-    
+
     while IFS= read -r line; do
-        if echo "$line" | grep -qE "^[a-f0-9]+ feat(\([^)]+\))?:"; then
-            local commit_msg=$(echo "$line" | sed 's/^[a-f0-9]* feat[^:]*: *//')
+        local commit_hash=$(echo "$line" | cut -d' ' -f1)
+        local commit_full_msg=$(echo "$line" | sed 's/^[a-f0-9]* //')
+
+        # Check for breaking changes first (can be any type)
+        if echo "$commit_full_msg" | grep -qE "(BREAKING CHANGE|!):"; then
+            breaking+="- $commit_full_msg\n"
+        # Features
+        elif echo "$line" | grep -qE "^[a-fA-F0-9]+ feat(\([^)]+\))?(!)?:"; then
+            local commit_msg=$(echo "$line" | sed 's/^[a-fA-F0-9]* feat[^:]*: *//')
             features+="- $commit_msg\n"
-        elif echo "$line" | grep -qE "^[a-f0-9]+ fix(\([^)]+\))?:"; then
-            local commit_msg=$(echo "$line" | sed 's/^[a-f0-9]* fix[^:]*: *//')
+        # Bug fixes
+        elif echo "$line" | grep -qE "^[a-fA-F0-9]+ fix(\([^)]+\))?(!)?:"; then
+            local commit_msg=$(echo "$line" | sed 's/^[a-fA-F0-9]* fix[^:]*: *//')
             fixes+="- $commit_msg\n"
-        elif ! echo "$line" | grep -qE "^[a-f0-9]+ (chore|docs|style|refactor|test|ci)(\([^)]+\))?:"; then
-            # Skip maintenance commits, include everything else
-            local commit_msg=$(echo "$line" | sed 's/^[a-f0-9]* //')
-            other+="- $commit_msg\n"
+        # Documentation
+        elif echo "$line" | grep -qE "^[a-f0-9]+ docs(\([^)]+\))?(!)?:"; then
+            local commit_msg=$(echo "$line" | sed 's/^[a-f0-9]* docs[^:]*: *//')
+            docs+="- $commit_msg\n"
+        # Performance improvements
+        elif echo "$line" | grep -qE "^[a-fA-F0-9]+ perf(\([^)]+\))?(!)?:"; then
+            local commit_msg=$(echo "$line" | sed 's/^[a-fA-F0-9]* perf[^:]*: *//')
+            perf+="- $commit_msg\n"
+        # Code refactoring
+        elif echo "$line" | grep -qE "^[a-fA-F0-9]+ refactor(\([^)]+\))?(!)?:"; then
+            local commit_msg=$(echo "$line" | sed 's/^[a-fA-F0-9]* refactor[^:]*: *//')
+            refactor+="- $commit_msg\n"
+        # Testing
+        elif echo "$line" | grep -qE "^[a-fA-F0-9]+ test(\([^)]+\))?(!)?:"; then
+            local commit_msg=$(echo "$line" | sed 's/^[a-fA-F0-9]* test[^:]*: *//')
+            test+="- $commit_msg\n"
+        # Build system / dependencies
+        elif echo "$line" | grep -qE "^[a-fA-F0-9]+ (build|deps?)(\([^)]+\))?(!)?:"; then
+            local commit_msg=$(echo "$line" | sed 's/^[a-fA-F0-9]* \(build\|deps\?\)[^:]*: *//')
+            build+="- $commit_msg\n"
+        # CI/CD changes
+        elif echo "$line" | grep -qE "^[a-fA-F0-9]+ ci(\([^)]+\))?(!)?:"; then
+            local commit_msg=$(echo "$line" | sed 's/^[a-fA-F0-9]* ci[^:]*: *//')
+            ci+="- $commit_msg\n"
+        # Code style changes
+        elif echo "$line" | grep -qE "^[a-fA-F0-9]+ style(\([^)]+\))?(!)?:"; then
+            local commit_msg=$(echo "$line" | sed 's/^[a-fA-F0-9]* style[^:]*: *//')
+            style+="- $commit_msg\n"
+        # Chores and maintenance
+        elif echo "$line" | grep -qE "^[a-fA-F0-9]+ chore(\([^)]+\))?(!)?:"; then
+            local commit_msg=$(echo "$line" | sed 's/^[a-fA-F0-9]* chore[^:]*: */')
+            chore+="- $commit_msg\n"
+        # Non-conventional commits
+        else
+            other+="- $commit_full_msg\n"
         fi
     done <<< "$commits"
-    
+
+    # Output sections in priority order
+    if [[ -n "$breaking" ]]; then
+        echo "### 💥 Breaking Changes"
+        echo -e "$breaking"
+    fi
+
     if [[ -n "$features" ]]; then
         echo "### 🚀 Features"
         echo -e "$features"
     fi
-    
+
     if [[ -n "$fixes" ]]; then
-        echo "### 🐛 Bug Fixes" 
+        echo "### 🐛 Bug Fixes"
         echo -e "$fixes"
     fi
-    
+
+    if [[ -n "$perf" ]]; then
+        echo "### ⚡ Performance Improvements"
+        echo -e "$perf"
+    fi
+
+    if [[ -n "$refactor" ]]; then
+        echo "### ♻️ Code Refactoring"
+        echo -e "$refactor"
+    fi
+
+    if [[ -n "$docs" ]]; then
+        echo "### 📚 Documentation"
+        echo -e "$docs"
+    fi
+
+    if [[ -n "$test" ]]; then
+        echo "### 🧪 Tests"
+        echo -e "$test"
+    fi
+
+    if [[ -n "$build" ]]; then
+        echo "### 🔧 Build System / Dependencies"
+        echo -e "$build"
+    fi
+
+    if [[ -n "$ci" ]]; then
+        echo "### 👷 CI/CD"
+        echo -e "$ci"
+    fi
+
+    if [[ -n "$style" ]]; then
+        echo "### 💄 Styling"
+        echo -e "$style"
+    fi
+
+    if [[ -n "$chore" ]]; then
+        echo "### 🧹 Chores"
+        echo -e "$chore"
+    fi
+
     if [[ -n "$other" ]]; then
         echo "### 📝 Other Changes"
         echo -e "$other"
     fi
-    
+
     echo ""
     echo "**Full Changelog**: https://github.com/$GITHUB_REPOSITORY/compare/v$(get_current_version)...v$version"
 }
 
-# Update version in files
+# Update version in files and sync dependencies
 update_version_files() {
     local new_version="$1"
-    
+
     # Update pyproject.toml
     sed -i.bak "s/^version = \".*\"/version = \"$new_version\"/" pyproject.toml
     sed -i.bak "s/^version = \".*\"/version = \"$new_version\"/" pyproject.toml # commitizen section too
-    
+
     # Update package.json
     jq --arg version "$new_version" '.version = $version' package.json > package.json.tmp && mv package.json.tmp package.json
-    
+
     # Clean up backup files
     rm -f pyproject.toml.bak
-    
+
     log_success "Updated version files to $new_version"
+
+    # Run uv sync to update lock file with new version
+    log_info "Syncing dependencies with uv..."
+    if command -v uv &> /dev/null; then
+        uv sync || log_warning "uv sync failed, continuing anyway"
+    else
+        log_warning "uv not installed, skipping dependency sync"
+    fi
 }
 
 # Check if release PR exists
@@ -149,12 +303,17 @@ create_rc_pr() {
     local version="$1"
     local changelog="$2"
     local existing_pr="$3"
-    
+
     local rc_version="${version}-rc.1"
     local pr_title="RC v$rc_version"
+    local commit_summary
+    commit_summary=$(generate_commit_summary)
+
     local pr_body="# 🧪 Release Candidate v$rc_version
 
 $changelog
+
+$commit_summary
 
 ---
 
@@ -164,7 +323,7 @@ $changelog
 
 **This will**:
 - Create GitHub pre-release \`v$rc_version\`
-- Deploy to staging/beta environment  
+- Deploy to staging/beta environment
 - Build Docker images with \`:rc\` and \`:beta\` tags
 - Notify beta testers
 
@@ -173,7 +332,7 @@ $changelog
 ---
 
 🤖 Auto-generated by CalVer Automation"
-    
+
     if [[ -n "$existing_pr" ]]; then
         log_info "Updating existing RC PR #$existing_pr"
         gh pr edit "$existing_pr" --title "$pr_title" --body "$pr_body"
@@ -185,16 +344,48 @@ $changelog
     fi
 }
 
+# Generate detailed commit summary for PR
+generate_commit_summary() {
+    local commits
+    commits=$(get_commits_since_last_release)
+
+    if [[ -z "$commits" ]]; then
+        echo "No commits found."
+        return
+    fi
+
+    local commit_count=$(echo "$commits" | wc -l)
+    echo "## 📋 All Commits Included ($commit_count commits)"
+    echo ""
+
+    # Show each commit with hash for reference
+    echo "<details>"
+    echo "<summary>Click to expand commit list</summary>"
+    echo ""
+    echo "\`\`\`"
+    while IFS= read -r line; do
+        echo "$line"
+    done <<< "$commits"
+    echo "\`\`\`"
+    echo "</details>"
+    echo ""
+}
+
 # Create or update release PR
 create_release_pr() {
     local version="$1"
     local changelog="$2"
     local existing_pr="$3"
-    
+
     local pr_title="Release v$version"
+    local commit_summary
+    commit_summary=$(generate_commit_summary)
+
     local pr_body="# 🚀 Stable Release v$version
 
 $changelog
+
+$commit_summary
 
 ---
 
@@ -211,7 +402,7 @@ $changelog
 ---
 
 🤖 Auto-generated by CalVer Automation"
-    
+
     if [[ -n "$existing_pr" ]]; then
         log_info "Updating existing Release PR #$existing_pr"
         gh pr edit "$existing_pr" --title "$pr_title" --body "$pr_body"
@@ -223,18 +414,62 @@ $changelog
     fi
 }
 
+# Update existing release PR description with latest changelog
+update_existing_release_pr() {
+    local branch_name="$1"
+
+    # Extract version from branch name (release/v2025.9.6 -> 2025.9.6)
+    local version
+    version=$(echo "$branch_name" | sed 's/release\/v//')
+
+    log_info "Updating Release PR for version: $version"
+
+    # Find the existing release PR for this version
+    local existing_pr
+    existing_pr=$(check_existing_pr "Release v$version")
+
+    if [[ -z "$existing_pr" ]]; then
+        log_warning "No existing Release PR found for v$version"
+        echo "release-created=false" >> "$GITHUB_OUTPUT"
+        return 0
+    fi
+
+    # Generate fresh changelog with latest commits
+    local changelog
+    changelog=$(generate_changelog "$version")
+
+    # Update the PR with fresh content
+    create_release_pr "$version" "$changelog" "$existing_pr"
+
+    log_success "Updated Release PR #$existing_pr with latest changelog"
+
+    # Set outputs
+    echo "release-created=true" >> "$GITHUB_OUTPUT"
+    echo "tag-name=v$version" >> "$GITHUB_OUTPUT"
+    echo "pr-number=$existing_pr" >> "$GITHUB_OUTPUT"
+}
+
 # Main execution
 main() {
     log_info "Starting CalVer Automation..."
-    
+
     # Set up git config
     git config user.name "github-actions[bot]"
     git config user.email "github-actions[bot]@users.noreply.github.com"
-    
+
+    # Check if we're on a release branch - if so, just update the PR
+    local current_branch
+    current_branch=$(git branch --show-current)
+    if [[ "$current_branch" == release/* ]]; then
+        log_info "Running on release branch: $current_branch"
+        update_existing_release_pr "$current_branch"
+        return 0
+    fi
+
     local current_version
     current_version=$(get_current_version)
     log_info "Current version: $current_version"
-    
+
     local next_version
     next_version=$(calculate_next_version "$current_version")
     log_info "Next version: $next_version"
@@ -288,8 +523,8 @@ main() {
     # Update version files for release
     update_version_files "$next_version"
     
-    # Commit release changes
-    git add pyproject.toml package.json
+    # Commit release changes (including uv.lock if it was updated)
+    git add pyproject.toml package.json uv.lock
     git commit -m "chore: release v$next_version" || true
     
     # Push release branch

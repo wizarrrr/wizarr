@@ -139,6 +139,7 @@ def import_default_wizard_steps() -> None:
             meta = _parse_markdown(path)
             step = WizardStep(
                 server_type=server_type,
+                category="post_invite",  # Default steps are post-invite
                 position=pos,
                 title=meta["title"],
                 markdown=meta["markdown"],

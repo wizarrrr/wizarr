@@ -1,483 +1,551 @@
 {% extends "base.html" %}
-
-{% block title %}Accept Invite{% endblock %}
-
-{% block og_title %}{{ _(server_name) }}{% endblock %}
-
-{% block og_description %}{{ _("You've been invited to join the %(name)s server!", name=server_name) }}{% endblock %}
-
+{% block title %}
+  Accept Invite
+{% endblock title %}
+{% block og_title %}
+  {{ _(server_name) }}
+{% endblock og_title %}
+{% block og_description %}
+  {{ _("You've been invited to join the %(name)s server!", name=server_name) }}
+{% endblock og_description %}
 {% block main %}
-<section class="min-h-screen bg-gradient-to-br from-slate-900 via-orange-900 to-slate-900 relative overflow-hidden">
+  <section class="min-h-screen bg-gradient-to-br from-slate-900 via-orange-900 to-slate-900 relative overflow-hidden">
     <!-- Cinema Background Layer -->
     <div class="absolute inset-0 overflow-hidden">
-        <!-- Flowing Movie Poster Grid -->
-        <div class="poster-grid-container">
-            <!-- First row flowing left -->
-            <div class="poster-row poster-row-1" data-direction="left">
-                <!-- Posters will be dynamically added here -->
-            </div>
-            
-            <!-- Second row flowing right -->
-            <div class="poster-row poster-row-2" data-direction="right">
-                <!-- Posters will be dynamically added here -->
-            </div>
-            
-            <!-- Third row flowing left -->
-            <div class="poster-row poster-row-3" data-direction="left">
-                <!-- Posters will be dynamically added here -->
-            </div>
-            
-            <!-- Fourth row flowing right -->
-            <div class="poster-row poster-row-4" data-direction="right">
-                <!-- Posters will be dynamically added here -->
-            </div>
+      <!-- Flowing Movie Poster Grid -->
+      <div class="poster-grid-container">
+        <!-- First row flowing left -->
+        <div class="poster-row poster-row-1" data-direction="left">
+          <!-- Posters will be dynamically added here -->
         </div>
+        <!-- Second row flowing right -->
+        <div class="poster-row poster-row-2" data-direction="right">
+          <!-- Posters will be dynamically added here -->
+        </div>
+        <!-- Third row flowing left -->
+        <div class="poster-row poster-row-3" data-direction="left">
+          <!-- Posters will be dynamically added here -->
+        </div>
+        <!-- Fourth row flowing right -->
+        <div class="poster-row poster-row-4" data-direction="right">
+          <!-- Posters will be dynamically added here -->
+        </div>
+      </div>
     </div>
-    
     <!-- Overlay gradient to ensure readability -->
     <div class="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-orange-900/60 to-slate-900/80"></div>
-    
     <!-- Animated accent elements -->
     <div class="absolute inset-0 overflow-hidden">
-        <div class="absolute -top-40 -right-80 w-80 h-80 bg-orange-400 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob"></div>
-        <div class="absolute -bottom-80 -left-40 w-80 h-80 bg-amber-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-blob animation-delay-2000"></div>
-        <div class="absolute top-40 left-40 w-80 h-80 bg-yellow-600 rounded-full mix-blend-multiply filter blur-xl opacity-45 animate-blob animation-delay-4000"></div>
+      <div class="absolute -top-40 -right-80 w-80 h-80 bg-orange-400 rounded-full mix-blend-multiply filter blur-xl opacity-40 animate-blob">
+      </div>
+      <div class="absolute -bottom-80 -left-40 w-80 h-80 bg-amber-500 rounded-full mix-blend-multiply filter blur-xl opacity-50 animate-blob animation-delay-2000">
+      </div>
+      <div class="absolute top-40 left-40 w-80 h-80 bg-yellow-600 rounded-full mix-blend-multiply filter blur-xl opacity-45 animate-blob animation-delay-4000">
+      </div>
     </div>
-    
     <div class="relative flex flex-col items-center justify-center px-6 mx-auto min-h-screen lg:py-0">
-        <!-- Header -->
-        <div class="text-center mb-8">
-            <h1 class="mb-6 text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-200 to-amber-400 leading-tight">
-                You've been invited!
-            </h1>
-            {% if server_name %}
-            <div class="mb-4">
-                <p class="text-sm text-gray-400 uppercase tracking-wider font-medium">
-                    To join
-                </p>
-                <p class="text-2xl md:text-3xl font-bold text-white mt-1">
-                    {{ server_name }}
-                </p>
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="mb-6 text-4xl md:text-5xl lg:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-200 to-amber-400 leading-tight">
+          {{ _("You've been invited!") }}
+        </h1>
+        {% if server_name %}
+          <div class="mb-4">
+            <p class="text-sm text-gray-400 uppercase tracking-wider font-medium">{{ _("To join") }}</p>
+            <p class="text-2xl md:text-3xl font-bold text-white mt-1">{{ server_name }}</p>
+          </div>
+        {% endif %}
+        <p class="text-lg md:text-xl text-gray-300 font-light max-w-md mx-auto leading-relaxed">
+          {{ _("Join the ultimate media server experience.") }}
+        </p>
+      </div>
+      <!-- Card Container -->
+      <div class="w-full max-w-md">
+        <div class="bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden">
+          <div class="p-8 space-y-6">
+            <div class="text-center">
+              <h2 class="text-2xl font-bold text-white mb-2">{{ _("Enter Code to Continue") }}</h2>
+              <p class="text-gray-400 text-sm">{{ _("Invitation Code") }}</p>
             </div>
-            {% endif %}
-            <p class="text-lg md:text-xl text-gray-300 font-light max-w-md mx-auto leading-relaxed">
-                Join the ultimate media server experience.
-            </p>
-        </div>
-
-        <!-- Card Container -->
-        <div class="w-full max-w-md">
-            <div class="bg-gray-800/40 backdrop-blur-xl rounded-2xl shadow-2xl border border-gray-700/50 overflow-hidden">
-                <div class="p-8 space-y-6">
-                    <div class="text-center">
-                        <h2 class="text-2xl font-bold text-white mb-2">
-                            Enter Code to Continue
-                        </h2>
-                        <p class="text-gray-400 text-sm">
-                            Invitation Code
-                        </p>
-                    </div>
-                    
-                    <form class="space-y-6" action="/join" method="post">
-                        {% if not code_error %}
-                        <div class="space-y-2">
-                            <input 
-                                minlength="6" 
-                                maxlength="10" 
-                                type="text" 
-                                name="code" 
-                                id="code"
-                                class="w-full px-4 py-4 text-center text-lg font-mono tracking-widest 
-                                       bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400
-                                       rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent
-                                       backdrop-blur-sm transition-all duration-200"
-                                placeholder="Enter your code" 
-                                value="{{ code }}" 
-                                required
-                                autocomplete="off">
-                            <input type="hidden" name="token" id="token" value="">
-                        </div>
-                        {% endif %}
-                        
-                        {% if code_error %}
-                        <div class="space-y-2">
-                            <input 
-                                minlength="6" 
-                                maxlength="10" 
-                                type="text" 
-                                name="code" 
-                                id="code"
-                                class="w-full px-4 py-4 text-center text-lg font-mono tracking-widest
-                                       bg-red-900/30 border-2 border-red-500 text-white placeholder-red-300
-                                       rounded-xl focus:ring-2 focus:ring-red-400 focus:border-red-400
-                                       backdrop-blur-sm transition-all duration-200"
-                                placeholder="Enter your code" 
-                                required
-                                autocomplete="off">
-                            <div class="flex items-center space-x-2 text-red-400 text-sm">
-                                <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-                                </svg>
-                                <span>{{ code_error }}</span>
-                            </div>
-                        </div>
-                        {% endif %}
-                        
-                        <button 
-                            onClick="oauth(); return false;"
-                            class="w-full py-4 px-6 text-white font-semibold text-lg
-                                   bg-gradient-to-r from-primary to-primary_hover
-                                   hover:from-primary_hover hover:to-primary 
-                                   rounded-xl transition-all duration-200 transform hover:scale-[1.02]
-                                   focus:ring-4 focus:ring-primary/30 focus:outline-none
-                                   shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
-                            Join Server
-                        </button>
-                    </form>
+            <form class="space-y-6" action="{{ url_for('public.join') }}" method="post">
+              {% if not code_error %}
+                <div class="space-y-2">
+                  <input minlength="6"
+                         maxlength="10"
+                         type="text"
+                         name="code"
+                         id="code"
+                         class="w-full px-4 py-4 text-center text-lg font-mono tracking-widest bg-gray-700/50 border border-gray-600 text-white placeholder-gray-400 rounded-xl focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200"
+                         placeholder="{{ _('Enter your code') }}"
+                         value="{{ code }}"
+                         required
+                         autocomplete="off">
+                  <input type="hidden" name="token" id="token" value="">
                 </div>
-            </div>
-            
-            <!-- Footer text -->
-            <div class="text-center mt-6">
-                <p class="text-gray-400 text-sm">
-                    Secure invitation system powered by Wizarr
-                </p>
-            </div>
+              {% endif %}
+              {% if code_error %}
+                <div class="space-y-2">
+                  <input minlength="6"
+                         maxlength="10"
+                         type="text"
+                         name="code"
+                         id="code"
+                         class="w-full px-4 py-4 text-center text-lg font-mono tracking-widest bg-red-900/30 border-2 border-red-500 text-white placeholder-red-300 rounded-xl focus:ring-2 focus:ring-red-400 focus:border-red-400 backdrop-blur-sm transition-all duration-200"
+                         placeholder="{{ _('Enter your code') }}"
+                         required
+                         autocomplete="off">
+                  <div class="flex items-center space-x-2 text-red-400 text-sm">
+                    <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd">
+                      </path>
+                    </svg>
+                    <span>{{ code_error }}</span>
+                  </div>
+                </div>
+              {% endif %}
+              <div id="plex-oauth-error"
+                   class="hidden flex items-center space-x-2 text-red-400 text-sm"
+                   role="alert"></div>
+              <button onClick="oauth(); return false;"
+                      class="w-full py-4 px-6 text-white font-semibold text-lg bg-gradient-to-r from-primary to-primary_hover hover:from-primary_hover hover:to-primary rounded-xl transition-all duration-200 transform hover:scale-[1.02] focus:ring-4 focus:ring-primary/30 focus:outline-none shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed">
+                {{ _("Join Server") }}
+              </button>
+            </form>
+          </div>
         </div>
+        <!-- Footer text -->
+        <div class="text-center mt-6">
+          <p class="text-gray-400 text-sm">{{ _("Secure invitation system powered by Wizarr") }}</p>
+        </div>
+      </div>
     </div>
-</section>
+  </section>
+  <!-- Custom animations -->
+  <style>
+      /* Floating blob animations */
+      @keyframes blob {
+          0% {
+              transform: translate(0px, 0px) scale(1);
+          }
 
-<!-- Custom animations -->
-<style>
-/* Floating blob animations */
-@keyframes blob {
-    0% {
-        transform: translate(0px, 0px) scale(1);
-    }
-    33% {
-        transform: translate(30px, -50px) scale(1.1);
-    }
-    66% {
-        transform: translate(-20px, 20px) scale(0.9);
-    }
-    100% {
-        transform: translate(0px, 0px) scale(1);
-    }
-}
+          33% {
+              transform: translate(30px, -50px) scale(1.1);
+          }
 
-/* Poster grid container */
-.poster-grid-container {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    opacity: 0.15;
-}
+          66% {
+              transform: translate(-20px, 20px) scale(0.9);
+          }
 
-/* Poster rows */
-.poster-row {
-    position: absolute;
-    height: 180px;
-    width: 300%;
-    display: flex;
-    gap: 20px;
-    align-items: center;
-    pointer-events: none;
-}
+          100% {
+              transform: translate(0px, 0px) scale(1);
+          }
+      }
 
-.poster-row-1 {
-    top: 10%;
-    animation: flow-left 60s linear infinite;
-}
+      /* Poster grid container */
+      .poster-grid-container {
+          position: absolute;
+          inset: 0;
+          overflow: hidden;
+          opacity: 0.15;
+      }
 
-.poster-row-2 {
-    top: 30%;
-    animation: flow-right 50s linear infinite;
-    animation-delay: -10s;
-}
+      /* Poster rows */
+      .poster-row {
+          position: absolute;
+          height: 180px;
+          width: 300%;
+          display: flex;
+          gap: 20px;
+          align-items: center;
+          pointer-events: none;
+      }
 
-.poster-row-3 {
-    top: 50%;
-    animation: flow-left 55s linear infinite;
-    animation-delay: -20s;
-}
+      .poster-row-1 {
+          top: 10%;
+          animation: flow-left 60s linear infinite;
+      }
 
-.poster-row-4 {
-    top: 70%;
-    animation: flow-right 65s linear infinite;
-    animation-delay: -30s;
-}
+      .poster-row-2 {
+          top: 30%;
+          animation: flow-right 50s linear infinite;
+          animation-delay: -10s;
+      }
 
-/* Flow animations */
-@keyframes flow-left {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-66.67%);
-    }
-}
+      .poster-row-3 {
+          top: 50%;
+          animation: flow-left 55s linear infinite;
+          animation-delay: -20s;
+      }
 
-@keyframes flow-right {
-    0% {
-        transform: translateX(-66.67%);
-    }
-    100% {
-        transform: translateX(0);
-    }
-}
+      .poster-row-4 {
+          top: 70%;
+          animation: flow-right 65s linear infinite;
+          animation-delay: -30s;
+      }
 
-/* Individual poster styling */
-.poster-item {
-    width: 120px;
-    height: 160px;
-    border-radius: 8px;
-    flex-shrink: 0;
-    background: linear-gradient(135deg, #92400e 0%, #451a03 100%);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
+      /* Flow animations */
+      @keyframes flow-left {
+          0% {
+              transform: translateX(0);
+          }
 
-/* Poster loading state */
-.poster-item::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(45deg, #d97706, #92400e);
-    opacity: 0.8;
-    transition: opacity 0.3s ease;
-}
+          100% {
+              transform: translateX(-66.67%);
+          }
+      }
 
-/* Hide loading state when poster loads */
-.poster-item.loaded::before {
-    opacity: 0;
-}
+      @keyframes flow-right {
+          0% {
+              transform: translateX(-66.67%);
+          }
 
-/* Film grain effect */
-.poster-item::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-image: 
-        radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
-    mix-blend-mode: overlay;
-    pointer-events: none;
-    border-radius: inherit;
-}
+          100% {
+              transform: translateX(0);
+          }
+      }
 
-/* Animation classes */
-.animate-blob {
-    animation: blob 7s infinite;
-}
+      /* Individual poster styling */
+      .poster-item {
+          width: 120px;
+          height: 160px;
+          border-radius: 8px;
+          flex-shrink: 0;
+          background: linear-gradient(135deg, #92400e 0%, #451a03 100%);
+          background-size: cover;
+          background-position: center;
+          background-repeat: no-repeat;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+      }
 
-.animation-delay-2000 {
-    animation-delay: 2s;
-}
+      /* Poster loading state */
+      .poster-item::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(45deg, #d97706, #92400e);
+          opacity: 0.8;
+          transition: opacity 0.3s ease;
+      }
 
-.animation-delay-4000 {
-    animation-delay: 4s;
-}
+      /* Hide loading state when poster loads */
+      .poster-item.loaded::before {
+          opacity: 0;
+      }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .poster-row {
-        height: 120px;
-    }
-    
-    .poster-item {
-        width: 80px;
-        height: 110px;
-    }
-    
-    .poster-grid-container {
-        opacity: 0.1;
-    }
-}
-</style>
+      /* Film grain effect */
+      .poster-item::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image:
+              radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.2) 0%, transparent 50%),
+              radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+          mix-blend-mode: overlay;
+          pointer-events: none;
+          border-radius: inherit;
+      }
 
-<script src="https://unpkg.com/bowser@2.7.0/es5.js"></script> <!-- needed for plexHeaders -->
-<script>
-    // Load movie posters for flowing grid background with progressive loading
-    async function loadCinemaPosters() {
-        try {
-            const response = await fetch('/cinema-posters');
-            const posterUrls = await response.json();
-            
-            if (posterUrls && posterUrls.length > 0) {
-                const posterRows = document.querySelectorAll('.poster-row');
-                let loadQueue = [];
-                
-                // Populate each row with posters - ensure seamless repetition
-                posterRows.forEach((row, rowIndex) => {
-                    // Reduced from 25 to 20 posters per row for better performance
-                    const postersPerRow = 20; 
-                    
-                    // Create a subset of posters for this row to avoid having all rows identical
-                    const startOffset = Math.floor(rowIndex * posterUrls.length / 4);
-                    const rowPosters = [];
-                    
-                    // Fill row posters array by cycling through available posters
-                    for (let i = 0; i < postersPerRow; i++) {
-                        const posterIndex = (startOffset + i) % posterUrls.length;
-                        rowPosters.push(posterUrls[posterIndex]);
-                    }
-                    
-                    // Create poster elements immediately but load images progressively
-                    rowPosters.forEach((posterUrl, index) => {
-                        const posterItem = document.createElement('div');
-                        posterItem.className = 'poster-item';
-                        row.appendChild(posterItem);
-                        
-                        // Add to load queue with priority (visible items first)
-                        loadQueue.push({
-                            element: posterItem,
-                            url: posterUrl,
-                            priority: rowIndex < 2 ? 1 : 2  // Top 2 rows get priority
-                        });
-                    });
-                });
-                
-                // Progressive loading with batching
-                await loadPostersInBatches(loadQueue);
-                
-            } else {
-                createPlaceholderPosters();
-            }
-        } catch (error) {
-            console.warn('Failed to load cinema posters:', error);
-            createPlaceholderPosters();
-        }
-    }
-    
-    // Load posters in batches to avoid overwhelming the browser
-    async function loadPostersInBatches(loadQueue) {
-        // Sort by priority (visible items first)
-        loadQueue.sort((a, b) => a.priority - b.priority);
-        
-        const batchSize = 8; // Load 8 images at a time
-        const delay = 100; // 100ms delay between batches
-        
-        for (let i = 0; i < loadQueue.length; i += batchSize) {
-            const batch = loadQueue.slice(i, i + batchSize);
-            
-            // Load batch concurrently
-            const promises = batch.map(item => loadPosterImage(item.element, item.url));
-            await Promise.allSettled(promises);
-            
-            // Small delay before next batch
-            if (i + batchSize < loadQueue.length) {
-                await new Promise(resolve => setTimeout(resolve, delay));
-            }
-        }
-    }
-    
-    // Load individual poster with timeout
-    function loadPosterImage(element, url) {
-        return new Promise((resolve) => {
-            const img = new Image();
-            const timeout = setTimeout(() => {
-                resolve(); // Resolve anyway to continue with other images
-            }, 2000); // 2s timeout per image
-            
-            img.onload = () => {
-                clearTimeout(timeout);
-                element.style.backgroundImage = `url('${url}')`;
-                element.classList.add('loaded');
-                resolve();
-            };
-            
-            img.onerror = () => {
-                clearTimeout(timeout);
-                resolve(); // Keep default gradient background
-            };
-            
-            img.src = url;
-        });
-    }
-    
-    // Create placeholder posters fallback
-    function createPlaceholderPosters() {
-        const posterRows = document.querySelectorAll('.poster-row');
-        posterRows.forEach(row => {
-            for (let i = 0; i < 20; i++) { // Reduced from 25 to 20
-                const posterItem = document.createElement('div');
-                posterItem.className = 'poster-item';
-                row.appendChild(posterItem);
-            }
-        });
-    }
-    
-    // Load posters when page loads
-    document.addEventListener('DOMContentLoaded', loadCinemaPosters);
-</script>
-<script>
-    // nanoid package, for generating client-identifier in plexHeaders
-    let nanoid = (t = 21) => crypto.getRandomValues(new Uint8Array(t)).reduce(((t, e) => t += (e &= 63) < 36 ? e.toString(36) : e < 62 ? (e - 26).toString(36).toUpperCase() : e > 62 ? "-" : "_"), "");
+      /* Animation classes */
+      .animate-blob {
+          animation: blob 7s infinite;
+      }
 
-    // adapted from overseerr
-    async function oauth() {
-        let popup = window.open("", "Plex", 'width=600, height=700, toolbar=no, menubar=no');
-        const browser = window.bowser.getParser(window.navigator.userAgent);
-        const plexHeaders = {
-            Accept: 'application/json',
-            'X-Plex-Product': 'Wizarr',
-            'X-Plex-Version': 'Plex OAuth',
-            'X-Plex-Client-Identifier': nanoid(),
-            'X-Plex-Model': 'Plex OAuth',
-            'X-Plex-Platform': browser.getBrowserName(),
-            'X-Plex-Platform-Version': browser.getBrowserVersion(),
-            'X-Plex-Device': browser.getOSName(),
-            'X-Plex-Device-Name': `${browser.getBrowserName()} (Wizarr)`,
-            'X-Plex-Device-Screen-Resolution':
-                `${window.screen.width}x${window.screen.height}`,
-        }
-        const pin = await fetch("https://plex.tv/api/v2/pins?strong=true", {
-            method: "POST",
-            headers: plexHeaders
-        }).then(r => r.json())
+      .animation-delay-2000 {
+          animation-delay: 2s;
+      }
 
-        const params = new URLSearchParams({
-            clientID: plexHeaders['X-Plex-Client-Identifier'],
-            'context[device][product]': plexHeaders['X-Plex-Product'],
-            'context[device][version]': plexHeaders['X-Plex-Version'],
-            'context[device][platform]': plexHeaders['X-Plex-Platform'],
-            'context[device][platformVersion]':
-                plexHeaders['X-Plex-Platform-Version'],
-            'context[device][device]': plexHeaders['X-Plex-Device'],
-            'context[device][deviceName]': plexHeaders['X-Plex-Device-Name'],
-            'context[device][model]': plexHeaders['X-Plex-Model'],
-            'context[device][screenResolution]':
-                plexHeaders['X-Plex-Device-Screen-Resolution'],
-            'context[device][layout]': 'desktop',
-            code: pin.code
-        });
+      .animation-delay-4000 {
+          animation-delay: 4s;
+      }
 
-        popup.location.href = `https://app.plex.tv/auth/#!?${params}`;
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+          .poster-row {
+              height: 120px;
+          }
 
-        const authToken = await new Promise((resolve, reject) => {
-            const currentTime = Date.now()
-            const interval = setInterval(async () => {
-                if (popup.closed) return location.reload();
-                const resp = await fetch(`https://plex.tv/api/v2/pins/${pin.id}`, {
-                    headers: plexHeaders
-                }).then(r => r.json())
+          .poster-item {
+              width: 80px;
+              height: 110px;
+          }
 
-                if (resp?.errors?.length) return location.reload();
-                if (resp?.authToken) {
-                    clearInterval(interval)
-                    resolve(resp.authToken);
-                    return;
-                }
-            }, 1000)
-        });
-        document.querySelector("#token").value = authToken;
+          .poster-grid-container {
+              opacity: 0.1;
+          }
+      }
+  </style>
+  <script src="{{ url_for('static', filename='js/vendor/bowser.min.js', v=app_version) }}"></script> <!-- needed for plexHeaders -->
+  <script src="{{ url_for('static', filename='js/plex-oauth.js', v=app_version) }}"></script> <!-- defines plexOAuth* helpers used by oauth() -->
+  <script>
+      // Load movie posters for flowing grid background with progressive loading
+      async function loadCinemaPosters() {
+          try {
+              const posterCode = {{ (code or '')|tojson }};
+              const response = await fetch(posterCode ? '/cinema-posters?code=' + encodeURIComponent(posterCode) : '/cinema-posters');
+              const posterUrls = await response.json();
 
-        document.forms[0].submit();
-    }
-</script>
-{% endblock %}
+              if (posterUrls && posterUrls.length > 0) {
+                  const posterRows = document.querySelectorAll('.poster-row');
+                  let loadQueue = [];
+
+                  // Populate each row with posters - ensure seamless repetition
+                  posterRows.forEach((row, rowIndex) => {
+                      // Reduced from 25 to 20 posters per row for better performance
+                      const postersPerRow = 20;
+
+                      // Create a subset of posters for this row to avoid having all rows identical
+                      const startOffset = Math.floor(rowIndex * posterUrls.length / 4);
+                      const rowPosters = [];
+
+                      // Fill row posters array by cycling through available posters
+                      for (let i = 0; i < postersPerRow; i++) {
+                          const posterIndex = (startOffset + i) % posterUrls.length;
+                          rowPosters.push(posterUrls[posterIndex]);
+                      }
+
+                      // Create poster elements immediately but load images progressively
+                      rowPosters.forEach((posterUrl, index) => {
+                          const posterItem = document.createElement('div');
+                          posterItem.className = 'poster-item';
+                          row.appendChild(posterItem);
+
+                          // Add to load queue with priority (visible items first)
+                          loadQueue.push({
+                              element: posterItem,
+                              url: posterUrl,
+                              priority: rowIndex < 2 ? 1 : 2 // Top 2 rows get priority
+                          });
+                      });
+                  });
+
+                  // Progressive loading with batching
+                  await loadPostersInBatches(loadQueue);
+
+              } else {
+                  createPlaceholderPosters();
+              }
+          } catch (error) {
+              console.warn('Failed to load cinema posters:', error);
+              createPlaceholderPosters();
+          }
+      }
+
+      // Load posters in batches to avoid overwhelming the browser
+      async function loadPostersInBatches(loadQueue) {
+          // Sort by priority (visible items first)
+          loadQueue.sort((a, b) => a.priority - b.priority);
+
+          const batchSize = 8; // Load 8 images at a time
+          const delay = 100; // 100ms delay between batches
+
+          for (let i = 0; i < loadQueue.length; i += batchSize) {
+              const batch = loadQueue.slice(i, i + batchSize);
+
+              // Load batch concurrently
+              const promises = batch.map(item => loadPosterImage(item.element, item.url));
+              await Promise.allSettled(promises);
+
+              // Small delay before next batch
+              if (i + batchSize < loadQueue.length) {
+                  await new Promise(resolve => setTimeout(resolve, delay));
+              }
+          }
+      }
+
+      // Load individual poster with timeout
+      function loadPosterImage(element, url) {
+          return new Promise((resolve) => {
+              const img = new Image();
+              const timeout = setTimeout(() => {
+                  resolve(); // Resolve anyway to continue with other images
+              }, 2000); // 2s timeout per image
+
+              img.onload = () => {
+                  clearTimeout(timeout);
+                  element.style.backgroundImage = `url('${url}')`;
+                  element.classList.add('loaded');
+                  resolve();
+              };
+
+              img.onerror = () => {
+                  clearTimeout(timeout);
+                  resolve(); // Keep default gradient background
+              };
+
+              img.src = url;
+          });
+      }
+
+      // Create placeholder posters fallback
+      function createPlaceholderPosters() {
+          const posterRows = document.querySelectorAll('.poster-row');
+          posterRows.forEach(row => {
+              for (let i = 0; i < 20; i++) { // Reduced from 25 to 20
+                  const posterItem = document.createElement('div');
+                  posterItem.className = 'poster-item';
+                  row.appendChild(posterItem);
+              }
+          });
+      }
+
+      // Load posters when page loads
+      document.addEventListener('DOMContentLoaded', loadCinemaPosters);
+  </script>
+  <script>
+      // nanoid package, for generating client-identifier in plexHeaders
+      let nanoid = (t = 21) => crypto.getRandomValues(new Uint8Array(t)).reduce(((t, e) => t += (e &= 63) < 36 ? e.toString(36) : e < 62 ? (e - 26).toString(36).toUpperCase() : e > 62 ? "-" : "_"), "");
+
+      const PLEX_MSG = {
+          blocked: {{ _("Pop-up blocked. Allow pop-ups for this site and try again.")|tojson }},
+          cancelled: {{ _("Sign-in cancelled. Hit Join Server to try again.")|tojson }},
+          failed: {{ _("Plex sign-in failed. Try again, or contact your server admin.")|tojson }},
+      };
+
+      function showPlexError(message) {
+          const box = document.querySelector("#plex-oauth-error");
+          if (!box) return;
+          box.textContent = message;
+          box.classList.remove("hidden");
+      }
+
+      // adapted from overseerr
+      async function oauth() {
+          const errorBox = document.querySelector("#plex-oauth-error");
+          if (errorBox) errorBox.classList.add("hidden");
+
+          const popup = window.open("", "Plex", 'width=600, height=700, toolbar=no, menubar=no');
+          if (!popup) {
+              // Popup blocker. Without this the next line throws and the user
+              // is left staring at a button that appears to do nothing.
+              showPlexError(PLEX_MSG.blocked);
+              return;
+          }
+
+          const browser = window.bowser.getParser(window.navigator.userAgent);
+          const plexHeaders = {
+              Accept: 'application/json',
+              'X-Plex-Product': 'Wizarr',
+              'X-Plex-Version': 'Plex OAuth',
+              'X-Plex-Client-Identifier': nanoid(),
+              'X-Plex-Model': 'Plex OAuth',
+              'X-Plex-Platform': browser.getBrowserName(),
+              'X-Plex-Platform-Version': browser.getBrowserVersion(),
+              'X-Plex-Device': browser.getOSName(),
+              'X-Plex-Device-Name': `${browser.getBrowserName()} (Wizarr)`,
+              'X-Plex-Device-Screen-Resolution': `${window.screen.width}x${window.screen.height}`,
+          }
+          const pin = await fetch("https://plex.tv/api/v2/pins?strong=true", {
+              method: "POST",
+              headers: plexHeaders
+          }).then(r => r.json())
+
+          const params = new URLSearchParams({
+              clientID: plexHeaders['X-Plex-Client-Identifier'],
+              'context[device][product]': plexHeaders['X-Plex-Product'],
+              'context[device][version]': plexHeaders['X-Plex-Version'],
+              'context[device][platform]': plexHeaders['X-Plex-Platform'],
+              'context[device][platformVersion]': plexHeaders['X-Plex-Platform-Version'],
+              'context[device][device]': plexHeaders['X-Plex-Device'],
+              'context[device][deviceName]': plexHeaders['X-Plex-Device-Name'],
+              'context[device][model]': plexHeaders['X-Plex-Model'],
+              'context[device][screenResolution]': plexHeaders['X-Plex-Device-Screen-Resolution'],
+              'context[device][layout]': 'desktop',
+              code: pin.code,
+              // Ask Plex to send the browser back to us when it is done. On a
+              // phone the sign-in window is a whole tab, so without somewhere to
+              // return to the user is simply left on Plex's page. Path from
+              // Flask so a prefixed mount resolves, origin from the browser so
+              // it is the one the user actually arrived on.
+              forwardUrl: window.location.origin + "{{ url_for('public.plex_callback') }}"
+          });
+
+          // Everything the callback needs to finish the sign-in without us. The
+          // tab that opened it may be frozen or discarded by the time Plex comes
+          // back, which is normal on mobile.
+          plexOAuthWrite({
+              pinId: pin.id,
+              clientId: plexHeaders['X-Plex-Client-Identifier'],
+              code: document.querySelector("#code")?.value || "",
+          });
+
+          popup.location.href = `https://app.plex.tv/auth/#!?${params}`;
+
+          // The token still arrives by polling the PIN: forwardUrl returns the
+          // browser to us but carries nothing. Once we have it we are
+          // responsible for closing the popup - otherwise it sits in front of
+          // the wizard and the user never sees the next step.
+          const PIN_TIMEOUT_MS = 5 * 60 * 1000;
+
+          let authToken;
+          try {
+              authToken = await new Promise((resolve, reject) => {
+                  const deadline = Date.now() + PIN_TIMEOUT_MS;
+                  const interval = setInterval(async () => {
+                      try {
+                          const resp = await fetch(`https://plex.tv/api/v2/pins/${pin.id}`, {
+                              headers: plexHeaders
+                          }).then(r => r.json())
+
+                          if (resp?.errors?.length) {
+                              clearInterval(interval);
+                              return reject(new Error(resp.errors[0]?.message || "Plex returned an error"));
+                          }
+                          if (resp?.authToken) {
+                              clearInterval(interval);
+                              return resolve(resp.authToken);
+                          }
+                          // The callback page took over because this window
+                          // looked gone. Stand down rather than race it.
+                          if (plexOAuthRead()?.claimedBy === "callback") {
+                              clearInterval(interval);
+                              return;
+                          }
+                          // Checked *after* the poll on purpose: a user who approves
+                          // and then immediately closes the popup has still been
+                          // granted a token, and the poll above has just claimed it.
+                          if (popup.closed) {
+                              clearInterval(interval);
+                              return reject(new Error("cancelled"));
+                          }
+                          if (Date.now() > deadline) {
+                              clearInterval(interval);
+                              return reject(new Error("timed out"));
+                          }
+                      } catch (err) {
+                          clearInterval(interval);
+                          reject(err);
+                      }
+                  }, 1000)
+              });
+          } catch (err) {
+              if (!popup.closed) popup.close();
+              window.focus();
+              showPlexError(err?.message === "cancelled" ? PLEX_MSG.cancelled : PLEX_MSG.failed);
+              return;
+          }
+
+          // Only finish here if this window is the one the user is looking at.
+          // On a phone the sign-in happens in a whole tab and this invite page is
+          // a background tab the browser may still run for a while. Finishing
+          // from here would submit in a tab the user cannot see and, worse, close
+          // the callback tab they ARE looking at, which on Safari drops them onto
+          // whatever tab it surfaces next. The visible callback tab finishes
+          // instead; leave it to it.
+          if (document.visibilityState !== "visible") return;
+
+          // Only one of us may redeem the invite. If the callback page got there
+          // first it is already submitting, so leave it to finish.
+          if (!(await plexOAuthClaim("opener"))) return;
+          plexOAuthClear();
+
+          if (!popup.closed) popup.close();
+          window.focus();
+
+          document.querySelector("#token").value = authToken;
+          document.forms[0].submit();
+      }
+  </script>
+{% endblock main %}

@@ -2,7 +2,6 @@
 
 import datetime
 import logging
-from typing import Any
 
 from app.models import Library
 from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
@@ -33,16 +32,24 @@ class StandardizedPermissions:
         """Extract standardized permissions from Jellyfin/Emby policy."""
         perms = cls("jellyfin")
         perms.is_admin = policy.get("IsAdministrator", False)
-        perms.allow_downloads = policy.get("EnableContentDownloading", True)
-        perms.allow_live_tv = policy.get("EnableLiveTvAccess", True)
+        perms.allow_downloads = policy.get("EnableContentDownloading", False)
+        perms.allow_live_tv = policy.get("EnableLiveTvAccess", False)
         perms.allow_camera_upload = False  # Not supported
         return perms
 
     @classmethod
-    def for_audiobookshelf(cls, permissions: dict) -> "StandardizedPermissions":
-        """Extract standardized permissions from AudiobookShelf."""
+    def for_audiobookshelf(
+        cls, permissions: dict, user_type: str = "user"
+    ) -> "StandardizedPermissions":
+        """Extract standardized permissions from AudiobookShelf.
+
+        Args:
+            permissions: The permissions dict from the user object
+            user_type: The user type ("root", "admin", or "user")
+        """
         perms = cls("audiobookshelf")
-        perms.is_admin = permissions.get("admin", False)
+        # AudiobookShelf admin status comes from user.type, not permissions.admin
+        perms.is_admin = user_type in ("root", "admin")
         perms.allow_downloads = permissions.get("download", False)
         perms.allow_live_tv = False  # Not supported
         perms.allow_camera_upload = False  # Not supported
@@ -76,11 +83,34 @@ class LibraryAccessHelper:
 
     @staticmethod
     def create_restricted_access(
-        enabled_libraries: list[str], server_id: int
+        enabled_libraries: list[str],
+        server_id: int,
+        *,
+        library_names_by_id: dict[str, str] | None = None,
     ) -> list[UserLibraryAccess]:
-        """Create library access list for restricted users."""
+        """Create library access list for restricted users.
+
+        Give ``library_names_by_id`` ({external_id: name} for the server) when
+        you build access for many users. Then this method does no query.
+        """
         if not enabled_libraries:
             return []
+
+        if library_names_by_id is not None:
+            wanted = {str(lib_id) for lib_id in enabled_libraries}
+            matches = sorted(
+                (
+                    (name, external_id)
+                    for external_id, name in library_names_by_id.items()
+                    if str(external_id) in wanted
+                ),
+            )
+            return [
+                UserLibraryAccess(
+                    library_id=external_id, library_name=name, has_access=True
+                )
+                for name, external_id in matches
+            ]
 
         libs_q = (
             Library.query.filter(
@@ -175,7 +205,7 @@ class DateHelper:
             if timestamp > 1e10:  # Likely milliseconds
                 timestamp = timestamp / 1000
 
-            return datetime.datetime.fromtimestamp(timestamp)
+            return datetime.datetime.fromtimestamp(timestamp, tz=datetime.UTC)
         except (ValueError, OSError) as e:
             logging.warning(f"Failed to parse timestamp '{timestamp}': {e}")
             return None
@@ -187,7 +217,6 @@ def create_standardized_user_details(
     email: str | None,
     permissions: StandardizedPermissions,
     library_access: list[UserLibraryAccess] | None,
-    raw_policies: dict[str, Any],
     created_at: datetime.datetime | None = None,
     last_active: datetime.datetime | None = None,
     is_enabled: bool = True,
@@ -205,5 +234,4 @@ def create_standardized_user_details(
         allow_live_tv=permissions.allow_live_tv,
         allow_camera_upload=permissions.allow_camera_upload,
         library_access=library_access,
-        raw_policies=raw_policies,
     )

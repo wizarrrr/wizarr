@@ -19,6 +19,16 @@ class WizardStepForm(FlaskForm):
         validators=[DataRequired()],
     )
 
+    category = SelectField(
+        "Category",
+        choices=[
+            ("pre_invite", "Before Invite Acceptance"),
+            ("post_invite", "After Invite Acceptance"),
+        ],
+        default="post_invite",
+        validators=[DataRequired()],
+    )
+
     position = HiddenField("Position", default="0")
 
     title = StringField("Title", validators=[Optional()])
@@ -50,6 +60,16 @@ class WizardPresetForm(FlaskForm):
         validators=[DataRequired()],
     )
 
+    category = SelectField(
+        "Category",
+        choices=[
+            ("pre_invite", "Before Invite Acceptance"),
+            ("post_invite", "After Invite Acceptance"),
+        ],
+        default="post_invite",
+        validators=[DataRequired()],
+    )
+
     preset_id = SelectField(
         "Preset",
         choices=[],  # Will be populated dynamically
@@ -71,6 +91,16 @@ class WizardBundleForm(FlaskForm):
 
 class SimpleWizardStepForm(FlaskForm):
     """Minimal form for bundle-only steps (no server_type, no requires)."""
+
+    category = SelectField(
+        "Category",
+        choices=[
+            ("pre_invite", "Before Invite Acceptance"),
+            ("post_invite", "After Invite Acceptance"),
+        ],
+        default="post_invite",
+        validators=[DataRequired()],
+    )
 
     title = StringField("Title", validators=[Optional()])
     markdown = TextAreaField("Markdown", validators=[DataRequired()])

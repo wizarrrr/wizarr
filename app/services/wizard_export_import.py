@@ -24,6 +24,7 @@ class WizardStepDTO:
     markdown: str
     requires: list[str] | None
     require_interaction: bool = False
+    category: str = "post_invite"  # NEW: Category field for pre/post-invite distinction
 
     @classmethod
     def from_model(cls, step: WizardStep) -> WizardStepDTO:
@@ -35,6 +36,7 @@ class WizardStepDTO:
             markdown=step.markdown,
             requires=step.requires or [],
             require_interaction=bool(getattr(step, "require_interaction", False)),
+            category=getattr(step, "category", "post_invite"),  # NEW: Include category
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -46,6 +48,7 @@ class WizardStepDTO:
             "markdown": self.markdown,
             "requires": self.requires or [],
             "require_interaction": bool(self.require_interaction),
+            "category": self.category,  # NEW: Include category in export
         }
 
 
@@ -79,7 +82,7 @@ class WizardExportDTO:
 
     def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for JSON serialization."""
-        result = {
+        result: dict[str, Any] = {
             "export_date": self.export_date,
             "export_type": self.export_type,
         }
@@ -262,7 +265,7 @@ class WizardExportImportService:
 
         return errors
 
-    def _validate_step_data(self, step: dict[str, Any], index: int) -> list[str]:
+    def _validate_step_data(self, step: Any, index: int) -> list[str]:
         """Validate individual step data."""
         errors = []
 
@@ -272,11 +275,11 @@ class WizardExportImportService:
 
         # Check required fields
         required_fields = ["server_type", "position", "markdown"]
-        for required_field in required_fields:
-            if required_field not in step:
-                errors.append(
-                    f"Step {index}: missing required field '{required_field}'"
-                )
+        errors.extend(
+            f"Step {index}: missing required field '{required_field}'"
+            for required_field in required_fields
+            if required_field not in step
+        )
 
         # Validate field types
         if "server_type" in step and not isinstance(step["server_type"], str):
@@ -307,6 +310,15 @@ class WizardExportImportService:
             and not isinstance(step["require_interaction"], bool)
         ):
             errors.append(f"Step {index}: 'require_interaction' must be a boolean")
+
+        # NEW: Validate category field (optional, defaults to 'post_invite')
+        if "category" in step and step["category"] is not None:
+            if not isinstance(step["category"], str):
+                errors.append(f"Step {index}: 'category' must be a string")
+            elif step["category"] not in ["pre_invite", "post_invite"]:
+                errors.append(
+                    f"Step {index}: 'category' must be 'pre_invite' or 'post_invite'"
+                )
 
         return errors
 
@@ -414,6 +426,10 @@ class WizardExportImportService:
                                     existing_step.require_interaction = bool(
                                         step_data.get("require_interaction") or False
                                     )
+                                # NEW: Update category with backward compatibility
+                                existing_step.category = step_data.get(
+                                    "category", "post_invite"
+                                )
                                 updated_count += 1
                                 continue
 
@@ -433,12 +449,14 @@ class WizardExportImportService:
                             require_interaction=bool(
                                 step_data.get("require_interaction") or False
                             ),
+                            # NEW: Include category with backward compatibility default
+                            category=step_data.get("category", "post_invite"),
                         )
                         self.session.add(new_step)
                         imported_count += 1
 
                     except Exception as e:
-                        error_msg = f"Failed to import step for {server_type} at position {step_data['position']}: {str(e)}"
+                        error_msg = f"Failed to import step for {server_type} at position {step_data['position']}: {e!s}"
                         errors.append(error_msg)
                         self.logger.error(error_msg)
                         skipped_count += 1
@@ -462,7 +480,7 @@ class WizardExportImportService:
 
         except Exception as e:
             self.session.rollback()
-            error_msg = f"Steps import failed: {str(e)}"
+            error_msg = f"Steps import failed: {e!s}"
             self.logger.error(error_msg)
             return WizardImportResult(
                 success=False,
@@ -536,6 +554,8 @@ class WizardExportImportService:
                         require_interaction=bool(
                             step_data.get("require_interaction") or False
                         ),
+                        # NEW: Include category with backward compatibility default
+                        category=step_data.get("category", "post_invite"),
                     )
                     self.session.add(wizard_step)
                     self.session.flush()  # Get the step ID
@@ -552,7 +572,7 @@ class WizardExportImportService:
                     next_position += 1
 
                 except Exception as e:
-                    error_msg = f"Failed to import bundle step at position {bundle_position}: {str(e)}"
+                    error_msg = f"Failed to import bundle step at position {bundle_position}: {e!s}"
                     errors.append(error_msg)
                     self.logger.error(error_msg)
 
@@ -574,7 +594,7 @@ class WizardExportImportService:
 
         except Exception as e:
             self.session.rollback()
-            error_msg = f"Bundle import failed: {str(e)}"
+            error_msg = f"Bundle import failed: {e!s}"
             self.logger.error(error_msg)
             return WizardImportResult(
                 success=False,

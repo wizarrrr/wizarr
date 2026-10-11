@@ -1,423 +1,3137 @@
 # Catalan translations for PROJECT.
-# Copyright (C) 2023 ORGANIZATION
+# Copyright (C) 2025 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2025-07-22 14:06+0000\n"
-"Last-Translator: DoeJoohn <oorca@tuta.io>\n"
-"Language-Team: Catalan <https://hosted.weblate.org/projects/wizarr/"
-"wizarr-universal/ca/>\n"
+"POT-Creation-Date: 2026-10-11 10:00+0000\n"
+"PO-Revision-Date: 2026-09-08 08:05+0000\n"
+"Last-Translator: Kisnov <gabrielmarfil0@gmail.com>\n"
+"Language-Team: Catalan <https://hosted.weblate.org/projects/wizarr/wizarr-"
+"universal/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 2026.9.1\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/auth/routes.py:44
-#, fuzzy
-msgid "Invalid username or password"
-msgstr "Nom d'usuari o contrassenya incorrecte"
+msgid "Failed to load settings"
+msgstr "Error en carregar la configuració"
 
-#: app/blueprints/settings/routes.py:131
+msgid "Failed to load dashboard data"
+msgstr "Error en carregar les dades del panell"
+
+msgid "Failed to load history data"
+msgstr "Error en carregar les dades de l'historial"
+
+msgid "Failed to load activity data"
+msgstr "Error en carregar les dades d'activitat"
+
+msgid "Failed to load activity summary"
+msgstr "Error en carregar el resum d'activitat"
+
+msgid "Failed to get activity statistics"
+msgstr "Error en obtenir les estadístiques d'activitat"
+
+msgid "Database not available"
+msgstr "La base de dades no està disponible"
+
+msgid "Failed to get session details"
+msgstr "Error en obtenir els detalls de la sessió"
+
+msgid "Failed to export activity data"
+msgstr "Error en l'exportació de les dades d'activitat"
+
+msgid "enabled"
+msgstr "activat"
+
+msgid "disabled"
+msgstr "desactivat"
+
+#, python-brace-format
+msgid "Activity tracking is {state}. The change can take up to 15 seconds."
+msgstr ""
+"El seguiment d'activitat està {state}. El canvi pot trigar fins a 15 segons."
+
+msgid "Monitoring restarted"
+msgstr "S'ha reiniciat el monitoreig"
+
+msgid "Monitor not available"
+msgstr "Monitor no disponible"
+
+#, python-brace-format
+msgid "Cleaned up {} old activity records"
+msgstr "S'han netejat {} registres d'activitat antiga"
+
+#, python-brace-format
+msgid "Ended {} stale sessions"
+msgstr "Finalitzades {} sessions obsoletes"
+
+msgid "Unknown action"
+msgstr "Acció desconeguda"
+
+msgid "Failed to update settings"
+msgstr "Error en actualitzar paràmetres"
+
+#, python-brace-format
+msgid "Activity data has been successfully deleted ({} records)."
+msgstr "Les dades de l'activitat s'han eliminat correctament ({} registres)."
+
+#, python-brace-format
+msgid "Failed to delete activity data: {}"
+msgstr "Error en esborrar les dades d'activitat: {}"
+
+msgid "Please select a media server."
+msgstr "Si us plau, selecciona un servidor multimèdia."
+
+msgid "Media server not found."
+msgstr "Servidor de multimedia no trobat."
+
+msgid ""
+"Historical data import is currently only supported for Plex, Jellyfin, Emby, "
+"and AudiobookShelf servers."
+msgstr ""
+"La importació de dades històriques només és compatible amb els servidors "
+"Plex, Jellyfin, Emby i AudiobookShelf."
+
+#, python-brace-format
+msgid ""
+"Historical import job #{job_id} started for {server} (last {days} days)."
+msgstr ""
+"La tasca d'importació històrica #{job_id} va començar per {server} (últims "
+"{days} dies)."
+
+#, python-brace-format
+msgid "Failed to import historical data: {}"
+msgstr "Error en importar dades històriques: {}"
+
+#, python-brace-format
+msgid "Successfully cleared {} historical entries."
+msgstr "S'han esborrat {} entrades històriques."
+
+#, python-brace-format
+msgid "Failed to clear historical data: {}"
+msgstr "No s'han pogut esborrar les dades històriques: {}"
+
+msgid "Unknown error"
+msgstr "Error desconegut"
+
+msgid "Cannot remove a job that is still queued or running."
+msgstr "No es pot eliminar una tasca que encara esta en cua o executant-se."
+
+msgid "An internal error has occurred."
+msgstr "S'ha produït un error intern."
+
+msgid "Unknown"
+msgstr "Desconegut"
+
+msgid "Never"
+msgstr "Mai"
+
+msgid "Expired"
+msgstr "Caducat"
+
+#, python-format
+msgid "in %(n)d d"
+msgstr "en %(n)d d"
+
+msgid "in 1 d"
+msgstr "en 1 d"
+
+#, python-format
+msgid "in %(n)d h"
+msgstr "en %(n)d h"
+
+#, python-format
+msgid "in %(n)d m"
+msgstr "en %(n)d m"
+
+msgid "soon"
+msgstr "aviat"
+
+msgid "Admin created"
+msgstr "Admin creat"
+
+msgid "Admin updated"
+msgstr "Admin actualitzat"
+
+#, python-brace-format
+msgid "All passkeys for {} have been reset"
+msgstr "Totes les contrassenyes per {} han estat reiniciades"
+
+#, python-brace-format
+msgid "Failed to reset passkeys for {}"
+msgstr "Error en restablir contrassenyes per a {}"
+
+msgid ""
+"No admin account found. Please set up a proper admin account before creating "
+"API keys."
+msgstr ""
+"No s'ha trobat cap compte administratiu. Si us plau, configureu un compte "
+"d'admin abans de crear claus API."
+
+msgid "Failed to create API key due to a database error."
+msgstr ""
+"No s'ha pogut crear la clau d'API a causa d'un error de la base de dades."
+
+msgid ""
+"API key created successfully. Please copy it now as it won't be shown again."
+msgstr ""
+"Clau d'API creada correctament. Copia-la ara, ja que no es tornarà a mostrar."
+
+msgid "API key deleted successfully"
+msgstr "Clau d'API eliminada correctament"
+
+msgid "LDAP authentication is not enabled"
+msgstr "Autenticació LDAP no habilitada"
+
+msgid "LDAP admin authentication is not allowed"
+msgstr "L'autenticació d'admin LDAP no esta permesa"
+
+msgid "Invalid LDAP credentials"
+msgstr "Credencials LDAP invàlids"
+
+msgid "User DN not found in LDAP response"
+msgstr "DN d'usuari no trobat en la resposta de LDAP"
+
+msgid "User is not authorized as an administrator"
+msgstr "Usuario no està autoritzat com a administrador"
+
+msgid "Login successful"
+msgstr "Inici de sessió satisfactori"
+
+msgid "LDAP authentication failed"
+msgstr "Error en l'autenticació LDAP"
+
+msgid "Sign in through Cloudflare Access to reach the admin pages."
+msgstr ""
+
+msgid "Invalid username or password"
+msgstr "Nom d'usuari o contrasenya incorrectes"
+
+msgid "No pending 2FA authentication"
+msgstr "No hi ha autenticació 2FA pendent"
+
+msgid "Authentication failed"
+msgstr "Error en l'autenticació"
+
+msgid "Connection type is required"
+msgstr "Es requereix un tipus de connexió"
+
+#, python-format
+msgid "Connection test failed: %(message)s"
+msgstr "La prova de connexió ha fallat: %(message)s"
+
+msgid "Connection test successful!"
+msgstr "La prova de connexió ha estat correcta!"
+
+msgid "Unknown connection type"
+msgstr "Tipus de connexió desconegut"
+
+msgid "Connection created successfully!"
+msgstr "Connexió creada amb èxit!"
+
+msgid "Connection updated successfully!"
+msgstr "Connexió actualitzada amb èxit!"
+
+msgid "Connection deleted successfully!"
+msgstr "Connexió esborrada correctament!"
+
+msgid "Please refresh the page and try again (CSRF token expired)"
+msgstr ""
+"Si us plau, actualitzeu la pàgina i torneu a provar (token CSRF expirat)"
+
+#, python-format
+msgid "Invalid form data: %(errors)s"
+msgstr "Dades del formulari invàlids: %(errors)s"
+
+msgid ""
+"There was an issue setting up your access. Please contact your server admin."
+msgstr ""
+"Hi ha hagut un problema per configurar el teu accés. Contacta "
+"l'administrador del servidor."
+
+msgid "Settings saved successfully!"
+msgstr "Configuració guardada amb èxit!"
+
+msgid "Server URL"
+msgstr "URL del servidor"
+
+msgid "API Key"
+msgstr "Clau API"
+
+msgid "Username/Password"
+msgstr "Nom d'usuari / contrasenya"
+
+#, python-brace-format
+msgid "Missing required fields: {fields}"
+msgstr "Falten camps requerits: {fields}"
+
+msgid "Error"
+msgstr "Error"
+
 msgid "Library scan failed"
 msgstr "Error en l'escaneig de la biblioteca"
 
-#: app/templates/admin.html:5
-msgid "Admin"
-msgstr "Administrador"
+#, python-brace-format
+msgid "Successfully cleaned {count} expired user(s)."
+msgstr "S'han netejat {count} usuari(s) caducats."
 
-#: app/templates/admin.html:31
-msgid "Home"
-msgstr "Inici"
+msgid "No expired users found to clean."
+msgstr "No s'han trobat usuaris caducats."
 
-#: app/templates/admin.html:36
-msgid "Invitations"
-msgstr "Invitacions"
+msgid ""
+"Are you sure you want to clean all expired users? This action cannot be "
+"undone."
+msgstr ""
+"Estàs segur que vols netejar tots els usuaris caducats? Aquesta acció no es "
+"pot desfer."
 
-#: app/templates/admin.html:41
-msgid "Users"
-msgstr "Usuaris"
+msgid "Clean Expired Users"
+msgstr "Netejar usuaris caducats"
 
-#: app/templates/admin.html:46 app/templates/settings/index.html:3
-msgid "Settings"
-msgstr "Configuració"
+#, python-brace-format
+msgid "Failed to clean expired users: {error}"
+msgstr "Error en netejar usuaris caducats: {error}"
 
-#: app/templates/invalid-invite.html:16
-msgid "Invalid Invitation"
-msgstr "Invitació no vàlida"
+msgid "LDAP configuration saved successfully"
+msgstr "Configuració LDAP guardada amb èxit"
 
-#: app/templates/login.html:18
-msgid "Login"
-msgstr "Iniciar sessió"
+msgid "LDAP not configured or disabled"
+msgstr "LDAP no configurat o desactivat"
 
-#: app/templates/login.html:23 app/templates/welcome-jellyfin.html:30
+msgid "No groups found in LDAP"
+msgstr "No hi ha grups trobats a LDAP"
+
+msgid "LDAP is not configured"
+msgstr "LDAP no està configurat"
+
+#, python-format
+msgid "Failed to list LDAP users: %(error)s"
+msgstr "Error per llistar usuaris LDAP: %(error)s"
+
+msgid "Admin account created – welcome!"
+msgstr "Compte d'aministrador creat- benvingut!"
+
+msgid ""
+"Your invitation has expired or is no longer valid. Please request a new "
+"invitation."
+msgstr ""
+"La teva invitació ha caducat o ja no és vàlida. Sol·licita una nova "
+"invitació."
+
+msgid "Error Loading Step"
+msgstr "Error en carregar l'etapa"
+
+msgid ""
+"This step could not be loaded. Please contact the administrator or skip to "
+"the next step."
+msgstr ""
+"Aquesta etapa no s'ha pogut carregar. Contacta amb l'administrador o salta a "
+"la següent etapa."
+
+msgid "Invalid or expired invitation"
+msgstr "Invitació invàlida o caducada"
+
+msgid ""
+"No media servers are configured. Please contact the administrator to set up "
+"a media server."
+msgstr ""
+"No s'han configurat els servidors multimèdia. Si us plau, poseu-vos en "
+"contacte amb l'administrador per configurar un servidor de mitjans."
+
+msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
+msgstr ""
+"No s'han pogut carregar els passos de l'assistent. Anar a acceptació "
+"d'invitació."
+
+msgid "Continue to Invite"
+msgstr "Continua per convidar"
+
+msgid "Please log in to continue"
+msgstr "Inicia sessió per continuar"
+
+msgid ""
+"Unable to load wizard steps. Setup complete! Welcome to your media server."
+msgstr ""
+"No s'han pogut carregar els passos de l'assistent. Configuració completa! "
+"Benvingut al teu servidor de media."
+
+msgid "Setup complete! Welcome to your media server."
+msgstr "Configuració completa! Benvingut al teu servidor de media."
+
+msgid "Unable to load wizard configuration. Please try again."
+msgstr ""
+"No s'ha pogut carregar la configuració de l'assistent. Si us plau, intenti-"
+"ho novament."
+
+msgid "Unable to load wizard bundle. Please try again."
+msgstr ""
+"No es pot carregar el paquet de l'assistent. Si us plau, intenti-ho novament."
+
+msgid "Unable to load wizard steps. Please try again."
+msgstr ""
+"No s'han pogut carregar els passos de l'assistent. Si us plau, intenti-ho "
+"novament."
+
+msgid "This bundle has no steps to preview."
+msgstr "Aquest paquet no té etapes per a la previsualització."
+
+#, python-brace-format
+msgid "Cleaned up {} orphaned step(s)"
+msgstr "S'han netejat {} etapes òrfenes"
+
+msgid "Step created"
+msgstr "Etapa creada"
+
+msgid "Preset step created successfully"
+msgstr "Etapa preestablerta creada amb èxit"
+
+#, python-brace-format
+msgid "Error creating preset: {}"
+msgstr "Error de creació d'etapa preestablerta: {}"
+
+msgid "Step updated"
+msgstr "Etapa actualitzada"
+
+msgid "Step deleted"
+msgstr "Etapa eliminada"
+
+msgid "Bundle created"
+msgstr "Paquet creat"
+
+msgid "Bundle updated"
+msgstr "Paquet actualitzat"
+
+msgid "Bundle deleted"
+msgstr "Paquet eliminat"
+
+msgid "Steps added"
+msgstr "Etapes afegides"
+
+msgid "Orphaned step removed"
+msgstr "Etapa òrfena eliminada"
+
+#, python-brace-format
+msgid "No steps found for server type: {}"
+msgstr "No s'ha trobat cap etapa per al tipus de servidor següent: {}"
+
+#, python-brace-format
+msgid "Export failed: {}"
+msgstr "Exportació fallida: {}"
+
+#, python-brace-format
+msgid "Successfully imported {} items"
+msgstr "Importació amb èxit de {} articles"
+
+#, python-brace-format
+msgid " and updated {} existing items"
+msgstr " i s'han actualitzat {} elements existents"
+
+#, python-brace-format
+msgid "Import failed: {}"
+msgstr "Ha fallat la importació: {}"
+
+msgid "Invalid JSON file"
+msgstr "Fitxer JSON no vàlid"
+
+#, python-brace-format
+msgid "Reset {} steps for {} (deleted {}, imported {})"
+msgstr "S'han restablert {} etapes de {} ({} suprimides, {} importades)"
+
+#, python-brace-format
+msgid "Failed to reset steps: {}"
+msgstr "No s'han pogut restablir les etapes: {}"
+
+msgid "Password must be at least 8 characters."
+msgstr "La contrasenya ha de tenir com a mínim 8 caràcters."
+
+msgid ""
+"Password must contain at least one uppercase letter, one lowercase letter, "
+"and one number."
+msgstr ""
+"La contrasenya ha de contenir com a mínim una lletra majúscula, una "
+"minúscula i un número."
+
 msgid "Username"
 msgstr "Nom d'usuari"
 
-#: app/templates/login.html:29 app/templates/welcome-jellyfin.html:47
 msgid "Password"
-msgstr "Contrassenya"
+msgstr "Contrasenya"
 
-#: app/templates/login.html:41
+msgid "Confirm password"
+msgstr "Confirma la contrasenya"
+
+msgid "Passwords must match."
+msgstr "Les contrasenyes han de coincidir."
+
+msgid "New Password"
+msgstr "Contrasenya nova"
+
+msgid "Please confirm the new password."
+msgstr "Confirma la contrasenya nova."
+
+msgid "Server Type"
+msgstr "Tipus de servidor"
+
+msgid "Server Name"
+msgstr "Nom del servidor"
+
+msgid "RomM Username"
+msgstr "Nom d'usuari de RomM"
+
+msgid "RomM Password"
+msgstr "Contrasenya de RomM"
+
+msgid "Libraries"
+msgstr "Biblioteques"
+
+msgid "Allow Downloads"
+msgstr "Permet les baixades"
+
+msgid "Allow Live TV"
+msgstr "Permet la TV en directe"
+
+msgid "Overseerr/Ombi URL"
+msgstr "URL d'Overseerr/Ombi"
+
+msgid "Ombi API Key"
+msgstr "Clau API d'Ombi"
+
+msgid "Discord ID"
+msgstr "ID de Discord"
+
+msgid "External URL"
+msgstr "URL extern"
+
+#, python-format
+msgid "Server returned status code %(status_code)s"
+msgstr "El servidor ha retornat el codi d'estat %(status_code)s"
+
+#, python-format
+msgid "%(server_type)s server returned an error: %(error)s"
+msgstr "El servidor %(server_type)s ha retornat un error: %(error)s"
+
+#, python-format
+msgid ""
+"Could not connect to the %(server_type)s server. Please check if the server "
+"is running and the URL is correct."
+msgstr ""
+"No s'ha pogut connectar al servidor %(server_type)s. Comprova que el "
+"servidor s'estigui executant i que l'URL sigui correcte."
+
+#, python-format
+msgid ""
+"Connection to %(server_type)s server timed out. Please check if the server "
+"is running and accessible."
+msgstr ""
+"S'ha esgotat el temps de connexió al servidor %(server_type)s. Comprova que "
+"el servidor s'estigui executant i que hi puguis accedir."
+
+#, python-format
+msgid ""
+"An error occurred while connecting to the %(server_type)s server: %(error)s"
+msgstr ""
+"S'ha produït un error en connectar al servidor %(server_type)s: %(error)s"
+
+#, python-format
+msgid ""
+"An unexpected error occurred while connecting to the %(server_type)s server: "
+"%(error)s"
+msgstr ""
+"S'ha produït un error inesperat en connectar al servidor %(server_type)s: "
+"%(error)s"
+
+msgid "Plex"
+msgstr "Plex"
+
+msgid "Jellyfin"
+msgstr "Jellyfin"
+
+msgid "Emby"
+msgstr "Emby"
+
+msgid "Audiobookshelf"
+msgstr "Audiobookshelf"
+
+msgid "RomM"
+msgstr "RomM"
+
+msgid "Komga"
+msgstr "Komga"
+
+msgid "Kavita"
+msgstr "Kavita"
+
+msgid "Navidrome"
+msgstr "Navidrome"
+
+msgid "Invalid API token or insufficient permissions."
+msgstr "Token API invàlid o permisos insuficients."
+
+msgid "API token lacks required permissions."
+msgstr "El token d'API no té permisos necessaris."
+
+msgid "Could not connect to Drop server."
+msgstr "No s'ha pogut connectar al servidor Drop."
+
+msgid "Connection to Drop server timed out."
+msgstr "S'ha esgotat el temps de connexió al servidor Drop."
+
+msgid "Drop API not found. Check the server URL."
+msgstr "API de Drop no trobada. Comproveu l'URL del servidor."
+
+msgid "Drop"
+msgstr "Drop"
+
+#, python-brace-format
+msgid "No default steps found for server type: {}"
+msgstr ""
+"No s'ha trobat cap etapa predeterminada per al tipus de servidor següent: {}"
+
+msgid "Admin"
+msgstr "Administrador"
+
+msgid "Profile"
+msgstr "Perfil"
+
+msgid "Logout"
+msgstr "Sortir"
+
+msgid "Complete your access"
+msgstr "Completa el teu accés"
+
+msgid "Choose a password for the remaining servers"
+msgstr "Tria una contrasenya pels servidors restants"
+
+msgid "Confirm Password"
+msgstr "Confirma la contrasenya"
+
+msgid "Generate a strong random password instead"
+msgstr "Generar una contrasenya aleatòria segura"
+
+msgid "Continue"
+msgstr "Continuar"
+
+msgid "Complete your account setup for local servers"
+msgstr "Completa la configuració del teu compte pels servidors locals"
+
+msgid "Complete Your Account Setup"
+msgstr "Completa la configuració del compte"
+
+msgid "Plex Authentication Complete!"
+msgstr "Autenticació de Plex Completa!"
+
+msgid "Now please set a password for your local server accounts."
+msgstr ""
+"Ara, si us plau, estableix una contrasenya per als teus comptes del servidor "
+"local."
+
+msgid "Local Servers"
+msgstr "Servidors locals"
+
+msgid "Set Password for Local Servers"
+msgstr "Estableix una contrasenya pels servidors locals"
+
+msgid "Error!"
+msgstr "Error!"
+
+msgid "Your username"
+msgstr "El teu nom d'usuari"
+
+msgid "Email Address"
+msgstr "Adreça de Correu electrònic"
+
+msgid "your.email@example.com"
+msgstr "el teu.correu@exemple.com"
+
+msgid "Your password"
+msgstr "La teva contrasenya"
+
+msgid "Confirm your password"
+msgstr "Confirmar la contrasenya"
+
+msgid "I agree to the"
+msgstr "Accepto els"
+
+msgid "Terms and Conditions"
+msgstr "Termes i condicions"
+
+msgid "Complete Setup"
+msgstr "Completa la configuració"
+
+msgid "Setting up..."
+msgstr "S'està configurant..."
+
+msgid "What happens next?"
+msgstr "Què passarà ara?"
+
+msgid "Your Plex account is already set up and ready to use"
+msgstr "El teu compte de Plex ja està configurat i a punt"
+
+msgid "This password will be used to create accounts on your local servers"
+msgstr ""
+"Aquesta contrasenya s'utilitzarà per crear comptes als teus servidors locals"
+
+msgid "You'll be redirected to the setup wizard to complete configuration"
+msgstr "Se't redirigirà a l'auxiliar de configuració per acabar-la"
+
+msgid "Only want to use Plex?"
+msgstr "Només vols fer servir Plex?"
+
+msgid "Skip local servers"
+msgstr "Omet els servidors locals"
+
+msgid "Password too short"
+msgstr "La contrasenya és massa curta"
+
+msgid "Password strength: Medium"
+msgstr "Seguretat de la contrasenya: mitjana"
+
+msgid "Password strength: Strong"
+msgstr "Seguretat de la contrasenya: alta"
+
+msgid "Passwords do not match"
+msgstr "Les contrasenyes no coincideixen"
+
+msgid "Wizarr"
+msgstr "Wizarr"
+
+msgid "Invalid Invitation"
+msgstr "Invitació no vàlida"
+
+msgid ""
+"This invitation link is no longer valid. Please request a new invitation."
+msgstr ""
+"Aquest enllaç d'invitació ja no és vàlid. Sol·licita una invitació nova."
+
+msgid "Two-Factor Authentication"
+msgstr "Autenticació de dos factors"
+
+msgid "Login"
+msgstr "Iniciar sessió"
+
+msgid "This is the administrator login page."
+msgstr "Aquesta és la pàgina d'inici de sessió de l'administrador."
+
+msgid "Go to your media server instead"
+msgstr "Ves al teu servidor multimèdia"
+
+#, python-brace-format
+msgid "Welcome back, {}!"
+msgstr "Ben tornat, {}!"
+
+msgid "Please authenticate with your passkey to complete login."
+msgstr "Autentica't amb la teva clau d'accés per completar l'inici de sessió."
+
+msgid "Authentication Method"
+msgstr "Mètode d'autenticació"
+
+msgid "Local Account"
+msgstr "Compte local"
+
+msgid "LDAP"
+msgstr "LDAP"
+
 msgid "Remember me"
 msgstr "Recorda'm"
 
-#: app/templates/login.html:46
 msgid "Sign in"
 msgstr "Registrar-se"
 
-#: app/templates/settings.html:13
-msgid "Server settings"
-msgstr "Configuració del servidor"
+msgid "Authenticate with Passkey"
+msgstr "Autentica't amb la clau d'accés"
 
-#: app/templates/settings.html:22
-msgid "Notification agents"
-msgstr "Agents de notificació"
+msgid "Back to Login"
+msgstr "Torna a l'inici de sessió"
 
-#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
-#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
+msgid "Or"
+msgstr "O"
+
+msgid "Sign in with Passkey"
+msgstr "Inicia la sessió amb una clau d'accés"
+
+msgid "Authenticating..."
+msgstr "S'està autenticant..."
+
+msgid "Failed to complete 2FA login"
+msgstr "No s'ha pogut completar l'inici de sessió amb 2FA"
+
+msgid "Passkey authentication failed. Please try again or use your password."
+msgstr ""
+"Ha fallat l'autenticació amb clau d'accés. Torna-ho a provar o fes servir la "
+"contrasenya."
+
+msgid "Password Reset Error"
+msgstr "Error en restablir la contrasenya"
+
+msgid "Error:"
+msgstr "Error:"
+
+msgid "This password reset link is invalid."
+msgstr "Aquest enllaç de restabliment de contrasenya no és vàlid."
+
+msgid "This password reset link has already been used."
+msgstr "Aquest enllaç de restabliment de contrasenya ja s'ha utilitzat."
+
+msgid "This password reset link has expired."
+msgstr "Aquest enllaç de restabliment de contrasenya ha caducat."
+
+msgid "This password reset link is malformed."
+msgstr "Aquest enllaç de restabliment de contrasenya està mal format."
+
+msgid "This password reset link is no longer valid."
+msgstr "Aquest enllaç de restabliment de contrasenya ja no és vàlid."
+
+msgid ""
+"Please contact your server administrator to request a new password reset "
+"link."
+msgstr ""
+"Contacta amb l'administrador del servidor per demanar un enllaç nou de "
+"restabliment de contrasenya."
+
+msgid "Code:"
+msgstr "Codi:"
+
+msgid "Common reasons for this error:"
+msgstr "Motius habituals d'aquest error:"
+
+msgid "The link has already been used"
+msgstr "L'enllaç ja s'ha utilitzat"
+
+msgid "The link has expired (24 hour limit)"
+msgstr "L'enllaç ha caducat (límit de 24 hores)"
+
+msgid "The link was not copied correctly"
+msgstr "L'enllaç no s'ha copiat correctament"
+
+msgid "Reset Your Password"
+msgstr "Restableix la teva contrasenya"
+
+msgid "Choose a new password"
+msgstr "Tria una contrasenya nova"
+
+msgid "For user:"
+msgstr "Per a l'usuari:"
+
+msgid "This link expires on"
+msgstr "Aquest enllaç caduca el"
+
+msgid "Enter new password (8-128 characters)"
+msgstr "Introdueix la contrasenya nova (8-128 caràcters)"
+
+msgid "Confirm new password"
+msgstr "Confirma la contrasenya nova"
+
+msgid "Password must be:"
+msgstr "La contrasenya ha de ser:"
+
+msgid "Between 8 and 128 characters"
+msgstr "Entre 8 i 128 caràcters"
+
+msgid "Match the confirmation"
+msgstr "Ha de coincidir amb la confirmació"
+
+msgid "Reset Password"
+msgstr "Restableix la contrasenya"
+
+msgid "Password Reset Successful!"
+msgstr "S'ha restablert la contrasenya!"
+
+msgid "The password for"
+msgstr "La contrasenya de"
+
+msgid "has been successfully reset."
+msgstr "s'ha restablert correctament."
+
+msgid "You can now use your new password to log in to your media server."
+msgstr ""
+"Ja pots fer servir la contrasenya nova per iniciar la sessió al teu servidor "
+"multimèdia."
+
+msgid "What's next?"
+msgstr "I ara què?"
+
+msgid "Log in to your media server with your username and new password."
+msgstr ""
+"Inicia la sessió al teu servidor multimèdia amb el teu nom d'usuari i la "
+"contrasenya nova."
+
+msgid "Signing you in"
+msgstr ""
+
+msgid "Finishing up with Plex. This only takes a moment."
+msgstr ""
+
+msgid "Back to your invitation"
+msgstr ""
+
+msgid "Nothing to finish"
+msgstr ""
+
+msgid "Open your invitation link again to sign in with Plex."
+msgstr ""
+
+msgid "All set"
+msgstr ""
+
+msgid "Taking you to the next step..."
+msgstr ""
+
+msgid "Sign-in failed"
+msgstr ""
+
+msgid "That took too long"
+msgstr ""
+
+msgid "We did not hear back from Plex. Please try signing in again."
+msgstr ""
+
+msgid "Administrator"
+msgstr "Administrador"
+
+msgid "Change your account password for security."
+msgstr "Canvia la contrasenya del teu compte per seguretat."
+
+msgid "Current Password"
+msgstr "Contrasenya actual"
+
+msgid "Confirm New Password"
+msgstr "Confirma la contrasenya nova"
+
+msgid "Change Password"
+msgstr "Canvia la contrasenya"
+
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "T'han convidat a unir-te al servidor %(name)s!"
 
-#: app/templates/user-plex-login.html:23
-msgid "Join the Plex Server"
-msgstr "Uneix-te al servidor de Plex"
+msgid "You've been invited!"
+msgstr "T'han convidat!"
 
-#: app/templates/tables/user_card.html:57 app/templates/user-plex-login.html:29
-#: app/templates/user-plex-login.html:40
-msgid "Invite Code"
+msgid "To join"
+msgstr "Per unir-te"
+
+msgid "Join the ultimate media server experience."
+msgstr "Uneix-te a la millor experiència de servidor multimèdia."
+
+msgid "Enter Code to Continue"
+msgstr "Introdueix el codi per continuar"
+
+msgid "Invitation Code"
 msgstr "Codi d'invitació"
 
-#: app/templates/user-plex-login.html:45
-msgid "Oops!"
-msgstr "Vaja!"
+msgid "Enter your code"
+msgstr "Introdueix el teu codi"
 
-#: app/templates/user-plex-login.html:52
-msgid "Join"
-msgstr "Uneix-te"
+msgid "Join Server"
+msgstr "Uneix-te al servidor"
 
-#: app/templates/users.html:5
+msgid "Secure invitation system powered by Wizarr"
+msgstr "Sistema d'invitacions segur amb la tecnologia de Wizarr"
+
+msgid "Pop-up blocked. Allow pop-ups for this site and try again."
+msgstr ""
+"S'ha bloquejat la finestra emergent. Permet les finestres emergents en "
+"aquest lloc i torna-ho a provar."
+
+msgid "Sign-in cancelled. Hit Join Server to try again."
+msgstr ""
+"S'ha cancel·lat l'inici de sessió. Prem «Uneix-te al servidor» per tornar-ho "
+"a provar."
+
+msgid "Plex sign-in failed. Try again, or contact your server admin."
+msgstr ""
+"Ha fallat l'inici de sessió amb Plex. Torna-ho a provar o contacta amb "
+"l'administrador del servidor."
+
 msgid "Invite User"
 msgstr "Convidar l'usuari"
 
-#: app/templates/welcome-jellyfin.html:22
-msgid "Set up Account"
-msgstr "Crea un Compte"
+msgid "Accept Invitation"
+msgstr "Accepta la invitació"
 
-#: app/templates/welcome-jellyfin.html:38
+msgid "Get ready to join the magic"
+msgstr "Prepara't per unir-te a la màgia"
+
+msgid "Create Account"
+msgstr "Crea un compte"
+
+msgid "Set up your magical account"
+msgstr "Configura el teu compte màgic"
+
+msgid "Enter your username"
+msgstr "Introdueix el teu nom d'usuari"
+
 msgid "Email"
 msgstr "Correu electrònic"
 
-#: app/templates/welcome-jellyfin.html:55
-msgid ""
-"Confirm\n"
-"                                password"
-msgstr ""
-"Confirma\n"
-"la contrassenya"
+msgid "Enter your email"
+msgstr "Introdueix el teu correu electrònic"
 
-#: app/templates/welcome-jellyfin.html:63
-msgid ""
-"Invite\n"
-"                                Code"
-msgstr ""
-"Codi\n"
-"d'invitació"
+msgid "Create a password"
+msgstr "Crea una contrasenya"
 
-#: app/templates/setup/admin_account.html:58
-#: app/templates/welcome-jellyfin.html:72
-msgid "Create an account"
-msgstr "Crea un compte"
+msgid "Invite Code"
+msgstr "Codi d'invitació"
 
-#: app/templates/admin/invite.html:6
-msgid "Quick Invite"
-msgstr "Invitació ràpida"
+msgid "Enter invite code"
+msgstr "Introdueix el codi d'invitació"
 
-#: app/templates/admin/invite.html:12
-msgid "Invite user"
-msgstr "Convidar l'usuari"
+msgid "Creating account..."
+msgstr "S'està creant el compte..."
 
-#: app/templates/admin/invite.html:18
-msgid "Invite Code String"
-msgstr "Convida cadena de codi"
+msgid "Latest Accepted Invites"
+msgstr "Últimes invitacions acceptades"
 
-#: app/templates/admin/invite.html:19
-msgid "(optional)"
-msgstr "(opcional)"
+msgid "Recently joined"
+msgstr "S'hi han unit recentment"
 
-#: app/templates/admin/invite.html:26
-msgid "Expiration"
-msgstr "Expiració"
+msgid "Showing"
+msgstr "Es mostren"
 
-#: app/templates/admin/invite.html:29
-msgid "1 day"
-msgstr "1 dia"
+msgid "of"
+msgstr "de"
 
-#: app/templates/admin/invite.html:30
-msgid "1 week"
-msgstr "1 setmana"
-
-#: app/templates/admin/invite.html:31
-msgid "1 month"
-msgstr "1 mes"
-
-#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
-#: app/templates/tables/user_card.html:46
-msgid "Never"
-msgstr "Mai"
-
-#: app/templates/admin/invite.html:37
-msgid "Advanced Options"
-msgstr "Opcions avançades"
-
-#: app/templates/admin/invite.html:45
-msgid "Unlimited Usages"
-msgstr "Usos il·limitats"
-
-#: app/templates/admin/invite.html:53
-msgid "Invite to Plex Home"
-msgstr "Convida a Plex Home"
-
-#: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
-#: app/templates/tables/invite_card.html:86
-msgid "Duration"
-msgstr "Duració"
-
-#: app/templates/admin/invite.html:63
-msgid "(in days)"
-msgstr "(en dies)"
-
-#: app/templates/admin/invite.html:74
-msgid "Show Information"
-msgstr "Mostra informació"
-
-#: app/templates/admin/invite.html:80
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a\n"
-"                                        number of\n"
-"                                        days. (1-999)"
-msgstr ""
-"Quan configurat, els usuaris convidats seran eliminats del servidor de "
-"Plex després d'un\n"
-"nombre de\n"
-"dies. (1-999)"
-
-#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
-#: app/templates/tables/user_card.html:67
-msgid "Allow Downloads"
-msgstr "Permet les baixades"
-
-#: app/templates/admin/invite.html:102
-msgid ""
-"Specific\n"
-"                                Libraries"
-msgstr ""
-"Biblioteques\n"
-"específiques"
-
-#: app/templates/admin/invite.html:111
-#: app/templates/settings/partials/server_form.html:87
-msgid "Scan For Libraries"
-msgstr "Busca biblioteques"
-
-#: app/templates/admin/invite.html:119
-msgid "Create Invitation"
-msgstr "Crear Invitació"
-
-#: app/templates/admin/invite.html:126
-msgid "Successfully generated an Invitation!"
-msgstr "S'ha generat una invitació correctament!"
-
-#: app/templates/admin/invite.html:131
-msgid "Link has been copied to clipboard!"
-msgstr "L'enllaç s'ha copiat al porta-retalls!"
-
-#: app/templates/admin/invite.html:139
-msgid "Back"
-msgstr "Enrere"
-
-#: app/templates/admin/invite.html:144
-msgid "Share"
-msgstr "Compartir"
-
-#: app/templates/admin/user_modal.html:17
-msgid "Edit expiry"
-msgstr "Edita la caducitat"
-
-#: app/templates/admin/user_modal.html:27
-msgid "Expiry date (leave blank for never)"
-msgstr "Data de caducitat (deixa en blanc si no caduca mai)"
-
-#: app/templates/admin/user_modal.html:41
-#: app/templates/modals/create-notification-agent.html:85
-msgid "Cancel"
-msgstr "Cancel·la"
-
-#: app/templates/admin/user_modal.html:48
-#: app/templates/settings/partials/server_form.html:132
-msgid "Save"
-msgstr "Guardar"
-
-#: app/templates/error/401.html:20
-msgid "Permission denied."
-msgstr "Permís denegat."
-
-#: app/templates/error/401.html:23
-msgid "You are attempting to do something you shouldn't be doing..."
-msgstr "Estàs intentant fer alguna cosa que no hauries de fer..."
-
-#: app/templates/error/404.html:19
-msgid "Something's missing."
-msgstr "Falta alguna cosa."
-
-#: app/templates/error/404.html:21
-msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Ho sentim, no podem trobar aquesta pàgina. Sembla que no existeix!"
-
-#: app/templates/error/500.html:19
-msgid "Internal Server Error."
-msgstr "Error del servidor intern."
-
-#: app/templates/error/500.html:21
-msgid " Something has gone wrong. Please try again later."
-msgstr " Alguna cosa ha anat malament. Si us plau, intenta-ho més tard."
-
-#: app/templates/modals/create-notification-agent.html:31
-msgid "New Agent"
-msgstr "Nou agent"
-
-#: app/templates/modals/create-notification-agent.html:60
-msgid ""
-"Username\n"
-"                                (optional)"
-msgstr "Usuari (Opcional)"
-
-#: app/templates/modals/create-notification-agent.html:65
-msgid "Password (optional)"
-msgstr "Contrassenya (opcional)"
-
-#: app/templates/modals/create-notification-agent.html:70
-#, fuzzy
-msgid ""
-"Agent\n"
-"                                URL"
-msgstr ""
-"Codi\n"
-"d'invitació"
-
-#: app/templates/modals/create-notification-agent.html:81
-msgid "Test & Create Agent"
-msgstr "Prova i crea agent"
-
-#: app/templates/settings/index.html:24
-#, fuzzy
-msgid "Server"
-msgstr "Mai"
-
-#: app/templates/settings/index.html:39
-#, fuzzy
-msgid "Notifications"
-msgstr "Invitacions"
-
-#: app/templates/settings/notifications.html:11
-msgid "Notification Agents"
-msgstr "Agents de notificació"
-
-#: app/templates/settings/notifications.html:27
-#, fuzzy
-msgid "Delete"
-msgstr "Predeterminat"
-
-#: app/templates/settings/notifications.html:37
-#, fuzzy
-msgid "Create Agent"
-msgstr "Crea un compte"
-
-#: app/templates/settings/partials/server_form.html:13
-#, fuzzy
-msgid "Server Settings"
-msgstr "Configuració del servidor"
-
-#: app/templates/settings/partials/server_form.html:103
-#: app/templates/settings/partials/server_form.html:111
-#: app/templates/settings/partials/server_form.html:120
-msgid "Optional, leave empty to disable"
-msgstr "Opcional, deixa-ho buit per desactivar"
-
-#: app/templates/setup/admin_account.html:14
-msgid "Setup Wizarr"
-msgstr "Configurar Wizarr"
-
-#: app/templates/tables/invite_card.html:3
-msgid "There are currently no invitations."
-msgstr "Actualment no hi ha cap invitació."
-
-#: app/templates/tables/invite_card.html:16
-msgid "Available"
-msgstr "Disponible"
-
-#: app/templates/tables/invite_card.html:23
-#: app/templates/tables/invite_card.html:51
-msgid "Used"
-msgstr "Utilitzat"
-
-#: app/templates/tables/invite_card.html:36
-msgid "Created"
-msgstr "Creat"
-
-#: app/templates/tables/invite_card.html:44
-#: app/templates/tables/user_card.html:39
-msgid "Expires"
-msgstr "Expira"
-
-#: app/templates/tables/invite_card.html:47
-msgid "Expired"
-msgstr "Caducat"
-
-#: app/templates/tables/invite_card.html:70
-msgid "Libraries"
-msgstr "Biblioteques"
-
-#: app/templates/tables/invite_card.html:75
-msgid "Default"
-msgstr "Predeterminat"
-
-#: app/templates/tables/invite_card.html:86
-#, fuzzy
-msgid "days"
-msgstr "1 dia"
-
-#: app/templates/tables/invite_card.html:106
-msgid "Unlimited"
-msgstr "Il·limitat"
-
-#: app/templates/tables/user_card.html:3
-msgid "There are currently no users."
-msgstr "Actualment no hi ha cap usuari."
-
-#: app/templates/tables/user_card.html:26
-#, fuzzy
-msgid "Home User"
-msgstr "Inici"
-
-#: app/templates/wizard/frame.html:34
-msgid "Previous"
+msgid "Prev"
 msgstr "Anterior"
 
-#: app/templates/wizard/frame.html:42
+msgid "Page"
+msgstr "Pàgina"
+
 msgid "Next"
 msgstr "Següent"
 
-#~ msgid "Accept Invitation"
-#~ msgstr "Accepta la invitació"
+msgid "No recent invitations accepted"
+msgstr "No s'ha acceptat cap invitació recentment"
+
+msgid "Accepted invitations will appear here"
+msgstr "Les invitacions acceptades apareixeran aquí"
+
+msgid "Dashboard"
+msgstr "Tauler"
+
+msgid "New Invite"
+msgstr "Invitació nova"
+
+msgid "Now Playing"
+msgstr "S'està reproduint"
+
+msgid "Invitations"
+msgstr "Invitacions"
+
+msgid "Library Breakdown"
+msgstr "Desglossament de la biblioteca"
+
+msgid "Per Server"
+msgstr "Per servidor"
+
+msgid "No libraries found"
+msgstr "No s'ha trobat cap biblioteca"
+
+msgid "Configure your media servers to see library statistics"
+msgstr ""
+"Configura els teus servidors multimèdia per veure les estadístiques de la "
+"biblioteca"
+
+msgid "Failed to load libraries"
+msgstr "No s'han pogut carregar les biblioteques"
+
+msgid "Unknown error occurred"
+msgstr "S'ha produït un error desconegut"
+
+msgid "Unable to load now playing"
+msgstr "No s'ha pogut carregar el que s'està reproduint"
+
+msgid "There was an error connecting to your media servers"
+msgstr "S'ha produït un error en connectar amb els teus servidors multimèdia"
+
+msgid "No one is streaming"
+msgstr "No hi ha ningú reproduint res"
+
+msgid "No active media sessions found across your servers"
+msgstr "No s'ha trobat cap sessió multimèdia activa als teus servidors"
+
+msgid "Recently Added"
+msgstr "Afegit recentment"
+
+msgid "Showing latest 10 items"
+msgstr "Es mostren els 10 elements més recents"
+
+msgid "No recent content found"
+msgstr "No s'ha trobat contingut recent"
+
+msgid "Add some content to your media servers to see it here"
+msgstr "Afegeix contingut als teus servidors multimèdia per veure'l aquí"
+
+msgid "Failed to load recent content"
+msgstr "No s'ha pogut carregar el contingut recent"
+
+msgid "Server Health"
+msgstr "Estat del servidor"
+
+msgid "Online"
+msgstr "En línia"
+
+msgid "Offline"
+msgstr "Fora de línia"
+
+msgid "Active"
+msgstr "Actiu"
+
+msgid "Transcoding"
+msgstr "Transcodificació"
+
+msgid "Users"
+msgstr "Usuaris"
+
+msgid "Active Sessions"
+msgstr "Sessions actives"
+
+msgid "Server is currently unreachable"
+msgstr "Ara mateix no es pot accedir al servidor"
+
+msgid "servers online"
+msgstr "servidors en línia"
+
+msgid "server(s) need attention"
+msgstr "servidor(s) requereixen atenció"
+
+msgid "No servers configured"
+msgstr "No hi ha cap servidor configurat"
+
+msgid "Add media servers to monitor their health"
+msgstr "Afegeix servidors multimèdia per supervisar-ne l'estat"
+
+msgid "Failed to load server health"
+msgstr "No s'ha pogut carregar l'estat del servidor"
+
+msgid "Server Overview"
+msgstr "Resum del servidor"
+
+msgid "Items"
+msgstr "Elements"
+
+msgid "Server Breakdown"
+msgstr "Desglossament per servidor"
+
+msgid "No active servers found"
+msgstr "No s'ha trobat cap servidor actiu"
+
+msgid "Failed to load statistics"
+msgstr "No s'han pogut carregar les estadístiques"
+
+msgid "User Details"
+msgstr "Detalls de l'usuari"
+
+msgid "Joined"
+msgstr "S'hi va unir"
+
+msgid "Account Details"
+msgstr "Detalls del compte"
+
+msgid "Expires"
+msgstr "Expira"
+
+msgid "All libraries"
+msgstr "Totes les biblioteques"
+
+msgid "Permissions"
+msgstr "Permisos"
+
+msgid "Downloads"
+msgstr "Baixades"
+
+msgid "Live TV"
+msgstr "TV en directe"
+
+msgid "Camera Upload"
+msgstr "Pujada des de la càmera"
+
+msgid "Basic Access"
+msgstr "Accés bàsic"
+
+msgid "Close"
+msgstr "Tanca"
+
+msgid "Edit User"
+msgstr "Edita l'usuari"
+
+msgid "Close modal"
+msgstr "Tanca la finestra"
+
+msgid "Tabs"
+msgstr "Pestanyes"
+
+msgid "Local"
+msgstr "Local"
+
+msgid "Notes"
+msgstr "Notes"
+
+msgid "Permission Management"
+msgstr "Gestió de permisos"
+
+msgid "Toggle downloads permission"
+msgstr "Activa o desactiva el permís de baixades"
+
+msgid "Toggle live TV permission"
+msgstr "Activa o desactiva el permís de TV en directe"
+
+msgid "Allow Camera Upload"
+msgstr "Permet la pujada des de la càmera"
+
+msgid "Toggle camera upload permission"
+msgstr "Activa o desactiva el permís de pujada des de la càmera"
+
+msgid "Library Access"
+msgstr "Accés a la biblioteca"
+
+msgid "No libraries available"
+msgstr "No hi ha cap biblioteca disponible"
+
+msgid "Scan libraries from the invitation page to enable library restrictions"
+msgstr ""
+"Escaneja les biblioteques des de la pàgina d'invitació per activar les "
+"restriccions de biblioteca"
+
+msgid "Click to toggle library access. Updates save automatically."
+msgstr ""
+"Fes clic per activar o desactivar l'accés a la biblioteca. Els canvis es "
+"desen automàticament."
+
+msgid "Expiry Management"
+msgstr "Gestió de la caducitat"
+
+msgid "Expiry date"
+msgstr "Data de caducitat"
+
+msgid "Update"
+msgstr "Actualitza"
+
+msgid "Current expiry"
+msgstr "Caducitat actual"
+
+msgid "No expiry set"
+msgstr "Sense caducitat"
+
+msgid "User notes"
+msgstr "Notes de l'usuari"
+
+msgid "Add notes about this user..."
+msgstr "Afegeix notes sobre aquest usuari..."
+
+msgid "Update Notes"
+msgstr "Actualitza les notes"
+
+msgid "Link"
+msgstr "Enllaç"
+
+msgid "Unlink"
+msgstr "Desenllaça"
+
+msgid "Delete"
+msgstr "Suprimeix"
+
+#, python-brace-format
+msgid "Passkeys for {}"
+msgstr "Claus d'accés de {}"
+
+msgid "Created"
+msgstr "Creat"
+
+msgid "Last used"
+msgstr "Últim ús"
+
+msgid "Reset All Passkeys"
+msgstr "Restableix totes les claus d'accés"
+
+msgid "No passkeys registered for this user."
+msgstr "Aquest usuari no té cap clau d'accés registrada."
+
+msgid "Are you sure you want to delete this passkey?"
+msgstr "Segur que vols suprimir aquesta clau d'accés?"
+
+msgid "Failed to delete passkey"
+msgstr "No s'ha pogut suprimir la clau d'accés"
+
+msgid "An error occurred while deleting the passkey"
+msgstr "S'ha produït un error en suprimir la clau d'accés"
+
+#, python-brace-format
+msgid "Are you sure you want to reset ALL passkeys for {}?"
+msgstr "Segur que vols restablir TOTES les claus d'accés de {}?"
+
+msgid "This action cannot be undone."
+msgstr "Aquesta acció no es pot desfer."
+
+msgid "All passkeys have been reset"
+msgstr "S'han restablert totes les claus d'accés"
+
+msgid "Failed to reset passkeys"
+msgstr "No s'han pogut restablir les claus d'accés"
+
+msgid "An error occurred while resetting passkeys"
+msgstr "S'ha produït un error en restablir les claus d'accés"
+
+msgid "Add New Passkey"
+msgstr "Afegeix una clau d'accés"
+
+msgid "Passkey Name"
+msgstr "Nom de la clau d'accés"
+
+msgid "e.g., My iPhone, Work Laptop"
+msgstr "p. ex., el meu iPhone, portàtil de la feina"
+
+msgid "Cancel"
+msgstr "Cancel·la"
+
+msgid "Create Passkey"
+msgstr "Crea una clau d'accés"
+
+msgid "Added"
+msgstr "Afegida"
+
+msgid "No passkeys registered"
+msgstr "No hi ha cap clau d'accés registrada"
+
+msgid "Add your first passkey for enhanced security"
+msgstr "Afegeix la teva primera clau d'accés per millorar la seguretat"
+
+msgid "Passkeys"
+msgstr "Claus d'accés"
+
+msgid "Passkeys require HTTPS connection"
+msgstr "Les claus d'accés requereixen una connexió HTTPS"
+
+msgid "Add Passkey"
+msgstr "Afegeix una clau d'accés"
+
+msgid "To use passkeys, please access this page over HTTPS."
+msgstr ""
+"Per utilitzar les claus d'accés, accedeix a aquesta pàgina mitjançant HTTPS."
+
+msgid "Manage your passkeys for passwordless authentication."
+msgstr ""
+"Gestiona les teves claus d'accés per a l'autenticació sense contrasenya."
+
+msgid "Loading passkeys..."
+msgstr "S'estan carregant les claus d'accés..."
+
+msgid "Creating passkey for"
+msgstr "S'està creant la clau d'accés per a"
+
+msgid "Please follow your device's prompts to complete setup"
+msgstr ""
+"Segueix les indicacions del teu dispositiu per completar la configuració"
+
+msgid "Failed to register passkey"
+msgstr "No s'ha pogut registrar la clau d'accés"
+
+msgid "Failed to complete passkey registration"
+msgstr "No s'ha pogut completar el registre de la clau d'accés"
+
+msgid "Permission denied."
+msgstr "Permís denegat."
+
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr "Estàs intentant fer alguna cosa que no hauries de fer..."
+
+msgid "Something's missing."
+msgstr "Falta alguna cosa."
+
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr "Ho sentim, no podem trobar aquesta pàgina. Sembla que no existeix!"
+
+msgid "Internal Server Error."
+msgstr "Error del servidor intern."
+
+msgid " Something has gone wrong. Please try again later."
+msgstr " Alguna cosa ha anat malament. Si us plau, intenta-ho més tard."
+
+msgid "Add steps to bundle"
+msgstr "Afegeix etapes al paquet"
+
+msgid "Untitled"
+msgstr "Sense títol"
+
+msgid "All steps are already included."
+msgstr "Ja hi són totes les etapes."
+
+msgid "Add"
+msgstr "Afegeix"
+
+msgid "Add New Connection"
+msgstr "Afegeix una connexió"
+
+msgid "Edit Connection"
+msgstr "Edita la connexió"
+
+msgid "Overseerr/Jellyseerr Information"
+msgstr "Informació d'Overseerr/Jellyseerr"
+
+msgid ""
+"Overseerr and Jellyseerr create an account the first time someone signs in, "
+"so by default an invited user has no account there until they visit and log "
+"in themselves."
+msgstr ""
+
+msgid ""
+"Set the Service URL and turn on account creation below, and Wizarr signs "
+"them in during the invite so their account exists before they arrive. This "
+"uses the service's own sign-in route rather than an API key, so it needs "
+"'Enable New Plex Sign-In' under its Settings → Users."
+msgstr ""
+
+msgid ""
+"Must be https if the service has CSRF protection enabled, which sets its "
+"cookies Secure."
+msgstr ""
+
+msgid "Testing connection..."
+msgstr "S'està provant la connexió..."
+
+msgid "Create Connection"
+msgstr "Crea una connexió"
+
+msgid "Update Connection"
+msgstr "Actualitza la connexió"
+
+msgid "Test Connection"
+msgstr "Prova la connexió"
+
+msgid "Add Administrator"
+msgstr "Afegeix un administrador"
+
+msgid "API Key Created"
+msgstr "Clau API creada"
+
+msgid "Create API Key"
+msgstr "Crea una clau API"
+
+msgid "API Key Created Successfully"
+msgstr "Clau API creada correctament"
+
+msgid ""
+"Your API key has been created. Please copy it now as it will not be shown "
+"again."
+msgstr ""
+"S'ha creat la teva clau API. Copia-la ara, perquè no es tornarà a mostrar."
+
+msgid "Copy to clipboard"
+msgstr "Copia al porta-retalls"
+
+msgid "Name:"
+msgstr "Nom:"
+
+msgid "Done"
+msgstr "Fet"
+
+msgid "API Key Name"
+msgstr "Nom de la clau API"
+
+msgid "Enter a descriptive name to help you identify this API key later."
+msgstr ""
+"Introdueix un nom descriptiu que t'ajudi a identificar aquesta clau API més "
+"endavant."
+
+msgid "New Agent"
+msgstr "Nou agent"
+
+msgid "Channel ID"
+msgstr "ID del canal"
+
+msgid "Bot Token"
+msgstr "Testimoni del bot"
+
+msgid "Chat ID"
+msgstr "ID del xat"
+
+msgid "Username (optional)"
+msgstr "Nom d'usuari (opcional)"
+
+msgid "Password (optional)"
+msgstr "Contrasenya (opcional)"
+
+msgid "Agent URL"
+msgstr "URL de l'agent"
+
+msgid "Notification Events"
+msgstr "Esdeveniments de notificació"
+
+msgid "User Joined"
+msgstr "S'hi ha unit un usuari"
+
+msgid "Update Available"
+msgstr "Actualització disponible"
+
+msgid "Test & Create Agent"
+msgstr "Prova i crea agent"
+
+msgid "Add Server"
+msgstr "Afegeix un servidor"
+
+msgid "Test & Add"
+msgstr "Prova i afegeix"
+
+msgid "Edit Administrator"
+msgstr "Edita l'administrador"
+
+msgid "New Password (optional)"
+msgstr "Contrasenya nova (opcional)"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Edit Identity"
+msgstr "Edita la identitat"
+
+msgid "Nickname"
+msgstr "Àlies"
+
+msgid "Edit Agent"
+msgstr "Edita l'agent"
+
+msgid "Name"
+msgstr "Nom"
+
+msgid "Notification Service"
+msgstr "Servei de notificacions"
+
+msgid "Test & Save Changes"
+msgstr "Prova i guarda els canvis"
+
+msgid "Edit Server"
+msgstr "Edita el servidor"
+
+msgid "Create Invitation"
+msgstr "Crear Invitació"
+
+msgid "Invitation Created"
+msgstr "Invitació creada"
+
+msgid "Invite Code String"
+msgstr "Convida cadena de codi"
+
+msgid "optional"
+msgstr "opcional"
+
+msgid "E.g. XMFGEJIKNQ"
+msgstr "P. ex. XMFGEJIKNQ"
+
+msgid "Expiration"
+msgstr "Expiració"
+
+msgid "1 day"
+msgstr "1 dia"
+
+msgid "1 week"
+msgstr "1 setmana"
+
+msgid "1 month"
+msgstr "1 mes"
+
+msgid "Wizard bundle"
+msgstr "Paquet de l'auxiliar"
+
+msgid "Automatic"
+msgstr "Automàtic"
+
+msgid "Advanced Options"
+msgstr "Opcions avançades"
+
+msgid "Invite Settings"
+msgstr "Configuració de la invitació"
+
+msgid "Unlimited Usages"
+msgstr "Usos il·limitats"
+
+msgid "Duration"
+msgstr "Duració"
+
+msgid "in days"
+msgstr "en dies"
+
+msgid "Show Information"
+msgstr "Mostra informació"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"Si s'estableix, els usuaris convidats s'eliminaran del servidor de Plex al "
+"cap d'uns quants dies. (1-999)"
+
+msgid "LDAP Integration"
+msgstr "Integració amb LDAP"
+
+msgid "Create LDAP User"
+msgstr "Crea un usuari LDAP"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr "Crea automàticament un usuari LDAP quan s'accepti aquesta invitació"
+
+msgid "Target servers"
+msgstr "Servidors de destinació"
+
+msgid "Invite to Plex Home"
+msgstr "Convida a Plex Home"
+
+msgid "Allow Live TV Access"
+msgstr "Permet l'accés a la TV en directe"
+
+msgid "Allow Mobile Uploads"
+msgstr "Permet les pujades des del mòbil"
+
+msgid "Max Active Sessions"
+msgstr "Sessions actives màximes"
+
+msgid "simultaneous devices"
+msgstr "dispositius simultanis"
+
+msgid ""
+"Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgstr ""
+"Nombre de dispositius que poden reproduir alhora. Posa 0 per il·limitat."
+
+msgid "Select Libraries"
+msgstr "Selecciona les biblioteques"
+
+msgid "Loading…"
+msgstr "S'està carregant…"
+
+msgid "Successfully generated an Invitation!"
+msgstr "S'ha generat una invitació correctament!"
+
+msgid "Invitation Link"
+msgstr "Enllaç de la invitació"
+
+msgid "Copy"
+msgstr "Copia"
+
+msgid "Link has been copied to clipboard!"
+msgstr "L'enllaç s'ha copiat al porta-retalls!"
+
+msgid "Create Another"
+msgstr "Crea'n una altra"
+
+msgid "Please select at least one server for the invitation."
+msgstr "Selecciona com a mínim un servidor per a la invitació."
+
+msgid "Password Reset Link"
+msgstr "Enllaç de restabliment de contrasenya"
+
+msgid "Generate Password Reset Link"
+msgstr "Genera un enllaç de restabliment de contrasenya"
+
+msgid "Password reset link for"
+msgstr "Enllaç de restabliment de contrasenya per a"
+
+msgid "Link expires:"
+msgstr "L'enllaç caduca:"
+
+msgid "Reset Link (Click to copy)"
+msgstr "Enllaç de restabliment (fes clic per copiar)"
+
+msgid ""
+"Send this link to the user. They can use it once to reset their password."
+msgstr ""
+"Envia aquest enllaç a l'usuari. El pot fer servir un sol cop per restablir "
+"la contrasenya."
+
+msgid "Reset Code"
+msgstr "Codi de restabliment"
+
+msgid "Security Notes:"
+msgstr "Notes de seguretat:"
+
+msgid "This link can only be used once"
+msgstr "Aquest enllaç només es pot fer servir un cop"
+
+msgid "It expires in 24 hours"
+msgstr "Caduca al cap de 24 hores"
+
+msgid "Send it securely (email, message, etc.)"
+msgstr "Envia'l de manera segura (correu, missatge, etc.)"
+
+msgid "Generate a secure password reset link for"
+msgstr "Genera un enllaç segur de restabliment de contrasenya per a"
+
+msgid "Generate Reset Link"
+msgstr "Genera l'enllaç de restabliment"
+
+msgid "The link will be valid for 24 hours and can only be used once."
+msgstr "L'enllaç serà vàlid durant 24 hores i només es pot fer servir un cop."
+
+msgid "Copy Link"
+msgstr "Copia l'enllaç"
+
+msgid "Copied!"
+msgstr "Copiat!"
+
+msgid "Reset link copied to clipboard!"
+msgstr "L'enllaç de restabliment s'ha copiat al porta-retalls!"
+
+msgid "Please manually copy the link"
+msgstr "Copia l'enllaç manualment"
+
+msgid "Import Wizard Steps"
+msgstr "Importa les etapes de l'auxiliar"
+
+msgid "Click to upload"
+msgstr "Fes clic per pujar"
+
+msgid "or drag and drop"
+msgstr "o arrossega-hi el fitxer"
+
+msgid "JSON files only"
+msgstr "Només fitxers JSON"
+
+msgid "Import Options"
+msgstr "Opcions d'importació"
+
+msgid ""
+"When checked, existing steps will be replaced. When unchecked, imported "
+"steps will be merged with existing ones."
+msgstr ""
+"Si està marcat, les etapes existents se substituiran. Si no, les etapes "
+"importades es combinaran amb les existents."
+
+msgid "Important Notice"
+msgstr "Avís important"
+
+msgid ""
+"This action will modify your wizard steps configuration. Make sure to backup "
+"your current steps before importing if you want to preserve them."
+msgstr ""
+"Aquesta acció modificarà la configuració de les etapes de l'auxiliar. Fes "
+"una còpia de seguretat de les etapes actuals abans d'importar si les vols "
+"conservar."
+
+msgid "Import Steps"
+msgstr "Importa les etapes"
+
+msgid "Add Preset Wizard Step"
+msgstr "Afegeix una etapa predefinida de l'auxiliar"
+
+msgid "Choose when this step should be shown to users"
+msgstr "Tria quan s'ha de mostrar aquesta etapa als usuaris"
+
+msgid "Your Discord server ID"
+msgstr "L'ID del teu servidor de Discord"
+
+msgid "URL to your Overseerr/Ombi instance"
+msgstr "URL de la teva instància d'Overseerr/Ombi"
+
+msgid "Create Step"
+msgstr "Crea una etapa"
+
+msgid "Add..."
+msgstr "Afegeix..."
+
+msgid "Widgets"
+msgstr "Widgets"
+
+msgid "Recently Added Media"
+msgstr "Contingut afegit recentment"
+
+msgid "Show recent content"
+msgstr "Mostra el contingut recent"
+
+msgid "Button"
+msgstr "Botó"
+
+msgid "Add a clickable link button"
+msgstr "Afegeix un botó d'enllaç clicable"
+
+msgid "Elements"
+msgstr "Elements"
+
+msgid "Card"
+msgstr "Targeta"
+
+msgid "Add a styled content card"
+msgstr "Afegeix una targeta de contingut amb estil"
+
+msgid "Delete API Key"
+msgstr "Suprimeix la clau API"
+
+msgid "No API keys"
+msgstr "Cap clau API"
+
+msgid "Get started by creating a new API key."
+msgstr "Comença creant una clau API nova."
+
+msgid "Media Servers"
+msgstr "Servidors multimèdia"
+
+msgid "Type"
+msgstr "Tipus"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Verified"
+msgstr "Verificat"
+
+msgid "Actions"
+msgstr "Accions"
+
+msgid "Edit"
+msgstr "Edita"
+
+msgid "Delete this server?"
+msgstr "Vols suprimir aquest servidor?"
+
+msgid "No servers configured yet."
+msgstr "Encara no hi ha cap servidor configurat."
+
+msgid "Administrators"
+msgstr "Administradors"
+
+msgid "Manage Passkeys"
+msgstr "Gestiona les claus d'accés"
+
+msgid "No administrators yet."
+msgstr "Encara no hi ha cap administrador."
+
+msgid "Add Admin"
+msgstr "Afegeix un administrador"
+
+msgid "API Keys"
+msgstr "Claus API"
+
+msgid "Connections"
+msgstr "Connexions"
+
+msgid "Manage external service connections for automated user invitations"
+msgstr ""
+"Gestiona les connexions amb serveis externs per a invitacions d'usuari "
+"automatitzades"
+
+msgid "Add Connection"
+msgstr "Afegeix una connexió"
+
+msgid "Connection Name"
+msgstr "Nom de la connexió"
+
+msgid "Media Server"
+msgstr "Servidor multimèdia"
+
+msgid "Overseerr"
+msgstr ""
+
+msgid "Overseerr (Info)"
+msgstr "Seerr (Info)"
+
+msgid "Ombi"
+msgstr "Ombi"
+
+msgid "Audiobookrequest"
+msgstr "Audiobookrequest"
+
+msgid "Auto-import enabled"
+msgstr "Importació automàtica activada"
+
+msgid "Are you sure you want to delete this connection?"
+msgstr "Segur que vols suprimir aquesta connexió?"
+
+msgid "No connections configured"
+msgstr "No hi ha cap connexió configurada"
+
+msgid ""
+"Connect your external services to automate user invitations when invites are "
+"created for specific media servers."
+msgstr ""
+"Connecta els teus serveis externs per automatitzar les invitacions d'usuari "
+"quan es creïn invitacions per a servidors multimèdia concrets."
+
+msgid "Add Your First Connection"
+msgstr "Afegeix la teva primera connexió"
+
+msgid "General Settings"
+msgstr "Configuració general"
+
+msgid "Configure your application's basic settings and preferences"
+msgstr "Configura els paràmetres bàsics i les preferències de l'aplicació"
+
+msgid "Version"
+msgstr "Versió"
+
+msgid "Display"
+msgstr "Visualització"
+
+msgid "Configure how your application appears to users"
+msgstr "Configura com veuen l'aplicació els usuaris"
+
+msgid ""
+"Which server's posters fill the background of the public join page. 'The "
+"server the invite is for' shows nothing without a valid invite."
+msgstr ""
+
+msgid "Access Control"
+msgstr "Control d'accés"
+
+msgid "Manage user access and permissions"
+msgstr "Gestiona l'accés i els permisos dels usuaris"
+
+msgid "Control access to the wizard setup process"
+msgstr "Controla l'accés al procés de configuració de l'auxiliar"
+
+msgid "User Management"
+msgstr "Gestió d'usuaris"
+
+msgid "Configure how users are managed when invitations expire"
+msgstr "Configura com es gestionen els usuaris quan caduquen les invitacions"
+
+msgid "Server Capabilities"
+msgstr "Capacitats del servidor"
+
+msgid "Supports Disable:"
+msgstr "Admet la desactivació:"
+
+msgid "Delete Only:"
+msgstr "Només supressió:"
+
+msgid ""
+"If 'Disable User' is selected but the server does not support it, the user "
+"will be deleted instead."
+msgstr ""
+"Si se selecciona «Desactiva l'usuari» però el servidor no ho admet, l'usuari "
+"se suprimirà."
+
+msgid "Choose what happens to users when their invitation expires"
+msgstr "Tria què passa amb els usuaris quan caduca la seva invitació"
+
+msgid "Immediately process all expired users based on the expiry action above"
+msgstr ""
+"Processa immediatament tots els usuaris caducats segons l'acció de caducitat "
+"de dalt"
+
+msgid "API Key Management"
+msgstr "Gestió de claus API"
+
+msgid "Manage API keys for accessing Wizarr programmatically"
+msgstr "Gestiona les claus API per accedir a Wizarr de manera programàtica"
+
+msgid "Your API Keys"
+msgstr "Les teves claus API"
+
+msgid "Create and manage API keys for external applications"
+msgstr "Crea i gestiona claus API per a aplicacions externes"
+
+msgid "Loading API keys..."
+msgstr "S'estan carregant les claus API..."
+
+msgid "Save Settings"
+msgstr "Guarda la configuració"
+
+msgid "Settings"
+msgstr "Configuració"
+
+msgid "Manage your application settings and preferences"
+msgstr "Gestiona la configuració i les preferències de l'aplicació"
+
+msgid "General"
+msgstr "General"
+
+msgid "Alerts"
+msgstr "Alertes"
+
+msgid "Servers"
+msgstr "Servidors"
+
+msgid "Activity"
+msgstr "Activitat"
+
+msgid "Admins"
+msgstr "Administradors"
+
+msgid "Wizard"
+msgstr "Auxiliar"
+
+msgid "Audit"
+msgstr "Auditoria"
+
+msgid "LDAP Settings"
+msgstr "Configuració d'LDAP"
+
+msgid "Experimental"
+msgstr "Experimental"
+
+msgid "Configure LDAP for user authentication and management"
+msgstr "Configura LDAP per a l'autenticació i la gestió d'usuaris"
+
+msgid "Enable LDAP"
+msgstr "Activa LDAP"
+
+msgid "Turn on LDAP integration"
+msgstr "Activa la integració amb LDAP"
+
+msgid "Connection"
+msgstr "Connexió"
+
+msgid "LDAP server connection"
+msgstr "Connexió amb el servidor LDAP"
+
+msgid "e.g., ldap://server:3890 or ldaps://server:6360"
+msgstr "p. ex., ldap://servidor:3890 o ldaps://servidor:6360"
+
+msgid "Use TLS"
+msgstr "Utilitza TLS"
+
+msgid "Verify Cert"
+msgstr "Verifica el certificat"
+
+msgid "Encrypted before storage"
+msgstr "S'encripta abans de desar-se"
+
+msgid "User & Group Settings"
+msgstr "Configuració d'usuaris i grups"
+
+msgid "Where to find users and groups"
+msgstr "On trobar els usuaris i els grups"
+
+msgid "Optional - only needed for admin group restriction"
+msgstr "Opcional: només cal per restringir el grup d'administradors"
+
+msgid "Sync Groups"
+msgstr "Sincronitza els grups"
+
+msgid "Sync LDAP groups to populate admin group selection"
+msgstr ""
+"Sincronitza els grups LDAP per omplir la selecció del grup d'administradors"
+
+msgid "Advanced Settings"
+msgstr "Configuració avançada"
+
+msgid ""
+"Defaults are optimized for LLDAP. Only change if using a different LDAP "
+"server."
+msgstr ""
+"Els valors predeterminats estan optimitzats per a LLDAP. Canvia'ls només si "
+"fas servir un altre servidor LDAP."
+
+msgid "Manage all users - both LDAP and local authentication"
+msgstr ""
+"Gestiona tots els usuaris, tant els d'LDAP com els d'autenticació local"
+
+msgid "Sync from LDAP"
+msgstr "Sincronitza des d'LDAP"
+
+msgid ""
+"Users can authenticate via LDAP or locally. Sync automatically imports new "
+"users from LDAP."
+msgstr ""
+"Els usuaris es poden autenticar per LDAP o localment. La sincronització "
+"importa automàticament els usuaris nous d'LDAP."
+
+msgid "Admin Authentication"
+msgstr "Autenticació d'administrador"
+
+msgid "Allow administrators to log in using LDAP"
+msgstr "Permet que els administradors iniciïn la sessió amb LDAP"
+
+msgid "Allow Admin Login via LDAP"
+msgstr "Permet l'inici de sessió d'administrador per LDAP"
+
+msgid "Enable admin login using LDAP credentials"
+msgstr "Activa l'inici de sessió d'administrador amb credencials LDAP"
+
+msgid "Optional: Restrict admin access to members of this LDAP group"
+msgstr ""
+"Opcional: restringeix l'accés d'administrador als membres d'aquest grup LDAP"
+
+msgid "Notification Agents"
+msgstr "Agents de notificació"
+
+msgid "Configure notification services to alert you about important events"
+msgstr ""
+"Configura els serveis de notificació per rebre avisos d'esdeveniments "
+"importants"
+
+msgid "Add Agent"
+msgstr "Afegeix un agent"
+
+msgid "Edit agent"
+msgstr "Edita l'agent"
+
+msgid "Are you sure you want to delete"
+msgstr "Segur que vols suprimir"
+
+msgid "Delete agent"
+msgstr "Suprimeix l'agent"
+
+msgid "Status"
+msgstr "Estat"
+
+msgid "Events"
+msgstr "Esdeveniments"
+
+msgid "No notification agents"
+msgstr "Cap agent de notificacions"
+
+msgid "Get started by creating your first notification agent"
+msgstr "Comença creant el teu primer agent de notificacions"
+
+msgid "Unverified"
+msgstr "Sense verificar"
+
+msgid "Checking..."
+msgstr "S'està comprovant..."
+
+msgid "Create a new external service connection for automated user invitations"
+msgstr ""
+"Crea una connexió nova amb un servei extern per a invitacions d'usuari "
+"automatitzades"
+
+msgid "Update the connection settings"
+msgstr "Actualitza la configuració de la connexió"
+
+msgid "Select the type of connection to configure"
+msgstr "Selecciona el tipus de connexió que vols configurar"
+
+msgid "A friendly name to identify this connection"
+msgstr "Un nom fàcil de recordar per identificar aquesta connexió"
+
+msgid "Which media server should trigger invitations to this external service"
+msgstr ""
+"Quin servidor multimèdia ha d'activar les invitacions a aquest servei extern"
+
+msgid "To have Wizarr create the account instead:"
+msgstr ""
+
+msgid "Set the Service URL below"
+msgstr ""
+
+msgid "Turn on account creation below"
+msgstr ""
+
+msgid "In the service, enable Settings → Users → 'Enable New Plex Sign-In'"
+msgstr ""
+
+msgid ""
+"This uses the service's own sign-in route, so there is no API key to "
+"configure."
+msgstr ""
+
+msgid "The full URL to your external service instance"
+msgstr "L'URL complet de la teva instància del servei extern"
+
+msgid "API key from your external service settings"
+msgstr "Clau API de la configuració del teu servei extern"
+
+msgid "Default Steps"
+msgstr "Etapes predeterminades"
+
+msgid "Custom Bundles"
+msgstr "Paquets personalitzats"
+
+msgid "Import"
+msgstr "Importa"
+
+msgid "Import Configuration"
+msgstr "Importa la configuració"
+
+msgid "Import steps or bundles from JSON file"
+msgstr "Importa etapes o paquets des d'un fitxer JSON"
+
+msgid "Create"
+msgstr "Crea"
+
+msgid "Add a new wizard step"
+msgstr "Afegeix una etapa nova a l'auxiliar"
+
+msgid "Add Step to Bundle"
+msgstr "Afegeix una etapa al paquet"
+
+msgid "No bundles available yet"
+msgstr "Encara no hi ha cap paquet disponible"
+
+msgid "Add Preset"
+msgstr "Afegeix una plantilla"
+
+msgid "Create step from template"
+msgstr "Crea una etapa a partir d'una plantilla"
+
+msgid "Create Bundle"
+msgstr "Crea un paquet"
+
+msgid "Create a collection of steps"
+msgstr "Crea un conjunt d'etapes"
+
+msgid "No bundles found."
+msgstr "No s'ha trobat cap paquet."
+
+msgid "Preview Wizard"
+msgstr "Previsualitza l'auxiliar"
+
+#, python-format
+msgid "Export %(bundle_name)s Bundle"
+msgstr "Exporta el paquet %(bundle_name)s"
+
+msgid "Are you sure you want to delete this bundle?"
+msgstr "Segur que vols suprimir aquest paquet?"
+
+msgid "Before Invite Acceptance"
+msgstr "Abans d'acceptar la invitació"
+
+msgid "Steps shown to users before they accept the invitation"
+msgstr "Etapes que es mostren als usuaris abans que acceptin la invitació"
+
+msgid "Are you sure you want to delete this step?"
+msgstr "Segur que vols suprimir aquesta etapa?"
+
+msgid "No pre-invite steps configured"
+msgstr "No hi ha cap etapa prèvia a la invitació configurada"
+
+msgid "After Invite Acceptance"
+msgstr "Després d'acceptar la invitació"
+
+msgid "Steps shown to users after they accept the invitation"
+msgstr "Etapes que es mostren als usuaris després que acceptin la invitació"
+
+msgid "No post-invite steps configured"
+msgstr "No hi ha cap etapa posterior a la invitació configurada"
+
+msgid "Additional Categories"
+msgstr "Categories addicionals"
+
+msgid "Steps that use custom categories keep their order here."
+msgstr ""
+"Les etapes que utilitzen categories personalitzades conserven aquí el seu "
+"ordre."
+
+msgid "Orphaned Steps"
+msgstr "Etapes òrfenes"
+
+msgid ""
+"These entries no longer have an associated step. Remove them to keep the "
+"bundle tidy."
+msgstr ""
+"Aquestes entrades ja no tenen cap etapa associada. Elimina-les per mantenir "
+"el paquet endreçat."
+
+msgid "Step deleted (orphaned)"
+msgstr "Etapa suprimida (orfe)"
+
+msgid "Are you sure you want to remove this orphaned step?"
+msgstr "Segur que vols eliminar aquesta etapa òrfena?"
+
+msgid "Remove orphaned step"
+msgstr "Elimina l'etapa òrfena"
+
+msgid "Preview"
+msgstr "Vista prèvia"
+
+msgid "Import Wizard Configuration"
+msgstr "Importa la configuració de l'auxiliar"
+
+msgid ""
+"Import wizard steps or bundles from a JSON file to quickly set up or restore "
+"your wizard configuration."
+msgstr ""
+"Importa etapes o paquets de l'auxiliar des d'un fitxer JSON per configurar-"
+"lo ràpidament o restaurar-ne la configuració."
+
+msgid "Select JSON File"
+msgstr "Selecciona un fitxer JSON"
+
+msgid "Steps or Bundle JSON files only (MAX. 10MB)"
+msgstr "Només fitxers JSON d'etapes o de paquets (màx. 10 MB)"
+
+msgid ""
+"When checked, all existing wizard steps and bundles will be removed and "
+"replaced with the imported configuration. When unchecked, imported items "
+"will be added alongside existing ones."
+msgstr ""
+"Si està marcat, totes les etapes i paquets existents de l'auxiliar "
+"s'eliminaran i se substituiran per la configuració importada. Si no, els "
+"elements importats s'afegiran als existents."
+
+msgid "Important: Backup Recommended"
+msgstr "Important: es recomana fer una còpia de seguretat"
+
+msgid ""
+"This action will modify your wizard configuration. Consider the following:"
+msgstr ""
+"Aquesta acció modificarà la configuració de l'auxiliar. Tingues en compte "
+"això:"
+
+msgid "Export your current steps and bundles first as a backup"
+msgstr ""
+"Exporta primer les etapes i els paquets actuals com a còpia de seguretat"
+
+msgid "Imported steps will use the file's step ordering and server types"
+msgstr ""
+"Les etapes importades faran servir l'ordre i els tipus de servidor del fitxer"
+
+msgid "Imported bundles will preserve their step associations and ordering"
+msgstr "Els paquets importats conservaran les etapes associades i el seu ordre"
+
+msgid ""
+"If replacing existing configuration, all current steps and bundles will be "
+"permanently removed"
+msgstr ""
+"Si substitueixes la configuració existent, totes les etapes i els paquets "
+"actuals s'eliminaran permanentment"
+
+msgid "Invalid or malformed JSON files will be rejected"
+msgstr "Els fitxers JSON no vàlids o mal formats es rebutjaran"
+
+msgid "Expected JSON Format"
+msgstr "Format JSON esperat"
+
+msgid "The JSON file can contain steps or bundles:"
+msgstr "El fitxer JSON pot contenir etapes o paquets:"
+
+msgid "For steps export:"
+msgstr "Per a l'exportació d'etapes:"
+
+msgid "For bundle export:"
+msgstr "Per a l'exportació de paquets:"
+
+msgid "Back to Steps"
+msgstr "Torna a les etapes"
+
+msgid "Please select a JSON file to import."
+msgstr "Selecciona un fitxer JSON per importar."
+
+msgid "Please select a valid JSON file."
+msgstr "Selecciona un fitxer JSON vàlid."
+
+msgid ""
+"This will permanently replace all existing wizard configuration (steps and "
+"bundles). Are you sure you want to continue?"
+msgstr ""
+"Això substituirà permanentment tota la configuració de l'auxiliar (etapes i "
+"paquets). Segur que vols continuar?"
+
+msgid "Wizard Steps"
+msgstr "Etapes de l'auxiliar"
+
+msgid "Manage your wizard steps and bundles for user onboarding"
+msgstr "Gestiona les etapes i els paquets de l'auxiliar per a l'alta d'usuaris"
+
+msgid "No wizard steps found"
+msgstr "No s'ha trobat cap etapa de l'auxiliar"
+
+msgid "Get started by creating your first wizard step"
+msgstr "Comença creant la teva primera etapa de l'auxiliar"
+
+msgid "Server"
+msgstr "Servidor"
+
+msgid "steps configured"
+msgstr "etapes configurades"
+
+msgid "Untitled Step"
+msgstr "Etapa sense títol"
+
+msgid "Step"
+msgstr "Etapa"
+
+msgid "Edit step"
+msgstr "Edita l'etapa"
+
+msgid "Delete step"
+msgstr "Suprimeix l'etapa"
+
+msgid "No steps found."
+msgstr "No s'ha trobat cap etapa."
+
+#, python-format
+msgid ""
+"Are you sure you want to reset all steps for %(server)s to defaults? This "
+"will delete all custom steps and reimport the default ones."
+msgstr ""
+"Segur que vols restablir totes les etapes de %(server)s als valors "
+"predeterminats? Això suprimirà totes les etapes personalitzades i tornarà a "
+"importar les predeterminades."
+
+#, python-format
+msgid "Reset %(server)s Steps to Defaults"
+msgstr "Restableix les etapes de %(server)s als valors predeterminats"
+
+#, python-format
+msgid "Export %(server)s Steps"
+msgstr "Exporta les etapes de %(server)s"
+
+msgid "Setup Wizarr"
+msgstr "Configurar Wizarr"
+
+msgid "Create an account"
+msgstr "Crea un compte"
+
+msgid "Unlimited"
+msgstr "Il·limitat"
+
+msgid "There are currently no invitations."
+msgstr "Actualment no hi ha cap invitació."
+
+msgid "Used by"
+msgstr "Utilitzada per"
+
+msgid "Used"
+msgstr "Utilitzat"
+
+msgid "Not used yet"
+msgstr "Encara no s'ha utilitzat"
+
+msgid "Bundle"
+msgstr "Paquet"
+
+msgid "days"
+msgstr "dies"
+
+msgid "Default"
+msgstr "Predeterminat"
+
+msgid "Copy invite link"
+msgstr "Copia l'enllaç de la invitació"
+
+msgid "Delete invite"
+msgstr "Suprimeix la invitació"
+
+msgid "There are currently no users."
+msgstr "Actualment no hi ha cap usuari."
+
+msgid "Edit nickname"
+msgstr "Edita l'àlies"
+
+msgid "Home User"
+msgstr "Usuari local"
+
+msgid "Invited"
+msgstr "Convidat"
+
+msgid "Disabled"
+msgstr "Desactivat"
+
+msgid "Downloads enabled"
+msgstr "Baixades activades"
+
+msgid "Live TV enabled"
+msgstr "TV en directe activada"
+
+msgid "View details"
+msgstr "Mostra els detalls"
+
+msgid "Edit user"
+msgstr "Edita l'usuari"
+
+msgid "Reset password"
+msgstr "Restableix la contrasenya"
+
+msgid "Remove user"
+msgstr "Elimina l'usuari"
+
+msgid "Before Invitation"
+msgstr "Abans de la invitació"
+
+msgid "After Invitation"
+msgstr "Després de la invitació"
+
+msgid "Previous"
+msgstr "Anterior"
+
+msgid "Click the link in this step to be able to continue"
+msgstr "Fes clic a l'enllaç d'aquesta etapa per poder continuar"
+
+msgid "What is Audiobookshelf?"
+msgstr "Què és Audiobookshelf?"
+
+msgid "Welcome to Our Audiobookshelf Server"
+msgstr "Benvingut al nostre servidor d'Audiobookshelf"
+
+msgid ""
+"Great news — you now have access to our **audiobook & podcast library** "
+"through Audiobookshelf!"
+msgstr ""
+"Bones notícies: ara tens accés a la nostra **biblioteca d'audiollibres i "
+"pòdcasts** a través d'Audiobookshelf!"
+
+msgid ""
+"Audiobookshelf is a self-hosted audiobook and podcast server that lets "
+"people share their audio collections with friends and family. If you're "
+"here, it means you've been invited to join ours — welcome!"
+msgstr ""
+"Audiobookshelf és un servidor autoallotjat d'audiollibres i pòdcasts que "
+"permet compartir col·leccions d'àudio amb amics i família. Si ets aquí, vol "
+"dir que t'han convidat a la nostra. Benvingut!"
+
+msgid "What You'll Get"
+msgstr "Què hi trobaràs"
+
+msgid "Access to our constantly updated audiobooks and podcasts"
+msgstr "Accés als nostres audiollibres i pòdcasts, actualitzats constantment"
+
+msgid "Listen on-demand or download for offline listening"
+msgstr "Escolta'ls a la carta o baixa'ls per escoltar-los sense connexió"
+
+msgid "Track your progress across all devices"
+msgstr "Fes el seguiment del teu progrés a tots els dispositius"
+
+msgid "Download Audiobookshelf Clients"
+msgstr "Baixa els clients d'Audiobookshelf"
+
+msgid ""
+"Audiobookshelf has many clients from which you can listen to our audiobooks!"
+msgstr ""
+"Audiobookshelf té molts clients des dels quals pots escoltar els nostres "
+"audiollibres!"
+
+msgid "Listen Anywhere"
+msgstr "Escolta on vulguis"
+
+msgid ""
+"Audiobookshelf works almost everywhere — install the app on your favourite "
+"devices:"
+msgstr ""
+"Audiobookshelf funciona gairebé a tot arreu: instal·la l'aplicació als teus "
+"dispositius preferits:"
+
+msgid "Web App"
+msgstr "Aplicació web"
+
+msgid "Tips for the best experience"
+msgstr "Consells per treure'n el màxim partit"
+
+msgid "Get the best listening experience"
+msgstr "Aconsegueix la millor experiència d'escolta"
+
+msgid ""
+"Audiobookshelf offers great features, but here's how to make sure you get "
+"the best experience:"
+msgstr ""
+"Audiobookshelf ofereix funcions molt bones; així t'asseguraràs de treure'n "
+"el màxim partit:"
+
+msgid "Download for offline listening"
+msgstr "Baixa'ls per escoltar sense connexió"
+
+msgid "Tap any audiobook → Download to enjoy without internet"
+msgstr "Toca qualsevol audiollibre → Baixa per gaudir-ne sense internet"
+
+msgid "Adjust playback speed"
+msgstr "Ajusta la velocitat de reproducció"
+
+msgid "Player controls → set speed from 0.5x to 3x"
+msgstr "Controls del reproductor → estableix la velocitat entre 0,5x i 3x"
+
+msgid "Enable sleep timer"
+msgstr "Activa el temporitzador de repòs"
+
+msgid "Perfect for bedtime listening — auto-stops playback"
+msgstr ""
+"Perfecte per escoltar abans de dormir: atura la reproducció automàticament"
+
+msgid "Happy listening!"
+msgstr "Bona escolta!"
+
+msgid "Go to Audiobookshelf"
+msgstr "Ves a Audiobookshelf"
+
+msgid "What is Emby?"
+msgstr "Què és Emby?"
+
+msgid "Welcome to Our Emby Server"
+msgstr "Benvingut al nostre servidor d'Emby"
+
+msgid "Great news — you now have access to our **media library** through Emby!"
+msgstr ""
+"Bones notícies: ara tens accés a la nostra **biblioteca multimèdia** a "
+"través d'Emby!"
+
+msgid ""
+"Emby is a powerful media server that lets people share their film and TV "
+"libraries with friends and family. If you're here, it means you've been "
+"invited to join ours — welcome!"
+msgstr ""
+"Emby és un servidor multimèdia potent que permet compartir biblioteques de "
+"pel·lícules i sèries amb amics i família. Si ets aquí, vol dir que t'han "
+"convidat a la nostra. Benvingut!"
+
+msgid "Access to our constantly updated list of movies and shows"
+msgstr ""
+"Accés a la nostra llista de pel·lícules i sèries, actualitzada constantment"
+
+msgid "Watch on-demand or download for offline viewing"
+msgstr "Mira-les a la carta o baixa-les per veure-les sense connexió"
+
+msgid "Personalised watchlists & recommendations"
+msgstr "Llistes de seguiment i recomanacions personalitzades"
+
+msgid "Download Emby Clients"
+msgstr "Baixa els clients d'Emby"
+
+msgid "Emby has many clients from which you can view our media!"
+msgstr "Emby té molts clients des dels quals pots veure el nostre contingut!"
+
+msgid "Watch Anywhere"
+msgstr "Mira-ho on vulguis"
+
+msgid ""
+"Emby works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+"Emby funciona gairebé a tot arreu: instal·la l'aplicació als teus "
+"dispositius preferits:"
+
+msgid "Mobile"
+msgstr "Mòbil"
+
+msgid "iOS & Android phones/tablets"
+msgstr "Telèfons i tauletes iOS i Android"
+
+msgid "Desktop"
+msgstr "Escriptori"
+
+msgid "Windows, macOS, Linux"
+msgstr "Windows, macOS, Linux"
+
+msgid "Smart TVs & Streaming Devices"
+msgstr "Televisors intel·ligents i dispositius de streaming"
+
+msgid "Apple TV, Fire TV, Roku, Chromecast, Android TV"
+msgstr "Apple TV, Fire TV, Roku, Chromecast, Android TV"
+
+msgid "Consoles"
+msgstr "Consoles"
+
+msgid "PlayStation & Xbox"
+msgstr "PlayStation i Xbox"
+
+msgid "Watch instantly in your browser"
+msgstr "Mira-ho a l'instant al navegador"
+
+msgid "⬇️ Download Emby Clients"
+msgstr "⬇️ Baixa els clients d'Emby"
+
+msgid "Get the best quality"
+msgstr "Aconsegueix la millor qualitat"
+
+msgid ""
+"Emby offers great quality, but here's how to make sure you get the best "
+"experience:"
+msgstr ""
+"Emby ofereix molt bona qualitat; així t'asseguraràs de treure'n el màxim "
+"partit:"
+
+msgid "Force original quality"
+msgstr "Força la qualitat original"
+
+msgid "Settings → Playback → set"
+msgstr "Settings → Playback → estableix"
+
+msgid "to"
+msgstr "a"
+
+msgid "Maximum"
+msgstr "Maximum"
+
+msgid "Enable hardware decoding"
+msgstr "Activa la descodificació per maquinari"
+
+msgid "Settings → Playback → enable for smoother 4K"
+msgstr "Settings → Playback → activa-ho per a un 4K més fluid"
+
+msgid "Use a wired connection"
+msgstr "Fes servir una connexió per cable"
+
+msgid "if you're on a smart-TV for stutter-free 4K."
+msgstr "si ets en un televisor intel·ligent, per a un 4K sense talls."
+
+msgid "Happy viewing!"
+msgstr "Bona visualització!"
+
+msgid "Go to Emby"
+msgstr "Ves a Emby"
+
+msgid "What is Jellyfin?"
+msgstr "Què és Jellyfin?"
+
+msgid "Welcome to Our Jellyfin Server"
+msgstr "Benvingut al nostre servidor de Jellyfin"
+
+msgid ""
+"Great news — you now have access to our **media library** through Jellyfin!"
+msgstr ""
+"Bones notícies: ara tens accés a la nostra **biblioteca multimèdia** a "
+"través de Jellyfin!"
+
+msgid ""
+"Jellyfin is a free, open-source media server that lets people share their "
+"film and TV libraries with friends and family. If you're here, it means "
+"you've been invited to join ours — welcome!"
+msgstr ""
+"Jellyfin és un servidor multimèdia lliure i de codi obert que permet "
+"compartir biblioteques de pel·lícules i sèries amb amics i família. Si ets "
+"aquí, vol dir que t'han convidat a la nostra. Benvingut!"
+
+msgid "Download Jellyfin Clients"
+msgstr "Baixa els clients de Jellyfin"
+
+msgid "Jellyfin has many clients from which you can view our media!"
+msgstr ""
+"Jellyfin té molts clients des dels quals pots veure el nostre contingut!"
+
+msgid ""
+"Jellyfin works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+"Jellyfin funciona gairebé a tot arreu: instal·la l'aplicació als teus "
+"dispositius preferits:"
+
+msgid "⬇️ Download Jellyfin Clients"
+msgstr "⬇️ Baixa els clients de Jellyfin"
+
+msgid ""
+"Jellyfin offers great quality, but here's how to make sure you get the best "
+"experience:"
+msgstr ""
+"Jellyfin ofereix molt bona qualitat; així t'asseguraràs de treure'n el màxim "
+"partit:"
+
+msgid "Go to Jellyfin"
+msgstr "Ves a Jellyfin"
+
+msgid "Welcome to your digital library"
+msgstr "Benvingut a la teva biblioteca digital"
+
+msgid "Great news! You now have access to our comic and manga collection."
+msgstr ""
+"Bones notícies! Ara tens accés a la nostra col·lecció de còmics i manga."
+
+msgid ""
+"Kavita lets people share their digital libraries with friends. Read comics, "
+"manga, and books directly in your browser or mobile app."
+msgstr ""
+"Kavita permet compartir biblioteques digitals amb els amics. Llegeix còmics, "
+"manga i llibres directament al navegador o a l'aplicació mòbil."
+
+msgid "How do I read stuff?"
+msgstr "Com hi puc llegir?"
+
+msgid ""
+"Open Kavita in your browser, sign in with your new account, and start "
+"reading. You can also use mobile apps for a better experience."
+msgstr ""
+"Obre Kavita al navegador, inicia la sessió amb el teu compte nou i comença a "
+"llegir. També pots fer servir les aplicacions mòbils per a una millor "
+"experiència."
+
+msgid "Open Kavita"
+msgstr "Obre Kavita"
+
+msgid "Want to read on your phone?"
+msgstr "Vols llegir al mòbil?"
+
+msgid "Download a comic reader app for the best mobile experience."
+msgstr ""
+"Baixa una aplicació de lectura de còmics per a la millor experiència mòbil."
+
+msgid "Android"
+msgstr "Android"
+
+msgid "Popular manga reader with Kavita support"
+msgstr "Lector de manga popular amb suport per a Kavita"
+
+msgid "Great for comics and books"
+msgstr "Molt bo per a còmics i llibres"
+
+msgid "iOS"
+msgstr "iOS"
+
+msgid "Premium comic reader with Kavita integration"
+msgstr "Lector de còmics premium amb integració amb Kavita"
+
+msgid "Full-featured comic reader"
+msgstr "Lector de còmics amb totes les funcions"
+
+msgid "Connect your app"
+msgstr "Connecta la teva aplicació"
+
+msgid "Use this OPDS URL in your reader app:"
+msgstr "Fes servir aquest URL d'OPDS a la teva aplicació de lectura:"
+
+msgid "Login with your Kavita username and password."
+msgstr "Inicia la sessió amb el teu nom d'usuari i contrasenya de Kavita."
+
+msgid "Your library includes"
+msgstr "La teva biblioteca inclou"
+
+msgid ""
+"Browse collections of comics, manga, light novels, and digital books. "
+"Everything is organized by series and automatically tracks your reading "
+"progress."
+msgstr ""
+"Explora col·leccions de còmics, manga, novel·les lleugeres i llibres "
+"digitals. Tot està organitzat per sèries i el progrés de lectura es desa "
+"automàticament."
+
+msgid "Cool features"
+msgstr "Funcions interessants"
+
+msgid "Pick up exactly where you left off"
+msgstr "Continua exactament on ho vas deixar"
+
+msgid "Create custom reading lists"
+msgstr "Crea llistes de lectura personalitzades"
+
+msgid "Find content by title, author, or genre"
+msgstr "Troba contingut per títol, autor o gènere"
+
+msgid "Easy on the eyes for night reading"
+msgstr "Còmode per a la vista quan llegeixes de nit"
+
+msgid "Get the best reading experience"
+msgstr "Aconsegueix la millor experiència de lectura"
+
+msgid "Kavita has some handy settings to make reading more comfortable:"
+msgstr "Kavita té alguns paràmetres pràctics per llegir més còmodament:"
+
+msgid "Set reading direction"
+msgstr "Estableix la direcció de lectura"
+
+msgid "Settings → Reader → set manga to right-to-left"
+msgstr "Settings → Reader → configura el manga de dreta a esquerra"
+
+msgid "Enable dark mode"
+msgstr "Activa el mode fosc"
+
+msgid "Perfect for night reading"
+msgstr "Perfecte per llegir de nit"
+
+msgid "Use keyboard shortcuts"
+msgstr "Fes servir les dreceres de teclat"
+
+msgid "Space for next page, arrows to navigate"
+msgstr "Espai per a la pàgina següent, fletxes per navegar"
+
+msgid "What is Komga?"
+msgstr "Què és Komga?"
+
+msgid "Welcome to Our Komga Server"
+msgstr "Benvingut al nostre servidor de Komga"
+
+msgid ""
+"Great news — you now have access to our **digital comic and manga library** "
+"through Komga!"
+msgstr ""
+"Bones notícies: ara tens accés a la nostra **biblioteca digital de còmics i "
+"manga** a través de Komga!"
+
+msgid ""
+"Komga is a free, open-source media server designed specifically for comics, "
+"manga, and digital books. If you're here, it means you've been invited to "
+"join our library — welcome!"
+msgstr ""
+"Komga és un servidor multimèdia lliure i de codi obert dissenyat "
+"específicament per a còmics, manga i llibres digitals. Si ets aquí, vol dir "
+"que t'han convidat a la nostra biblioteca. Benvingut!"
+
+msgid "Access to our constantly updated collection of comics and manga"
+msgstr ""
+"Accés a la nostra col·lecció de còmics i manga, actualitzada constantment"
+
+msgid "Read online directly in your browser"
+msgstr "Llegeix en línia directament al navegador"
+
+msgid "Download for offline reading on your favorite devices"
+msgstr "Baixa'ls per llegir sense connexió als teus dispositius preferits"
+
+msgid "Track your reading progress automatically"
+msgstr "Fes el seguiment automàtic del teu progrés de lectura"
+
+msgid "Support for multiple formats (CBZ, CBR, PDF, EPUB)"
+msgstr "Compatibilitat amb diversos formats (CBZ, CBR, PDF, EPUB)"
+
+msgid "Download Komga Clients"
+msgstr "Baixa els clients de Komga"
+
+msgid ""
+"Komga has many compatible readers from which you can enjoy your comics and "
+"manga!"
+msgstr ""
+"Komga té molts lectors compatibles amb els quals pots gaudir dels teus "
+"còmics i manga!"
+
+msgid "Read Anywhere"
+msgstr "Llegeix on vulguis"
+
+msgid ""
+"Komga works with many popular comic readers — install apps on your favorite "
+"devices:"
+msgstr ""
+"Komga funciona amb molts lectors de còmics populars: instal·la les "
+"aplicacions als teus dispositius preferits:"
+
+msgid "iOS (Panels, Chunky) & Android (Mihon/Tachiyomi, Komga Client)"
+msgstr "iOS (Panels, Chunky) i Android (Mihon/Tachiyomi, Komga Client)"
+
+msgid "Windows (CDisplayEx, YACReader), macOS & Linux (YACReader)"
+msgstr "Windows (CDisplayEx, YACReader), macOS i Linux (YACReader)"
+
+msgid "Tablets"
+msgstr "Tauletes"
+
+msgid "iPad & Android tablets with comic reader apps"
+msgstr "iPad i tauletes Android amb aplicacions de lectura de còmics"
+
+msgid "Read instantly in your browser at"
+msgstr "Llegeix a l'instant al navegador a"
+
+msgid "E-Readers"
+msgstr "Lectors electrònics"
+
+msgid "KOReader and other OPDS-compatible readers"
+msgstr "KOReader i altres lectors compatibles amb OPDS"
+
+msgid "📚 View Compatible Readers"
+msgstr "📚 Consulta els lectors compatibles"
+
+msgid "Library Features"
+msgstr "Funcions de la biblioteca"
+
+msgid "Komga Features"
+msgstr "Funcions de Komga"
+
+msgid "Discover all the features available to enhance your reading experience!"
+msgstr ""
+"Descobreix totes les funcions disponibles per millorar la teva experiència "
+"de lectura!"
+
+msgid "Reading Experience"
+msgstr "Experiència de lectura"
+
+msgid "Webtoon Mode"
+msgstr "Mode webtoon"
+
+msgid "Perfect for manga and webtoons with continuous scrolling"
+msgstr "Perfecte per a manga i webtoons, amb desplaçament continu"
+
+msgid "Page-by-Page"
+msgstr "Pàgina a pàgina"
+
+msgid "Traditional comic book reading experience"
+msgstr "L'experiència de lectura de còmic tradicional"
+
+msgid "Zoom & Pan"
+msgstr "Zoom i desplaçament"
+
+msgid "Get detailed views of artwork"
+msgstr "Mira els detalls de les il·lustracions"
+
+msgid "Auto Bookmarks"
+msgstr "Marcadors automàtics"
+
+msgid "Your progress is saved automatically"
+msgstr "El teu progrés es desa automàticament"
+
+msgid "Organization"
+msgstr "Organització"
+
+msgid "Series Collections"
+msgstr "Col·leccions de sèries"
+
+msgid "Browse comics organized by series"
+msgstr "Explora els còmics organitzats per sèries"
+
+msgid "Custom Collections"
+msgstr "Col·leccions personalitzades"
+
+msgid "Curated collections by themes and genres"
+msgstr "Col·leccions seleccionades per temes i gèneres"
+
+msgid "Smart Tags"
+msgstr "Etiquetes intel·ligents"
+
+msgid "Filter by genres, authors, publishers, and more"
+msgstr "Filtra per gèneres, autors, editorials i més"
+
+msgid "Advanced Search"
+msgstr "Cerca avançada"
+
+msgid "Find specific titles instantly"
+msgstr "Troba títols concrets a l'instant"
+
+msgid "Personal Features"
+msgstr "Funcions personals"
+
+msgid "Reading Progress"
+msgstr "Progrés de lectura"
+
+msgid "Track which issues you've completed"
+msgstr "Fes el seguiment dels números que has acabat"
+
+msgid "Continue Reading"
+msgstr "Continua llegint"
+
+msgid "Reading Lists"
+msgstr "Llistes de lectura"
+
+msgid "Create and manage custom reading lists"
+msgstr "Crea i gestiona llistes de lectura personalitzades"
+
+msgid "On Deck"
+msgstr "A punt"
+
+msgid "See your next suggested reads"
+msgstr "Mira les properes lectures suggerides"
+
+msgid ""
+"Komga offers a great reading experience, but here's how to make it even "
+"better:"
+msgstr ""
+"Komga ofereix una gran experiència de lectura; així la pots millorar encara "
+"més:"
+
+msgid "Choose the right reader mode"
+msgstr "Tria el mode de lectura adequat"
+
+msgid "Use webtoon mode for manga, page-by-page for traditional comics"
+msgstr ""
+"Fes servir el mode webtoon per al manga i el mode pàgina a pàgina per als "
+"còmics tradicionals"
+
+msgid "Adjust reading direction"
+msgstr "Ajusta la direcció de lectura"
+
+msgid "Settings → Reader → set right-to-left for manga"
+msgstr "Settings → Reader → configura de dreta a esquerra per al manga"
+
+msgid "Easier on your eyes during night reading sessions"
+msgstr "Més còmode per a la vista quan llegeixes de nit"
+
+msgid "Use full-screen mode"
+msgstr "Fes servir el mode de pantalla completa"
+
+msgid "Press F11 in browser for distraction-free reading"
+msgstr "Prem F11 al navegador per llegir sense distraccions"
+
+msgid "Download for offline"
+msgstr "Baixa'ls per llegir sense connexió"
+
+msgid "Download comics to mobile apps for reading without internet"
+msgstr "Baixa còmics a les aplicacions mòbils per llegir-los sense internet"
+
+msgid "Happy reading!"
+msgstr "Bona lectura!"
+
+msgid "Go to Komga"
+msgstr "Ves a Komga"
+
+msgid "What is Plex?"
+msgstr "Què és Plex?"
+
+msgid "Welcome to Our Plex Server"
+msgstr "Benvingut al nostre servidor de Plex"
+
+msgid "Great news — you now have access to our **media library** through Plex!"
+msgstr ""
+"Bones notícies: ara tens accés a la nostra **biblioteca multimèdia** a "
+"través de Plex!"
+
+msgid ""
+"Plex lets people share their film and TV libraries with friends and family. "
+"If you're here, it means you've been invited to join ours — welcome!"
+msgstr ""
+"Plex permet compartir biblioteques de pel·lícules i sèries amb amics i "
+"família. Si ets aquí, vol dir que t'han convidat a la nostra. Benvingut!"
+
+msgid "Download Plex Clients"
+msgstr "Baixa els clients de Plex"
+
+msgid "Plex has many clients from which you can view our media!"
+msgstr "Plex té molts clients des dels quals pots veure el nostre contingut!"
+
+msgid ""
+"Plex works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+"Plex funciona gairebé a tot arreu: instal·la l'aplicació als teus "
+"dispositius preferits:"
+
+msgid "Apple TV, Fire TV, Roku, Chromecast"
+msgstr "Apple TV, Fire TV, Roku, Chromecast"
+
+msgid "⬇️ Download Plex Clients"
+msgstr "⬇️ Baixa els clients de Plex"
+
+msgid ""
+"Plex sometimes defaults to low quality or shows its own adverts first. "
+"Here's how to fix that:"
+msgstr ""
+"De vegades Plex es posa per defecte en qualitat baixa o mostra primer els "
+"seus propis anuncis. Així ho pots arreglar:"
+
+msgid "Disable trailers & extras"
+msgstr "Desactiva els tràilers i els extres"
+
+msgid "Settings → Experience → untick"
+msgstr "Settings → Experience → desmarca"
+
+msgid "Show cinematic trailers"
+msgstr "Mostra tràilers cinematogràfics"
+
+msgid "Original"
+msgstr "Original"
+
+msgid "Go to Plex"
+msgstr "Ves a Plex"
+
+msgid "Welcome to RomM"
+msgstr "Benvingut a RomM"
+
+msgid "Great news! You now have access to our game collection."
+msgstr "Bones notícies! Ara tens accés a la nostra col·lecció de jocs."
+
+msgid "Open RomM"
+msgstr "Obre RomM"
+
+#~ msgid ""
+#~ "Overseerr and Jellyseerr automatically import new users by default. No "
+#~ "API connection is required for Wizarr integration."
+#~ msgstr ""
+#~ "Overseerr i Jellyseerr importen automàticament els usuaris nous per "
+#~ "defecte. No cal cap connexió d'API per a la integració amb Wizarr."
+
+#~ msgid "To enable auto-import:"
+#~ msgstr "Per activar la importació automàtica:"
+
+#~ msgid ""
+#~ "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
+#~ "new users' and 'Import Jellyfin/Plex users'"
+#~ msgstr ""
+#~ "Ves a la configuració d'Overseerr/Jellyseerr → Users → activa «Auto-"
+#~ "approve new users» i «Import Jellyfin/Plex users»"
+
+#~ msgid "Open your Overseerr/Jellyseerr admin panel"
+#~ msgstr "Obre el tauler d'administració d'Overseerr/Jellyseerr"
+
+#~ msgid "Navigate to Settings → Users"
+#~ msgstr "Ves a Settings → Users"
+
+#~ msgid "Enable 'Auto-approve new users'"
+#~ msgstr "Activa «Auto-approve new users»"
+
+#~ msgid "Enable 'Import Jellyfin/Plex users'"
+#~ msgstr "Activa «Import Jellyfin/Plex users»"
+
+#~ msgid "Edit expiry"
+#~ msgstr "Edita la caducitat"
+
+#~ msgid "Expiry date (leave blank for never)"
+#~ msgstr "Data de caducitat (deixa en blanc si no caduca mai)"
+
+#~ msgid "Invitation Details"
+#~ msgstr "Invitacions"
+
+#~ msgid "Invitation expires"
+#~ msgstr "Invitacions"
 
 #~ msgid "Accept our invitation"
 #~ msgstr "Accepta la nostra invitació"
@@ -426,19 +3140,14 @@ msgstr "Següent"
 #~ msgstr "Hem enviat una invitació al teu compte de Plex! Ja gairebé estem!"
 
 #~ msgid ""
-#~ "Click the button below to be taken"
-#~ " to Plex, here you will see an"
-#~ " invitation from us."
+#~ "Click the button below to be taken to Plex, here you will see an "
+#~ "invitation from us."
 #~ msgstr ""
-#~ "Fes clic al botó següent per ser"
-#~ " portat a Plex, allà veuràs una "
-#~ "invitació nostra."
+#~ "Fes clic al botó següent per ser portat a Plex, allà veuràs una invitació "
+#~ "nostra."
 
 #~ msgid "Accept"
 #~ msgstr "Acceptar"
-
-#~ msgid "Next"
-#~ msgstr "Següent"
 
 #~ msgid "Great! Now, let's get you invited!"
 #~ msgstr "Genial! Ara, anem a convidar-te!"
@@ -469,14 +3178,12 @@ msgstr "Següent"
 
 #~ msgid ""
 #~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n"
-#~ ""
+#~ "                    deprecated and replaced by a secure sign-up. Please "
+#~ "visit \n"
 #~ "\n"
 #~ msgstr ""
-#~ "Les Variables d'Entorn estan sent "
-#~ "obsoletes i substituïdes per un registre"
-#~ " segur. Si us plau, visiteu "
+#~ "Les Variables d'Entorn estan sent obsoletes i substituïdes per un "
+#~ "registre segur. Si us plau, visiteu "
 
 #~ msgid ""
 #~ "/settings.\n"
@@ -539,9 +3246,6 @@ msgstr "Següent"
 #~ msgid "User"
 #~ msgstr "Usuari"
 
-#~ msgid "Home User"
-#~ msgstr "Usuari local"
-
 #~ msgid "Passwords do not match."
 #~ msgstr "Les contrassenyes no coincideixen."
 
@@ -557,17 +3261,14 @@ msgstr "Següent"
 #~ msgid "It is likely that your token does not work."
 #~ msgstr "És probable que el teu token no funcioni."
 
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgid ""
+#~ "Unable to connect to your Plex server. See Logs for more information."
 #~ msgstr ""
-#~ "Impossible conectar-se al teu servidor"
-#~ " de Plex. Mira els Logs per a"
-#~ " més informació."
+#~ "Impossible conectar-se al teu servidor de Plex. Mira els Logs per a més "
+#~ "informació."
 
 #~ msgid "Unable to connect to your Jellyfin server."
 #~ msgstr "Impossible conectar-se al teu servidor de Jellyfin."
-
-#~ msgid "Confirm password"
-#~ msgstr "Confirma la contrassenya"
 
 #~ msgid ""
 #~ "Server Display\n"
@@ -575,12 +3276,6 @@ msgstr "Següent"
 #~ msgstr ""
 #~ "Nom públic\n"
 #~ "del servidor"
-
-#~ msgid "Server"
-#~ msgstr "Servidor"
-
-#~ msgid "Server URL"
-#~ msgstr "URL del servidor"
 
 #~ msgid ""
 #~ "Server\n"
@@ -630,21 +3325,15 @@ msgstr "Següent"
 #~ msgstr "Sol·licituds automàtiques de mitjans"
 
 #~ msgid ""
-#~ "We are excited to offer you a "
-#~ "wide selection of media to choose "
-#~ "from. If you're having trouble finding"
-#~ "\n"
-#~ "    something you like, don't worry! "
-#~ "We have a user-friendly request "
-#~ "system that can automatically search for"
-#~ " the\n"
+#~ "We are excited to offer you a wide selection of media to choose from. If "
+#~ "you're having trouble finding\n"
+#~ "    something you like, don't worry! We have a user-friendly request "
+#~ "system that can automatically search for the\n"
 #~ "    media you're looking for. "
 #~ msgstr ""
-#~ "Ens complau oferir-vos una àmplia "
-#~ "selecció de mitjans per triar. Si "
-#~ "teniu problemes per trobar\n"
-#~ "alguna cosa que us agradi, no us"
-#~ " preocupeu! Disposem d'un sistema de "
+#~ "Ens complau oferir-vos una àmplia selecció de mitjans per triar. Si teniu "
+#~ "problemes per trobar\n"
+#~ "alguna cosa que us agradi, no us preocupeu! Disposem d'un sistema de "
 #~ "sol·licitud fàcil d'utilitzar que pot\n"
 #~ "cercar automàticament els mitjans que busqueu. "
 
@@ -652,12 +3341,10 @@ msgstr "Següent"
 #~ msgstr "Sol·licita qualsevol pel·lícula o programa de televisió disponible"
 
 #~ msgid ""
-#~ "Requested media will be automatically "
-#~ "downloaded and added to the library "
+#~ "Requested media will be automatically downloaded and added to the library "
 #~ "(if available)"
 #~ msgstr ""
-#~ "Els mitjans sol·licitats es baixaran "
-#~ "automàticament i s'afegiran a la "
+#~ "Els mitjans sol·licitats es baixaran automàticament i s'afegiran a la "
 #~ "biblioteca (si estan disponibles)"
 
 #~ msgid "If enabled, receive notifications"
@@ -674,26 +3361,20 @@ msgstr "Següent"
 #~ "per a aquest dispositiu"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Jellyfin."
 #~ msgstr ""
-#~ "Bones notícies! Ara tens accés a "
-#~ "la col·lecció de mitjans del nostre "
-#~ "servidor. Assegurem-nos que saps com"
-#~ "\n"
+#~ "Bones notícies! Ara tens accés a la col·lecció de mitjans del nostre "
+#~ "servidor. Assegurem-nos que saps com\n"
 #~ "utilitzar-la amb Jellyfin."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Jellyfin for this "
+#~ "Planning on watching Movies on this device? Download Jellyfin for this "
 #~ "device."
 #~ msgstr ""
-#~ "Estàs pensant en veure pel·lícules en"
-#~ " aquest dispositiu? Baixa Jellyfin per "
-#~ "a aquest dispositiu."
+#~ "Estàs pensant en veure pel·lícules en aquest dispositiu? Baixa Jellyfin "
+#~ "per a aquest dispositiu."
 
 #~ msgid "Download"
 #~ msgstr "Baixa"
@@ -702,61 +3383,40 @@ msgstr "Següent"
 #~ msgstr "Eh, doncs, què és exactament Jellyfin?"
 
 #~ msgid ""
-#~ "Jellyfin is a platform that lets "
-#~ "you stream all your favorite movies, "
-#~ "TV shows, and music in one place."
-#~ "\n"
-#~ "        It's like having your own "
-#~ "personal movie theater right at your "
-#~ "fingertips! Think of it as a "
-#~ "digital library of\n"
-#~ "        your favorite content that you"
-#~ " can access from anywhere, on any "
-#~ "device - your phone, tablet, laptop, "
-#~ "smart TV,\n"
+#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
+#~ "shows, and music in one place.\n"
+#~ "        It's like having your own personal movie theater right at your "
+#~ "fingertips! Think of it as a digital library of\n"
+#~ "        your favorite content that you can access from anywhere, on any "
+#~ "device - your phone, tablet, laptop, smart TV,\n"
 #~ "        you name it."
 #~ msgstr ""
-#~ "Jellyfin és una plataforma que et "
-#~ "permet reproduir totes les teves "
-#~ "pel·lícules, sèries de TV i música "
-#~ "preferides en un sol lloc.\n"
-#~ "És com tenir la teva pròpia sala"
-#~ " de cinema personal al teu abast! "
-#~ "Penseu com a una llibreria digital "
-#~ "del\n"
-#~ "teu contingut preferit a la que "
-#~ "pots accedir des de qualsevol lloc, "
-#~ "en qualsevol dispositiu - el teu "
-#~ "mòbil, tauleta, portàtil, Smart TV,\n"
+#~ "Jellyfin és una plataforma que et permet reproduir totes les teves "
+#~ "pel·lícules, sèries de TV i música preferides en un sol lloc.\n"
+#~ "És com tenir la teva pròpia sala de cinema personal al teu abast! Penseu "
+#~ "com a una llibreria digital del\n"
+#~ "teu contingut preferit a la que pots accedir des de qualsevol lloc, en "
+#~ "qualsevol dispositiu - el teu mòbil, tauleta, portàtil, Smart TV,\n"
 #~ "el que vulguis."
 
 #~ msgid "Right, so how do I watch stuff?"
 #~ msgstr "D'acord, llavors, com puc veure coses?"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Jellyfin is "
-#~ "available on a wide variety of "
+#~ "It couldn't be simpler! Jellyfin is available on a wide variety of "
 #~ "devices including laptops, tablets,\n"
-#~ "        smartphones, and TVs. All you"
-#~ " need to do is download the "
-#~ "Jellyfin app on your device, sign "
-#~ "in with your account,\n"
+#~ "        smartphones, and TVs. All you need to do is download the Jellyfin "
+#~ "app on your device, sign in with your account,\n"
 #~ "        and\n"
 #~ "        you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "No podria ser més senzill! Plex "
-#~ "està disponible en una gran varietat "
-#~ "de dispositius, com ara ordinadors "
-#~ "portàtils,\n"
-#~ "tauletes, telèfons intel·ligents i televisors."
-#~ " Tot el que has de fer és "
-#~ "descarregar l'aplicació Jellyfin al vostre "
-#~ "dispositiu, iniciar sessió amb el vostre"
-#~ " compte\n"
+#~ "No podria ser més senzill! Plex està disponible en una gran varietat de "
+#~ "dispositius, com ara ordinadors portàtils,\n"
+#~ "tauletes, telèfons intel·ligents i televisors. Tot el que has de fer és "
+#~ "descarregar l'aplicació Jellyfin al vostre dispositiu, iniciar sessió amb "
+#~ "el vostre compte\n"
 #~ "i\n"
-#~ "ja estaràs preparat per començar a "
-#~ "veure els teus mitjans. Així de "
-#~ "fàcil!"
+#~ "ja estaràs preparat per començar a veure els teus mitjans. Així de fàcil!"
 
 #~ msgid "Open Jellyfin"
 #~ msgstr "Obrir Jellyfin"
@@ -769,94 +3429,65 @@ msgstr "Següent"
 #~ "per a aquest dispositiu"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Plex."
 #~ msgstr ""
-#~ "Bones notícies! Ara tens accés a "
-#~ "la col·lecció de mitjans del nostre "
-#~ "servidor. Assegurem-nos que saps com"
-#~ "\n"
+#~ "Bones notícies! Ara tens accés a la col·lecció de mitjans del nostre "
+#~ "servidor. Assegurem-nos que saps com\n"
 #~ "utilitzar-la amb Plex."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Plex for this device."
+#~ "Planning on watching Movies on this device? Download Plex for this device."
 #~ msgstr ""
-#~ "Estàs pensant en veure pel·lícules en"
-#~ " aquest dispositiu? Baixa Plex per a"
-#~ " aquest dispositiu."
+#~ "Estàs pensant en veure pel·lícules en aquest dispositiu? Baixa Plex per a "
+#~ "aquest dispositiu."
 
 #~ msgid "Eh, So, What is Plex exactly?"
 #~ msgstr "Eh, doncs, què és exactament Plex?"
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "    you've received this invitation, it"
-#~ " means someone wants to share their"
-#~ " library with you. With Plex, you'll"
-#~ " have\n"
-#~ "    access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "    you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "    access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "Gran pregunta! Plex és un programari "
-#~ "que permet a les persones compartir "
-#~ "les seves col·leccions multimèdia amb "
-#~ "altres persones.\n"
-#~ "Si has rebut aquesta invitació, vol "
-#~ "dir que algú vol compartir la seva"
-#~ " biblioteca amb tu. Amb Plex, tindràs"
-#~ " accés a totes\n"
-#~ "les pel·lícules, programes de televisió, "
-#~ "música i fotos que s'emmagatzemen al "
-#~ "seu servidor. Gaudeix!"
+#~ "Gran pregunta! Plex és un programari que permet a les persones compartir "
+#~ "les seves col·leccions multimèdia amb altres persones.\n"
+#~ "Si has rebut aquesta invitació, vol dir que algú vol compartir la seva "
+#~ "biblioteca amb tu. Amb Plex, tindràs accés a totes\n"
+#~ "les pel·lícules, programes de televisió, música i fotos que "
+#~ "s'emmagatzemen al seu servidor. Gaudeix!"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "    smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you need to do is download the Plex app on "
+#~ "your device, sign in with your account, and\n"
 #~ "    you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "No podria ser més senzill! Plex "
-#~ "està disponible en una gran varietat "
-#~ "de dispositius, com ara ordinadors "
-#~ "portàtils,\n"
-#~ "tauletes, telèfons intel·ligents i televisors."
-#~ " Tot el que has de fer és "
-#~ "descarregar l'aplicació Plex al vostre "
-#~ "dispositiu, iniciar\n"
-#~ "sessió amb el vostre compte i ja"
-#~ " estaràs preparat per començar a "
-#~ "veure els teus mitjans. Així de "
-#~ "fàcil!"
+#~ "No podria ser més senzill! Plex està disponible en una gran varietat de "
+#~ "dispositius, com ara ordinadors portàtils,\n"
+#~ "tauletes, telèfons intel·ligents i televisors. Tot el que has de fer és "
+#~ "descarregar l'aplicació Plex al vostre dispositiu, iniciar\n"
+#~ "sessió amb el vostre compte i ja estaràs preparat per començar a veure "
+#~ "els teus mitjans. Així de fàcil!"
 
 #~ msgid "How can I make sure to have the best experience?"
 #~ msgstr "Com puc assegurar-me de tenir la millor experiència?"
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "    sharing with you - they also,"
-#~ " by default, play content at a "
-#~ "lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the "
+#~ "awesome content your friend is now\n"
+#~ "    sharing with you - they also, by default, play content at a lower "
+#~ "quality. "
 #~ msgstr ""
-#~ "Com que Plex és un servei gratuït,"
-#~ " promocionen el seu propi contingut "
+#~ "Com que Plex és un servei gratuït, promocionen el seu propi contingut "
 #~ "abans que el contingut fantàstic\n"
-#~ "que el teu amic està compartint "
-#~ "amb tu; també, per defecte, reprodueixen"
-#~ " contingut a una qualitat inferior. "
+#~ "que el teu amic està compartint amb tu; també, per defecte, reprodueixen "
+#~ "contingut a una qualitat inferior. "
 
 #~ msgid "No need to worry though, this can be easily resolved"
 #~ msgstr "No cal que et preocupis, això es pot resoldre fàcilment"
@@ -873,8 +3504,8 @@ msgstr "Següent"
 
 #~ msgid "Configure Plex's app on your computer, mobile device or TV"
 #~ msgstr ""
-#~ "Configureu l'aplicació de Plex al vostre"
-#~ " ordinador, dispositiu mòbil o televisor"
+#~ "Configureu l'aplicació de Plex al vostre ordinador, dispositiu mòbil o "
+#~ "televisor"
 
 #~ msgid "Open Plex"
 #~ msgstr "Obre Plex"
@@ -885,8 +3516,80 @@ msgstr "Següent"
 #~ msgid "User Policy"
 #~ msgstr "Política d'usuari"
 
-#~ msgid "Name"
-#~ msgstr "Nom"
+#~ msgid "Home"
+#~ msgstr "Inici"
 
-#~ msgid "Actions"
-#~ msgstr "Accions"
+#~ msgid "Server settings"
+#~ msgstr "Configuració del servidor"
+
+#~ msgid "Notification agents"
+#~ msgstr "Agents de notificació"
+
+#~ msgid "Oops!"
+#~ msgstr "Vaja!"
+
+#~ msgid ""
+#~ "Confirm\n"
+#~ "                                password"
+#~ msgstr ""
+#~ "Confirma\n"
+#~ "la contrassenya"
+
+#~ msgid ""
+#~ "Invite\n"
+#~ "                                Code"
+#~ msgstr ""
+#~ "Codi\n"
+#~ "d'invitació"
+
+#~ msgid "Invite user"
+#~ msgstr "Convidar l'usuari"
+
+#~ msgid ""
+#~ "Specific\n"
+#~ "                                Libraries"
+#~ msgstr ""
+#~ "Biblioteques\n"
+#~ "específiques"
+
+#~ msgid "Back"
+#~ msgstr "Enrere"
+
+#~ msgid "Share"
+#~ msgstr "Compartir"
+
+#~ msgid ""
+#~ "Username\n"
+#~ "                                (optional)"
+#~ msgstr "Usuari (Opcional)"
+
+#~ msgid ""
+#~ "Agent\n"
+#~ "                                URL"
+#~ msgstr ""
+#~ "Codi\n"
+#~ "d'invitació"
+
+#~ msgid "Notifications"
+#~ msgstr "Invitacions"
+
+#~ msgid "Optional, leave empty to disable"
+#~ msgstr "Opcional, deixa-ho buit per desactivar"
+
+#~ msgid "Available"
+#~ msgstr "Disponible"
+
+#~ msgid "Limit"
+#~ msgstr "Il·limitat"
+
+#~ msgid "libs"
+#~ msgstr "Biblioteques"
+
+#~ msgid "Pre-Invite"
+#~ msgstr "Anterior"
+
+#~ msgid "Post-Invite"
+#~ msgstr "Codi d'invitació"
+
+#~ msgid "Partial"
+#~ msgstr "(opcional)"

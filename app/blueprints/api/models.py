@@ -15,6 +15,25 @@ status_model = api.model(
     },
 )
 
+# Admin Models
+admin_model = api.model(
+    "Admin",
+    {
+        "id": fields.Integer(description="Admin ID"),
+        "username": fields.String(description="Admin username"),
+        "passkeys": fields.Integer(description="Number of passkeys for this admin"),
+        "created": fields.DateTime(description="Creation date (ISO format)"),
+    },
+)
+
+admin_list_model = api.model(
+    "AdminList",
+    {
+        "admins": fields.List(fields.Nested(admin_model)),
+        "count": fields.Integer(description="Total number of admins"),
+    },
+)
+
 # User Models
 user_model = api.model(
     "User",
@@ -27,7 +46,7 @@ user_model = api.model(
             description="Type of media server (plex, jellyfin, etc.)"
         ),
         "expires": fields.DateTime(description="Expiration date (ISO format)"),
-        "created": fields.DateTime(description="Creation date (ISO format)"),
+        "created_at": fields.DateTime(description="Creation date (ISO format)"),
     },
 )
 
@@ -53,6 +72,28 @@ user_extend_response = api.model(
     {
         "message": fields.String(description="Success message"),
         "new_expiry": fields.DateTime(description="New expiration date"),
+    },
+)
+
+user_update_expiry_request = api.model(
+    "UserUpdateExpiryRequest",
+    {
+        "expires": fields.DateTime(
+            description="New expiration date (ISO format). Use null for unlimited access.",
+            required=False,
+            allow_null=True,
+        ),
+    },
+)
+
+user_update_expiry_response = api.model(
+    "UserUpdateExpiryResponse",
+    {
+        "message": fields.String(description="Success message"),
+        "new_expiry": fields.DateTime(
+            description="New expiration date (null for unlimited)",
+            allow_null=True,
+        ),
     },
 )
 
@@ -123,6 +164,10 @@ invitation_create_request = api.model(
         ),
         "allow_mobile_uploads": fields.Boolean(
             description="Allow mobile uploads", default=False
+        ),
+        "wizard_bundle_id": fields.Integer(
+            required=False,
+            description="Wizard bundle ID to use for this invitation (omit for automatic selection)",
         ),
     },
 )

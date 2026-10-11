@@ -1,17 +1,23 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.12.3
+    rev: v0.16.5
     hooks:
       - id: ruff
-        args: [--fix, --exit-non-zero-on-fix]
+        args: [--fix]
       - id: ruff-format
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v5.0.0
+    rev: v6.0.0
     hooks:
       - id: check-yaml
       - id: check-added-large-files
       - id: check-merge-conflict
+
+  - repo: https://github.com/djlint/djLint
+    rev: v1.44.2
+    hooks:
+      - id: djlint-reformat-jinja
+        args: [--lint --reformat --format-css --format-js]
 
   - repo: local
     hooks:

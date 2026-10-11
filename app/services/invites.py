@@ -4,7 +4,7 @@ import secrets
 import string
 from typing import Any
 
-from sqlalchemy import and_  # type: ignore
+from sqlalchemy import and_, or_  # type: ignore
 
 from app.extensions import db
 from app.models import (
@@ -40,9 +40,12 @@ def is_invite_valid(code: str) -> tuple[bool, str]:
     ).first()
     if not invitation:
         return False, "Invalid code"
-    now = datetime.datetime.now()
-    if invitation.expires and invitation.expires <= now:
-        return False, "Invitation has expired."
+    now = datetime.datetime.now(datetime.UTC)
+    # Make database datetime timezone-aware (assumes UTC) for comparison
+    if invitation.expires:
+        expires_aware = invitation.expires.replace(tzinfo=datetime.UTC)
+        if expires_aware <= now:
+            return False, "Invitation has expired."
     if invitation.used is True and invitation.unlimited is not True:
         return False, "Invitation has already been used."
     return True, "okay"
@@ -65,7 +68,7 @@ def _get_form_list(form: Any, key: str) -> list[str]:
 def create_invite(form: Any) -> Invitation:
     """Takes a WTForms or dict-like `form` with the same keys as your old version."""
     # generate or validate provided code
-    code = (form.get("code") or _generate_code()).upper()
+    code = (form.get("code") or _generate_code()).strip().upper()
 
     if (
         not (MIN_CODESIZE <= len(code) <= MAX_CODESIZE)
@@ -73,7 +76,7 @@ def create_invite(form: Any) -> Invitation:
     ):
         raise ValueError("Invalid or duplicate code")
 
-    now = datetime.datetime.now()
+    now = datetime.datetime.now(datetime.UTC)
     expires_lookup = {
         "day": now + datetime.timedelta(days=1),
         "week": now + datetime.timedelta(days=7),
@@ -96,10 +99,37 @@ def create_invite(form: Any) -> Invitation:
     other_servers = [s for s in servers if s.server_type != "plex"]
     servers = plex_servers + other_servers
 
-    # Keep legacy `server` column for the FIRST selected server (or None)
-    # primary_server = servers[0] if servers else None  # TODO: Re-enable when UNIQUE constraint issue is fixed
+    # Validate the library selection before creating anything. The invite picker
+    # (server_library_picker.html) emits a hidden `library_picker_used` marker; if
+    # it is present but no box is checked, the admin opened the picker and cleared
+    # it. That is almost always a mistake rather than a request for an invite that
+    # grants nothing (which the media backends cannot represent anyway), so reject
+    # it and point them at the permissive default. When the picker was never opened
+    # there is no marker and the redeem-time fallback still grants all enabled
+    # libraries, so unattended invites are unaffected.
+    #
+    # The submitted IDs are validated by resolving them against Library rows that
+    # actually belong to one of the selected servers, not by their raw presence:
+    # a stale or nonexistent ID would otherwise pass this check while resolving
+    # to zero libraries below, committing an unscoped invite that the picker
+    # appeared to have restricted.
+    selected_library_ids = [
+        int(lid) for lid in _get_form_list(form, "libraries") if str(lid).isdigit()
+    ]
+    resolved_libraries = (
+        Library.query.filter(
+            Library.id.in_(selected_library_ids),
+            Library.server_id.in_([s.id for s in servers]),
+        ).all()
+        if selected_library_ids
+        else []
+    )
+    if form.get("library_picker_used") and not resolved_libraries:
+        raise ValueError(
+            "Select at least one library, or leave the library selector "
+            "untouched to grant access to all enabled libraries."
+        )
 
-    # Fix duplicate assignment of allow_downloads and syntax error (missing parenthesis)
     invite = Invitation(
         code=code,
         used=False,
@@ -113,7 +143,6 @@ def create_invite(form: Any) -> Invitation:
         plex_allow_channels=bool(
             form.get("plex_allow_channels") or form.get("allow_live_tv")
         ),
-        # server=primary_server,  # TODO: Figure out why this causes UNIQUE constraint violation
         wizard_bundle_id=(
             int(form.get("wizard_bundle_id")) if form.get("wizard_bundle_id") else None
         ),
@@ -127,6 +156,13 @@ def create_invite(form: Any) -> Invitation:
             form.get("allow_live_tv") or form.get("plex_allow_channels")
         ),
         allow_mobile_uploads=bool(form.get("allow_mobile_uploads")),
+        # Jellyfin-specific options
+        max_active_sessions=(
+            int(form.get("max_active_sessions").strip())
+            if form.get("max_active_sessions")
+            and str(form.get("max_active_sessions")).strip().isdigit()
+            else None
+        ),
     )
     db.session.add(invite)
     db.session.flush()  # so invite.id exists, but not yet committed
@@ -144,50 +180,64 @@ def create_invite(form: Any) -> Invitation:
 
         invite.servers.extend(servers)
 
-    # Wire up library associations
-    selected = _get_form_list(
-        form, "libraries"
-    )  # these are now library IDs (not external_ids)
-    if selected:
-        # Convert string IDs to integers and filter out invalid values
-        try:
-            library_ids = [int(lid) for lid in selected if lid.isdigit()]
-        except (ValueError, AttributeError):
-            library_ids = []
+    # Wire up library associations (resolved_libraries computed and validated above)
+    if resolved_libraries:
+        # Clear any existing library associations for this invite to avoid UNIQUE constraint violations
+        # This handles cases where there might be leftover data from previous attempts
+        from app.models import invite_libraries
 
-        if library_ids:
-            # Clear any existing library associations for this invite to avoid UNIQUE constraint violations
-            # This handles cases where there might be leftover data from previous attempts
-            from app.models import invite_libraries
+        db.session.execute(
+            invite_libraries.delete().where(invite_libraries.c.invite_id == invite.id)
+        )
+        db.session.flush()  # Ensure the delete is committed before adding new records
 
-            db.session.execute(
-                invite_libraries.delete().where(
-                    invite_libraries.c.invite_id == invite.id
-                )
-            )
-            db.session.flush()  # Ensure the delete is committed before adding new records
+        # Since we're now using unique library IDs from the frontend,
+        # we shouldn't have duplicates, but we'll keep the deduplication
+        # logic as a safety measure
+        seen_lib_ids = set()
+        for lib in resolved_libraries:
+            if lib.id not in seen_lib_ids:
+                seen_lib_ids.add(lib.id)
+                invite.libraries.append(lib)
 
-            # Look up the Library objects by their IDs
-            # Also ensure they belong to one of the selected servers
-            server_ids = [s.id for s in servers]
-            libs = Library.query.filter(
-                Library.id.in_(library_ids), Library.server_id.in_(server_ids)
-            ).all()
-
-            # Since we're now using unique library IDs from the frontend,
-            # we shouldn't have duplicates, but we'll keep the deduplication
-            # logic as a safety measure
-            seen_lib_ids = set()
-            for lib in libs:
-                if lib.id not in seen_lib_ids:
-                    seen_lib_ids.add(lib.id)
-                    invite.libraries.append(lib)
+    # Wire up LDAP user creation flag
+    invite.create_ldap_user = bool(form.get("create_ldap_user"))
 
     db.session.commit()
     return invite
 
 
 # ─── Multi-server helpers ───────────────────────────────────────────────────
+
+
+def find_joined_user(
+    code: str, server_id: int, *, username: str = "", email: str = ""
+) -> User | None:
+    """The user an invitee just created on this server through this invite.
+
+    Matched on the code and server, then on whichever of username or email the
+    invitee gave: an unlimited invite has one row per person, and an email-only
+    join has no username. Newest first. Logs when nothing matches.
+    """
+    query = User.query.filter_by(code=code, server_id=server_id)
+    given = []
+    if username:
+        given.append(User.username == username)
+    if email:
+        given.append(User.email == email)
+    if given:
+        query = query.filter(or_(*given))
+    user = query.order_by(User.id.desc()).first()
+    if user is None:
+        logging.error(
+            "User lookup failed for code=%s, server_id=%s. Server has %d users, "
+            "code has %d users globally.",
+            code,
+            server_id,
+            User.query.filter_by(server_id=server_id).count(),
+            User.query.filter_by(code=code).count(),
+        )
+    return user
 
 
 def mark_server_used(
@@ -212,18 +262,18 @@ def mark_server_used(
                 invitation_servers.c.server_id == server_id,
             )
         )
-        .values(used=True, used_at=datetime.datetime.now())
+        .values(used=True, used_at=datetime.datetime.now(datetime.UTC))
     )
 
     # Check if *all* servers are now used (only for limited invitations)
     row = db.session.execute(
         invitation_servers.select().where(invitation_servers.c.invite_id == inv.id)
     ).all()
-    if row and all(r.used for r in row) and not inv.unlimited:  # type: ignore[attr-defined]
+    if row and all(r.used for r in row) and not inv.unlimited:  # type: ignore
         # For limited invitations, mark as fully used when all servers are used
         # For unlimited invitations, this should already be True from the first usage
         inv.used = True
-        inv.used_at = datetime.datetime.now()
+        inv.used_at = datetime.datetime.now(datetime.UTC)
 
     # Find or use the provided user who used this invitation on this server
     from app.models import User
@@ -266,7 +316,7 @@ def mark_server_used(
                 invitation_users.insert().values(
                     invite_id=inv.id,
                     user_id=user.id,
-                    used_at=datetime.datetime.now(),
+                    used_at=datetime.datetime.now(datetime.UTC),
                     server_id=server_id,
                 )
             )
@@ -290,6 +340,6 @@ def mark_server_used(
     # This allows the invitation to show up correctly in the admin interface
     if inv.unlimited and not inv.used:
         inv.used = True
-        inv.used_at = datetime.datetime.now()
+        inv.used_at = datetime.datetime.now(datetime.UTC)
 
     db.session.commit()

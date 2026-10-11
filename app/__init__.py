@@ -19,7 +19,7 @@ def create_app(config_object=DevelopmentConfig):
 
     if show_startup:
         logger.welcome(os.getenv("APP_VERSION", "dev"))
-        logger.start_sequence(total_steps=8)
+        logger.start_sequence(total_steps=10)
 
     # Step 1: Configure logging
     if show_startup:
@@ -48,10 +48,21 @@ def create_app(config_object=DevelopmentConfig):
     # Step 5: Setup context processors and filters
     if show_startup:
         logger.step("Configuring request processing", "⚙️")
-    from .context_processors import inject_server_name
+    from .context_processors import (
+        inject_app_version,
+        inject_plus_features,
+        inject_server_name,
+    )
 
     app.context_processor(inject_server_name)
+    app.context_processor(inject_plus_features)
+    app.context_processor(inject_app_version)
     register_error_handlers(app)
+
+    # Versioned static URLs, static cache headers and static compression
+    from .static_assets import init_static_assets
+
+    init_static_assets(app)
 
     # Register custom Jinja filters
     from .jinja_filters import register_filters
@@ -62,7 +73,11 @@ def create_app(config_object=DevelopmentConfig):
     # Step 6: Initialize wizard steps
     if show_startup:
         logger.step("Setting up wizard steps", "🪄")
-    with app.app_context():
+    from .background import startup_data_lock
+
+    # With more than one gunicorn worker, each worker creates the app at the
+    # same time. The lock makes the workers do steps 6 and 7 one at a time.
+    with app.app_context(), startup_data_lock():
         try:
             from .services.wizard_seed import import_default_wizard_steps
 
@@ -89,7 +104,55 @@ def create_app(config_object=DevelopmentConfig):
             # Non-fatal – log and continue startup to avoid blocking the app
             logger.warning(f"Wizard step migration failed: {exc}")
 
-    # Step 8: Show scheduler status and complete startup
+    # Step 8: Initialize Plus features if enabled
+    if show_startup:
+        logger.step("Checking for Plus features", "⭐")
+
+    # Check if plus features should be enabled
+    plus_enabled = os.getenv("WIZARR_PLUS_ENABLED", "false").lower() in (
+        "true",
+        "1",
+        "yes",
+    )
+
+    if plus_enabled:
+        try:
+            import plus
+
+            plus.enable_plus_features()  # type: ignore
+
+            with app.app_context():
+                plus.initialize_plus_features(app)  # type: ignore
+
+            if show_startup:
+                logger.success("Plus features enabled")
+        except ImportError:
+            if show_startup:
+                logger.warning("Plus features requested but plus module not found")
+        except Exception as exc:
+            if show_startup:
+                logger.warning(f"Plus features initialization failed: {exc}")
+    elif show_startup:
+        logger.info("Plus features disabled")
+
+    # Step 9: Start background services. Only one process (the background
+    # leader) runs the scheduler, the activity monitor, the startup
+    # migrations and the startup tasks. The library scan and the manifest
+    # fetch run in the background, so they do not delay startup.
+    if show_startup:
+        logger.step("Starting background services", "🕒")
+    from .background import start_background_services
+
+    role = start_background_services(app)
+    if show_startup:
+        if role == "leader":
+            logger.success(f"Background leader (pid {os.getpid()})")
+        elif role == "standby":
+            logger.info("Another process runs the background services")
+        else:
+            logger.info("Background services skipped in this process")
+
+    # Step 10: Show scheduler status and complete startup
     if show_startup:
         logger.step("Finalizing application setup", "✨")
 
@@ -105,7 +168,7 @@ def create_app(config_object=DevelopmentConfig):
                 )
                 logger.scheduler_status(enabled=True, dev_mode=dev_mode)
             else:
-                logger.info("Scheduler initialized but not running")
+                logger.info("Scheduler not running in this process")
         else:
             logger.info("Scheduler disabled")
 

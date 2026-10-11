@@ -593,10 +593,11 @@ class TestInvitationExpiry:
             assert db_user.expires is not None
 
             # Should expire in approximately 7 days
-            expected_expiry = datetime.now() + timedelta(
-                days=7
-            )  # Use naive datetime like the database
-            time_diff = abs((db_user.expires - expected_expiry).total_seconds())
+            # Database stores naive UTC, so compare with UTC time
+            expected_expiry = datetime.now(UTC) + timedelta(days=7)
+            time_diff = abs(
+                (db_user.expires - expected_expiry.replace(tzinfo=None)).total_seconds()
+            )
             assert time_diff < 60  # Within 1 minute of expected
 
 
@@ -692,6 +693,52 @@ class TestInvitationMarkingUsed:
 
             # But user should be tracked
             assert user1 in invite.users  # type: ignore
+
+    def test_mark_server_used_unlimited_multiple_users(self, app):
+        """All users who accept an unlimited invite are recorded in invitation_users."""
+        with app.app_context():
+            server = MediaServer(
+                name="Test Server",
+                server_type="jellyfin",
+                url="http://localhost:8096",
+                api_key="test-key",
+            )
+            db.session.add(server)
+            db.session.flush()
+
+            form_data = {
+                "expires": "never",
+                "unlimited": True,
+                "server_ids": [str(server.id)],
+            }
+            invite = create_invite(form_data)
+            invite.code = "UNLIMULTI"
+            db.session.commit()
+
+            userA = User(
+                username="alice",
+                email="alice@example.com",
+                token="token-a",
+                code="UNLIMULTI",
+                server_id=server.id,
+            )
+            userB = User(
+                username="bob",
+                email="bob@example.com",
+                token="token-b",
+                code="UNLIMULTI",
+                server_id=server.id,
+            )
+            db.session.add_all([userA, userB])
+            db.session.commit()
+
+            mark_server_used(invite, server.id, userA)
+            mark_server_used(invite, server.id, userB)
+
+            db.session.refresh(invite)
+            assert userA in invite.users  # type: ignore
+            assert userB in invite.users  # type: ignore
+            assert len(invite.users) == 2  # type: ignore
 
 
 if __name__ == "__main__":

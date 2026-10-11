@@ -8,7 +8,7 @@ from app.models import AdminAccount, ApiKey, Library, MediaServer, Settings
 
 
 @pytest.fixture
-def api_key(app):
+def api_key(app, session):
     """Create a test API key."""
     with app.app_context():
         # Create admin account if it doesn't exist
@@ -45,7 +45,7 @@ def api_key(app):
 
 
 @pytest.fixture
-def test_server(app):
+def test_server(app, session):
     """Create a test media server."""
     with app.app_context():
         # Create admin account if it doesn't exist
@@ -85,7 +85,7 @@ def test_api_libraries_without_existing_libraries(client, api_key, test_server):
     mock_libraries = {"lib1": "Movies", "lib2": "TV Shows", "lib3": "Music"}
 
     with patch("app.services.media.service.scan_libraries_for_server") as mock_scan:
-        mock_scan.return_value = mock_libraries
+        mock_scan.return_value = (mock_libraries, True)
 
         response = client.get("/api/libraries", headers={"X-API-Key": api_key})
 
@@ -174,7 +174,7 @@ def test_api_libraries_scan_failure_continues(client, api_key, test_server):
     def side_effect(server):
         if server.name == "Test Server":
             raise Exception("Connection failed")
-        return mock_libraries
+        return mock_libraries, True
 
     with patch("app.services.media.service.scan_libraries_for_server") as mock_scan:
         mock_scan.side_effect = side_effect

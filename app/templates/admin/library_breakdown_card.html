@@ -1,133 +1,137 @@
 {# Library Breakdown Card Template #}
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full h-full flex flex-col">
-    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-        <!-- Library Icon -->
-        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-        </svg>
-        {{ _("Library Breakdown") }}
-    </h2>
-
-    {% if success %}
-        {% if library_breakdown %}
-            <div class="flex-1 overflow-y-auto">
-                <!-- Global Library Types -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                    {% for lib_type, lib_info in library_breakdown.items() %}
-                    <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
-                        <div class="flex items-center justify-between mb-2">
-                            <div class="flex items-center gap-2">
-                                <!-- Library Type Icons -->
-                                {% if lib_type == 'movie' %}
-                                    <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
-                                    </svg>
-                                {% elif lib_type == 'show' or lib_type == 'tv' %}
-                                    <svg class="w-4 h-4 text-green-500" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                                    </svg>
-                                {% elif lib_type == 'music' or lib_type == 'audio' %}
-                                    <svg class="w-4 h-4 text-purple-500" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
-                                    </svg>
-                                {% elif lib_type == 'books' or lib_type == 'podcasts' %}
-                                    <svg class="w-4 h-4 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
-                                    </svg>
-                                {% elif lib_type == 'retro_gaming' %}
-                                    <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zM6 7a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
-                                    </svg>
-                                {% else %}
-                                    <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V4H6z" clip-rule="evenodd" />
-                                    </svg>
-                                {% endif %}
-                                
-                                <h3 class="text-sm font-medium text-gray-900 dark:text-white">
-                                    {{ lib_type|title }}
-                                </h3>
-                            </div>
-                            <span class="text-lg font-bold text-gray-900 dark:text-white">
-                                {{ lib_info.total_count }}
-                            </span>
-                        </div>
-                        
-                        <!-- Server breakdown for this library type -->
-                        {% if lib_info.servers %}
-                            <div class="text-xs text-gray-500 dark:text-gray-400 space-y-1">
-                                {% for server in lib_info.servers[:3] %}
-                                    <div class="flex justify-between">
-                                        <span>{{ server.server }}</span>
-                                        <span>{{ server.count }}</span>
-                                    </div>
-                                {% endfor %}
-                                {% if lib_info.servers|length > 3 %}
-                                    <div class="text-center pt-1">
-                                        <span class="text-gray-400">+{{ lib_info.servers|length - 3 }} more</span>
-                                    </div>
-                                {% endif %}
-                            </div>
-                        {% endif %}
-                    </div>
-                    {% endfor %}
-                </div>
-
-                <!-- Per-Server Details -->
-                {% if server_libraries %}
-                    <div class="border-t border-gray-200 dark:border-gray-600 pt-4">
-                        <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">{{ _("Per Server") }}</h3>
-                        <div class="space-y-3">
-                            {% for server_name, server_info in server_libraries.items() %}
-                            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
-                                <div class="flex items-center gap-2 mb-2">
-                                    <!-- Server Type Icon -->
-                                    {{ server_info.type|server_type_tag }}
-                                    
-                                    <span class="text-sm font-medium text-gray-900 dark:text-white">{{ server_name }}</span>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">({{ server_info.type|title }})</span>
-                                </div>
-                                
-                                {% if server_info.libraries %}
-                                    <div class="grid grid-cols-2 gap-2 text-xs">
-                                        {% for lib_type, lib_data in server_info.libraries.items() %}
-                                        <div class="flex justify-between">
-                                            <span class="text-gray-600 dark:text-gray-400">{{ lib_type|title }}</span>
-                                            <span class="font-medium text-gray-900 dark:text-white">{{ lib_data.count }}</span>
-                                        </div>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("No libraries found") }}</div>
-                                {% endif %}
-                            </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                {% endif %}
-            </div>
-        {% else %}
-            <div class="flex-1 flex items-center justify-center">
-                <div class="text-center text-gray-500 dark:text-gray-400">
-                    <svg class="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+  <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+    <!-- Library Icon -->
+    <svg class="w-5 h-5 text-primary"
+         fill="none"
+         stroke="currentColor"
+         viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+    </svg>
+    {{ _("Library Breakdown") }}
+  </h2>
+  {% if success %}
+    {% if library_breakdown %}
+      <div class="flex-1 overflow-y-auto">
+        <!-- Global Library Types -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+          {% for lib_type, lib_info in library_breakdown.items() %}
+            <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <!-- Library Type Icons -->
+                  {% if lib_type == 'movie' %}
+                    <svg class="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
                     </svg>
-                    <p class="text-sm">{{ _("No libraries found") }}</p>
-                    <p class="text-xs mt-1">{{ _("Configure your media servers to see library statistics") }}</p>
+                  {% elif lib_type == 'show' or lib_type == 'tv' %}
+                    <svg class="w-4 h-4 text-green-500"
+                         fill="currentColor"
+                         viewBox="0 0 20 20">
+                      <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                    </svg>
+                  {% elif lib_type == 'music' or lib_type == 'audio' %}
+                    <svg class="w-4 h-4 text-purple-500"
+                         fill="currentColor"
+                         viewBox="0 0 20 20">
+                      <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
+                    </svg>
+                  {% elif lib_type == 'books' or lib_type == 'podcasts' %}
+                    <svg class="w-4 h-4 text-orange-500"
+                         fill="currentColor"
+                         viewBox="0 0 20 20">
+                      <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
+                    </svg>
+                  {% elif lib_type == 'retro_gaming' %}
+                    <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zM6 7a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+                    </svg>
+                  {% else %}
+                    <svg class="w-4 h-4 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V4H6z" clip-rule="evenodd" />
+                    </svg>
+                  {% endif %}
+                  <h3 class="text-sm font-medium text-gray-900 dark:text-white">{{ lib_type|title }}</h3>
                 </div>
+                <span class="text-lg font-bold text-gray-900 dark:text-white">{{ lib_info.total_count }}</span>
+              </div>
+              <!-- Server breakdown for this library type -->
+              {% if lib_info.servers %}
+                <div class="text-xs text-gray-500 dark:text-gray-400 space-y-1">
+                  {% for server in lib_info.servers[:3] %}
+                    <div class="flex justify-between">
+                      <span>{{ server.server }}</span>
+                      <span>{{ server.count }}</span>
+                    </div>
+                  {% endfor %}
+                  {% if lib_info.servers|length > 3 %}
+                    <div class="text-center pt-1">
+                      <span class="text-gray-400">+{{ lib_info.servers|length - 3 }} more</span>
+                    </div>
+                  {% endif %}
+                </div>
+              {% endif %}
             </div>
-        {% endif %}
-        
-    {% else %}
-        <!-- Error State -->
-        <div class="flex-1 flex items-center justify-center">
-            <div class="text-center">
-                <svg class="w-12 h-12 text-red-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <p class="text-sm text-red-600 dark:text-red-400 mb-2">{{ _("Failed to load libraries") }}</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">{{ error if error else _("Unknown error occurred") }}</p>
-            </div>
+          {% endfor %}
         </div>
+        <!-- Per-Server Details -->
+        {% if server_libraries %}
+          <div class="border-t border-gray-200 dark:border-gray-600 pt-4">
+            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">{{ _("Per Server") }}</h3>
+            <div class="space-y-3">
+              {% for server_name, server_info in server_libraries.items() %}
+                <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-3">
+                  <div class="flex items-center gap-2 mb-2">
+                    <!-- Server Type Icon -->
+                    {{ server_info.type|server_type_tag }}
+                    <span class="text-sm font-medium text-gray-900 dark:text-white">{{ server_name }}</span>
+                    <span class="text-xs text-gray-500 dark:text-gray-400">({{ server_info.type|title }})</span>
+                  </div>
+                  {% if server_info.libraries %}
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                      {% for lib_type, lib_data in server_info.libraries.items() %}
+                        <div class="flex justify-between">
+                          <span class="text-gray-600 dark:text-gray-400">{{ lib_type|title }}</span>
+                          <span class="font-medium text-gray-900 dark:text-white">{{ lib_data.count }}</span>
+                        </div>
+                      {% endfor %}
+                    </div>
+                  {% else %}
+                    <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("No libraries found") }}</div>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="flex-1 flex items-center justify-center">
+        <div class="text-center text-gray-500 dark:text-gray-400">
+          <svg class="w-12 h-12 mx-auto mb-4"
+               fill="none"
+               stroke="currentColor"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+          </svg>
+          <p class="text-sm">{{ _("No libraries found") }}</p>
+          <p class="text-xs mt-1">{{ _("Configure your media servers to see library statistics") }}</p>
+        </div>
+      </div>
     {% endif %}
-</div> 
+  {% else %}
+    <!-- Error State -->
+    <div class="flex-1 flex items-center justify-center">
+      <div class="text-center">
+        <svg class="w-12 h-12 text-red-400 mx-auto mb-4"
+             fill="none"
+             stroke="currentColor"
+             viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p class="text-sm text-red-600 dark:text-red-400 mb-2">{{ _("Failed to load libraries") }}</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400">{{ error if error else _("Unknown error occurred") }}</p>
+      </div>
+    </div>
+  {% endif %}
+</div>

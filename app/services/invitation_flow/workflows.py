@@ -6,7 +6,7 @@ import logging
 from abc import ABC, abstractmethod
 from typing import Any
 
-from flask import session
+from flask import session, url_for
 
 from app.models import Invitation, MediaServer
 from app.services.media.service import get_client_for_media_server
@@ -14,6 +14,87 @@ from app.services.ombi_client import invite_user_to_connections
 
 from .results import InvitationResult, ProcessingStatus, ServerResult
 from .strategies import StrategyFactory
+
+
+def _get_server_colors(server_type: str | None) -> dict[str, str]:
+    """Get color scheme for a specific server type.
+
+    Args:
+        server_type: Server type string (e.g., 'plex', 'jellyfin', 'emby', 'audiobookshelf')
+
+    Returns:
+        Dictionary containing:
+        - gradient_start: Starting color for gradient
+        - gradient_end: Ending color for gradient
+        - shadow_color: RGBA color for box shadow (with 0.3 alpha)
+
+    Note:
+        Default colors (Plex red) are used for unknown server types and as fallback.
+    """
+    color_schemes = {
+        "plex": {
+            "gradient_start": "#fe4155",
+            "gradient_end": "#fe4155",
+            "shadow_color": "rgba(254, 65, 85, 0.3)",
+        },
+        "jellyfin": {
+            "gradient_start": "#AA5CC3",
+            "gradient_end": "#00A4DC",
+            "shadow_color": "rgba(0, 164, 220, 0.3)",
+        },
+        "audiobookshelf": {
+            "gradient_start": "#DDBC82",
+            "gradient_end": "#8D6229",
+            "shadow_color": "rgba(141, 98, 41, 0.3)",
+        },
+        "emby": {
+            "gradient_start": "#52b64b",
+            "gradient_end": "#52b64b",
+            "shadow_color": "rgba(82, 182, 75, 0.3)",
+        },
+    }
+
+    # Return server-specific colors or default to Plex colors
+    return color_schemes.get(  # type: ignore
+        server_type,
+        color_schemes["plex"],
+    )
+
+
+def _create_join_form_template_data(
+    invitation: Invitation,
+    servers: list[MediaServer],
+    *,
+    form=None,
+    error: str | None = None,
+) -> dict[str, Any]:
+    """Build the complete template context for form-based invite screens."""
+    from app.forms.join import JoinForm
+    from app.services.server_name_resolver import resolve_invitation_server_name
+
+    if form is None:
+        form = JoinForm()
+    form.code.data = invitation.code
+
+    primary_server = servers[0] if servers else None
+    server_type = primary_server.server_type if primary_server else "jellyfin"
+    server_name = resolve_invitation_server_name(servers)
+    colors = _get_server_colors(server_type)
+
+    context = {
+        "template_name": "welcome-jellyfin.html",
+        "form": form,
+        "server_type": server_type,
+        "server_name": server_name,
+        "servers": servers,
+        "gradient_start": colors["gradient_start"],
+        "gradient_end": colors["gradient_end"],
+        "shadow_color": colors["shadow_color"],
+        "show_form": bool(error) or bool(getattr(form, "errors", None)),
+    }
+    if error:
+        context["error"] = error
+    return context
 
 
 class InvitationWorkflow(ABC):
@@ -27,7 +108,6 @@ class InvitationWorkflow(ABC):
         self, invitation: Invitation, servers: list[MediaServer]
     ) -> InvitationResult:
         """Show the initial form for this workflow type."""
-        pass
 
     @abstractmethod
     def process_submission(
@@ -37,7 +117,6 @@ class InvitationWorkflow(ABC):
         form_data: dict[str, Any],
     ) -> InvitationResult:
         """Process form submission for this workflow type."""
-        pass
 
     def _process_servers(
         self,
@@ -69,7 +148,7 @@ class InvitationWorkflow(ABC):
 
                     # Mark invitation as used for this server
                     from app.models import Invitation
-                    from app.services.invites import mark_server_used
+                    from app.services.invites import find_joined_user, mark_server_used
 
                     invitation = Invitation.query.filter_by(
                         code=invitation_code
@@ -78,36 +157,22 @@ class InvitationWorkflow(ABC):
                         # Find the user that was created for this server
                         # Flush and commit to ensure we can see the newly created user
                         from app.extensions import db
-                        from app.models import User
 
                         db.session.flush()
                         db.session.commit()
 
-                        user = User.query.filter_by(
-                            code=invitation_code, server_id=server.id
-                        ).first()
-
-                        # If user not found, log debug info
-                        if not user:
-                            import logging
-
-                            all_users_for_server = User.query.filter_by(
-                                server_id=server.id
-                            ).all()
-                            all_users_with_code = User.query.filter_by(
-                                code=invitation_code
-                            ).all()
-                            logging.error(
-                                f"User lookup failed for code={invitation_code}, server_id={server.id}. "
-                                f"Server has {len(all_users_for_server)} users, "
-                                f"code has {len(all_users_with_code)} users globally."
-                            )
+                        user = find_joined_user(
+                            invitation_code,
+                            server.id,
+                            username=form_data.get("username", ""),
+                            email=form_data.get("email", ""),
+                        )
                         # Only set used_by for unlimited invites if not already set
                         # For limited invites, used_by should track the single user
                         if user and (
                             not invitation.unlimited or not invitation.used_by
                         ):
-                            invitation.used_by = user  # type: ignore[assignment]
+                            invitation.used_by = user  # type: ignore
                         mark_server_used(invitation, server.id, user)
 
                     # Invite user to connected external services (Ombi/Overseerr)
@@ -142,21 +207,51 @@ class InvitationWorkflow(ABC):
                     ServerResult(
                         server=server,
                         success=False,
-                        message=f"Error: {str(e)}",
+                        message=f"Error: {e!s}",
                         user_created=False,
                     )
                 )
 
         return successful, failed
 
+    def _validate_join_form(
+        self, form_data: dict[str, Any]
+    ) -> tuple[bool, dict[str, Any], Any]:
+        """Validate submitted account data using the public join form rules."""
+        from werkzeug.datastructures import MultiDict
+
+        from app.forms.join import JoinForm
+
+        form = JoinForm(formdata=MultiDict(form_data))
+        if not form.validate():
+            return False, form_data, form
+
+        validated_data = dict(form_data)
+        validated_data.update(
+            {
+                "username": form.username.data or "",
+                "email": form.email.data or "",
+                "password": form.password.data or "",
+                "confirm_password": form.confirm_password.data or "",
+                "code": form.code.data or "",
+            }
+        )
+        return True, validated_data, form
+
     def _create_success_result(
         self,
-        invitation_code: str,
+        invitation: Invitation,
         successful: list[ServerResult],
         failed: list[ServerResult],
     ) -> InvitationResult:
         """Create success result with wizard redirect."""
+        invitation_code = invitation.code
         session["wizard_access"] = invitation_code
+        bundle_id = getattr(invitation, "wizard_bundle_id", None)
+        if bundle_id:
+            session["wizard_bundle_id"] = bundle_id
+        else:
+            session.pop("wizard_bundle_id", None)
 
         if not failed:
             status = ProcessingStatus.SUCCESS
@@ -165,15 +260,20 @@ class InvitationWorkflow(ABC):
             status = ProcessingStatus.PARTIAL_SUCCESS
             message = f"Accounts created on {len(successful)} of {len(successful) + len(failed)} servers"
 
+        redirect_url = "/wizard/"
+        if bundle_id:
+            redirect_url = url_for("wizard.bundle_view", idx=0)
+
         return InvitationResult(
             status=status,
             message=message,
             successful_servers=successful,
             failed_servers=failed,
-            redirect_url="/wizard/",
+            redirect_url=redirect_url,
             session_data={
                 "wizard_access": invitation_code,
                 "invitation_in_progress": True,
+                "wizard_bundle_id": bundle_id,
             },
         )
 
@@ -185,31 +285,12 @@ class FormBasedWorkflow(InvitationWorkflow):
         self, invitation: Invitation, servers: list[MediaServer]
     ) -> InvitationResult:
         """Show form-based authentication form."""
-        from app.forms.join import JoinForm
-        from app.services.server_name_resolver import resolve_invitation_server_name
-
-        form = JoinForm()
-        form.code.data = invitation.code
-
-        # Determine primary server type for UI
-        primary_server = servers[0] if servers else None
-        server_type = primary_server.server_type if primary_server else "jellyfin"
-
-        # Resolve the server name to display
-        server_name = resolve_invitation_server_name(servers)
-
         return InvitationResult(
             status=ProcessingStatus.AUTHENTICATION_REQUIRED,
             message="Authentication required",
             successful_servers=[],
             failed_servers=[],
-            template_data={
-                "template_name": "welcome-jellyfin.html",
-                "form": form,
-                "server_type": server_type,
-                "server_name": server_name,
-                "servers": servers,
-            },
+            template_data=_create_join_form_template_data(invitation, servers),
             session_data={"invitation_in_progress": True},
         )
 
@@ -220,51 +301,75 @@ class FormBasedWorkflow(InvitationWorkflow):
         form_data: dict[str, Any],
     ) -> InvitationResult:
         """Process form submission."""
+        form_valid, validated_data, form = self._validate_join_form(form_data)
+        if not form_valid:
+            return self._create_auth_error_result(
+                invitation,
+                servers,
+                "Please correct the highlighted fields.",
+                form=form,
+            )
+        form_data = validated_data
+
         # Authenticate
         strategy = StrategyFactory.create_strategy(servers)
-        auth_success, auth_message, user_data = strategy.authenticate(
+        auth_success, auth_message, _user_data = strategy.authenticate(
             servers, form_data
         )
 
         if not auth_success:
             return self._create_auth_error_result(invitation, servers, auth_message)
 
+        # Create LDAP user if configured
+        from app.services.ldap.invitation_ldap import InvitationLDAPHandler
+
+        ldap_handler = InvitationLDAPHandler(invitation)
+
+        if ldap_handler.should_create_ldap_user():
+            ldap_success, ldap_result = ldap_handler.create_ldap_user(
+                username=form_data.get("username", ""),
+                email=form_data.get("email", ""),
+                password=form_data.get("password", ""),
+            )
+
+            if not ldap_success:
+                return self._create_auth_error_result(
+                    invitation, servers, f"Failed to create LDAP user: {ldap_result}"
+                )
+
         # Process servers
         successful, failed = self._process_servers(servers, form_data, invitation.code)
 
+        # Mark newly created users as LDAP users if LDAP user was created
+        if successful and ldap_handler.should_create_ldap_user():
+            from app.extensions import db
+            from app.models import User
+
+            User.query.filter_by(code=invitation.code).update(
+                {"is_ldap_user": True}, synchronize_session=False
+            )
+            db.session.commit()
+
         if successful:
-            return self._create_success_result(invitation.code, successful, failed)
+            return self._create_success_result(invitation, successful, failed)
         return self._create_server_error_result(invitation, servers, failed)
 
     def _create_auth_error_result(
-        self, invitation: Invitation, servers: list[MediaServer], error_message: str
+        self,
+        invitation: Invitation,
+        servers: list[MediaServer],
+        error_message: str,
+        form: Any | None = None,
     ) -> InvitationResult:
         """Create result for authentication errors."""
-        from app.forms.join import JoinForm
-        from app.services.server_name_resolver import resolve_invitation_server_name
-
-        form = JoinForm()
-        form.code.data = invitation.code
-
-        primary_server = servers[0] if servers else None
-        server_type = primary_server.server_type if primary_server else "jellyfin"
-
-        # Resolve the server name to display
-        server_name = resolve_invitation_server_name(servers)
-
         return InvitationResult(
             status=ProcessingStatus.FAILURE,
             message=error_message,
             successful_servers=[],
             failed_servers=[],
-            template_data={
-                "template_name": "welcome-jellyfin.html",
-                "form": form,
-                "server_type": server_type,
-                "server_name": server_name,
-                "servers": servers,
-                "error": error_message,
-            },
+            template_data=_create_join_form_template_data(
+                invitation, servers, form=form, error=error_message
+            ),
             session_data={"invitation_in_progress": True},
         )
 
@@ -275,18 +380,6 @@ class FormBasedWorkflow(InvitationWorkflow):
         failed: list[ServerResult],
     ) -> InvitationResult:
         """Create result for server failures."""
-        from app.forms.join import JoinForm
-        from app.services.server_name_resolver import resolve_invitation_server_name
-
-        form = JoinForm()
-        form.code.data = invitation.code
-
-        primary_server = servers[0] if servers else None
-        server_type = primary_server.server_type if primary_server else "jellyfin"
-
-        # Resolve the server name to display
-        server_name = resolve_invitation_server_name(servers)
-
         error_messages = [
             f"{result.server.name}: {result.message}" for result in failed
         ]
@@ -297,14 +390,9 @@ class FormBasedWorkflow(InvitationWorkflow):
             message=error_text,
             successful_servers=[],
             failed_servers=failed,
-            template_data={
-                "template_name": "welcome-jellyfin.html",
-                "form": form,
-                "server_type": server_type,
-                "server_name": server_name,
-                "servers": servers,
-                "error": error_text,
-            },
+            template_data=_create_join_form_template_data(
+                invitation, servers, error=error_text
+            ),
             session_data={"invitation_in_progress": True},
         )
 
@@ -316,10 +404,13 @@ class PlexOAuthWorkflow(InvitationWorkflow):
         self, invitation: Invitation, servers: list[MediaServer]
     ) -> InvitationResult:
         """Show Plex OAuth form."""
-        # Get server name (prefer invitation's primary server, fallback to first server or Settings)
-        server_name = None
-        if servers:
-            server_name = servers[0].name
+        from app.services.server_name_resolver import resolve_invitation_server_name
+
+        # Resolve the server name to display
+        server_name = resolve_invitation_server_name(servers)
+
+        # Get server-specific color scheme for theming (always Plex for this workflow)
+        colors = _get_server_colors("plex")
 
         return InvitationResult(
             status=ProcessingStatus.OAUTH_PENDING,
@@ -331,6 +422,9 @@ class PlexOAuthWorkflow(InvitationWorkflow):
                 "code": invitation.code,
                 "oauth_url": f"/oauth/plex?code={invitation.code}",
                 "server_name": server_name,
+                "gradient_start": colors["gradient_start"],
+                "gradient_end": colors["gradient_end"],
+                "shadow_color": colors["shadow_color"],
             },
             session_data={"invitation_in_progress": True},
         )
@@ -355,7 +449,7 @@ class PlexOAuthWorkflow(InvitationWorkflow):
         successful, failed = self._process_servers(servers, form_data, invitation.code)
 
         if successful:
-            return self._create_success_result(invitation.code, successful, failed)
+            return self._create_success_result(invitation, successful, failed)
         return self._create_oauth_error_result(
             invitation, "Failed to create Plex account"
         )
@@ -364,10 +458,19 @@ class PlexOAuthWorkflow(InvitationWorkflow):
         self, invitation: Invitation, error_message: str
     ) -> InvitationResult:
         """Create result for OAuth errors."""
-        # Get server name from invitation
-        server_name = None
-        if invitation.servers:
-            server_name = invitation.servers[0].name
+        from typing import Any, cast
+
+        from app.services.server_name_resolver import resolve_invitation_server_name
+
+        # Get servers from invitation and resolve the server name
+        servers = []
+        if hasattr(invitation, "servers") and invitation.servers:
+            try:
+                servers_iter = cast(Any, invitation.servers)
+                servers = list(servers_iter)
+            except (TypeError, AttributeError):
+                servers = []
+        server_name = resolve_invitation_server_name(servers)
 
         return InvitationResult(
             status=ProcessingStatus.FAILURE,
@@ -396,13 +499,13 @@ class MixedWorkflow(InvitationWorkflow):
 
         if not plex_token:
             # Start with Plex OAuth
-            # Get server name from servers (prefer plex server)
-            server_name = None
-            plex_server = next((s for s in servers if s.server_type == "plex"), None)
-            if plex_server:
-                server_name = plex_server.name
-            elif servers:
-                server_name = servers[0].name
+            from app.services.server_name_resolver import resolve_invitation_server_name
+
+            # Resolve the server name to display
+            server_name = resolve_invitation_server_name(servers)
+
+            # Get server-specific color scheme for theming (Plex for mixed workflow)
+            colors = _get_server_colors("plex")
 
             return InvitationResult(
                 status=ProcessingStatus.OAUTH_PENDING,
@@ -414,12 +517,23 @@ class MixedWorkflow(InvitationWorkflow):
                     "code": invitation.code,
                     "oauth_url": f"/oauth/plex?code={invitation.code}",
                     "server_name": server_name,
+                    "gradient_start": colors["gradient_start"],
+                    "gradient_end": colors["gradient_end"],
+                    "shadow_color": colors["shadow_color"],
                 },
                 session_data={"invitation_in_progress": True},
             )
 
         if other_servers:
+            from app.forms.join import JoinForm
+
             # Show password form for local servers
+            # Use first local server's colors
+            local_server_type = other_servers[0].server_type if other_servers else None
+            colors = _get_server_colors(local_server_type)
+            form = JoinForm()
+            form.code.data = invitation.code
+
             return InvitationResult(
                 status=ProcessingStatus.AUTHENTICATION_REQUIRED,
                 message="Password required for local servers",
@@ -427,10 +541,14 @@ class MixedWorkflow(InvitationWorkflow):
                 failed_servers=[],
                 template_data={
                     "template_name": "hybrid-password-form.html",
+                    "form": form,
                     "code": invitation.code,
                     "plex_authenticated": True,
                     "plex_token": plex_token,
                     "local_servers": other_servers,
+                    "gradient_start": colors["gradient_start"],
+                    "gradient_end": colors["gradient_end"],
+                    "shadow_color": colors["shadow_color"],
                 },
                 session_data={"invitation_in_progress": True},
             )
@@ -459,6 +577,17 @@ class MixedWorkflow(InvitationWorkflow):
             # Need password for local servers
             return self.show_initial_form(invitation, servers)
 
+        if other_servers:
+            form_valid, validated_data, form = self._validate_join_form(form_data)
+            if not form_valid:
+                return self._create_local_form_error_result(
+                    invitation,
+                    other_servers,
+                    "Please correct the highlighted fields.",
+                    form,
+                )
+            form_data = validated_data
+
         # Process all servers
         all_successful = []
         all_failed = []
@@ -483,15 +612,45 @@ class MixedWorkflow(InvitationWorkflow):
             all_failed.extend(other_failed)
 
         if all_successful:
-            return self._create_success_result(
-                invitation.code, all_successful, all_failed
-            )
+            return self._create_success_result(invitation, all_successful, all_failed)
         return self._create_mixed_error_result(
             invitation, "Failed to create accounts on any server"
         )
 
+    def _create_local_form_error_result(
+        self,
+        invitation: Invitation,
+        local_servers: list[MediaServer],
+        error_message: str,
+        form: Any,
+    ) -> InvitationResult:
+        """Create result for local account form validation errors."""
+        plex_token = session.get("plex_oauth_token")
+        local_server_type = local_servers[0].server_type if local_servers else None
+        colors = _get_server_colors(local_server_type)
+
+        return InvitationResult(
+            status=ProcessingStatus.FAILURE,
+            message=error_message,
+            successful_servers=[],
+            failed_servers=[],
+            template_data={
+                "template_name": "hybrid-password-form.html",
+                "form": form,
+                "code": invitation.code,
+                "plex_authenticated": True,
+                "plex_token": plex_token,
+                "local_servers": local_servers,
+                "gradient_start": colors["gradient_start"],
+                "gradient_end": colors["gradient_end"],
+                "shadow_color": colors["shadow_color"],
+                "error": error_message,
+            },
+            session_data={"invitation_in_progress": True},
+        )
+
     def _create_mixed_error_result(
-        self, invitation: Invitation, error_message: str
+        self, _invitation: Invitation, error_message: str
     ) -> InvitationResult:
         """Create result for mixed workflow errors."""
         return InvitationResult(

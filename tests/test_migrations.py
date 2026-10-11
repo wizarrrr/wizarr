@@ -5,6 +5,7 @@ import pytest
 import requests
 from flask_migrate import downgrade, upgrade
 from sqlalchemy import create_engine, text
+from sqlalchemy.exc import IntegrityError
 
 from app import create_app
 from app.config import BaseConfig
@@ -36,7 +37,7 @@ def migration_app(temp_db):
     config = MigrationTestConfig()
     config.SQLALCHEMY_DATABASE_URI = temp_db
 
-    app = create_app(config)  # type: ignore[arg-type]
+    app = create_app(config)  # type: ignore
     yield app
 
 
@@ -87,6 +88,67 @@ def test_full_migration_upgrade(migration_app, temp_db):
             assert has_unique_constraint, (
                 "wizard_bundle_step missing unique constraint (no sqlite_autoindex found)"
             )
+
+
+def test_expired_user_event_migration_repairs_existing_data(migration_app, temp_db):
+    """Test duplicate removal, disabled-state repair, and the unique index."""
+    with migration_app.app_context():
+        upgrade(revision="20260401_repair")
+
+        engine = create_engine(temp_db)
+        with engine.connect() as connection:
+            expiry_time = "2026-08-01 00:00:00.000000"
+            connection.execute(
+                text("""
+                    INSERT INTO "user"
+                        (id, token, username, email, code, expires, is_disabled,
+                         is_ldap_user)
+                    VALUES
+                        (42, 'token', 'expired-user', 'expired@example.com',
+                         'EXPIRED', :expiry_time, 0, 0)
+                """),
+                {"expiry_time": expiry_time},
+            )
+            connection.execute(
+                text("""
+                    INSERT INTO expired_user
+                        (original_user_id, username, expired_at, deleted_at)
+                    VALUES
+                        (42, 'expired-user', :expiry_time, :expiry_time),
+                        (42, 'expired-user', :expiry_time, :expiry_time)
+                """),
+                {"expiry_time": expiry_time},
+            )
+            connection.commit()
+
+        upgrade(revision="20260901_expired_unique")
+
+        with engine.connect() as connection:
+            event_count = connection.execute(
+                text("SELECT COUNT(*) FROM expired_user")
+            ).scalar_one()
+            disabled = connection.execute(
+                text('SELECT is_disabled FROM "user" WHERE id = 42')
+            ).scalar_one()
+            indexes = {
+                row[1]
+                for row in connection.execute(text("PRAGMA index_list(expired_user)"))
+            }
+
+            assert event_count == 1
+            assert disabled == 1
+            assert "uq_expired_user_event" in indexes
+
+            with pytest.raises(IntegrityError):
+                connection.execute(
+                    text("""
+                        INSERT INTO expired_user
+                            (original_user_id, username, expired_at, deleted_at)
+                        VALUES
+                            (42, 'expired-user', :expiry_time, :expiry_time)
+                    """),
+                    {"expiry_time": expiry_time},
+                )
 
 
 def test_problematic_migration_specifically(migration_app, temp_db):
@@ -171,7 +233,9 @@ def _get_latest_release_migration():
         release_migrations = {
             "2025.8.2": "20250729_squashed_connections_expiry_system",
             "2025.8.3": "20250729_squashed_connections_expiry_system",  # 2025.8.3 uses same migrations as 2025.8.2
-            "2025.9.0": "6c39692d6f32",  # Add the HEAD migration for 2025.9.0
+            "v2025.9.1": "39514b0aaad9",  # Latest release with admin column migration
+            "v2025.9.2": "39514b0aaad9",  # Same migration state
+            "v2025.9.3": "39514b0aaad9",  # Same migration state
             # Add future releases here as they are tagged
         }
 
@@ -335,3 +399,222 @@ def test_upgrade_from_latest_release(migration_app, temp_db):
             assert has_unique_constraint, (
                 "wizard_bundle_step missing unique constraint after upgrade"
             )
+
+
+def test_wizard_step_category_migration_upgrade(migration_app, temp_db):
+    """Test that the category field migration adds column with correct default."""
+    with migration_app.app_context():
+        # Run migrations up to just before the category migration
+        upgrade(revision="fd5a34530162")
+
+        # Verify wizard_step table exists but doesn't have category column yet
+        engine = create_engine(temp_db)
+        with engine.connect() as conn:
+            result = conn.execute(text("PRAGMA table_info(wizard_step)"))
+            columns_before = {row[1] for row in result}
+            assert "category" not in columns_before, (
+                "category column should not exist before migration"
+            )
+
+            # Insert a test wizard step without category
+            conn.execute(
+                text(
+                    """
+                    INSERT INTO wizard_step
+                        (server_type, position, title, markdown, created_at, updated_at)
+                    VALUES
+                        ('plex', 0, 'Test Step', '# Test', datetime('now'), datetime('now'))
+                    """
+                )
+            )
+            conn.commit()
+
+        # Now run the category migration
+        upgrade(revision="20251005_add_category_to_wizard_step")
+
+        # Verify the migration succeeded
+        with engine.connect() as conn:
+            # Check category column was added
+            result = conn.execute(text("PRAGMA table_info(wizard_step)"))
+            columns_after = {row[1]: row for row in result}
+            assert "category" in columns_after, "category column not added"
+
+            # Verify default value is 'post_invite'
+            category_col = columns_after["category"]
+            assert category_col[4] == "'post_invite'", (
+                f"category default should be 'post_invite', got {category_col[4]}"
+            )
+
+            # Verify existing step got default category
+            result = conn.execute(
+                text("SELECT category FROM wizard_step WHERE server_type = 'plex'")
+            )
+            row = result.fetchone()
+            assert row is not None, "Test step not found"
+            assert row[0] == "post_invite", (
+                f"Existing step should have category 'post_invite', got {row[0]}"
+            )
+
+            # Verify new unique constraint exists
+            result = conn.execute(
+                text(
+                    "SELECT sql FROM sqlite_master WHERE type='table' AND name='wizard_step'"
+                )
+            )
+            row = result.fetchone()
+            assert row is not None
+            table_sql = row[0]
+            assert "uq_step_server_category_pos" in table_sql, (
+                "New unique constraint not found"
+            )
+            assert "server_type, category, position" in table_sql, (
+                "Unique constraint should include category"
+            )
+
+
+def test_wizard_step_category_migration_downgrade(migration_app, temp_db):
+    """Test that the category field migration can be downgraded without data loss."""
+    with migration_app.app_context():
+        # Run migrations up to and including the category migration
+        upgrade(revision="20251005_add_category_to_wizard_step")
+
+        # Insert test data with both pre_invite and post_invite steps
+        engine = create_engine(temp_db)
+        with engine.connect() as conn:
+            conn.execute(
+                text(
+                    """
+                    INSERT INTO wizard_step
+                        (server_type, category, position, title, markdown, created_at, updated_at)
+                    VALUES
+                        ('plex', 'pre_invite', 0, 'Pre Step', '# Pre', datetime('now'), datetime('now')),
+                        ('plex', 'post_invite', 0, 'Post Step', '# Post', datetime('now'), datetime('now'))
+                    """
+                )
+            )
+            conn.commit()
+
+            # Verify both steps exist
+            result = conn.execute(text("SELECT COUNT(*) FROM wizard_step"))
+            row = result.fetchone()
+            assert row is not None
+            assert row[0] == 2, "Should have 2 test steps"
+
+        # Now downgrade
+        downgrade(revision="fd5a34530162")
+
+        # Verify the downgrade succeeded
+        with engine.connect() as conn:
+            # Check category column was removed
+            result = conn.execute(text("PRAGMA table_info(wizard_step)"))
+            columns = {row[1] for row in result}
+            assert "category" not in columns, "category column not removed"
+
+            # Verify old unique constraint is restored
+            result = conn.execute(
+                text(
+                    "SELECT sql FROM sqlite_master WHERE type='table' AND name='wizard_step'"
+                )
+            )
+            row = result.fetchone()
+            assert row is not None
+            table_sql = row[0]
+            assert "uq_step_server_pos" in table_sql, (
+                "Old unique constraint not restored"
+            )
+            assert "uq_step_server_category_pos" not in table_sql, (
+                "New unique constraint should be removed"
+            )
+
+            # Verify post_invite step was preserved
+            result = conn.execute(
+                text("SELECT title FROM wizard_step WHERE server_type = 'plex'")
+            )
+            row = result.fetchone()
+            assert row is not None, "Post-invite step should be preserved"
+            assert row[0] == "Post Step", (
+                f"Should preserve post_invite step, got {row[0]}"
+            )
+
+            # Verify only one step remains (pre_invite step should be dropped)
+            result = conn.execute(text("SELECT COUNT(*) FROM wizard_step"))
+            row = result.fetchone()
+            assert row is not None
+            count = row[0]
+            assert count == 1, (
+                f"Should have 1 step after downgrade (post_invite only), got {count}"
+            )
+
+
+def test_wizard_step_category_unique_constraint(migration_app, temp_db):
+    """Test that the unique constraint works correctly with category field."""
+    with migration_app.app_context():
+        # Run migrations up to and including the category migration
+        upgrade(revision="20251005_add_category_to_wizard_step")
+
+        engine = create_engine(temp_db)
+        with engine.connect() as conn:
+            # Test 1: Can insert steps with same position but different categories
+            conn.execute(
+                text(
+                    """
+                    INSERT INTO wizard_step
+                        (server_type, category, position, title, markdown, created_at, updated_at)
+                    VALUES
+                        ('plex', 'pre_invite', 0, 'Pre Step 1', '# Pre', datetime('now'), datetime('now')),
+                        ('plex', 'post_invite', 0, 'Post Step 1', '# Post', datetime('now'), datetime('now'))
+                    """
+                )
+            )
+            conn.commit()
+
+            # Verify both steps were inserted
+            result = conn.execute(
+                text("SELECT COUNT(*) FROM wizard_step WHERE position = 0")
+            )
+            row = result.fetchone()
+            assert row is not None
+            assert row[0] == 2, "Should allow same position with different categories"
+
+            # Test 2: Cannot insert duplicate (server_type, category, position)
+            try:
+                conn.execute(
+                    text(
+                        """
+                        INSERT INTO wizard_step
+                            (server_type, category, position, title, markdown, created_at, updated_at)
+                        VALUES
+                            ('plex', 'pre_invite', 0, 'Duplicate', '# Dup', datetime('now'), datetime('now'))
+                        """
+                    )
+                )
+                conn.commit()
+                raise AssertionError(
+                    "Should not allow duplicate (server_type, category, position)"
+                )
+            except Exception as e:
+                # Expected: unique constraint violation
+                assert (
+                    "UNIQUE constraint failed" in str(e) or "unique" in str(e).lower()
+                ), f"Expected unique constraint error, got: {e}"
+                conn.rollback()
+
+            # Test 3: Can insert steps with same server_type and position but different categories
+            conn.execute(
+                text(
+                    """
+                    INSERT INTO wizard_step
+                        (server_type, category, position, title, markdown, created_at, updated_at)
+                    VALUES
+                        ('jellyfin', 'pre_invite', 0, 'Jellyfin Pre', '# Pre', datetime('now'), datetime('now')),
+                        ('jellyfin', 'post_invite', 0, 'Jellyfin Post', '# Post', datetime('now'), datetime('now'))
+                    """
+                )
+            )
+            conn.commit()
+
+            # Verify all steps exist
+            result = conn.execute(text("SELECT COUNT(*) FROM wizard_step"))
+            row = result.fetchone()
+            assert row is not None
+            assert row[0] == 4, "Should have 4 total steps"

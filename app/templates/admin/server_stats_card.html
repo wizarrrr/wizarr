@@ -1,85 +1,80 @@
 {# Server Statistics Overview Card Template #}
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full h-full flex flex-col">
-    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-        <!-- Server Icon -->
-        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+  <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+    <!-- Server Icon -->
+    <svg class="w-5 h-5 text-primary"
+         fill="none"
+         stroke="currentColor"
+         viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+    </svg>
+    {{ _("Server Overview") }}
+  </h2>
+  {% if success %}
+    <!-- Main Statistics Grid -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+      <!-- Total Libraries -->
+      <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 text-center">
+        <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ stats.total_libraries }}</div>
+        <div class="text-xs text-blue-600 dark:text-blue-400">{{ _("Items") }}</div>
+      </div>
+      <!-- Total Users -->
+      <div class="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 text-center">
+        <div class="text-2xl font-bold text-green-600 dark:text-green-400">{{ stats.total_users }}</div>
+        <div class="text-xs text-green-600 dark:text-green-400">{{ _("Users") }}</div>
+      </div>
+      <!-- Active Sessions -->
+      <div class="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-3 text-center">
+        <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">{{ stats.active_sessions }}</div>
+        <div class="text-xs text-orange-600 dark:text-orange-400">{{ _("Active") }}</div>
+      </div>
+      <!-- Server Status -->
+      <div class="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3 text-center">
+        <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">
+          {{ stats.servers_online }}/{{ stats.total_servers }}
+        </div>
+        <div class="text-xs text-purple-600 dark:text-purple-400">{{ _("Online") }}</div>
+      </div>
+    </div>
+    <!-- Server Breakdown -->
+    <div class="flex-1 overflow-y-auto">
+      <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">{{ _("Server Breakdown") }}</h3>
+      {% if stats.server_breakdown %}
+        <div class="space-y-2">
+          {% for server in stats.server_breakdown %}
+            <div class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
+              <div class="flex items-center gap-2">
+                <!-- Server Type Icon -->
+                {{ server.type|server_type_tag }}
+                <div>
+                  <div class="text-sm font-medium text-gray-900 dark:text-white">{{ server.name }}</div>
+                  <div class="text-xs text-gray-500 dark:text-gray-400">{{ server.type|title }}</div>
+                </div>
+              </div>
+              <div class="text-right">
+                <div class="text-sm font-medium text-gray-900 dark:text-white">{{ server.libraries }} items</div>
+                <div class="text-xs text-gray-500 dark:text-gray-400">{{ server.users }} users · {{ server.active }} active</div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="text-center text-gray-500 dark:text-gray-400 py-4">{{ _("No active servers found") }}</div>
+      {% endif %}
+    </div>
+  {% else %}
+    <!-- Error State -->
+    <div class="flex-1 flex items-center justify-center">
+      <div class="text-center">
+        <svg class="w-12 h-12 text-red-400 mx-auto mb-4"
+             fill="none"
+             stroke="currentColor"
+             viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
         </svg>
-        {{ _("Server Overview") }}
-    </h2>
-
-    {% if success %}
-        <!-- Main Statistics Grid -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <!-- Total Libraries -->
-            <div class="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 text-center">
-                <div class="text-2xl font-bold text-blue-600 dark:text-blue-400">{{ stats.total_libraries }}</div>
-                <div class="text-xs text-blue-600 dark:text-blue-400">{{ _("Items") }}</div>
-            </div>
-            
-            <!-- Total Users -->
-            <div class="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 text-center">
-                <div class="text-2xl font-bold text-green-600 dark:text-green-400">{{ stats.total_users }}</div>
-                <div class="text-xs text-green-600 dark:text-green-400">{{ _("Users") }}</div>
-            </div>
-            
-            <!-- Active Sessions -->
-            <div class="bg-orange-50 dark:bg-orange-900/20 rounded-lg p-3 text-center">
-                <div class="text-2xl font-bold text-orange-600 dark:text-orange-400">{{ stats.active_sessions }}</div>
-                <div class="text-xs text-orange-600 dark:text-orange-400">{{ _("Active") }}</div>
-            </div>
-            
-            <!-- Server Status -->
-            <div class="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-3 text-center">
-                <div class="text-2xl font-bold text-purple-600 dark:text-purple-400">{{ stats.servers_online }}/{{ stats.total_servers }}</div>
-                <div class="text-xs text-purple-600 dark:text-purple-400">{{ _("Online") }}</div>
-            </div>
-        </div>
-
-        <!-- Server Breakdown -->
-        <div class="flex-1 overflow-y-auto">
-            <h3 class="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">{{ _("Server Breakdown") }}</h3>
-            
-            {% if stats.server_breakdown %}
-                <div class="space-y-2">
-                    {% for server in stats.server_breakdown %}
-                    <div class="flex items-center justify-between p-2 bg-gray-50 dark:bg-gray-700 rounded-lg">
-                        <div class="flex items-center gap-2">
-                            <!-- Server Type Icon -->
-                            {{ server.type|server_type_tag }}
-                            
-                            <div>
-                                <div class="text-sm font-medium text-gray-900 dark:text-white">{{ server.name }}</div>
-                                <div class="text-xs text-gray-500 dark:text-gray-400">{{ server.type|title }}</div>
-                            </div>
-                        </div>
-                        
-                        <div class="text-right">
-                            <div class="text-sm font-medium text-gray-900 dark:text-white">{{ server.libraries }} items</div>
-                            <div class="text-xs text-gray-500 dark:text-gray-400">
-                                {{ server.users }} users · {{ server.active }} active
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="text-center text-gray-500 dark:text-gray-400 py-4">
-                    {{ _("No active servers found") }}
-                </div>
-            {% endif %}
-        </div>
-        
-    {% else %}
-        <!-- Error State -->
-        <div class="flex-1 flex items-center justify-center">
-            <div class="text-center">
-                <svg class="w-12 h-12 text-red-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <p class="text-sm text-red-600 dark:text-red-400 mb-2">{{ _("Failed to load statistics") }}</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">{{ error if error else _("Unknown error occurred") }}</p>
-            </div>
-        </div>
-    {% endif %}
-</div> 
+        <p class="text-sm text-red-600 dark:text-red-400 mb-2">{{ _("Failed to load statistics") }}</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400">{{ error if error else _("Unknown error occurred") }}</p>
+      </div>
+    </div>
+  {% endif %}
+</div>

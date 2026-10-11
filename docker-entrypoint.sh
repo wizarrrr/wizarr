@@ -35,15 +35,11 @@ if [ "$(id -u)" = "0" ]; then
 
   # Ensure critical data directories exist
   mkdir -p /data/database
-  
-  # Create wizard_steps directory in /etc for template customization
-  mkdir -p /etc/wizarr/wizard_steps
 
-  
   # Only recurse into bind mount directories and cache
   echo "[entrypoint] ⚙️  Fixing ownership for bind mounts…"
   chown -R "$TARGET_USER":"$TARGET_GRP" \
-    /data/database /etc/wizarr/wizard_steps /.cache /opt/default_wizard_steps
+    /data/database /.cache /opt/default_wizard_steps
 
 
   # Fix ownership of bind-mounts (only persistent data directories)
@@ -52,7 +48,6 @@ if [ "$(id -u)" = "0" ]; then
 
     # Fix ownership of persistent user data only
     [ -d /data/database ] && chown -R "$PUID":"$PGID" /data/database
-    [ -d /etc/wizarr/wizard_steps ] && chown -R "$PUID":"$PGID" /etc/wizarr/wizard_steps
   else
     echo "[entrypoint] ⚙️  Default UID/GID; skipping chown."
   fi
@@ -62,43 +57,6 @@ if [ "$(id -u)" = "0" ]; then
 fi
 
 echo "[entrypoint] 👍 Running as $(id -un):$(id -gn) ($(id -u):$(id -g))"
-
-# ─────────────────────────────────────────────────────────────────────────────
-# 2) Seed wizard steps per-server (SEEDING ONLY)
-#
-#   NOTE: Wizard steps are managed through the database/frontend UI. This seeding
-#   process only provides DEFAULT markdown files that get imported into the DB
-#   on first run or when new server types are added.
-#
-#   • For every directory inside $DEFAULT (e.g. plex/ jellyfin/ …) we check if
-#     the matching subdir in $TARGET exists **and** contains at least one
-#     visible file.  Only if it's empty (or missing) do we copy in the
-#     defaults for that server type.  This allows users to customise the DEFAULT
-#     templates for one media server without having to keep copies for all others.
-# ─────────────────────────────────────────────────────────────────────────────
-
-TARGET=/etc/wizarr/wizard_steps
-DEFAULT=/opt/default_wizard_steps
-
-# ensure both directories exist
-mkdir -p "$TARGET"
-
-if [ -d "$DEFAULT" ]; then
-  for src in "$DEFAULT"/*; do
-    [ -d "$src" ] || continue  # skip non-dirs
-    name="$(basename "$src")"
-    dst="$TARGET/$name"
-
-    # The dst folder is considered "empty" if it has no regular files
-    if [ ! -d "$dst" ] || [ -z "$(find "$dst" -type f -print -quit 2>/dev/null)" ]; then
-      echo "[entrypoint] ✨ Seeding default wizard steps for $name…"
-      mkdir -p "$dst"
-      cp -a "$src/." "$dst/"
-    else
-      echo "[entrypoint] ↩️  Custom wizard steps for $name detected – keeping user files"
-    fi
-  done
-fi
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 3) DB Migrations

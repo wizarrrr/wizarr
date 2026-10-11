@@ -28,3 +28,10 @@ def test_admin_login(client, app):
     # Should redirect to / on success (302 Found)
     assert resp.status_code in {302, 303}
     assert resp.headers["Location"].endswith("/")
+
+
+def test_head_login_does_not_log_auth_fail(client, caplog):
+    """HEAD /login (used by uptime checks) must not be treated as a failed login attempt."""
+    resp = client.head("/login")
+    assert resp.status_code == 200
+    assert "AUTH FAIL" not in caplog.text

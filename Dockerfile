@@ -37,11 +37,15 @@ COPY babel.cfg ./
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
 
-# Build translations
-RUN uv run --frozen --no-dev pybabel compile -d app/translations
+# Build translations (include fuzzy entries so pending translations are bundled)
+RUN uv run --frozen --no-dev pybabel compile --use-fuzzy -d app/translations
 
-# Ensure static directories exist and build static assets
-RUN mkdir -p app/static/js app/static/css && npm --prefix app/static/ run build
+# Ensure static directories exist and build static assets.
+# Then remove node_modules: the runtime image does not need it, and Flask
+# would serve it under /static/node_modules/.
+RUN mkdir -p app/static/js app/static/css \
+    && DOCKER_BUILD=true npm --prefix app/static/ run build \
+    && rm -rf app/static/node_modules
 
 # ─── Stage 3: Runtime ─────────────────────────────────────────────────────
 FROM ghcr.io/astral-sh/uv:python3.13-alpine
@@ -49,6 +53,8 @@ FROM ghcr.io/astral-sh/uv:python3.13-alpine
 # Set default environment variables for user/group IDs
 ENV PUID=1000
 ENV PGID=1000
+ENV HOST=0.0.0.0
+ENV PORT=5690
 
 # Install runtime dependencies only
 RUN apk add --no-cache curl tzdata su-exec
@@ -59,15 +65,14 @@ WORKDIR /app
 # Copy Python environment from builder stage (includes project)
 COPY --chown=1000:1000 --from=builder /app/.venv /app/.venv
 
-# Copy application code and built assets
-COPY --chown=1000:1000 --from=builder /app/app /app/app
+# Copy source files first (run.py, gunicorn.conf.py, migrations/, etc.)
 COPY --chown=1000:1000 . /app
+
+# Then overwrite app/ with built version (has compiled translations)
+COPY --chown=1000:1000 --from=builder /app/app /app/app
 
 # Create data directory for database (backward compatibility)
 RUN mkdir -p /data/database
-
-# Create wizard steps config directory
-RUN mkdir -p /etc/wizarr/wizard_steps
 
 # Create directories that need to be writable
 RUN mkdir -p /.cache
@@ -75,9 +80,17 @@ RUN mkdir -p /.cache
 ARG APP_VERSION=dev
 ENV APP_VERSION=${APP_VERSION}
 
-# Healthcheck: curl to localhost:5690/health
-HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
-  CMD curl -fs http://localhost:5690/health || exit 1
+# Set Flask environment to production
+ENV FLASK_ENV=production
+
+# Healthcheck: curl to localhost:${PORT:-5690}/health
+# Increased start-period to 60s to account for:
+# - Database migrations
+# - Wizard step imports
+# - Worker initialization
+# (The library scan runs in the background after startup.)
+HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
+  CMD ["sh", "-c", "curl -fs http://localhost:${PORT:-5690}/health || exit 1"]
 
 # Expose port 5690
 EXPOSE 5690
@@ -95,6 +108,5 @@ ENTRYPOINT ["docker-entrypoint.sh"]
 # By default we run Gunicorn under wizarruser
 CMD ["uv", "run", "--frozen", "--no-dev", "gunicorn", \
      "--config", "gunicorn.conf.py", \
-     "--bind", "0.0.0.0:5690", \
      "--umask", "007", \
      "run:app"]

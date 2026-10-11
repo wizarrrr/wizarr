@@ -16,7 +16,7 @@
 
 ---
 
-Wizarr is an automatic user invitation system for Plex, Jellyfin, and Emby.  
+Wizarr is an automatic user invitation and management system for Plex, Jellyfin, Emby, Audiobookshelf, Romm, Komga and Kavita.  
 Create a unique invite link and share it with users — they’ll be automatically added to your media server and guided through downloading apps, accessing request systems, and more!
 
 **The problem**: Inviting your Friends/Family to your Plex server Is complicated and tedious. It's also a hard concept for them to get their head around.
@@ -32,6 +32,7 @@ Create a unique invite link and share it with users — they’ll be automatical
 - Plug-and-play SSO support*
 - Multi-tiered invitation access
 - Time-limited membership options
+- Pre-invite and post-invite wizard steps
 - Setup guide for media apps (like Plex)
 - Request system integration (Overseerr, Ombi, etc.)
 - Discord invite support

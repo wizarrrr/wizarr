@@ -1,176 +1,159 @@
 {# Server Health Card Template #}
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full h-full flex flex-col">
-    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-        <!-- Health Icon -->
-        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        {{ _("Server Health") }}
-    </h2>
-
-    {% if success %}
-        {% if servers %}
-            <div class="flex-1 overflow-y-auto">
-                <div class="space-y-2">
-                    {% for server in servers %}
-                    <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-3 
-                              {% if server.online %}bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800{% else %}bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800{% endif %}">
-                        
-                        <!-- Server Header -->
-                        <div class="flex items-center justify-between mb-2">
-                            <div class="flex items-center gap-2">
-                                <!-- Status Indicator -->
-                                {% if server.online %}
-                                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                                {% else %}
-                                    <div class="w-2 h-2 bg-red-500 rounded-full"></div>
-                                {% endif %}
-                                
-                                <div>
-                                    <h3 class="text-sm font-medium text-gray-900 dark:text-white">
-                                        {{ server.name }}
-                                    </h3>
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">
-                                        {{ server.type|title }}
-                                        {% if server.version and server.version != 'Unknown' %}
-                                            · v{{ server.version }}
-                                        {% endif %}
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <!-- Status Badge -->
-                            {% if server.online %}
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
-                                    {{ _("Online") }}
-                                </span>
-                            {% else %}
-                                <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
-                                    {{ _("Offline") }}
-                                </span>
-                            {% endif %}
-                        </div>
-                        
+  <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+    <!-- Health Icon -->
+    <svg class="w-5 h-5 text-primary"
+         fill="none"
+         stroke="currentColor"
+         viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    {{ _("Server Health") }}
+  </h2>
+  {% if success %}
+    {% if servers %}
+      <div class="flex-1 overflow-y-auto">
+        <div class="space-y-2">
+          {% for server in servers %}
+            <div class="border border-gray-200 dark:border-gray-600 rounded-lg p-3
                         {% if server.online %}
-                            {# --- Server Statistics --- #}
-                            {%- set show_active = server.type in ['plex', 'emby', 'jellyfin', 'audiobookshelf'] -%}
-                            {%- set show_transcoding = server.type in ['plex', 'emby', 'jellyfin'] -%}
-                            <div class="flex justify-center gap-6 text-center">
-                                {% if show_active %}
-                                <div class="flex-1">
-                                    <div class="text-base font-bold text-gray-900 dark:text-white">
-                                        {{ server.active_sessions or 0 }}
-                                    </div>
-                                    <div class="text-xs text-gray-500 dark:text-gray-400">
-                                        {{ _("Active") }}
-                                    </div>
-                                </div>
-                                {% endif %}
-
-                                {% if show_transcoding %}
-                                <div class="flex-1">
-                                    <div class="text-base font-bold text-gray-900 dark:text-white">
-                                        {{ server.transcoding or 0 }}
-                                    </div>
-                                    <div class="text-xs text-gray-500 dark:text-gray-400">
-                                        {{ _("Transcoding") }}
-                                    </div>
-                                </div>
-                                {% endif %}
-
-                                <div class="flex-1">
-                                    <div class="text-base font-bold text-gray-900 dark:text-white">
-                                        {{ server.total_users or 0 }}
-                                    </div>
-                                    <div class="text-xs text-gray-500 dark:text-gray-400">
-                                        {{ _("Users") }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {# --- Activity Indicators --- #}
-                            {% if (show_active and server.active_sessions > 0) or (show_transcoding and server.transcoding > 0) %}
-                                <div class="mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
-                                    <div class="flex items-center justify-center gap-3 text-xs">
-                                        {% if show_active and server.active_sessions > 0 %}
-                                            <div class="flex items-center gap-1 text-green-600 dark:text-green-400">
-                                                <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
-                                                {{ _("Active Sessions") }}
-                                            </div>
-                                        {% endif %}
-
-                                        {% if show_transcoding and server.transcoding > 0 %}
-                                            <div class="flex items-center gap-1 text-orange-600 dark:text-orange-400">
-                                                <div class="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></div>
-                                                {{ _("Transcoding") }}
-                                            </div>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            {% endif %}
-                            
+                          bg-green-50 dark:bg-green-900/10 border-green-200 dark:border-green-800
                         {% else %}
-                            <!-- Error Information -->
-                            {% if server.error %}
-                                <div class="mt-2 p-2 bg-red-100 dark:bg-red-900/20 rounded">
-                                    <p class="text-xs text-red-700 dark:text-red-400">
-                                        {{ server.error[:100] }}{% if server.error|length > 100 %}...{% endif %}
-                                    </p>
-                                </div>
-                            {% else %}
-                                <div class="mt-2 text-center">
-                                    <p class="text-xs text-gray-500 dark:text-gray-400">
-                                        {{ _("Server is currently unreachable") }}
-                                    </p>
-                                </div>
-                            {% endif %}
-                        {% endif %}
+                          bg-red-50 dark:bg-red-900/10 border-red-200 dark:border-red-800
+                        {% endif %}">
+              <!-- Server Header -->
+              <div class="flex items-center justify-between mb-2">
+                <div class="flex items-center gap-2">
+                  <!-- Status Indicator -->
+                  {% if server.online %}
+                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  {% else %}
+                    <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+                  {% endif %}
+                  <div>
+                    <h3 class="text-sm font-medium text-gray-900 dark:text-white">{{ server.name }}</h3>
+                    <p class="text-xs text-gray-500 dark:text-gray-400">
+                      {{ server.type|title }}
+                      {% if server.version and server.version != 'Unknown' %}· v{{ server.version }}{% endif %}
+                    </p>
+                  </div>
+                </div>
+                <!-- Status Badge -->
+                {% if server.online %}
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100">
+                    {{ _("Online") }}
+                  </span>
+                {% else %}
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100">
+                    {{ _("Offline") }}
+                  </span>
+                {% endif %}
+              </div>
+              {% if server.online %}
+                {# --- Server Statistics --- #}
+                {%- set show_active = server.type in ['plex', 'emby', 'jellyfin', 'audiobookshelf'] -%}
+                {%- set show_transcoding = server.type in ['plex', 'emby', 'jellyfin'] -%}
+                <div class="flex justify-center gap-6 text-center">
+                  {% if show_active %}
+                    <div class="flex-1">
+                      <div class="text-base font-bold text-gray-900 dark:text-white">{{ server.active_sessions or 0 }}</div>
+                      <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Active") }}</div>
                     </div>
-                    {% endfor %}
-                </div>
-                
-                <!-- Summary -->
-                {% set online_count = servers|selectattr("online")|list|length %}
-                {% set total_count = servers|length %}
-                <div class="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
-                    <div class="text-center">
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            <span class="font-medium text-green-600 dark:text-green-400">{{ online_count }}</span>
-                            {{ _("of") }}
-                            <span class="font-medium">{{ total_count }}</span>
-                            {{ _("servers online") }}
-                        </p>
-                        
-                        {% if online_count < total_count %}
-                            <p class="text-xs text-red-600 dark:text-red-400 mt-1">
-                                {{ total_count - online_count }} {{ _("server(s) need attention") }}
-                            </p>
-                        {% endif %}
+                  {% endif %}
+                  {% if show_transcoding %}
+                    <div class="flex-1">
+                      <div class="text-base font-bold text-gray-900 dark:text-white">{{ server.transcoding or 0 }}</div>
+                      <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Transcoding") }}</div>
                     </div>
+                  {% endif %}
+                  <div class="flex-1">
+                    <div class="text-base font-bold text-gray-900 dark:text-white">{{ server.total_users or 0 }}</div>
+                    <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Users") }}</div>
+                  </div>
                 </div>
+                {# --- Activity Indicators --- #}
+                {% if (show_active and server.active_sessions > 0) or (show_transcoding and server.transcoding > 0) %}
+                  <div class="mt-2 pt-2 border-t border-gray-200 dark:border-gray-600">
+                    <div class="flex items-center justify-center gap-3 text-xs">
+                      {% if show_active and server.active_sessions > 0 %}
+                        <div class="flex items-center gap-1 text-green-600 dark:text-green-400">
+                          <div class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></div>
+                          {{ _("Active Sessions") }}
+                        </div>
+                      {% endif %}
+                      {% if show_transcoding and server.transcoding > 0 %}
+                        <div class="flex items-center gap-1 text-orange-600 dark:text-orange-400">
+                          <div class="w-1.5 h-1.5 bg-orange-500 rounded-full animate-pulse"></div>
+                          {{ _("Transcoding") }}
+                        </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                {% endif %}
+              {% else %}
+                <!-- Error Information -->
+                {% if server.error %}
+                  <div class="mt-2 p-2 bg-red-100 dark:bg-red-900/20 rounded">
+                    <p class="text-xs text-red-700 dark:text-red-400">
+                      {{ server.error[:100] }}
+                      {% if server.error|length > 100 %}...{% endif %}
+                    </p>
+                  </div>
+                {% else %}
+                  <div class="mt-2 text-center">
+                    <p class="text-xs text-gray-500 dark:text-gray-400">{{ _("Server is currently unreachable") }}</p>
+                  </div>
+                {% endif %}
+              {% endif %}
             </div>
-        {% else %}
-            <div class="flex-1 flex items-center justify-center">
-                <div class="text-center text-gray-500 dark:text-gray-400">
-                    <svg class="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
-                    </svg>
-                    <p class="text-sm">{{ _("No servers configured") }}</p>
-                    <p class="text-xs mt-1">{{ _("Add media servers to monitor their health") }}</p>
-                </div>
-            </div>
-        {% endif %}
-        
-    {% else %}
-        <!-- Error State -->
-        <div class="flex-1 flex items-center justify-center">
-            <div class="text-center">
-                <svg class="w-12 h-12 text-red-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <p class="text-sm text-red-600 dark:text-red-400 mb-2">{{ _("Failed to load server health") }}</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">{{ error if error else _("Unknown error occurred") }}</p>
-            </div>
+          {% endfor %}
         </div>
+        <!-- Summary -->
+        {% set online_count = servers|selectattr("online")|list|length %}
+        {% set total_count = servers|length %}
+        <div class="mt-3 pt-3 border-t border-gray-200 dark:border-gray-600">
+          <div class="text-center">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              <span class="font-medium text-green-600 dark:text-green-400">{{ online_count }}</span>
+              {{ _("of") }}
+              <span class="font-medium">{{ total_count }}</span>
+              {{ _("servers online") }}
+            </p>
+            {% if online_count < total_count %}
+              <p class="text-xs text-red-600 dark:text-red-400 mt-1">
+                {{ total_count - online_count }} {{ _("server(s) need attention") }}
+              </p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="flex-1 flex items-center justify-center">
+        <div class="text-center text-gray-500 dark:text-gray-400">
+          <svg class="w-12 h-12 mx-auto mb-4"
+               fill="none"
+               stroke="currentColor"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01" />
+          </svg>
+          <p class="text-sm">{{ _("No servers configured") }}</p>
+          <p class="text-xs mt-1">{{ _("Add media servers to monitor their health") }}</p>
+        </div>
+      </div>
     {% endif %}
-</div> 
+  {% else %}
+    <!-- Error State -->
+    <div class="flex-1 flex items-center justify-center">
+      <div class="text-center">
+        <svg class="w-12 h-12 text-red-400 mx-auto mb-4"
+             fill="none"
+             stroke="currentColor"
+             viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p class="text-sm text-red-600 dark:text-red-400 mb-2">{{ _("Failed to load server health") }}</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400">{{ error if error else _("Unknown error occurred") }}</p>
+      </div>
+    </div>
+  {% endif %}
+</div>

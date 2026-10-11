@@ -8,9 +8,16 @@ on:
 
 jobs:
   compile:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+      - name: Install uv
+        uses: astral-sh/setup-uv@v10.2.0
+
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version-file: pyproject.toml
+
       - name: Compile .mo
-        run: |
-          pipx run babel pybabel compile -d app/translations
+        run: uv run pybabel compile -d app/translations

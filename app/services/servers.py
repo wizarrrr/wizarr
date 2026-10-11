@@ -6,6 +6,8 @@ from plexapi.exceptions import PlexApiException
 from plexapi.server import PlexServer
 from requests import exceptions as req_exc
 
+from app.services.media.auth_headers import media_browser_auth_headers
+
 
 # Raised when a server returns a non-200 status code.
 class ServerResponseError(Exception):
@@ -58,16 +60,28 @@ def handle_connection_error(e: Exception, server_type: str) -> tuple[bool, str]:
     return False, error_msg
 
 
+# (connect, read) timeout in seconds for Plex connection checks. Without a
+# connect timeout, an offline host holds the request for a long time.
+PLEX_CHECK_TIMEOUT: tuple[float, float] = (5, 30)
+
+
 def check_plex(url: str, token: str) -> tuple[bool, str]:
     try:
-        PlexServer(url, token=token)
+        PlexServer(url, token=token, timeout=PLEX_CHECK_TIMEOUT)
         return True, ""
     except Exception as e:
         return handle_connection_error(e, _("Plex"))
 
 
 def check_jellyfin_or_emby_internal(url: str, token: str) -> tuple[bool, str]:
-    resp = requests.get(f"{url}/Users", headers={"X-Emby-Token": token}, timeout=10)
+    # /System/Info needs a valid token, so it checks the token. It returns a
+    # small object. /Users also checks the token, but it returns all users
+    # with their policies, which is several MB on a large server.
+    resp = requests.get(
+        f"{url.rstrip('/')}/System/Info",
+        headers=media_browser_auth_headers(token),
+        timeout=10,
+    )
     if resp.status_code != 200:
         raise ServerResponseError(resp.status_code, resp.url)
     return True, ""
@@ -148,12 +162,12 @@ def check_komga(url: str, token: str) -> tuple[bool, str]:
 
     We perform a lightweight GET request to ``/api/v1/libraries`` which is
     available to authenticated users and returns a list of libraries in
-    JSON. When *token* is set we send it as a *Bearer* header.
+    JSON. When *token* is set we send it as an *X-API-Key* header.
     """
     try:
         headers = {"Accept": "application/json"}
         if token:
-            headers["Authorization"] = f"Bearer {token}"
+            headers["X-API-Key"] = token
 
         resp = requests.get(
             f"{url.rstrip('/')}/api/v1/libraries", headers=headers, timeout=10
@@ -246,8 +260,6 @@ def check_navidrome(url: str, token: str) -> tuple[bool, str]:
 
             # Create SHA-256 hash of password + salt (prefer strong hash if supported by Navidrome/Subsonic API)
             token_hash = hashlib.sha256((token + salt).encode()).hexdigest()
-            # If the server requires MD5, revert to MD5 and document the reason:
-            # token_hash = hashlib.md5((token + salt).encode()).hexdigest()  # Protocol-mandated, insecure
 
             params.update(
                 {
@@ -302,11 +314,11 @@ def check_drop(url: str, token: str) -> tuple[bool, str]:
         response.raise_for_status()
         return True, ""
 
-    except requests.exceptions.ConnectionError:
+    except req_exc.ConnectionError:
         return False, _("Could not connect to Drop server.")
-    except requests.exceptions.Timeout:
+    except req_exc.Timeout:
         return False, _("Connection to Drop server timed out.")
-    except requests.exceptions.HTTPError as e:
+    except req_exc.HTTPError as e:
         if e.response.status_code == 404:
             return False, _("Drop API not found. Check the server URL.")
         return False, f"Drop API error: {e.response.status_code}"

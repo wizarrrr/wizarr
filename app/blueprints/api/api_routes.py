@@ -7,15 +7,31 @@ import traceback
 from functools import wraps
 
 from flask import Blueprint, request
+from flask_login import current_user
 from flask_restx import Resource, abort
+from sqlalchemy import func
 
 from app.extensions import api, db
-from app.models import ApiKey, Invitation, Library, MediaServer, User
+from app.models import (
+    AdminAccount,
+    ApiKey,
+    Invitation,
+    Library,
+    MediaServer,
+    User,
+    WebAuthnCredential,
+)
 from app.services.invites import create_invite
-from app.services.media.service import delete_user, list_users_all_servers
+from app.services.media.service import (
+    delete_user,
+    disable_user,
+    enable_user,
+    sync_users,
+)
 from app.services.server_name_resolver import get_display_name_info
 
 from .models import (
+    admin_list_model,
     api_key_list_model,
     error_model,
     invitation_create_request,
@@ -28,6 +44,8 @@ from .models import (
     user_extend_request,
     user_extend_response,
     user_list_model,
+    user_update_expiry_request,
+    user_update_expiry_response,
 )
 
 # Create the Blueprint for the API
@@ -48,6 +66,7 @@ invitations_ns = api.namespace(
 libraries_ns = api.namespace("libraries", description="Library information operations")
 servers_ns = api.namespace("servers", description="Server information operations")
 api_keys_ns = api.namespace("api-keys", description="API key management operations")
+admins_ns = api.namespace("admins", description="Admin management operations")
 
 
 def require_api_key(f):
@@ -87,22 +106,60 @@ def require_api_key(f):
     return decorated_function
 
 
+def require_api_key_or_session(f):
+    """Decorator to require either valid API key or authenticated session for endpoint access."""
+
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        # Check if user is authenticated via session (Flask-Login)
+        if current_user.is_authenticated:
+            logger.info(
+                "API request authenticated via session from %s",
+                request.remote_addr,
+            )
+            return f(*args, **kwargs)
+
+        # Fall back to API key authentication
+        auth_key = request.headers.get("X-API-Key")
+        if not auth_key:
+            logger.warning(
+                "API request without API key or session from %s", request.remote_addr
+            )
+            abort(401, error="Unauthorized - API key or session required")
+
+        # Type assertion since we've already checked that auth_key exists
+        assert isinstance(auth_key, str)
+
+        # Hash the provided key to compare with stored hash
+        key_hash = hashlib.sha256(auth_key.encode("utf-8")).hexdigest()
+        api_key = ApiKey.query.filter_by(key_hash=key_hash, is_active=True).first()
+
+        if not api_key:
+            logger.warning(
+                "API request with invalid API key from %s", request.remote_addr
+            )
+            abort(401, error="Unauthorized")
+
+        # Update last used timestamp
+        api_key.last_used_at = datetime.datetime.now(datetime.UTC)
+        db.session.commit()
+
+        logger.info(
+            "API request authenticated with key '%s' from %s",
+            api_key.name,
+            request.remote_addr,
+        )
+        return f(*args, **kwargs)
+
+    return decorated_function
+
+
 def _generate_invitation_url(code):
-    """Generate full invitation URL for the given code."""
+    """Generate the stable invitation path for the given code."""
     try:
         from flask import url_for
 
-        # Try to generate URL using url_for with the public blueprint's invite route
-        invite_path = url_for("public.invite", code=code, _external=False)
-
-        # Get the host from the current request if available
-        host = request.headers.get("Host")
-        if host and not host.startswith("localhost"):
-            # Only generate full URL for non-localhost hosts
-            scheme = "https" if request.is_secure else "http"
-            return f"{scheme}://{host}{invite_path}"
-        # For localhost or when no host header, return relative URL
-        return invite_path
+        return url_for("public.invite", code=code, _external=False)
 
     except Exception as e:
         logger.warning("Failed to generate invitation URL: %s", str(e))
@@ -186,43 +243,131 @@ class StatusResource(Resource):
             return {"error": "Internal server error"}, 500
 
 
+@admins_ns.route("")
+class AdminListResource(Resource):
+    @api.doc(
+        "list_admins",
+        security="apikey",
+        params={
+            "username": "Filter by username (exact match)",
+        },
+    )
+    @api.marshal_with(admin_list_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self):
+        """List all Wizarr admins. Supports filtering by username."""
+        try:
+            # Get query parameters
+            username_filter = request.args.get("username")
+            logger.info("API: Listing all admins (username=%s)", username_filter)
+
+            # Optimized query: JOIN admins with passkey counts in single query
+            query = (
+                db.session.query(
+                    AdminAccount.id,
+                    AdminAccount.username,
+                    AdminAccount.created_at,
+                    func.count(WebAuthnCredential.id).label("passkey_count"),
+                )
+                .outerjoin(
+                    WebAuthnCredential,
+                    AdminAccount.id == WebAuthnCredential.admin_account_id,
+                )
+                .group_by(
+                    AdminAccount.id, AdminAccount.username, AdminAccount.created_at
+                )
+                .order_by(AdminAccount.username)
+            )
+
+            # Apply username filter at database level if specified
+            if username_filter:
+                query = query.filter(AdminAccount.username == username_filter)
+
+            results = query.all()
+
+            # Format response
+            admins_list = [
+                {
+                    "id": result.id,
+                    "username": result.username,
+                    "passkeys": result.passkey_count,
+                    "created": result.created_at.isoformat()
+                    if result.created_at
+                    else None,
+                }
+                for result in results
+            ]
+
+            return {"admins": admins_list, "count": len(admins_list)}
+
+        except Exception as e:
+            logger.error("Error listing admins: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
 @users_ns.route("")
 class UsersListResource(Resource):
-    @api.doc("list_users", security="apikey")
+    @api.doc(
+        "list_users",
+        security="apikey",
+        params={
+            "username": "Filter by username (exact match)",
+            "email": "Filter by email address (exact match)",
+        },
+    )
     @api.marshal_with(user_list_model)
     @api.response(401, "Invalid or missing API key", error_model)
     @api.response(500, "Internal server error", error_model)
     @require_api_key
     def get(self):
-        """List all users across all media servers."""
+        """List all users across all media servers. Supports filtering by username or email."""
         try:
-            logger.info("API: Listing all users")
-            users_by_server = list_users_all_servers()
+            # Get query parameters
+            username_filter = request.args.get("username")
+            email_filter = request.args.get("email")
+
+            logger.info(
+                "API: Listing all users (username=%s, email=%s)",
+                username_filter,
+                email_filter,
+            )
+            # Sync from the media servers only when the last sync is old. A
+            # full live sync on each call made this endpoint slow and loaded
+            # the media servers and the DB.
+            try:
+                sync_users()
+            except Exception as exc:
+                logger.warning("API: user sync failed, using stored users: %s", exc)
+                db.session.rollback()
+
+            servers = {server.id: server for server in MediaServer.query.all()}
+            query = User.query.filter(User.server_id.in_(list(servers)))
+            # Apply filters if specified (exact match)
+            if username_filter:
+                query = query.filter(User.username == username_filter)
+            if email_filter:
+                query = query.filter(User.email == email_filter)
 
             # Format response
             users_list = []
-            for server_id, users in users_by_server.items():
-                # Get server info
-                server = db.session.get(MediaServer, server_id)
-                if not server:
-                    continue
-
-                for user in users:
-                    users_list.append(
-                        {
-                            "id": user.id,
-                            "username": user.username,
-                            "email": user.email,
-                            "server": server.name,
-                            "server_type": server.server_type,
-                            "expires": user.expires.isoformat()
-                            if user.expires
-                            else None,
-                            "created": user.created.isoformat()
-                            if hasattr(user, "created") and user.created
-                            else None,
-                        }
-                    )
+            for user in query.order_by(User.server_id, User.id).all():
+                server = servers[user.server_id]
+                users_list.append(
+                    {
+                        "id": user.id,
+                        "username": user.username,
+                        "email": user.email,
+                        "server": server.name,
+                        "server_type": server.server_type,
+                        "expires": user.expires.isoformat() if user.expires else None,
+                        "created_at": user.created_at.isoformat()
+                        if hasattr(user, "created_at") and user.created_at
+                        else None,
+                    }
+                )
 
             return {"users": users_list, "count": len(users_list)}
 
@@ -246,6 +391,7 @@ class UserResource(Resource):
         user = db.session.get(User, user_id)
         if not user:
             abort(404, error="User not found")
+            return None  # Type narrowing: unreachable but helps type checker
 
         # Get server info for the user
         server = db.session.get(MediaServer, user.server_id)
@@ -265,6 +411,102 @@ class UserResource(Resource):
             return {"error": "Internal server error"}, 500
 
 
+@users_ns.route("/<int:user_id>/enable")
+class UserEnableResource(Resource):
+    @api.doc("enable_user", security="apikey")
+    @api.response(200, "User enabled successfully", success_message_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(404, "User not found", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def post(self, user_id):
+        """Enable a specific user by ID.
+
+        This will enable the user account on the media server if the server supports it.
+        """
+        # Find user first, outside try block
+        user = db.session.get(User, user_id)
+        if not user:
+            abort(404, error="User not found")
+            return None  # Type narrowing: unreachable but helps type checker
+
+        # Get server info for the user
+        server = db.session.get(MediaServer, user.server_id)
+        if not server:
+            abort(404, error="Server not found for user")
+
+        try:
+            logger.info("API: Attempting to enable user %s", user_id)
+
+            # Try to enable user
+            result = enable_user(user.id)
+
+            if result:
+                return {"message": f"User {user.username} enabled successfully"}
+            # If enable failed or not supported,
+            logger.info(
+                "Enable failed or not supported for user %s",
+                user_id,
+            )
+            return {
+                "message": f"Enable failed or not supported for user {user.username}"
+            }
+
+        except Exception as e:
+            logger.error("Error enabling user %s: %s", user_id, str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@users_ns.route("/<int:user_id>/disable")
+class UserDisableResource(Resource):
+    @api.doc("disable_user", security="apikey")
+    @api.response(200, "User disabled successfully", success_message_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(404, "User not found", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def post(self, user_id):
+        """Disable a specific user by ID.
+
+        This will disable the user account on the media server if the server supports it.
+        If the server doesn't support disabling users, it will fall back to deleting the user.
+        """
+        # Find user first, outside try block
+        user = db.session.get(User, user_id)
+        if not user:
+            abort(404, error="User not found")
+            return None  # Type narrowing: unreachable but helps type checker
+
+        # Get server info for the user
+        server = db.session.get(MediaServer, user.server_id)
+        if not server:
+            abort(404, error="Server not found for user")
+
+        try:
+            logger.info("API: Attempting to disable user %s", user_id)
+
+            # Try to disable user
+            result = disable_user(user.id)
+
+            if result:
+                return {"message": f"User {user.username} disabled successfully"}
+            # If disable failed or not supported, fall back to delete
+            logger.info(
+                "Disable failed or not supported, falling back to delete for user %s",
+                user_id,
+            )
+            delete_user(user.id)
+            return {
+                "message": f"User {user.username} deleted (disable not supported by server)"
+            }
+
+        except Exception as e:
+            logger.error("Error disabling user %s: %s", user_id, str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
 @users_ns.route("/<int:user_id>/extend")
 class UserExtendResource(Resource):
     @api.doc("extend_user_expiry", security="apikey")
@@ -280,6 +522,7 @@ class UserExtendResource(Resource):
         user = db.session.get(User, user_id)
         if not user:
             abort(404, error="User not found")
+            return None  # Type narrowing: unreachable but helps type checker
 
         try:
             logger.info("API: Extending expiry for user %s", user_id)
@@ -306,6 +549,70 @@ class UserExtendResource(Resource):
 
         except Exception as e:
             logger.error("Error extending user %s expiry: %s", user_id, str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@users_ns.route("/<int:user_id>/update-expiry")
+class UserUpdateExpiryResource(Resource):
+    @api.doc("update_user_expiry", security="apikey")
+    @api.expect(user_update_expiry_request)
+    @api.marshal_with(user_update_expiry_response)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(404, "User not found", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def put(self, user_id):
+        """Update a user's expiry date to a specific date or unlimited."""
+        # Find user first, outside try block to allow abort to work properly
+        user = db.session.get(User, user_id)
+        if not user:
+            abort(404, error="User not found")
+            return None  # Type narrowing: unreachable but helps type checker
+
+        try:
+            logger.info("API: Updating expiry for user %s", user_id)
+
+            # Get request data
+            data = api.payload or {}
+            new_expiry = data.get("expires")
+
+            # Parse the datetime if provided
+            if new_expiry is not None and isinstance(new_expiry, str):
+                try:
+                    # Parse ISO format datetime string
+                    new_expiry = datetime.datetime.fromisoformat(
+                        new_expiry.replace("Z", "+00:00")
+                    )
+                    # Ensure it's UTC timezone aware
+                    if new_expiry.tzinfo is None:
+                        new_expiry = new_expiry.replace(tzinfo=datetime.UTC)
+                except ValueError as e:
+                    return {
+                        "error": f"Invalid datetime format. Expected ISO format: {e!s}"
+                    }, 400
+
+            # Update the user's expiry
+            user.expires = new_expiry
+            db.session.commit()
+
+            # Prepare response message
+            if new_expiry is None:
+                message = f"User {user.username} expiry updated to unlimited"
+                response_expiry = None
+            else:
+                message = (
+                    f"User {user.username} expiry updated to {new_expiry.isoformat()}"
+                )
+                response_expiry = new_expiry.isoformat()
+
+            return {
+                "message": message,
+                "new_expiry": response_expiry,
+            }
+
+        except Exception as e:
+            logger.error("Error updating user %s expiry: %s", user_id, str(e))
             logger.error(traceback.format_exc())
             return {"error": "Internal server error"}, 500
 
@@ -456,7 +763,7 @@ class InvitationsListResource(Resource):
 
             # Map expires_in_days to the format expected by create_invite
             expires_mapping = {1: "day", 7: "week", 30: "month"}
-            expires_key = expires_mapping.get(data.get("expires_in_days"), "never")
+            expires_key = expires_mapping.get(data.get("expires_in_days"), "never")  # type: ignore
 
             form_data = FormLike(
                 {
@@ -470,6 +777,7 @@ class InvitationsListResource(Resource):
                     "allow_downloads": data.get("allow_downloads", False),
                     "allow_live_tv": data.get("allow_live_tv", False),
                     "allow_mobile_uploads": data.get("allow_mobile_uploads", False),
+                    "wizard_bundle_id": data.get("wizard_bundle_id"),
                 }
             )
 
@@ -521,6 +829,7 @@ class InvitationResource(Resource):
         invitation = db.session.get(Invitation, invitation_id)
         if not invitation:
             abort(404, error="Invitation not found")
+            return None  # Type narrowing: unreachable but helps type checker
 
         try:
             logger.info("API: Deleting invitation %s", invitation_id)
@@ -560,7 +869,7 @@ class LibrariesResource(Resource):
                         logger.info(f"Scanning libraries for server {server.name}")
                         from app.services.media.service import scan_libraries_for_server
 
-                        library_data = scan_libraries_for_server(server)
+                        library_data, _ = scan_libraries_for_server(server)
 
                         # Create Library records for each scanned library
                         for external_id, name in library_data.items():
@@ -585,7 +894,7 @@ class LibrariesResource(Resource):
 
                     except Exception as e:
                         logger.error(
-                            f"Failed to scan libraries for server {server.name}: {str(e)}"
+                            f"Failed to scan libraries for server {server.name}: {e!s}"
                         )
                         # Continue with other servers even if one fails
                         continue
@@ -714,6 +1023,7 @@ class ApiKeyResource(Resource):
         api_key = db.session.get(ApiKey, key_id)
         if not api_key:
             abort(404, error="API key not found")
+            return None  # Type narrowing: unreachable but helps type checker
 
         try:
             logger.info("API: Deleting API key %s", key_id)
@@ -735,5 +1045,51 @@ class ApiKeyResource(Resource):
 
         except Exception as e:
             logger.error("Error deleting API key %s: %s", key_id, str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@users_ns.route("/<int:user_id>/reset-password")
+class UserResetPasswordResource(Resource):
+    @api.doc("create_password_reset_token", security="apikey")
+    @api.response(
+        200, "Password reset link created successfully", success_message_model
+    )
+    @api.response(401, "Invalid or missing API key or session", error_model)
+    @api.response(404, "User not found", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key_or_session
+    def post(self, user_id):
+        """Create a password reset token and link for a specific user.
+
+        Returns a secure link that the user can use to reset their password.
+        The link expires after 24 hours.
+        Can be authenticated via API key (X-API-Key header) or admin session.
+        """
+        from app.services.password_reset import create_reset_token
+
+        user = db.session.get(User, user_id)
+        if not user:
+            abort(404, error="User not found")
+            return None  # Type narrowing: unreachable but helps type checker
+
+        try:
+            token = create_reset_token(user.id)
+            if not token:
+                return {"error": "Failed to create password reset token"}, 500
+
+            # Generate the reset URL - always return just the path
+            # The frontend will construct the full URL if needed
+            reset_path = f"/reset/{token.code}"
+
+            return {
+                "message": f"Password reset link created for {user.username}",
+                "code": token.code,
+                "url": reset_path,
+                "expires_at": token.expires_at.isoformat(),
+            }
+
+        except Exception as e:
+            logger.error("Error creating reset token for user %s: %s", user_id, str(e))
             logger.error(traceback.format_exc())
             return {"error": "Internal server error"}, 500

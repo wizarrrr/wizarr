@@ -1,0 +1,382 @@
+{% extends "base.html" %}
+
+{% block title %}{{ _("Activity") }}{% endblock %}
+
+{% block main %}
+<section class="px-4 py-6 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+        <!-- Activity Header with Time Range Selector -->
+        <div class="mb-8 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{{ _("Activity") }}</h1>
+                <p class="mt-2 text-gray-600 dark:text-gray-400">{{ _("Monitor media playback activity and statistics") }}</p>
+            </div>
+            <!-- Time Range Selector -->
+            <div class="flex items-center gap-2">
+                <label class="text-sm text-gray-600 dark:text-gray-400">{{ _("Time Range:") }}</label>
+                <select id="global-time-range"
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-40 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        onchange="updateTimeRange(this.value)">
+                    <option value="1">{{ _("Last 24 hours") }}</option>
+                    <option value="7" selected>{{ _("Last 7 days") }}</option>
+                    <option value="30">{{ _("Last 30 days") }}</option>
+                    <option value="365">{{ _("Last year") }}</option>
+                    <option value="0">{{ _("All time") }}</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Tabs with Icons -->
+        <div class="border-b border-gray-200 dark:border-gray-700 mb-6">
+            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400" hx-ext="preload">
+                <li class="me-2">
+                    <button
+                        data-tab="dashboard"
+                        class="activity-tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+                        hx-get="{{ url_for('activity.dashboard_tab') }}"
+                        hx-target="#activity-tab-body"
+                        hx-swap="innerHTML"
+                        hx-trigger="load,click"
+                        preload="mouseover"
+                    >
+                        <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/>
+                        </svg>
+                        {{ _("Dashboard") }}
+                    </button>
+                </li>
+                <li class="me-2">
+                    <button
+                        data-tab="history"
+                        class="activity-tab-btn inline-flex items-center justify-center p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 group"
+                        hx-get="{{ url_for('activity.history_tab') }}"
+                        hx-target="#activity-tab-body"
+                        hx-swap="innerHTML"
+                        hx-trigger="click"
+                        preload="mouseover"
+                    >
+                        <svg class="w-4 h-4 me-2 text-gray-400 group-hover:text-gray-500 dark:text-gray-500 dark:group-hover:text-gray-300" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+                        </svg>
+                        {{ _("History") }}
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Tab Content -->
+        <div id="activity-tab-body" class="animate__animated animate__fadeIn animated__fastest"></div>
+    </div>
+</section>
+
+{# ───────────────── Tab highlighting for horizontal tabs ───────────────── #}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+  // Store current time range globally
+  let currentTimeRange = 7;
+  let dashboardTabLoaded = false;
+
+  // Update time range and refresh active tab (only dashboard tab is affected)
+  function updateTimeRange(days) {
+    currentTimeRange = parseInt(days, 10);
+
+    const activeTab =
+      document.querySelector('.activity-tab-btn.text-primary, .activity-tab-btn.border-primary') ||
+      (window.currentActivityTabButton instanceof HTMLElement ? window.currentActivityTabButton : null);
+
+    if (
+      dashboardTabLoaded &&
+      activeTab &&
+      activeTab.dataset.tab === 'dashboard' &&
+      window.htmx
+    ) {
+      window.htmx.trigger(activeTab, 'click');
+    }
+    // History tab is not refreshed - it always shows all data
+  }
+
+  // Active tab highlighting for horizontal tabs with icons
+  document.body.addEventListener("htmx:afterRequest", (evt) => {
+    const btn = evt.detail.elt;
+    if (btn.classList.contains("activity-tab-btn")) {
+      // Reset all tabs to inactive state
+      document.querySelectorAll(".activity-tab-btn").forEach((b) => {
+        b.classList.remove("text-primary", "border-primary");
+        b.classList.add("text-gray-500", "dark:text-gray-400", "border-transparent");
+
+        // Reset icon colors
+        const icon = b.querySelector("svg");
+        if (icon) {
+          icon.classList.remove("text-primary");
+          icon.classList.add("text-gray-400", "group-hover:text-gray-500", "dark:text-gray-500", "dark:group-hover:text-gray-300");
+        }
+      });
+
+      // Set active tab
+      btn.classList.remove("text-gray-500", "dark:text-gray-400", "border-transparent");
+      btn.classList.add("text-primary", "border-primary");
+
+      window.currentActivityTabButton = btn;
+
+      // Set active icon
+      const activeIcon = btn.querySelector("svg");
+      if (activeIcon) {
+        activeIcon.classList.remove("text-gray-400", "group-hover:text-gray-500", "dark:text-gray-500", "dark:group-hover:text-gray-300");
+        activeIcon.classList.add("text-primary");
+      }
+    }
+  });
+
+  document.body.addEventListener('htmx:configRequest', (evt) => {
+    const btn = evt.detail.elt;
+    if (btn.classList && btn.classList.contains('activity-tab-btn')) {
+      if (btn.dataset.tab === 'dashboard') {
+        evt.detail.parameters = evt.detail.parameters || {};
+        evt.detail.parameters.days = currentTimeRange;
+      } else if (evt.detail.parameters && evt.detail.parameters.days) {
+        delete evt.detail.parameters.days;
+      }
+    }
+  });
+
+  // Modify tab clicks to include current time range (only for dashboard tab)
+  document.addEventListener('DOMContentLoaded', function() {
+    window.currentActivityTabButton = document.querySelector('.activity-tab-btn');
+  });
+
+  // Chart rendering helpers ---------------------------------------------------
+  const sessionsLabel = '{{ _("Sessions") }}';
+
+  function destroyActivityCharts() {
+    if (Array.isArray(window.activityDashboardCharts)) {
+      window.activityDashboardCharts.forEach((chart) => {
+        if (chart && typeof chart.destroy === 'function') {
+          chart.destroy();
+        }
+      });
+    }
+    window.activityDashboardCharts = [];
+  }
+
+  function scheduleChartResize() {
+    const charts = window.activityDashboardCharts;
+    if (!Array.isArray(charts) || charts.length === 0) {
+      return;
+    }
+
+    const queueFrame =
+      typeof window.requestAnimationFrame === 'function'
+        ? window.requestAnimationFrame.bind(window)
+        : (cb) => setTimeout(cb, 16);
+
+    const resizeCharts = () => {
+      charts.forEach((chart) => {
+        if (chart && typeof chart.resize === 'function') {
+          chart.resize();
+        }
+      });
+    };
+
+    queueFrame(() => {
+      resizeCharts();
+      setTimeout(resizeCharts, 200);
+    });
+  }
+
+  function extractStatsData() {
+    const container = document.getElementById('activity-tab-body');
+    if (!container) {
+      return null;
+    }
+    const dataScript = container.querySelector('#dashboard-chart-data');
+    if (!dataScript) {
+      return null;
+    }
+    try {
+      const raw = dataScript.textContent || dataScript.innerText || '{}';
+      return JSON.parse(raw);
+    } catch (error) {
+      console.error('Failed to parse dashboard stats payload:', error);
+      return null;
+    }
+  }
+
+  function renderActivityDashboard() {
+    if (typeof window.Chart === 'undefined') {
+      return;
+    }
+
+    const stats = extractStatsData();
+    if (!stats) {
+      return;
+    }
+
+    destroyActivityCharts();
+
+    const charts = [];
+    const container = document.getElementById('activity-tab-body');
+
+    const activityCtx = container.querySelector('#activity-time-chart');
+    if (activityCtx) {
+      charts.push(new Chart(activityCtx, {
+        type: 'line',
+        data: {
+          labels: stats.time_series_labels || [],
+          datasets: [{
+            label: sessionsLabel,
+            data: stats.time_series_data || [],
+            borderColor: 'rgb(99, 102, 241)',
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            tension: 0.3
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { stepSize: 1 }
+            }
+          }
+        }
+      }));
+    }
+
+    const mediaCtx = container.querySelector('#media-distribution-chart');
+    if (mediaCtx) {
+      charts.push(new Chart(mediaCtx, {
+        type: 'doughnut',
+        data: {
+          labels: stats.media_type_labels || [],
+          datasets: [{
+            data: stats.media_type_data || [],
+            backgroundColor: [
+              'rgba(99, 102, 241, 0.8)',
+              'rgba(34, 197, 94, 0.8)',
+              'rgba(251, 146, 60, 0.8)',
+              'rgba(168, 85, 247, 0.8)',
+              'rgba(250, 204, 21, 0.8)'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom' }
+          }
+        }
+      }));
+    }
+
+    const viewingCtx = container.querySelector('#viewing-distribution-chart');
+    if (viewingCtx) {
+      const hourlyLabels = stats.hourly_labels || [];
+      const hourlyData = stats.hourly_data || [];
+      charts.push(new Chart(viewingCtx, {
+        type: 'bar',
+        data: {
+          labels: hourlyLabels,
+          datasets: [{
+            label: sessionsLabel,
+            data: hourlyData,
+            backgroundColor: 'rgba(99, 102, 241, 0.8)',
+            borderColor: 'rgb(99, 102, 241)',
+            borderWidth: 1,
+            categoryPercentage: 0.5,
+            barPercentage: 0.7,
+            borderRadius: 3,
+            maxBarThickness: 18
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { stepSize: 1 }
+            },
+            x: {
+              grid: { display: false },
+              ticks: {
+                autoSkip: false,
+                callback: (value, index) => (index % 4 === 0 ? hourlyLabels[index] : ''),
+                maxRotation: 0,
+                minRotation: 0
+              }
+            }
+          }
+        }
+      }));
+    }
+
+    const weekdayCtx = container.querySelector('#weekday-distribution-chart');
+    if (weekdayCtx) {
+      charts.push(new Chart(weekdayCtx, {
+        type: 'bar',
+        data: {
+          labels: stats.weekday_labels || [],
+          datasets: [{
+            label: sessionsLabel,
+            data: stats.weekday_data || [],
+            backgroundColor: 'rgba(34, 197, 94, 0.8)',
+            borderColor: 'rgb(34, 197, 94)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: { stepSize: 1 }
+            },
+            x: {
+              grid: { display: false }
+            }
+          }
+        }
+      }));
+    }
+
+    window.activityDashboardCharts = charts;
+    scheduleChartResize();
+  }
+
+  window.renderActivityDashboard = renderActivityDashboard;
+
+  function handleDashboardSwap(event) {
+    if (event?.detail?.target?.id === 'activity-tab-body') {
+      dashboardTabLoaded = true;
+      renderActivityDashboard();
+    }
+  }
+
+  if (window.htmx && typeof window.htmx.on === 'function') {
+    window.htmx.on('htmx:afterSwap', handleDashboardSwap);
+    window.htmx.onLoad((content) => {
+      const target = content?.id === 'activity-tab-body'
+        ? content
+        : content?.querySelector?.('#activity-tab-body');
+      if (target) {
+        renderActivityDashboard();
+      }
+    });
+  } else {
+    document.addEventListener('DOMContentLoaded', renderActivityDashboard);
+    document.body.addEventListener('htmx:afterSwap', handleDashboardSwap);
+  }
+</script>
+{% endblock %}

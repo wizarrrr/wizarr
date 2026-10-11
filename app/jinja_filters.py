@@ -1,6 +1,17 @@
-from datetime import datetime
+import contextlib
+import logging
+import os
+import time
+from datetime import UTC, datetime
 
 from markupsafe import Markup, escape
+
+try:
+    from zoneinfo import ZoneInfo
+except (
+    ImportError
+):  # pragma: no cover - Python <3.9 not officially supported but handle gracefully
+    ZoneInfo = None  # type: ignore
 
 # Mapping of server types to their desired pastel background colours
 _SERVER_TAG_COLOURS = {
@@ -13,6 +24,69 @@ _SERVER_TAG_COLOURS = {
 }
 
 _DEFAULT_COLOUR = "#E0E0E0"  # neutral grey fallback
+
+
+def _zone_from_localtime_link():
+    """Return the IANA zone /etc/localtime points at, or None.
+
+    This is the only source on a TZ-less host that carries DST rules.
+    time.tzname holds an abbreviation ("MST"), and ZoneInfo("MST") is a
+    fixed UTC-7 zone with no DST.
+    """
+    if ZoneInfo is None:
+        return None
+    try:
+        target = os.path.realpath("/etc/localtime")
+    except OSError:
+        return None
+    marker = "zoneinfo/"
+    if marker not in target:
+        return None
+    try:
+        return ZoneInfo(target.split(marker, 1)[1])
+    except Exception as exc:
+        logging.debug(f"Failed to load timezone from {target}: {exc}")
+        return None
+
+
+def _resolve_local_timezone():
+    """Determine the timezone to use for rendering timestamps."""
+    tz_name = os.environ.get("TZ")
+
+    if tz_name and hasattr(time, "tzset"):
+        with contextlib.suppress(Exception):
+            time.tzset()
+
+    if ZoneInfo is not None:
+        # First try explicit TZ environment variable
+        if tz_name:
+            try:
+                return ZoneInfo(tz_name)
+            except Exception as exc:
+                logging.debug(f"Failed to load timezone {tz_name}: {exc}")
+
+        # Then the host's configured zone, which keeps its DST rules
+        zone = _zone_from_localtime_link()
+        if zone is not None:
+            return zone
+
+        # Last named-zone option: time.tzname is an abbreviation, so only trust
+        # it when the host has no DST (a fixed-offset zone is then correct).
+        if not time.daylight and time.tzname:
+            try:
+                return ZoneInfo(time.tzname[0])
+            except Exception as exc:
+                logging.debug(f"Failed to load system timezone {time.tzname[0]}: {exc}")
+
+    # Fallback: use the system local timezone as determined by datetime. This
+    # is a fixed offset, so it cannot follow DST changes.
+    try:
+        return datetime.now().astimezone().tzinfo
+    except Exception:
+        return None
+
+
+_LOCAL_TIMEZONE = _resolve_local_timezone()
 
 
 def _server_colour(server_type: str) -> str:
@@ -36,7 +110,7 @@ def server_type_tag(server_type: str) -> Markup:
         f'<span class="text-xs inline-block font-medium px-2 py-0.5 rounded-lg" '
         f'style="background-color: {colour}; color: #000;">{text}</span>'
     )
-    return Markup(html)
+    return Markup(html)  # noqa: S704  # User input is escaped, colour from safe dict
 
 
 def server_name_tag(server_type: str, server_name: str) -> Markup:
@@ -52,15 +126,40 @@ def server_name_tag(server_type: str, server_name: str) -> Markup:
         f'<span class="text-xs inline-block font-medium px-2 py-0.5 rounded-lg" '
         f'style="background-color: {colour}; color: #000;">{text}</span>'
     )
-    return Markup(html)
+    return Markup(html)  # noqa: S704  # User input is escaped, colour from safe dict
+
+
+def to_local(value):
+    """Convert a stored datetime to the configured local timezone.
+
+    Datetimes are stored as UTC, and SQLite hands them back naive, so a naive
+    value is treated as UTC. Anything that isn't a datetime (a plain date, a
+    string) is returned unchanged.
+    """
+    if not isinstance(value, datetime):
+        return value
+    if value.tzinfo is None:
+        value = value.replace(tzinfo=UTC)
+    return value.astimezone(_LOCAL_TIMEZONE or None)
+
+
+def local_to_utc(value: datetime) -> datetime:
+    """Convert a datetime entered in local time (e.g. a datetime-local input) to UTC.
+
+    A naive value is taken to be in the configured local timezone, the same one
+    ``to_local`` renders in, so a value shown in the UI round-trips unchanged.
+    """
+    if value.tzinfo is None:
+        value = (
+            value.replace(tzinfo=_LOCAL_TIMEZONE)
+            if _LOCAL_TIMEZONE
+            else value.astimezone()
+        )
+    return value.astimezone(UTC)
 
 
 def human_date(date_value) -> str:
-    """Format a date/datetime to be more human-readable.
-
-    Converts datetime objects or ISO strings to a format like:
-    "Jan 15, 2024 at 2:30 PM"
-    """
+    """Format date to 'Jan 15, 2024 at 2:30 PM'."""
     if not date_value:
         return "—"
 
@@ -75,37 +174,74 @@ def human_date(date_value) -> str:
                 "%Y-%m-%dT%H:%M:%S.%f",
             ]:
                 try:
-                    date_value = datetime.strptime(date_value, fmt)
+                    date_value = datetime.strptime(date_value, fmt).replace(tzinfo=UTC)  # type: ignore
                     break
                 except ValueError:
                     continue
             else:
                 # If we can't parse it, just return the original truncated string
-                return date_value[:16] if len(date_value) > 16 else date_value
+                return date_value[:16] if len(date_value) > 16 else date_value  # type: ignore
         except (ValueError, AttributeError):
-            return date_value[:16] if len(date_value) > 16 else date_value
+            return date_value[:16] if len(date_value) > 16 else date_value  # type: ignore
 
     # Handle datetime objects
     if hasattr(date_value, "strftime"):
-        return date_value.strftime("%b %-d, %Y at %-I:%M %p")
+        return to_local(date_value).strftime("%b %-d, %Y at %-I:%M %p")
 
     # Fallback for unknown types
     return str(date_value)[:16]
 
 
-def nl2br(text: str) -> Markup:
-    """Convert newlines in text to HTML <br> tags.
+def local_date(date_value, format_str="%m/%d %H:%M") -> str:
+    """Convert UTC datetime to local timezone."""
+    if not date_value:
+        return "—"
 
-    This filter is useful for displaying multiline text in templates
-    while preserving line breaks.
-    """
+    # Parse string to datetime if needed
+    if isinstance(date_value, str):
+        for fmt in ["%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S.%f", "%Y-%m-%dT%H:%M:%S"]:
+            with contextlib.suppress(ValueError):
+                date_value = datetime.strptime(date_value.rstrip("Z"), fmt).replace(
+                    tzinfo=UTC
+                )
+                break
+        else:
+            return str(date_value)[:16]
+
+    # Format datetime object
+    if hasattr(date_value, "strftime"):
+        return to_local(date_value).strftime(format_str)
+
+    return str(date_value)
+
+
+def nl2br(text: str) -> Markup:
+    """Convert newlines to HTML <br> tags."""
     if not text:
         return Markup("")
 
     # Escape HTML to prevent XSS, then replace newlines with <br> tags
     escaped_text = escape(text)
     html = str(escaped_text).replace("\n", "<br>")
-    return Markup(html)
+    return Markup(html)  # noqa: S704  # Text is escaped before markup conversion
+
+
+def render_jinja(text: str) -> Markup:
+    """Render a string as a Jinja template.
+
+    This is useful for rendering template syntax stored in the database,
+    such as wizard step titles that contain {{ _('...') }} translation calls.
+    """
+    if not text:
+        return Markup("")
+
+    from app.services.wizard_templates import render_wizard_template
+
+    try:
+        return escape(render_wizard_template(text))
+    except Exception:
+        # If rendering fails, return the original text escaped
+        return Markup(escape(text))  # noqa: S704  # Text is explicitly escaped
 
 
 def register_filters(app):
@@ -114,4 +250,10 @@ def register_filters(app):
     app.jinja_env.filters.setdefault("server_name_tag", server_name_tag)
     app.jinja_env.filters.setdefault("server_colour", _server_colour)
     app.jinja_env.filters.setdefault("human_date", human_date)
+    app.jinja_env.filters.setdefault("local_date", local_date)
     app.jinja_env.filters.setdefault("nl2br", nl2br)
+    app.jinja_env.filters.setdefault("render_jinja", render_jinja)
+
+    # Add Python built-in functions to Jinja globals
+    app.jinja_env.globals.setdefault("max", max)
+    app.jinja_env.globals.setdefault("min", min)

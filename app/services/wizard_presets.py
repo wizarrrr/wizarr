@@ -6,7 +6,7 @@ allowing users to quickly add wizard steps through the Multi-Action create butto
 
 from dataclasses import dataclass
 
-__all__ = ["WizardPreset", "get_available_presets", "create_step_from_preset"]
+__all__ = ["WizardPreset", "create_step_from_preset", "get_available_presets"]
 
 
 @dataclass
@@ -27,21 +27,51 @@ PRESETS = {
         name="Discord Community",
         description="Add a Discord server widget to invite users to your community",
         title="Discord community",
-        template="""<iframe src="https://discord.com/widget?id={discord_id}&theme=dark"
-        width="350" height="500"
-        allowtransparency="true" frameborder="0"
-        sandbox="allow-popups allow-same-origin allow-scripts"></iframe>""",
+        template="""## 💬 Join Our Discord Community
+
+Stay connected with other users, get help, and share tips in our Discord server!
+
+|||
+### 🎮 What is Discord?
+
+Discord is a free chat platform where our community hangs out. Join us to:
+
+- Get help from other users
+- Share your experience
+- Stay updated on new content
+- Connect with fellow enthusiasts
+
+<div class="flex justify-center my-4">
+    <iframe src="https://discord.com/widget?id={discord_id}&theme=dark"
+            width="350" height="500"
+            allowtransparency="true" frameborder="0"
+            sandbox="allow-popups allow-same-origin allow-scripts"
+            class="rounded-lg shadow-lg"></iframe>
+</div>
+|||""",
     ),
     "overseerr_requests": WizardPreset(
         id="overseerr_requests",
         name="Overseerr/Ombi Requests",
         description="Add a link to your Overseerr/Ombi instance for media requests",
         title="Automatic requests",
-        template="""### {{ _("Automatic media requests") }}
+        template="""## 🎬 Request New Content
 
-{{ _("Can't find a title? Use our request system — it'll grab the film or episode automatically and add it to the library.") }}
+Can't find what you're looking for? No problem!
 
-[{{ _("Open Requests") }}]({overseerr_url}){{:target=_blank .btn}}""",
+|||
+### 📝 Automatic Media Requests
+
+Use our request system to ask for new movies or TV shows. Once approved, they'll be automatically downloaded and added to the library for everyone to enjoy.
+
+**How it works:**
+1. Search for the title you want
+2. Submit your request
+3. Get notified when it's available
+
+|||
+
+{{{{ widget:button url="{overseerr_url}" text="🎯 Open Request System" }}}}""",
     ),
 }
 

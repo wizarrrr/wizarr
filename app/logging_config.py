@@ -2,6 +2,7 @@ import logging.config
 import os
 import sys
 from pathlib import Path
+from typing import Any, cast
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "WARNING").upper()
 
@@ -20,15 +21,7 @@ LOGGING_CONFIG = {
             "formatter": "default",
             "level": LOG_LEVEL,
         },
-        # ○ add a rotating-file handler if you fancy
-        # "file": {
-        #     "class": "logging.handlers.RotatingFileHandler",
-        #     "filename": str(Path(__file__).resolve().parent.parent / "logs" / "wizarr.log"),
-        #     "maxBytes": 5_000_000,
-        #     "backupCount": 3,
-        #     "formatter": "default",
-        #     "level": LOG_LEVEL,
-        # },
+        # Note: Rotating file handler can be added if persistent logging is needed.
     },
     "root": {
         "handlers": ["console"],
@@ -76,8 +69,34 @@ LOGGING_CONFIG = {
 
 def configure_logging() -> None:
     """Call this once at start-up."""
-    if "file" in LOGGING_CONFIG.get("handlers", {}):
-        log_path = Path(LOGGING_CONFIG["handlers"]["file"]["filename"])
+    handlers = cast(dict[str, Any], LOGGING_CONFIG.get("handlers", {}))
+    if "file" in handlers:
+        file_handler = cast(dict[str, Any], handlers["file"])
+        log_path = Path(cast(str, file_handler["filename"]))
         log_path.parent.mkdir(parents=True, exist_ok=True)
 
     logging.config.dictConfig(LOGGING_CONFIG)
+
+    # Configure structlog to use standard library logging
+    # This ensures structlog respects our logging level configuration
+    import structlog
+
+    structlog.configure(
+        processors=[
+            structlog.contextvars.merge_contextvars,
+            structlog.stdlib.filter_by_level,  # Filter by log level first
+            structlog.stdlib.add_logger_name,  # Add logger name
+            structlog.stdlib.add_log_level,  # Add log level
+            structlog.stdlib.PositionalArgumentsFormatter(),
+            structlog.processors.StackInfoRenderer(),
+            structlog.processors.format_exc_info,
+            structlog.processors.UnicodeDecoder(),
+            # Render to plain text, not JSON dict
+            structlog.dev.ConsoleRenderer()
+            if sys.stdout.isatty()
+            else structlog.processors.JSONRenderer(),
+        ],
+        logger_factory=structlog.stdlib.LoggerFactory(),
+        wrapper_class=structlog.stdlib.BoundLogger,
+        cache_logger_on_first_use=True,
+    )

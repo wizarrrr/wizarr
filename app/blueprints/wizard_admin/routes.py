@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 import re
 import tempfile
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import cast
 
 from flask import (
@@ -50,27 +50,39 @@ _I18N_PATTERN = re.compile(r"{{\s*_\(\s*(['\"])(.*?)\1\s*\)\s*}}", re.DOTALL)
 
 def _strip_localization(md: str) -> str:
     """Remove Jinja gettext wrappers from markdown, leaving plain text."""
-    return _I18N_PATTERN.sub(lambda m: m.group(2), md)
+
+    def _replace(match: re.Match) -> str:
+        text = match.group(2)
+        # Undo lightweight escaping used inside the source markdown
+        return text.replace("\\'", "'").replace('"', '"')
+
+    return _I18N_PATTERN.sub(_replace, md)
 
 
 @wizard_admin_bp.route("/", methods=["GET"])
 @login_required
 def list_steps():
-    # Group steps by server_type for display
+    # Group steps by server_type and category for side-by-side display
     rows = (
         # Exclude custom steps (managed via Wizard Bundles) from the default view
         WizardStep.query.filter(WizardStep.server_type != "custom")
-        .order_by(WizardStep.server_type, WizardStep.position)
+        .order_by(WizardStep.server_type, WizardStep.category, WizardStep.position)
         .all()
     )
-    grouped: dict[str, list[WizardStep]] = {}
+
+    # Create nested structure: {server_type: {category: [steps]}}
+    grouped: dict[str, dict[str, list[WizardStep]]] = {}
     for row in rows:
-        grouped.setdefault(row.server_type, []).append(row)
+        if row.server_type not in grouped:
+            grouped[row.server_type] = {"pre_invite": [], "post_invite": []}
+        grouped[row.server_type][row.category].append(row)
 
     # Filter: show only servers that are currently configured/enabled
     active_types = {srv.server_type for srv in MediaServer.query.all()}
     grouped = {
-        stype: steps for stype, steps in grouped.items() if stype in active_types
+        stype: categories
+        for stype, categories in grouped.items()
+        if stype in active_types
     }
 
     # When requested via HTMX we return only the inner fragment that is meant
@@ -143,9 +155,12 @@ def create_step():
         server_type_attr = getattr(form, "server_type", None)
         stype = "custom" if simple else (server_type_attr and server_type_attr.data)
 
+        # Get category from form (defaults to 'post_invite')
+        category = form.category.data if hasattr(form, "category") else "post_invite"
+
         max_pos = (
             db.session.query(func.max(WizardStep.position))
-            .filter_by(server_type=stype)
+            .filter_by(server_type=stype, category=category)
             .scalar()
         )
         next_pos = (max_pos or 0) + 1
@@ -154,8 +169,9 @@ def create_step():
 
         step = WizardStep(
             server_type=stype,
+            category=category,
             position=next_pos,
-            title=getattr(form, "title", None) and form.title.data or None,
+            title=(getattr(form, "title", None) and form.title.data) or None,
             markdown=cleaned_md,
             require_interaction=(
                 getattr(form, "require_interaction", None) is not None
@@ -223,6 +239,9 @@ def create_preset():
             flash("Preset ID and server type are required", "danger")
             return redirect(url_for("wizard_admin.create_preset"))
 
+        # Get category from form (defaults to 'post_invite')
+        category = form.category.data or "post_invite"
+
         # Prepare template variables
         template_vars = {}
         if form.discord_id.data:
@@ -235,10 +254,10 @@ def create_preset():
             markdown_content = create_step_from_preset(preset_id, **template_vars)
             title = get_preset_title(preset_id)
 
-            # Find next position for this server type
+            # Find next position for this server type and category
             max_pos = (
                 db.session.query(func.max(WizardStep.position))
-                .filter_by(server_type=server_type)
+                .filter_by(server_type=server_type, category=category)
                 .scalar()
             )
             next_pos = (max_pos or 0) + 1
@@ -246,6 +265,7 @@ def create_preset():
             # Create the step
             step = WizardStep(
                 server_type=server_type,
+                category=category,
                 position=next_pos,
                 title=title,
                 markdown=markdown_content,
@@ -273,7 +293,7 @@ def create_preset():
 @wizard_admin_bp.route("/<int:step_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_step(step_id: int):
-    step = WizardStep.query.get_or_404(step_id)
+    step = db.get_or_404(WizardStep, step_id)
 
     simple = step.server_type == "custom"
     FormCls = SimpleWizardStepForm if simple else WizardStepForm
@@ -284,7 +304,11 @@ def edit_step(step_id: int):
             server_type_attr = getattr(form, "server_type", None)
             step.server_type = server_type_attr.data if server_type_attr else "custom"
 
-        step.title = getattr(form, "title", None) and form.title.data or None
+        # Update category if present on form
+        if hasattr(form, "category") and form.category.data:
+            step.category = form.category.data
+
+        step.title = (getattr(form, "title", None) and form.title.data) or None
         cleaned_md = _strip_localization(form.markdown.data or "")
         step.markdown = cleaned_md
 
@@ -324,7 +348,7 @@ def edit_step(step_id: int):
 @wizard_admin_bp.route("/<int:step_id>/delete", methods=["POST"])
 @login_required
 def delete_step(step_id: int):
-    step = WizardStep.query.get_or_404(step_id)
+    step = db.get_or_404(WizardStep, step_id)
 
     # Check if this is a custom step (from bundle context)
     is_custom_step = step.server_type == "custom"
@@ -346,31 +370,81 @@ def delete_step(step_id: int):
 @wizard_admin_bp.route("/reorder", methods=["POST"])
 @login_required
 def reorder_steps():
-    """Accept JSON array of step IDs in new order for a given server_type."""
-    order_raw = request.json
-    if not isinstance(order_raw, list):
-        abort(400)
-    order = cast(list[int], order_raw)
+    """Accept JSON with server_type, category, and step IDs in new order.
 
-    rows = WizardStep.query.filter(WizardStep.id.in_(order)).all()
+    Supports two formats:
+    1. Legacy format: JSON array of step IDs (for bundle steps)
+    2. New format: JSON object with server_type, category, and order array
+    """
+    data = request.json
+
+    # Handle legacy format (array of IDs)
+    if isinstance(data, list):
+        order = cast(list[int], data)
+        rows = WizardStep.query.filter(WizardStep.id.in_(order)).all()
+        id_to_row = {r.id: r for r in rows}
+
+        # Phase 1: assign temporary negative positions
+        for tmp_pos, step_id in enumerate(order, start=1):
+            row = id_to_row.get(step_id)
+            if row is None:
+                continue
+            row.position = -tmp_pos
+
+        db.session.flush()
+
+        # Phase 2: set final 0-based positions
+        for final_pos, step_id in enumerate(order):
+            row = id_to_row.get(step_id)
+            if row is None:
+                continue
+            row.position = final_pos
+
+        db.session.commit()
+        return jsonify({"status": "ok"})
+
+    # Handle new format (object with server_type, category, order)
+    if not isinstance(data, dict):
+        abort(400)
+
+    # Type narrowing: after isinstance check, data is dict[str, Any]
+    data_dict = cast(dict[str, object], data)
+    server_type = data_dict.get("server_type")
+    category = data_dict.get("category")
+    order = data_dict.get("order", [])
+
+    if not server_type or not category or not isinstance(order, list):
+        abort(400)
+
+    # Type narrowing: after isinstance check, order is a list
+    order_list = cast(list[int], order)
+
+    # Validate category
+    if category not in ["pre_invite", "post_invite"]:
+        abort(400)
+
+    rows = WizardStep.query.filter(WizardStep.id.in_(order_list)).all()
     id_to_row = {r.id: r for r in rows}
 
     # ------------------------------------------------------------------
     # Phase 1: assign *temporary* negative positions to avoid violating the
-    # unique (server_type, position) constraint during in-place updates.
+    # unique (server_type, category, position) constraint during in-place updates.
+    # Also update category and server_type if changed.
     # ------------------------------------------------------------------
-    for tmp_pos, step_id in enumerate(order, start=1):
+    for tmp_pos, step_id in enumerate(order_list, start=1):
         row = id_to_row.get(step_id)
         if row is None:
             continue
         row.position = -tmp_pos  # e.g. -1, -2, … distinct & negative
+        row.category = category  # Update category (may have changed via drag-and-drop)
+        row.server_type = server_type  # Ensure server_type is correct
 
     db.session.flush()  # issues UPDATEs but keeps transaction open
 
     # ------------------------------------------------------------------
     # Phase 2: set final 0-based positions
     # ------------------------------------------------------------------
-    for final_pos, step_id in enumerate(order):
+    for final_pos, step_id in enumerate(order_list):
         row = id_to_row.get(step_id)
         if row is None:
             continue
@@ -422,7 +496,7 @@ def create_bundle():
 @wizard_admin_bp.route("/bundle/<int:bundle_id>/edit", methods=["GET", "POST"])
 @login_required
 def edit_bundle(bundle_id: int):
-    bundle = WizardBundle.query.get_or_404(bundle_id)
+    bundle = db.get_or_404(WizardBundle, bundle_id)
     form = WizardBundleForm(
         request.form if request.method == "POST" else None, obj=bundle
     )
@@ -452,7 +526,7 @@ def edit_bundle(bundle_id: int):
 @wizard_admin_bp.route("/bundle/<int:bundle_id>/delete", methods=["POST"])
 @login_required
 def delete_bundle(bundle_id: int):
-    bundle = WizardBundle.query.get_or_404(bundle_id)
+    bundle = db.get_or_404(WizardBundle, bundle_id)
     db.session.delete(bundle)
     db.session.commit()
     flash(_("Bundle deleted"), "success")
@@ -465,10 +539,45 @@ def delete_bundle(bundle_id: int):
 @wizard_admin_bp.route("/bundle/<int:bundle_id>/reorder", methods=["POST"])
 @login_required
 def reorder_bundle(bundle_id: int):
-    order_raw = request.json  # expects list of step IDs in new order
-    if not isinstance(order_raw, list):
+    payload = request.json  # accepts list of IDs or dict with detailed order
+    category_map: dict[int, str | None] = {}
+
+    if isinstance(payload, list):
+        order = []
+        for entry in payload:
+            try:
+                order.append(int(entry))
+            except (TypeError, ValueError):
+                continue
+    elif isinstance(payload, dict):
+        order_raw = payload.get("order")
+        if not isinstance(order_raw, list):
+            abort(400)
+
+        order = []
+        for entry in order_raw:
+            if isinstance(entry, dict):
+                step_id = entry.get("id")
+                if step_id is None:
+                    continue
+                try:
+                    step_id_int = int(step_id)
+                except (TypeError, ValueError):
+                    continue
+                order.append(step_id_int)
+                category_value = entry.get("category")
+                # Normalise falsy to None to indicate no change
+                if category_value in (None, ""):
+                    category_map[step_id_int] = None
+                else:
+                    category_map[step_id_int] = str(category_value)
+            else:
+                try:
+                    order.append(int(entry))
+                except (TypeError, ValueError):
+                    continue
+    else:
         abort(400)
-    order = cast(list[int], order_raw)
 
     rows = WizardBundleStep.query.filter(
         WizardBundleStep.bundle_id == bundle_id,
@@ -482,7 +591,45 @@ def reorder_bundle(bundle_id: int):
         if row is None:
             continue
         row.position = -tmp_pos
+
     db.session.flush()
+
+    # Update categories for custom steps when requested
+    moved_steps: list[tuple[WizardStep, str]] = []
+    for step_id, desired_category in category_map.items():
+        if desired_category is None:
+            continue
+        row = id_to_row.get(step_id)
+        if row is None or row.step is None:
+            continue
+        step = row.step
+        if step.category == desired_category:
+            continue
+        moved_steps.append((step, desired_category))
+
+    if moved_steps:
+        next_positions: dict[tuple[str, str], int] = {}
+
+        def get_next_position(server_type: str, category: str) -> int:
+            key = (server_type, category)
+            if key not in next_positions:
+                max_pos = (
+                    db.session.query(func.max(WizardStep.position))
+                    .filter(
+                        WizardStep.server_type == server_type,
+                        WizardStep.category == category,
+                    )
+                    .scalar()
+                )
+                next_positions[key] = (max_pos or -1) + 1
+            else:
+                next_positions[key] += 1
+            return next_positions[key]
+
+        with db.session.no_autoflush:
+            for step, desired_category in moved_steps:
+                step.category = desired_category
+                step.position = get_next_position(step.server_type, desired_category)
 
     # Phase 2 – final 0-based positions
     for final_pos, step_id in enumerate(order):
@@ -490,6 +637,7 @@ def reorder_bundle(bundle_id: int):
         if row is None:
             continue
         row.position = final_pos
+
     db.session.commit()
     return jsonify({"status": "ok"})
 
@@ -498,9 +646,9 @@ def reorder_bundle(bundle_id: int):
 @wizard_admin_bp.route("/bundle/<int:bundle_id>/add-steps-modal", methods=["GET"])
 @login_required
 def add_steps_modal(bundle_id: int):
-    bundle = WizardBundle.query.get_or_404(bundle_id)
+    bundle = db.get_or_404(WizardBundle, bundle_id)
     # steps not yet in bundle
-    existing_ids = {bs.step_id for bs in bundle.steps}
+    existing_ids = {bs.step_id for bs in bundle.steps}  # type: ignore
     available = (
         WizardStep.query.filter(~WizardStep.id.in_(existing_ids))
         .order_by(WizardStep.server_type, WizardStep.position)
@@ -514,7 +662,7 @@ def add_steps_modal(bundle_id: int):
 @wizard_admin_bp.route("/bundle/<int:bundle_id>/add-steps", methods=["POST"])
 @login_required
 def add_steps(bundle_id: int):
-    bundle = WizardBundle.query.get_or_404(bundle_id)
+    bundle = db.get_or_404(WizardBundle, bundle_id)
     ids = request.form.getlist("step_ids")
     if not ids:
         abort(400)
@@ -542,7 +690,7 @@ def add_steps(bundle_id: int):
 @wizard_admin_bp.route("/bundle-step/<int:bundle_step_id>/delete", methods=["POST"])
 @login_required
 def delete_bundle_step(bundle_step_id: int):
-    bundle_step = WizardBundleStep.query.get_or_404(bundle_step_id)
+    bundle_step = db.get_or_404(WizardBundleStep, bundle_step_id)
     db.session.delete(bundle_step)
     db.session.commit()
     flash(_("Orphaned step removed"), "success")
@@ -577,7 +725,8 @@ def export_server_steps(server_type: str):
             temp_file_path = temp_file.name
 
         # Generate filename with server type and current date
-        filename = f"wizard_steps_{server_type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        timestamp = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
+        filename = f"wizard_steps_{server_type}_{timestamp}.json"
 
         return send_file(
             temp_file_path,
@@ -614,7 +763,8 @@ def export_bundle(bundle_id: int):
             if export_data.bundle
             else "unknown_bundle"
         )
-        filename = f"wizard_bundle_{bundle_name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        timestamp = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
+        filename = f"wizard_bundle_{bundle_name}_{timestamp}.json"
 
         return send_file(
             temp_file_path,
@@ -691,6 +841,83 @@ def import_steps():
         flash(_("Invalid JSON file"), "error")
     except Exception as e:
         flash(_("Import failed: {}").format(str(e)), "error")
+
+    # Return updated view
+    if request.headers.get("HX-Request"):
+        return list_steps()
+    return redirect(url_for("wizard_admin.list_steps"))
+
+
+@wizard_admin_bp.route("/reset/<server_type>", methods=["POST"])
+@login_required
+def reset_server_steps(server_type: str):
+    """Reset wizard steps to defaults for a specific server type.
+
+    This resets BOTH pre_invite and post_invite categories:
+    - pre_invite: Deletes all custom pre_invite steps (no defaults to reimport)
+    - post_invite: Deletes all custom post_invite steps and reimports from YAML
+    """
+    from app.services.wizard_reset import WizardResetService
+
+    service = WizardResetService()
+
+    # Track overall success and collect counts
+    total_deleted = 0
+    total_imported = 0
+    errors = []
+
+    # 1. Delete pre_invite steps (no defaults exist for pre_invite)
+    try:
+        pre_deleted = WizardStep.query.filter_by(
+            server_type=server_type, category="pre_invite"
+        ).delete()
+        total_deleted += pre_deleted
+        db.session.flush()
+    except Exception as e:
+        errors.append(f"Failed to delete pre_invite steps: {e!s}")
+        db.session.rollback()
+
+    # 2. Reset post_invite steps (delete and reimport from YAML defaults)
+    try:
+        success, message, count = service.reset_server_steps(
+            server_type, category="post_invite"
+        )
+
+        if success:
+            total_imported += count
+            # Extract deleted count from message if available
+            # Message format: "Reset X steps for Y (deleted Z, imported W)"
+            import re
+
+            match = re.search(r"deleted (\d+)", message)
+            if match:
+                total_deleted += int(match.group(1))
+        else:
+            errors.append(message)
+    except Exception as e:
+        errors.append(f"Failed to reset post_invite steps: {e!s}")
+        db.session.rollback()
+
+    # Commit all changes if no errors
+    if not errors:
+        try:
+            db.session.commit()
+            flash(
+                _("Reset {} steps for {} (deleted {}, imported {})").format(
+                    server_type,
+                    server_type.capitalize(),
+                    total_deleted,
+                    total_imported,
+                ),
+                "success",
+            )
+        except Exception as e:
+            db.session.rollback()
+            flash(_("Failed to reset steps: {}").format(str(e)), "error")
+    else:
+        # Show error messages
+        for error in errors:
+            flash(error, "error")
 
     # Return updated view
     if request.headers.get("HX-Request"):

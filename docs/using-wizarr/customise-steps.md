@@ -9,9 +9,10 @@ Give your new users a personalized onboarding experience with Wizarr's powerful 
 Wizarr's wizard system supports multiple approaches for creating and managing onboarding steps:
 
 1. **Database-backed steps** (recommended) - Create and manage steps through the admin interface
-2. **Wizard bundles** - Custom sequences of steps for specific invitation types
-3. **Multi-server wizards** - Automatic flows for invitations covering multiple servers
-4. **Legacy file-based steps** - Markdown files as fallback (still supported)
+2. **Pre-invite and post-invite categories** - Show steps before or after users accept invitations ([Learn more](pre-post-invite-steps.md))
+3. **Wizard bundles** - Custom sequences of steps for specific invitation types
+4. **Multi-server wizards** - Automatic flows for invitations covering multiple servers
+5. **Legacy file-based steps** - Markdown files as fallback (still supported)
 
 ***
 
@@ -34,10 +35,13 @@ Default steps are server-type specific and will be shown to all users invited to
 ### Step Fields
 
 - **Server Type**: Which media server this step applies to
+- **Category**: When to show this step - "Before Invite Acceptance" (pre-invite) or "After Invite Acceptance" (post-invite)
 - **Title**: Optional override for the step heading
 - **Markdown**: The main content of your step
 - **Requires**: Comma-separated setting keys that must be truthy for the step to display
 - **Require Interaction**: When enabled, users must click a link or button in the step before they can proceed to the next step
+
+> **New Feature**: The **Category** field allows you to control whether steps are shown before or after users accept invitations. [Learn more about pre-invite and post-invite steps](pre-post-invite-steps.md).
 
 ### Conditional Step Display
 
@@ -127,6 +131,32 @@ Welcome to our **media server**! Here's what you need to know:
 - **External links**: Add `{:target="_blank"}` to open in new tab
 - **Images**: Use standard Markdown syntax with optional classes
 - **Tailwind classes**: Add `{.class-name}` for custom styling
+
+### Templates in Shared Bundles
+
+You can import and export third-party bundles. Wizarr stores their content and applies the same rendering rules to imported and edited steps.
+
+Wizarr renders step templates in a Jinja sandbox. A template cannot read Python internals or run commands on the server.
+
+Templates can use `server_name`, `server_type`, `server_url`, `external_url`, and the application settings, for example `discord_id` or `overseerr_url`. The same values are available through `settings`, for example `settings.server_name`. Wizarr does not give templates settings with credential names (passwords, tokens, secrets, and API keys), sessions, or Python objects.
+
+You can use the usual Jinja features: conditions, loops, `set`, `with`, macros, filters, and string methods. For translations, use `{{ _("Welcome") }}`, `{{ _("Welcome to %(name)s", name=server_name) }}`, or `{% trans %}...{% endtrans %}`. `url_for` is available for links to Wizarr pages and static files.
+
+Cards, buttons, and media widgets remain available. For example:
+
+```markdown
+|||
+## {{ _("Welcome") }}
+
+{{ server_name }}
+
+{{ widget:button url="external_url" text=_("Open") }}
+|||
+```
+
+Templates cannot include, import, or extend other templates, and cannot use recursive loops. Wizarr also stops a template that runs too many loop iterations or function calls, or that makes very large text. Wizarr shows a step error when this occurs.
+
+Wizarr shows the HTML in a step as you write it, including styles, scripts, and iframes. Titles display as plain text. Before you import a bundle from a third party, read its steps: their HTML and scripts run in the wizard for each invited user.
 
 ### Requiring User Interaction
 

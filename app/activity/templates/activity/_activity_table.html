@@ -1,0 +1,588 @@
+{% if error %}
+    <div class="text-center py-12">
+        <div class="text-red-500 dark:text-red-400">
+            <svg class="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+            <h3 class="text-lg font-medium mb-2">{{ _("Unable to load activity data") }}</h3>
+            <p>{{ error }}</p>
+        </div>
+    </div>
+{% elif not sessions %}
+    <div class="text-center py-12">
+        <div class="text-gray-500 dark:text-gray-400">
+            <svg class="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <h3 class="text-lg font-medium mb-2">{{ _("No activity found") }}</h3>
+            <p>{{ _("No media sessions found for the selected period") }}</p>
+        </div>
+    </div>
+{% else %}
+    <!-- Activity Table -->
+    <div class="relative overflow-x-auto">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        {{ _("User") }}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        {{ _("Server") }}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        {{ _("Media") }}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        {{ _("Playback") }}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        {{ _("Device") }}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        {{ _("Duration") }}
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        {{ _("Started") }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for session in sessions %}
+                    {% set duration_seconds = session.display_duration_seconds %}
+                    {% set duration_str = "" %}
+                    {% if duration_seconds %}
+                        {% set total_minutes = (duration_seconds // 60) | int %}
+                        {% set hours = (total_minutes // 60) | int %}
+                        {% set minutes = (total_minutes % 60) | int %}
+                        {% if hours > 0 %}
+                            {% set duration_str = "{}h {}m".format(hours, minutes) %}
+                        {% else %}
+                            {% set duration_str = "{}m".format(minutes) %}
+                        {% endif %}
+                    {% endif %}
+                    {% set playback_info = session.get_transcoding_info() %}
+                    {% set is_transcoding = playback_info.get("is_transcoding") %}
+                    {% set is_direct_play = playback_info.get("direct_play") %}
+                    {% set is_remux = (playback_info|length > 0 and not is_transcoding and not is_direct_play) %}
+                    {% set video_codec = playback_info.get("video_codec") %}
+                    {% set audio_codec = playback_info.get("audio_codec") %}
+                    {% set video_resolution = playback_info.get("video_resolution") %}
+                    {% set container = playback_info.get("container") %}
+                    {% set transcoding_speed = playback_info.get("transcoding_speed") %}
+
+                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <!-- User -->
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                                </svg>
+                                <span class="text-sm text-gray-900 dark:text-white {% if session.is_active %}font-bold{% endif %}">{{ session.display_user_name }}</span>
+                            </div>
+                        </td>
+
+                        <!-- Server -->
+                        <td class="px-6 py-4">
+                            {% if session.server_type and session.server_name %}
+                                {{ session.server_type|server_name_tag(session.server_name) }}
+                            {% else %}
+                                <span class="text-sm text-gray-400">{{ _("Unknown") }}</span>
+                            {% endif %}
+                        </td>
+
+                        <!-- Media -->
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <div class="flex-1 min-w-0">
+                                    <div class="text-sm font-medium text-gray-900 dark:text-white truncate max-w-xs" title="{{ session.media_title }}">
+                                        {{ session.media_title }}
+                                    </div>
+                                    {% if session.series_name %}
+                                        <div class="text-xs text-gray-600 dark:text-gray-300 truncate">
+                                            {{ session.series_name }}
+                                            {% if session.season_number and session.episode_number %}
+                                                • S{{ session.season_number }}E{{ session.episode_number }}
+                                            {% endif %}
+                                        </div>
+                                    {% endif %}
+                                    {% if session.media_type %}
+                                        <span class="inline-flex items-center mt-1 px-2 py-0.5 rounded-md border border-blue-200 text-[11px] font-medium text-blue-700 bg-blue-50 dark:border-blue-500/40 dark:text-blue-100 dark:bg-blue-500/10 capitalize">
+                                            {{ session.media_type }}
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <button type="button"
+                                        class="ml-2 inline-flex items-center justify-center w-7 h-7 rounded-md text-gray-400 hover:text-primary hover:bg-gray-100 transition dark:text-gray-500 dark:hover:text-primary-200 dark:hover:bg-gray-700/60"
+                                        onclick="viewSessionDetails({{ session.id }})"
+                                        title="{{ _('View session details') }}"
+                                        aria-label="{{ _('View session details') }}">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 0110 10 10 10 0 11-10-10z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+
+                        <!-- Playback -->
+                        <td class="px-6 py-4">
+                            {% if is_transcoding %}
+                                {% set playback_label = _("Transcoding") %}
+                                {% set playback_dot = "bg-orange-500" %}
+                                {% set playback_hint = _('Video or audio is being transcoded for this session.') %}
+                            {% elif is_remux %}
+                                {% set playback_label = _("Remuxing") %}
+                                {% set playback_dot = "bg-blue-500" %}
+                                {% set playback_hint = _('Container remux without video transcoding.') %}
+                            {% elif is_direct_play %}
+                                {% set playback_label = _("Direct Play") %}
+                                {% set playback_dot = "bg-green-500" %}
+                                {% set playback_hint = _('Media is direct playing without conversion.') %}
+                            {% else %}
+                                {% set playback_label = _("Unknown") %}
+                                {% set playback_dot = "bg-gray-400" %}
+                                {% set playback_hint = _('Playback method unknown – no stream details reported.') %}
+                            {% endif %}
+
+                            <div class="flex items-center gap-2" title="{{ playback_hint }}">
+                                <span class="inline-flex w-2.5 h-2.5 rounded-full {{ playback_dot }}"></span>
+                                <span class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ playback_label }}</span>
+                                {% if transcoding_speed and is_transcoding %}
+                                    <span class="text-xs font-medium text-gray-500 dark:text-gray-300">{{ "%.1f"|format(transcoding_speed|float) }}x</span>
+                                {% endif %}
+                            </div>
+                        </td>
+
+                        <!-- Device -->
+                        <td class="px-6 py-4">
+                            <div class="flex items-center">
+                                <svg class="w-4 h-4 mr-2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                                </svg>
+                                <span class="text-sm text-gray-600 dark:text-gray-300">{{ session.device_name or session.client_name or _("Unknown Device") }}</span>
+                            </div>
+                        </td>
+
+                        <!-- Status -->
+                        <!-- Duration -->
+                        <td class="px-6 py-4">
+                            {% if session.is_active and session.started_at %}
+                                <div class="live-timer font-medium text-green-600 dark:text-green-400"
+                                     data-start-time="{{ session.started_at.isoformat() }}"
+                                     data-session-id="{{ session.id }}">
+                                    <span class="timer-display">00:00</span>
+                                    <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Live") }}</div>
+                                </div>
+                            {% elif duration_str %}
+                                <div class="text-sm text-gray-900 dark:text-white">
+                                    {{ duration_str }}
+                                </div>
+                            {% else %}
+                                <div class="text-sm text-gray-400">{{ _("N/A") }}</div>
+                            {% endif %}
+                        </td>
+
+                        <!-- Started -->
+                        <td class="px-6 py-4">
+                            <div class="text-sm text-gray-900 dark:text-white">
+                                {{ session.started_at|local_date if session.started_at else '-' }}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-4 px-6 py-3 text-xs text-gray-500 dark:text-gray-400 border-t border-gray-100 dark:border-gray-700/60 bg-gray-50/60 dark:bg-gray-800/40">
+        <span class="inline-flex items-center gap-2">
+            <span class="inline-flex w-2.5 h-2.5 rounded-full bg-orange-500"></span>
+            <span>{{ _("Transcoding") }}</span>
+        </span>
+        <span class="inline-flex items-center gap-2">
+            <span class="inline-flex w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+            <span>{{ _("Remuxing") }}</span>
+        </span>
+        <span class="inline-flex items-center gap-2">
+            <span class="inline-flex w-2.5 h-2.5 rounded-full bg-green-500"></span>
+            <span>{{ _("Direct Play") }}</span>
+        </span>
+        <span class="inline-flex items-center gap-2">
+            <span class="inline-flex w-2.5 h-2.5 rounded-full bg-gray-400"></span>
+            <span>{{ _("Unknown") }}</span>
+        </span>
+        <span class="inline-flex items-center gap-2 text-gray-400 dark:text-gray-500">
+            <span class="inline-flex w-2.5 h-2.5 rounded-full border border-dashed border-gray-400 dark:border-gray-500"></span>
+            <span>{{ _("Hover a state for stream details.") }}</span>
+        </span>
+    </div>
+
+    <!-- Pagination -->
+    {% if total_pages > 1 %}
+    <div class="flex flex-col items-center mt-6 mb-6">
+        <!-- Help text -->
+        <span class="text-sm text-gray-700 dark:text-gray-400 mb-2">
+            {{ _("Showing") }} <span class="font-semibold text-gray-900 dark:text-white">{{ ((page - 1) * 20) + 1 }}</span>
+            {{ _("to") }} <span class="font-semibold text-gray-900 dark:text-white">{{ ((page - 1) * 20) + sessions|length }}</span>
+            {{ _("of") }} <span class="font-semibold text-gray-900 dark:text-white">{{ total_count }}</span> {{ _("entries") }}
+        </span>
+
+        <!-- Numbered Pagination -->
+        {% from '_partials/macros.html' import numbered_pagination %}
+        {{ numbered_pagination(page, total_pages) }}
+    </div>
+    {% endif %}
+{% endif %}
+
+<script>
+function escapeHtml(value) {
+    if (value === null || value === undefined) {
+        return "";
+    }
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+}
+
+function ensureActivityState() {
+    if (!window.wizarrActivityState) {
+        window.wizarrActivityState = {
+            detailOpen: false,
+            pendingRefresh: false,
+            summaryTimer: null,
+            lastSummary: null,
+            summaryInFlight: false,
+        };
+    }
+    return window.wizarrActivityState;
+}
+
+function triggerActivityRefresh(options = {}) {
+    if (typeof refreshActivities === 'function') {
+        refreshActivities(options);
+    } else if (typeof refreshData === 'function') {
+        refreshData(options);
+    }
+}
+
+function paginateTo(page) {
+    let params;
+
+    if (typeof buildActivityParams === 'function') {
+        params = buildActivityParams({ page });
+    } else {
+        params = new URLSearchParams(window.location.search);
+        params.set('page', page);
+
+        const searchInput =
+            document.getElementById('user-search') ||
+            document.getElementById('simple-search');
+        const userSearch = searchInput?.value;
+        const serverFilter = document.getElementById('server-filter')?.value;
+        const mediaTypeFilter = document.getElementById('media-type-filter')?.value;
+        const sortOrder = document.getElementById('sort-order')?.value;
+
+        if (userSearch) params.set('user_name', userSearch);
+        if (serverFilter) params.set('server_id', serverFilter);
+        if (mediaTypeFilter) params.set('media_type', mediaTypeFilter);
+
+        if (sortOrder) {
+            const [sortBy, sortDirection] = sortOrder.split(':');
+            if (sortBy) params.set('sort_by', sortBy);
+            if (sortDirection) params.set('sort_direction', sortDirection);
+        }
+    }
+
+    // Remove days parameter since history shows all data
+    params.delete('days');
+
+    const queryString = params.toString();
+    const url = queryString
+        ? '{{ url_for("activity.activity_grid") }}?' + queryString
+        : '{{ url_for("activity.activity_grid") }}';
+
+    // Make the HTMX request
+    htmx.ajax('GET', url, {
+        target: '#activity-table-container'
+    });
+}
+</script>
+
+<script>
+// Live timer functionality
+function updateLiveTimers() {
+    const timers = document.querySelectorAll('.live-timer');
+    const now = new Date();
+
+    timers.forEach(timer => {
+        // Ensure start time is treated as UTC
+        const startTimeStr = timer.dataset.startTime;
+        const startTime = new Date(startTimeStr.endsWith('Z') ? startTimeStr : startTimeStr + 'Z');
+        const elapsed = Math.floor((now - startTime) / 1000); // seconds
+
+        // Calculate hours, minutes, seconds
+        const hours = Math.floor(elapsed / 3600);
+        const minutes = Math.floor((elapsed % 3600) / 60);
+        const seconds = elapsed % 60;
+
+        // Format display
+        let display = '';
+        if (hours > 0) {
+            display = `${hours}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        } else {
+            display = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        const displayElement = timer.querySelector('.timer-display');
+        if (displayElement) {
+            displayElement.textContent = display;
+        }
+    });
+}
+
+// Start timer immediately since this script runs after HTMX loads the content
+(function() {
+    // Update timers immediately
+    updateLiveTimers();
+
+    // This script runs again on each grid reload. Start one interval and one
+    // listener only, so that reloads do not add more timers.
+    if (!window.wizarrLiveTimerInterval) {
+        window.wizarrLiveTimerInterval = setInterval(updateLiveTimers, 1000);
+        // Also update timers when new content is loaded via HTMX
+        document.addEventListener('htmx:afterSwap', function() {
+            updateLiveTimers();
+        });
+    }
+})();
+
+function viewSessionDetails(sessionId) {
+    fetch(`{{ url_for('activity.activity_session', session_id=0) }}`.replace('0', sessionId))
+        .then((response) => response.json())
+        .then((data) => {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+
+            const playback = data.transcoding_info || {};
+            const hasPlayback = Object.keys(playback).length > 0;
+            const isTranscoding = Boolean(playback.is_transcoding);
+            const isDirectPlay = Boolean(playback.direct_play);
+            const isRemux = hasPlayback && !isTranscoding && !isDirectPlay;
+
+            let playbackLabel = {{ _("Unknown")|tojson }};
+            let playbackDotClass = 'bg-gray-400';
+            let playbackHint = {{ _("Playback method unknown – no stream details reported.")|tojson }};
+
+            if (isTranscoding) {
+                playbackLabel = {{ _("Transcoding")|tojson }};
+                playbackDotClass = 'bg-orange-500';
+                playbackHint = {{ _("Video or audio is being transcoded for this session.")|tojson }};
+            } else if (isRemux) {
+                playbackLabel = {{ _("Remuxing")|tojson }};
+                playbackDotClass = 'bg-blue-500';
+                playbackHint = {{ _("Container remux without video transcoding.")|tojson }};
+            } else if (isDirectPlay) {
+                playbackLabel = {{ _("Direct Play")|tojson }};
+                playbackDotClass = 'bg-green-500';
+                playbackHint = {{ _("Media is direct playing without conversion.")|tojson }};
+            }
+
+            const playbackBadge = `
+                <span class="inline-flex items-center gap-2 text-sm font-medium text-gray-800 dark:text-gray-200" title="${escapeHtml(playbackHint)}">
+                    <span class="inline-flex w-2.5 h-2.5 rounded-full ${playbackDotClass}"></span>
+                    <span>${escapeHtml(playbackLabel)}</span>
+                </span>
+            `;
+
+            const speedNumber = Number(playback.transcoding_speed);
+            const speedDisplay =
+                Number.isFinite(speedNumber) && isTranscoding
+                    ? speedNumber.toFixed(1)
+                    : null;
+            const transcodingSpeed = speedDisplay
+                ? `<span class="text-xs text-gray-500 dark:text-gray-300 ml-2">${speedDisplay}x</span>`
+                : '';
+
+            const techRows = [
+                playback.video_codec
+                    ? `<div><strong class="text-gray-900 dark:text-white">{{ _("Video") }}:</strong> <span class="text-gray-600 dark:text-gray-300">${escapeHtml(playback.video_codec)}</span></div>`
+                    : '',
+                playback.audio_codec
+                    ? `<div><strong class="text-gray-900 dark:text-white">{{ _("Audio") }}:</strong> <span class="text-gray-600 dark:text-gray-300">${escapeHtml(playback.audio_codec)}</span></div>`
+                    : '',
+                playback.video_resolution
+                    ? `<div><strong class="text-gray-900 dark:text-white">{{ _("Resolution") }}:</strong> <span class="text-gray-600 dark:text-gray-300">${escapeHtml(playback.video_resolution)}</span></div>`
+                    : '',
+                playback.container
+                    ? `<div><strong class="text-gray-900 dark:text-white">{{ _("Container") }}:</strong> <span class="text-gray-600 dark:text-gray-300">${escapeHtml(playback.container)}</span></div>`
+                    : '',
+            ].filter(Boolean);
+
+            const startedAt = data.started_at
+                ? new Date(data.started_at).toLocaleString()
+                : '{{ _("Unknown") }}';
+
+            const modalContent = `
+                <div class="space-y-6">
+                    <div class="space-y-1">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-white">${escapeHtml(data.media_title)}</h3>
+                        ${
+                            data.series_name
+                                ? `<p class="text-sm text-gray-500 dark:text-gray-400">${escapeHtml(data.series_name)}${
+                                      data.season_number && data.episode_number
+                                          ? ` • S${escapeHtml(data.season_number)}E${escapeHtml(data.episode_number)}`
+                                          : ''
+                                  }</p>`
+                                : ''
+                        }
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                            <strong class="text-gray-900 dark:text-white">{{ _("User") }}:</strong>
+                            <span class="text-gray-600 dark:text-gray-300">${escapeHtml(data.display_user_name || data.user_name || '{{ _("Unknown") }}')}</span>
+                        </div>
+                        <div>
+                            <strong class="text-gray-900 dark:text-white">{{ _("Device") }}:</strong>
+                            <span class="text-gray-600 dark:text-gray-300">${escapeHtml(data.device_name || data.client_name || '{{ _("Unknown Device") }}')}</span>
+                        </div>
+                        <div>
+                            <strong class="text-gray-900 dark:text-white">{{ _("Started") }}:</strong>
+                            <span class="text-gray-600 dark:text-gray-300">${startedAt}</span>
+                        </div>
+                        ${
+                            data.duration_ms
+                                ? `<div>
+                                        <strong class="text-gray-900 dark:text-white">{{ _("Duration") }}:</strong>
+                                        <span class="text-gray-600 dark:text-gray-300">${Math.round(Number(data.duration_ms) / 60000)} {{ _("minutes") }}</span>
+                                   </div>`
+                                : ''
+                        }
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <strong class="text-sm text-gray-900 dark:text-white block">{{ _("Playback") }}:</strong>
+                            <div class="flex items-center gap-2 mt-2">
+                                ${playbackBadge}
+                                ${transcodingSpeed}
+                            </div>
+                        </div>
+                        ${
+                            techRows.length
+                                ? `<div class="grid grid-cols-2 gap-3 text-xs text-gray-600 dark:text-gray-300">${techRows.join(
+                                      ''
+                                  )}</div>`
+                                : ''
+                        }
+                    </div>
+
+                    ${
+                        hasPlayback
+                            ? `<details class="bg-gray-50 dark:bg-gray-800/60 rounded border border-gray-200 dark:border-gray-700">
+                                    <summary class="px-4 py-2 cursor-pointer text-sm font-medium text-gray-700 dark:text-gray-200">
+                                        {{ _("Raw stream payload") }}
+                                    </summary>
+                                    <div class="px-4 pb-4">
+                                        <pre class="text-xs text-gray-600 dark:text-gray-300 whitespace-pre-wrap">${escapeHtml(
+                                            JSON.stringify(playback, null, 2)
+                                        )}</pre>
+                                    </div>
+                               </details>`
+                            : ''
+                    }
+                </div>
+            `;
+
+            showSessionModal(modalContent);
+        })
+        .catch((error) => {
+            console.error('Error fetching session details:', error);
+            alert('{{ _("Failed to load session details") }}');
+        });
+}
+
+function showSessionModal(content) {
+    const state = ensureActivityState();
+    state.detailOpen = true;
+
+    const container = document.createElement('div');
+    container.className = 'relative modal-container';
+    container.setAttribute('role', 'dialog');
+    container.setAttribute('aria-modal', 'true');
+
+    const backdrop = document.createElement('div');
+    backdrop.className = 'fixed inset-0 modal-backdrop transition-opacity';
+    container.appendChild(backdrop);
+
+    const overlay = document.createElement('div');
+    overlay.className = 'fixed inset-0 z-50 overflow-y-auto';
+
+    const closeModal = () => {
+        if (!document.body.contains(container)) {
+            return;
+        }
+        container.remove();
+        document.removeEventListener('keydown', handleEscape);
+
+        const activityState = ensureActivityState();
+        activityState.detailOpen = false;
+
+        if (activityState.pendingRefresh) {
+            activityState.pendingRefresh = false;
+            const indicator = document.getElementById('activity-refresh-pending');
+            if (indicator) {
+                indicator.classList.add('hidden');
+            }
+            triggerActivityRefresh();
+        }
+    };
+
+    const handleEscape = (event) => {
+        if (event.key === 'Escape') {
+            event.preventDefault();
+            closeModal();
+        }
+    };
+
+    overlay.innerHTML = `
+        <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-6">
+            <div class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all w-full max-w-2xl">
+                <div class="p-6 max-h-[80vh] overflow-y-auto">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{{ _("Session Details") }}</h2>
+                        <button type="button" class="session-modal-close text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" aria-label="{{ _('Close modal') }}">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                            </svg>
+                        </button>
+                    </div>
+                    ${content}
+                </div>
+            </div>
+        </div>
+    `;
+
+    container.appendChild(overlay);
+    document.body.appendChild(container);
+
+    const closeButton = container.querySelector('.session-modal-close');
+    if (closeButton) {
+        closeButton.addEventListener('click', closeModal);
+    }
+
+    backdrop.addEventListener('click', closeModal);
+    overlay.addEventListener('click', (event) => {
+        if (event.target === overlay) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', handleEscape);
+}
+</script>

@@ -6,12 +6,6 @@ from flask_login import login_user
 from ...extensions import db
 from ...forms.setup import AdminAccountForm
 from ...models import AdminAccount, MediaServer, Settings
-from ...services.servers import (
-    check_audiobookshelf,
-    check_emby,
-    check_jellyfin,
-    check_plex,
-)
 
 setup_bp = Blueprint("setup", __name__, url_prefix="/setup")
 
@@ -83,18 +77,3 @@ def onboarding():
         return redirect(url_for("settings.page"))
     # Setup complete, go to admin
     return redirect(url_for("admin.dashboard"))
-
-
-def _probe_server(form):
-    if form.server_type.data == "plex":
-        ok = check_plex(form.server_url.data, form.api_key.data)
-    elif form.server_type.data == "emby":
-        ok = check_emby(form.server_url.data, form.api_key.data)
-    elif form.server_type.data == "audiobookshelf":
-        ok = check_audiobookshelf(form.server_url.data, form.api_key.data)
-    else:
-        ok = check_jellyfin(form.server_url.data, form.api_key.data)
-
-    if not ok:
-        flash("Couldn't reach your server – double-check the URL/token.", "danger")
-    return ok

@@ -71,7 +71,7 @@ def upgrade():
             from contextlib import suppress
 
             with suppress(Exception):
-                op.drop_constraint(uq["name"], "library", type_="unique")
+                op.drop_constraint(uq["name"], "library", type_="unique")  # type: ignore
 
     # 2) Ensure composite unique(external_id, server_id) exists ------------------
     with op.batch_alter_table("library", schema=None) as batch_op:

@@ -1,130 +1,134 @@
 {# Recent Content Card Template #}
 <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 w-full h-full flex flex-col">
-    <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-        <!-- Recent Content Icon -->
-        <svg class="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        {{ _("Recently Added") }}
-    </h2>
-
-    {% if success %}
-        {% if recent_items %}
-            <div class="flex-1 overflow-y-auto">
-                <div class="space-y-3">
-                    {% for item in recent_items %}
-                    <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
-                        <!-- Content Type Icon -->
-                        <div class="flex-shrink-0">
-                            {% if item.type == 'movie' %}
-                                <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
-                                    <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
-                                    </svg>
-                                </div>
-                            {% elif item.type == 'episode' or item.type == 'show' %}
-                                <div class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
-                                    <svg class="w-4 h-4 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM2 14a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zM14 14a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                                    </svg>
-                                </div>
-                            {% elif item.type == 'audio' or item.type == 'track' or item.type == 'book' %}
-                                <div class="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
-                                    <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="currentColor" viewBox="0 0 20 20">
-                                        {% if item.type == 'book' %}
-                                            <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
-                                        {% else %}
-                                            <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
-                                        {% endif %}
-                                    </svg>
-                                </div>
-                            {% elif item.type == 'rom' %}
-                                <div class="w-8 h-8 bg-red-100 dark:bg-red-900 rounded-lg flex items-center justify-center">
-                                    <svg class="w-4 h-4 text-red-600 dark:text-red-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zM6 7a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            {% else %}
-                                <div class="w-8 h-8 bg-gray-100 dark:bg-gray-900 rounded-lg flex items-center justify-center">
-                                    <svg class="w-4 h-4 text-gray-600 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                        <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V4H6z" clip-rule="evenodd" />
-                                    </svg>
-                                </div>
-                            {% endif %}
-                        </div>
-
-                        <!-- Content Details -->
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-start justify-between">
-                                <div class="min-w-0 flex-1">
-                                    <h3 class="text-sm font-medium text-gray-900 dark:text-white truncate">
-                                        {{ item.title }}
-                                    </h3>
-                                    <div class="flex items-center gap-2 mt-1">
-                                        <span class="text-xs px-2 py-1 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded">
-                                            {{ item.type|title }}
-                                        </span>
-                                        {% if item.library %}
-                                            <span class="text-xs text-gray-500 dark:text-gray-400 truncate">
-                                                {{ item.library }}
-                                            </span>
-                                        {% endif %}
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- Server info and timestamp -->
-                            <div class="flex items-center justify-between mt-2">
-                                <div class="flex items-center gap-2">
-                                    <!-- Server Type Indicator -->
-                                    {{ item.server_type|server_type_tag }}
-                                    
-                                    <span class="text-xs text-gray-500 dark:text-gray-400 truncate">
-                                        {{ item.server_name }}
-                                    </span>
-                                </div>
-                                
-                                {% if item.added_at %}
-                                    <span class="text-xs text-gray-400 dark:text-gray-500">
-                                        {{ moment(item.added_at).fromNow() if moment else item.added_at[:10] }}
-                                    </span>
-                                {% endif %}
-                            </div>
-                        </div>
-                    </div>
-                    {% endfor %}
-                </div>
-                
-                {% if recent_items|length >= 10 %}
-                    <div class="text-center mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
-                        <p class="text-xs text-gray-500 dark:text-gray-400">
-                            {{ _("Showing latest 10 items") }}
-                        </p>
-                    </div>
-                {% endif %}
-            </div>
-        {% else %}
-            <div class="flex-1 flex items-center justify-center">
-                <div class="text-center text-gray-500 dark:text-gray-400">
-                    <svg class="w-12 h-12 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+  <h2 class="text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+    <!-- Recent Content Icon -->
+    <svg class="w-5 h-5 text-primary"
+         fill="none"
+         stroke="currentColor"
+         viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+    {{ _("Recently Added") }}
+  </h2>
+  {% if success %}
+    {% if recent_items %}
+      <div class="flex-1 overflow-y-auto">
+        <div class="space-y-3">
+          {% for item in recent_items %}
+            <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+              <!-- Content Type Icon -->
+              <div class="flex-shrink-0">
+                {% if item.type == 'movie' %}
+                  <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-blue-600 dark:text-blue-400"
+                         fill="currentColor"
+                         viewBox="0 0 20 20">
+                      <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
                     </svg>
-                    <p class="text-sm">{{ _("No recent content found") }}</p>
-                    <p class="text-xs mt-1">{{ _("Add some content to your media servers to see it here") }}</p>
+                  </div>
+                {% elif item.type == 'episode' or item.type == 'show' %}
+                  <div class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-green-600 dark:text-green-400"
+                         fill="currentColor"
+                         viewBox="0 0 20 20">
+                      <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM2 14a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zM14 14a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                    </svg>
+                  </div>
+                {% elif item.type == 'audio' or item.type == 'track' or item.type == 'book' %}
+                  <div class="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-purple-600 dark:text-purple-400"
+                         fill="currentColor"
+                         viewBox="0 0 20 20">
+                      {% if item.type == 'book' %}
+                        <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
+                      {% else %}
+                        <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
+                      {% endif %}
+                    </svg>
+                  </div>
+                {% elif item.type == 'rom' %}
+                  <div class="w-8 h-8 bg-red-100 dark:bg-red-900 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-red-600 dark:text-red-400"
+                         fill="currentColor"
+                         viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V4a2 2 0 00-2-2H6zm1 2a1 1 0 000 2h6a1 1 0 100-2H7zM6 7a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                {% else %}
+                  <div class="w-8 h-8 bg-gray-100 dark:bg-gray-900 rounded-lg flex items-center justify-center">
+                    <svg class="w-4 h-4 text-gray-600 dark:text-gray-400"
+                         fill="currentColor"
+                         viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M4 4a2 2 0 012-2h8a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 0v12h8V4H6z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                {% endif %}
+              </div>
+              <!-- Content Details -->
+              <div class="flex-1 min-w-0">
+                <div class="flex items-start justify-between">
+                  <div class="min-w-0 flex-1">
+                    <h3 class="text-sm font-medium text-gray-900 dark:text-white truncate">{{ item.title }}</h3>
+                    <div class="flex items-center gap-2 mt-1">
+                      <span class="text-xs px-2 py-1 bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-300 rounded">
+                        {{ item.type|title }}
+                      </span>
+                      {% if item.library %}
+                        <span class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ item.library }}</span>
+                      {% endif %}
+                    </div>
+                  </div>
                 </div>
+                <!-- Server info and timestamp -->
+                <div class="flex items-center justify-between mt-2">
+                  <div class="flex items-center gap-2">
+                    <!-- Server Type Indicator -->
+                    {{ item.server_type|server_type_tag }}
+                    <span class="text-xs text-gray-500 dark:text-gray-400 truncate">{{ item.server_name }}</span>
+                  </div>
+                  {% if item.added_at %}
+                    <span class="text-xs text-gray-400 dark:text-gray-500">
+                      {{ moment(item.added_at).fromNow() if moment else item.added_at[:10] }}
+                    </span>
+                  {% endif %}
+                </div>
+              </div>
             </div>
-        {% endif %}
-        
-    {% else %}
-        <!-- Error State -->
-        <div class="flex-1 flex items-center justify-center">
-            <div class="text-center">
-                <svg class="w-12 h-12 text-red-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <p class="text-sm text-red-600 dark:text-red-400 mb-2">{{ _("Failed to load recent content") }}</p>
-                <p class="text-xs text-gray-500 dark:text-gray-400">{{ error if error else _("Unknown error occurred") }}</p>
-            </div>
+          {% endfor %}
         </div>
+        {% if recent_items|length >= 10 %}
+          <div class="text-center mt-4 pt-4 border-t border-gray-200 dark:border-gray-600">
+            <p class="text-xs text-gray-500 dark:text-gray-400">{{ _("Showing latest 10 items") }}</p>
+          </div>
+        {% endif %}
+      </div>
+    {% else %}
+      <div class="flex-1 flex items-center justify-center">
+        <div class="text-center text-gray-500 dark:text-gray-400">
+          <svg class="w-12 h-12 mx-auto mb-4"
+               fill="none"
+               stroke="currentColor"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <p class="text-sm">{{ _("No recent content found") }}</p>
+          <p class="text-xs mt-1">{{ _("Add some content to your media servers to see it here") }}</p>
+        </div>
+      </div>
     {% endif %}
-</div> 
+  {% else %}
+    <!-- Error State -->
+    <div class="flex-1 flex items-center justify-center">
+      <div class="text-center">
+        <svg class="w-12 h-12 text-red-400 mx-auto mb-4"
+             fill="none"
+             stroke="currentColor"
+             viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <p class="text-sm text-red-600 dark:text-red-400 mb-2">{{ _("Failed to load recent content") }}</p>
+        <p class="text-xs text-gray-500 dark:text-gray-400">{{ error if error else _("Unknown error occurred") }}</p>
+      </div>
+    </div>
+  {% endif %}
+</div>

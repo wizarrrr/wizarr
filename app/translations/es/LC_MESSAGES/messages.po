@@ -1,413 +1,3096 @@
 # Spanish translations for PROJECT.
-# Copyright (C) 2023 ORGANIZATION
+# Copyright (C) 2025 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-05-24 18:39+0000\n"
-"PO-Revision-Date: 2025-08-21 12:02+0000\n"
-"Last-Translator: Elkin Torres <elkinjosetm@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/wizarr/"
-"wizarr-universal/es/>\n"
+"POT-Creation-Date: 2026-10-11 10:00+0000\n"
+"PO-Revision-Date: 2026-08-11 04:39+0000\n"
+"Last-Translator: Todos aman al Hipnosapo <veteacagarte@yahoo.es>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/wizarr/wizarr-"
+"universal/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 2026.9.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: app/blueprints/auth/routes.py:44
+msgid "Failed to load settings"
+msgstr "La carga de configuraciones falló"
+
+msgid "Failed to load dashboard data"
+msgstr "Falló la carga de datos del panel"
+
+msgid "Failed to load history data"
+msgstr "Falló la carga de datos del historial"
+
+msgid "Failed to load activity data"
+msgstr "La carga de datos de actividad falló"
+
+msgid "Failed to load activity summary"
+msgstr "La carga del resumen de actividad falló"
+
+msgid "Failed to get activity statistics"
+msgstr "La carga de estadísticas de actividad falló"
+
+msgid "Database not available"
+msgstr "La base de datos no está disponible"
+
+msgid "Failed to get session details"
+msgstr "La carga de los detalles de la sesión falló"
+
+msgid "Failed to export activity data"
+msgstr "La exportación de los datos de actividad falló"
+
+msgid "enabled"
+msgstr ""
+
+msgid "disabled"
+msgstr ""
+
+#, python-brace-format
+msgid "Activity tracking is {state}. The change can take up to 15 seconds."
+msgstr ""
+
+msgid "Monitoring restarted"
+msgstr "Se reinició el monitoreo"
+
+msgid "Monitor not available"
+msgstr "El monitor no está disponible"
+
+#, python-brace-format
+msgid "Cleaned up {} old activity records"
+msgstr "Se limpiaron {} registros de actividad antiguos"
+
+#, python-brace-format
+msgid "Ended {} stale sessions"
+msgstr "Se terminaron {} sesiones obsoletas"
+
+msgid "Unknown action"
+msgstr "Acción desconocida"
+
+msgid "Failed to update settings"
+msgstr "La carga de configuraciones falló"
+
+#, python-brace-format
+msgid "Activity data has been successfully deleted ({} records)."
+msgstr "Se han borrado los datos de actividad exitosamente ({} registros)."
+
+#, python-brace-format
+msgid "Failed to delete activity data: {}"
+msgstr "Falló la eliminación de datos de actividad: {}"
+
+msgid "Please select a media server."
+msgstr "Por favor seleccione un servidor de medios."
+
+msgid "Media server not found."
+msgstr "No se encontró el servidor de medios."
+
+msgid ""
+"Historical data import is currently only supported for Plex, Jellyfin, Emby, "
+"and AudiobookShelf servers."
+msgstr ""
+"Por ahora la importación de datos históricos está disponible solamente para "
+"servidores Plex, Jellyfin, Emby y Audiobookshelf."
+
+#, python-brace-format
+msgid ""
+"Historical import job #{job_id} started for {server} (last {days} days)."
+msgstr ""
+"La tarea de importación historica #{job_id} inició para {server} (últimos "
+"{days} días)."
+
+#, python-brace-format
+msgid "Failed to import historical data: {}"
+msgstr "Falló la importación de datos históricos: {}"
+
+#, python-brace-format
+msgid "Successfully cleared {} historical entries."
+msgstr "Se han borrado {} entradas históricas exitosamente."
+
+#, python-brace-format
+msgid "Failed to clear historical data: {}"
+msgstr "Falló el borrado de datos históricos: {}"
+
+msgid "Unknown error"
+msgstr "Error desconocido"
+
+msgid "Cannot remove a job that is still queued or running."
+msgstr "No se puede eliminar una tarea que sigue en cola o ejecutándose."
+
+msgid "An internal error has occurred."
+msgstr "Ocurrió un error interno."
+
+msgid "Unknown"
+msgstr "Desconocido"
+
+msgid "Never"
+msgstr "Nunca"
+
+msgid "Expired"
+msgstr "Expirado"
+
+#, python-format
+msgid "in %(n)d d"
+msgstr "en %(n)d d"
+
+msgid "in 1 d"
+msgstr "en 1 d"
+
+#, python-format
+msgid "in %(n)d h"
+msgstr "in %(n)d h"
+
+#, python-format
+msgid "in %(n)d m"
+msgstr "en %(n)d m"
+
+msgid "soon"
+msgstr "pronto"
+
+msgid "Admin created"
+msgstr "Admin creado"
+
+msgid "Admin updated"
+msgstr "Admin actualizado"
+
+#, python-brace-format
+msgid "All passkeys for {} have been reset"
+msgstr "Todas las passkeys para {} han sido reseteadas"
+
+#, python-brace-format
+msgid "Failed to reset passkeys for {}"
+msgstr "Fallo al restablecer las passkeys para {}"
+
+msgid ""
+"No admin account found. Please set up a proper admin account before creating "
+"API keys."
+msgstr ""
+"No se encontrí una cuenta de administrador. Por favor configure una cuenta "
+"de administrador antes de crear API keys."
+
+msgid "Failed to create API key due to a database error."
+msgstr ""
+"Falló la creación de una API key debido a un error en la base de datos."
+
+msgid ""
+"API key created successfully. Please copy it now as it won't be shown again."
+msgstr ""
+"Clave API creada con éxito. Por favor, cópiela ahora ya que no se volverá a "
+"mostrar."
+
+msgid "API key deleted successfully"
+msgstr "Clave API eliminada correctamente"
+
+msgid "LDAP authentication is not enabled"
+msgstr "LA autenticación LDAP no está habilitada"
+
+msgid "LDAP admin authentication is not allowed"
+msgstr "La autenticación de administrador LDAP no está permitida"
+
+msgid "Invalid LDAP credentials"
+msgstr "Credenciales LDAP inválidas"
+
+msgid "User DN not found in LDAP response"
+msgstr "DN de usuario no se encontó en la respuesta LDAP"
+
+msgid "User is not authorized as an administrator"
+msgstr "El usuario no está autorizado como administrador"
+
+msgid "Login successful"
+msgstr "Inicio de sesión exitoso"
+
+msgid "LDAP authentication failed"
+msgstr "Error en la autenticación LDAP"
+
+msgid "Sign in through Cloudflare Access to reach the admin pages."
+msgstr ""
+
 msgid "Invalid username or password"
 msgstr "Usuario o contraseña inválidos"
 
-#: app/blueprints/settings/routes.py:131
+msgid "No pending 2FA authentication"
+msgstr "No hay autenticación 2FA pendiente"
+
+msgid "Authentication failed"
+msgstr "Error en la autenticación"
+
+msgid "Connection type is required"
+msgstr "Tipo de conexión requerido"
+
+#, python-format
+msgid "Connection test failed: %(message)s"
+msgstr "Prueba de conexión fallida: %(message)s"
+
+msgid "Connection test successful!"
+msgstr "¡Prueba de conexión exitosa!"
+
+msgid "Unknown connection type"
+msgstr "Tipo de conexión desconocida"
+
+msgid "Connection created successfully!"
+msgstr "¡Conexión creada exitosamente!"
+
+msgid "Connection updated successfully!"
+msgstr "¡Conexión actualizada exitosamente!"
+
+msgid "Connection deleted successfully!"
+msgstr "¡Conexión eliminada exitosamente!"
+
+msgid "Please refresh the page and try again (CSRF token expired)"
+msgstr "Por favor refrescar la página e intentar de nuevo (token CSRF expiró)"
+
+#, python-format
+msgid "Invalid form data: %(errors)s"
+msgstr "Datos de formulario inválidos: %(errors)s"
+
+msgid ""
+"There was an issue setting up your access. Please contact your server admin."
+msgstr ""
+"Ocurrió un problema configurando su acceso. Por favor contacte al "
+"administrador de su servidor."
+
+msgid "Settings saved successfully!"
+msgstr "¡Ajustes guardados exitosamente!"
+
+msgid "Server URL"
+msgstr "URL del Servidor"
+
+msgid "API Key"
+msgstr "Llave API"
+
+msgid "Username/Password"
+msgstr "Usuario/Contraseña"
+
+#, python-brace-format
+msgid "Missing required fields: {fields}"
+msgstr "Faltan campos obligatorios: {fields}"
+
+msgid "Error"
+msgstr "Error"
+
 msgid "Library scan failed"
 msgstr "Error al escanear la biblioteca"
 
-#: app/templates/admin.html:5
-msgid "Admin"
-msgstr "Administrador"
+#, python-brace-format
+msgid "Successfully cleaned {count} expired user(s)."
+msgstr "Se han borrado exitosamente {count} usuarios expirados."
 
-#: app/templates/admin.html:31
-msgid "Home"
-msgstr "Inicio"
+msgid "No expired users found to clean."
+msgstr "No se encontraron usuarios expirados para borrar."
 
-#: app/templates/admin.html:36
-msgid "Invitations"
-msgstr "Invitaciones"
+msgid ""
+"Are you sure you want to clean all expired users? This action cannot be "
+"undone."
+msgstr ""
+"¿Está seguro de que desea eliminar todos los usuarios expirados? Esta acción "
+"no se puede deshacer."
 
-#: app/templates/admin.html:41
-msgid "Users"
-msgstr "Usuarios"
+msgid "Clean Expired Users"
+msgstr "Borrar usuarios expirados"
 
-#: app/templates/admin.html:46 app/templates/settings/index.html:3
-msgid "Settings"
-msgstr "Ajustes"
+#, python-brace-format
+msgid "Failed to clean expired users: {error}"
+msgstr "No se pudieron limpiar los usuarios caducados: {error}"
 
-#: app/templates/invalid-invite.html:16
-msgid "Invalid Invitation"
-msgstr "Invitación inválida"
+msgid "LDAP configuration saved successfully"
+msgstr "La configuración de LDAP se ha guardado correctamente"
 
-#: app/templates/login.html:18
-msgid "Login"
-msgstr "Iniciar sesión"
+msgid "LDAP not configured or disabled"
+msgstr "LDAP no configurado o deshabilitado"
 
-#: app/templates/login.html:23 app/templates/welcome-jellyfin.html:30
+msgid "No groups found in LDAP"
+msgstr "No se encontraron grupos en LDAP"
+
+msgid "LDAP is not configured"
+msgstr "LDAP no está configurado"
+
+#, python-format
+msgid "Failed to list LDAP users: %(error)s"
+msgstr "No se pudieron listar los usuarios LDAP: %(error)s"
+
+msgid "Admin account created – welcome!"
+msgstr "Cuenta Admin creada - ¡bienvenido/a!"
+
+msgid ""
+"Your invitation has expired or is no longer valid. Please request a new "
+"invitation."
+msgstr ""
+"Su invitación ha caducado o ya no es válida. Por favor, solicite una nueva "
+"invitación."
+
+msgid "Error Loading Step"
+msgstr "Error al cargar la sección"
+
+msgid ""
+"This step could not be loaded. Please contact the administrator or skip to "
+"the next step."
+msgstr ""
+"No se pudo cargar esta sección. Por favor, contacte al administrador o pase "
+"a la siguiente sección."
+
+msgid "Invalid or expired invitation"
+msgstr "Invitación no válida o caducada"
+
+msgid ""
+"No media servers are configured. Please contact the administrator to set up "
+"a media server."
+msgstr ""
+"No hay servidores multimedia configurados. Por favor, póngase en contacto "
+"con el administrador para configurar un servidor multimedia."
+
+msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
+msgstr ""
+"No se pudieron cargar las secciones del asistente. Se procederá a la "
+"aceptación de la invitación."
+
+msgid "Continue to Invite"
+msgstr "Nueva Invitación"
+
+msgid "Please log in to continue"
+msgstr "Por favor, inicia sesión para continuar"
+
+msgid ""
+"Unable to load wizard steps. Setup complete! Welcome to your media server."
+msgstr ""
+"No se pudieron cargar las secciones del asistente. ¡Configuración "
+"completada! Bienvenido a tu servidor multimedia."
+
+msgid "Setup complete! Welcome to your media server."
+msgstr "¡Configuración completada! Bienvenido a tu servidor multimedia."
+
+msgid "Unable to load wizard configuration. Please try again."
+msgstr ""
+"No se pudo cargar la configuración del asistente. Por favor, inténtelo de "
+"nuevo."
+
+msgid "Unable to load wizard bundle. Please try again."
+msgstr ""
+"No se pudo cargar el paquete del asistente. Por favor, inténtelo de nuevo."
+
+msgid "Unable to load wizard steps. Please try again."
+msgstr ""
+"No se pudieron cargar las secciones del asistente. Por favor, inténtelo de "
+"nuevo."
+
+msgid "This bundle has no steps to preview."
+msgstr "Este paquete no tiene secciones de previsualización."
+
+#, python-brace-format
+msgid "Cleaned up {} orphaned step(s)"
+msgstr "Se han eliminado {} paso(s) huérfano(s)"
+
+msgid "Step created"
+msgstr "Paso creado"
+
+msgid "Preset step created successfully"
+msgstr "Paso preestablecido creado correctamente"
+
+#, python-brace-format
+msgid "Error creating preset: {}"
+msgstr "Error al crear el ajuste preestablecido: {}"
+
+msgid "Step updated"
+msgstr "Paso actualizado"
+
+msgid "Step deleted"
+msgstr "Paso eliminado"
+
+msgid "Bundle created"
+msgstr "Paquete creado"
+
+msgid "Bundle updated"
+msgstr "Paquete actualizado"
+
+msgid "Bundle deleted"
+msgstr "Paquete eliminado"
+
+msgid "Steps added"
+msgstr "Pasos añadidos"
+
+msgid "Orphaned step removed"
+msgstr "Paso huérfano eliminado"
+
+#, python-brace-format
+msgid "No steps found for server type: {}"
+msgstr "No se encontraron pasos para el tipo de servidor: {}"
+
+#, python-brace-format
+msgid "Export failed: {}"
+msgstr "Error al exportar: {}"
+
+#, python-brace-format
+msgid "Successfully imported {} items"
+msgstr "Se han importado correctamente {} elementos"
+
+#, python-brace-format
+msgid " and updated {} existing items"
+msgstr " y se actualizaron {} elementos existentes"
+
+#, python-brace-format
+msgid "Import failed: {}"
+msgstr "Error al importar: {}"
+
+msgid "Invalid JSON file"
+msgstr "Archivo JSON no válido"
+
+#, python-brace-format
+msgid "Reset {} steps for {} (deleted {}, imported {})"
+msgstr "Restablecer {} pasos para {} (eliminar {}, importar {})"
+
+#, python-brace-format
+msgid "Failed to reset steps: {}"
+msgstr "No se pudieron restablecer los pasos: {}"
+
+msgid "Password must be at least 8 characters."
+msgstr "La contraseña debe tener al menos 8 caracteres."
+
+msgid ""
+"Password must contain at least one uppercase letter, one lowercase letter, "
+"and one number."
+msgstr ""
+"La contraseña debe tener al menos una letra mayúscula, una letra minúscula y "
+"un número."
+
 msgid "Username"
 msgstr "Nombre de usuario"
 
-#: app/templates/login.html:29 app/templates/welcome-jellyfin.html:47
 msgid "Password"
 msgstr "Contraseña"
 
-#: app/templates/login.html:41
+msgid "Confirm password"
+msgstr "Confirmar contraseña"
+
+msgid "Passwords must match."
+msgstr "Las contraseñas deben coincidir."
+
+msgid "New Password"
+msgstr "Nueva Contraseña"
+
+msgid "Please confirm the new password."
+msgstr "Por favor, confirme la nueva contraseña."
+
+msgid "Server Type"
+msgstr "Tipo de servidor"
+
+msgid "Server Name"
+msgstr "Nombre del Servidor"
+
+msgid "RomM Username"
+msgstr "Nombre de usuario de RomM"
+
+msgid "RomM Password"
+msgstr "Contraseña de RomM"
+
+msgid "Libraries"
+msgstr "Bibliotecas"
+
+msgid "Allow Downloads"
+msgstr "Permitir descargas"
+
+msgid "Allow Live TV"
+msgstr "Permitir TV En Vivo"
+
+msgid "Overseerr/Ombi URL"
+msgstr "URL de Overseerr/Ombi"
+
+msgid "Ombi API Key"
+msgstr "Clave API de Ombi"
+
+msgid "Discord ID"
+msgstr "Discord ID"
+
+msgid "External URL"
+msgstr "URL externa"
+
+#, python-format
+msgid "Server returned status code %(status_code)s"
+msgstr "El servidor retornó el código de estado %(status_code)s"
+
+#, python-format
+msgid "%(server_type)s server returned an error: %(error)s"
+msgstr "El servidor tipo %(server_type)s devolvió un error: %(error)s"
+
+#, python-format
+msgid ""
+"Could not connect to the %(server_type)s server. Please check if the server "
+"is running and the URL is correct."
+msgstr ""
+"No se pudo conectar al servidor tipo %(server_type)s. Por favor verifique si "
+"el servidor está activo y la URL es correcta."
+
+#, python-format
+msgid ""
+"Connection to %(server_type)s server timed out. Please check if the server "
+"is running and accessible."
+msgstr ""
+"El tiempo de la conexión al servidor %(server_type)s se agotó. Por favor "
+"verifique si el servidor está activo y accesible."
+
+#, python-format
+msgid ""
+"An error occurred while connecting to the %(server_type)s server: %(error)s"
+msgstr "Ocurrió un error al conectarse al servidor %(server_type)s: %(error)s"
+
+#, python-format
+msgid ""
+"An unexpected error occurred while connecting to the %(server_type)s server: "
+"%(error)s"
+msgstr ""
+"Ocurrió un error inesperado al conectarse al servidor %(server_type)s: "
+"%(error)s"
+
+msgid "Plex"
+msgstr "Plex"
+
+msgid "Jellyfin"
+msgstr "Jellyfin"
+
+msgid "Emby"
+msgstr "Emby"
+
+msgid "Audiobookshelf"
+msgstr "Audiobookshelf"
+
+msgid "RomM"
+msgstr "RomM"
+
+msgid "Komga"
+msgstr "Komga"
+
+msgid "Kavita"
+msgstr "Kavita"
+
+msgid "Navidrome"
+msgstr "Navidrome"
+
+msgid "Invalid API token or insufficient permissions."
+msgstr "Token API inválido o permisos insuficientes."
+
+msgid "API token lacks required permissions."
+msgstr "El token API no tiene los permisos necesarios."
+
+msgid "Could not connect to Drop server."
+msgstr "No pudo conectarse al servidor Drop."
+
+msgid "Connection to Drop server timed out."
+msgstr "Se agotó el tiempo de espera de la conexión al servidor Drop."
+
+msgid "Drop API not found. Check the server URL."
+msgstr "API Drop no encontrada. Verifique la URL del servidor."
+
+msgid "Drop"
+msgstr "Drop"
+
+#, python-brace-format
+msgid "No default steps found for server type: {}"
+msgstr "No se encontraron pasos para el tipo de servidor: {}"
+
+msgid "Admin"
+msgstr "Administrador"
+
+msgid "Profile"
+msgstr "Perfil"
+
+msgid "Logout"
+msgstr "Cerrar sesión"
+
+msgid "Complete your access"
+msgstr "Completa tu acceso"
+
+msgid "Choose a password for the remaining servers"
+msgstr "Elija una contraseña para los servidores restantes"
+
+msgid "Confirm Password"
+msgstr "Confirme Contraseña"
+
+msgid "Generate a strong random password instead"
+msgstr "Generar una contraseña aleatoria fuerte"
+
+msgid "Continue"
+msgstr "Continuar"
+
+msgid "Complete your account setup for local servers"
+msgstr "Completar la configuración de su cuenta para servidores locales"
+
+msgid "Complete Your Account Setup"
+msgstr "Completar la Configuración de su Cuenta"
+
+msgid "Plex Authentication Complete!"
+msgstr "¡Autenticación de Plex Completada!"
+
+msgid "Now please set a password for your local server accounts."
+msgstr ""
+"Ahora establezca una contraseña para sus cuentas en servidores locales."
+
+msgid "Local Servers"
+msgstr "Servidores Locales"
+
+msgid "Set Password for Local Servers"
+msgstr "Establecer Contraseña para Servidores Locales"
+
+msgid "Error!"
+msgstr "¡Error!"
+
+msgid "Your username"
+msgstr "Su nombre de usuario"
+
+msgid "Email Address"
+msgstr "Dirección de Correo Electrónico"
+
+msgid "your.email@example.com"
+msgstr "su.correo@ejemplo.com"
+
+msgid "Your password"
+msgstr "Su Contraseña"
+
+msgid "Confirm your password"
+msgstr "Confirme su contraseña"
+
+msgid "I agree to the"
+msgstr "Estoy de acuerdo con"
+
+msgid "Terms and Conditions"
+msgstr "Términos y Condiciones"
+
+msgid "Complete Setup"
+msgstr "Completar Configuración"
+
+msgid "Setting up..."
+msgstr "Configurando..."
+
+msgid "What happens next?"
+msgstr "¿Qué ocurre ahora?"
+
+msgid "Your Plex account is already set up and ready to use"
+msgstr "Su cuenta de Plex está configurada y lista para usar"
+
+msgid "This password will be used to create accounts on your local servers"
+msgstr ""
+"Esta contraseña se utilizará para crear cuentas en sus servidores locales"
+
+msgid "You'll be redirected to the setup wizard to complete configuration"
+msgstr ""
+"Será redirigido(a) al asistente de configuración para completar la misma"
+
+msgid "Only want to use Plex?"
+msgstr "¿Sólo quiere utilizar Plex?"
+
+msgid "Skip local servers"
+msgstr "Omitir servidores locales"
+
+msgid "Password too short"
+msgstr "La contraseña es muy corta"
+
+msgid "Password strength: Medium"
+msgstr "Robustez de contraseña: Media"
+
+msgid "Password strength: Strong"
+msgstr "Robustez de contraseña: Alta"
+
+msgid "Passwords do not match"
+msgstr "Las contraseñas no coinciden"
+
+#, fuzzy
+msgid "Wizarr"
+msgstr "Genio"
+
+msgid "Invalid Invitation"
+msgstr "Invitación no válida"
+
+msgid ""
+"This invitation link is no longer valid. Please request a new invitation."
+msgstr ""
+"Este enlace de invitación ya no es válido. Por favor, solicite una nueva "
+"invitación."
+
+msgid "Two-Factor Authentication"
+msgstr "Autenticación de Dos Factores"
+
+msgid "Login"
+msgstr "Iniciar sesión"
+
+msgid "This is the administrator login page."
+msgstr "Esta es la página de inicio de sesión del administrador."
+
+msgid "Go to your media server instead"
+msgstr "Ve a tu servidor multimedia en su lugar"
+
+#, python-brace-format
+msgid "Welcome back, {}!"
+msgstr "Bienvenido de nuevo, {}!"
+
+msgid "Please authenticate with your passkey to complete login."
+msgstr ""
+"Por favor, autentícate con tu clave de acceso para completar el inicio de "
+"sesión."
+
+msgid "Authentication Method"
+msgstr "Método de autenticación"
+
+msgid "Local Account"
+msgstr "Cuenta Local"
+
+msgid "LDAP"
+msgstr "LDAP"
+
 msgid "Remember me"
 msgstr "Recuérdame"
 
-#: app/templates/login.html:46
 msgid "Sign in"
 msgstr "Iniciar sesión"
 
-#: app/templates/settings.html:13
-msgid "Server settings"
-msgstr "Ajustes del servidor"
+msgid "Authenticate with Passkey"
+msgstr "Autenticar con Passkey"
 
-#: app/templates/settings.html:22
-msgid "Notification agents"
-msgstr "Agentes de notificaciones"
+msgid "Back to Login"
+msgstr "Volver a iniciar sesión"
 
-#: app/templates/user-plex-login.html:7 app/templates/user-plex-login.html:14
-#: app/templates/welcome-jellyfin.html:7 app/templates/welcome-jellyfin.html:14
+msgid "Or"
+msgstr "O"
+
+msgid "Sign in with Passkey"
+msgstr "Iniciar sesión con Passkey"
+
+msgid "Authenticating..."
+msgstr "Autenticando..."
+
+msgid "Failed to complete 2FA login"
+msgstr ""
+"No se pudo completar el inicio de sesión con autenticación de dos factores "
+"(2FA)"
+
+msgid "Passkey authentication failed. Please try again or use your password."
+msgstr ""
+"La autenticación mediante Passkey ha fallado. Por favor, inténtalo de nuevo "
+"o utiliza tu contraseña."
+
+msgid "Password Reset Error"
+msgstr "Error al restablecer la contraseña"
+
+msgid "Error:"
+msgstr "Error:"
+
+msgid "This password reset link is invalid."
+msgstr "Este enlace para restablecer la contraseña no es válido."
+
+msgid "This password reset link has already been used."
+msgstr "Este enlace para restablecer la contraseña ya se ha utilizado."
+
+msgid "This password reset link has expired."
+msgstr "Este enlace para restablecer la contraseña ha caducado."
+
+msgid "This password reset link is malformed."
+msgstr "Este enlace para restablecer la contraseña es incorrecto."
+
+msgid "This password reset link is no longer valid."
+msgstr "Este enlace para restablecer la contraseña ya no es válido."
+
+msgid ""
+"Please contact your server administrator to request a new password reset "
+"link."
+msgstr ""
+"Por favor, póngase en contacto con el administrador del servidor para "
+"solicitar un nuevo enlace de restablecimiento de contraseña."
+
+msgid "Code:"
+msgstr "Código:"
+
+msgid "Common reasons for this error:"
+msgstr "Razones comunes de este error:"
+
+msgid "The link has already been used"
+msgstr "El enlace ya ha sido utilizado"
+
+msgid "The link has expired (24 hour limit)"
+msgstr "El enlace ha caducado (límite de 24 horas)"
+
+msgid "The link was not copied correctly"
+msgstr "El enlace no se copió correctamente"
+
+msgid "Reset Your Password"
+msgstr "Restablecer contraseña"
+
+msgid "Choose a new password"
+msgstr "Elige una nueva contraseña"
+
+msgid "For user:"
+msgstr "Para el usuario/a:"
+
+msgid "This link expires on"
+msgstr "Este enlace caduca el"
+
+msgid "Enter new password (8-128 characters)"
+msgstr "Ingrese una nueva contraseña (8-128 caracteres)"
+
+msgid "Confirm new password"
+msgstr "Confirme su nueva contraseña"
+
+msgid "Password must be:"
+msgstr "La contraseña debe:"
+
+msgid "Between 8 and 128 characters"
+msgstr "Entre 8 y 128 caracteres"
+
+msgid "Match the confirmation"
+msgstr "Deben coincidir"
+
+msgid "Reset Password"
+msgstr "Restablecer Contraseña"
+
+msgid "Password Reset Successful!"
+msgstr "¿Se ha restablecido su contraseña satisfactoriamente!"
+
+msgid "The password for"
+msgstr "La contraseña para"
+
+msgid "has been successfully reset."
+msgstr "se ha restablecido correctamente."
+
+msgid "You can now use your new password to log in to your media server."
+msgstr ""
+"Ahora puedes usar tu nueva contraseña para iniciar sesión en tu servidor "
+"multimedia."
+
+msgid "What's next?"
+msgstr "¿Qué sigue?"
+
+msgid "Log in to your media server with your username and new password."
+msgstr ""
+"Inicia sesión en tu servidor multimedia con tu nombre de usuario y tu nueva "
+"contraseña."
+
+msgid "Signing you in"
+msgstr ""
+
+msgid "Finishing up with Plex. This only takes a moment."
+msgstr ""
+
+msgid "Back to your invitation"
+msgstr ""
+
+msgid "Nothing to finish"
+msgstr ""
+
+msgid "Open your invitation link again to sign in with Plex."
+msgstr ""
+
+msgid "All set"
+msgstr ""
+
+msgid "Taking you to the next step..."
+msgstr ""
+
+msgid "Sign-in failed"
+msgstr ""
+
+msgid "That took too long"
+msgstr ""
+
+msgid "We did not hear back from Plex. Please try signing in again."
+msgstr ""
+
+msgid "Administrator"
+msgstr "Administrador"
+
+msgid "Change your account password for security."
+msgstr "Cambie su contraseña por seguridad."
+
+msgid "Current Password"
+msgstr "Contraseña Actual"
+
+msgid "Confirm New Password"
+msgstr "Confirme Nueva Contraseña"
+
+msgid "Change Password"
+msgstr "Cambiar Contraseña"
+
 #, python-format
 msgid "You've been invited to join the %(name)s server!"
 msgstr "¡Has sido invitado a unirte al servidor %(name)s!"
 
-#: app/templates/user-plex-login.html:23
-msgid "Join the Plex Server"
-msgstr "Unirse al servidor Plex"
+msgid "You've been invited!"
+msgstr "¡Usted ha sido invitado(a)!"
 
-#: app/templates/tables/user_card.html:57 app/templates/user-plex-login.html:29
-#: app/templates/user-plex-login.html:40
-msgid "Invite Code"
-msgstr "Código de invitación"
+msgid "To join"
+msgstr "A Unirse a"
 
-#: app/templates/user-plex-login.html:45
-msgid "Oops!"
-msgstr "¡Uy!"
+msgid "Join the ultimate media server experience."
+msgstr "Únase a la mejor experiencia de servidor de medios."
 
-#: app/templates/user-plex-login.html:52
-msgid "Join"
-msgstr "Únete a"
+msgid "Enter Code to Continue"
+msgstr "Introduzca el Código para Continuar"
 
-#: app/templates/users.html:5
+msgid "Invitation Code"
+msgstr "Código de Invitación"
+
+msgid "Enter your code"
+msgstr "Introduzca su código"
+
+msgid "Join Server"
+msgstr "Unirse al Servidor"
+
+msgid "Secure invitation system powered by Wizarr"
+msgstr "Sistema de invitaciones seguras provisto por Wizarr"
+
+msgid "Pop-up blocked. Allow pop-ups for this site and try again."
+msgstr ""
+"Ventana emergente bloqueada. Permite las ventanas emergentes para este sitio "
+"e inténtalo de nuevo."
+
+msgid "Sign-in cancelled. Hit Join Server to try again."
+msgstr ""
+"Inicio de sesión cancelado. Pulsa «Unirse al servidor» para volver a "
+"intentarlo."
+
+msgid "Plex sign-in failed. Try again, or contact your server admin."
+msgstr ""
+"Error al iniciar sesión en Plex. Inténtalo de nuevo o contacta con el "
+"administrador del servidor."
+
 msgid "Invite User"
 msgstr "Invitar usuario"
 
-#: app/templates/welcome-jellyfin.html:22
-msgid "Set up Account"
-msgstr "Crear una cuenta"
+msgid "Accept Invitation"
+msgstr "Aceptar Invitación"
 
-#: app/templates/welcome-jellyfin.html:38
+msgid "Get ready to join the magic"
+msgstr "Prepárese para unirse a la magia"
+
+msgid "Create Account"
+msgstr "Crear Cuenta"
+
+msgid "Set up your magical account"
+msgstr "Configurar su cuenta mágica"
+
+msgid "Enter your username"
+msgstr "Introduzca su nombre de usuario"
+
 msgid "Email"
 msgstr "Correo electrónico"
 
-#: app/templates/welcome-jellyfin.html:55
-msgid ""
-"Confirm\n"
-"                                password"
-msgstr ""
-"Confirmar\n"
-"                                contraseña"
+msgid "Enter your email"
+msgstr "Introduzca su correo electrónico"
 
-#: app/templates/welcome-jellyfin.html:63
-msgid ""
-"Invite\n"
-"                                Code"
-msgstr ""
-"Código\n"
-"                                de invitación"
+msgid "Create a password"
+msgstr "Crear una contraseña"
 
-#: app/templates/setup/admin_account.html:58
-#: app/templates/welcome-jellyfin.html:72
-msgid "Create an account"
-msgstr "Crear una cuenta"
-
-#: app/templates/admin/invite.html:6
-msgid "Quick Invite"
-msgstr "Invitar rápidamente"
-
-#: app/templates/admin/invite.html:12
-msgid "Invite user"
-msgstr "Invitar usuario"
-
-#: app/templates/admin/invite.html:18
-msgid "Invite Code String"
+msgid "Invite Code"
 msgstr "Código de invitación"
 
-#: app/templates/admin/invite.html:19
-msgid "(optional)"
-msgstr "(opcional)"
+msgid "Enter invite code"
+msgstr "Introduzca el código de invitación"
 
-#: app/templates/admin/invite.html:26
-msgid "Expiration"
-msgstr "Caducidad"
+msgid "Creating account..."
+msgstr "Creando cuenta..."
 
-#: app/templates/admin/invite.html:29
-msgid "1 day"
-msgstr "Un día"
+msgid "Latest Accepted Invites"
+msgstr "Últimas Invitaciones Aceptadas"
 
-#: app/templates/admin/invite.html:30
-msgid "1 week"
-msgstr "Una semana"
+msgid "Recently joined"
+msgstr "Unidos Recientemente"
 
-#: app/templates/admin/invite.html:31
-msgid "1 month"
-msgstr "1 mes"
+msgid "Showing"
+msgstr "Demostración"
 
-#: app/templates/admin/invite.html:32 app/templates/tables/invite_card.html:60
-#: app/templates/tables/user_card.html:46
-msgid "Never"
-msgstr "Nunca"
+msgid "of"
+msgstr "de"
 
-#: app/templates/admin/invite.html:37
-msgid "Advanced Options"
-msgstr "Opciones avanzadas"
+msgid "Prev"
+msgstr "Anterior"
 
-#: app/templates/admin/invite.html:45
-msgid "Unlimited Usages"
-msgstr "Usos ilimitados"
+msgid "Page"
+msgstr "Página"
 
-#: app/templates/admin/invite.html:53
-msgid "Invite to Plex Home"
-msgstr "Invitar a Plex Home"
+msgid "Next"
+msgstr "Siguiente"
 
-#: app/templates/admin/invite.html:62 app/templates/admin/invite.html:79
-#: app/templates/tables/invite_card.html:86
-msgid "Duration"
-msgstr "Duración"
+msgid "No recent invitations accepted"
+msgstr "No hay invitaciones recientes aceptadas"
 
-#: app/templates/admin/invite.html:63
-msgid "(in days)"
-msgstr "(en días)"
+msgid "Accepted invitations will appear here"
+msgstr "Las invitaciones Aceptadas aparecerán aquí"
 
-#: app/templates/admin/invite.html:74
-msgid "Show Information"
-msgstr "Mostrar información"
+msgid "Dashboard"
+msgstr "Panel"
 
-#: app/templates/admin/invite.html:80
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a\n"
-"                                        number of\n"
-"                                        days. (1-999)"
+msgid "New Invite"
+msgstr "Nuevo Invitado/a"
+
+msgid "Now Playing"
+msgstr "Reproduciendo Ahora"
+
+msgid "Invitations"
+msgstr "Invitaciones"
+
+msgid "Library Breakdown"
+msgstr "Desglose de la biblioteca"
+
+msgid "Per Server"
+msgstr "Por Servidor"
+
+msgid "No libraries found"
+msgstr "No se encontraron bibliotecas"
+
+msgid "Configure your media servers to see library statistics"
 msgstr ""
-"Cuando se establezca una opción, el/los usuario/s invitados serán "
-"eliminados del servidor después de\n"
-"                                        un número específico\n"
-"                                        de días (1-999)"
+"Configure sus servidores de medio para ver las estadísticas de la biblioteca"
 
-#: app/templates/admin/invite.html:96 app/templates/tables/invite_card.html:96
-#: app/templates/tables/user_card.html:67
-msgid "Allow Downloads"
-msgstr "Permitir descargas"
+msgid "Failed to load libraries"
+msgstr "No se pudieron cargar las bibliotecas"
 
-#: app/templates/admin/invite.html:102
-msgid ""
-"Specific\n"
-"                                Libraries"
+msgid "Unknown error occurred"
+msgstr "Ocurrió un error desconocido"
+
+msgid "Unable to load now playing"
+msgstr "No pudo cargarse reproduciendo ahora"
+
+msgid "There was an error connecting to your media servers"
+msgstr "Se produjo un error al conectar con tus servidores multimedia"
+
+msgid "No one is streaming"
+msgstr "Nadie está transmitiendo"
+
+msgid "No active media sessions found across your servers"
+msgstr "No se encontraron sesiones multimedia activas en sus servidores"
+
+msgid "Recently Added"
+msgstr "Añadidos Recientemente"
+
+msgid "Showing latest 10 items"
+msgstr "Mostrando los últimos 10 elementos"
+
+msgid "No recent content found"
+msgstr "No se encontró contendido reciente"
+
+msgid "Add some content to your media servers to see it here"
+msgstr "Añada contenido a sus servidores de medios para verlo aquí"
+
+msgid "Failed to load recent content"
+msgstr "La carga de contendido reciente falló"
+
+msgid "Server Health"
+msgstr "Salud del Servidor"
+
+msgid "Online"
+msgstr "En línea"
+
+msgid "Offline"
+msgstr "Fuera de Línea"
+
+msgid "Active"
+msgstr "Activo"
+
+msgid "Transcoding"
+msgstr "Transcodificando"
+
+msgid "Users"
+msgstr "Usuarios"
+
+msgid "Active Sessions"
+msgstr "Sesiones Activas"
+
+msgid "Server is currently unreachable"
+msgstr "No puede conectarse al servidor en este momento"
+
+msgid "servers online"
+msgstr "servidores en línea"
+
+msgid "server(s) need attention"
+msgstr "servidor(es) necesita(n) atención"
+
+msgid "No servers configured"
+msgstr "No hay servidores configurados"
+
+msgid "Add media servers to monitor their health"
+msgstr "Añada servidores de medios para supervisar su salud"
+
+msgid "Failed to load server health"
+msgstr "No se pudo cargar el estado de salud del servidor"
+
+msgid "Server Overview"
+msgstr "Vista general del Servidor"
+
+msgid "Items"
+msgstr "Elementos"
+
+msgid "Server Breakdown"
+msgstr "Fallo del Servidor"
+
+msgid "No active servers found"
+msgstr "No se encontraron servidores activos"
+
+msgid "Failed to load statistics"
+msgstr "Fallo al cargar las estadísticas"
+
+msgid "User Details"
+msgstr "Detalles del Usuario"
+
+msgid "Joined"
+msgstr "Unido"
+
+msgid "Account Details"
+msgstr "Detalles de la Cuenta"
+
+msgid "Expires"
+msgstr "Vencimiento"
+
+msgid "All libraries"
+msgstr "Todas las bibliotecas"
+
+msgid "Permissions"
+msgstr "Permisos"
+
+msgid "Downloads"
+msgstr "Descargas"
+
+msgid "Live TV"
+msgstr "TV En Vivo"
+
+msgid "Camera Upload"
+msgstr "Cargar desde la cámara"
+
+msgid "Basic Access"
+msgstr "Acceso Básico"
+
+msgid "Close"
+msgstr "Cerrar"
+
+msgid "Edit User"
+msgstr "Editar Usuario"
+
+msgid "Close modal"
+msgstr "Cerrar ventana modal"
+
+msgid "Tabs"
+msgstr "Pestañas"
+
+msgid "Local"
+msgstr "Local"
+
+msgid "Notes"
+msgstr "Notas"
+
+msgid "Permission Management"
+msgstr "Gestión de Permisos"
+
+msgid "Toggle downloads permission"
+msgstr "Alternar permiso de descargas"
+
+msgid "Toggle live TV permission"
+msgstr "Alternar permiso para televisión en vivo"
+
+msgid "Allow Camera Upload"
+msgstr "Permitir cargar desde la cámara"
+
+msgid "Toggle camera upload permission"
+msgstr "Alternar el permiso de carga desde la cámara"
+
+msgid "Library Access"
+msgstr "Acceso a la biblioteca"
+
+msgid "No libraries available"
+msgstr "No hay bibliotecas disponibles"
+
+msgid "Scan libraries from the invitation page to enable library restrictions"
 msgstr ""
-"Especificar\n"
-"                                bibliotecas"
+"Analiza las bibliotecas desde la página de invitación para habilitar las "
+"restricciones de biblioteca"
 
-#: app/templates/admin/invite.html:111
-#: app/templates/settings/partials/server_form.html:87
-msgid "Scan For Libraries"
-msgstr "Buscar bibliotecas"
-
-#: app/templates/admin/invite.html:119
-msgid "Create Invitation"
-msgstr "Crear invitación"
-
-#: app/templates/admin/invite.html:126
-msgid "Successfully generated an Invitation!"
-msgstr "¡Invitación generada con éxito!"
-
-#: app/templates/admin/invite.html:131
-msgid "Link has been copied to clipboard!"
-msgstr "¡El enlace ha sido copiado al portapapeles!"
-
-#: app/templates/admin/invite.html:139
-msgid "Back"
-msgstr "Atrás"
-
-#: app/templates/admin/invite.html:144
-msgid "Share"
-msgstr "Compartir"
-
-#: app/templates/admin/user_modal.html:17
-msgid "Edit expiry"
-msgstr "Modificar la fecha de vencimiento"
-
-#: app/templates/admin/user_modal.html:27
-msgid "Expiry date (leave blank for never)"
-msgstr "Fecha de vencimiento (dejar en blanco si no caduca)"
-
-#: app/templates/admin/user_modal.html:41
-#: app/templates/modals/create-notification-agent.html:85
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: app/templates/admin/user_modal.html:48
-#: app/templates/settings/partials/server_form.html:132
-msgid "Save"
-msgstr "Guardar"
-
-#: app/templates/error/401.html:20
-msgid "Permission denied."
-msgstr "Permiso denegado."
-
-#: app/templates/error/401.html:23
-msgid "You are attempting to do something you shouldn't be doing..."
-msgstr "Estás intentado hacer algo que no deberías estar haciendo..."
-
-#: app/templates/error/404.html:19
-msgid "Something's missing."
-msgstr "Falta algo."
-
-#: app/templates/error/404.html:21
-msgid "Sorry, we can't find that page. It doesn't seem to exist!"
-msgstr "Lo sentimos, pero no podemos encontrar esa página. ¡Parece que no existe!"
-
-#: app/templates/error/500.html:19
-msgid "Internal Server Error."
-msgstr "Error interno del servidor."
-
-#: app/templates/error/500.html:21
-msgid " Something has gone wrong. Please try again later."
-msgstr " Algo ha ido mal. Por favor, prueba de nuevo más tarde."
-
-#: app/templates/modals/create-notification-agent.html:31
-msgid "New Agent"
-msgstr "Nuevo Agente"
-
-#: app/templates/modals/create-notification-agent.html:60
-msgid ""
-"Username\n"
-"                                (optional)"
+msgid "Click to toggle library access. Updates save automatically."
 msgstr ""
-"Nombre de usuario\n"
-"                                (opcional)"
+"Haz clic para alternar el acceso a la biblioteca. Los cambios se guardan "
+"automáticamente."
 
-#: app/templates/modals/create-notification-agent.html:65
-msgid "Password (optional)"
-msgstr "Contraseña (opcional)"
+msgid "Expiry Management"
+msgstr "Gestión de vencimientos"
 
-#: app/templates/modals/create-notification-agent.html:70
-msgid ""
-"Agent\n"
-"                                URL"
-msgstr ""
-"Agente\n"
-"                                URL"
+msgid "Expiry date"
+msgstr "Fecha de expiración"
 
-#: app/templates/modals/create-notification-agent.html:81
-msgid "Test & Create Agent"
-msgstr "Probar & Crear Agente"
+msgid "Update"
+msgstr "Actualizar"
 
-#: app/templates/settings/index.html:24
-msgid "Server"
-msgstr "Servidor"
+msgid "Current expiry"
+msgstr "Fecha de vencimiento actual"
 
-#: app/templates/settings/index.html:39
-msgid "Notifications"
-msgstr "Notificaciones"
+msgid "No expiry set"
+msgstr "No tiene fecha de vencimiento"
 
-#: app/templates/settings/notifications.html:11
-msgid "Notification Agents"
-msgstr "Agentes de Notificaciones"
+msgid "User notes"
+msgstr "Notas del usuario"
 
-#: app/templates/settings/notifications.html:27
+msgid "Add notes about this user..."
+msgstr "Añadir notas sobre este usuario..."
+
+msgid "Update Notes"
+msgstr "Actualizar Notas"
+
+msgid "Link"
+msgstr "Enlazar"
+
+msgid "Unlink"
+msgstr "Desenlazar"
+
 msgid "Delete"
 msgstr "Borrar"
 
-#: app/templates/settings/notifications.html:37
-msgid "Create Agent"
-msgstr "Crear Agente"
+#, python-brace-format
+msgid "Passkeys for {}"
+msgstr "Passkeys para {}"
 
-#: app/templates/settings/partials/server_form.html:13
-msgid "Server Settings"
-msgstr "Ajustes del servidor"
-
-#: app/templates/settings/partials/server_form.html:103
-#: app/templates/settings/partials/server_form.html:111
-#: app/templates/settings/partials/server_form.html:120
-msgid "Optional, leave empty to disable"
-msgstr "Opcional (déjalo en blanco para desactivar)"
-
-#: app/templates/setup/admin_account.html:14
-msgid "Setup Wizarr"
-msgstr "Configurar Wizarr"
-
-#: app/templates/tables/invite_card.html:3
-msgid "There are currently no invitations."
-msgstr "Actualmente no hay invitaciones."
-
-#: app/templates/tables/invite_card.html:16
-msgid "Available"
-msgstr "Disponible"
-
-#: app/templates/tables/invite_card.html:23
-#: app/templates/tables/invite_card.html:51
-msgid "Used"
-msgstr "Usado"
-
-#: app/templates/tables/invite_card.html:36
 msgid "Created"
 msgstr "Creado"
 
-#: app/templates/tables/invite_card.html:44
-#: app/templates/tables/user_card.html:39
-msgid "Expires"
-msgstr "Expira"
+msgid "Last used"
+msgstr "Usado por última vez"
 
-#: app/templates/tables/invite_card.html:47
-msgid "Expired"
-msgstr "Expirado"
+msgid "Reset All Passkeys"
+msgstr "Restablecer todas las Passkeys"
 
-#: app/templates/tables/invite_card.html:70
-msgid "Libraries"
-msgstr "Bibliotecas"
+msgid "No passkeys registered for this user."
+msgstr "No hay passkeys registradas para este usuario."
 
-#: app/templates/tables/invite_card.html:75
-msgid "Default"
-msgstr "Predeterminado"
+msgid "Are you sure you want to delete this passkey?"
+msgstr "¿Está seguro(a) de eliminar esta passkey?"
 
-#: app/templates/tables/invite_card.html:86
-msgid "days"
-msgstr "Días"
+msgid "Failed to delete passkey"
+msgstr "No se pudo eliminar la passkey"
 
-#: app/templates/tables/invite_card.html:106
+msgid "An error occurred while deleting the passkey"
+msgstr "Ocurrió un error al eliminar la passkey"
+
+#, python-brace-format
+msgid "Are you sure you want to reset ALL passkeys for {}?"
+msgstr "¿Esta seguro(a) de restablecer TODAS las passkeys para {}?"
+
+msgid "This action cannot be undone."
+msgstr "Esta acción no puede deshacerse."
+
+msgid "All passkeys have been reset"
+msgstr "Todas las passkeys fueron restablecidas"
+
+msgid "Failed to reset passkeys"
+msgstr "No se pudieron restablecer las passkeys"
+
+msgid "An error occurred while resetting passkeys"
+msgstr "Ocurrió un error al restablecer las passkeys"
+
+msgid "Add New Passkey"
+msgstr "Añadir Nueva Passkey"
+
+msgid "Passkey Name"
+msgstr "Nombre de Passkey"
+
+msgid "e.g., My iPhone, Work Laptop"
+msgstr "i.e., Mi iPhone, Laptop del Trabajo"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Create Passkey"
+msgstr "Crear Passkey"
+
+msgid "Added"
+msgstr "Añadida"
+
+msgid "No passkeys registered"
+msgstr "No hay passkeys registradas"
+
+msgid "Add your first passkey for enhanced security"
+msgstr "Añada su primera passkey para una mayor seguridad"
+
+msgid "Passkeys"
+msgstr "Passkeys"
+
+msgid "Passkeys require HTTPS connection"
+msgstr "Las Passkeys requieren conexión HTTPS"
+
+msgid "Add Passkey"
+msgstr "Añadir Passkey"
+
+msgid "To use passkeys, please access this page over HTTPS."
+msgstr "Para utilizar passkeys, por favor acceder a esta página vía HTTPS."
+
+msgid "Manage your passkeys for passwordless authentication."
+msgstr "Gestione sus passkeys para autenticación sin contraseñas."
+
+msgid "Loading passkeys..."
+msgstr "Cargando passkeys..."
+
+msgid "Creating passkey for"
+msgstr "Creando passkey para"
+
+msgid "Please follow your device's prompts to complete setup"
+msgstr ""
+"Por favor siga las instrucciones en su dispositivo para completar la "
+"configuración"
+
+msgid "Failed to register passkey"
+msgstr "No se pudo registrar la passkey"
+
+msgid "Failed to complete passkey registration"
+msgstr "No se pudo completar el registro de la passkey"
+
+msgid "Permission denied."
+msgstr "Permiso denegado."
+
+msgid "You are attempting to do something you shouldn't be doing..."
+msgstr "Estás intentado hacer algo que no deberías estar haciendo..."
+
+msgid "Something's missing."
+msgstr "Falta algo."
+
+msgid "Sorry, we can't find that page. It doesn't seem to exist!"
+msgstr ""
+"Lo sentimos, pero no podemos encontrar esa página. ¡Parece que no existe!"
+
+msgid "Internal Server Error."
+msgstr "Error interno del servidor."
+
+msgid " Something has gone wrong. Please try again later."
+msgstr " Algo ha ido mal. Por favor, prueba de nuevo más tarde."
+
+msgid "Add steps to bundle"
+msgstr "Añadir pasos a paquete"
+
+msgid "Untitled"
+msgstr "Sin título"
+
+msgid "All steps are already included."
+msgstr "Todos los pasos ya están incluidos."
+
+msgid "Add"
+msgstr "Añadir"
+
+msgid "Add New Connection"
+msgstr "Añadir Nueva Conexión"
+
+msgid "Edit Connection"
+msgstr "Editar Conexión"
+
+msgid "Overseerr/Jellyseerr Information"
+msgstr "Información de Overseerr/Jellyseerr"
+
+msgid ""
+"Overseerr and Jellyseerr create an account the first time someone signs in, "
+"so by default an invited user has no account there until they visit and log "
+"in themselves."
+msgstr ""
+
+msgid ""
+"Set the Service URL and turn on account creation below, and Wizarr signs "
+"them in during the invite so their account exists before they arrive. This "
+"uses the service's own sign-in route rather than an API key, so it needs "
+"'Enable New Plex Sign-In' under its Settings → Users."
+msgstr ""
+
+msgid ""
+"Must be https if the service has CSRF protection enabled, which sets its "
+"cookies Secure."
+msgstr ""
+
+msgid "Testing connection..."
+msgstr "Probando conexión..."
+
+msgid "Create Connection"
+msgstr "Crear Conexión"
+
+msgid "Update Connection"
+msgstr "Actualizar Conexión"
+
+msgid "Test Connection"
+msgstr "Probar Conexión"
+
+msgid "Add Administrator"
+msgstr "Añadir Administrador"
+
+msgid "API Key Created"
+msgstr "Clave API Creada"
+
+msgid "Create API Key"
+msgstr "Crear clave API"
+
+msgid "API Key Created Successfully"
+msgstr "Clave API Creada Exitosamente"
+
+msgid ""
+"Your API key has been created. Please copy it now as it will not be shown "
+"again."
+msgstr ""
+"Su clave API ha sido creada. Por favor cópiela ahora pues no se mostrará "
+"nuevamente."
+
+msgid "Copy to clipboard"
+msgstr "Copiar al portapapeles"
+
+msgid "Name:"
+msgstr "Nombre:"
+
+msgid "Done"
+msgstr "Listo"
+
+msgid "API Key Name"
+msgstr "Nombre de Clave API"
+
+msgid "Enter a descriptive name to help you identify this API key later."
+msgstr ""
+"Introduzca un nombre descriptivo para ayudarle a identificar esta clave API "
+"más adelante."
+
+msgid "New Agent"
+msgstr "Nuevo Agente"
+
+msgid "Channel ID"
+msgstr "Channel ID"
+
+msgid "Bot Token"
+msgstr "Token del Bot"
+
+msgid "Chat ID"
+msgstr "Chat ID"
+
+msgid "Username (optional)"
+msgstr "Nombre de usuario (opcional)"
+
+msgid "Password (optional)"
+msgstr "Contraseña (opcional)"
+
+msgid "Agent URL"
+msgstr "URL del Agente"
+
+msgid "Notification Events"
+msgstr "Notificaciones de Eventos"
+
+msgid "User Joined"
+msgstr "Usuario Unido"
+
+msgid "Update Available"
+msgstr "Actualización disponible"
+
+msgid "Test & Create Agent"
+msgstr "Probar & Crear Agente"
+
+msgid "Add Server"
+msgstr "Añadir Servidor"
+
+msgid "Test & Add"
+msgstr "Probar y Añadir"
+
+msgid "Edit Administrator"
+msgstr "Editar Administrador"
+
+msgid "New Password (optional)"
+msgstr "Nueva Contraseña (opcional)"
+
+msgid "Save"
+msgstr "Guardar"
+
+msgid "Edit Identity"
+msgstr "Editar Identidad"
+
+msgid "Nickname"
+msgstr "Apodo"
+
+msgid "Edit Agent"
+msgstr "Editar Agente"
+
+msgid "Name"
+msgstr "Nombre"
+
+msgid "Notification Service"
+msgstr "Servicio de notificaciones"
+
+msgid "Test & Save Changes"
+msgstr "Probar & Guardar Cambios"
+
+msgid "Edit Server"
+msgstr "Editar Servidor"
+
+msgid "Create Invitation"
+msgstr "Crear invitación"
+
+msgid "Invitation Created"
+msgstr "Invitación Creada"
+
+msgid "Invite Code String"
+msgstr "Código de invitación"
+
+msgid "optional"
+msgstr "opcional"
+
+msgid "E.g. XMFGEJIKNQ"
+msgstr "Ejemplo: XMFGEJIKNQ"
+
+msgid "Expiration"
+msgstr "Caducidad"
+
+msgid "1 day"
+msgstr "Un día"
+
+msgid "1 week"
+msgstr "Una semana"
+
+msgid "1 month"
+msgstr "1 mes"
+
+msgid "Wizard bundle"
+msgstr "Paquete Genio"
+
+msgid "Automatic"
+msgstr "Automático"
+
+msgid "Advanced Options"
+msgstr "Opciones avanzadas"
+
+msgid "Invite Settings"
+msgstr "Ajustes de Invitación"
+
+msgid "Unlimited Usages"
+msgstr "Usos ilimitados"
+
+msgid "Duration"
+msgstr "Duración"
+
+msgid "in days"
+msgstr "en días"
+
+msgid "Show Information"
+msgstr "Mostrar información"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"Cuando está activo, los usuarios invitados serán eliminados del servidor "
+"Plex luego de un número de días. (1-999)"
+
+msgid "LDAP Integration"
+msgstr "Integración con LDAP"
+
+msgid "Create LDAP User"
+msgstr "Crear Usuario LDAP"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr "Crear automáticamente un usuario LDAP cuando se acepte esta invitación"
+
+msgid "Target servers"
+msgstr "Servidores de destino"
+
+msgid "Invite to Plex Home"
+msgstr "Invitar a Plex Home"
+
+msgid "Allow Live TV Access"
+msgstr "Permitir acceso a TV En Vivo"
+
+msgid "Allow Mobile Uploads"
+msgstr "Permitir Cargas desde Dispositivos Móviles"
+
+msgid "Max Active Sessions"
+msgstr "Máximo de sesiones activas"
+
+msgid "simultaneous devices"
+msgstr "dispositivos simultáneos"
+
+msgid ""
+"Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgstr ""
+"Número de dispositivos que pueden reproducir contenido simultáneamente. "
+"Establezca el valor en 0 para un número ilimitado."
+
+msgid "Select Libraries"
+msgstr "Seleccionar Bibliotecas"
+
+msgid "Loading…"
+msgstr "Cargando…"
+
+msgid "Successfully generated an Invitation!"
+msgstr "¡Invitación generada con éxito!"
+
+msgid "Invitation Link"
+msgstr "Enlace de Invitación"
+
+msgid "Copy"
+msgstr "Copiar"
+
+msgid "Link has been copied to clipboard!"
+msgstr "¡El enlace ha sido copiado al portapapeles!"
+
+msgid "Create Another"
+msgstr "Crear Otra"
+
+msgid "Please select at least one server for the invitation."
+msgstr "Por favor seleccione al menos un servidor para la invitación."
+
+msgid "Password Reset Link"
+msgstr "Enlace para Restablecer la Contraseña"
+
+msgid "Generate Password Reset Link"
+msgstr "Generar Enlace para Restablecer la Contraseña"
+
+msgid "Password reset link for"
+msgstr "Enlace para restablecer la contraseña de"
+
+msgid "Link expires:"
+msgstr "El enlace caduca:"
+
+msgid "Reset Link (Click to copy)"
+msgstr "Enlace de restablecimiento (haz clic para copiar)"
+
+msgid ""
+"Send this link to the user. They can use it once to reset their password."
+msgstr ""
+"Envía este enlace al usuario. Puede utilizarlo una vez para restablecer su "
+"contraseña."
+
+msgid "Reset Code"
+msgstr "Código de restablecimiento"
+
+msgid "Security Notes:"
+msgstr "Notas de seguridad:"
+
+msgid "This link can only be used once"
+msgstr "Este enlace solo se puede utilizar una vez"
+
+msgid "It expires in 24 hours"
+msgstr "Caduca en 24 horas"
+
+msgid "Send it securely (email, message, etc.)"
+msgstr "Envíalo de forma segura (correo electrónico, mensaje, etc.)"
+
+msgid "Generate a secure password reset link for"
+msgstr "Generar un enlace seguro para restablecer la contraseña"
+
+msgid "Generate Reset Link"
+msgstr "Generar enlace de restablecimiento"
+
+msgid "The link will be valid for 24 hours and can only be used once."
+msgstr ""
+"El enlace será válido durante 24 horas y solo podrá utilizarse una vez."
+
+msgid "Copy Link"
+msgstr "Copiar enlace"
+
+msgid "Copied!"
+msgstr "¡Copiado!"
+
+msgid "Reset link copied to clipboard!"
+msgstr "¡Enlace de restablecimiento copiado al portapapeles!"
+
+msgid "Please manually copy the link"
+msgstr "Por favor, copie el enlace manualmente"
+
+msgid "Import Wizard Steps"
+msgstr "Importar Pasos del Asistente"
+
+msgid "Click to upload"
+msgstr "Click para subir"
+
+msgid "or drag and drop"
+msgstr "o arrastrar y soltar"
+
+msgid "JSON files only"
+msgstr "Solo archivos JSON"
+
+msgid "Import Options"
+msgstr "Opciones para Importar"
+
+msgid ""
+"When checked, existing steps will be replaced. When unchecked, imported "
+"steps will be merged with existing ones."
+msgstr ""
+"Cuando está seleccionado, los pasos existentes serán reemplazados. Cuando no "
+"está seleccionado, los pasos importados se unirán a los existentes."
+
+msgid "Important Notice"
+msgstr "Aviso Importante"
+
+msgid ""
+"This action will modify your wizard steps configuration. Make sure to backup "
+"your current steps before importing if you want to preserve them."
+msgstr ""
+"Esta acción modificará la configuración de sus pasos del asistente. "
+"Asegúrese de respaldar sus pasos actuales antes de importar si quiere "
+"conservarlos."
+
+msgid "Import Steps"
+msgstr "Importar Pasos"
+
+msgid "Add Preset Wizard Step"
+msgstr "Añadir Preajuste de Pasos del Asistente"
+
+msgid "Choose when this step should be shown to users"
+msgstr "Elija cuándo se debe mostrar este paso a los usuarios"
+
+msgid "Your Discord server ID"
+msgstr "Su ID de servidor de Discord"
+
+msgid "URL to your Overseerr/Ombi instance"
+msgstr "URL para su instancia de Overseerr/Ombi"
+
+msgid "Create Step"
+msgstr "Crear Paso"
+
+msgid "Add..."
+msgstr "Añadir..."
+
+msgid "Widgets"
+msgstr "Widgets"
+
+msgid "Recently Added Media"
+msgstr "Contenido Multimedia Añadido Recientemente"
+
+msgid "Show recent content"
+msgstr "Mostrar contenido reciente"
+
+msgid "Button"
+msgstr "Botón"
+
+msgid "Add a clickable link button"
+msgstr "Añade un botón con enlace"
+
+msgid "Elements"
+msgstr "Elementos"
+
+msgid "Card"
+msgstr "Tarjeta"
+
+msgid "Add a styled content card"
+msgstr "Añadir una tarjeta de contenido con estilo"
+
+msgid "Delete API Key"
+msgstr "Borrar Clave API"
+
+msgid "No API keys"
+msgstr "No hay claves API"
+
+msgid "Get started by creating a new API key."
+msgstr "Inicie creando una nueva clave API."
+
+msgid "Media Servers"
+msgstr "Servidores Multimedia"
+
+msgid "Type"
+msgstr "Tipo"
+
+msgid "URL"
+msgstr "URL"
+
+msgid "Verified"
+msgstr "Verificado"
+
+msgid "Actions"
+msgstr "Acciones"
+
+msgid "Edit"
+msgstr "Editar"
+
+msgid "Delete this server?"
+msgstr "¿Eliminar este servidor?"
+
+msgid "No servers configured yet."
+msgstr "No hay servidores configurados aún."
+
+msgid "Administrators"
+msgstr "Administradores"
+
+msgid "Manage Passkeys"
+msgstr "Gestionar Passkeys"
+
+msgid "No administrators yet."
+msgstr "No hay administradores."
+
+msgid "Add Admin"
+msgstr "Añadir Administrador"
+
+msgid "API Keys"
+msgstr "Claves API"
+
+msgid "Connections"
+msgstr "Conexiones"
+
+msgid "Manage external service connections for automated user invitations"
+msgstr ""
+"Gestionar conexiones a servicios externos para invitaciones automatizadas"
+
+msgid "Add Connection"
+msgstr "Añadir Conexión"
+
+msgid "Connection Name"
+msgstr "Nombre de Conexión"
+
+msgid "Media Server"
+msgstr "Servidor Multimedia"
+
+msgid "Overseerr"
+msgstr ""
+
+msgid "Overseerr (Info)"
+msgstr "Overseerr (Info)"
+
+msgid "Ombi"
+msgstr "Ombi"
+
+msgid "Audiobookrequest"
+msgstr "AudioBookRequest"
+
+msgid "Auto-import enabled"
+msgstr "Atuo-importar activado"
+
+msgid "Are you sure you want to delete this connection?"
+msgstr "¿Está seguro(a) de eliminar esta conexión?"
+
+msgid "No connections configured"
+msgstr "No hay conexiones configuradas"
+
+msgid ""
+"Connect your external services to automate user invitations when invites are "
+"created for specific media servers."
+msgstr ""
+"Conecte sus servicios externos para automatizar las invitaciones de usuario "
+"cuando se creen invitaciones para servidores de medios específicos."
+
+msgid "Add Your First Connection"
+msgstr "Añadir Su Primera Conexión"
+
+msgid "General Settings"
+msgstr "Ajustes Generales"
+
+msgid "Configure your application's basic settings and preferences"
+msgstr "Configurar los ajustes y preferencias básicas de su aplicación"
+
+msgid "Version"
+msgstr "Versión"
+
+msgid "Display"
+msgstr "Mostrar"
+
+msgid "Configure how your application appears to users"
+msgstr "Configurar como se muestra su aplicación a los usuarios"
+
+msgid ""
+"Which server's posters fill the background of the public join page. 'The "
+"server the invite is for' shows nothing without a valid invite."
+msgstr ""
+
+msgid "Access Control"
+msgstr "Control de Acceso"
+
+msgid "Manage user access and permissions"
+msgstr "Gestionar accesos y permisos de usuarios"
+
+msgid "Control access to the wizard setup process"
+msgstr "Controlar el acceso al proceso de configuración del asistente"
+
+msgid "User Management"
+msgstr "Gestión de Usuarios"
+
+msgid "Configure how users are managed when invitations expire"
+msgstr ""
+"Configure cómo se gestionan los usuarios cuando las invitaciones caducan"
+
+msgid "Server Capabilities"
+msgstr "Capacidades del Servidor"
+
+msgid "Supports Disable:"
+msgstr "Desactivar Soportes:"
+
+msgid "Delete Only:"
+msgstr "Solo eliminar:"
+
+msgid ""
+"If 'Disable User' is selected but the server does not support it, the user "
+"will be deleted instead."
+msgstr ""
+"Si se selecciona 'Deshabilitar usuario' pero el servidor no admite esta "
+"opción, el usuario se eliminará en su lugar."
+
+msgid "Choose what happens to users when their invitation expires"
+msgstr "Elija lo que les sucede a los usuarios cuando expira su invitación"
+
+msgid "Immediately process all expired users based on the expiry action above"
+msgstr ""
+"Procese inmediatamente todos los usuarios cuya cuenta haya caducado, "
+"aplicando la acción de caducidad indicada anteriormente"
+
+msgid "API Key Management"
+msgstr "Gestión de Claves API"
+
+msgid "Manage API keys for accessing Wizarr programmatically"
+msgstr "Gestionar claves API para acceder a Wizarr por programación"
+
+msgid "Your API Keys"
+msgstr "Sus Claves API"
+
+msgid "Create and manage API keys for external applications"
+msgstr "Crear y gestionar claves API para aplicaciones externas"
+
+msgid "Loading API keys..."
+msgstr "Cargando claves API..."
+
+msgid "Save Settings"
+msgstr "Guardar Ajustes"
+
+msgid "Settings"
+msgstr "Ajustes"
+
+msgid "Manage your application settings and preferences"
+msgstr "Gestionar los ajustes y preferencias de su aplicación"
+
+msgid "General"
+msgstr "General"
+
+msgid "Alerts"
+msgstr "Alertas"
+
+msgid "Servers"
+msgstr "Servidores"
+
+msgid "Activity"
+msgstr "Actividad"
+
+msgid "Admins"
+msgstr "Administradores"
+
+msgid "Wizard"
+msgstr "Genio"
+
+msgid "Audit"
+msgstr "Auditoría"
+
+msgid "LDAP Settings"
+msgstr "Ajustes LDAP"
+
+msgid "Experimental"
+msgstr "Experimental"
+
+msgid "Configure LDAP for user authentication and management"
+msgstr "Configure LDAP para la autenticación y gestión de usuarios"
+
+msgid "Enable LDAP"
+msgstr "Habilitar LDAP"
+
+msgid "Turn on LDAP integration"
+msgstr "Activar la integración con LDAP"
+
+msgid "Connection"
+msgstr "Conexión"
+
+msgid "LDAP server connection"
+msgstr "Conexión al servidor LDAP"
+
+msgid "e.g., ldap://server:3890 or ldaps://server:6360"
+msgstr "p. ej., ldap://server:3890 o ldaps://server:6360"
+
+msgid "Use TLS"
+msgstr "Usar TLS"
+
+msgid "Verify Cert"
+msgstr "Verificar certificado"
+
+msgid "Encrypted before storage"
+msgstr "Cifrado antes del almacenamiento"
+
+msgid "User & Group Settings"
+msgstr "Configuración de Usuarios y Grupos"
+
+msgid "Where to find users and groups"
+msgstr "Donde encontrar usuarios y grupos"
+
+msgid "Optional - only needed for admin group restriction"
+msgstr ""
+"Opcional - solo es necesario para la restricción del grupo de administradores"
+
+msgid "Sync Groups"
+msgstr "Sincronizar Grupos"
+
+msgid "Sync LDAP groups to populate admin group selection"
+msgstr ""
+"Sincronizar grupos LDAP para poblar la selección de grupos de administración"
+
+msgid "Advanced Settings"
+msgstr "Configuración Avanzada"
+
+msgid ""
+"Defaults are optimized for LLDAP. Only change if using a different LDAP "
+"server."
+msgstr ""
+"Los valores predeterminados están optimizados para LLDAP. Cámbielos "
+"únicamente si utiliza un servidor LDAP diferente."
+
+msgid "Manage all users - both LDAP and local authentication"
+msgstr ""
+"Administrar todos los usuarios - tanto de autenticación LDAP como local"
+
+msgid "Sync from LDAP"
+msgstr "Sincronizar desde LDAP"
+
+msgid ""
+"Users can authenticate via LDAP or locally. Sync automatically imports new "
+"users from LDAP."
+msgstr ""
+"Los usuarios pueden autenticarse mediante LDAP o localmente. La "
+"sincronización importa automáticamente los nuevos usuarios desde LDAP."
+
+msgid "Admin Authentication"
+msgstr "Autenticación del administrador"
+
+msgid "Allow administrators to log in using LDAP"
+msgstr "Permitir a los administradores iniciar sesión usando LDAP"
+
+msgid "Allow Admin Login via LDAP"
+msgstr "Permitir el inicio de sesión de Administrador mediante LDAP"
+
+msgid "Enable admin login using LDAP credentials"
+msgstr ""
+"Habilitar el inicio de sesión de administrador mediante credenciales LDAP"
+
+msgid "Optional: Restrict admin access to members of this LDAP group"
+msgstr ""
+"Opcional: Restringir el acceso de administrador a los miembros de este grupo "
+"LDAP"
+
+msgid "Notification Agents"
+msgstr "Agentes de Notificaciones"
+
+msgid "Configure notification services to alert you about important events"
+msgstr ""
+"Configurar servicios de notificación para alertas sobre eventos importantes"
+
+msgid "Add Agent"
+msgstr "Añadir Agente"
+
+msgid "Edit agent"
+msgstr "Editar agente"
+
+msgid "Are you sure you want to delete"
+msgstr "Está seguro(a) de eliminar"
+
+msgid "Delete agent"
+msgstr "Eliminar agente"
+
+msgid "Status"
+msgstr "Estado"
+
+msgid "Events"
+msgstr "Eventos"
+
+msgid "No notification agents"
+msgstr "No hay agentes de notificación"
+
+msgid "Get started by creating your first notification agent"
+msgstr "Inicie creando su primer agente de notificación"
+
+msgid "Unverified"
+msgstr "Sin verificar"
+
+msgid "Checking..."
+msgstr "Probando..."
+
+msgid "Create a new external service connection for automated user invitations"
+msgstr "Crear una conexión a servicio externo para invitaciones automatizadas"
+
+msgid "Update the connection settings"
+msgstr "Actualizar la configuración de la conexión"
+
+msgid "Select the type of connection to configure"
+msgstr "Seleccione el tipo de conexión a configurar"
+
+msgid "A friendly name to identify this connection"
+msgstr "Un nombre amigable para identificar esta conexión"
+
+msgid "Which media server should trigger invitations to this external service"
+msgstr ""
+"Qué servidor multimedia debería activar las invitaciones a este servicio "
+"externo"
+
+msgid "To have Wizarr create the account instead:"
+msgstr ""
+
+msgid "Set the Service URL below"
+msgstr ""
+
+msgid "Turn on account creation below"
+msgstr ""
+
+msgid "In the service, enable Settings → Users → 'Enable New Plex Sign-In'"
+msgstr ""
+
+msgid ""
+"This uses the service's own sign-in route, so there is no API key to "
+"configure."
+msgstr ""
+
+msgid "The full URL to your external service instance"
+msgstr "La URL completa de su instancia de servicio externo"
+
+msgid "API key from your external service settings"
+msgstr "Clave API de la configuración de su servicio externo"
+
+msgid "Default Steps"
+msgstr "Pasos Predeterminados"
+
+msgid "Custom Bundles"
+msgstr "Paquetes Personalizados"
+
+msgid "Import"
+msgstr "Importar"
+
+msgid "Import Configuration"
+msgstr "Importar Configuración"
+
+msgid "Import steps or bundles from JSON file"
+msgstr "Importar pasos o paquetes desde un archivo JSON"
+
+msgid "Create"
+msgstr "Crear"
+
+msgid "Add a new wizard step"
+msgstr "Añadir un nuevo paso al asistente"
+
+msgid "Add Step to Bundle"
+msgstr "Añadir Paso al paquete"
+
+msgid "No bundles available yet"
+msgstr "Aún no hay paquetes disponibles"
+
+msgid "Add Preset"
+msgstr "Añadir ajuste preestablecido"
+
+msgid "Create step from template"
+msgstr "Crear paso desde plantilla"
+
+msgid "Create Bundle"
+msgstr "Crear Paquete"
+
+msgid "Create a collection of steps"
+msgstr "Crear una colección de pasos"
+
+msgid "No bundles found."
+msgstr "No se encontraron paquetes."
+
+msgid "Preview Wizard"
+msgstr "Vista Previa del Asistente"
+
+#, python-format
+msgid "Export %(bundle_name)s Bundle"
+msgstr "Exportar Paquete %(bundle_name)s"
+
+msgid "Are you sure you want to delete this bundle?"
+msgstr "¿Está seguro(a) de eliminar este paquete?"
+
+msgid "Before Invite Acceptance"
+msgstr "Antes de Aceptar la Invitación"
+
+msgid "Steps shown to users before they accept the invitation"
+msgstr ""
+"Pasos que se muestran a los usuarios antes de que acepten la invitación"
+
+msgid "Are you sure you want to delete this step?"
+msgstr "¿Está seguro(a) de eliminar este paso?"
+
+msgid "No pre-invite steps configured"
+msgstr "No hay pasos de pre-invitación configurados"
+
+msgid "After Invite Acceptance"
+msgstr "Tras Aceptar la Invitación"
+
+msgid "Steps shown to users after they accept the invitation"
+msgstr "Pasos que se muestran a los usuarios después de aceptar la invitación"
+
+msgid "No post-invite steps configured"
+msgstr "No hay pasos configurados para después de la invitación"
+
+msgid "Additional Categories"
+msgstr "Categorías Adicionales"
+
+msgid "Steps that use custom categories keep their order here."
+msgstr ""
+"Los pasos que utilizan categorías personalizadas conservan su orden aquí."
+
+msgid "Orphaned Steps"
+msgstr "Pasos huérfanos"
+
+msgid ""
+"These entries no longer have an associated step. Remove them to keep the "
+"bundle tidy."
+msgstr ""
+"Estas entradas ya no tienen un paso asociado. Elimínelas para mantener el "
+"paquete ordenado."
+
+msgid "Step deleted (orphaned)"
+msgstr "Paso eliminado (huérfano)"
+
+msgid "Are you sure you want to remove this orphaned step?"
+msgstr "¿Está seguro(a) de eliminar este paso huérfano?"
+
+msgid "Remove orphaned step"
+msgstr "Eliminar paso huérfano"
+
+msgid "Preview"
+msgstr "Vista Previa"
+
+msgid "Import Wizard Configuration"
+msgstr "Importar Configuración del Asistente"
+
+msgid ""
+"Import wizard steps or bundles from a JSON file to quickly set up or restore "
+"your wizard configuration."
+msgstr ""
+"Importar pasos o paquetes del asistente desde un archivo JSON para "
+"rápidamente configurar o restaurar su configuración del asistente."
+
+msgid "Select JSON File"
+msgstr "Seleccionar Archivo JSON"
+
+msgid "Steps or Bundle JSON files only (MAX. 10MB)"
+msgstr "Archivos JSON de Pasos o Paquetes solamente (Máximo 10MB)"
+
+msgid ""
+"When checked, all existing wizard steps and bundles will be removed and "
+"replaced with the imported configuration. When unchecked, imported items "
+"will be added alongside existing ones."
+msgstr ""
+"Cuando está seleccionado, todos los pasos y paquetes del asistente "
+"existentes serán eliminados y reemplazados por la configuración importada. "
+"Cuando no está seleccionado, los elementos importados se añadirán a los "
+"existentes."
+
+msgid "Important: Backup Recommended"
+msgstr "Importante: Copia de Seguridad Recomendada"
+
+msgid ""
+"This action will modify your wizard configuration. Consider the following:"
+msgstr ""
+"Esta acción modificará su configuración del asistente. Considere lo "
+"siguiente:"
+
+msgid "Export your current steps and bundles first as a backup"
+msgstr "Exportar sus pasos y paquetes actuales como copia de seguridad"
+
+msgid "Imported steps will use the file's step ordering and server types"
+msgstr ""
+"Los pasos importados utilizarán el orden y tipos de servidor presentes en el "
+"archivo"
+
+msgid "Imported bundles will preserve their step associations and ordering"
+msgstr "Los paquetes importados conservarán su orden y asociaciones de pasos"
+
+msgid ""
+"If replacing existing configuration, all current steps and bundles will be "
+"permanently removed"
+msgstr ""
+"Si reemplaza la configuración actual, todos los pasos y paquetes actuales "
+"serán eliminados permanentemente"
+
+msgid "Invalid or malformed JSON files will be rejected"
+msgstr "Archivos JSON inválidos o malformados serán rechazados"
+
+msgid "Expected JSON Format"
+msgstr "Formato JSON Esperado"
+
+msgid "The JSON file can contain steps or bundles:"
+msgstr "El archivo JSON puede contener pasos o paquetes:"
+
+msgid "For steps export:"
+msgstr "Para exportar pasos:"
+
+msgid "For bundle export:"
+msgstr "Para exportar paquete:"
+
+msgid "Back to Steps"
+msgstr "Volver a los Pasos"
+
+msgid "Please select a JSON file to import."
+msgstr "Por favor seleccione un archivo JSON para importar."
+
+msgid "Please select a valid JSON file."
+msgstr "Por favor selecciones un archivo JSON válido."
+
+msgid ""
+"This will permanently replace all existing wizard configuration (steps and "
+"bundles). Are you sure you want to continue?"
+msgstr ""
+"Esto reemplazará permanentemente toda la configuración del asistente actual "
+"(pasos y paquetes). ¿Está seguro(a) de continuar?"
+
+msgid "Wizard Steps"
+msgstr "Pasos del Asistente"
+
+msgid "Manage your wizard steps and bundles for user onboarding"
+msgstr ""
+"Gestionar sus pasos y paquetes del asistente para la incorporación de "
+"usuarios"
+
+msgid "No wizard steps found"
+msgstr "No se encontraron pasos del asistente"
+
+msgid "Get started by creating your first wizard step"
+msgstr "Inicie creando su primer paso del asistente"
+
+msgid "Server"
+msgstr "Servidor"
+
+msgid "steps configured"
+msgstr "pasos configurados"
+
+msgid "Untitled Step"
+msgstr "Paso Sin Título"
+
+msgid "Step"
+msgstr "Paso"
+
+msgid "Edit step"
+msgstr "Editar paso"
+
+msgid "Delete step"
+msgstr "Eliminar paso"
+
+msgid "No steps found."
+msgstr "No se encontraron pasos."
+
+#, python-format
+msgid ""
+"Are you sure you want to reset all steps for %(server)s to defaults? This "
+"will delete all custom steps and reimport the default ones."
+msgstr ""
+"¿Está seguro de que desea restablecer a los valores predeterminados todos "
+"los pasos para %(server)s? Esto eliminará todos los pasos personalizados y "
+"volverá a importar los predeterminados."
+
+#, python-format
+msgid "Reset %(server)s Steps to Defaults"
+msgstr "Restablecer los Pasos de %(server)s a los Valores Predeterminados"
+
+#, python-format
+msgid "Export %(server)s Steps"
+msgstr "Exportar Pasos de %(server)s"
+
+msgid "Setup Wizarr"
+msgstr "Configurar Wizarr"
+
+msgid "Create an account"
+msgstr "Crear una cuenta"
+
 msgid "Unlimited"
 msgstr "Ilimitado"
 
-#: app/templates/tables/user_card.html:3
+msgid "There are currently no invitations."
+msgstr "Actualmente no hay invitaciones."
+
+msgid "Used by"
+msgstr "Usado por"
+
+msgid "Used"
+msgstr "Usado"
+
+msgid "Not used yet"
+msgstr "Aún no se ha utilizado"
+
+msgid "Bundle"
+msgstr "Paquete"
+
+msgid "days"
+msgstr "días"
+
+msgid "Default"
+msgstr "Predeterminado"
+
+msgid "Copy invite link"
+msgstr "Copiar enlace de invitación"
+
+msgid "Delete invite"
+msgstr "Eliminar invitación"
+
 msgid "There are currently no users."
 msgstr "Actualmente no hay usuarios."
 
-#: app/templates/tables/user_card.html:26
-msgid "Home User"
-msgstr "Inicio"
+msgid "Edit nickname"
+msgstr "Editar apodo"
 
-#: app/templates/wizard/frame.html:34
+msgid "Home User"
+msgstr "Usuario local"
+
+msgid "Invited"
+msgstr "Invitado"
+
+msgid "Disabled"
+msgstr "Desactivado"
+
+msgid "Downloads enabled"
+msgstr "Descargas activadas"
+
+msgid "Live TV enabled"
+msgstr "TV En Vivo activada"
+
+msgid "View details"
+msgstr "Ver detalles"
+
+msgid "Edit user"
+msgstr "Editar usuario"
+
+msgid "Reset password"
+msgstr "Restablecer contraseña"
+
+msgid "Remove user"
+msgstr "Eliminar usuario"
+
+msgid "Before Invitation"
+msgstr "Antes de la invitación"
+
+msgid "After Invitation"
+msgstr "Después de la invitación"
+
 msgid "Previous"
 msgstr "Anterior"
 
-#: app/templates/wizard/frame.html:42
-msgid "Next"
-msgstr "Siguiente"
+msgid "Click the link in this step to be able to continue"
+msgstr "Haga click sobre el enlace en este paso para poder continuar"
+
+msgid "What is Audiobookshelf?"
+msgstr ""
+
+msgid "Welcome to Our Audiobookshelf Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **audiobook & podcast library** "
+"through Audiobookshelf!"
+msgstr ""
+
+msgid ""
+"Audiobookshelf is a self-hosted audiobook and podcast server that lets "
+"people share their audio collections with friends and family. If you're "
+"here, it means you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "What You'll Get"
+msgstr ""
+
+msgid "Access to our constantly updated audiobooks and podcasts"
+msgstr ""
+
+msgid "Listen on-demand or download for offline listening"
+msgstr ""
+
+msgid "Track your progress across all devices"
+msgstr ""
+
+msgid "Download Audiobookshelf Clients"
+msgstr ""
+
+msgid ""
+"Audiobookshelf has many clients from which you can listen to our audiobooks!"
+msgstr ""
+
+msgid "Listen Anywhere"
+msgstr ""
+
+msgid ""
+"Audiobookshelf works almost everywhere — install the app on your favourite "
+"devices:"
+msgstr ""
+
+msgid "Web App"
+msgstr ""
+
+msgid "Tips for the best experience"
+msgstr ""
+
+msgid "Get the best listening experience"
+msgstr ""
+
+msgid ""
+"Audiobookshelf offers great features, but here's how to make sure you get "
+"the best experience:"
+msgstr ""
+
+msgid "Download for offline listening"
+msgstr ""
+
+msgid "Tap any audiobook → Download to enjoy without internet"
+msgstr ""
+
+msgid "Adjust playback speed"
+msgstr ""
+
+msgid "Player controls → set speed from 0.5x to 3x"
+msgstr ""
+
+msgid "Enable sleep timer"
+msgstr ""
+
+msgid "Perfect for bedtime listening — auto-stops playback"
+msgstr ""
+
+msgid "Happy listening!"
+msgstr ""
+
+msgid "Go to Audiobookshelf"
+msgstr ""
+
+msgid "What is Emby?"
+msgstr ""
+
+msgid "Welcome to Our Emby Server"
+msgstr ""
+
+msgid "Great news — you now have access to our **media library** through Emby!"
+msgstr ""
+
+msgid ""
+"Emby is a powerful media server that lets people share their film and TV "
+"libraries with friends and family. If you're here, it means you've been "
+"invited to join ours — welcome!"
+msgstr ""
+
+msgid "Access to our constantly updated list of movies and shows"
+msgstr ""
+
+msgid "Watch on-demand or download for offline viewing"
+msgstr ""
+
+msgid "Personalised watchlists & recommendations"
+msgstr ""
+
+msgid "Download Emby Clients"
+msgstr ""
+
+msgid "Emby has many clients from which you can view our media!"
+msgstr ""
+
+msgid "Watch Anywhere"
+msgstr ""
+
+msgid ""
+"Emby works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "Mobile"
+msgstr ""
+
+msgid "iOS & Android phones/tablets"
+msgstr ""
+
+msgid "Desktop"
+msgstr ""
+
+msgid "Windows, macOS, Linux"
+msgstr ""
+
+msgid "Smart TVs & Streaming Devices"
+msgstr ""
+
+msgid "Apple TV, Fire TV, Roku, Chromecast, Android TV"
+msgstr ""
+
+msgid "Consoles"
+msgstr ""
+
+msgid "PlayStation & Xbox"
+msgstr ""
+
+msgid "Watch instantly in your browser"
+msgstr ""
+
+msgid "⬇️ Download Emby Clients"
+msgstr ""
+
+msgid "Get the best quality"
+msgstr ""
+
+msgid ""
+"Emby offers great quality, but here's how to make sure you get the best "
+"experience:"
+msgstr ""
+
+msgid "Force original quality"
+msgstr ""
+
+msgid "Settings → Playback → set"
+msgstr ""
+
+msgid "to"
+msgstr ""
+
+msgid "Maximum"
+msgstr ""
+
+msgid "Enable hardware decoding"
+msgstr ""
+
+msgid "Settings → Playback → enable for smoother 4K"
+msgstr ""
+
+msgid "Use a wired connection"
+msgstr ""
+
+msgid "if you're on a smart-TV for stutter-free 4K."
+msgstr ""
+
+msgid "Happy viewing!"
+msgstr ""
+
+msgid "Go to Emby"
+msgstr ""
+
+msgid "What is Jellyfin?"
+msgstr ""
+
+msgid "Welcome to Our Jellyfin Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **media library** through Jellyfin!"
+msgstr ""
+
+msgid ""
+"Jellyfin is a free, open-source media server that lets people share their "
+"film and TV libraries with friends and family. If you're here, it means "
+"you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "Download Jellyfin Clients"
+msgstr ""
+
+msgid "Jellyfin has many clients from which you can view our media!"
+msgstr ""
+
+msgid ""
+"Jellyfin works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "⬇️ Download Jellyfin Clients"
+msgstr ""
+
+msgid ""
+"Jellyfin offers great quality, but here's how to make sure you get the best "
+"experience:"
+msgstr ""
+
+msgid "Go to Jellyfin"
+msgstr ""
+
+msgid "Welcome to your digital library"
+msgstr ""
+
+msgid "Great news! You now have access to our comic and manga collection."
+msgstr ""
+
+msgid ""
+"Kavita lets people share their digital libraries with friends. Read comics, "
+"manga, and books directly in your browser or mobile app."
+msgstr ""
+
+msgid "How do I read stuff?"
+msgstr ""
+
+msgid ""
+"Open Kavita in your browser, sign in with your new account, and start "
+"reading. You can also use mobile apps for a better experience."
+msgstr ""
+
+msgid "Open Kavita"
+msgstr ""
+
+msgid "Want to read on your phone?"
+msgstr ""
+
+msgid "Download a comic reader app for the best mobile experience."
+msgstr ""
+
+msgid "Android"
+msgstr ""
+
+msgid "Popular manga reader with Kavita support"
+msgstr ""
+
+msgid "Great for comics and books"
+msgstr ""
+
+msgid "iOS"
+msgstr ""
+
+msgid "Premium comic reader with Kavita integration"
+msgstr ""
+
+msgid "Full-featured comic reader"
+msgstr ""
+
+msgid "Connect your app"
+msgstr ""
+
+msgid "Use this OPDS URL in your reader app:"
+msgstr ""
+
+msgid "Login with your Kavita username and password."
+msgstr ""
+
+msgid "Your library includes"
+msgstr ""
+
+msgid ""
+"Browse collections of comics, manga, light novels, and digital books. "
+"Everything is organized by series and automatically tracks your reading "
+"progress."
+msgstr ""
+
+msgid "Cool features"
+msgstr ""
+
+msgid "Pick up exactly where you left off"
+msgstr ""
+
+msgid "Create custom reading lists"
+msgstr ""
+
+msgid "Find content by title, author, or genre"
+msgstr ""
+
+msgid "Easy on the eyes for night reading"
+msgstr ""
+
+msgid "Get the best reading experience"
+msgstr ""
+
+msgid "Kavita has some handy settings to make reading more comfortable:"
+msgstr ""
+
+msgid "Set reading direction"
+msgstr ""
+
+msgid "Settings → Reader → set manga to right-to-left"
+msgstr ""
+
+msgid "Enable dark mode"
+msgstr ""
+
+msgid "Perfect for night reading"
+msgstr ""
+
+msgid "Use keyboard shortcuts"
+msgstr ""
+
+msgid "Space for next page, arrows to navigate"
+msgstr ""
+
+msgid "What is Komga?"
+msgstr ""
+
+msgid "Welcome to Our Komga Server"
+msgstr ""
+
+msgid ""
+"Great news — you now have access to our **digital comic and manga library** "
+"through Komga!"
+msgstr ""
+
+msgid ""
+"Komga is a free, open-source media server designed specifically for comics, "
+"manga, and digital books. If you're here, it means you've been invited to "
+"join our library — welcome!"
+msgstr ""
+
+msgid "Access to our constantly updated collection of comics and manga"
+msgstr ""
+
+msgid "Read online directly in your browser"
+msgstr ""
+
+msgid "Download for offline reading on your favorite devices"
+msgstr ""
+
+msgid "Track your reading progress automatically"
+msgstr ""
+
+msgid "Support for multiple formats (CBZ, CBR, PDF, EPUB)"
+msgstr ""
+
+msgid "Download Komga Clients"
+msgstr ""
+
+msgid ""
+"Komga has many compatible readers from which you can enjoy your comics and "
+"manga!"
+msgstr ""
+
+msgid "Read Anywhere"
+msgstr ""
+
+msgid ""
+"Komga works with many popular comic readers — install apps on your favorite "
+"devices:"
+msgstr ""
+
+msgid "iOS (Panels, Chunky) & Android (Mihon/Tachiyomi, Komga Client)"
+msgstr ""
+
+msgid "Windows (CDisplayEx, YACReader), macOS & Linux (YACReader)"
+msgstr ""
+
+msgid "Tablets"
+msgstr ""
+
+msgid "iPad & Android tablets with comic reader apps"
+msgstr ""
+
+msgid "Read instantly in your browser at"
+msgstr ""
+
+msgid "E-Readers"
+msgstr ""
+
+msgid "KOReader and other OPDS-compatible readers"
+msgstr ""
+
+msgid "📚 View Compatible Readers"
+msgstr ""
+
+msgid "Library Features"
+msgstr ""
+
+msgid "Komga Features"
+msgstr ""
+
+msgid "Discover all the features available to enhance your reading experience!"
+msgstr ""
+
+msgid "Reading Experience"
+msgstr ""
+
+msgid "Webtoon Mode"
+msgstr ""
+
+msgid "Perfect for manga and webtoons with continuous scrolling"
+msgstr ""
+
+msgid "Page-by-Page"
+msgstr ""
+
+msgid "Traditional comic book reading experience"
+msgstr ""
+
+msgid "Zoom & Pan"
+msgstr ""
+
+msgid "Get detailed views of artwork"
+msgstr ""
+
+msgid "Auto Bookmarks"
+msgstr ""
+
+msgid "Your progress is saved automatically"
+msgstr ""
+
+msgid "Organization"
+msgstr ""
+
+msgid "Series Collections"
+msgstr ""
+
+msgid "Browse comics organized by series"
+msgstr ""
+
+msgid "Custom Collections"
+msgstr ""
+
+msgid "Curated collections by themes and genres"
+msgstr ""
+
+msgid "Smart Tags"
+msgstr ""
+
+msgid "Filter by genres, authors, publishers, and more"
+msgstr ""
+
+msgid "Advanced Search"
+msgstr ""
+
+msgid "Find specific titles instantly"
+msgstr ""
+
+msgid "Personal Features"
+msgstr ""
+
+msgid "Reading Progress"
+msgstr ""
+
+msgid "Track which issues you've completed"
+msgstr ""
+
+msgid "Continue Reading"
+msgstr ""
+
+msgid "Reading Lists"
+msgstr ""
+
+msgid "Create and manage custom reading lists"
+msgstr ""
+
+msgid "On Deck"
+msgstr ""
+
+msgid "See your next suggested reads"
+msgstr ""
+
+msgid ""
+"Komga offers a great reading experience, but here's how to make it even "
+"better:"
+msgstr ""
+
+msgid "Choose the right reader mode"
+msgstr ""
+
+msgid "Use webtoon mode for manga, page-by-page for traditional comics"
+msgstr ""
+
+msgid "Adjust reading direction"
+msgstr ""
+
+msgid "Settings → Reader → set right-to-left for manga"
+msgstr ""
+
+msgid "Easier on your eyes during night reading sessions"
+msgstr ""
+
+msgid "Use full-screen mode"
+msgstr ""
+
+msgid "Press F11 in browser for distraction-free reading"
+msgstr ""
+
+msgid "Download for offline"
+msgstr ""
+
+msgid "Download comics to mobile apps for reading without internet"
+msgstr ""
+
+msgid "Happy reading!"
+msgstr ""
+
+msgid "Go to Komga"
+msgstr ""
+
+msgid "What is Plex?"
+msgstr ""
+
+msgid "Welcome to Our Plex Server"
+msgstr ""
+
+msgid "Great news — you now have access to our **media library** through Plex!"
+msgstr ""
+
+msgid ""
+"Plex lets people share their film and TV libraries with friends and family. "
+"If you're here, it means you've been invited to join ours — welcome!"
+msgstr ""
+
+msgid "Download Plex Clients"
+msgstr ""
+
+msgid "Plex has many clients from which you can view our media!"
+msgstr ""
+
+msgid ""
+"Plex works almost everywhere — install the app on your favourite devices:"
+msgstr ""
+
+msgid "Apple TV, Fire TV, Roku, Chromecast"
+msgstr ""
+
+msgid "⬇️ Download Plex Clients"
+msgstr ""
+
+msgid ""
+"Plex sometimes defaults to low quality or shows its own adverts first. "
+"Here's how to fix that:"
+msgstr ""
+
+msgid "Disable trailers & extras"
+msgstr ""
+
+msgid "Settings → Experience → untick"
+msgstr ""
+
+msgid "Show cinematic trailers"
+msgstr ""
+
+msgid "Original"
+msgstr ""
+
+msgid "Go to Plex"
+msgstr ""
+
+msgid "Welcome to RomM"
+msgstr ""
+
+msgid "Great news! You now have access to our game collection."
+msgstr ""
+
+msgid "Open RomM"
+msgstr ""
+
+#~ msgid ""
+#~ "Overseerr and Jellyseerr automatically import new users by default. No "
+#~ "API connection is required for Wizarr integration."
+#~ msgstr ""
+#~ "Overseerr y Jellyseerr automáticamente importan nuevos usuarios. No se "
+#~ "requiere conexión API para la integración con Wizarr."
+
+#~ msgid "To enable auto-import:"
+#~ msgstr "Para activar auto-importación:"
+
+#~ msgid ""
+#~ "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
+#~ "new users' and 'Import Jellyfin/Plex users'"
+#~ msgstr ""
+#~ "Vaya a los Ajustes de su Overseerr/Jellyseerr → Usuarios → Activar 'Auto-"
+#~ "aprobar nuevos usuarios' e 'Importar usuarios de Jellyfin/Plex'"
+
+#~ msgid "Open your Overseerr/Jellyseerr admin panel"
+#~ msgstr "Abra su panel administrador de Overseerr/Jellyseerr"
+
+#~ msgid "Navigate to Settings → Users"
+#~ msgstr "Navegue a Ajustes → Usuarios"
+
+#~ msgid "Enable 'Auto-approve new users'"
+#~ msgstr "Active 'Auto-aprobar nuevos usuarios'"
+
+#~ msgid "Enable 'Import Jellyfin/Plex users'"
+#~ msgstr "Active 'Importar usuarios de Jellyfin/Plex'"
+
+#~ msgid "No one is watching"
+#~ msgstr "Nadie está reproduciendo"
+
+#~ msgid "Edit expiry"
+#~ msgstr "Modificar la fecha de vencimiento"
+
+#~ msgid "Server-specific Expiry Management"
+#~ msgstr "Gestión de la Expiración Específica de Servidor"
+
+#~ msgid ""
+#~ "This user exists on multiple servers. You can set different expiry dates "
+#~ "for each server."
+#~ msgstr ""
+#~ "Este usuario existe en múltiples servidores. Puede establecer diferentes "
+#~ "fechas de expiración para cada servidor."
+
+#~ msgid "Expiry date (leave blank for never)"
+#~ msgstr "Fecha de vencimiento (dejar en blanco si no caduca)"
+
+#~ msgid "Invitation Details"
+#~ msgstr "Detalles de Invitación"
+
+#~ msgid "Code"
+#~ msgstr "Código"
+
+#~ msgid "Invitation expires"
+#~ msgstr "La invitación vence en"
 
 #~ msgid ""
 #~ "Request\n"
@@ -424,9 +3107,8 @@ msgstr "Siguiente"
 
 #~ msgid "That email does not match any Plex account. Please try again."
 #~ msgstr ""
-#~ "El email no coincide con ninguna "
-#~ "cuenta de Plex. Por favor, pruebe "
-#~ "de nuevo."
+#~ "El email no coincide con ninguna cuenta de Plex. Por favor, pruebe de "
+#~ "nuevo."
 
 #~ msgid "This user is already invited to this server."
 #~ msgstr "El usuario ya fue invitado a este servidor."
@@ -436,59 +3118,42 @@ msgstr "Siguiente"
 
 #~ msgid "Something went wrong. Please try again or contact an administrator."
 #~ msgstr ""
-#~ "Algo fue mal. Por favor, prueba de"
-#~ " nuevo o contacta con el "
-#~ "administrador."
+#~ "Algo fue mal. Por favor, prueba de nuevo o contacta con el administrador."
 
 #~ msgid "I've logged in but I am overwhelmed with content!"
 #~ msgstr "¡He iniciado sesión pero estoy abrumado con el contenido!"
 
 #~ msgid ""
-#~ "While Plex is a free service, they"
-#~ " do have to generate revenue in "
-#~ "order to continue providing the "
-#~ "platform. One way they do this is"
-#~ " by displaying their own content "
-#~ "before the content of the server "
-#~ "you are joining."
+#~ "While Plex is a free service, they do have to generate revenue in order "
+#~ "to continue providing the platform. One way they do this is by displaying "
+#~ "their own content before the content of the server you are joining."
 #~ msgstr ""
-#~ "Aunque Plex es un servicio gratuito, "
-#~ "tiene que generar ingresos para seguir"
-#~ " ofreciendo la plataforma. Una forma "
-#~ "de hacerlo es mostrando su propio "
-#~ "contenido antes que el del servidor "
-#~ "al que te unes."
+#~ "Aunque Plex es un servicio gratuito, tiene que generar ingresos para "
+#~ "seguir ofreciendo la plataforma. Una forma de hacerlo es mostrando su "
+#~ "propio contenido antes que el del servidor al que te unes."
 
-#~ msgid "On the left-hand side of your screen, you'll see a menu. Click on the "
+#~ msgid ""
+#~ "On the left-hand side of your screen, you'll see a menu. Click on the "
 #~ msgstr "En el lado izquierdo de la pantalla, verá un menú. Haga clic en el "
 
 #~ msgid "More"
 #~ msgstr "Expandir"
 
-#~ msgid "button to reveal all the different types of media you have access to."
+#~ msgid ""
+#~ "button to reveal all the different types of media you have access to."
 #~ msgstr ""
-#~ "para revelar todos los diferentes tipos"
-#~ " de medios a los que tiene "
-#~ "acceso."
+#~ "para revelar todos los diferentes tipos de medios a los que tiene acceso."
 
 #~ msgid ""
-#~ "To avoid seeing Plex's content first,"
-#~ " we recommend hiding it. To do "
-#~ "this, select all the content types "
-#~ "you don't want (such as 'Movies "
-#~ "and TV on Plex') and 'Unpin' them"
-#~ " from your home screen. This way "
-#~ "you'll only see the content that "
-#~ "you really want to watch!"
+#~ "To avoid seeing Plex's content first, we recommend hiding it. To do this, "
+#~ "select all the content types you don't want (such as 'Movies and TV on "
+#~ "Plex') and 'Unpin' them from your home screen. This way you'll only see "
+#~ "the content that you really want to watch!"
 #~ msgstr ""
-#~ "Para evitar ver primero el contenido "
-#~ "de Plex, te recomendamos ocultarlo. Para"
-#~ " ello, selecciona todos los tipos de"
-#~ " contenido que no quieras (como "
-#~ "'Películas y TV en Plex') y "
-#~ "'desanclalos' de tu pantalla de inicio."
-#~ " De esta forma, ¡solo verás el "
-#~ "contenido que realmente quieres ver!"
+#~ "Para evitar ver primero el contenido de Plex, te recomendamos ocultarlo. "
+#~ "Para ello, selecciona todos los tipos de contenido que no quieras (como "
+#~ "'Películas y TV en Plex') y 'desanclalos' de tu pantalla de inicio. De "
+#~ "esta forma, ¡solo verás el contenido que realmente quieres ver!"
 
 #~ msgid "Now that everything we"
 #~ msgstr "Ahora que todo lo que"
@@ -505,25 +3170,16 @@ msgstr "Siguiente"
 #~ msgid " want!"
 #~ msgstr " ¡Quiero!"
 
-#~ msgid "Simply pin the Movies/TV Shows sections of %(name)s!"
-#~ msgstr ""
-
 #~ msgid ""
-#~ "By default, Plex plays all content "
-#~ "at a lower quality. This can be"
-#~ " a bit of a disappointment. But "
-#~ "don't worry, it's a simple fix! "
-#~ "You can easily change the settings "
-#~ "to increase the quality of the "
-#~ "media that you're streaming."
+#~ "By default, Plex plays all content at a lower quality. This can be a bit "
+#~ "of a disappointment. But don't worry, it's a simple fix! You can easily "
+#~ "change the settings to increase the quality of the media that you're "
+#~ "streaming."
 #~ msgstr ""
-#~ "Por defecto, Plex reproduce todos los"
-#~ " contenidos con una calidad inferior. "
-#~ "Esto puede ser un poco decepcionante."
-#~ " Pero no te preocupes, ¡tiene fácil"
-#~ " solución! Puedes cambiar fácilmente la "
-#~ "configuración para aumentar la calidad "
-#~ "del contenido que estás reproduciendo."
+#~ "Por defecto, Plex reproduce todos los contenidos con una calidad "
+#~ "inferior. Esto puede ser un poco decepcionante. Pero no te preocupes, "
+#~ "¡tiene fácil solución! Puedes cambiar fácilmente la configuración para "
+#~ "aumentar la calidad del contenido que estás reproduciendo."
 
 #~ msgid "Go to the Plex "
 #~ msgstr "Ir a Plex "
@@ -532,13 +3188,11 @@ msgstr "Siguiente"
 #~ msgstr "Ajustes "
 
 #~ msgid ""
-#~ "page. This is usually in the top"
-#~ " right hand corner, depending on the"
-#~ " device you are on."
+#~ "page. This is usually in the top right hand corner, depending on the "
+#~ "device you are on."
 #~ msgstr ""
-#~ "página. Suele estar en la esquina "
-#~ "superior derecha, dependiendo del dispositivo"
-#~ " en el que te encuentres."
+#~ "página. Suele estar en la esquina superior derecha, dependiendo del "
+#~ "dispositivo en el que te encuentres."
 
 #~ msgid "Go to the "
 #~ msgstr "Ir al "
@@ -571,20 +3225,14 @@ msgstr "Siguiente"
 #~ msgstr "Streaming local "
 
 #~ msgid ""
-#~ "And there you have it! In case "
-#~ "you encounter buffering issues, remember "
-#~ "that you can always adjust the "
-#~ "playback quality just like you do "
-#~ "in YouTube. This way you can get"
-#~ " the best streaming experience possible."
+#~ "And there you have it! In case you encounter buffering issues, remember "
+#~ "that you can always adjust the playback quality just like you do in "
+#~ "YouTube. This way you can get the best streaming experience possible."
 #~ msgstr ""
-#~ "¡Y ahí lo tienes! En caso de "
-#~ "que encuentre problemas de almacenamiento "
-#~ "en búfer, recuerde que siempre puede "
-#~ "ajustar la calidad de reproducción como"
-#~ " lo hace en YouTube. De esta "
-#~ "manera, puede obtener la mejor "
-#~ "experiencia de transmisión posible."
+#~ "¡Y ahí lo tienes! En caso de que encuentre problemas de almacenamiento en "
+#~ "búfer, recuerde que siempre puede ajustar la calidad de reproducción como "
+#~ "lo hace en YouTube. De esta manera, puede obtener la mejor experiencia de "
+#~ "transmisión posible."
 
 #~ msgid "Join our Discord Server"
 #~ msgstr "Únete a nuestro servidor de Discord"
@@ -599,89 +3247,61 @@ msgstr "Siguiente"
 #~ msgstr "Únete y descarga Plex para este dispositivo"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
-#~ "make sure you know how to use "
-#~ "it with Plex."
+#~ "Great news! You now have access to our server's media collection. Let's "
+#~ "make sure you know how to use it with Plex."
 #~ msgstr ""
-#~ "¡Buenas noticias! Ahora tiene acceso a"
-#~ " la colección de medios de nuestro"
-#~ " servidor. Asegurémonos de que sepa "
-#~ "cómo usarlo con Plex."
+#~ "¡Buenas noticias! Ahora tiene acceso a la colección de medios de nuestro "
+#~ "servidor. Asegurémonos de que sepa cómo usarlo con Plex."
 
 #~ msgid "Skip"
 #~ msgstr "Saltar"
 
 #~ msgid ""
-#~ "Congratulations on joining %(name)s! You're"
-#~ " now one step closer to enjoying "
-#~ "all kinds of amazing\n"
+#~ "Congratulations on joining %(name)s! You're now one step closer to "
+#~ "enjoying all kinds of amazing\n"
 #~ "        content."
 #~ msgstr ""
-#~ "¡Enhorabuena por aceptar la invitación "
-#~ "por correo electrónico de Plex! Ahora"
-#~ " estás un paso más cerca de "
-#~ "disfrutar de todo el increíble contenido"
-#~ " de nuestro servidor. "
+#~ "¡Enhorabuena por aceptar la invitación por correo electrónico de Plex! "
+#~ "Ahora estás un paso más cerca de disfrutar de todo el increíble contenido "
+#~ "de nuestro servidor. "
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "      you've received this invitation, "
-#~ "it means someone wants to share "
-#~ "their library with you. With Plex, "
-#~ "you'll have\n"
-#~ "      access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "      you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "      access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "¡Buena pregunta! Plex es un software "
-#~ "que permite a las personas compartir "
-#~ "sus colecciones de medios con otros. "
-#~ "Si recibiste una invitación, significa "
-#~ "que alguien quiere compartir su "
-#~ "biblioteca contigo. Plex le brinda "
-#~ "acceso a todas las películas, programas"
-#~ " de TV, música y fotos almacenadas"
-#~ " en el servidor. ¡Que te diviertas!"
+#~ "¡Buena pregunta! Plex es un software que permite a las personas compartir "
+#~ "sus colecciones de medios con otros. Si recibiste una invitación, "
+#~ "significa que alguien quiere compartir su biblioteca contigo. Plex le "
+#~ "brinda acceso a todas las películas, programas de TV, música y fotos "
+#~ "almacenadas en el servidor. ¡Que te diviertas!"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "      smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "      smartphones, and TVs. All you need to do is download the Plex app "
+#~ "on your device, sign in with your account, and\n"
 #~ "      you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "¡No podría ser más simple! Plex "
-#~ "está disponible en una amplia variedad"
-#~ " de dispositivos, incluidos portátiles, "
-#~ "tabletas, teléfonos inteligentes y "
-#~ "televisores. Todo lo que necesita hacer"
-#~ " es descargar la aplicación Plex en"
-#~ " su dispositivo, iniciar sesión con "
-#~ "su cuenta y estará listo para "
-#~ "comenzar a transmitir sus medios. ¡Así"
-#~ " de fácil!"
+#~ "¡No podría ser más simple! Plex está disponible en una amplia variedad de "
+#~ "dispositivos, incluidos portátiles, tabletas, teléfonos inteligentes y "
+#~ "televisores. Todo lo que necesita hacer es descargar la aplicación Plex "
+#~ "en su dispositivo, iniciar sesión con su cuenta y estará listo para "
+#~ "comenzar a transmitir sus medios. ¡Así de fácil!"
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "      sharing with you - they "
-#~ "also, by default, play content at "
-#~ "a lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the "
+#~ "awesome content your friend is now\n"
+#~ "      sharing with you - they also, by default, play content at a lower "
+#~ "quality. "
 #~ msgstr ""
-#~ "Debido a que Plex es un servicio"
-#~ " gratuito, promocionan su propio contenido"
-#~ " antes que el increíble contenido que"
-#~ " tu amigo ahora comparte contigo; "
-#~ "también, de forma predeterminada, reproducen"
-#~ " contenido de menor calidad."
+#~ "Debido a que Plex es un servicio gratuito, promocionan su propio "
+#~ "contenido antes que el increíble contenido que tu amigo ahora comparte "
+#~ "contigo; también, de forma predeterminada, reproducen contenido de menor "
+#~ "calidad."
 
 #~ msgid ""
 #~ "We highly\n"
@@ -692,13 +3312,11 @@ msgstr "Siguiente"
 #~ msgstr "¡Has sido invitado a unirte %(name)s!"
 
 #~ msgid ""
-#~ "To join our Plex server, create a"
-#~ " Plex account! Once you're done, come"
-#~ " back here!"
+#~ "To join our Plex server, create a Plex account! Once you're done, come "
+#~ "back here!"
 #~ msgstr ""
-#~ "Para unirte a nuestro servidor Plex, "
-#~ "¡crea una cuenta de Plex! Una vez"
-#~ " que hayas terminado, ¡vuelve aquí!"
+#~ "Para unirte a nuestro servidor Plex, ¡crea una cuenta de Plex! Una vez "
+#~ "que hayas terminado, ¡vuelve aquí!"
 
 #~ msgid "Create Plex Account"
 #~ msgstr "Crear cuenta en Plex"
@@ -709,15 +3327,6 @@ msgstr "Siguiente"
 #~ msgid "Used At"
 #~ msgstr "Usado en"
 
-#~ msgid "Copy"
-#~ msgstr "Copiar"
-
-#~ msgid "Delete"
-#~ msgstr "Eliminar"
-
-#~ msgid "Accept Invitation"
-#~ msgstr "Aceptar invitación"
-
 #~ msgid "Accept our invitation"
 #~ msgstr "Aceptar nuestra invitación"
 
@@ -725,19 +3334,14 @@ msgstr "Siguiente"
 #~ msgstr "¡Hemos enviado una invitación a tu cuenta de Plex! ¡Ya casi está!"
 
 #~ msgid ""
-#~ "Click the button below to be taken"
-#~ " to Plex, here you will see an"
-#~ " invitation from us."
+#~ "Click the button below to be taken to Plex, here you will see an "
+#~ "invitation from us."
 #~ msgstr ""
-#~ "Haz clic en el botón de debajo "
-#~ "para ir a Plex, aquí verás nuestra"
-#~ " invitación."
+#~ "Haz clic en el botón de debajo para ir a Plex, aquí verás nuestra "
+#~ "invitación."
 
 #~ msgid "Accept"
 #~ msgstr "Aceptar"
-
-#~ msgid "Next"
-#~ msgstr "Siguiente"
 
 #~ msgid "Great! Now, let's get you invited!"
 #~ msgstr "¡Magnífico! Ahora, ¡vamos a invitarte!"
@@ -768,14 +3372,12 @@ msgstr "Siguiente"
 
 #~ msgid ""
 #~ "Environment Variables are being\n"
-#~ "                    deprecated and replaced by"
-#~ " a secure sign-up. Please visit \n"
-#~ ""
+#~ "                    deprecated and replaced by a secure sign-up. Please "
+#~ "visit \n"
 #~ "\n"
 #~ msgstr ""
-#~ "Las variables de entorno están en "
-#~ "desuso y se reemplazan por un "
-#~ "registro seguro. Por favor, visite "
+#~ "Las variables de entorno están en desuso y se reemplazan por un registro "
+#~ "seguro. Por favor, visite "
 
 #~ msgid ""
 #~ "/settings.\n"
@@ -831,9 +3433,6 @@ msgstr "Siguiente"
 #~ msgid "User"
 #~ msgstr "Usuario"
 
-#~ msgid "Home User"
-#~ msgstr "Usuario local"
-
 #~ msgid "Passwords do not match."
 #~ msgstr "Las contraseñas no coinciden."
 
@@ -849,17 +3448,14 @@ msgstr "Siguiente"
 #~ msgid "It is likely that your token does not work."
 #~ msgstr "Parece que tu token no funciona."
 
-#~ msgid "Unable to connect to your Plex server. See Logs for more information."
+#~ msgid ""
+#~ "Unable to connect to your Plex server. See Logs for more information."
 #~ msgstr ""
-#~ "Imposible conectar con tu servidor de"
-#~ " Plex. Mire los Logs para más "
+#~ "Imposible conectar con tu servidor de Plex. Mire los Logs para más "
 #~ "información."
 
 #~ msgid "Unable to connect to your Jellyfin server."
 #~ msgstr "Imposible conectarse a tu servidor de Jellyfin."
-
-#~ msgid "Confirm password"
-#~ msgstr "Confirmar contraseña"
 
 #~ msgid ""
 #~ "Server Display\n"
@@ -867,12 +3463,6 @@ msgstr "Siguiente"
 #~ msgstr ""
 #~ "Nombre público\n"
 #~ "                del servidor"
-
-#~ msgid "Server"
-#~ msgstr "Servidor"
-
-#~ msgid "Server URL"
-#~ msgstr "URL del servidor"
 
 #~ msgid ""
 #~ "Server\n"
@@ -897,8 +3487,7 @@ msgstr "Siguiente"
 
 #~ msgid "Ombi API Key (Only used for user import currently.)"
 #~ msgstr ""
-#~ "Ombi API Key (Sólo se utiliza "
-#~ "actualmente para la importación de "
+#~ "Ombi API Key (Sólo se utiliza actualmente para la importación de "
 #~ "usuarios.)"
 
 #~ msgid ""
@@ -925,35 +3514,26 @@ msgstr "Siguiente"
 #~ msgstr "Solicitudes automáticas de medios"
 
 #~ msgid ""
-#~ "We are excited to offer you a "
-#~ "wide selection of media to choose "
-#~ "from. If you're having trouble finding"
-#~ "\n"
-#~ "    something you like, don't worry! "
-#~ "We have a user-friendly request "
-#~ "system that can automatically search for"
-#~ " the\n"
+#~ "We are excited to offer you a wide selection of media to choose from. If "
+#~ "you're having trouble finding\n"
+#~ "    something you like, don't worry! We have a user-friendly request "
+#~ "system that can automatically search for the\n"
 #~ "    media you're looking for. "
 #~ msgstr ""
-#~ "Nos complace ofrecerle una amplia "
-#~ "selección de contenido multimedia entre "
+#~ "Nos complace ofrecerle una amplia selección de contenido multimedia entre "
 #~ "la que elegir.\n"
-#~ "Si tiene problemas para encontrar algo"
-#~ " que le guste, ¡no se preocupe! "
-#~ "Tenemos un sistema de solicitud fácil"
-#~ " de usar\n"
+#~ "Si tiene problemas para encontrar algo que le guste, ¡no se preocupe! "
+#~ "Tenemos un sistema de solicitud fácil de usar\n"
 #~ "que puede buscar automáticamente el contenido que buscas. "
 
 #~ msgid "Request any available Movie or TV Show"
 #~ msgstr "Solicitar cualquier película o programa de televisión disponible"
 
 #~ msgid ""
-#~ "Requested media will be automatically "
-#~ "downloaded and added to the library "
+#~ "Requested media will be automatically downloaded and added to the library "
 #~ "(if available)"
 #~ msgstr ""
-#~ "Los medios solicitados se descargarán "
-#~ "automáticamente y se añadirán a la "
+#~ "Los medios solicitados se descargarán automáticamente y se añadirán a la "
 #~ "biblioteca (si está disponible)"
 
 #~ msgid "If enabled, receive notifications"
@@ -970,25 +3550,19 @@ msgstr "Siguiente"
 #~ "para este dispositivo"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Jellyfin."
 #~ msgstr ""
-#~ "¡Buenas noticias! Ahora tienes acceso a"
-#~ " la colección de medios de nuestro"
-#~ " servidor. Asegurémonos de que sabes\n"
-#~ ""
+#~ "¡Buenas noticias! Ahora tienes acceso a la colección de medios de nuestro "
+#~ "servidor. Asegurémonos de que sabes\n"
 #~ "cómo usarla con Jellyfin."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Jellyfin for this "
+#~ "Planning on watching Movies on this device? Download Jellyfin for this "
 #~ "device."
 #~ msgstr ""
-#~ "¿Planeando ver películas en este "
-#~ "dispositivo? Descarga Jellyfin para este "
+#~ "¿Planeando ver películas en este dispositivo? Descarga Jellyfin para este "
 #~ "dispositivo."
 
 #~ msgid "Download"
@@ -998,60 +3572,40 @@ msgstr "Siguiente"
 #~ msgstr "Eh, entonces, ¿Qué es Jellyfin exactamente?"
 
 #~ msgid ""
-#~ "Jellyfin is a platform that lets "
-#~ "you stream all your favorite movies, "
-#~ "TV shows, and music in one place."
-#~ "\n"
-#~ "        It's like having your own "
-#~ "personal movie theater right at your "
-#~ "fingertips! Think of it as a "
-#~ "digital library of\n"
-#~ "        your favorite content that you"
-#~ " can access from anywhere, on any "
-#~ "device - your phone, tablet, laptop, "
-#~ "smart TV,\n"
+#~ "Jellyfin is a platform that lets you stream all your favorite movies, TV "
+#~ "shows, and music in one place.\n"
+#~ "        It's like having your own personal movie theater right at your "
+#~ "fingertips! Think of it as a digital library of\n"
+#~ "        your favorite content that you can access from anywhere, on any "
+#~ "device - your phone, tablet, laptop, smart TV,\n"
 #~ "        you name it."
 #~ msgstr ""
-#~ "Jellyfin es una plataforma que te "
-#~ "permite transmitir todas tu películas, "
-#~ "series de TV y música favoritas en"
-#~ " un solo lugar.\n"
-#~ "        Es como tener tu propia "
-#~ "sala de cine en la punta de "
-#~ "tus dedos! Piénsalo como una librería"
-#~ " digital de\n"
-#~ "        tu contenido favorito al cual"
-#~ " puedes acceder desde cualquier lado, "
-#~ "en cualquier dispositivo - tu móvil, "
-#~ "tablet, portátil, smart TV,\n"
+#~ "Jellyfin es una plataforma que te permite transmitir todas tu películas, "
+#~ "series de TV y música favoritas en un solo lugar.\n"
+#~ "        Es como tener tu propia sala de cine en la punta de tus dedos! "
+#~ "Piénsalo como una librería digital de\n"
+#~ "        tu contenido favorito al cual puedes acceder desde cualquier "
+#~ "lado, en cualquier dispositivo - tu móvil, tablet, portátil, smart TV,\n"
 #~ "        el que te plazca."
 
 #~ msgid "Right, so how do I watch stuff?"
 #~ msgstr "Bien, entonces, ¿Cómo veo los medios?"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Jellyfin is "
-#~ "available on a wide variety of "
+#~ "It couldn't be simpler! Jellyfin is available on a wide variety of "
 #~ "devices including laptops, tablets,\n"
-#~ "        smartphones, and TVs. All you"
-#~ " need to do is download the "
-#~ "Jellyfin app on your device, sign "
-#~ "in with your account,\n"
+#~ "        smartphones, and TVs. All you need to do is download the Jellyfin "
+#~ "app on your device, sign in with your account,\n"
 #~ "        and\n"
 #~ "        you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "¡No podría ser más simple! Jellyfin "
-#~ "está disponible en una amplia variedad"
-#~ " de dispositivos, incluidos portátiles, "
-#~ "tabletas,\n"
-#~ "        teléfonos inteligentes y televisores."
-#~ " Todo lo que necesitas hacer es "
-#~ "descargar la aplicación Jellyfin en tu"
-#~ " dispositivo, iniciar sesión con tu "
-#~ "cuenta\n"
+#~ "¡No podría ser más simple! Jellyfin está disponible en una amplia "
+#~ "variedad de dispositivos, incluidos portátiles, tabletas,\n"
+#~ "        teléfonos inteligentes y televisores. Todo lo que necesitas hacer "
+#~ "es descargar la aplicación Jellyfin en tu dispositivo, iniciar sesión con "
+#~ "tu cuenta\n"
 #~ "        y\n"
-#~ "        estarás listo para comenzar a"
-#~ " transmitir tus medios. ¡Así de "
+#~ "        estarás listo para comenzar a transmitir tus medios. ¡Así de "
 #~ "fácil!"
 
 #~ msgid "Open Jellyfin"
@@ -1065,98 +3619,69 @@ msgstr "Siguiente"
 #~ "para este dispositivo"
 
 #~ msgid ""
-#~ "Great news! You now have access to"
-#~ " our server's media collection. Let's "
+#~ "Great news! You now have access to our server's media collection. Let's "
 #~ "make sure you know how to use\n"
-#~ ""
 #~ "        it with Plex."
 #~ msgstr ""
-#~ "¡Buenas noticias! Ahora tienes acceso a"
-#~ " la colección de medios de nuestro"
-#~ " servidor.\n"
+#~ "¡Buenas noticias! Ahora tienes acceso a la colección de medios de nuestro "
+#~ "servidor.\n"
 #~ "Asegurémonos de que sabes cómo usarla con Plex."
 
 #~ msgid ""
-#~ "Planning on watching Movies on this "
-#~ "device? Download Plex for this device."
+#~ "Planning on watching Movies on this device? Download Plex for this device."
 #~ msgstr ""
-#~ "¿Planeando ver películas en este "
-#~ "dispositivo? Descarga Plex para este "
+#~ "¿Planeando ver películas en este dispositivo? Descarga Plex para este "
 #~ "dispositivo."
 
 #~ msgid "Eh, So, What is Plex exactly?"
 #~ msgstr "Eh, entonces, ¿Qué es Plex exactamente?"
 
 #~ msgid ""
-#~ "Great question! Plex is a software "
-#~ "that allows individuals to share their"
-#~ " media collections with others. If\n"
-#~ "    you've received this invitation, it"
-#~ " means someone wants to share their"
-#~ " library with you. With Plex, you'll"
-#~ " have\n"
-#~ "    access to all of the movies,"
-#~ " TV shows, music, and photos that "
-#~ "are stored on their server. Enjoy!"
+#~ "Great question! Plex is a software that allows individuals to share their "
+#~ "media collections with others. If\n"
+#~ "    you've received this invitation, it means someone wants to share "
+#~ "their library with you. With Plex, you'll have\n"
+#~ "    access to all of the movies, TV shows, music, and photos that are "
+#~ "stored on their server. Enjoy!"
 #~ msgstr ""
-#~ "¡Buena pregunta! Plex es un software "
-#~ "que permite a las personas compartir "
-#~ "sus colecciones de medios con otros."
-#~ "\n"
-#~ "Si recibiste una invitación, significa "
-#~ "que alguien quiere compartir su "
+#~ "¡Buena pregunta! Plex es un software que permite a las personas compartir "
+#~ "sus colecciones de medios con otros.\n"
+#~ "Si recibiste una invitación, significa que alguien quiere compartir su "
 #~ "biblioteca contigo.\n"
-#~ "Plex te brinda acceso a todas las"
-#~ " películas, programas de TV, música y"
-#~ " fotos almacenadas en el servidor. "
-#~ "¡Que te diviertas!"
+#~ "Plex te brinda acceso a todas las películas, programas de TV, música y "
+#~ "fotos almacenadas en el servidor. ¡Que te diviertas!"
 
 #~ msgid ""
-#~ "It couldn't be simpler! Plex is "
-#~ "available on a wide variety of "
-#~ "devices including laptops, tablets,\n"
-#~ "    smartphones, and TVs. All you "
-#~ "need to do is download the Plex"
-#~ " app on your device, sign in "
-#~ "with your account, and\n"
+#~ "It couldn't be simpler! Plex is available on a wide variety of devices "
+#~ "including laptops, tablets,\n"
+#~ "    smartphones, and TVs. All you need to do is download the Plex app on "
+#~ "your device, sign in with your account, and\n"
 #~ "    you're ready to start streaming your media. It's that easy!"
 #~ msgstr ""
-#~ "¡No podría ser más simple! Plex "
-#~ "está disponible en una amplia variedad"
-#~ " de dispositivos, incluidos portátiles, "
-#~ "tabletas,\n"
-#~ "teléfonos inteligentes y televisores. Todo "
-#~ "lo que necesitas hacer es descargar "
-#~ "la aplicación Plex en tu dispositivo,"
-#~ " iniciar sesión\n"
-#~ "con tu cuenta y estarás listo para"
-#~ " comenzar a transmitir tus medios. "
-#~ "¡Así de fácil!"
+#~ "¡No podría ser más simple! Plex está disponible en una amplia variedad de "
+#~ "dispositivos, incluidos portátiles, tabletas,\n"
+#~ "teléfonos inteligentes y televisores. Todo lo que necesitas hacer es "
+#~ "descargar la aplicación Plex en tu dispositivo, iniciar sesión\n"
+#~ "con tu cuenta y estarás listo para comenzar a transmitir tus medios. ¡Así "
+#~ "de fácil!"
 
 #~ msgid "How can I make sure to have the best experience?"
 #~ msgstr "¿Cómo puedo asegurarme de tener la mejor experiencia?"
 
 #~ msgid ""
-#~ "Because Plex is a free service, "
-#~ "they promote their own content before"
-#~ " the awesome content your friend is"
-#~ " now\n"
-#~ "    sharing with you - they also,"
-#~ " by default, play content at a "
-#~ "lower quality. "
+#~ "Because Plex is a free service, they promote their own content before the "
+#~ "awesome content your friend is now\n"
+#~ "    sharing with you - they also, by default, play content at a lower "
+#~ "quality. "
 #~ msgstr ""
-#~ "Debido a que Plex es un servicio"
-#~ " gratuito, promocionan su propio contenido"
-#~ " antes que el increíble contenido\n"
-#~ "que tu amigo ahora comparte contigo "
-#~ "- también, de forma predeterminada, "
-#~ "reproducen el contenido a menor calidad."
-#~ " "
+#~ "Debido a que Plex es un servicio gratuito, promocionan su propio "
+#~ "contenido antes que el increíble contenido\n"
+#~ "que tu amigo ahora comparte contigo - también, de forma predeterminada, "
+#~ "reproducen el contenido a menor calidad. "
 
 #~ msgid "No need to worry though, this can be easily resolved"
 #~ msgstr ""
-#~ "Sin embargo, no hay necesidad de "
-#~ "preocuparse, esto se puede resolver "
+#~ "Sin embargo, no hay necesidad de preocuparse, esto se puede resolver "
 #~ "fácilmente"
 
 #~ msgid ""
@@ -1170,7 +3695,8 @@ msgstr "Siguiente"
 #~ msgstr "Configura Plex en tu navegador"
 
 #~ msgid "Configure Plex's app on your computer, mobile device or TV"
-#~ msgstr "Configura la aplicación de Plex en tu ordenador, dispositivo móvil o TV"
+#~ msgstr ""
+#~ "Configura la aplicación de Plex en tu ordenador, dispositivo móvil o TV"
 
 #~ msgid "Open Plex"
 #~ msgstr "Abre Plex"
@@ -1181,8 +3707,88 @@ msgstr "Siguiente"
 #~ msgid "User Policy"
 #~ msgstr "Política de privacidad"
 
-#~ msgid "Name"
-#~ msgstr "Nombre"
+#~ msgid "Home"
+#~ msgstr "Inicio"
 
-#~ msgid "Actions"
-#~ msgstr "Medidas"
+#~ msgid "Server settings"
+#~ msgstr "Ajustes del servidor"
+
+#~ msgid "Notification agents"
+#~ msgstr "Agentes de notificaciones"
+
+#~ msgid "Oops!"
+#~ msgstr "¡Uy!"
+
+#~ msgid ""
+#~ "Confirm\n"
+#~ "                                password"
+#~ msgstr ""
+#~ "Confirmar\n"
+#~ "                                contraseña"
+
+#~ msgid ""
+#~ "Invite\n"
+#~ "                                Code"
+#~ msgstr ""
+#~ "Código\n"
+#~ "                                de invitación"
+
+#~ msgid "Invite user"
+#~ msgstr "Invitar usuario"
+
+#~ msgid ""
+#~ "Specific\n"
+#~ "                                Libraries"
+#~ msgstr ""
+#~ "Especificar\n"
+#~ "                                bibliotecas"
+
+#~ msgid "Back"
+#~ msgstr "Atrás"
+
+#~ msgid "Share"
+#~ msgstr "Compartir"
+
+#~ msgid ""
+#~ "Username\n"
+#~ "                                (optional)"
+#~ msgstr ""
+#~ "Nombre de usuario\n"
+#~ "                                (opcional)"
+
+#~ msgid ""
+#~ "Agent\n"
+#~ "                                URL"
+#~ msgstr ""
+#~ "Agente\n"
+#~ "                                URL"
+
+#~ msgid "Notifications"
+#~ msgstr "Notificaciones"
+
+#~ msgid "Optional, leave empty to disable"
+#~ msgstr "Opcional (déjalo en blanco para desactivar)"
+
+#~ msgid "Available"
+#~ msgstr "Disponible"
+
+#~ msgid "Limit"
+#~ msgstr "Límite"
+
+#~ msgid "libs"
+#~ msgstr "bibliotecas"
+
+#~ msgid "Downloads disabled"
+#~ msgstr "Descargas desactivadas"
+
+#~ msgid "Pre-Invite"
+#~ msgstr "Vista Previa"
+
+#~ msgid "Post-Invite"
+#~ msgstr "Invitado"
+
+#~ msgid "Add step"
+#~ msgstr "Añadir paso"
+
+#~ msgid "Partial"
+#~ msgstr "opcional"

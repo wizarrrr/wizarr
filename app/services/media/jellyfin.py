@@ -1,46 +1,52 @@
 import logging
-import re
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import requests
+import structlog
 from sqlalchemy import or_
 
 from app.extensions import db
 from app.models import Invitation, Library, User
 from app.services.invites import is_invite_valid
 
-from .client_base import RestApiMixin, register_media_client
-from .utils import (
-    DateHelper,
-    LibraryAccessHelper,
-    StandardizedPermissions,
-    create_standardized_user_details,
-)
+from .auth_headers import media_browser_auth_headers
+from .client_base import EMAIL_RE, RestApiMixin, register_media_client
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
 
-EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
+# Resized image requests. Jellyfin and Emby both accept maxWidth, maxHeight
+# and quality, and they only make an image smaller, never larger.
+# The join page shows posters at about 120x160 px. 240 px wide is sharp on a
+# 2x display.
+POSTER_IMAGE_PARAMS = "maxWidth=240&quality=80"
+# The now-playing card shows the poster at about 128x192 px.
+NOW_PLAYING_POSTER_PARAMS = "maxHeight=400&quality=85"
+# The now-playing card shows the backdrop blurred, so a small image is enough.
+NOW_PLAYING_BACKDROP_PARAMS = "maxWidth=480&quality=60"
 
 
 @register_media_client("jellyfin")
 class JellyfinClient(RestApiMixin):
     """Wrapper around the Jellyfin REST API using credentials from Settings."""
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_jellyfin
+
+        return check_jellyfin(url, token)
+
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("url_key", "server_url")
         kwargs.setdefault("token_key", "api_key")
         super().__init__(*args, **kwargs)
 
-    def _headers(self) -> dict[str, str]:  # type: ignore[override]
-        """Return default headers including X-Emby-Token if available."""
-        headers = {"Accept": "application/json"}
-        if self.token:
-            headers["X-Emby-Token"] = self.token
-        return headers
+    def _headers(self) -> dict[str, str]:  # type: ignore
+        """Return default headers for Jellyfin API requests."""
+        return media_browser_auth_headers(self.token)
 
     def libraries(self) -> dict[str, str]:
-        """Return mapping of library_id → display_name."""
+        """Return mapping of library_id → library_name."""
         try:
             items = self.get("/Library/MediaFolders").json()["Items"]
             return {item["Id"]: item["Name"] for item in items}
@@ -62,10 +68,9 @@ class JellyfinClient(RestApiMixin):
         """
         try:
             if url and token:
-                headers = {"X-Emby-Token": token}
                 response = requests.get(
                     f"{url.rstrip('/')}/Library/MediaFolders",
-                    headers=headers,
+                    headers=media_browser_auth_headers(token),
                     timeout=10,
                 )
                 response.raise_for_status()
@@ -96,76 +101,57 @@ class JellyfinClient(RestApiMixin):
             "Name": details.username,
             "Id": details.user_id,
             "Email": details.email,
-            "Policy": details.raw_policies.get("Policy", {})
-            if details.raw_policies
-            else {},
-            "Configuration": details.raw_policies.get("Configuration", {})
-            if details.raw_policies
-            else {},
+            "Policy": {
+                "IsAdministrator": details.is_admin,
+                "EnableContentDownloading": details.allow_downloads,
+                "EnableLiveTvAccess": details.allow_live_tv,
+                "AllowCameraUpload": details.allow_camera_upload,
+            },
+            "Configuration": {},
         }
 
-    def get_user_details(self, jf_id: str) -> "MediaUserDetails":
-        """Get detailed user information in standardized format."""
-        # Get raw user data from Jellyfin API
-        raw_user = self.get(f"/Users/{jf_id}").json()
-        policy = raw_user.get("Policy", {}) or {}
+    def get_user_details(self, user_identifier: str | int) -> "MediaUserDetails":
+        """Get detailed user information from database (no API calls)."""
+        from app.services.media.user_details import MediaUserDetails, UserLibraryAccess
 
-        # Extract standardized permissions using shared utility
-        permissions = StandardizedPermissions.for_jellyfin(policy)
+        jf_id = str(user_identifier)
+        if not (
+            user := User.query.filter_by(token=jf_id, server_id=self.server_id).first()
+        ):
+            raise ValueError(f"No user found with id {jf_id}")
 
-        # Extract library access using shared utility
-        enable_all = policy.get("EnableAllFolders", False)
-        enabled_folders = policy.get("EnabledFolders", []) or []
+        # Build library access from stored names
+        library_access = None
+        if library_names := user.get_accessible_libraries():
+            libs_by_name = {
+                lib.name: lib
+                for lib in Library.query.filter(
+                    Library.server_id == self.server_id, Library.name.in_(library_names)
+                ).all()
+            }
+            library_access = [
+                UserLibraryAccess(
+                    library_id=lib.external_id
+                    if (lib := libs_by_name.get(name))
+                    else f"jf_{name}",
+                    library_name=name,
+                    has_access=True,
+                )
+                for name in library_names
+            ]
 
-        if enable_all or not enabled_folders:
-            library_access = LibraryAccessHelper.create_full_access()
-        else:
-            library_access = LibraryAccessHelper.create_restricted_access(
-                enabled_folders, self.server_id
-            )
-
-        # Parse dates using shared utility
-        created_at = DateHelper.parse_iso_date(raw_user.get("DateCreated"))
-        last_active = DateHelper.parse_iso_date(raw_user.get("DateLastActivity"))
-
-        # Filter raw_policies to only include admin-relevant information
-        filtered_policies = {
-            # User status
-            "IsAdministrator": permissions.is_admin,
-            "IsDisabled": policy.get("IsDisabled", False),
-            "IsHidden": policy.get("IsHidden", False),
-            # Access permissions
-            "EnableRemoteAccess": policy.get("EnableRemoteAccess", True),
-            "EnableLiveTvAccess": permissions.allow_live_tv,
-            "EnableMediaPlayback": policy.get("EnableMediaPlayback", True),
-            "EnableContentDownloading": permissions.allow_downloads,
-            "EnableSyncTranscoding": policy.get("EnableSyncTranscoding", True),
-            # Management permissions
-            "EnableCollectionManagement": policy.get(
-                "EnableCollectionManagement", False
-            ),
-            "EnableSubtitleManagement": policy.get("EnableSubtitleManagement", False),
-            "EnableLiveTvManagement": policy.get("EnableLiveTvManagement", False),
-            "EnableContentDeletion": policy.get("EnableContentDeletion", False),
-            # Session limits
-            "MaxActiveSessions": policy.get("MaxActiveSessions", 0),
-            "InvalidLoginAttemptCount": policy.get("InvalidLoginAttemptCount", 0),
-            # Last activity
-            "LastLoginDate": raw_user.get("LastLoginDate"),
-            "LastActivityDate": raw_user.get("LastActivityDate"),
-        }
-
-        # Create standardized user details using factory function
-        return create_standardized_user_details(
-            user_id=jf_id,
-            username=raw_user.get("Name", "Unknown"),
-            email=raw_user.get("Email"),
-            permissions=permissions,
+        return MediaUserDetails(
+            user_id=user.token,
+            username=user.username,
+            email=user.email,
+            is_admin=user.is_admin or False,
+            is_enabled=True,
+            created_at=None,
+            last_active=None,
+            allow_downloads=user.allow_downloads or False,
+            allow_live_tv=user.allow_live_tv or False,
+            allow_camera_upload=user.allow_camera_upload or False,
             library_access=library_access,
-            raw_policies=filtered_policies,
-            created_at=created_at,
-            last_active=last_active,
-            is_enabled=not policy.get("IsDisabled", False),
         )
 
     def update_user(self, jf_id: str, form: dict) -> dict | None:
@@ -189,147 +175,343 @@ class JellyfinClient(RestApiMixin):
 
         return self.post(f"/Users/{jf_id}", json=current).json()
 
-    def list_users(self) -> list[User]:
-        server_id = getattr(self, "server_id", None)
-        jf_users = {u["Id"]: u for u in self.get("/Users").json()}
-
-        for jf in jf_users.values():
-            existing = User.query.filter_by(token=jf["Id"]).first()
-            if not existing:
-                new = User(
-                    token=jf["Id"],
-                    username=jf["Name"],
-                    email="empty",
-                    code="empty",
-                    server_id=server_id,
-                )
-                db.session.add(new)
-
-        to_check = User.query.filter(User.server_id == server_id).all()
-        for dbu in to_check:
-            if dbu.token not in jf_users:
-                db.session.delete(dbu)
-
-        db.session.commit()
-
-        # Get users with policy information
-        users = User.query.filter(User.server_id == server_id).all()
-
-        # Enhance users with policy data and update database
-        for user in users:
-            if user.token in jf_users:
-                jf_user = jf_users[user.token]
-                policy = jf_user.get("Policy", {}) or {}
-
-                # Extract standardized permissions using shared utility
-                permissions = StandardizedPermissions.for_jellyfin(policy)
-
-                # Store Jellyfin permissions in raw_policies_json using the proper method
-                jellyfin_policies = {
-                    "EnableContentDownloading": permissions.allow_downloads,
-                    "EnableLiveTvAccess": permissions.allow_live_tv,
-                    "EnableSyncTranscoding": policy.get("EnableSyncTranscoding", True),
-                    # Map Jellyfin permissions to common permission names for display
-                    "allow_downloads": permissions.allow_downloads,
-                    "allow_live_tv": permissions.allow_live_tv,
-                }
-                user.set_raw_policies(jellyfin_policies)
-            else:
-                # Default values if user data not found - store in metadata too
-                default_policies = {
-                    "EnableContentDownloading": False,
-                    "EnableLiveTvAccess": False,
-                    "EnableSyncTranscoding": False,
-                    "allow_downloads": False,
-                    "allow_live_tv": False,
-                }
-                user.set_raw_policies(default_policies)
-
-        # Single commit for all metadata updates
-        try:
-            db.session.commit()
-        except Exception as e:
-            logging.error(f"Failed to update Jellyfin user metadata: {e}")
-            db.session.rollback()
-            # Continue without metadata updates rather than failing completely
-
-        # Cache detailed metadata for all users from bulk response (no individual API calls)
-        self._cache_user_metadata_from_bulk_response(users, jf_users)
-
-        return users
-
-    def _cache_user_metadata_from_bulk_response(
-        self, users: list[User], jf_users: dict
-    ) -> None:
-        """Cache user metadata from bulk API response without individual API calls.
+    def update_user_permissions(
+        self, _user_identifier: str, _permissions: dict[str, bool]
+    ) -> bool:
+        """Update user permissions on Jellyfin.
 
         Args:
-            users: List of User objects to cache metadata for
-            jf_users: Dictionary of raw user data from bulk /Users response
+            _user_identifier: User's Jellyfin ID (external_id from database)
+            _permissions: Dict with keys: allow_downloads, allow_live_tv, allow_camera_upload
+
+        Returns:
+            bool: True if successful, False otherwise
         """
-        if not users or not jf_users:
-            return
+        try:
+            # Get current policy
+            raw_user = self.get(f"/Users/{_user_identifier}").json()
+            if not raw_user:
+                logging.error(f"Jellyfin: User {_user_identifier} not found")
+                return False
 
-        cached_count = 0
-        for user in users:
-            try:
-                # Get the raw user data from bulk response
-                raw_user = jf_users.get(user.token)
-                if not raw_user:
-                    continue
+            current_policy = raw_user.get("Policy", {})
 
-                policy = raw_user.get("Policy", {}) or {}
+            # Update permissions
+            current_policy["EnableContentDownloading"] = _permissions.get(
+                "allow_downloads", False
+            )
+            current_policy["EnableLiveTvAccess"] = _permissions.get(
+                "allow_live_tv", False
+            )
+            # Jellyfin doesn't have a direct camera upload setting, but we keep the interface consistent
+            # Store it in a comment field if needed in the future
 
-                # Extract standardized permissions using shared utility
-                permissions = StandardizedPermissions.for_jellyfin(policy)
+            # Update policy
+            response = self.post(
+                f"/Users/{_user_identifier}/Policy", json=current_policy
+            )
+            success = response.status_code in {204, 200}
 
-                # Extract library access using shared utility
-                enable_all = policy.get("EnableAllFolders", False)
-                enabled_folders = policy.get("EnabledFolders", []) or []
+            if success:
+                logging.info(
+                    f"Successfully updated permissions for Jellyfin user {_user_identifier}"
+                )
+            return success
 
-                if enable_all or not enabled_folders:
-                    library_access = LibraryAccessHelper.create_full_access()
-                else:
-                    library_access = LibraryAccessHelper.create_restricted_access(
-                        enabled_folders, self.server_id
+        except Exception as e:
+            logging.error(
+                f"Failed to update Jellyfin permissions for {_user_identifier}: {e}"
+            )
+            return False
+
+    def update_user_libraries(
+        self, _user_identifier: str, _library_names: list[str] | None
+    ) -> bool:
+        """Update user's library access on Jellyfin.
+
+        Args:
+            _user_identifier: User's Jellyfin ID (external_id from database)
+            _library_names: List of library names to grant access to, or None for all libraries
+
+        Returns:
+            bool: True if successful, False otherwise
+        """
+        try:
+            # Get current policy
+            raw_user = self.get(f"/Users/{_user_identifier}").json()
+            if not raw_user:
+                logging.error(f"Jellyfin: User {_user_identifier} not found")
+                return False
+
+            current_policy = raw_user.get("Policy", {})
+
+            # Get library external IDs from database
+            folder_ids = []
+            if _library_names is not None:
+                logging.info(f"JELLYFIN: Requested libraries: {_library_names}")
+                libraries = (
+                    Library.query.filter_by(server_id=self.server_id)
+                    .filter(Library.name.in_(_library_names))
+                    .all()
+                )
+
+                for lib in libraries:
+                    folder_ids.append(lib.external_id)
+                    logging.info(f"  ✓ {lib.name} -> {lib.external_id}")
+
+                # Check for missing libraries
+                found_names = {lib.name for lib in libraries}
+                missing = set(_library_names) - found_names
+                for name in missing:
+                    logging.warning(
+                        f"  ✗ Library '{name}' not found in database (scan libraries to fix)"
                     )
 
-                # Parse dates using shared utility
-                created_at = DateHelper.parse_iso_date(raw_user.get("DateCreated"))
-                last_active = DateHelper.parse_iso_date(
-                    raw_user.get("LastActivityDate")
+                logging.info(f"JELLYFIN: Converted to folder IDs: {folder_ids}")
+            else:
+                # None means all libraries - get all enabled libraries for this server
+                libraries = Library.query.filter_by(
+                    server_id=self.server_id, enabled=True
+                ).all()
+                folder_ids = [lib.external_id for lib in libraries]
+                logging.info(f"JELLYFIN: Using all library IDs: {folder_ids}")
+
+            # Update policy with library access
+            current_policy["EnableAllFolders"] = _library_names is None
+            current_policy["EnabledFolders"] = (
+                folder_ids if _library_names is not None else []
+            )
+
+            # Update policy
+            response = self.post(
+                f"/Users/{_user_identifier}/Policy", json=current_policy
+            )
+            success = response.status_code in {204, 200}
+
+            if success:
+                logging.info(
+                    f"Successfully updated library access for Jellyfin user {_user_identifier}"
                 )
+            return success
 
-                # Extract configuration and policy information
-                configuration = raw_user.get("Configuration", {}) or {}
-                raw_policies = {
-                    "Policy": policy,
-                    "Configuration": configuration,
-                }
+        except Exception as e:
+            logging.error(
+                f"Failed to update Jellyfin library access for {_user_identifier}: {e}"
+            )
+            return False
 
-                # Create standardized user details using factory function
-                details = create_standardized_user_details(
-                    user_id=user.token,
-                    username=raw_user.get("Name", "Unknown"),
-                    email=raw_user.get("Email"),
-                    permissions=permissions,
-                    library_access=library_access,
-                    raw_policies=raw_policies,
-                    created_at=created_at,
-                    last_active=last_active,
-                    is_enabled=not policy.get("IsDisabled", False),
+    def reset_password(self, user_identifier: str, new_password: str) -> bool:
+        """Reset a Jellyfin user's password using the REST API.
+
+        Args:
+            user_identifier: Jellyfin user ID
+            new_password: The new password to set
+
+        Returns:
+            bool: True if the operation succeeded, False otherwise
+        """
+        try:
+            # Reuse the same contract as Emby: POST /Users/{id}/Password
+            payload = {
+                "NewPw": new_password,
+                "CurrentPassword": "",
+                "CurrentPw": "",
+                "ResetPassword": False,
+            }
+            resp = self.post(f"/Users/{user_identifier}/Password", json=payload)
+            success = resp.status_code in {200, 204}
+            if success:
+                logging.info(f"Password reset for Jellyfin user {user_identifier}")
+            else:
+                logging.warning(
+                    f"Failed to reset Jellyfin password for {user_identifier}: HTTP {resp.status_code}"
                 )
+            return success
+        except Exception as e:
+            logging.error(
+                f"Error resetting Jellyfin password for {user_identifier}: {e}"
+            )
+            return False
 
-                # Cache the metadata in the User record
-                user.cache_metadata(details)
-                cached_count += 1
+    def enable_user(self, user_id: str) -> bool:
+        """Enable a user account on Jellyfin.
 
-            except Exception as e:
-                logging.warning(f"Failed to cache metadata for user {user.token}: {e}")
-                continue
+        Args:
+            user_id: The user's Jellyfin ID
 
-        if cached_count > 0:
-            logging.info(f"Cached metadata for {cached_count} users")
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            raw_user = self.get(f"/Users/{user_id}").json()
+            if not raw_user:
+                return False
+
+            policy = raw_user.get("Policy", {})
+            policy["IsDisabled"] = False
+
+            response = self.post(f"/Users/{user_id}/Policy", json=policy)
+            return response.status_code in {204, 200}
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable Jellyfin user: {e}")
+            return False
+
+    def disable_user(self, user_id: str) -> bool:
+        """Disable a user account on Jellyfin.
+
+        Args:
+            user_id: The user's Jellyfin ID
+
+        Returns:
+            bool: True if the user was successfully disabled, False otherwise
+        """
+        try:
+            raw_user = self.get(f"/Users/{user_id}").json()
+            if not raw_user:
+                return False
+
+            policy = raw_user.get("Policy", {})
+            policy["IsDisabled"] = True
+
+            response = self.post(f"/Users/{user_id}/Policy", json=policy)
+            return response.status_code in {204, 200}
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to disable Jellyfin user: {e}")
+            return False
+
+    def _get_server_users(self) -> list[User]:
+        """Get all users for this server from database."""
+        return User.query.filter(User.server_id == self.server_id).all()
+
+    def _extract_jellyfin_permissions(self, jf_user: dict) -> dict[str, bool]:
+        """Extract all permissions from a Jellyfin user object."""
+        policy = jf_user.get("Policy", {}) or {}
+
+        return {
+            "is_admin": policy.get("IsAdministrator", False),
+            "allow_downloads": policy.get("EnableContentDownloading", True),
+            "allow_live_tv": policy.get("EnableLiveTvAccess", False),
+            "allow_camera_upload": policy.get("AllowCameraUpload", False),
+        }
+
+    def _library_names_by_external_id(self) -> dict[str, str]:
+        """Return {external_id: name} for this server's libraries in one query."""
+        names: dict[str, str] = {}
+        for external_id, name in (
+            Library.query.with_entities(Library.external_id, Library.name)
+            .filter(Library.server_id == self.server_id)
+            .order_by(Library.id)
+            .all()
+        ):
+            names.setdefault(str(external_id), name)
+        return names
+
+    def _get_user_library_access(
+        self, jf_user: dict, library_names_by_id: dict[str, str] | None = None
+    ) -> tuple[list[str] | None, bool]:
+        """Extract library access: (library_names | None, has_full_access).
+
+        Give ``library_names_by_id`` when you sync many users, so that the
+        library rows are read only one time.
+        """
+        if (policy := jf_user.get("Policy", {}) or {}).get("EnableAllFolders", False):
+            return None, True
+
+        if not (enabled_folders := policy.get("EnabledFolders", []) or []):
+            return None, True  # No restrictions = full access
+
+        if library_names_by_id is None:
+            library_names_by_id = self._library_names_by_external_id()
+
+        # Map library IDs to names
+        library_names = [
+            name
+            for lib_id in enabled_folders
+            if (name := library_names_by_id.get(str(lib_id))) is not None
+        ]
+        return library_names, False
+
+    def _sync_user_permissions(
+        self,
+        user: User,
+        jf_user: dict,
+        library_names_by_id: dict[str, str] | None = None,
+    ) -> None:
+        """Sync permissions and library access from Jellyfin to database user."""
+        user.username = jf_user.get("Name", user.username)
+        user.email = jf_user.get("Email", user.email)
+
+        # Store permissions in SQL columns
+        perms = self._extract_jellyfin_permissions(jf_user)
+        user.is_admin = perms["is_admin"]
+        user.allow_downloads = perms["allow_downloads"]
+        user.allow_live_tv = perms["allow_live_tv"]
+        user.allow_camera_upload = perms["allow_camera_upload"]
+
+        # Store library access
+        library_names, has_full_access = self._get_user_library_access(
+            jf_user, library_names_by_id
+        )
+        user.set_accessible_libraries(library_names if not has_full_access else None)
+
+    def list_users(self) -> list[User]:
+        """Sync users from Jellyfin to database with all permissions and library access."""
+        if not self.server_id:
+            return []
+
+        # The remote call comes first, before any DB write, so the SQLite
+        # write lock is not held while we wait for the server.
+        try:
+            raw_users = self.get("/Users").json()
+        except Exception as exc:
+            logging.warning("Jellyfin: failed to list users – %s", exc)
+            return self._get_server_users()
+
+        jf_users_by_id = {u["Id"]: u for u in raw_users}
+
+        known_users = self._get_server_users()
+        if self._skip_prune_on_empty_remote(not jf_users_by_id, known_users):
+            return known_users
+
+        # Read the library rows one time for all users.
+        library_names_by_id = self._library_names_by_external_id()
+
+        # Remove users no longer in Jellyfin, add new users. Use the rows that
+        # are already loaded, not one query for each remote user.
+        synced_users: list[User] = []
+        for db_user in known_users:
+            if db_user.token in jf_users_by_id:
+                synced_users.append(db_user)
+            else:
+                db.session.delete(db_user)
+
+        known_tokens = {user.token for user in synced_users}
+        for jf_id, jf_user in jf_users_by_id.items():
+            if jf_id not in known_tokens:
+                new_user = User(
+                    token=jf_id,
+                    username=jf_user.get("Name", "jf-user"),
+                    email="empty",
+                    code="empty",
+                    server_id=self.server_id,
+                )
+                db.session.add(new_user)
+                synced_users.append(new_user)
+
+        # Sync all permissions and library access
+        for user in synced_users:
+            self._sync_user_permissions(
+                user, jf_users_by_id[user.token], library_names_by_id
+            )
+
+        try:
+            db.session.commit()
+            logging.info(f"Synced {len(jf_users_by_id)} Jellyfin users to database")
+        except Exception as e:
+            logging.error(f"Failed to sync Jellyfin user metadata: {e}")
+            db.session.rollback()
+
+        return self._get_server_users()
 
     def _password_for_db(self, password: str) -> str:
         return password
@@ -340,50 +522,57 @@ class JellyfinClient(RestApiMixin):
             return name
         return cache.get(name)
 
-    def _set_specific_folders(self, user_id: str, names: list[str]):
-        mapping = {
-            item["Name"]: item["Id"]
-            for item in self.get("/Library/MediaFolders").json()["Items"]
-        }
-
-        # Also map IDs directly for convenience
+    def _set_specific_folders(self, user_id: str, names: list[str]) -> None:
+        log = structlog.get_logger(__name__)
+        items = self.get("/Library/MediaFolders").json()["Items"]
+        mapping = {item["Name"]: item["Id"] for item in items}
+        # Also map IDs directly so callers may pass either a name or an Id.
         mapping.update({v: v for v in mapping.values()})
+
+        log.debug("jellyfin._set_specific_folders", user_id=user_id, requested=names)
 
         folder_ids = [self._folder_name_to_id(n, mapping) for n in names]
         folder_ids = [fid for fid in folder_ids if fid]
 
-        # Debug logging
-        import logging
+        if names and not folder_ids:
+            log.warning(
+                "jellyfin._set_specific_folders.no_libraries_resolved",
+                user_id=user_id,
+                requested=names,
+                hint="No requested libraries could be mapped to a Jellyfin folder Id. "
+                "Re-scan libraries on the server settings page to refresh external IDs.",
+            )
+            # Restrict to nothing rather than silently granting access to all libraries.
+            policy_patch = {
+                "EnableAllFolders": False,
+                "EnabledFolders": [],
+            }
+        else:
+            policy_patch = {
+                "EnableAllFolders": not folder_ids,
+                "EnabledFolders": folder_ids,
+            }
 
-        logging.info(f"JELLYFIN: _set_specific_folders called with names: {names}")
-        logging.info(f"JELLYFIN: mapping: {mapping}")
-        logging.info(f"JELLYFIN: folder_ids after mapping: {folder_ids}")
-
-        policy_patch = {
-            "EnableAllFolders": not folder_ids,
-            "EnabledFolders": folder_ids,
-        }
-
-        logging.info(
-            f"JELLYFIN: Setting policy patch for user {user_id}: {policy_patch}"
+        log.debug(
+            "jellyfin._set_specific_folders.applying",
+            user_id=user_id,
+            enable_all=policy_patch["EnableAllFolders"],
+            folder_ids=folder_ids,
         )
 
         current = self.get(f"/Users/{user_id}").json()["Policy"]
-        logging.info(
-            f"JELLYFIN: Current policy before update: EnableAllFolders={current.get('EnableAllFolders')}, EnabledFolders={current.get('EnabledFolders')}"
-        )
-
         current.update(policy_patch)
-        logging.info(
-            f"JELLYFIN: Final policy to be set: EnableAllFolders={current.get('EnableAllFolders')}, EnabledFolders={current.get('EnabledFolders')}"
-        )
-
         self.set_policy(user_id, current)
 
     # --- public sign-up ---------------------------------------------
 
     def _do_join(
-        self, username: str, password: str, confirm: str, email: str, code: str
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
     ) -> tuple[bool, str]:
         if not EMAIL_RE.fullmatch(email):
             return False, "Invalid e-mail address."
@@ -437,7 +626,7 @@ class JellyfinClient(RestApiMixin):
             if server_id:
                 from app.models import MediaServer
 
-                current_server = MediaServer.query.get(server_id)
+                current_server = db.session.get(MediaServer, server_id)
                 if current_server:
                     if not allow_downloads:
                         allow_downloads = bool(
@@ -449,8 +638,14 @@ class JellyfinClient(RestApiMixin):
                         )
 
             current_policy = self.get(f"/Users/{user_id}").json().get("Policy", {})
-            current_policy["EnableDownloads"] = allow_downloads
+            current_policy["EnableContentDownloading"] = allow_downloads
             current_policy["EnableLiveTvAccess"] = allow_live_tv
+
+            # Apply Jellyfin max active sessions setting
+            max_sessions = getattr(inv, "max_active_sessions", None)
+            if max_sessions is not None:
+                current_policy["MaxActiveSessions"] = max_sessions
+
             self.set_policy(user_id, current_policy)
 
             from app.services.expiry import calculate_user_expiry
@@ -494,58 +689,41 @@ class JellyfinClient(RestApiMixin):
             series_id if (media_type == "episode" and series_id) else item_id
         )
 
-        try:
-            poster_response = self.get(
-                f"/Items/{poster_item_id}/RemoteImages",
-                params={"type": "Primary", "limit": 2},
-            ).json()
+        # Use direct Jellyfin image endpoints instead of fetching remote metadata
+        # This avoids slow RemoteImages API calls that often timeout
+        auth_param = f"&api_key={self.token}" if self.token else ""
 
-            artwork_url = fallback_artwork_url = thumbnail_url = None
+        # Primary artwork for the item (poster), resized for the card
+        artwork_url = (
+            f"{self.url}/Items/{poster_item_id}/Images/Primary"
+            f"?{NOW_PLAYING_POSTER_PARAMS}{auth_param}"
+        )
+        fallback_artwork_url = artwork_url
 
-            if poster_response.get("Images"):
-                images = poster_response["Images"]
-                if images:
-                    artwork_url = images[0].get("Url")
-                    fallback_artwork_url = images[0].get("ThumbnailUrl") or artwork_url
+        # For episodes/series, also try to get a backdrop image as thumbnail
+        # But use Primary as fallback to avoid another potentially slow call.
+        # The card shows the backdrop blurred, so we ask for a small image.
+        thumbnail_url = (
+            f"{self.url}/Items/{poster_item_id}/Images/Backdrop"
+            f"?{NOW_PLAYING_BACKDROP_PARAMS}{auth_param}"
+        )
 
-            try:
-                backdrop_response = self.get(
-                    f"/Items/{poster_item_id}/RemoteImages",
-                    params={"type": "Backdrop", "limit": 1},
-                ).json()
-
-                if backdrop_response.get("Images"):
-                    thumbnail_url = backdrop_response["Images"][0].get("Url")
-            except Exception:
-                pass
-
-            if not thumbnail_url:
-                thumbnail_url = fallback_artwork_url
-
-            return {
-                "artwork_url": artwork_url,
-                "fallback_artwork_url": fallback_artwork_url,
-                "thumbnail_url": thumbnail_url,
-            }
-
-        except Exception as e:
-            logging.warning(f"Failed to get remote images for item {item_id}: {e}")
-
-            base_params = f"?api_key={self.token}" if self.token else ""
-            fallback_url = (
-                f"{self.url}/Items/{poster_item_id}/Images/Primary{base_params}"
-            )
-            return {
-                "artwork_url": fallback_url,
-                "fallback_artwork_url": fallback_url,
-                "thumbnail_url": fallback_url,
-            }
+        return {
+            "artwork_url": artwork_url,
+            "fallback_artwork_url": fallback_artwork_url,
+            "thumbnail_url": thumbnail_url,
+        }
 
     def get_movie_posters(self, limit: int = 10) -> list[str]:
         """Get movie poster URLs for background display."""
         poster_urls = []
         try:
-            # Get recent movies from all libraries
+            # Get recent movies from all libraries. Recursive is required: without
+            # it /Items only returns the library folders at the root, so this came
+            # back empty and the cinema background silently showed nothing. Safe to
+            # enable now only because the poster URLs below go through the image
+            # proxy; enabling it while the raw api_key URL was returned would have
+            # turned the latent /cinema-posters leak into an active one.
             response = self.get(
                 "/Items",
                 params={
@@ -555,6 +733,7 @@ class JellyfinClient(RestApiMixin):
                     "Limit": limit * 2,  # Get more than needed as fallback
                     "Fields": "PrimaryImageAspectRatio",
                     "HasPrimaryImage": True,
+                    "Recursive": True,
                 },
             ).json()
 
@@ -565,11 +744,18 @@ class JellyfinClient(RestApiMixin):
 
                     item_id = item.get("Id")
                     if item_id:
-                        # Build poster URL
-                        poster_url = f"{self.url}/Items/{item_id}/Images/Primary"
-                        if self.token:
-                            poster_url += f"?api_key={self.token}"
-                        poster_urls.append(poster_url)
+                        # Build the poster URL and route it through the image
+                        # proxy. The api_key is deliberately kept out of the URL;
+                        # the proxy re-attaches it as a header server-side (see
+                        # ImageProxyService.get_server_headers), so the admin
+                        # token is never exposed to the client. We ask for a
+                        # resized image: the full-size poster is much larger
+                        # than the join page shows.
+                        poster_url = (
+                            f"{self.url}/Items/{item_id}/Images/Primary"
+                            f"?{POSTER_IMAGE_PARAMS}"
+                        )
+                        poster_urls.append(self.generate_image_proxy_url(poster_url))
 
         except Exception as e:
             import logging
@@ -579,130 +765,243 @@ class JellyfinClient(RestApiMixin):
         return poster_urls[:limit]
 
     def now_playing(self) -> list[dict]:
-        try:
-            sessions = self.get("/Sessions").json()
-            now_playing_sessions = []
+        """Return the active sessions on this server.
 
-            for session in sessions:
-                if session.get("NowPlayingItem") is None:
-                    continue
+        Raises on HTTP, connection and timeout errors, and when the session
+        list is not valid JSON. Then a caller can tell a failed poll from a
+        server with no sessions. Returns [] only when the server reports no
+        active sessions.
+        """
+        sessions = self.get("/Sessions").json()
+        if not isinstance(sessions, list):
+            raise ValueError(
+                f"{self.__class__.__name__} returned an invalid session list"
+            )
 
-                now_playing_item = session["NowPlayingItem"]
-                play_state = session.get("PlayState", {})
-
-                progress = 0.0
-                if play_state.get("PositionTicks") and now_playing_item.get(
-                    "RunTimeTicks"
-                ):
-                    progress = max(
-                        0.0,
-                        min(
-                            1.0,
-                            play_state["PositionTicks"]
-                            / now_playing_item["RunTimeTicks"],
-                        ),
-                    )
-
-                media_type = now_playing_item.get("Type", "unknown").lower()
-
-                media_title = now_playing_item.get("Name", "Unknown")
-                if media_type == "episode":
-                    series_name = now_playing_item.get("SeriesName", "")
-                    season_num = now_playing_item.get("ParentIndexNumber", "")
-                    episode_num = now_playing_item.get("IndexNumber", "")
-                    if series_name:
-                        media_title = f"{series_name}"
-                        if season_num and episode_num:
-                            media_title += f" S{season_num:02d}E{episode_num:02d}"
-                        media_title += f" - {now_playing_item.get('Name', '')}"
-
-                state = "stopped"
-                if play_state.get("IsPaused"):
-                    state = "paused"
-                elif play_state.get("PositionTicks") is not None:
-                    state = "playing"
-
-                user_info = session.get("UserName", "Unknown User")
-                session_id = session.get("Id", "")
-
-                item_id = now_playing_item.get("Id")
-                series_id = now_playing_item.get("SeriesId")
-                artwork_info = self._get_artwork_urls(item_id, media_type, series_id)
-
-                transcoding_info = {
-                    "is_transcoding": False,
-                    "video_codec": None,
-                    "audio_codec": None,
-                    "container": None,
-                    "video_resolution": None,
-                    "transcoding_speed": None,
-                    "direct_play": True,
-                }
-
-                if session.get("TranscodingInfo"):
-                    transcode_info = session["TranscodingInfo"]
-                    transcoding_info["is_transcoding"] = True
-                    transcoding_info["direct_play"] = False
-                    transcoding_info["video_codec"] = transcode_info.get("VideoCodec")
-                    transcoding_info["audio_codec"] = transcode_info.get("AudioCodec")
-                    transcoding_info["container"] = transcode_info.get("Container")
-                    transcoding_info["transcoding_speed"] = transcode_info.get(
-                        "TranscodingFramerate"
-                    )
-
-                if session.get("PlayMethod"):
-                    play_method = session["PlayMethod"]
-                    if play_method == "DirectPlay":
-                        transcoding_info["direct_play"] = True
-                        transcoding_info["is_transcoding"] = False
-                    elif play_method in ["DirectStream", "Transcode"]:
-                        transcoding_info["direct_play"] = False
-                        if play_method == "Transcode":
-                            transcoding_info["is_transcoding"] = True
-
-                if now_playing_item.get("MediaStreams"):
-                    for stream in now_playing_item["MediaStreams"]:
-                        if (
-                            stream.get("Type") == "Video"
-                            and not transcoding_info["video_codec"]
-                        ):
-                            transcoding_info["video_codec"] = stream.get("Codec")
-                            transcoding_info["video_resolution"] = (
-                                stream.get("DisplayTitle")
-                                or f"{stream.get('Width', '?')}x{stream.get('Height', '?')}"
-                            )
-                        elif (
-                            stream.get("Type") == "Audio"
-                            and not transcoding_info["audio_codec"]
-                        ):
-                            transcoding_info["audio_codec"] = stream.get("Codec")
-
-                if not transcoding_info["container"]:
-                    transcoding_info["container"] = now_playing_item.get("Container")
-
-                session_info = {
-                    "user_name": user_info,
-                    "media_title": media_title,
-                    "media_type": media_type,
-                    "progress": progress,
-                    "state": state,
-                    "session_id": session_id,
-                    "client": session.get("Client", ""),
-                    "device_name": session.get("DeviceName", ""),
-                    "position_ms": play_state.get("PositionTicks", 0) // 10000,
-                    "duration_ms": now_playing_item.get("RunTimeTicks", 0) // 10000,
-                    "artwork_url": artwork_info["artwork_url"],
-                    "fallback_artwork_url": artwork_info["fallback_artwork_url"],
-                    "thumbnail_url": artwork_info["thumbnail_url"],
-                    "transcoding": transcoding_info,
-                }
-
+        now_playing_sessions = []
+        for session in sessions:
+            try:
+                session_info = self._now_playing_entry(session)
+            except Exception as exc:
+                # One bad session must not hide the other sessions.
+                logging.warning(
+                    f"Failed to read a {self.__class__.__name__} session: {exc}"
+                )
+                continue
+            if session_info is not None:
                 now_playing_sessions.append(session_info)
 
-            return now_playing_sessions
+        return now_playing_sessions
 
-        except Exception as e:
-            logging.error(f"Failed to get now playing from Jellyfin: {e}")
+    def _now_playing_entry(self, session: dict) -> dict | None:
+        """Convert one /Sessions entry to a now-playing dict."""
+        if session.get("NowPlayingItem") is None:
+            return None
+
+        now_playing_item = session["NowPlayingItem"]
+        play_state = session.get("PlayState", {})
+
+        progress = 0.0
+        if play_state.get("PositionTicks") and now_playing_item.get("RunTimeTicks"):
+            progress = max(
+                0.0,
+                min(
+                    1.0,
+                    play_state["PositionTicks"] / now_playing_item["RunTimeTicks"],
+                ),
+            )
+
+        media_type = now_playing_item.get("Type", "unknown").lower()
+
+        # Extract series info for episodes (both for formatting and separate fields)
+        series_name = None
+        season_num = None
+        episode_num = None
+        media_title = now_playing_item.get("Name", "Unknown")
+
+        if media_type == "episode":
+            series_name = now_playing_item.get("SeriesName")
+            season_num = now_playing_item.get("ParentIndexNumber")
+            episode_num = now_playing_item.get("IndexNumber")
+
+            # Format title for display
+            if series_name:
+                media_title = f"{series_name}"
+                if season_num and episode_num:
+                    media_title += f" S{season_num:02d}E{episode_num:02d}"
+                media_title += f" - {now_playing_item.get('Name', '')}"
+
+        state = "stopped"
+        if play_state.get("IsPaused"):
+            state = "paused"
+        elif play_state.get("PositionTicks") is not None:
+            state = "playing"
+
+        # Extract user and session info
+        user_info = session.get("UserName", "Unknown User")
+        user_id = session.get("UserId")
+        session_id = session.get("Id", "")
+
+        # Extract device and platform info
+        ip_address = session.get("RemoteEndPoint")
+        platform = session.get("DeviceType")
+        player_version = session.get("ApplicationVersion")
+
+        item_id = now_playing_item.get("Id")
+        series_id = now_playing_item.get("SeriesId")
+        artwork_info = self._get_artwork_urls(item_id, media_type, series_id)
+
+        transcoding_info: dict[str, Any] = {
+            "is_transcoding": False,
+            "video_codec": None,
+            "audio_codec": None,
+            "container": None,
+            "video_resolution": None,
+            "transcoding_speed": None,
+            "direct_play": True,
+        }
+
+        if session.get("TranscodingInfo"):
+            transcode_info = session["TranscodingInfo"]
+            transcoding_info["is_transcoding"] = True
+            transcoding_info["direct_play"] = False
+            transcoding_info["video_codec"] = transcode_info.get("VideoCodec")
+            transcoding_info["audio_codec"] = transcode_info.get("AudioCodec")
+            transcoding_info["container"] = transcode_info.get("Container")
+            transcoding_info["transcoding_speed"] = transcode_info.get(
+                "TranscodingFramerate"
+            )
+
+        if session.get("PlayMethod"):
+            play_method = session["PlayMethod"]
+            if play_method == "DirectPlay":
+                transcoding_info["direct_play"] = True
+                transcoding_info["is_transcoding"] = False
+            elif play_method in ["DirectStream", "Transcode"]:
+                transcoding_info["direct_play"] = False
+                if play_method == "Transcode":
+                    transcoding_info["is_transcoding"] = True
+
+        if now_playing_item.get("MediaStreams"):
+            for stream in now_playing_item["MediaStreams"]:
+                if (
+                    stream.get("Type") == "Video"
+                    and not transcoding_info["video_codec"]
+                ):
+                    transcoding_info["video_codec"] = stream.get("Codec")
+                    transcoding_info["video_resolution"] = (
+                        stream.get("DisplayTitle")
+                        or f"{stream.get('Width', '?')}x{stream.get('Height', '?')}"
+                    )
+                elif (
+                    stream.get("Type") == "Audio"
+                    and not transcoding_info["audio_codec"]
+                ):
+                    transcoding_info["audio_codec"] = stream.get("Codec")
+
+        if not transcoding_info["container"]:
+            transcoding_info["container"] = now_playing_item.get("Container")
+
+        return {
+            # Required fields
+            "user_name": user_info,
+            "media_title": media_title,
+            "session_id": session_id,
+            # User info
+            "user_id": user_id,
+            # Media info
+            "media_type": media_type,
+            "media_id": item_id,
+            "series_name": series_name,
+            "season_number": season_num,
+            "episode_number": episode_num,
+            # Playback info
+            "progress": progress,
+            "state": state,
+            "position_ms": play_state.get("PositionTicks", 0) // 10000,
+            "duration_ms": now_playing_item.get("RunTimeTicks", 0) // 10000,
+            # Device info
+            "client": session.get("Client", ""),
+            "device_name": session.get("DeviceName", ""),
+            "ip_address": ip_address,
+            "platform": platform,
+            "player_version": player_version,
+            # Artwork
+            "artwork_url": artwork_info["artwork_url"],
+            "fallback_artwork_url": artwork_info["fallback_artwork_url"],
+            "thumbnail_url": artwork_info["thumbnail_url"],
+            # Transcoding
+            "transcoding_info": transcoding_info,
+            # Metadata
+            "metadata": {
+                "jellyfin_session_id": session_id,
+                "jellyfin_item_id": item_id,
+                "jellyfin_series_id": series_id,
+                "play_method": session.get("PlayMethod"),
+            },
+        }
+
+    def get_recent_items(
+        self, library_id: str | None = None, limit: int = 10
+    ) -> list[dict]:
+        """Get recently added items from Jellyfin server."""
+        try:
+            # Use the regular Items endpoint with proper sorting for recently added content
+            # Only include items that have proper vertical poster images (exclude Episodes which use horizontal thumbnails)
+            params = {
+                "SortBy": "DateCreated",
+                "SortOrder": "Descending",
+                "Limit": limit * 2,  # Request more items since we'll filter some out
+                "Fields": "Overview,Genres,DateCreated,ProductionYear",
+                "ImageTypeLimit": 1,
+                "EnableImageTypes": "Primary",
+                "Recursive": True,
+                "IncludeItemTypes": "Movie,Series,MusicAlbum",  # Only types with vertical posters
+            }
+
+            if library_id:
+                params["ParentId"] = library_id
+
+            response = self.get("/Items", params=params)
+            response_data = response.json()
+
+            if not isinstance(response_data, dict) or "Items" not in response_data:
+                return []
+
+            items = []
+            for item in response_data["Items"]:
+                # Stop if we've reached the limit
+                if len(items) >= limit:
+                    break
+
+                # Only show items that have actual poster images (Primary for movies/series)
+                thumb_url = None
+                image_tags = item.get("ImageTags", {})
+
+                # Use Primary image for vertical posters
+                if image_tags.get("Primary"):
+                    thumb_url = f"{self.url}/Items/{item['Id']}/Images/Primary?maxHeight=400&quality=90"
+                    if self.token:
+                        thumb_url += f"&api_key={self.token}"
+
+                if thumb_url:
+                    # Generate secure proxy URL with opaque token
+                    thumb_url = self.generate_image_proxy_url(thumb_url)
+
+                    # Only add items that have images
+                    items.append(
+                        {
+                            "title": item.get("Name", "Unknown"),
+                            "year": item.get("ProductionYear"),
+                            "thumb": thumb_url,
+                            "type": item.get("Type", "").lower(),
+                            "added_at": item.get("DateCreated"),
+                        }
+                    )
+
+            return items
+
+        except Exception:
             return []
 
     def statistics(self):

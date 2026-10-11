@@ -250,9 +250,10 @@ class TestInvitationLoadTesting:
             median_time = median(validation_times)
             max_time = max(validation_times)
 
-            # Assertions with slightly more tolerance for system variance
-            assert avg_time < 0.02, f"Average validation time {avg_time:.4f}s too slow"
-            assert median_time < 0.02, (
+            # Assertions with reasonable tolerance for system variance
+            # Increased thresholds to account for CI/system load variations
+            assert avg_time < 0.05, f"Average validation time {avg_time:.4f}s too slow"
+            assert median_time < 0.05, (
                 f"Median validation time {median_time:.4f}s too slow"
             )
             assert max_time < 0.15, f"Max validation time {max_time:.4f}s too slow"

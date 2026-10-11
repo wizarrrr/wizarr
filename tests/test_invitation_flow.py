@@ -4,6 +4,8 @@ Working tests for the invitation flow system
 
 from unittest.mock import Mock, patch
 
+from flask import render_template, session
+
 from app.extensions import db
 from app.models import Invitation, MediaServer
 from app.services.invitation_flow import InvitationFlowManager
@@ -62,6 +64,7 @@ class TestInvitationFlowManager:
         mock_invitation.code = "TEST123"
         mock_invitation.servers = []
         mock_invitation.server = None
+        mock_invitation.wizard_bundle_id = None
 
         mock_query = Mock()
         mock_query.filter.return_value.first.return_value = mock_invitation
@@ -75,13 +78,14 @@ class TestInvitationFlowManager:
             mock_server.server_type = "jellyfin"
             mock_media_server.query.first.return_value = mock_server
 
-            with app.app_context():
+            with app.app_context(), app.test_request_context():
                 manager = InvitationFlowManager()
                 result = manager.process_invitation_display("TEST123")
 
                 assert result.status in [
                     ProcessingStatus.AUTHENTICATION_REQUIRED,
                     ProcessingStatus.OAUTH_PENDING,
+                    ProcessingStatus.REDIRECT_REQUIRED,
                 ]
 
     def test_get_invitation_servers_no_servers(self):
@@ -369,6 +373,7 @@ class TestFormBasedWorkflow:
         # Mock invitation
         mock_invitation = Mock()
         mock_invitation.code = "TEST123"
+        mock_invitation.wizard_bundle_id = None
 
         # Mock server processing
         with patch.object(workflow, "_process_servers") as mock_process:
@@ -378,10 +383,90 @@ class TestFormBasedWorkflow:
             mock_process.return_value = ([mock_server_result], [])
 
             with app.test_request_context():
-                result = workflow.process_submission(mock_invitation, [], {})
+                result = workflow.process_submission(
+                    mock_invitation,
+                    [],
+                    {
+                        "code": "TEST123",
+                        "username": "testuser",
+                        "email": "test@example.com",
+                        "password": "Testpass123",
+                        "confirm_password": "Testpass123",
+                    },
+                )
 
                 assert result.status == ProcessingStatus.SUCCESS
                 assert result.redirect_url == "/wizard/"
+
+    @patch("app.services.invitation_flow.workflows.StrategyFactory")
+    def test_process_submission_rejects_invalid_username(
+        self, mock_strategy_factory, app
+    ):
+        """Test submission validation rejects usernames before provisioning."""
+        workflow = FormBasedWorkflow()
+
+        mock_invitation = Mock()
+        mock_invitation.code = "TEST123"
+
+        with (
+            patch.object(workflow, "_process_servers") as mock_process,
+            app.test_request_context(),
+        ):
+            result = workflow.process_submission(
+                mock_invitation,
+                [],
+                {
+                    "code": "TEST123",
+                    "username": "ab",
+                    "email": "test@example.com",
+                    "password": "Testpass123",
+                    "confirm_password": "Testpass123",
+                },
+            )
+
+            assert result.status == ProcessingStatus.FAILURE
+            assert result.template_data is not None
+            assert result.template_data["template_name"] == "welcome-jellyfin.html"
+            assert result.template_data["form"].username.errors
+
+        mock_strategy_factory.create_strategy.assert_not_called()
+        mock_process.assert_not_called()
+
+
+class TestMixedWorkflow:
+    """Test MixedWorkflow"""
+
+    def test_show_local_password_form_preserves_invite_code(self, app):
+        """Test hybrid password form keeps form state and hidden invite code."""
+        workflow = MixedWorkflow()
+
+        mock_invitation = Mock()
+        mock_invitation.code = "MIXED123"
+
+        mock_plex_server = Mock()
+        mock_plex_server.server_type = "plex"
+        mock_local_server = Mock()
+        mock_local_server.server_type = "jellyfin"
+        mock_local_server.name = "Local Server"
+
+        with app.test_request_context():
+            session["plex_oauth_token"] = "plex-token"
+
+            result = workflow.show_initial_form(
+                mock_invitation, [mock_plex_server, mock_local_server]
+            )
+
+            assert result.status == ProcessingStatus.AUTHENTICATION_REQUIRED
+            assert result.template_data is not None
+            assert result.template_data["template_name"] == "hybrid-password-form.html"
+            assert result.template_data["form"].code.data == "MIXED123"
+
+            rendered = render_template(
+                result.template_data["template_name"], **result.template_data
+            )
+
+            assert 'name="code"' in rendered
+            assert 'value="MIXED123"' in rendered
 
 
 class TestIntegrationWithDatabase:
@@ -467,7 +552,7 @@ class TestEndToEndFlow:
         mock_client.join.return_value = (True, "User created successfully")
         mock_get_client.return_value = mock_client
 
-        with app.app_context():
+        with app.app_context(), app.test_request_context():
             # Create server
             server = MediaServer(
                 name="Test Server",
@@ -502,8 +587,8 @@ class TestEndToEndFlow:
                 "code": "E2E123",
                 "username": "testuser",
                 "email": "test@example.com",
-                "password": "testpass123",
-                "confirm_password": "testpass123",
+                "password": "Testpass123",
+                "confirm_password": "Testpass123",
             }
 
             with patch("flask.session", {}):
@@ -522,7 +607,7 @@ class TestEndToEndFlow:
         """Test complete Plex invitation flow"""
         mock_is_valid.return_value = (True, "Valid invitation")
 
-        with app.app_context():
+        with app.app_context(), app.test_request_context():
             # Create server
             server = MediaServer(
                 name="Test Plex Server",

@@ -44,6 +44,7 @@ def create_connection():
             url=form.url.data,
             api_key=form.api_key.data,
             media_server_id=form.media_server_id.data,
+            provision_plex_users=form.provision_plex_users.data,
         )
 
         try:
@@ -88,6 +89,8 @@ def create_connection():
             url=form.url.data,
             api_key=form.api_key.data,
             media_server_id=form.media_server_id.data,
+            provision_plex_users=form.provision_plex_users.data,
+            enable_watchlist_sync=form.enable_watchlist_sync.data,
         )
         db.session.add(connection)
         db.session.commit()
@@ -109,7 +112,7 @@ def create_connection():
 @login_required
 def edit_connection(connection_id: int):
     """Edit an existing connection."""
-    connection = Connection.query.get_or_404(connection_id)
+    connection = db.get_or_404(Connection, connection_id)
     form = ConnectionForm(obj=connection)
 
     if form.validate_on_submit():
@@ -118,6 +121,8 @@ def edit_connection(connection_id: int):
         connection.url = form.url.data
         connection.api_key = form.api_key.data
         connection.media_server_id = form.media_server_id.data
+        connection.provision_plex_users = form.provision_plex_users.data
+        connection.enable_watchlist_sync = form.enable_watchlist_sync.data
 
         db.session.commit()
 
@@ -138,7 +143,7 @@ def edit_connection(connection_id: int):
 @login_required
 def delete_connection(connection_id: int):
     """Delete a connection."""
-    connection = Connection.query.get_or_404(connection_id)
+    connection = db.get_or_404(Connection, connection_id)
 
     db.session.delete(connection)
     db.session.commit()
@@ -177,6 +182,7 @@ def test_connection():
         url=form.url.data,
         api_key=form.api_key.data,
         media_server_id=form.media_server_id.data,
+        provision_plex_users=form.provision_plex_users.data,
     )
 
     try:

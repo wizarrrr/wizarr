@@ -1,0 +1,179 @@
+"""
+Polling activity collector for media servers without WebSocket support.
+
+Uses the existing now_playing() API methods to poll for active sessions
+on servers that don't support real-time WebSocket notifications.
+"""
+
+from datetime import UTC, datetime
+from typing import Any
+
+from ...domain.models import ActivityEvent
+from ..monitor import BaseCollector
+
+
+class PollingCollector(BaseCollector):
+    """Generic polling collector for servers without WebSocket support."""
+
+    def __init__(self, server, event_callback, **kwargs):
+        super().__init__(server, event_callback, **kwargs)
+        self.active_sessions: dict[str, dict[str, Any]] = {}
+        self.poll_interval = 30  # seconds
+
+    def _collect_loop(self):
+        """Main collection loop using polling."""
+        self.logger.info(f"Starting polling collector for {self.server.name}")
+
+        while self.running and not self._stop_event.is_set():
+            try:
+                self._poll_sessions()
+                self._stop_event.wait(self.poll_interval)
+
+            except Exception as e:
+                self.logger.error(f"Polling error: {e}", exc_info=True)
+                self.error_count += 1
+                # Wait longer on error
+                self._stop_event.wait(60)
+
+    def _poll_sessions(self):
+        """Poll server for current sessions."""
+        client = self._get_media_client()
+        if not client:
+            self.logger.warning("No media client available for polling")
+            return
+
+        # Get current sessions from server. A failed poll returns None and
+        # keeps the active sessions, unless the outage is long (see
+        # BaseCollector._poll_failed).
+        current_sessions = self._fetch_sessions(client)
+        if current_sessions is None:
+            return
+
+        with self._event_batch():
+            self._process_sessions(current_sessions)
+
+    def _process_sessions(self, current_sessions: list[dict[str, Any]]):
+        """Compare the current sessions with the known sessions and emit events."""
+        try:
+            current_session_ids = set()
+
+            # Process each current session
+            for session_data in current_sessions:
+                session_id = session_data.get("session_id", "")
+                if not session_id:
+                    continue
+
+                current_session_ids.add(session_id)
+                existing = self.active_sessions.get(session_id)
+
+                # Check if this is a new session
+                if existing is None:
+                    # New session started
+                    record = dict(session_data)
+                    record["_started_at_ts"] = datetime.now(UTC)
+                    record["_last_position_ms"] = session_data.get("position_ms")
+                    self.active_sessions[session_id] = record
+                    self._emit_polling_event(session_data, "session_start")
+                else:
+                    # Existing session - check for changes
+                    old_session = existing
+                    updated_record = dict(old_session)
+                    updated_record.update(session_data)
+                    updated_record["_last_position_ms"] = session_data.get(
+                        "position_ms"
+                    )
+                    self.active_sessions[session_id] = updated_record
+
+                    # Check for state changes
+                    old_state = old_session.get("state", "unknown")
+                    new_state = session_data.get("state", "unknown")
+
+                    if old_state != new_state:
+                        if new_state == "paused":
+                            self._emit_polling_event(session_data, "session_pause")
+                        elif new_state == "playing" and old_state == "paused":
+                            self._emit_polling_event(session_data, "session_resume")
+                        else:
+                            self._emit_polling_event(session_data, "session_progress")
+                    else:
+                        # Regular progress update
+                        self._emit_polling_event(session_data, "session_progress")
+
+            # Find sessions that ended (no longer in current list)
+            ended_sessions = set(self.active_sessions.keys()) - current_session_ids
+            for session_id in ended_sessions:
+                old_session = self.active_sessions.pop(session_id)
+
+                end_payload = dict(old_session)
+                started_ts = end_payload.pop("_started_at_ts", None)
+                last_position = end_payload.pop("_last_position_ms", None)
+
+                duration_ms = end_payload.get("duration_ms")
+                if not isinstance(duration_ms, (int, float)) or duration_ms <= 0:
+                    if isinstance(last_position, (int, float)) and last_position > 0:
+                        duration_ms = int(last_position)
+                    elif isinstance(started_ts, datetime):
+                        elapsed = (
+                            self._event_now() - started_ts
+                        ).total_seconds() * 1000
+                        duration_ms = max(int(elapsed), 0)
+                    else:
+                        duration_ms = 0
+
+                end_payload["duration_ms"] = duration_ms
+                end_payload["state"] = "stopped"
+
+                metadata = dict(end_payload.get("metadata") or {})
+                metadata["calculated_duration_ms"] = duration_ms
+                if isinstance(last_position, (int, float)):
+                    metadata["last_reported_position_ms"] = int(last_position)
+                if isinstance(started_ts, datetime):
+                    metadata["started_at_timestamp"] = started_ts.isoformat()
+                end_payload["metadata"] = metadata
+
+                self._emit_polling_event(end_payload, "session_end")
+
+        except Exception as e:
+            self.logger.error(f"Failed to poll sessions: {e}", exc_info=True)
+            self.error_count += 1
+
+    def _emit_polling_event(self, session_data: dict[str, Any], event_type: str):
+        """Convert polling session data to ActivityEvent and emit."""
+        try:
+            # Map common session data fields
+            session_id = session_data.get("session_id", "")
+            user_name = session_data.get("user_name", "Unknown")
+            media_title = session_data.get("media_title", "Unknown")
+
+            # Create activity event
+            event = ActivityEvent(
+                event_type=event_type,
+                server_id=self.server.id,
+                session_id=session_id,
+                user_name=user_name,
+                media_title=media_title,
+                timestamp=self._event_now(),
+                user_id=session_data.get("user_id"),
+                media_type=session_data.get("media_type"),
+                media_id=session_data.get("media_id"),
+                series_name=session_data.get("series_name"),
+                season_number=session_data.get("season_number"),
+                episode_number=session_data.get("episode_number"),
+                duration_ms=session_data.get("duration_ms"),
+                position_ms=session_data.get("position_ms"),
+                device_name=session_data.get("device_name"),
+                client_name=session_data.get("client"),
+                ip_address=session_data.get("ip_address"),
+                platform=session_data.get("platform"),
+                player_version=session_data.get("player_version"),
+                state=session_data.get("state", "playing"),
+                transcoding_info=session_data.get("transcoding_info", {}),
+                metadata=session_data.get("metadata", {}),
+                artwork_url=session_data.get("artwork_url"),
+                thumbnail_url=session_data.get("thumbnail_url"),
+            )
+
+            self._emit_event(event)
+
+        except Exception as e:
+            self.logger.error(f"Failed to emit polling event: {e}", exc_info=True)

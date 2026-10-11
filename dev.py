@@ -39,10 +39,10 @@ def check_uv_installation():
         sys.exit(1)
 
 
-def run_command(command, cwd=None):
+def run_command(command, cwd=None, env=None):
     print(f"Running: {' '.join(command)}")
     try:
-        process = subprocess.Popen(command, cwd=cwd)
+        process = subprocess.Popen(command, cwd=cwd, env=env)
         process.wait()
         if process.returncode != 0:
             print(f"Error running command: {' '.join(command)}")
@@ -60,17 +60,26 @@ def run_command(command, cwd=None):
 
 
 def main():
+    import os
+
     parser = argparse.ArgumentParser(
         description="Wizarr development server",
         epilog="""
 Examples:
   python dev.py                    # Start development server (default)
   python dev.py --scheduler        # Start with background scheduler enabled
+  python dev.py --plus             # Start with Plus features enabled
+  python dev.py --plus --scheduler # Start with both Plus and scheduler enabled
 
 The scheduler runs maintenance tasks like:
   - Expiry cleanup (every 1 minute in dev mode)
   - User account deletion for expired users
   - Server-specific expiry enforcement
+
+Plus features include:
+  - Audit logging for admin actions
+  - Advanced analytics and reporting
+  - Enhanced security features
         """,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
@@ -78,6 +87,11 @@ The scheduler runs maintenance tasks like:
         "--scheduler",
         action="store_true",
         help="Enable the background scheduler for testing expiry and maintenance tasks",
+    )
+    parser.add_argument(
+        "--plus",
+        action="store_true",
+        help="Enable Plus features including audit logging and advanced analytics",
     )
     args = parser.parse_args()
 
@@ -87,8 +101,12 @@ The scheduler runs maintenance tasks like:
     project_root = Path(__file__).parent
     static_dir = project_root / "app" / "static"
 
+    # Create dev environment with NODE_ENV=development to ensure devDependencies are installed
+    npm_env = os.environ.copy()
+    npm_env["NODE_ENV"] = "development"
+
     print("Compiling translations...")
-    run_command(["uv", "run", "pybabel", "compile", "-d", "app/translations"])
+    run_command(["uv", "run", "pybabel", "compile", "-d", "app/translations", "-f"])
 
     print("Running database setup...")
 
@@ -96,29 +114,39 @@ The scheduler runs maintenance tasks like:
     run_command(["uv", "run", "flask", "db", "upgrade"])
 
     print("Installing/updating npm dependencies...")
-    run_command(["npm", "install"], cwd=static_dir)
+    run_command(["npm", "install"], cwd=static_dir, env=npm_env)
 
     print("Building static assets (CSS & JS)...")
-    run_command(["npm", "run", "build"], cwd=static_dir)
+    run_command(["npm", "run", "build"], cwd=static_dir, env=npm_env)
 
     # Start the Tailwind watcher in the background
     print("Starting Tailwind watcher...")
-    tailwind_process = subprocess.Popen(["npm", "run", "watch:css"], cwd=static_dir)
+    tailwind_process = subprocess.Popen(
+        ["npm", "run", "watch:css"], cwd=static_dir, env=npm_env
+    )
 
     try:
         flask_command = ["uv", "run", "flask", "run", "--debug"]
 
+        # Set environment variables based on flags
         if args.scheduler:
             print(
                 "🕒 Scheduler enabled - background tasks will run (expiry cleanup every 1 minute)"
             )
-            # Set environment variable to enable scheduler
-            import os
-
             os.environ["WIZARR_ENABLE_SCHEDULER"] = "true"
         else:
             print(
                 "ℹ️  Scheduler disabled - use --scheduler flag to enable background tasks"
+            )
+
+        if args.plus:
+            print(
+                "⭐ Plus features enabled - audit logging and advanced features available"
+            )
+            os.environ["WIZARR_PLUS_ENABLED"] = "true"
+        else:
+            print(
+                "ℹ️  Plus features disabled - use --plus flag to enable audit logging and advanced features"
             )
 
         print("Starting Flask development server...")

@@ -28,7 +28,6 @@ class CompanionClient(ABC):
         Returns:
             Dict with 'status' and 'message' keys
         """
-        pass
 
     @abstractmethod
     def delete_user(self, username: str, connection: Connection) -> dict[str, str]:
@@ -42,19 +41,16 @@ class CompanionClient(ABC):
         Returns:
             Dict with 'status' and 'message' keys
         """
-        pass
 
     @property
     @abstractmethod
     def requires_api_call(self) -> bool:
         """Whether this companion type requires actual API calls or is info-only."""
-        pass
 
     @property
     @abstractmethod
     def display_name(self) -> str:
         """Human-readable name for this companion type."""
-        pass
 
     @abstractmethod
     def test_connection(self, connection: Connection) -> dict[str, str]:
@@ -67,4 +63,31 @@ class CompanionClient(ABC):
         Returns:
             Dict with 'status' and 'message' keys
         """
-        pass
+
+    def provision_plex_user(
+        self,
+        auth_token: str,  # noqa: ARG002
+        connection: Connection,  # noqa: ARG002
+    ) -> dict[str, str]:
+        """
+        Create the user on the companion service using their Plex token.
+
+        Services that sign users in with Plex only create the account on first
+        login, so an invited user has no account until they visit and log in by
+        hand. Given the token from the Plex OAuth invite, a companion can create
+        that account up front instead.
+
+        Only meaningful for Plex; the default is to do nothing so companions that
+        provision another way are unaffected.
+
+        Args:
+            auth_token: The invited user's Plex auth token
+            connection: Connection object with URL and API key
+
+        Returns:
+            Dict with 'status' and 'message' keys
+        """
+        return {
+            "status": "not_supported",
+            "message": f"{self.display_name} does not provision Plex users",
+        }

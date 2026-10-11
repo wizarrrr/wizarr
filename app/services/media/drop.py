@@ -5,26 +5,32 @@ and invitation management through a System token with appropriate scopes.
 """
 
 import logging
-import re
+from datetime import UTC
 from typing import TYPE_CHECKING, Any
 
+import structlog
 from sqlalchemy import or_
 
 from app.extensions import db
 from app.models import Invitation, User
 from app.services.invites import is_invite_valid
-from app.services.media.client_base import RestApiMixin, register_media_client
+from app.services.media.client_base import EMAIL_RE, RestApiMixin, register_media_client
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
 
 # Simple email validation pattern
-EMAIL_RE = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
 
 @register_media_client("drop")
 class DropClient(RestApiMixin):
     """Drop media server client using System token authentication."""
+
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_drop
+
+        return check_drop(url, token)
 
     def __init__(self, *args, **kwargs):
         # Defaults for historical callers
@@ -60,13 +66,15 @@ class DropClient(RestApiMixin):
             return {}
 
     def scan_libraries(
-        self, url: str | None = None, token: str | None = None
+        self,
+        url: str | None = None,  # noqa: ARG002
+        token: str | None = None,  # noqa: ARG002
     ) -> dict[str, str]:
         """Scan available libraries on this Drop server.
 
         Args:
-            url: Optional server URL override
-            token: Optional API token override
+            url: Optional server URL override (unused - Drop doesn't have libraries)
+            token: Optional API token override (unused - Drop doesn't have libraries)
 
         Returns:
             dict: Empty dict since Drop doesn't have traditional libraries
@@ -101,58 +109,51 @@ class DropClient(RestApiMixin):
 
             remote_by_id = {str(u.get("id")): u for u in remote_users if u.get("id")}
 
+            server_id = getattr(self, "server_id", None)
+            known_users = User.query.filter(User.server_id == server_id).all()
+            if self._skip_prune_on_empty_remote(not remote_by_id, known_users):
+                return known_users
+
+            # Use the rows that are already loaded, not one query for each
+            # remote user. The first local row with a token is the match.
+            users: list[User] = []
+            rows_by_token: dict[str, User] = {}
+            for local in known_users:
+                if local.token in remote_by_id:
+                    users.append(local)
+                    rows_by_token.setdefault(local.token, local)
+                else:
+                    # Remove local users that no longer exist upstream
+                    db.session.delete(local)
+
             # Upsert user rows in local DB
             for user_id, drop_user in remote_by_id.items():
-                db_row: User | None = User.query.filter_by(
-                    token=user_id, server_id=getattr(self, "server_id", None)
-                ).first()
-
-                if not db_row:
+                db_row = rows_by_token.get(user_id)
+                if db_row is None:
                     db_row = User(
                         token=user_id,
                         username=drop_user.get("username", "drop-user"),
                         email=drop_user.get("email", ""),
                         code="drop",  # placeholder – no invite code
-                        server_id=getattr(self, "server_id", None),
+                        server_id=server_id,
                     )
                     db.session.add(db_row)
+                    users.append(db_row)
                 else:
                     # Update existing user
                     db_row.username = drop_user.get("username", db_row.username)
                     db_row.email = drop_user.get("email", db_row.email)
-
-            db.session.commit()
-
-            # Remove local users that no longer exist upstream
-            for local in User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all():
-                if local.token not in remote_by_id:
-                    db.session.delete(local)
-            db.session.commit()
-
-            # Get users with default policy information
-            users = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
 
             # Add policy attributes based on actual Drop user data
             for user in users:
                 # Get the corresponding Drop user data
                 drop_user = remote_by_id.get(user.token, {})
 
-                drop_policies = {
-                    # Server-specific data
-                    "enabled": drop_user.get("enabled", True),
-                    "admin": drop_user.get("admin", False),
-                    "displayName": drop_user.get("displayName", user.username),
-                    "profilePictureObjectId": drop_user.get("profilePictureObjectId"),
-                    # Standardized permission keys for UI display
-                    "allow_downloads": True,  # Drop supports downloads by default
-                    "allow_live_tv": False,  # Drop doesn't support live TV
-                    "allow_camera_upload": False,  # Drop doesn't support camera upload
-                }
-                user.set_raw_policies(drop_policies)
+                # Update standardized User model columns
+                user.allow_downloads = True  # Drop supports downloads by default
+                user.allow_live_tv = False  # Drop doesn't support live TV
+                user.allow_camera_upload = False  # Drop doesn't support camera upload
+                user.is_admin = drop_user.get("admin", False)
 
             # Single commit for all metadata updates
             try:
@@ -181,7 +182,7 @@ class DropClient(RestApiMixin):
             # Step 1: Create invitation
             from datetime import datetime, timedelta
 
-            expires = datetime.now() + timedelta(hours=1)
+            expires = datetime.now(UTC) + timedelta(hours=1)
             invitation_payload = {
                 "expires": expires.isoformat() + "Z",
                 "username": username,
@@ -225,7 +226,7 @@ class DropClient(RestApiMixin):
             logging.error("Drop: failed to create user – %s", exc)
             raise
 
-    def update_user(self, user_id: str, patch: dict[str, Any]):
+    def update_user(self, _user_id: str, _patch: dict[str, Any]):
         """Update a Drop user.
 
         Note: Update functionality may not be available in Drop API.
@@ -238,6 +239,44 @@ class DropClient(RestApiMixin):
         except Exception as exc:
             logging.error("Drop: failed to update user – %s", exc)
             raise
+
+    def enable_user(self, user_id: str) -> bool:  # noqa: ARG002
+        """Enable a user account on Drop.
+
+        Args:
+            user_id: The user's Drop ID (unused - Drop doesn't support enable/disable)
+
+        Returns:
+            bool: True if the user was successfully enabled, False otherwise
+        """
+        try:
+            # Drop doesn't have a direct disable/enable feature
+            # Return False to indicate this operation is not supported
+            structlog.get_logger().warning(
+                "Drop does not support disabling/enabling users"
+            )
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to enable Drop user: {e}")
+            return False
+
+    def disable_user(self, user_id: str) -> bool:  # noqa: ARG002
+        """Disable a user account on Drop.
+
+        Args:
+            user_id: The user's Drop ID (unused - Drop doesn't support enable/disable)
+
+        Returns:
+            bool: True if the user was successfully disabled, False otherwise
+        """
+        try:
+            # Drop doesn't have a direct disable feature
+            # Return False to indicate this operation is not supported
+            structlog.get_logger().warning("Drop does not support disabling users")
+            return False
+        except Exception as e:
+            structlog.get_logger().error(f"Failed to disable Drop user: {e}")
+            return False
 
     def delete_user(self, user_id: str):
         """Delete a Drop user."""
@@ -262,17 +301,17 @@ class DropClient(RestApiMixin):
             else None,
         }
 
-    def get_user_details(self, user_id: str) -> "MediaUserDetails":
+    def get_user_details(self, user_identifier: str | int) -> "MediaUserDetails":
         """Get detailed user information in standardized format."""
         from app.services.media.user_details import MediaUserDetails
 
         try:
             # Get raw user data from Drop API
-            response = self.get(f"/api/v1/admin/users/{user_id}")
+            response = self.get(f"/api/v1/admin/users/{user_identifier}")
             raw_user = response.json()
 
             return MediaUserDetails(
-                user_id=str(raw_user.get("id", user_id)),
+                user_id=str(raw_user.get("id", user_identifier)),
                 username=raw_user.get("username", "Unknown"),
                 email=raw_user.get("email"),
                 is_admin=raw_user.get("admin", False),
@@ -280,7 +319,6 @@ class DropClient(RestApiMixin):
                 created_at=None,  # Would need to parse if available
                 last_active=None,  # Not available in API
                 library_access=None,  # Drop doesn't have traditional libraries - indicates full access
-                raw_policies=raw_user,
             )
         except Exception as exc:
             logging.error("Drop: failed to get user details – %s", exc)
@@ -293,16 +331,11 @@ class DropClient(RestApiMixin):
     def now_playing(self) -> list[dict]:
         """Return currently playing sessions.
 
-        Note: Drop may not have session tracking functionality.
-        Returns empty list as placeholder.
+        The Drop API has no session endpoint, so this makes no request and
+        always returns []. There is no fetch that can fail.
         """
-        try:
-            # Drop API doesn't seem to have session tracking endpoints
-            logging.debug("Drop: No session tracking available")
-            return []
-        except Exception as exc:
-            logging.warning("Drop: failed to get now playing – %s", exc)
-            return []
+        logging.debug("Drop: No session tracking available")
+        return []
 
     def statistics(self):
         """Return Drop server statistics for the dashboard."""

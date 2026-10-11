@@ -1,0 +1,366 @@
+"""
+Background tasks for activity monitoring.
+
+Provides scheduled tasks for activity data maintenance, cleanup,
+and monitoring health checks.
+"""
+
+from datetime import UTC, datetime, timedelta
+
+try:
+    from flask import Flask
+except ImportError:  # pragma: no cover
+    Flask = None  # type: ignore
+
+import structlog
+from structlog import get_logger as _get_logger
+
+from app.services.activity import ActivityService
+
+ACTIVITY_JOB_IDS = (
+    "activity_cleanup",
+    "activity_stale_cleanup",
+    "activity_health_check",
+    "activity_heartbeat",
+)
+ACTIVITY_TRACKING_RECONCILE_JOB_ID = "activity_tracking_reconcile"
+
+# The scheduler keeps jobs in memory. An interval job without a first run time
+# runs one full interval after each start. Run the stale-session job soon after
+# the start: it ends sessions only and deletes no history.
+#
+# The retention cleanup ("activity_cleanup") keeps the old behavior: its first
+# run comes one full interval (24 h) after the start. It deletes the history
+# that is older than a fixed 90 days, but the history import accepts 365 days.
+# Many installs restart before 24 h and so never ran this job. An early first
+# run would delete their old history after the next restart. Decide the
+# retention policy before this job runs earlier.
+ACTIVITY_STALE_CLEANUP_FIRST_RUN_DELAY = timedelta(minutes=2)
+
+
+def cleanup_old_activity_task(app: Flask, retention_days: int = 90):
+    """
+    Cleanup old activity data beyond retention period.
+
+    This task should be scheduled to run daily to manage database size.
+
+    Args:
+        app: Flask application instance
+        retention_days: Number of days to retain activity data
+    """
+    logger = structlog.get_logger(__name__)
+
+    try:
+        with app.app_context():
+            activity_service = ActivityService()
+            deleted_count = activity_service.cleanup_old_activity(retention_days)
+            # Link sessions of users that were added after the session started.
+            activity_service.backfill_session_links()
+
+            logger.info(
+                f"Activity cleanup completed: {deleted_count} old sessions removed"
+            )
+            return deleted_count
+
+    except Exception as e:
+        logger.error(f"Failed to cleanup old activity data: {e}", exc_info=True)
+        return 0
+
+
+def end_stale_sessions_task(app: Flask, timeout_hours: int = 24):
+    """
+    End sessions that have been active too long without updates.
+
+    This task should be scheduled to run every few hours to clean up
+    sessions that may have been left open due to client disconnections.
+
+    Args:
+        app: Flask application instance
+        timeout_hours: Hours after which to consider a session stale
+    """
+    logger = structlog.get_logger(__name__)
+
+    try:
+        with app.app_context():
+            activity_service = ActivityService()
+            ended_count = activity_service.end_stale_sessions(timeout_hours)
+
+            logger.info(
+                f"Stale session cleanup completed: {ended_count} sessions ended"
+            )
+            return ended_count
+
+    except Exception as e:
+        logger.error(f"Failed to end stale sessions: {e}", exc_info=True)
+        return 0
+
+
+def monitor_health_check_task(app: Flask):
+    """
+    Check the health of activity monitoring connections.
+
+    This task monitors WebSocket connections and logs any issues
+    for debugging purposes.
+
+    Args:
+        app: Flask application instance
+    """
+    logger = structlog.get_logger(__name__)
+
+    try:
+        with app.app_context():
+            # Get activity monitor from app extensions
+            monitor = app.extensions.get("activity_monitor")
+
+            if not monitor:
+                logger.warning("Activity monitor not found in app extensions")
+                return {"status": "no_monitor"}
+
+            # Get connection status
+            connection_status = monitor.get_connection_status()
+
+            # Check for issues
+            issues = []
+            total_connections = len(connection_status)
+            connected_count = 0
+            total_errors = 0
+
+            for server_id, status in connection_status.items():
+                if status.get("connected", False):
+                    connected_count += 1
+                else:
+                    issues.append(f"Server {server_id} disconnected")
+
+                error_count = status.get("errors", 0)
+                total_errors += error_count
+
+                if error_count > 10:  # Threshold for concerning error count
+                    issues.append(f"Server {server_id} has {error_count} errors")
+
+            # Log health status
+            health_status = {
+                "total_connections": total_connections,
+                "connected_count": connected_count,
+                "total_errors": total_errors,
+                "connection_rate": connected_count / total_connections
+                if total_connections > 0
+                else 0,
+                "issues": issues,
+            }
+
+            if issues:
+                logger.warning(f"Activity monitoring health issues detected: {issues}")
+            else:
+                logger.debug(
+                    f"Activity monitoring health check passed: {connected_count}/{total_connections} connections active"
+                )
+
+            return health_status
+
+    except Exception as e:
+        logger.error(f"Failed to perform health check: {e}", exc_info=True)
+        return {"status": "error", "error": str(e)}
+
+
+def activity_monitoring_heartbeat_task(app: Flask):
+    """
+    Simple heartbeat task to ensure activity monitoring is running.
+
+    This task can be used to restart monitoring if it has stopped
+    unexpectedly.
+
+    Args:
+        app: Flask application instance
+    """
+    logger = structlog.get_logger(__name__)
+
+    try:
+        with app.app_context():
+            from app.activity.tracking import is_activity_tracking_enabled
+
+            if not is_activity_tracking_enabled():
+                logger.debug("Activity monitoring heartbeat skipped")
+                return False
+
+            monitor = app.extensions.get("activity_monitor")
+
+            if not monitor:
+                logger.warning("Activity monitor not available for heartbeat check")
+                return False
+
+            if not monitor.monitoring:
+                logger.warning(
+                    "Activity monitoring is not running, attempting to restart"
+                )
+                try:
+                    monitor.start_monitoring()
+                    logger.info("Activity monitoring restarted successfully")
+                    return True
+                except Exception as e:
+                    logger.error(f"Failed to restart activity monitoring: {e}")
+                    return False
+
+            logger.debug("Activity monitoring heartbeat: OK")
+            return True
+
+    except Exception as e:
+        logger.error(f"Failed to perform heartbeat check: {e}", exc_info=True)
+        return False
+
+
+def recover_sessions_on_startup_task(app: Flask):
+    """
+    Recover active sessions on startup by validating them against media servers.
+
+    This task should be run once when Wizarr starts up to handle sessions
+    that were active when the application last shut down.
+
+    Args:
+        app: Flask application instance
+    """
+    logger = structlog.get_logger(__name__)
+
+    try:
+        with app.app_context():
+            activity_service = ActivityService()
+            ended_count = activity_service.recover_sessions_on_startup()
+            # Old rows can lack reference_id or user links. Set them once here,
+            # not in each request.
+            activity_service.backfill_session_links()
+
+            logger.info(
+                f"Session recovery completed: {ended_count} orphaned sessions cleaned up"
+            )
+            return ended_count
+
+    except Exception as e:
+        logger.error(f"Failed to recover sessions on startup: {e}", exc_info=True)
+        return 0
+
+
+def get_activity_cleanup_interval() -> int:
+    """Get the interval for activity cleanup task in hours."""
+    # Run daily
+    return 24
+
+
+def get_stale_session_cleanup_interval() -> int:
+    """Get the interval for stale session cleanup task in hours."""
+    # Run every 6 hours
+    return 6
+
+
+def get_health_check_interval() -> int:
+    """Get the interval for health check task in minutes."""
+    # Run every 15 minutes
+    return 15
+
+
+def get_heartbeat_interval() -> int:
+    """Get the interval for heartbeat task in minutes."""
+    # Run every 5 minutes
+    return 5
+
+
+def register_activity_tasks(app: Flask, scheduler):
+    """
+    Register all activity monitoring tasks with the scheduler.
+
+    Args:
+        app: Flask application instance
+        scheduler: APScheduler instance
+    """
+    logger = _get_logger()
+
+    try:
+        now = datetime.now(UTC)
+
+        # Daily cleanup of old activity data
+        scheduler.add_job(
+            id="activity_cleanup",
+            func=lambda: cleanup_old_activity_task(app),
+            trigger="interval",
+            hours=get_activity_cleanup_interval(),
+            replace_existing=True,
+            max_instances=1,
+            coalesce=True,
+        )
+
+        # Regular cleanup of stale sessions
+        scheduler.add_job(
+            id="activity_stale_cleanup",
+            func=lambda: end_stale_sessions_task(app),
+            trigger="interval",
+            hours=get_stale_session_cleanup_interval(),
+            next_run_time=now + ACTIVITY_STALE_CLEANUP_FIRST_RUN_DELAY,
+            replace_existing=True,
+            max_instances=1,
+            coalesce=True,
+        )
+
+        # Health monitoring
+        scheduler.add_job(
+            id="activity_health_check",
+            func=lambda: monitor_health_check_task(app),
+            trigger="interval",
+            minutes=get_health_check_interval(),
+            replace_existing=True,
+            max_instances=1,
+            coalesce=True,
+        )
+
+        # Heartbeat monitoring
+        scheduler.add_job(
+            id="activity_heartbeat",
+            func=lambda: activity_monitoring_heartbeat_task(app),
+            trigger="interval",
+            minutes=get_heartbeat_interval(),
+            replace_existing=True,
+            max_instances=1,
+            coalesce=True,
+        )
+
+        logger.info("Activity monitoring tasks registered successfully")
+
+    except Exception as e:
+        logger.error(f"Failed to register activity tasks: {e}", exc_info=True)
+
+
+def activity_tasks_registered(scheduler) -> bool:
+    """Return true when all activity jobs exist."""
+    return all(scheduler.get_job(job_id) is not None for job_id in ACTIVITY_JOB_IDS)
+
+
+def unregister_activity_tasks(scheduler) -> None:
+    """Remove all activity jobs from the scheduler."""
+    logger = _get_logger()
+    removed = False
+
+    for job_id in ACTIVITY_JOB_IDS:
+        if scheduler.get_job(job_id) is not None:
+            scheduler.remove_job(job_id)
+            removed = True
+
+    if removed:
+        logger.info("Activity monitoring tasks removed")
+
+
+def reconcile_activity_tracking_task(app: Flask) -> bool:
+    """Apply a tracking setting change in the scheduler process."""
+    from app.activity.tracking import reconcile_activity_tracking
+    from app.extensions import scheduler
+
+    return reconcile_activity_tracking(app, scheduler)
+
+
+def register_activity_tracking_reconcile_task(app: Flask, scheduler) -> None:
+    """Register the small job that applies tracking setting changes."""
+    scheduler.add_job(
+        id=ACTIVITY_TRACKING_RECONCILE_JOB_ID,
+        func=lambda: reconcile_activity_tracking_task(app),
+        trigger="interval",
+        seconds=15,
+        replace_existing=True,
+        max_instances=1,
+        coalesce=True,
+    )

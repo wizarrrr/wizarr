@@ -1,6 +1,7 @@
 import base64
 import json
 import logging
+from typing import Any
 
 import apprise
 import requests
@@ -24,8 +25,30 @@ def _send(url: str, data, headers: dict) -> bool:
         return False
 
 
-def _discord(msg: str, webhook_url: str) -> bool:
-    data = json.dumps({"content": msg})
+def _discord(
+    msg: str,
+    webhook_url: str,
+    title: str = "Wizarr Notification",
+    previous_version: str | None = None,
+    new_version: str | None = None,
+) -> bool:
+    embed: dict[str, Any] = {
+        "title": title,
+        "description": msg,
+        "author": {
+            "name": "Wizarr",
+            "icon_url": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/wizarr.png",
+        },
+    }
+
+    # Add version fields for update notifications
+    if previous_version and new_version:
+        embed["fields"] = [
+            {"name": "Previous Version", "value": previous_version, "inline": True},
+            {"name": "New Version", "value": new_version, "inline": True},
+        ]
+
+    data = json.dumps({"embeds": [embed]})
     headers = {"Content-Type": "application/json"}
     return _send(webhook_url, data, headers)
 
@@ -45,7 +68,7 @@ def _ntfy(
     return _send(url, msg, headers)
 
 
-def _apprise(msg: str, title: str, tags: str, url: str) -> bool:
+def _apprise(msg: str, title: str, _tags: str, url: str) -> bool:
     try:
         apprise_client = apprise.Apprise()
         apprise_client.add(url)
@@ -89,14 +112,55 @@ def _notifiarr(
     return _send(url, data, headers)
 
 
-def notify(title: str, message: str, tags: str):
-    """Broadcast to every configured agent."""
+def _telegram(
+    msg: str,
+    title: str,
+    baseUrl: str,
+    bot_token: str,
+    chat_id: str,
+) -> bool:
+    baseUrl = baseUrl.rstrip("/")
+    url = f"{baseUrl}/bot{bot_token}/sendMessage"
+    data = json.dumps(
+        {
+            "chat_id": chat_id,
+            "text": f"{title}\n{msg}",
+        }
+    )
+    headers = {"Content-Type": "application/json"}
+    return _send(url, data, headers)
+
+
+def notify(
+    title: str,
+    message: str,
+    tags: str,
+    event_type: str = "user_joined",
+    previous_version: str | None = None,
+    new_version: str | None = None,
+):
+    """Broadcast to every configured agent that is subscribed to the event type."""
     for agent in Notification.query.all():
+        # Check if agent is subscribed to this event type
+        subscribed_events = (
+            agent.notification_events.split(",") if agent.notification_events else []
+        )
+        if event_type not in subscribed_events:
+            continue
+
         if agent.type == "discord":
-            _discord(message, agent.url)
+            _discord(message, agent.url, title, previous_version, new_version)
         elif agent.type == "ntfy":
             _ntfy(message, title, tags, agent.url, agent.username, agent.password)
         elif agent.type == "apprise":
             _apprise(message, title, tags, agent.url)
         elif agent.type == "notifiarr":
             _notifiarr(message, title, agent.url, agent.channel_id)
+        elif agent.type == "telegram":
+            _telegram(
+                message,
+                title,
+                agent.url,
+                agent.telegram_bot_token,
+                agent.telegram_chat_id,
+            )

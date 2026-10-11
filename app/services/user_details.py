@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import cast
 
+from app.extensions import db
 from app.models import MediaServer, User
 from app.services.media.service import get_client_for_media_server
 from app.services.media.user_details import MediaUserDetails
@@ -22,6 +23,7 @@ class AccountInfo:
     allow_downloads: bool
     allow_live_tv: bool
     allow_camera_upload: bool
+    expires: datetime | None = None
 
 
 @dataclass(frozen=True)
@@ -38,7 +40,7 @@ class UserDetailsService:
 
     def get_user_details(self, db_id: int) -> UserDetailsDTO:
         """Retrieve detailed information for a user including linked accounts."""
-        user = User.query.get_or_404(db_id)
+        user = db.get_or_404(User, db_id)
 
         join_date = self._get_join_date(user)
         accounts = self._get_linked_accounts(user)
@@ -87,6 +89,7 @@ class UserDetailsService:
                         allow_downloads=False,
                         allow_live_tv=False,
                         allow_camera_upload=False,
+                        expires=account.expires,
                     )
                 )
 
@@ -106,6 +109,7 @@ class UserDetailsService:
                 allow_downloads=False,
                 allow_live_tv=False,
                 allow_camera_upload=False,
+                expires=account.expires,
             )
 
         # Use standardized metadata if available
@@ -120,6 +124,7 @@ class UserDetailsService:
                 allow_downloads=account.allow_downloads or False,
                 allow_live_tv=account.allow_live_tv or False,
                 allow_camera_upload=account.allow_camera_upload or False,
+                expires=account.expires,
             )
 
         # No standardized metadata available, fetch from API
@@ -129,7 +134,7 @@ class UserDetailsService:
         user_arg = account.id if server.server_type == "plex" else account.token
         details: MediaUserDetails = client.get_user_details(user_arg)
 
-        libraries = self._extract_libraries_from_details(server, details)
+        libraries = self._extract_libraries_from_details(server, account, details)
 
         # Update user with standardized metadata for future use
         account.update_standardized_metadata(details)
@@ -143,10 +148,11 @@ class UserDetailsService:
             allow_downloads=details.allow_downloads,
             allow_live_tv=details.allow_live_tv,
             allow_camera_upload=details.allow_camera_upload,
+            expires=account.expires,
         )
 
     def _extract_libraries_from_cached_data(
-        self, server: MediaServer, account: User
+        self, _server: MediaServer, account: User
     ) -> list[str]:
         """Extract library names from cached user data."""
         library_access_data = account.get_library_access()
@@ -154,27 +160,25 @@ class UserDetailsService:
             return []
 
         # Extract library names from cached JSON data
-        accessible_libraries = []
-        for lib in library_access_data:
-            if isinstance(lib, dict) and lib.get("has_access", False):
-                accessible_libraries.append(lib.get("library_name", ""))
+        accessible_libraries = [
+            lib.get("library_name", "")
+            for lib in library_access_data
+            if isinstance(lib, dict) and lib.get("has_access", False)
+        ]
 
         return [name for name in accessible_libraries if name]
 
     def _extract_libraries_from_details(
-        self, server: MediaServer, details: MediaUserDetails
-    ) -> list[str]:
+        self, server: MediaServer, account: User, details: MediaUserDetails
+    ) -> list[str] | None:
         """Extract library names from MediaUserDetails."""
-        # If library_access is None, user has full access - get all server libraries
-        if details.library_access is None:
-            from app.models import Library
+        if getattr(details, "library_access_unknown", False):
+            cached = self._extract_libraries_from_cached_data(server, account)
+            return cached or []
 
-            all_libs = (
-                Library.query.filter_by(server_id=server.id, enabled=True)
-                .order_by(Library.name)
-                .all()
-            )
-            return [lib.name for lib in all_libs]
+        # If library_access is None, user has full access
+        if details.library_access is None:
+            return None
 
         # Otherwise return the specific accessible library names
         return details.accessible_library_names

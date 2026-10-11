@@ -1,7 +1,9 @@
-<div class="relative modal-container" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+<div class="relative modal-container"
+     aria-labelledby="modal-title"
+     role="dialog"
+     aria-modal="true">
   <!-- backdrop -->
   <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
-
   <div class="fixed inset-0 z-10 overflow-y-auto">
     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
       <div class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
@@ -11,11 +13,12 @@
               {{ _(action == 'create' and 'New Wizard Bundle' or 'Edit Wizard Bundle') }}
             </h1>
           </div>
-          <form class="space-y-4" method="post"
+          <form class="space-y-4"
+                method="post"
                 hx-post="{{ request.path }}"
-                hx-target="#tab-body" hx-swap="innerHTML">
+                hx-target="#tab-body"
+                hx-swap="innerHTML">
             {{ form.hidden_tag() }}
-
             <div>
               {{ form.name.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
               {{ form.name(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
@@ -24,14 +27,17 @@
               {{ form.description.label(class="block mb-1 text-sm font-medium text-gray-900 dark:text-white") }}
               {{ form.description(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
             </div>
-
             <div class="flex gap-2 justify-end pt-4">
-              <button type="button" onclick="const modal = document.getElementById('step-modal'); if (modal) modal.innerHTML = ''" class="px-4 py-2 rounded border border-gray-300 text-gray-700 dark:text-gray-300">{{ _('Cancel') }}</button>
-              <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _('Save') }}</button>
+              <button type="button"
+                      onclick="const modal = document.getElementById('step-modal'); if (modal) modal.innerHTML = ''"
+                      class="px-4 py-2 rounded border border-gray-300 text-gray-700 dark:text-gray-300">
+                {{ _("Cancel") }}
+              </button>
+              <button type="submit" class="px-4 py-2 rounded bg-primary text-white">{{ _("Save") }}</button>
             </div>
           </form>
         </div>
       </div>
     </div>
   </div>
-</div> 
+</div>
