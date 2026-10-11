@@ -1,5 +1,8 @@
 """
-Overseerr/Jellyseerr companion client implementation.
+Seerr companion client implementation.
+
+Seerr is the merged successor of Overseerr and Jellyseerr. They share one
+API, so this client also works with an instance that still runs either one.
 """
 
 import logging
@@ -42,7 +45,7 @@ def _open_session(
         resp = session.get(f"{base_url}/api/v1/status", timeout=10)
     except Exception as exc:
         # Not fatal on its own: let the POST report the real failure.
-        logging.debug("Could not prime Overseerr CSRF cookie: %s", exc)
+        logging.debug("Could not prime Seerr CSRF cookie: %s", exc)
         return session, headers, None
 
     token = session.cookies.get("XSRF-TOKEN")
@@ -114,7 +117,7 @@ def _enable_watchlist_sync(
 
 
 class OverseerrClient(CompanionClient):
-    """Client for integrating with Overseerr/Jellyseerr.
+    """Client for integrating with Seerr (formerly Overseerr and Jellyseerr).
 
     Informational by default: they import nobody in the background and
     creates an account on first sign-in. With account creation turned on, an
@@ -127,7 +130,7 @@ class OverseerrClient(CompanionClient):
 
     @property
     def display_name(self) -> str:
-        return "Overseerr/Jellyseerr"
+        return "Seerr"
 
     def invite_user(
         self,
@@ -150,7 +153,7 @@ class OverseerrClient(CompanionClient):
         """
         return {
             "status": "info_only",
-            "message": "Overseerr auto-imports users automatically",
+            "message": "Seerr auto-imports users automatically",
         }
 
     def delete_user(self, username: str, connection: Connection) -> dict[str, str]:  # noqa: ARG002
@@ -166,7 +169,7 @@ class OverseerrClient(CompanionClient):
         """
         return {
             "status": "info_only",
-            "message": "Overseerr users managed automatically",
+            "message": "Seerr users managed automatically",
         }
 
     def test_connection(self, connection: Connection) -> dict[str, str]:
@@ -298,7 +301,7 @@ class OverseerrClient(CompanionClient):
             # Reachability is already established, so this is not the check
             # failing so much as the check being unable to run. Do not block on
             # it: provisioning reports its own CSRF failures with the same text.
-            logging.debug("Overseerr CSRF probe could not run: %s", exc)
+            logging.debug("Seerr CSRF probe could not run: %s", exc)
             return True
 
         body = (resp.text or "").lower()
@@ -319,7 +322,7 @@ class OverseerrClient(CompanionClient):
                 return None
             value = resp.json().get("newPlexLogin")
         except Exception as exc:
-            logging.debug("Could not read Overseerr public settings: %s", exc)
+            logging.debug("Could not read Seerr public settings: %s", exc)
             return None
 
         return bool(value) if isinstance(value, bool) else None
@@ -352,7 +355,7 @@ class OverseerrClient(CompanionClient):
         if not connection.url:
             return {
                 "status": "skipped",
-                "message": "No Overseerr URL configured",
+                "message": "No Seerr URL configured",
             }
 
         base_url = connection.url.rstrip("/")
@@ -373,7 +376,7 @@ class OverseerrClient(CompanionClient):
             except Exception as exc:
                 last_message = str(exc)
                 logging.warning(
-                    "Overseerr provisioning attempt %s/%s failed: %s",
+                    "Seerr provisioning attempt %s/%s failed: %s",
                     attempt,
                     total,
                     exc,
@@ -381,14 +384,14 @@ class OverseerrClient(CompanionClient):
             else:
                 if resp.ok:
                     logging.info(
-                        "Overseerr provisioned Plex user via %s on attempt %s",
+                        "Seerr provisioned Plex user via %s on attempt %s",
                         url,
                         attempt,
                     )
                     if not connection.enable_watchlist_sync:
                         return {
                             "status": "success",
-                            "message": "User created in Overseerr",
+                            "message": "User created in Seerr",
                         }
 
                     # Signing in rotates the CSRF token, so the one primed
@@ -406,13 +409,13 @@ class OverseerrClient(CompanionClient):
                         # The account exists either way; only the follow-up
                         # setting is lost, and saying so beats a bare success.
                         logging.warning(
-                            "Overseerr did not return a user id, so watchlist "
+                            "Seerr did not return a user id, so watchlist "
                             "syncing was left unset"
                         )
                         return {
                             "status": "success",
                             "message": (
-                                "User created in Overseerr, but watchlist "
+                                "User created in Seerr, but watchlist "
                                 "syncing could not be turned on: no user id in "
                                 "the response"
                             ),
@@ -423,7 +426,7 @@ class OverseerrClient(CompanionClient):
                     )
                     if problem:
                         logging.warning(
-                            "Overseerr user %s created, but watchlist syncing "
+                            "Seerr user %s created, but watchlist syncing "
                             "could not be turned on: %s",
                             user_id,
                             problem,
@@ -431,14 +434,14 @@ class OverseerrClient(CompanionClient):
                         return {
                             "status": "success",
                             "message": (
-                                "User created in Overseerr, but watchlist "
+                                "User created in Seerr, but watchlist "
                                 f"syncing could not be turned on: {problem}"
                             ),
                         }
 
                     return {
                         "status": "success",
-                        "message": "User created in Overseerr, watchlist syncing on",
+                        "message": "User created in Seerr, watchlist syncing on",
                     }
 
                 # Carry the body, not just the status: a bare "HTTP 403" reads
@@ -452,10 +455,10 @@ class OverseerrClient(CompanionClient):
                     # back over plain HTTP and the token can never validate. No
                     # amount of retrying fixes a configuration problem.
                     logging.warning(
-                        "Overseerr rejected the request as CSRF-invalid. Its CSRF "
+                        "Seerr rejected the request as CSRF-invalid. Its CSRF "
                         "cookies are Secure, so an http:// connection URL can "
                         "never satisfy them - configure %s over https, or turn "
-                        "off CSRF protection in Overseerr.",
+                        "off CSRF protection in Seerr.",
                         base_url,
                     )
                     break
@@ -466,7 +469,7 @@ class OverseerrClient(CompanionClient):
                 if resp.status_code != 403:
                     break
                 logging.info(
-                    "Overseerr does not see the share yet (attempt %s/%s)",
+                    "Seerr does not see the share yet (attempt %s/%s)",
                     attempt,
                     total,
                 )
@@ -474,5 +477,5 @@ class OverseerrClient(CompanionClient):
             if attempt <= len(_PROVISION_BACKOFF_SECONDS):
                 time.sleep(_PROVISION_BACKOFF_SECONDS[attempt - 1])
 
-        logging.warning("Overseerr provisioning gave up: %s", last_message)
+        logging.warning("Seerr provisioning gave up: %s", last_message)
         return {"status": "error", "message": last_message}

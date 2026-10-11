@@ -2,7 +2,7 @@
 Companion app integration system.
 
 This module provides a modular system for integrating with companion apps
-like Ombi, Overseerr, and Audiobookrequest. Each companion type has its own
+like Ombi, Seerr, and Audiobookrequest. Each companion type has its own
 client implementation following a common interface.
 """
 
@@ -43,7 +43,7 @@ def list_companion_types() -> list[tuple[str, str]]:
     """Return list of (value, label) tuples for all registered companion types."""
     return [
         ("ombi", "Ombi"),
-        ("overseerr", "Overseerr/Jellyseerr"),
+        ("overseerr", "Seerr (Overseerr/Jellyseerr)"),
         ("audiobookrequest", "Audiobookrequest"),
     ]
 

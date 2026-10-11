@@ -220,10 +220,14 @@ After invitation acceptance:
 
 ```
 dn: uid=john,ou=people,dc=example,dc=com
-objectClass: person
+objectClass: inetOrgPerson
 uid: john
 mail: john@example.com
+cn: john
+sn: john
 ```
+
+Wizarr sets `cn` and `sn` to the username, because the `person` object class requires them. Servers that enforce the schema, such as 389 Directory Server, OpenLDAP and FreeIPA, reject a new user without these attributes.
 
 > **Note**: Users are not automatically added to any groups. You must manually add them to the `lldap_password_manager` group (and any other groups) via LLDAP's web UI.
 

@@ -69,11 +69,8 @@ def test_overseerr_requests_preset_exists():
     """Test that overseerr_requests preset is available."""
     assert "overseerr_requests" in PRESETS
     preset = PRESETS["overseerr_requests"]
-    assert preset.name == "Overseerr/Ombi Requests"
-    assert (
-        "overseerr" in preset.description.lower()
-        or "ombi" in preset.description.lower()
-    )
+    assert preset.name == "Seerr/Ombi Requests"
+    assert "seerr" in preset.description.lower() or "ombi" in preset.description.lower()
     assert "{overseerr_url}" in preset.template
 
 
