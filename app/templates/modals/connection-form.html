@@ -5,7 +5,7 @@
     <!-- Modal Header -->
     <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
       <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
-        {% if action == 'create' %}
+        {% if action == "create" %}
           {{ _("Add New Connection") }}
         {% else %}
           {{ _("Edit Connection") }}
@@ -62,7 +62,7 @@
             </div>
           {% endif %}
         </div>
-        {% if form.connection_type.data == 'overseerr' %}
+        {% if form.connection_type.data == "overseerr" %}
           <!-- Seerr Info Section -->
           <div class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 border border-gray-200 dark:border-gray-600">
             <div class="flex items-start">
@@ -134,7 +134,7 @@
             {% endif %}
           </div>
         {% endif %}
-        {% if form.connection_type.data == 'overseerr' %}
+        {% if form.connection_type.data == "overseerr" %}
           <!-- Create accounts for invited users; only the Seerr client acts on this flag -->
           <div>
             <div class="flex items-center">
@@ -177,7 +177,7 @@
         <div class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600">
           <button type="submit"
                   class="text-white bg-primary hover:bg-primary-dark focus:ring-4 focus:outline-none focus:ring-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-            {% if action == 'create' %}
+            {% if action == "create" %}
               {{ _("Create Connection") }}
             {% else %}
               {{ _("Update Connection") }}

@@ -76,7 +76,7 @@
             </div>
           {% endif %}
           <!-- Permission Management Section (only for supported servers) -->
-          {% if related_user.server and related_user.server.server_type in ['plex', 'jellyfin', 'emby', 'audiobookshelf'] %}
+          {% if related_user.server and related_user.server.server_type in ["plex", "jellyfin", "emby", "audiobookshelf"] %}
             <div class="mb-6">
               <h3 class="text-base font-semibold text-gray-900 dark:text-white mb-4">{{ _("Permission Management") }}</h3>
               <!-- Permission Toggles -->
@@ -107,7 +107,7 @@
                   </form>
                 </div>
                 <!-- Live TV Permission (Plex, Jellyfin, Emby only) -->
-                {% if related_user.server and related_user.server.server_type in ['plex', 'jellyfin', 'emby'] %}
+                {% if related_user.server and related_user.server.server_type in ["plex", "jellyfin", "emby"] %}
                   <div class="flex items-center justify-between">
                     <label class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ _("Allow Live TV") }}</label>
                     <button type="button"
@@ -133,7 +133,7 @@
                   </div>
                 {% endif %}
                 <!-- Camera Upload Permission (Plex only) -->
-                {% if related_user.server and related_user.server.server_type == 'plex' %}
+                {% if related_user.server and related_user.server.server_type == "plex" %}
                   <div class="flex items-center justify-between">
                     <label class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ _("Allow Camera Upload") }}</label>
                     <button type="button"

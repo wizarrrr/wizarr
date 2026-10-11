@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}
-  {% if action == 'create' %}
+  {% if action == "create" %}
     {{ _("Add New Connection") }}
   {% else %}
     {{ _("Edit Connection") }}
@@ -45,7 +45,7 @@
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
                   </svg>
                   <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2 dark:text-gray-400">
-                    {% if action == 'create' %}
+                    {% if action == "create" %}
                       {{ _("Add Connection") }}
                     {% else %}
                       {{ _("Edit Connection") }}
@@ -57,14 +57,14 @@
           </nav>
         </div>
         <h1 class="text-3xl font-bold text-gray-900 dark:text-white">
-          {% if action == 'create' %}
+          {% if action == "create" %}
             {{ _("Add New Connection") }}
           {% else %}
             {{ _("Edit Connection") }}
           {% endif %}
         </h1>
         <p class="mt-2 text-gray-600 dark:text-gray-400">
-          {% if action == 'create' %}
+          {% if action == "create" %}
             {{ _("Create a new external service connection for automated user invitations") }}
           {% else %}
             {{ _("Update the connection settings") }}
@@ -111,7 +111,7 @@
                 {{ _("Which media server should trigger invitations to this external service") }}
               </p>
             </div>
-            {% if form.connection_type.data == 'overseerr' %}
+            {% if form.connection_type.data == "overseerr" %}
               <!-- Seerr Info Section -->
               <div class="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 border border-gray-200 dark:border-gray-700">
                 <div class="flex items-start">
@@ -193,7 +193,7 @@
                 <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">{{ _("API key from your external service settings") }}</p>
               </div>
             {% endif %}
-            {% if form.connection_type.data == 'overseerr' %}
+            {% if form.connection_type.data == "overseerr" %}
               <!-- Provision Plex users; only the Seerr client acts on this flag -->
               <div>
                 <div class="flex items-center">
@@ -224,7 +224,7 @@
               </a>
               <button type="submit"
                       class="text-white bg-primary hover:bg-primary-dark focus:ring-4 focus:outline-none focus:ring-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                {% if action == 'create' %}
+                {% if action == "create" %}
                   {{ _("Create Connection") }}
                 {% else %}
                   {{ _("Update Connection") }}

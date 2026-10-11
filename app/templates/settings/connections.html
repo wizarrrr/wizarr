@@ -44,7 +44,7 @@
                 <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                   <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">{{ connection.name }}</td>
                   <td class="px-6 py-4">
-                    {% if connection.connection_type == 'overseerr' %}
+                    {% if connection.connection_type == "overseerr" %}
                       {# Info-only until account creation is turned on: with it, every
                       Plex invite posts to the service's sign-in route. #}
                       {% if connection.provision_plex_users %}
@@ -68,7 +68,7 @@
                           {{ _("Seerr (Info)") }}
                         </span>
                       {% endif %}
-                    {% elif connection.connection_type == 'ombi' %}
+                    {% elif connection.connection_type == "ombi" %}
                       <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-green-800 bg-green-100 rounded-full dark:bg-green-900 dark:text-green-300">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              fill="none"
@@ -80,7 +80,7 @@
                         </svg>
                         {{ _("Ombi") }}
                       </span>
-                    {% elif connection.connection_type == 'audiobookrequest' %}
+                    {% elif connection.connection_type == "audiobookrequest" %}
                       <span class="inline-flex items-center px-2 py-1 text-xs font-medium text-purple-800 bg-purple-100 rounded-full dark:bg-purple-900 dark:text-purple-300">
                         <svg xmlns="http://www.w3.org/2000/svg"
                              fill="none"

@@ -128,13 +128,13 @@
                 <div class="flex justify-between items-center text-xs text-gray-500 dark:text-gray-400 mb-1">
                   <!-- Player status indicator -->
                   <div class="flex items-center justify-center w-4 h-4">
-                    {% if session.state == 'playing' %}
+                    {% if session.state == "playing" %}
                       <svg class="w-4 h-4 text-green-400"
                            fill="currentColor"
                            viewBox="0 0 24 24">
                         <path d="M8 5v14l11-7z" />
                       </svg>
-                    {% elif session.state == 'paused' %}
+                    {% elif session.state == "paused" %}
                       <svg class="w-4 h-4 text-yellow-400"
                            fill="currentColor"
                            viewBox="0 0 24 24">
@@ -209,7 +209,7 @@
                 </div>
                 <hr class="border-gray-300 dark:border-gray-700">
                 <!-- Technical Specifications -->
-                {% if session.server_type == 'audiobookshelf' %}
+                {% if session.server_type == "audiobookshelf" %}
                   <!-- Audiobook-specific details -->
                   <div class="space-y-2">
                     {% if session.audio_codec %}
