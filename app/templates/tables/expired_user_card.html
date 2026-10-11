@@ -30,9 +30,9 @@
                 {% endif %}
               </div>
               <div class="text-xs text-gray-500 dark:text-gray-400">
-                Expired: {{ user.expired_at.strftime("%Y-%m-%d %H:%M") if user.expired_at else 'Unknown' }}
+                Expired: {{ user.expired_at|local_date("%Y-%m-%d %H:%M") if user.expired_at else 'Unknown' }}
                 {% if user.deleted_at %}
-                  • Deleted: {{ user.deleted_at.strftime("%Y-%m-%d %H:%M") }}
+                  • Deleted: {{ user.deleted_at|local_date("%Y-%m-%d %H:%M") }}
                 {% endif %}
               </div>
             </div>

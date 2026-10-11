@@ -17,9 +17,9 @@
           <div>
             <span class="text-gray-900 dark:text-white font-medium">{{ key.name }}</span>
             <div class="text-sm text-gray-500 dark:text-gray-400">
-              Created: {{ key.created_at.strftime("%Y-%m-%d %H:%M") }}
+              Created: {{ key.created_at|local_date("%Y-%m-%d %H:%M") }}
               {% if key.last_used_at %}
-                | Last used: {{ key.last_used_at.strftime("%Y-%m-%d %H:%M") }}
+                | Last used: {{ key.last_used_at|local_date("%Y-%m-%d %H:%M") }}
               {% else %}
                 | Never used
               {% endif %}
