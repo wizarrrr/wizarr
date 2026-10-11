@@ -3,11 +3,16 @@ import logging
 
 from flask import render_template
 
+from app.extensions import db
+
 
 def register_error_handlers(app):
     @app.errorhandler(500)
     def error_500(e):
         logging.error("500: %s", e, exc_info=True)
+        # A failed flush leaves the session in a broken state. The context
+        # processors query the database, so roll back before the render.
+        db.session.rollback()
         return render_template("error/500.html"), 500
 
     @app.errorhandler(404)
