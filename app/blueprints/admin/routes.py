@@ -22,7 +22,6 @@ from app.extensions import db, limiter
 from app.jinja_filters import local_to_utc
 from app.models import (
     ExpiredUser,
-    Identity,
     Invitation,
     LDAPConfiguration,
     Library,
@@ -34,6 +33,7 @@ from app.models import (
     invitation_users,
 )
 from app.services.expiry import get_expiring_this_week_users
+from app.services.identity_linking import link_user_accounts, primary_account
 from app.services.invites import create_invite
 from app.services.media.service import (
     EMAIL_RE,
@@ -952,20 +952,8 @@ def invite_scan_libraries():
 @login_required
 def link_accounts():
     ids = request.form.getlist("uids")
-    if len(ids) < 2:
+    if len(ids) < 2 or not link_user_accounts(ids):
         return "", 400
-    users = User.query.filter(User.id.in_(ids)).all()
-    if users[0].identity:
-        identity = users[0].identity
-    else:
-        identity = Identity()
-        identity.primary_email = users[0].email
-        identity.primary_username = users[0].username
-    db.session.add(identity)
-    db.session.flush()
-    for u in users:
-        u.identity = identity
-    db.session.commit()
 
     # Trigger user table refresh to preserve filters/sorting
     response = Response("")
@@ -1220,7 +1208,7 @@ def _group_users_for_display(user_list):
 
     cards = []
     for lst in groups.values():
-        primary = min(lst, key=lambda x: x.username or "")
+        primary = primary_account(lst)
         photo = next((a.photo for a in lst if a.photo), None)
         expire_dates = [a.expires for a in lst if a.expires]
         expires = min(expire_dates) if expire_dates else None
