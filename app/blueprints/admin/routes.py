@@ -1175,11 +1175,43 @@ def edit_identity(identity_id):
     from app.models import Identity
 
     identity = db.get_or_404(Identity, identity_id)
+    return _nickname_editor(
+        identity, url_for("admin.edit_identity", identity_id=identity.id)
+    )
 
+
+@admin_bp.route("/user/<int:user_id>/nickname", methods=["GET", "POST"])
+@login_required
+def edit_user_nickname(user_id):
+    """Nickname editor for any user, including one with no Identity yet.
+
+    Identities are only created automatically when two accounts share an
+    email, so a user with a single account has nowhere to keep a nickname.
+    Saving a nickname gives that user an Identity; opening the editor or
+    saving an empty name does not.
+    """
+    from app.models import Identity
+
+    user = db.get_or_404(User, user_id)
+    identity = user.identity or Identity(
+        primary_email=user.email, primary_username=user.username
+    )
+    return _nickname_editor(
+        identity,
+        url_for("admin.edit_user_nickname", user_id=user.id),
+        user=user,
+    )
+
+
+def _nickname_editor(identity, form_action, user=None):
     if request.method == "POST":
         nickname = request.form.get("nickname", "").strip() or None
-        identity.nickname = nickname
-        db.session.commit()
+        if identity.id is not None or nickname:
+            identity.nickname = nickname
+            if user is not None and user.identity is None:
+                user.identity = identity
+                db.session.add(identity)
+            db.session.commit()
 
         # Close the modal and refresh the user table to preserve filters/sorting
         response = Response("")
@@ -1187,7 +1219,9 @@ def edit_identity(identity_id):
         return response
 
     # GET → return modal form
-    return render_template("modals/edit-identity.html", identity=identity)
+    return render_template(
+        "modals/edit-identity.html", identity=identity, form_action=form_action
+    )
 
 
 # HTMX endpoint for latest accepted invitations card
