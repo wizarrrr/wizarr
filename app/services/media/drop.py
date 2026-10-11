@@ -5,9 +5,10 @@ and invitation management through a System token with appropriate scopes.
 """
 
 import logging
-from datetime import UTC
+from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING, Any
 
+import requests
 import structlog
 from sqlalchemy import or_
 
@@ -19,7 +20,22 @@ from app.services.media.client_base import EMAIL_RE, RestApiMixin, register_medi
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
 
-# Simple email validation pattern
+
+class DropSignupError(Exception):
+    """Drop refused the sign-up data. The message is safe to show the user."""
+
+
+def _error_message(response: requests.Response) -> str:
+    """Return the reason that Drop gives in an error response."""
+    try:
+        body = response.json()
+    except ValueError:
+        body = None
+    if isinstance(body, dict):
+        message = body.get("message") or body.get("statusMessage")
+        if message:
+            return str(message)
+    return f"Drop returned HTTP {response.status_code}"
 
 
 @register_media_client("drop")
@@ -175,35 +191,34 @@ class DropClient(RestApiMixin):
         """Create a Drop user using the invitation system.
 
         Drop uses a two-step process:
-        1. Create an invitation
-        2. Consume the invitation to create the user
+        1. Create an invitation (the API token needs the
+           ``auth:simple:invitation:new`` ACL)
+        2. Consume the invitation to create the user (Simple Authentication
+           must be enabled on the Drop server)
+
+        Raises:
+            DropSignupError: Drop refused the username, e-mail or password.
         """
+        # isoformat() of an aware datetime already ends in "+00:00"
+        expires = datetime.now(UTC) + timedelta(hours=1)
+        invitation_payload = {
+            "expires": expires.isoformat(),
+            "username": username,
+            "email": email,
+            "isAdmin": False,
+        }
+
         try:
-            # Step 1: Create invitation
-            from datetime import datetime, timedelta
-
-            expires = datetime.now(UTC) + timedelta(hours=1)
-            invitation_payload = {
-                "expires": expires.isoformat() + "Z",
-                "username": username,
-                "email": email,
-                "isAdmin": False,
-            }
-
             invite_response = self.post(
-                "/api/v1/admin/invitation", json=invitation_payload
+                "/api/v1/admin/auth/invitation", json=invitation_payload
             )
-            invitation_data = invite_response.json()
-            invitation_id = invitation_data.get("id")
-
+            invitation_id = invite_response.json().get("id")
             if not invitation_id:
                 raise ValueError("No invitation ID returned from Drop API")
 
-            # Step 2: Consume invitation to create user
-            # Drop requires minimum 14 character password
-            if len(password) < 14:
-                password = password + "0" * (14 - len(password))
-
+            # Send the password unchanged. Drop 0.3 needs 14 characters and
+            # Drop 0.4 needs 8. If it is too short, Drop answers 400 with the
+            # reason, and the user sees it.
             signup_payload = {
                 "invitation": invitation_id,
                 "username": username,
@@ -211,20 +226,20 @@ class DropClient(RestApiMixin):
                 "email": email,
                 "displayName": username,
             }
-
             user_response = self.post("/api/v1/auth/signup/simple", json=signup_payload)
-            user_data = user_response.json()
-
-            return str(user_data.get("id", ""))
-
-        except Exception as exc:
-            if "404" in str(exc):
-                raise NotImplementedError(
-                    "Drop server does not support Simple Authentication. "
-                    "Please enable Simple Authentication in your Drop server configuration."
+        except requests.HTTPError as exc:
+            response = exc.response
+            if response is not None and response.status_code == 400:
+                raise DropSignupError(_error_message(response)) from exc
+            if response is not None and response.status_code == 403:
+                raise PermissionError(
+                    "Drop refused the request. Give the API token the "
+                    "'auth:simple:invitation:new' ACL and enable Simple "
+                    "Authentication on the Drop server."
                 ) from exc
-            logging.error("Drop: failed to create user – %s", exc)
             raise
+
+        return str(user_response.json().get("id", ""))
 
     def update_user(self, _user_id: str, _patch: dict[str, Any]):
         """Update a Drop user.
@@ -513,6 +528,10 @@ class DropClient(RestApiMixin):
 
             return True, ""
 
+        except DropSignupError as exc:
+            logging.warning("Drop refused the sign-up: %s", exc)
+            db.session.rollback()
+            return False, f"Drop refused the account: {exc}"
         except Exception:
             logging.error("Drop join error", exc_info=True)
             db.session.rollback()
