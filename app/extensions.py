@@ -140,6 +140,10 @@ def init_extensions(app):
     htmx.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"  # type: ignore
+
+    from .services import cloudflare_access
+
+    cloudflare_access.init_app(app)
     db.init_app(app)
 
     # Enable SQLite WAL mode for concurrent writes
@@ -175,6 +179,12 @@ def load_user(user_id):
         AdminAccount,
         AdminUser,
     )
+    from .services import cloudflare_access
+
+    # Behind Cloudflare Access the session only counts alongside a valid token,
+    # so a request that skipped Access can't use an admin's session cookie.
+    if cloudflare_access.enabled() and cloudflare_access.verified_claims() is None:
+        return None
 
     # ── legacy single-admin token ───────────────────────────────────────────
     if user_id == "admin":
