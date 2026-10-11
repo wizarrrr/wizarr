@@ -1,5 +1,28 @@
 # Reverse Proxy
 
+## Trusted proxy headers
+
+When Wizarr runs behind a reverse proxy such as Nginx, Traefik, Caddy, SWAG, or Nginx Proxy Manager, the browser may connect to the proxy over HTTPS while the proxy connects to Wizarr over plain HTTP.
+
+Enable trusted proxy headers so Wizarr can use the original public request details when generating URLs and redirects.
+
+Add the following environment variables to the Wizarr service:
+
+```env
+TRUST_PROXY_HEADERS=true
+PROXY_FIX_X_FOR=1
+PROXY_FIX_X_PROTO=1
+PROXY_FIX_X_HOST=1
+PROXY_FIX_X_PORT=1
+PROXY_FIX_X_PREFIX=1
+```
+
+For a typical setup with one reverse proxy in front of Wizarr, use `1` for each `PROXY_FIX_*` value.
+
+Only enable `TRUST_PROXY_HEADERS` when Wizarr is reachable only through your trusted reverse proxy. **Do not** enable it if clients can connect directly to the Wizarr container.
+
+If Wizarr is behind multiple trusted proxy hops, increase the relevant `PROXY_FIX_*` value to match the number of trusted proxies.
+
 ## Nginx
 
 {% tabs %}
@@ -40,7 +63,7 @@ Add a new proxy host with the following settings:
 * **Forward Hostname / IP:** Internal wizarr hostname or IP
 * **Forward Port:** `5690`
 * **Cache Assets:** yes
-* **Block Common Exploits:** no 
+* **Block Common Exploits:** no
 
 #### SSL
 
@@ -70,9 +93,9 @@ server {
     proxy_set_header Host $host;
     proxy_set_header X-Real-IP $remote_addr;
     proxy_set_header X-Real-Port $remote_port;
-    proxy_set_header X-Forwarded-Host $host:$remote_port;
+    proxy_set_header X-Forwarded-Host $host;
     proxy_set_header X-Forwarded-Server $host;
-    proxy_set_header X-Forwarded-Port $remote_port;
+    proxy_set_header X-Forwarded-Port $server_port;
     proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header X-Forwarded-Ssl on;
@@ -143,7 +166,7 @@ plex.example.com {
             # include in join code path copy
             "navigator.clipboard.writeText(url + \"/j/\" + invite_code);" "navigator.clipboard.writeText(url + \"/wizarr/j/\" + invite_code);"
         }
-        
+
         # Your wizarr backend
         reverse_proxy http://127.0.0.1:5690
     }
@@ -151,7 +174,6 @@ plex.example.com {
     reverse_proxy http://127.0.0.1:5055
 }
 ```
-
 
 {% endtab %}
 {% endtabs %}
