@@ -29,50 +29,26 @@ from app.models import (
     invitation_users,
 )
 from app.services.media.service import (
+    check_server_connection,
     list_users_for_server,
     scan_libraries_for_server,
     upsert_scanned_libraries,
-)
-from app.services.servers import (
-    check_audiobookshelf,
-    check_drop,
-    check_emby,
-    check_jellyfin,
-    check_kavita,
-    check_komga,
-    check_navidrome,
-    check_plex,
-    check_romm,
 )
 
 media_servers_bp = Blueprint("media_servers", __name__, url_prefix="/settings/servers")
 
 
 def _check_connection(data: dict):
-    stype = data["server_type"]
-    if stype == "plex":
-        return check_plex(data["server_url"], data["api_key"])
-    if stype == "emby":
-        return check_emby(data["server_url"], data["api_key"])
-    if stype == "audiobookshelf":
-        return check_audiobookshelf(data["server_url"], data["api_key"])
-    if stype == "drop":
-        return check_drop(data["server_url"], data["api_key"])
-    if stype == "romm":
+    if data["server_type"] == "romm":
         username = data.get("server_username", "").strip()
         password = data.get("server_password", "").strip()
         if username and password:
             data["api_key"] = base64.b64encode(
                 f"{username}:{password}".encode()
             ).decode()
-        return check_romm(data["server_url"], data["api_key"])
-    if stype == "komga":
-        return check_komga(data["server_url"], data["api_key"])
-    if stype == "kavita":
-        return check_kavita(data["server_url"], data["api_key"])
-    if stype == "navidrome":
-        return check_navidrome(data["server_url"], data["api_key"])
-    return check_jellyfin(data["server_url"], data["api_key"])
+    return check_server_connection(
+        data["server_type"], data["server_url"], data.get("api_key") or ""
+    )
 
 
 @media_servers_bp.route("", methods=["GET"])  # list all

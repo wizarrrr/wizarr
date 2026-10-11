@@ -24,6 +24,12 @@ if TYPE_CHECKING:
 class NavidromeClient(RestApiMixin):
     """Navidrome wrapper using the Subsonic API."""
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_navidrome
+
+        return check_navidrome(url, token)
+
     #: API prefix for Subsonic/OpenSubsonic endpoints
     API_PREFIX = "/rest"
 

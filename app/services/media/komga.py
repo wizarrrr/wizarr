@@ -19,6 +19,12 @@ from .client_base import EMAIL_RE, RestApiMixin, register_media_client
 class KomgaClient(RestApiMixin):
     """Wrapper around the Komga REST API using credentials from Settings."""
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_komga
+
+        return check_komga(url, token)
+
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("url_key", "server_url")
         kwargs.setdefault("token_key", "api_key")

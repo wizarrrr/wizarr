@@ -22,13 +22,7 @@ from ...extensions import db
 from ...forms.general import GeneralSettingsForm
 from ...forms.settings import SettingsForm
 from ...models import Library, MediaServer, Settings
-from ...services.servers import (
-    check_audiobookshelf,
-    check_emby,
-    check_jellyfin,
-    check_plex,
-    check_romm,
-)
+from ...services.media.service import check_server_connection
 
 settings_bp = Blueprint("settings", __name__, url_prefix="/settings")
 
@@ -69,23 +63,14 @@ def _save_settings(data: dict) -> None:
 
 
 def _check_server_connection(data: dict) -> tuple[bool, str]:
-    stype = data["server_type"]
-    if stype == "plex":
-        return check_plex(data["server_url"], data["api_key"])
-    if stype == "emby":
-        return check_emby(data["server_url"], data["api_key"])
-    if stype == "audiobookshelf":
-        return check_audiobookshelf(data["server_url"], data["api_key"])
-    if stype == "romm":
+    token = data.get("api_key") or ""
+    if data["server_type"] == "romm" and not token:
         # Derive token from supplied credentials if api_key missing
-        token = data.get("api_key")
-        if not token:
-            username = data.get("server_username", "").strip()
-            password = data.get("server_password", "").strip()
-            if username and password:
-                token = base64.b64encode(f"{username}:{password}".encode()).decode()
-        return check_romm(data["server_url"], token or "")
-    return check_jellyfin(data["server_url"], data["api_key"])
+        username = data.get("server_username", "").strip()
+        password = data.get("server_password", "").strip()
+        if username and password:
+            token = base64.b64encode(f"{username}:{password}".encode()).decode()
+    return check_server_connection(data["server_type"], data["server_url"], token)
 
 
 @settings_bp.get("")
