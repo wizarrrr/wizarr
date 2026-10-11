@@ -148,10 +148,17 @@ def list_users_for_server(server: MediaServer):
     return get_client_for_media_server(server).list_users()
 
 
-def delete_user(db_id: int, *, commit: bool = True) -> None:
+def delete_user(
+    db_id: int, *, commit: bool = True, require_remote: bool = False
+) -> None:
     """Delete a user from its associated MediaServer and local DB.
 
     Set ``commit`` to ``False`` when the caller owns the transaction.
+
+    With ``require_remote`` a failed delete on the media server raises and
+    nothing is deleted, so the caller can retry later. A user the server no
+    longer has (404) counts as deleted. Without it, a remote failure is
+    logged and the local row is deleted anyway.
 
     Foreign key relationships are handled automatically by SQLite CASCADE/SET NULL:
     - activity_session.wizarr_user_id: CASCADE (auto-deleted)
@@ -160,6 +167,18 @@ def delete_user(db_id: int, *, commit: bool = True) -> None:
     """
     if not (user := db.session.get(User, db_id)):
         return
+
+    # Delete from the media server first, so a required delete that fails
+    # leaves everything else in place.
+    if user.server:
+        try:
+            client = get_client_for_media_server(user.server)  # type: ignore
+            user_identifier = _get_user_identifier(user, user.server)  # type: ignore
+            client.delete_user(user_identifier)
+        except Exception as exc:
+            if require_remote and not _is_not_found(exc):
+                raise
+            logging.error("Remote deletion failed: %s", exc)
 
     # Delete from LDAP if user is an LDAP user
     # Only delete from LDAP if this is the last User record with the same username
@@ -196,15 +215,6 @@ def delete_user(db_id: int, *, commit: bool = True) -> None:
         except Exception as exc:
             logging.error("LDAP deletion error: %s", exc)
 
-    # Delete from remote media server if user has one
-    if user.server:
-        try:
-            client = get_client_for_media_server(user.server)  # type: ignore
-            user_identifier = _get_user_identifier(user, user.server)  # type: ignore
-            client.delete_user(user_identifier)
-        except Exception as exc:
-            logging.error("Remote deletion failed: %s", exc)
-
     # Delete from companion apps
     _delete_from_companion_apps(user)
 
@@ -214,6 +224,12 @@ def delete_user(db_id: int, *, commit: bool = True) -> None:
         db.session.commit()
     else:
         db.session.flush()
+
+
+def _is_not_found(exc: Exception) -> bool:
+    """True when a media server answered 404, i.e. the user is already gone."""
+    response = getattr(exc, "response", None)
+    return getattr(response, "status_code", None) == 404
 
 
 def enable_user(db_id: int, *, commit: bool = True) -> bool:
