@@ -4,7 +4,7 @@ import secrets
 import string
 from typing import Any
 
-from sqlalchemy import and_  # type: ignore
+from sqlalchemy import and_, or_  # type: ignore
 
 from app.extensions import db
 from app.models import (
@@ -208,6 +208,36 @@ def create_invite(form: Any) -> Invitation:
 
 
 # ─── Multi-server helpers ───────────────────────────────────────────────────
+
+
+def find_joined_user(
+    code: str, server_id: int, *, username: str = "", email: str = ""
+) -> User | None:
+    """The user an invitee just created on this server through this invite.
+
+    Matched on the code and server, then on whichever of username or email the
+    invitee gave: an unlimited invite has one row per person, and an email-only
+    join has no username. Newest first. Logs when nothing matches.
+    """
+    query = User.query.filter_by(code=code, server_id=server_id)
+    given = []
+    if username:
+        given.append(User.username == username)
+    if email:
+        given.append(User.email == email)
+    if given:
+        query = query.filter(or_(*given))
+    user = query.order_by(User.id.desc()).first()
+    if user is None:
+        logging.error(
+            "User lookup failed for code=%s, server_id=%s. Server has %d users, "
+            "code has %d users globally.",
+            code,
+            server_id,
+            User.query.filter_by(server_id=server_id).count(),
+            User.query.filter_by(code=code).count(),
+        )
+    return user
 
 
 def mark_server_used(
