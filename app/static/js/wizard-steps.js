@@ -334,7 +334,8 @@ function attachInteractionGating(root = document) {
   function enableAllButtons() {
     nextButtons.forEach(next => {
       // Restore HTMX capability first
-      if (next.dataset.savedHxGet != null) {
+      const restoredHxGet = next.dataset.savedHxGet != null;
+      if (restoredHxGet) {
         next.setAttribute('hx-get', next.dataset.savedHxGet);
         delete next.dataset.savedHxGet;
       }
@@ -354,6 +355,13 @@ function attachInteractionGating(root = document) {
       if (next._keyBlocker) {
         next.removeEventListener('keydown', next._keyBlocker, true);
         delete next._keyBlocker;
+      }
+
+      // htmx loads with "defer". On a full page load, htmx processes the
+      // button after the gating removed hx-get, so htmx did not bind it.
+      // Process the button again, so that htmx reads the restored hx-get.
+      if (restoredHxGet && window.htmx) {
+        htmx.process(next);
       }
     });
 
