@@ -136,9 +136,11 @@ Welcome to our **media server**! Here's what you need to know:
 
 You can import and export third-party bundles. Wizarr stores their content and applies the same rendering rules to imported and edited steps.
 
-Templates can use `server_name`, `server_type`, `server_url`, and `external_url`. The same values are available through `settings`, for example `settings.server_name`. Other application settings, credentials, sessions, and Python objects are not available.
+Wizarr renders step templates in a Jinja sandbox. A template cannot read Python internals or run commands on the server.
 
-Use `{{ _("Welcome") }}` for translations. Use `{% if external_url %}...{% endif %}` for conditions. Supported filters are `default` (`d`), `escape` (`e`), `upper`, `lower`, `title`, `trim`, `capitalize`, `length`, and `urlencode`.
+Templates can use `server_name`, `server_type`, `server_url`, `external_url`, and the application settings, for example `discord_id` or `overseerr_url`. The same values are available through `settings`, for example `settings.server_name`. Wizarr does not give templates settings with credential names (passwords, tokens, secrets, and API keys), sessions, or Python objects.
+
+You can use the usual Jinja features: conditions, loops, `set`, `with`, macros, filters, and string methods. For translations, use `{{ _("Welcome") }}`, `{{ _("Welcome to %(name)s", name=server_name) }}`, or `{% trans %}...{% endtrans %}`. `url_for` is available for links to Wizarr pages and static files.
 
 Cards, buttons, and media widgets remain available. For example:
 
@@ -152,11 +154,9 @@ Cards, buttons, and media widgets remain available. For example:
 |||
 ```
 
-Templates cannot use loops, assignments, macros, template imports, or arbitrary function calls. Rewrite these constructs as display text, conditions, or widgets. Wizarr shows a step error if a template uses an unsupported construct.
+Templates cannot include, import, or extend other templates, and cannot use recursive loops. Wizarr also stops a template that runs too many loop iterations or function calls, or that makes very large text. Wizarr shows a step error when this occurs.
 
-Wizarr removes scripts, event handlers, executable links, and application action attributes from rendered HTML. Titles display as plain text. The Discord widget preset keeps its restricted iframe. Other iframe sources are removed. Put custom styles in the application stylesheet; imported style blocks are removed.
-
-Presentational markup is kept: the `align` attribute, and inline `style` limited to display properties (color and background color, text alignment and decoration, font size, style and weight, margins, padding, borders and border radius, width, max-width and height). Other style properties are removed, including anything that loads a resource or positions an element outside the normal flow.
+Wizarr shows the HTML in a step as you write it, including styles, scripts, and iframes. Titles display as plain text. Before you import a bundle from a third party, read its steps: their HTML and scripts run in the wizard for each invited user.
 
 ### Requiring User Interaction
 
