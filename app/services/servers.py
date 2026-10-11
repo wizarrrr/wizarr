@@ -292,25 +292,25 @@ def check_navidrome(url: str, token: str) -> tuple[bool, str]:
 def check_drop(url: str, token: str) -> tuple[bool, str]:
     """Quick connectivity check for a Drop instance.
 
-    We perform a lightweight request to the ``/api/v1/user`` endpoint to verify
-    the System token has the required permissions for basic API access.
+    We request ``/api/v1/admin/users``, which needs a System token with the
+    ``user:read`` ACL. ``/api/v1/user`` is not useful here: it answers 200 for
+    any token, also a wrong one.
     """
     try:
         # Build request to Drop API
         headers = {"Accept": "application/json", "Authorization": f"Bearer {token}"}
 
-        # Test connectivity with user endpoint (requires authentication)
         response = requests.get(
-            f"{url.rstrip('/')}/api/v1/user", headers=headers, timeout=10
+            f"{url.rstrip('/')}/api/v1/admin/users", headers=headers, timeout=10
         )
 
         # Check for successful response
         if response.status_code == 200:
             return True, ""
-        if response.status_code == 401:
-            return False, _("Invalid API token or insufficient permissions.")
-        if response.status_code == 403:
-            return False, _("API token lacks required permissions.")
+        if response.status_code in (401, 403):
+            return False, _(
+                "Invalid API token, or the token does not have the 'user:read' ACL."
+            )
         response.raise_for_status()
         return True, ""
 
