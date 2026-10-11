@@ -29,6 +29,7 @@ from app.services.media.service import (
     sync_users,
 )
 from app.services.server_name_resolver import get_display_name_info
+from app.services.update_check import get_app_version
 
 from .models import (
     activity_content_list_model,
@@ -49,6 +50,7 @@ from .models import (
     user_list_model,
     user_update_expiry_request,
     user_update_expiry_response,
+    version_model,
 )
 
 # Create the Blueprint for the API
@@ -62,6 +64,7 @@ logger = logging.getLogger("wizarr.api")
 
 # Create namespaces for organizing endpoints
 status_ns = api.namespace("status", description="System status operations")
+version_ns = api.namespace("version", description="App version information")
 users_ns = api.namespace("users", description="User management operations")
 invitations_ns = api.namespace(
     "invitations", description="Invitation management operations"
@@ -245,6 +248,17 @@ class StatusResource(Resource):
             logger.error("Error getting system status: %s", str(e))
             logger.error(traceback.format_exc())
             return {"error": "Internal server error"}, 500
+
+
+@version_ns.route("")
+class VersionResource(Resource):
+    @api.doc("get_version", security="apikey")
+    @api.marshal_with(version_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @require_api_key
+    def get(self):
+        """Get the installed Wizarr version."""
+        return {"version": get_app_version()}
 
 
 @admins_ns.route("")

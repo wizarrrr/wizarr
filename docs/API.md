@@ -36,6 +36,7 @@ curl -H "X-API-Key: your_api_key_here" \
 The API is organized into the following sections:
 
 - **Status**: System statistics
+- **Version**: The installed Wizarr version
 - **Users**: User management across media servers
 - **Invitations**: Invitation creation and management
 - **Libraries**: Media library information
@@ -103,6 +104,21 @@ curl -H "X-API-Key: your_api_key_here" \
   "unique_users": 11,
   "total_watch_time_seconds": 1850401,
   "avg_session_length_seconds": 2044
+}
+```
+
+### Version
+
+`GET /api/version` gives the installed Wizarr version. Update monitors, for example Argus, can read it. A local build without a release version gives `"dev"`.
+
+```bash
+curl -H "X-API-Key: your_api_key_here" \
+     "http://your-wizarr-instance/api/version"
+```
+
+```json
+{
+  "version": "v2026.10.0"
 }
 ```
 
