@@ -165,7 +165,7 @@
               </span>
               <div id="libraries" class="space-y-2 mt-2">
                 {% set libs = server.libraries|sort(attribute='name') %}
-                {% include 'partials/library_checkboxes.html' with context %}
+                {% include "partials/library_checkboxes.html" with context %}
               </div>
             </div>
             <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 dark:bg-gray-800">

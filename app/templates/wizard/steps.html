@@ -27,7 +27,7 @@
   <div id="wizard-progress-mobile" class="wizard-progress-mobile md:hidden">
     <div class="wizard-glass-container">
       <!-- Phase Indicator (only shown in preview mode) -->
-      {% if phase == 'preview' %}
+      {% if phase == "preview" %}
         <div id="wizard-phase-container-mobile"
              class="flex justify-center mb-2"
              {% if not current_step_phase %}style="display:none"{% endif %}>
@@ -39,9 +39,9 @@
                          bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
                        {% endif %}"
                 data-phase-label="mobile">
-            {% if current_step_phase == 'pre' %}
+            {% if current_step_phase == "pre" %}
               {{ _("Before Invitation") }}
-            {% elif current_step_phase == 'post' %}
+            {% elif current_step_phase == "post" %}
               {{ _("After Invitation") }}
             {% endif %}
           </span>
@@ -67,7 +67,7 @@
   <div id="wizard-progress-desktop"
        class="hidden md:block w-full max-w-md mb-6">
     <!-- Phase Indicator (only shown in preview mode) -->
-    {% if phase == 'preview' %}
+    {% if phase == "preview" %}
       <div id="wizard-phase-container-desktop"
            class="flex justify-center mb-3"
            {% if not current_step_phase %}style="display:none"{% endif %}>
@@ -79,9 +79,9 @@
                        bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
                      {% endif %}"
               data-phase-label="desktop">
-          {% if current_step_phase == 'pre' %}
+          {% if current_step_phase == "pre" %}
             {{ _("Before Invitation") }}
-          {% elif current_step_phase == 'post' %}
+          {% elif current_step_phase == "post" %}
             {{ _("After Invitation") }}
           {% endif %}
         </span>

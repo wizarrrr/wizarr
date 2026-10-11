@@ -1,6 +1,6 @@
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.16.5
+    rev: v0.17.0
     hooks:
       - id: ruff
         args: [--fix]
@@ -14,7 +14,7 @@ repos:
       - id: check-merge-conflict
 
   - repo: https://github.com/djlint/djLint
-    rev: v1.44.2
+    rev: v1.46.4
     hooks:
       - id: djlint-reformat-jinja
         args: [--lint --reformat --format-css --format-js]

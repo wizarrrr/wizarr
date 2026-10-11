@@ -2,6 +2,9 @@
 # package ecosystems to update and where the package manifests are located.
 # Please see the documentation for all configuration options:
 # https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+#
+# Each ecosystem puts all its updates into one grouped pull request per week.
+# Security updates get their own grouped pull request per ecosystem.
 
 version: 2
 updates:
@@ -11,41 +14,46 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      flask-ecosystem:
+      python-dependencies:
+        applies-to: "version-updates"
         patterns:
-          - "flask*"
-          - "wtforms*"
-          - "sqlalchemy*"
-      testing-tools:
+          - "*"
+      python-security:
+        applies-to: "security-updates"
         patterns:
-          - "pytest*"
-          - "playwright*"
-      linting-tools:
-        patterns:
-          - "ruff*"
-          - "pyright*"
-          - "pre-commit*"
+          - "*"
 
   # Frontend dependencies
   - package-ecosystem: "npm"
     directory: "/app/static"
     schedule:
-      interval: "daily"
+      interval: "weekly"
     groups:
-      ui-frameworks:
+      npm-dependencies:
+        applies-to: "version-updates"
         patterns:
-          - "flowbite*"
-          - "@tailwindcss/*"
-          - "tailwindcss"
+          - "*"
+      npm-security:
+        applies-to: "security-updates"
+        patterns:
+          - "*"
 
-  # GitHub Actions & pre-commit hooks
+  # GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      github-actions:
+        patterns:
+          - "*"
 
   # Docker base images
   - package-ecosystem: "docker"
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      docker-images:
+        patterns:
+          - "*"

@@ -3,7 +3,8 @@
   <input type="hidden" id="users_page" name="page" value="{{ page or 1 }}">
   <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 animate__animated">
     {% if not users %}
-      <p id="error_message" class="text-center col-span-full dark:text-white">{{ _("There are currently no users.") }}</p>
+      <p id="error_message"
+         class="text-center col-span-full dark:text-white">{{ _("There are currently no users.") }}</p>
     {% else %}
       {% for user in users %}
         <!-- Hidden checkbox used for selection -->
@@ -245,7 +246,7 @@
                     </svg>
                   </button>
                   <!-- Reset password - Only show for Jellyfin users -->
-                  {% if user.server and user.server.server_type == 'jellyfin' %}
+                  {% if user.server and user.server.server_type == "jellyfin" %}
                     <button class="h-8 w-8 p-0 inline-flex items-center justify-center text-gray-400 hover:text-gray-600 dark:text-gray-500 dark:hover:text-gray-300 rounded-md hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-colors"
                             type="button"
                             hx-get="{{ url_for('admin.reset_password_modal', user_id=user.id) }}"
