@@ -128,6 +128,21 @@ def process_invitation():
     return result.to_flask_response()
 
 
+# ─── GET /join  (Page where users type an invite code) ─────────────────────
+@public_bp.route("/join", methods=["GET"])
+@limiter.limit("20 per minute")
+def enter_invite_code():
+    """Show the code form. Send a valid code to the normal invite flow."""
+    code = (request.args.get("code") or "").strip()
+    if not code:
+        return render_template("enter-invite-code.html")
+
+    valid, message = is_invite_valid(code)
+    if not valid:
+        return render_template("enter-invite-code.html", code=code, error=message)
+    return redirect(url_for("public.invite", code=code))
+
+
 # ─── POST /join  (Legacy Plex OAuth route - kept for compatibility) ────────
 @public_bp.route("/join", methods=["POST"])
 @limiter.limit("20 per minute")

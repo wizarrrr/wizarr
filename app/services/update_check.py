@@ -1,6 +1,12 @@
 import json
+import os
 
 from packaging.version import parse as vparse
+
+
+def get_app_version() -> str:
+    """Return the installed Wizarr version, or "dev" for a local build."""
+    return os.getenv("APP_VERSION", "dev")
 
 
 def _manifest() -> dict:

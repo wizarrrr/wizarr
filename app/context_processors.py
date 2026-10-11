@@ -1,7 +1,6 @@
-import os
-
 from app.extensions import db
 from app.models import Settings
+from app.services.update_check import get_app_version
 from app.settings_cache import get_cached_setting
 
 
@@ -42,4 +41,4 @@ def inject_plus_features():
 
 def inject_app_version():
     """Inject current app version into template context for cache busting."""
-    return {"app_version": os.getenv("APP_VERSION", "dev")}
+    return {"app_version": get_app_version()}

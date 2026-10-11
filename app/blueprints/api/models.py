@@ -15,6 +15,17 @@ status_model = api.model(
     },
 )
 
+# Version Models
+version_model = api.model(
+    "Version",
+    {
+        "version": fields.String(
+            description='Installed Wizarr version, or "dev" for a local build',
+            example="v2026.10.0",
+        ),
+    },
+)
+
 # Admin Models
 admin_model = api.model(
     "Admin",

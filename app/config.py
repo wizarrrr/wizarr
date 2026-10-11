@@ -115,6 +115,7 @@ class BaseConfig:
         "da": "Danish",
         "de": "German",
         "es": "Spanish",
+        "et": "Estonian",
         "fa": "Persian",
         "fr": "French",
         "gsw": "Swiss German",
