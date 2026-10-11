@@ -31,6 +31,20 @@ jobs:
       run: |
         uv sync --dev
         
+    # The e2e tests need the built CSS and vendor JS (htmx, Alpine).
+    # The Docker image builds them with the Node version of Alpine 3.23.
+    - name: Set up Node
+      uses: actions/setup-node@v7
+      with:
+        node-version: '24'
+        cache: npm
+        cache-dependency-path: app/static/package-lock.json
+
+    - name: Build static assets
+      run: |
+        npm --prefix app/static ci
+        npm --prefix app/static run build
+
     - name: Install Playwright browsers
       run: |
         uv run playwright install --with-deps
