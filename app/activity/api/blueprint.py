@@ -403,11 +403,18 @@ def activity_grid():
 @activity_bp.route("/summary")
 @login_required
 def activity_summary():
-    """Provide a lightweight snapshot of current activity state for refresh decisions."""
+    """Provide a lightweight snapshot of current activity state for refresh decisions.
+
+    The page reloads the grid when ``active_sessions``, ``latest_session_id``
+    or ``latest_started_at`` changes, that is when a session starts or ends.
+    Progress writes change ``latest_updated_at`` only. All values come from
+    indexes, so each poll reads a few index pages only.
+    """
     if db is None:
         return jsonify(
             {
                 "active_sessions": 0,
+                "latest_session_id": None,
                 "latest_started_at": None,
                 "latest_updated_at": None,
             }
@@ -423,6 +430,7 @@ def activity_summary():
             or 0
         )
 
+        latest_session_id = db.session.query(func.max(ActivitySession.id)).scalar()
         latest_started_at = db.session.query(
             func.max(ActivitySession.started_at)
         ).scalar()
@@ -433,6 +441,7 @@ def activity_summary():
         return jsonify(
             {
                 "active_sessions": active_sessions,
+                "latest_session_id": latest_session_id,
                 "latest_started_at": latest_started_at.isoformat()
                 if latest_started_at
                 else None,
@@ -449,6 +458,7 @@ def activity_summary():
             jsonify(
                 {
                     "active_sessions": None,
+                    "latest_session_id": None,
                     "latest_started_at": None,
                     "latest_updated_at": None,
                     "error": _("Failed to load activity summary"),
@@ -501,8 +511,18 @@ def activity_session(session_id):
 @activity_bp.route("/export")
 @login_required
 def activity_export():
-    """Export activity data as CSV or JSON."""
+    """Export activity data as CSV or JSON.
+
+    The response streams the rows. The service loads the session groups in
+    chunks, so a large export does not load all rows into memory.
+    """
     try:
+        import csv
+        import io
+        from itertools import chain
+
+        from flask import Response, stream_with_context
+
         activity_service = ActivityService()
 
         # Get query parameters
@@ -520,53 +540,76 @@ def activity_export():
             order_direction="desc",
         )
 
-        sessions, _ = activity_service.get_activity_sessions(query)
-
-        if format_type == "json":
-            return jsonify([session.to_dict() for session in sessions])
-        # CSV export
-        import csv
-        import io
-
-        from flask import Response
-
-        output = io.StringIO()
-        writer = csv.writer(output)
-
-        # Write headers
-        writer.writerow(
-            [
-                "Session ID",
-                "User Name",
-                "Media Title",
-                "Media Type",
-                "Started At",
-                "Duration (minutes)",
-                "Device Name",
-                "Client Name",
-                "Server ID",
-            ]
+        session_iter = activity_service.queries.iter_activity_sessions(query)
+        # Read the first row here, so that a query error gives an error
+        # response and not a broken stream.
+        first_session = next(session_iter, None)
+        sessions = (
+            chain([first_session], session_iter)
+            if first_session is not None
+            else iter(())
         )
 
-        # Write data
-        for session in sessions:
+        if format_type == "json":
+            json_provider = current_app.json
+
+            def generate_json():
+                yield "["
+                for index, session in enumerate(sessions):
+                    if index:
+                        yield ","
+                    yield json_provider.dumps(session.to_dict())
+                yield "]"
+
+            return Response(
+                stream_with_context(generate_json()),
+                mimetype="application/json",
+            )
+
+        # CSV export
+        def generate_csv():
+            output = io.StringIO()
+            writer = csv.writer(output)
+
+            # Write headers
             writer.writerow(
                 [
-                    session.session_id,
-                    session.user_name,
-                    session.media_title,
-                    session.media_type,
-                    session.started_at.isoformat() if session.started_at else "",
-                    session.duration_minutes,
-                    session.device_name,
-                    session.client_name,
-                    session.server_id,
+                    "Session ID",
+                    "User Name",
+                    "Media Title",
+                    "Media Type",
+                    "Started At",
+                    "Duration (minutes)",
+                    "Device Name",
+                    "Client Name",
+                    "Server ID",
                 ]
             )
 
-        output.seek(0)
+            # Write data
+            for index, session in enumerate(sessions, start=1):
+                writer.writerow(
+                    [
+                        session.session_id,
+                        session.user_name,
+                        session.media_title,
+                        session.media_type,
+                        session.started_at.isoformat() if session.started_at else "",
+                        session.duration_minutes,
+                        session.device_name,
+                        session.client_name,
+                        session.server_id,
+                    ]
+                )
+                if index % 500 == 0:
+                    yield output.getvalue()
+                    output.seek(0)
+                    output.truncate(0)
+
+            yield output.getvalue()
+
         return Response(
-            output.getvalue(),
+            stream_with_context(generate_csv()),
             mimetype="text/csv",
             headers={
                 "Content-Disposition": f"attachment; filename=activity_export_{days}days.csv"

@@ -38,8 +38,10 @@ helpers/
 README.md
 unraid.xml
 
-# Node modules (handled separately in multi-stage build)
+# Node modules (handled separately in multi-stage build).
+# "**/" also matches app/static/node_modules of a local checkout.
 node_modules/
+**/node_modules
 
 # Built assets (external dependencies will be built in container)
 app/static/css/main.css

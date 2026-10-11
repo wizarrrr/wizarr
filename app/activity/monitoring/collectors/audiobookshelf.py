@@ -2,7 +2,7 @@
 Audiobookshelf activity collector using REST API polling for session monitoring.
 """
 
-from datetime import UTC, datetime
+from datetime import datetime
 from typing import Any
 
 from ...domain.models import ActivityEvent
@@ -12,8 +12,8 @@ from ..monitor import BaseCollector
 class AudiobookshelfCollector(BaseCollector):
     """Audiobookshelf activity collector using REST API polling for session monitoring."""
 
-    def __init__(self, server, event_callback):
-        super().__init__(server, event_callback)
+    def __init__(self, server, event_callback, **kwargs):
+        super().__init__(server, event_callback, **kwargs)
         self.active_sessions: dict[str, dict[str, Any]] = {}
         self.last_seen_sessions: set[str] = set()  # Track session IDs we've seen
         self.session_start_times: dict[str, datetime] = {}
@@ -27,11 +27,19 @@ class AudiobookshelfCollector(BaseCollector):
 
         while self.running and not self._stop_event.is_set():
             try:
-                # Get current sessions from API
+                # Get current sessions from API. The client looks up local
+                # user names in the database, so the call runs in an app
+                # context (see BaseCollector._fetch_sessions).
                 client = self._get_media_client()
                 if client:
-                    sessions = client.now_playing()
-                    self._process_sessions(sessions)
+                    sessions = self._fetch_sessions(client)
+                    if sessions is None:
+                        # The poll failed. Keep the active sessions, unless
+                        # the outage is long (see BaseCollector._poll_failed).
+                        self._stop_event.wait(min(60, self.poll_interval * 2))
+                        continue
+                    with self._event_batch():
+                        self._process_sessions(sessions)
                 else:
                     self.logger.warning("No media client available")
 
@@ -56,9 +64,7 @@ class AudiobookshelfCollector(BaseCollector):
 
         # Log first session for debugging
         if sessions:
-            self.logger.info(
-                f"Sample session data: {sessions[0]}"
-            )  # Changed to info level for debugging
+            self.logger.debug(f"Sample session data: {sessions[0]}")
 
         current_session_ids = set()
 
@@ -172,7 +178,7 @@ class AudiobookshelfCollector(BaseCollector):
                 return
 
             session_id = extracted_data["session_id"]
-            event_time = datetime.now(UTC)
+            event_time = self._event_now()
             start_time = self.session_start_times.get(session_id)
 
             if event_type == "session_start" and start_time is None:
@@ -219,11 +225,11 @@ class AudiobookshelfCollector(BaseCollector):
                 metadata=metadata,
             )
 
-            self.logger.info(
+            self.logger.debug(
                 f"📤 About to emit event: server_id={self.server.id}, server_name={self.server.name}, user={extracted_data['user_name']}, media={extracted_data['media_title']}"
             )
             self._emit_event(event)
-            self.logger.info(
+            self.logger.debug(
                 f"✅ Emitted {event_type} event for session {extracted_data['session_id']}"
             )
 

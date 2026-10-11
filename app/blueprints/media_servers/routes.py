@@ -29,7 +29,10 @@ from app.models import (
     invitation_users,
 )
 from app.services.media.service import (
+    HEALTH_TIMEOUT,
     check_server_connection,
+    get_all_server_health,
+    invalidate_server_caches,
     list_users_for_server,
     scan_libraries_for_server,
     upsert_scanned_libraries,
@@ -113,6 +116,10 @@ def create_server():
                     db.session.add(lib)
             db.session.commit()
 
+        # A new server can reuse the id of a deleted one. Forget any state
+        # that is kept for that id.
+        invalidate_server_caches(server.id)
+
         # Automatically sync users from the newly added server
         try:
             list_users_for_server(server)
@@ -191,6 +198,9 @@ def edit_server(server_id):
             for lib in Library.query.filter_by(server_id=server.id):
                 lib.enabled = lib.external_id in chosen
         db.session.commit()
+        # The URL or key can have changed: the next sync and health check
+        # must use the new values.
+        invalidate_server_caches(server.id)
         return redirect(url_for("media_servers.list_servers"))
     # GET → modal
     return render_template("modals/edit-server.html", server=server, error="")
@@ -267,6 +277,7 @@ def delete_server():
             # Database CASCADE constraints handle all dependent records automatically
             db.session.delete(server)
             db.session.commit()
+            invalidate_server_caches(server_id)
     if request.headers.get("HX-Request"):
         servers = MediaServer.query.order_by(MediaServer.name).all()
         return render_template("settings/servers.html", servers=servers)
@@ -366,7 +377,9 @@ def get_server_health(server_id):
                 {"error": f"No client available for server type: {server.server_type}"}
             ), 400
 
-        # Use the new lightweight readonly statistics method
+        # Use the new lightweight readonly statistics method, with short
+        # timeouts so that an offline server fails fast.
+        client.timeout = HEALTH_TIMEOUT
         stats = client.get_readonly_statistics()
         stats["server_name"] = server.name
         stats["server_type"] = server.server_type
@@ -482,50 +495,9 @@ def get_statistics_by_type(server_type):
 @media_servers_bp.get("/health/all")
 @login_required
 def get_all_health():
-    """Return lightweight health statistics for all servers without triggering user sync."""
-    servers = MediaServer.query.all()
-    all_health = {}
+    """Return lightweight health statistics for all servers without triggering user sync.
 
-    for server in servers:
-        # Extract server data before making client calls to avoid session corruption
-        server_data = {
-            "id": server.id,
-            "name": server.name,
-            "server_type": server.server_type,
-        }
-
-        try:
-            from app.services.media.service import get_media_client
-
-            client = get_media_client(server_data["server_type"], media_server=server)
-            if client:
-                # Use lightweight readonly statistics instead of full statistics
-                stats = client.get_readonly_statistics()
-                stats["server_name"] = server_data["name"]
-                stats["server_type"] = server_data["server_type"]
-                stats["server_id"] = server_data["id"]
-                all_health[server_data["id"]] = stats
-            else:
-                all_health[server_data["id"]] = {
-                    "error": f"No client available for server type: {server_data['server_type']}",
-                    "server_name": server_data["name"],
-                    "server_type": server_data["server_type"],
-                    "server_id": server_data["id"],
-                    "user_stats": {"total_users": 0, "active_sessions": 0},
-                    "server_stats": {"version": "Unknown", "transcoding_sessions": 0},
-                    "library_stats": {},
-                    "content_stats": {},
-                }
-        except Exception as e:
-            all_health[server_data["id"]] = {
-                "error": f"Failed to get health: {e!s}",
-                "server_name": server_data["name"],
-                "server_type": server_data["server_type"],
-                "server_id": server_data["id"],
-                "user_stats": {"total_users": 0, "active_sessions": 0},
-                "server_stats": {"version": "Unknown", "transcoding_sessions": 0},
-                "library_stats": {},
-                "content_stats": {},
-            }
-
-    return jsonify(all_health)
+    The servers are checked in parallel, and the results are cached for a
+    short time (see ``get_all_server_health``).
+    """
+    return jsonify(get_all_server_health())

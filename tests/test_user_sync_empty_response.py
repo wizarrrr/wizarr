@@ -73,7 +73,7 @@ def test_empty_remote_list_does_not_delete_local_users(session):
     ):
         admin.return_value.users.return_value = []
         srv.return_value = fake_server
-        PlexClient.list_users.__wrapped__(client)
+        client.list_users()
 
     assert _emails(server) == {"a@example.com", "b@example.com"}
 
@@ -101,7 +101,7 @@ def test_genuine_removal_still_prunes(session):
     ):
         admin.return_value.users.return_value = [keeper]
         srv.return_value = fake_server
-        PlexClient.list_users.__wrapped__(client)
+        client.list_users()
 
     assert _emails(server) == {"keep@example.com"}
 

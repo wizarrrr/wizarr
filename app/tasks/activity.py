@@ -5,6 +5,8 @@ Provides scheduled tasks for activity data maintenance, cleanup,
 and monitoring health checks.
 """
 
+from datetime import UTC, datetime, timedelta
+
 try:
     from flask import Flask
 except ImportError:  # pragma: no cover
@@ -23,6 +25,18 @@ ACTIVITY_JOB_IDS = (
 )
 ACTIVITY_TRACKING_RECONCILE_JOB_ID = "activity_tracking_reconcile"
 
+# The scheduler keeps jobs in memory. An interval job without a first run time
+# runs one full interval after each start. Run the stale-session job soon after
+# the start: it ends sessions only and deletes no history.
+#
+# The retention cleanup ("activity_cleanup") keeps the old behavior: its first
+# run comes one full interval (24 h) after the start. It deletes the history
+# that is older than a fixed 90 days, but the history import accepts 365 days.
+# Many installs restart before 24 h and so never ran this job. An early first
+# run would delete their old history after the next restart. Decide the
+# retention policy before this job runs earlier.
+ACTIVITY_STALE_CLEANUP_FIRST_RUN_DELAY = timedelta(minutes=2)
+
 
 def cleanup_old_activity_task(app: Flask, retention_days: int = 90):
     """
@@ -40,6 +54,8 @@ def cleanup_old_activity_task(app: Flask, retention_days: int = 90):
         with app.app_context():
             activity_service = ActivityService()
             deleted_count = activity_service.cleanup_old_activity(retention_days)
+            # Link sessions of users that were added after the session started.
+            activity_service.backfill_session_links()
 
             logger.info(
                 f"Activity cleanup completed: {deleted_count} old sessions removed"
@@ -208,6 +224,9 @@ def recover_sessions_on_startup_task(app: Flask):
         with app.app_context():
             activity_service = ActivityService()
             ended_count = activity_service.recover_sessions_on_startup()
+            # Old rows can lack reference_id or user links. Set them once here,
+            # not in each request.
+            activity_service.backfill_session_links()
 
             logger.info(
                 f"Session recovery completed: {ended_count} orphaned sessions cleaned up"
@@ -254,6 +273,8 @@ def register_activity_tasks(app: Flask, scheduler):
     logger = _get_logger()
 
     try:
+        now = datetime.now(UTC)
+
         # Daily cleanup of old activity data
         scheduler.add_job(
             id="activity_cleanup",
@@ -262,6 +283,7 @@ def register_activity_tasks(app: Flask, scheduler):
             hours=get_activity_cleanup_interval(),
             replace_existing=True,
             max_instances=1,
+            coalesce=True,
         )
 
         # Regular cleanup of stale sessions
@@ -270,8 +292,10 @@ def register_activity_tasks(app: Flask, scheduler):
             func=lambda: end_stale_sessions_task(app),
             trigger="interval",
             hours=get_stale_session_cleanup_interval(),
+            next_run_time=now + ACTIVITY_STALE_CLEANUP_FIRST_RUN_DELAY,
             replace_existing=True,
             max_instances=1,
+            coalesce=True,
         )
 
         # Health monitoring
@@ -282,6 +306,7 @@ def register_activity_tasks(app: Flask, scheduler):
             minutes=get_health_check_interval(),
             replace_existing=True,
             max_instances=1,
+            coalesce=True,
         )
 
         # Heartbeat monitoring
@@ -292,6 +317,7 @@ def register_activity_tasks(app: Flask, scheduler):
             minutes=get_heartbeat_interval(),
             replace_existing=True,
             max_instances=1,
+            coalesce=True,
         )
 
         logger.info("Activity monitoring tasks registered successfully")
@@ -336,4 +362,5 @@ def register_activity_tracking_reconcile_task(app: Flask, scheduler) -> None:
         seconds=15,
         replace_existing=True,
         max_instances=1,
+        coalesce=True,
     )

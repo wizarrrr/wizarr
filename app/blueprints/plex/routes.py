@@ -39,4 +39,7 @@ def scan_specific():
 def _scan(url, token):
     from plexapi.server import PlexServer
 
-    return [lib.title for lib in PlexServer(url, token).library.sections()]
+    from app.services.servers import PLEX_CHECK_TIMEOUT
+
+    server = PlexServer(url, token, timeout=PLEX_CHECK_TIMEOUT)
+    return [lib.title for lib in server.library.sections()]

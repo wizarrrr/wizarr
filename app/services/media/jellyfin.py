@@ -15,6 +15,16 @@ from .client_base import EMAIL_RE, RestApiMixin, register_media_client
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
 
+# Resized image requests. Jellyfin and Emby both accept maxWidth, maxHeight
+# and quality, and they only make an image smaller, never larger.
+# The join page shows posters at about 120x160 px. 240 px wide is sharp on a
+# 2x display.
+POSTER_IMAGE_PARAMS = "maxWidth=240&quality=80"
+# The now-playing card shows the poster at about 128x192 px.
+NOW_PLAYING_POSTER_PARAMS = "maxHeight=400&quality=85"
+# The now-playing card shows the backdrop blurred, so a small image is enough.
+NOW_PLAYING_BACKDROP_PARAMS = "maxWidth=480&quality=60"
+
 
 @register_media_client("jellyfin")
 class JellyfinClient(RestApiMixin):
@@ -384,27 +394,49 @@ class JellyfinClient(RestApiMixin):
             "allow_camera_upload": policy.get("AllowCameraUpload", False),
         }
 
-    def _get_user_library_access(self, jf_user: dict) -> tuple[list[str] | None, bool]:
-        """Extract library access: (library_names | None, has_full_access)."""
+    def _library_names_by_external_id(self) -> dict[str, str]:
+        """Return {external_id: name} for this server's libraries in one query."""
+        names: dict[str, str] = {}
+        for external_id, name in (
+            Library.query.with_entities(Library.external_id, Library.name)
+            .filter(Library.server_id == self.server_id)
+            .order_by(Library.id)
+            .all()
+        ):
+            names.setdefault(str(external_id), name)
+        return names
+
+    def _get_user_library_access(
+        self, jf_user: dict, library_names_by_id: dict[str, str] | None = None
+    ) -> tuple[list[str] | None, bool]:
+        """Extract library access: (library_names | None, has_full_access).
+
+        Give ``library_names_by_id`` when you sync many users, so that the
+        library rows are read only one time.
+        """
         if (policy := jf_user.get("Policy", {}) or {}).get("EnableAllFolders", False):
             return None, True
 
         if not (enabled_folders := policy.get("EnabledFolders", []) or []):
             return None, True  # No restrictions = full access
 
+        if library_names_by_id is None:
+            library_names_by_id = self._library_names_by_external_id()
+
         # Map library IDs to names
         library_names = [
-            lib.name
+            name
             for lib_id in enabled_folders
-            if (
-                lib := Library.query.filter_by(
-                    external_id=lib_id, server_id=self.server_id
-                ).first()
-            )
+            if (name := library_names_by_id.get(str(lib_id))) is not None
         ]
         return library_names, False
 
-    def _sync_user_permissions(self, user: User, jf_user: dict) -> None:
+    def _sync_user_permissions(
+        self,
+        user: User,
+        jf_user: dict,
+        library_names_by_id: dict[str, str] | None = None,
+    ) -> None:
         """Sync permissions and library access from Jellyfin to database user."""
         user.username = jf_user.get("Name", user.username)
         user.email = jf_user.get("Email", user.email)
@@ -417,7 +449,9 @@ class JellyfinClient(RestApiMixin):
         user.allow_camera_upload = perms["allow_camera_upload"]
 
         # Store library access
-        library_names, has_full_access = self._get_user_library_access(jf_user)
+        library_names, has_full_access = self._get_user_library_access(
+            jf_user, library_names_by_id
+        )
         user.set_accessible_libraries(library_names if not has_full_access else None)
 
     def list_users(self) -> list[User]:
@@ -425,6 +459,8 @@ class JellyfinClient(RestApiMixin):
         if not self.server_id:
             return []
 
+        # The remote call comes first, before any DB write, so the SQLite
+        # write lock is not held while we wait for the server.
         try:
             raw_users = self.get("/Users").json()
         except Exception as exc:
@@ -437,27 +473,36 @@ class JellyfinClient(RestApiMixin):
         if self._skip_prune_on_empty_remote(not jf_users_by_id, known_users):
             return known_users
 
-        # Remove users no longer in Jellyfin, add new users
+        # Read the library rows one time for all users.
+        library_names_by_id = self._library_names_by_external_id()
+
+        # Remove users no longer in Jellyfin, add new users. Use the rows that
+        # are already loaded, not one query for each remote user.
+        synced_users: list[User] = []
         for db_user in known_users:
-            if db_user.token not in jf_users_by_id:
+            if db_user.token in jf_users_by_id:
+                synced_users.append(db_user)
+            else:
                 db.session.delete(db_user)
 
+        known_tokens = {user.token for user in synced_users}
         for jf_id, jf_user in jf_users_by_id.items():
-            if not User.query.filter_by(token=jf_id, server_id=self.server_id).first():
-                db.session.add(
-                    User(
-                        token=jf_id,
-                        username=jf_user.get("Name", "jf-user"),
-                        email="empty",
-                        code="empty",
-                        server_id=self.server_id,
-                    )
+            if jf_id not in known_tokens:
+                new_user = User(
+                    token=jf_id,
+                    username=jf_user.get("Name", "jf-user"),
+                    email="empty",
+                    code="empty",
+                    server_id=self.server_id,
                 )
+                db.session.add(new_user)
+                synced_users.append(new_user)
 
         # Sync all permissions and library access
-        for user in self._get_server_users():
-            if jf_user := jf_users_by_id.get(user.token):
-                self._sync_user_permissions(user, jf_user)
+        for user in synced_users:
+            self._sync_user_permissions(
+                user, jf_users_by_id[user.token], library_names_by_id
+            )
 
         try:
             db.session.commit()
@@ -646,16 +691,21 @@ class JellyfinClient(RestApiMixin):
 
         # Use direct Jellyfin image endpoints instead of fetching remote metadata
         # This avoids slow RemoteImages API calls that often timeout
-        base_params = f"?api_key={self.token}" if self.token else ""
+        auth_param = f"&api_key={self.token}" if self.token else ""
 
-        # Primary artwork for the item (poster)
-        artwork_url = f"{self.url}/Items/{poster_item_id}/Images/Primary{base_params}"
+        # Primary artwork for the item (poster), resized for the card
+        artwork_url = (
+            f"{self.url}/Items/{poster_item_id}/Images/Primary"
+            f"?{NOW_PLAYING_POSTER_PARAMS}{auth_param}"
+        )
         fallback_artwork_url = artwork_url
 
         # For episodes/series, also try to get a backdrop image as thumbnail
-        # But use Primary as fallback to avoid another potentially slow call
+        # But use Primary as fallback to avoid another potentially slow call.
+        # The card shows the backdrop blurred, so we ask for a small image.
         thumbnail_url = (
-            f"{self.url}/Items/{poster_item_id}/Images/Backdrop{base_params}"
+            f"{self.url}/Items/{poster_item_id}/Images/Backdrop"
+            f"?{NOW_PLAYING_BACKDROP_PARAMS}{auth_param}"
         )
 
         return {
@@ -698,8 +748,13 @@ class JellyfinClient(RestApiMixin):
                         # proxy. The api_key is deliberately kept out of the URL;
                         # the proxy re-attaches it as a header server-side (see
                         # ImageProxyService.get_server_headers), so the admin
-                        # token is never exposed to the client.
-                        poster_url = f"{self.url}/Items/{item_id}/Images/Primary"
+                        # token is never exposed to the client. We ask for a
+                        # resized image: the full-size poster is much larger
+                        # than the join page shows.
+                        poster_url = (
+                            f"{self.url}/Items/{item_id}/Images/Primary"
+                            f"?{POSTER_IMAGE_PARAMS}"
+                        )
                         poster_urls.append(self.generate_image_proxy_url(poster_url))
 
         except Exception as e:
@@ -710,167 +765,181 @@ class JellyfinClient(RestApiMixin):
         return poster_urls[:limit]
 
     def now_playing(self) -> list[dict]:
-        try:
-            sessions = self.get("/Sessions").json()
-            now_playing_sessions = []
+        """Return the active sessions on this server.
 
-            for session in sessions:
-                if session.get("NowPlayingItem") is None:
-                    continue
+        Raises on HTTP, connection and timeout errors, and when the session
+        list is not valid JSON. Then a caller can tell a failed poll from a
+        server with no sessions. Returns [] only when the server reports no
+        active sessions.
+        """
+        sessions = self.get("/Sessions").json()
+        if not isinstance(sessions, list):
+            raise ValueError(
+                f"{self.__class__.__name__} returned an invalid session list"
+            )
 
-                now_playing_item = session["NowPlayingItem"]
-                play_state = session.get("PlayState", {})
-
-                progress = 0.0
-                if play_state.get("PositionTicks") and now_playing_item.get(
-                    "RunTimeTicks"
-                ):
-                    progress = max(
-                        0.0,
-                        min(
-                            1.0,
-                            play_state["PositionTicks"]
-                            / now_playing_item["RunTimeTicks"],
-                        ),
-                    )
-
-                media_type = now_playing_item.get("Type", "unknown").lower()
-
-                # Extract series info for episodes (both for formatting and separate fields)
-                series_name = None
-                season_num = None
-                episode_num = None
-                media_title = now_playing_item.get("Name", "Unknown")
-
-                if media_type == "episode":
-                    series_name = now_playing_item.get("SeriesName")
-                    season_num = now_playing_item.get("ParentIndexNumber")
-                    episode_num = now_playing_item.get("IndexNumber")
-
-                    # Format title for display
-                    if series_name:
-                        media_title = f"{series_name}"
-                        if season_num and episode_num:
-                            media_title += f" S{season_num:02d}E{episode_num:02d}"
-                        media_title += f" - {now_playing_item.get('Name', '')}"
-
-                state = "stopped"
-                if play_state.get("IsPaused"):
-                    state = "paused"
-                elif play_state.get("PositionTicks") is not None:
-                    state = "playing"
-
-                # Extract user and session info
-                user_info = session.get("UserName", "Unknown User")
-                user_id = session.get("UserId")
-                session_id = session.get("Id", "")
-
-                # Extract device and platform info
-                ip_address = session.get("RemoteEndPoint")
-                platform = session.get("DeviceType")
-                player_version = session.get("ApplicationVersion")
-
-                item_id = now_playing_item.get("Id")
-                series_id = now_playing_item.get("SeriesId")
-                artwork_info = self._get_artwork_urls(item_id, media_type, series_id)
-
-                transcoding_info: dict[str, Any] = {
-                    "is_transcoding": False,
-                    "video_codec": None,
-                    "audio_codec": None,
-                    "container": None,
-                    "video_resolution": None,
-                    "transcoding_speed": None,
-                    "direct_play": True,
-                }
-
-                if session.get("TranscodingInfo"):
-                    transcode_info = session["TranscodingInfo"]
-                    transcoding_info["is_transcoding"] = True
-                    transcoding_info["direct_play"] = False
-                    transcoding_info["video_codec"] = transcode_info.get("VideoCodec")
-                    transcoding_info["audio_codec"] = transcode_info.get("AudioCodec")
-                    transcoding_info["container"] = transcode_info.get("Container")
-                    transcoding_info["transcoding_speed"] = transcode_info.get(
-                        "TranscodingFramerate"
-                    )
-
-                if session.get("PlayMethod"):
-                    play_method = session["PlayMethod"]
-                    if play_method == "DirectPlay":
-                        transcoding_info["direct_play"] = True
-                        transcoding_info["is_transcoding"] = False
-                    elif play_method in ["DirectStream", "Transcode"]:
-                        transcoding_info["direct_play"] = False
-                        if play_method == "Transcode":
-                            transcoding_info["is_transcoding"] = True
-
-                if now_playing_item.get("MediaStreams"):
-                    for stream in now_playing_item["MediaStreams"]:
-                        if (
-                            stream.get("Type") == "Video"
-                            and not transcoding_info["video_codec"]
-                        ):
-                            transcoding_info["video_codec"] = stream.get("Codec")
-                            transcoding_info["video_resolution"] = (
-                                stream.get("DisplayTitle")
-                                or f"{stream.get('Width', '?')}x{stream.get('Height', '?')}"
-                            )
-                        elif (
-                            stream.get("Type") == "Audio"
-                            and not transcoding_info["audio_codec"]
-                        ):
-                            transcoding_info["audio_codec"] = stream.get("Codec")
-
-                if not transcoding_info["container"]:
-                    transcoding_info["container"] = now_playing_item.get("Container")
-
-                session_info = {
-                    # Required fields
-                    "user_name": user_info,
-                    "media_title": media_title,
-                    "session_id": session_id,
-                    # User info
-                    "user_id": user_id,
-                    # Media info
-                    "media_type": media_type,
-                    "media_id": item_id,
-                    "series_name": series_name,
-                    "season_number": season_num,
-                    "episode_number": episode_num,
-                    # Playback info
-                    "progress": progress,
-                    "state": state,
-                    "position_ms": play_state.get("PositionTicks", 0) // 10000,
-                    "duration_ms": now_playing_item.get("RunTimeTicks", 0) // 10000,
-                    # Device info
-                    "client": session.get("Client", ""),
-                    "device_name": session.get("DeviceName", ""),
-                    "ip_address": ip_address,
-                    "platform": platform,
-                    "player_version": player_version,
-                    # Artwork
-                    "artwork_url": artwork_info["artwork_url"],
-                    "fallback_artwork_url": artwork_info["fallback_artwork_url"],
-                    "thumbnail_url": artwork_info["thumbnail_url"],
-                    # Transcoding
-                    "transcoding_info": transcoding_info,
-                    # Metadata
-                    "metadata": {
-                        "jellyfin_session_id": session_id,
-                        "jellyfin_item_id": item_id,
-                        "jellyfin_series_id": series_id,
-                        "play_method": session.get("PlayMethod"),
-                    },
-                }
-
+        now_playing_sessions = []
+        for session in sessions:
+            try:
+                session_info = self._now_playing_entry(session)
+            except Exception as exc:
+                # One bad session must not hide the other sessions.
+                logging.warning(
+                    f"Failed to read a {self.__class__.__name__} session: {exc}"
+                )
+                continue
+            if session_info is not None:
                 now_playing_sessions.append(session_info)
 
-            return now_playing_sessions
+        return now_playing_sessions
 
-        except Exception as e:
-            logging.error(f"Failed to get now playing from Jellyfin: {e}")
-            return []
+    def _now_playing_entry(self, session: dict) -> dict | None:
+        """Convert one /Sessions entry to a now-playing dict."""
+        if session.get("NowPlayingItem") is None:
+            return None
+
+        now_playing_item = session["NowPlayingItem"]
+        play_state = session.get("PlayState", {})
+
+        progress = 0.0
+        if play_state.get("PositionTicks") and now_playing_item.get("RunTimeTicks"):
+            progress = max(
+                0.0,
+                min(
+                    1.0,
+                    play_state["PositionTicks"] / now_playing_item["RunTimeTicks"],
+                ),
+            )
+
+        media_type = now_playing_item.get("Type", "unknown").lower()
+
+        # Extract series info for episodes (both for formatting and separate fields)
+        series_name = None
+        season_num = None
+        episode_num = None
+        media_title = now_playing_item.get("Name", "Unknown")
+
+        if media_type == "episode":
+            series_name = now_playing_item.get("SeriesName")
+            season_num = now_playing_item.get("ParentIndexNumber")
+            episode_num = now_playing_item.get("IndexNumber")
+
+            # Format title for display
+            if series_name:
+                media_title = f"{series_name}"
+                if season_num and episode_num:
+                    media_title += f" S{season_num:02d}E{episode_num:02d}"
+                media_title += f" - {now_playing_item.get('Name', '')}"
+
+        state = "stopped"
+        if play_state.get("IsPaused"):
+            state = "paused"
+        elif play_state.get("PositionTicks") is not None:
+            state = "playing"
+
+        # Extract user and session info
+        user_info = session.get("UserName", "Unknown User")
+        user_id = session.get("UserId")
+        session_id = session.get("Id", "")
+
+        # Extract device and platform info
+        ip_address = session.get("RemoteEndPoint")
+        platform = session.get("DeviceType")
+        player_version = session.get("ApplicationVersion")
+
+        item_id = now_playing_item.get("Id")
+        series_id = now_playing_item.get("SeriesId")
+        artwork_info = self._get_artwork_urls(item_id, media_type, series_id)
+
+        transcoding_info: dict[str, Any] = {
+            "is_transcoding": False,
+            "video_codec": None,
+            "audio_codec": None,
+            "container": None,
+            "video_resolution": None,
+            "transcoding_speed": None,
+            "direct_play": True,
+        }
+
+        if session.get("TranscodingInfo"):
+            transcode_info = session["TranscodingInfo"]
+            transcoding_info["is_transcoding"] = True
+            transcoding_info["direct_play"] = False
+            transcoding_info["video_codec"] = transcode_info.get("VideoCodec")
+            transcoding_info["audio_codec"] = transcode_info.get("AudioCodec")
+            transcoding_info["container"] = transcode_info.get("Container")
+            transcoding_info["transcoding_speed"] = transcode_info.get(
+                "TranscodingFramerate"
+            )
+
+        if session.get("PlayMethod"):
+            play_method = session["PlayMethod"]
+            if play_method == "DirectPlay":
+                transcoding_info["direct_play"] = True
+                transcoding_info["is_transcoding"] = False
+            elif play_method in ["DirectStream", "Transcode"]:
+                transcoding_info["direct_play"] = False
+                if play_method == "Transcode":
+                    transcoding_info["is_transcoding"] = True
+
+        if now_playing_item.get("MediaStreams"):
+            for stream in now_playing_item["MediaStreams"]:
+                if (
+                    stream.get("Type") == "Video"
+                    and not transcoding_info["video_codec"]
+                ):
+                    transcoding_info["video_codec"] = stream.get("Codec")
+                    transcoding_info["video_resolution"] = (
+                        stream.get("DisplayTitle")
+                        or f"{stream.get('Width', '?')}x{stream.get('Height', '?')}"
+                    )
+                elif (
+                    stream.get("Type") == "Audio"
+                    and not transcoding_info["audio_codec"]
+                ):
+                    transcoding_info["audio_codec"] = stream.get("Codec")
+
+        if not transcoding_info["container"]:
+            transcoding_info["container"] = now_playing_item.get("Container")
+
+        return {
+            # Required fields
+            "user_name": user_info,
+            "media_title": media_title,
+            "session_id": session_id,
+            # User info
+            "user_id": user_id,
+            # Media info
+            "media_type": media_type,
+            "media_id": item_id,
+            "series_name": series_name,
+            "season_number": season_num,
+            "episode_number": episode_num,
+            # Playback info
+            "progress": progress,
+            "state": state,
+            "position_ms": play_state.get("PositionTicks", 0) // 10000,
+            "duration_ms": now_playing_item.get("RunTimeTicks", 0) // 10000,
+            # Device info
+            "client": session.get("Client", ""),
+            "device_name": session.get("DeviceName", ""),
+            "ip_address": ip_address,
+            "platform": platform,
+            "player_version": player_version,
+            # Artwork
+            "artwork_url": artwork_info["artwork_url"],
+            "fallback_artwork_url": artwork_info["fallback_artwork_url"],
+            "thumbnail_url": artwork_info["thumbnail_url"],
+            # Transcoding
+            "transcoding_info": transcoding_info,
+            # Metadata
+            "metadata": {
+                "jellyfin_session_id": session_id,
+                "jellyfin_item_id": item_id,
+                "jellyfin_series_id": series_id,
+                "play_method": session.get("PlayMethod"),
+            },
+        }
 
     def get_recent_items(
         self, library_id: str | None = None, limit: int = 10

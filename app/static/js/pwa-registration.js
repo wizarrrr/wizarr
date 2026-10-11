@@ -14,6 +14,8 @@
       // updateViaCache: 'none' ensures the browser always fetches sw.js from the
       // server instead of the HTTP cache, so service worker updates are detected
       // immediately after deployment.
+      // The scope is /static/ and the worker has no fetch handler (see sw.js),
+      // so it does not change how the app pages and HTMX requests load.
       navigator.serviceWorker.register('/static/sw.js', { updateViaCache: 'none' })
         .then(function(registration) {
           console.log('ServiceWorker registration successful with scope: ', registration.scope);

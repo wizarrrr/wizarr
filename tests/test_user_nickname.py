@@ -98,6 +98,24 @@ def test_single_account_user_can_be_named(client, app, admin_user, server):
     assert "Sam" in body
 
 
+def test_save_does_not_swap_the_table_and_triggers_a_refresh(
+    client, app, admin_user, server
+):
+    """The save response is empty. If the form swapped it into #user_table,
+    the table disappeared when its refresh took longer than the swap delay."""
+    with app.app_context():
+        user_id = _user(server, "solo", "solo@example.com").id
+
+    _login(client)
+    form = client.get(f"/user/{user_id}/nickname").get_data(as_text=True)
+    assert 'hx-swap="none"' in form
+    assert 'hx-target="#user_table"' not in form
+
+    resp = client.post(f"/user/{user_id}/nickname", data={"nickname": "Sam"})
+    triggers = {t.strip() for t in resp.headers["HX-Trigger"].split(",")}
+    assert {"closeModal", "refreshUserTable"} <= triggers
+
+
 def test_opening_or_saving_empty_creates_no_identity(client, app, admin_user, server):
     with app.app_context():
         user_id = _user(server, "solo", "solo@example.com").id

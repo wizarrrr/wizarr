@@ -27,6 +27,10 @@ function showToast(message, type = 'info') {
 }
 
 function attachSortableLists(root = document) {
+  // Only the wizard editor pages load Sortable.js. The public wizard pages
+  // use this file only for the interaction gating below.
+  if (typeof Sortable === 'undefined') return;
+
   root.querySelectorAll('.wizard-steps, .bundle-steps').forEach(container => {
     if (container.dataset.sortableAttached) return;
 

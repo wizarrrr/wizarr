@@ -1,8 +1,10 @@
 import os
+from datetime import UTC, datetime, timedelta
 
 from flask import current_app, request, session
 from flask_apscheduler import APScheduler
 from flask_babel import Babel
+from flask_compress import Compress
 from flask_htmx import HTMX
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -17,6 +19,7 @@ db = SQLAlchemy()
 babel = Babel()
 sess = Session()
 scheduler = APScheduler()
+compress = Compress()
 htmx = HTMX()
 login_manager = LoginManager()
 migrate = Migrate()
@@ -56,87 +59,9 @@ def init_extensions(app):
     sess.init_app(app)
     babel.init_app(app, locale_selector=_select_locale)
 
-    # Scheduler initialization - Flask-APScheduler handles Gunicorn properly
-    should_skip_scheduler = (
-        "pytest" in os.getenv("_", "")
-        or os.getenv("PYTEST_CURRENT_TEST")
-        or "alembic" in os.getenv("_", "")
-        or any("alembic" in str(arg).lower() for arg in __import__("sys").argv)
-        or any(
-            "db" in str(arg) and ("upgrade" in str(arg) or "migrate" in str(arg))
-            for arg in __import__("sys").argv
-        )
-        or os.getenv("FLASK_SKIP_SCHEDULER") == "true"
-        or os.getenv("WIZARR_DISABLE_SCHEDULER", "false").lower()
-        in ("true", "1", "yes")
-    )
+    # The scheduler starts only in the background leader process.
+    # See app/background.py and init_scheduler() below.
 
-    if not should_skip_scheduler:
-        # Configure Flask-APScheduler for Gunicorn compatibility
-        app.config["SCHEDULER_API_ENABLED"] = False  # Disable API for security
-        app.config["SCHEDULER_JOBSTORE_URL"] = app.config.get("SQLALCHEMY_DATABASE_URI")
-
-        scheduler.init_app(app)
-
-        # Register tasks with the scheduler
-        from app.tasks.maintenance import (
-            _get_expiry_check_interval,
-            check_expiring,
-        )
-        from app.tasks.update_check import fetch_and_cache_manifest
-
-        # Add the expiry check task to the scheduler, passing the app instance
-        scheduler.add_job(
-            id="check_expiring",
-            func=lambda: check_expiring(app),
-            trigger="interval",
-            minutes=_get_expiry_check_interval(),
-            replace_existing=True,
-        )
-
-        # Add the manifest fetch task to run every 24 hours
-        scheduler.add_job(
-            id="fetch_manifest",
-            func=lambda: fetch_and_cache_manifest(app),
-            trigger="interval",
-            hours=24,
-            replace_existing=True,
-        )
-
-        # Add LDAP user sync task (only if LDAP is configured)
-        from app.tasks.ldap_sync import _get_ldap_sync_interval, sync_ldap_users
-
-        try:
-            from app.models import LDAPConfiguration
-
-            if LDAPConfiguration.query.filter_by(enabled=True).first():
-                scheduler.add_job(
-                    id="sync_ldap_users",
-                    func=lambda: sync_ldap_users(app),
-                    trigger="interval",
-                    minutes=_get_ldap_sync_interval(),
-                    replace_existing=True,
-                )
-        except Exception:
-            # Table may not exist yet if migrations haven't run
-            app.logger.debug("LDAP sync job not registered (table may not exist yet)")
-
-        # Note: WAL auto-checkpoints every 1000 pages (~4MB) automatically.
-        # Manual checkpoint jobs can be added here if needed for large .db-wal files.
-
-        # Start the scheduler - Flask-APScheduler handles Gunicorn coordination
-        try:
-            if not scheduler.running:
-                scheduler.start()
-                app.logger.info("APScheduler started successfully")
-            else:
-                app.logger.info("APScheduler already running")
-        except Exception as e:
-            app.logger.warning(f"Failed to start APScheduler: {e}")
-
-    # Continue with remaining extensions
-
-    # Continue with remaining extensions
     htmx.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = "auth.login"  # type: ignore
@@ -151,16 +76,124 @@ def init_extensions(app):
 
     migrate.init_app(app, db)
     limiter.init_app(app)
+
+    # COMPRESS_REGISTER is False: app/static_assets.py compresses only the
+    # static file responses. See the BREACH note in app/config.py.
+    from .static_assets import compress_cache_backend, compress_cache_key
+
+    app.config.setdefault("COMPRESS_CACHE_BACKEND", compress_cache_backend)
+    app.config.setdefault("COMPRESS_CACHE_KEY", compress_cache_key)
+    compress.init_app(app)
     # Flask-RESTX API will be initialized with the blueprint
 
-    # Always fetch manifest on startup after DB is initialized
-    if not should_skip_scheduler:
-        try:
-            from app.tasks.update_check import fetch_and_cache_manifest
 
-            fetch_and_cache_manifest(app)
-        except Exception as e:
-            app.logger.info("Initial manifest fetch failed: %s", e)
+# Options for each job that this module registers. A job never runs two
+# times at the same time, and missed runs collapse into one run.
+JOB_OPTIONS = {"replace_existing": True, "max_instances": 1, "coalesce": True}
+
+
+def scheduler_disabled_by_env() -> bool:
+    """Return True when WIZARR_DISABLE_SCHEDULER turns the scheduler off."""
+    return os.getenv("WIZARR_DISABLE_SCHEDULER", "false").lower() in (
+        "true",
+        "1",
+        "yes",
+    )
+
+
+def init_scheduler(app) -> bool:
+    """Register the scheduled jobs and start the scheduler.
+
+    Only the background leader calls this function (see app/background.py).
+    Returns True when the scheduler runs.
+    """
+    if scheduler_disabled_by_env():
+        app.logger.info("APScheduler disabled by WIZARR_DISABLE_SCHEDULER")
+        return False
+
+    # Disable the scheduler REST API for security.
+    app.config["SCHEDULER_API_ENABLED"] = False
+    scheduler.init_app(app)
+    register_scheduled_jobs(app, scheduler)
+
+    try:
+        if not scheduler.running:
+            scheduler.start()
+    except Exception as e:
+        app.logger.warning(f"Failed to start APScheduler: {e}")
+        return False
+
+    if scheduler.running:
+        app.logger.info("APScheduler started successfully (pid %s)", os.getpid())
+        return True
+
+    # Flask-APScheduler does not start in Flask debug mode without the reloader.
+    app.logger.info("APScheduler initialized but not started")
+    return False
+
+
+def register_scheduled_jobs(app, target_scheduler, now: datetime | None = None):
+    """Add the maintenance jobs to *target_scheduler*.
+
+    The jobs keep a reference to *app*, so the job store must stay in memory.
+    """
+    from app.tasks.ldap_sync import _get_ldap_sync_interval, sync_ldap_users
+    from app.tasks.maintenance import (
+        _get_expiry_check_interval,
+        check_expiring,
+        optimize_sqlite_database,
+    )
+    from app.tasks.update_check import fetch_and_cache_manifest
+
+    now = now or datetime.now(UTC)
+
+    # Process expired users soon after a restart, then at the normal interval.
+    target_scheduler.add_job(
+        id="check_expiring",
+        func=check_expiring,
+        args=[app],
+        trigger="interval",
+        minutes=_get_expiry_check_interval(),
+        next_run_time=now + timedelta(minutes=1),
+        **JOB_OPTIONS,
+    )
+
+    # Fetch the manifest soon after startup (in the background), then daily.
+    target_scheduler.add_job(
+        id="fetch_manifest",
+        func=fetch_and_cache_manifest,
+        args=[app],
+        trigger="interval",
+        hours=24,
+        next_run_time=now + timedelta(seconds=15),
+        **JOB_OPTIONS,
+    )
+
+    # Always register the LDAP sync. The job returns early when LDAP is not
+    # enabled, so LDAP that you enable at runtime syncs without a restart.
+    target_scheduler.add_job(
+        id="sync_ldap_users",
+        func=sync_ldap_users,
+        args=[app],
+        trigger="interval",
+        minutes=_get_ldap_sync_interval(),
+        next_run_time=now + timedelta(minutes=2),
+        **JOB_OPTIONS,
+    )
+
+    # Refresh the SQLite query planner statistics once a day. The startup
+    # run is in app/background.py.
+    target_scheduler.add_job(
+        id="sqlite_optimize",
+        func=optimize_sqlite_database,
+        args=[app],
+        trigger="interval",
+        hours=24,
+        **JOB_OPTIONS,
+    )
+
+    # Note: WAL auto-checkpoints every 1000 pages (~4MB) automatically.
+    # Manual checkpoint jobs can be added here if needed for large .db-wal files.
 
 
 @login_manager.user_loader

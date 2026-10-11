@@ -183,6 +183,96 @@ Make sure disabled buttons don't get the pointer cursor.
   scrollbar-color: var(--color-primary) transparent;
 }
 
+/*
+  Subset of animate.css 4.1.1 (MIT License, https://animate.style/).
+  The templates use only these classes, so the full 72 KB file is not loaded.
+  The class names and the keyframe names are the same as in animate.css.
+*/
+:root {
+  --animate-duration: 1s;
+}
+
+.animate__animated {
+  animation-duration: var(--animate-duration);
+  animation-fill-mode: both;
+}
+
+.animate__animated.animate__faster {
+  animation-duration: calc(var(--animate-duration) / 2);
+}
+
+@media print, (prefers-reduced-motion: reduce) {
+  .animate__animated {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .animate__animated[class*='Out'] {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.animate__fadeIn {
+  animation-name: fadeIn;
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate__fadeInLeft {
+  animation-name: fadeInLeft;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translate3d(100%, 0, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate__fadeInRight {
+  animation-name: fadeInRight;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+.animate__fadeOut {
+  animation-name: fadeOut;
+}
+
 /* Fast animations - override animate.css defaults */
 .animate__animated {
   --animate-duration: 0.3s !important; /* Default was 1s - now 70% faster */

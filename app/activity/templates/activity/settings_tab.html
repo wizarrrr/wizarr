@@ -275,7 +275,7 @@
             </div>
             <div id="historical-jobs-container"
                  hx-get="{{ url_for('activity.historical_import_jobs') }}{% if selected_server_id %}?server_id={{ selected_server_id }}{% endif %}"
-                 hx-trigger="load, every 8s"
+                 hx-trigger="load"
                  hx-target="#historical-jobs-container"
                  hx-swap="innerHTML">
               {{ loading_spinner(_('Loading recent jobs...')) }}

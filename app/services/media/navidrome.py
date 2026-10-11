@@ -158,12 +158,22 @@ class NavidromeClient(RestApiMixin):
             return known_users
 
         try:
+            # Use the rows that are already loaded, not one query for each
+            # remote user. The first local row with a username is the match.
+            users: list[User] = []
+            rows_by_username: dict[str, User] = {}
+            for local in known_users:
+                if local.username in users_by_name:
+                    users.append(local)
+                    rows_by_username.setdefault(local.username, local)
+                else:
+                    # Remove users that no longer exist upstream
+                    db.session.delete(local)
+
             # Add new users or update existing ones
             for username, remote in users_by_name.items():
-                db_row = User.query.filter_by(
-                    username=username, server_id=server_id
-                ).first()
-                if not db_row:
+                db_row = rows_by_username.get(username)
+                if db_row is None:
                     db_row = User(
                         token=username,  # Use username as token for Navidrome
                         username=username,
@@ -172,53 +182,27 @@ class NavidromeClient(RestApiMixin):
                         server_id=server_id,
                     )
                     db.session.add(db_row)
+                    users.append(db_row)
                 else:
                     db_row.email = remote.get("email", db_row.email)
 
-            # Remove users that no longer exist upstream
-            to_check = User.query.filter(User.server_id == server_id).all()
-            for local in to_check:
-                if local.username not in users_by_name:
-                    db.session.delete(local)
-
-            db.session.commit()
-
-        except Exception as exc:
-            logging.error("Navidrome: failed to sync users – %s", exc)
-            db.session.rollback()
-            return []
-
-        # Get users with policy information
-        users = User.query.filter(User.server_id == server_id).all()
-
-        # Enhance users with policy data from Navidrome
-        for user in users:
-            if user.username in users_by_name:
-                navidrome_user = users_by_name[user.username]
-
+            # Enhance users with policy data from Navidrome
+            for user in users:
                 # Use standardized permissions helper for consistency
-                permissions = StandardizedPermissions.for_navidrome(navidrome_user)
+                permissions = StandardizedPermissions.for_navidrome(
+                    users_by_name[user.username]
+                )
 
                 # Update standardized User model columns
                 user.allow_downloads = permissions.allow_downloads
                 user.allow_live_tv = permissions.allow_live_tv
                 user.is_admin = permissions.is_admin
-            else:
-                # Default values if user data not found - use standardized helper
-                default_permissions = StandardizedPermissions.for_basic_server(
-                    "navidrome"
-                )
 
-                # Update standardized User model columns with defaults
-                user.allow_downloads = default_permissions.allow_downloads
-                user.allow_live_tv = default_permissions.allow_live_tv
-                user.is_admin = default_permissions.is_admin
-
-        # Single commit for all metadata updates
-        try:
+            # Single commit for all user and metadata updates
             db.session.commit()
-        except Exception as e:
-            logging.error("Navidrome: failed to update user metadata – %s", e)
+
+        except Exception as exc:
+            logging.error("Navidrome: failed to sync users – %s", exc)
             db.session.rollback()
             return []
         return users
@@ -447,53 +431,66 @@ class NavidromeClient(RestApiMixin):
             return False, "Failed to create user"
 
     def now_playing(self) -> list[dict]:
-        """Return active sessions from Navidrome."""
-        try:
-            result = self._subsonic_request("getNowPlaying")
-            entries = result.get("nowPlaying", {}).get("entry", [])
+        """Return active sessions from Navidrome.
 
-            # Handle single entry response (not in array)
-            if isinstance(entries, dict):
-                entries = [entries]
+        Raises when the session list cannot be fetched or read. Then a caller
+        can tell a failed poll from a server with no sessions. Returns [] only
+        when the server reports no sessions.
+        """
+        result = self._subsonic_request("getNowPlaying")
+        now_playing_data = result.get("nowPlaying") or {}
+        if not isinstance(now_playing_data, dict):
+            raise ValueError("Navidrome returned an invalid now playing list")
+        entries = now_playing_data.get("entry", [])
 
-            active = []
-            for entry in entries:
-                # Extract session information
-                session_data = {
-                    "user_name": entry.get("username", "Unknown"),
-                    "media_title": entry.get("title", "Unknown Track"),
-                    "media_type": "track",
-                    "progress": 0.0,  # Navidrome doesn't provide progress in now playing
-                    "state": "playing",
-                    "session_id": entry.get("id", ""),
-                    "client": entry.get("playerName", "Unknown"),
-                    "device_name": entry.get("playerName", "Unknown Device"),
-                    "position_ms": 0,
-                    "duration_ms": (entry.get("duration", 0) * 1000)
-                    if entry.get("duration")
-                    else 0,
-                    "artwork_url": f"{self.url}{self.API_PREFIX}/getCoverArt?id={entry.get('coverArt', '')}&"
-                    + "&".join(
-                        f"{k}={v}" for k, v in self._generate_auth_params().items()
-                    )
-                    if entry.get("coverArt")
-                    else None,
-                    "thumbnail_url": None,
-                    "transcoding": {"is_transcoding": False, "direct_play": True},
-                }
+        # Handle single entry response (not in array)
+        if isinstance(entries, dict):
+            entries = [entries]
+        if not isinstance(entries, list):
+            raise ValueError("Navidrome returned an invalid now playing list")
 
-                # Add artist and album info if available
-                if entry.get("artist"):
-                    session_data["artist"] = entry["artist"]
-                if entry.get("album"):
-                    session_data["album"] = entry["album"]
+        active = []
+        for entry in entries:
+            try:
+                session_data = self._now_playing_entry(entry)
+            except Exception as exc:
+                # One bad entry must not hide the other sessions.
+                logging.warning("Navidrome: failed to read a session – %s", exc)
+                continue
+            active.append(session_data)
 
-                active.append(session_data)
+        return active
 
-            return active
-        except Exception as exc:
-            logging.error("Navidrome: failed to fetch now playing – %s", exc)
-            return []
+    def _now_playing_entry(self, entry: dict) -> dict:
+        """Convert one getNowPlaying entry to a now-playing dict."""
+        session_data = {
+            "user_name": entry.get("username", "Unknown"),
+            "media_title": entry.get("title", "Unknown Track"),
+            "media_type": "track",
+            "progress": 0.0,  # Navidrome doesn't provide progress in now playing
+            "state": "playing",
+            "session_id": entry.get("id", ""),
+            "client": entry.get("playerName", "Unknown"),
+            "device_name": entry.get("playerName", "Unknown Device"),
+            "position_ms": 0,
+            "duration_ms": (entry.get("duration", 0) * 1000)
+            if entry.get("duration")
+            else 0,
+            "artwork_url": f"{self.url}{self.API_PREFIX}/getCoverArt?id={entry.get('coverArt', '')}&"
+            + "&".join(f"{k}={v}" for k, v in self._generate_auth_params().items())
+            if entry.get("coverArt")
+            else None,
+            "thumbnail_url": None,
+            "transcoding": {"is_transcoding": False, "direct_play": True},
+        }
+
+        # Add artist and album info if available
+        if entry.get("artist"):
+            session_data["artist"] = entry["artist"]
+        if entry.get("album"):
+            session_data["album"] = entry["album"]
+
+        return session_data
 
     def statistics(self):
         """Return server statistics for Navidrome."""

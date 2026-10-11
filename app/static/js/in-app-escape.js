@@ -12,10 +12,9 @@
   window.wizarrInAppEscapeLoaded = true;
 
   // Import dependencies from node_modules
-  const Bowser = window.Bowser || window.bowser;
   const InAppSpy = window.InAppSpy;
 
-  if (!Bowser || !InAppSpy) {
+  if (!InAppSpy) {
     console.warn('In-app escape dependencies not loaded');
     return;
   }
@@ -23,13 +22,14 @@
   // Initialize InAppSpy
   const { isInApp, appKey } = InAppSpy();
 
-  // Get the OS name (lowercase: "ios", "android", etc.)
-  const os = Bowser.getParser(window.navigator.userAgent).getOSName(true);
-
   // Only proceed if we're in an in-app browser
   if (!isInApp) {
     return;
   }
+
+  // Get the OS name: "ios", "android" or "" (other platforms).
+  // This small check replaces the Bowser library (125 KB).
+  const os = detectOS(window.navigator.userAgent);
 
   console.log('In-app browser detected on:', os, 'App:', appKey);
 
@@ -87,6 +87,23 @@
   // Other platforms
   else {
     console.log('In-app browser detected but platform not supported:', os);
+  }
+
+  /**
+   * Returns "ios", "android" or "" from the user agent string
+   */
+  function detectOS(userAgent) {
+    if (/iPhone|iPad|iPod/i.test(userAgent)) {
+      return 'ios';
+    }
+    if (/Android/i.test(userAgent)) {
+      return 'android';
+    }
+    // iPadOS 13+ sends a desktop Mac user agent. A touch screen identifies it.
+    if (/Macintosh/i.test(userAgent) && navigator.maxTouchPoints > 1) {
+      return 'ios';
+    }
+    return '';
   }
 
   /**

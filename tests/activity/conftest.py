@@ -58,3 +58,17 @@ def activity_client(activity_app):
 def logged_activity_client(activity_client):
     activity_client.get("/_login")
     return activity_client
+
+
+@pytest.fixture(autouse=True)
+def _clear_identity_cache():
+    """Start each test with an empty identity cache.
+
+    Test databases reuse row ids, so a cached result from one test can match
+    another test.
+    """
+    from app.services.activity.identity_resolution import clear_identity_cache
+
+    clear_identity_cache()
+    yield
+    clear_identity_cache()

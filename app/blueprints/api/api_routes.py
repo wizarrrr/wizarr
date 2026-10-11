@@ -26,7 +26,7 @@ from app.services.media.service import (
     delete_user,
     disable_user,
     enable_user,
-    list_users_all_servers,
+    sync_users,
 )
 from app.services.server_name_resolver import get_display_name_info
 
@@ -334,38 +334,40 @@ class UsersListResource(Resource):
                 username_filter,
                 email_filter,
             )
-            users_by_server = list_users_all_servers()
+            # Sync from the media servers only when the last sync is old. A
+            # full live sync on each call made this endpoint slow and loaded
+            # the media servers and the DB.
+            try:
+                sync_users()
+            except Exception as exc:
+                logger.warning("API: user sync failed, using stored users: %s", exc)
+                db.session.rollback()
+
+            servers = {server.id: server for server in MediaServer.query.all()}
+            query = User.query.filter(User.server_id.in_(list(servers)))
+            # Apply filters if specified (exact match)
+            if username_filter:
+                query = query.filter(User.username == username_filter)
+            if email_filter:
+                query = query.filter(User.email == email_filter)
 
             # Format response
             users_list = []
-            for server_id, users in users_by_server.items():
-                # Get server info
-                server = db.session.get(MediaServer, server_id)
-                if not server:
-                    continue
-
-                for user in users:
-                    # Apply filters if specified
-                    if username_filter and user.username != username_filter:
-                        continue
-                    if email_filter and user.email != email_filter:
-                        continue
-
-                    users_list.append(
-                        {
-                            "id": user.id,
-                            "username": user.username,
-                            "email": user.email,
-                            "server": server.name,
-                            "server_type": server.server_type,
-                            "expires": user.expires.isoformat()
-                            if user.expires
-                            else None,
-                            "created_at": user.created_at.isoformat()
-                            if hasattr(user, "created_at") and user.created_at
-                            else None,
-                        }
-                    )
+            for user in query.order_by(User.server_id, User.id).all():
+                server = servers[user.server_id]
+                users_list.append(
+                    {
+                        "id": user.id,
+                        "username": user.username,
+                        "email": user.email,
+                        "server": server.name,
+                        "server_type": server.server_type,
+                        "expires": user.expires.isoformat() if user.expires else None,
+                        "created_at": user.created_at.isoformat()
+                        if hasattr(user, "created_at") and user.created_at
+                        else None,
+                    }
+                )
 
             return {"users": users_list, "count": len(users_list)}
 

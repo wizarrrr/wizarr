@@ -21,6 +21,9 @@ from app.services.historical.importers import (
 
 logger = structlog.get_logger(__name__)
 
+# Number of imported sessions per transaction.
+STORE_BATCH_SIZE = 500
+
 
 class HistoricalDataService:
     """Service for importing and managing historical viewing data."""
@@ -193,47 +196,98 @@ class HistoricalDataService:
         }
 
     def _store_activity_sessions(
-        self, sessions: list, job_id: int | None = None
+        self,
+        sessions: list,
+        job_id: int | None = None,
+        batch_size: int = STORE_BATCH_SIZE,
     ) -> int:
-        """Store activity sessions in the database."""
-        stored_count = 0
+        """Store activity sessions in the database.
 
+        The service reads the existing (server_id, session_id) pairs once and
+        inserts new sessions in batches of ``batch_size`` rows per commit.
+        Each stored session gets ``reference_id = id``, because the history
+        grid groups on reference_id.
+        """
+        sessions = [session for session in sessions if session is not None]
+        if not sessions:
+            if job_id is not None:
+                self._update_job(job_id, total_stored=0)
+            return 0
+
+        server_ids = {session.server_id for session in sessions}
+        existing_keys = {
+            (server_id, session_id)
+            for server_id, session_id in db.session.query(
+                ActivitySession.server_id, ActivitySession.session_id
+            )
+            .filter(ActivitySession.server_id.in_(server_ids))
+            .all()
+        }
+
+        new_sessions = []
         for session in sessions:
-            try:
-                # Check if session already exists
-                existing = (
-                    ActivitySession.query.filter_by(
-                        session_id=session.session_id, server_id=session.server_id
-                    )
-                    .with_entities(ActivitySession.id)
-                    .first()
-                )
+            key = (session.server_id, session.session_id)
+            if key in existing_keys:
+                continue
+            # Skip duplicates in the same import too.
+            existing_keys.add(key)
+            new_sessions.append(session)
 
-                if existing:
-                    continue
+        stored_count = 0
+        for start in range(0, len(new_sessions), batch_size):
+            batch = new_sessions[start : start + batch_size]
+            stored = self._store_batch(batch, job_id)
+            if stored == 0 and len(batch) > 1:
+                # The batch failed. Store the rows one by one, so that one bad
+                # row does not drop the other rows.
+                stored = sum(self._store_batch([session], job_id) for session in batch)
+            stored_count += stored
 
-                db.session.add(session)
-                db.session.commit()
-                stored_count += 1
-
-                if job_id is not None and stored_count % 25 == 0:
-                    self._update_job(job_id, total_stored=stored_count)
-
-            except Exception as exc:
-                logger.warning(
-                    "session_store_failed",
-                    session_id=getattr(session, "session_id", "unknown"),
-                    server_id=getattr(session, "server_id", "unknown"),
-                    error=str(exc),
-                )
-                db.session.rollback()
-                if job_id is not None:
-                    self._update_job(job_id, error_message=str(exc))
+            if job_id is not None:
+                self._update_job(job_id, total_stored=stored_count)
 
         if job_id is not None:
             self._update_job(job_id, total_stored=stored_count)
 
         return stored_count
+
+    @staticmethod
+    def _store_batch(batch: list, job_id: int | None) -> int:
+        """Insert one batch of sessions in one transaction. Return the stored count."""
+        try:
+            db.session.add_all(batch)
+            db.session.flush()
+
+            ids = [session.id for session in batch]
+            # Each imported session is its own group. Keep updated_at as it is.
+            db.session.query(ActivitySession).filter(
+                ActivitySession.id.in_(ids),
+                ActivitySession.reference_id.is_(None),
+            ).update(
+                {
+                    ActivitySession.reference_id: ActivitySession.id,
+                    ActivitySession.updated_at: ActivitySession.updated_at,
+                },
+                synchronize_session=False,
+            )
+            db.session.commit()
+            return len(batch)
+        except Exception as exc:
+            logger.warning(
+                "session_store_failed",
+                session_ids=[getattr(s, "session_id", "unknown") for s in batch][:5],
+                batch_size=len(batch),
+                error=str(exc),
+            )
+            db.session.rollback()
+            # The rolled back rows are transient again. Clear the ids that
+            # the flush gave them, so that a retry inserts them again.
+            for session in batch:
+                if session.id is not None and session not in db.session:
+                    session.id = None
+            if job_id is not None and len(batch) == 1:
+                HistoricalDataService._update_job(job_id, error_message=str(exc))
+            return 0
 
     @staticmethod
     def _update_job(job_id: int, **fields) -> None:
