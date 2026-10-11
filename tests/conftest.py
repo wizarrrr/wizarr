@@ -1,5 +1,6 @@
 import contextlib
 import os
+import shutil
 import tempfile
 
 import pytest
@@ -15,11 +16,16 @@ os.environ["NO_PROXY"] = "*"
 os.environ["no_proxy"] = "*"
 
 
+# Each test process gets its own directory for the database. Then test runs
+# in parallel (for example in two git worktrees) do not share one SQLite file.
+_TEST_DB_DIR = tempfile.mkdtemp(prefix="wizarr-tests-")
+
+
 class TestConfig(BaseConfig):
     TESTING = True
     WTF_CSRF_ENABLED = False
     # Use a temporary file database for better migration compatibility
-    _temp_db_path = os.path.join(tempfile.gettempdir(), "wizarr_test.db")
+    _temp_db_path = os.path.join(_TEST_DB_DIR, "wizarr_test.db")
     SQLALCHEMY_DATABASE_URI = f"sqlite:///{_temp_db_path}"
 
 
@@ -54,6 +60,7 @@ def app():
         if os.path.exists(db_file):
             with contextlib.suppress(Exception):
                 os.unlink(db_file)
+    shutil.rmtree(_TEST_DB_DIR, ignore_errors=True)
 
 
 @pytest.fixture
