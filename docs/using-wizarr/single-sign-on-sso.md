@@ -12,33 +12,51 @@ In order to make the invitation process available for non signed in users, make 
 
 {% tabs %}
 {% tab title="Authelia" %}
+Authelia matches each expression against the path and the query string, so every expression also accepts a `?`.
+
 ```
     - domain: wizarr.domain.com
       resources:
-        - '^/join(/.*)?$'
-        - '^/j(/.*)?$'
-        - '^/static(/.*)?$'
-        - '^/setup(/.*)?$'
-        - '^/wizard(/.*)?$'
-        - '^/image-proxy(/.*)?$'
-        - '^/cinema-posters(/.*)?$'
-    
+        - '^/j([/?].*)?$'
+        - '^/join([/?].*)?$'
+        - '^/invitation/process([/?].*)?$'
+        - '^/plex/callback([/?].*)?$'
+        - '^/wizard([/?].*)?$'
+        - '^/reset/.+$'
+        - '^/setup([/?].*)?$'
+        - '^/static([/?].*)?$'
+        - '^/image-proxy([/?].*)?$'
+        - '^/cinema-posters([/?].*)?$'
+        - '^/favicon\.ico$'
+
       policy: bypass
 ```
 {% endtab %}
 
 {% tab title="Authentik/Other" %}
+Paste these lines into the **Unauthenticated Paths** field of the Proxy Provider. Put one expression on each line. Do not add quotes or a `-` in front of a line. Authentik reads them as part of the expression, and then no path matches.
+
 ```
-- '^/join($|/.*)'
-- '^/j($|/.*)'
-- '^/static($|/.*)'
-- '^/setup($|/.*)'
-- '^/wizard($|/.*)'
-- '^/image-proxy($|/.*)'
-- '^/cinema-posters($|/.*)'
+^/j(/.*)?$
+^/join(/.*)?$
+^/invitation/process$
+^/plex/callback$
+^/wizard(/.*)?$
+^/reset/.+$
+^/setup(/.*)?$
+^/static(/.*)?$
+^/image-proxy$
+^/cinema-posters$
+^/favicon\.ico$
 ```
+
+In **Forward auth (domain level)** mode, Authentik matches the full URL, not only the path. Add the scheme and the host to each line, for example `^https://wizarr\.domain\.com/j(/.*)?$`.
 {% endtab %}
 {% endtabs %}
+
+The PWA manifest (`/static/manifest.json`) and the icons are under `/static`, so the `/static` expression covers them.
+
+Do not whitelist `/login`. When `DISABLE_BUILTIN_AUTH=True`, `/login` signs in every visitor as an admin. The `/api` paths are not necessary for invitations. Whitelist `/api` only if external tools call the Wizarr API. The API endpoints then accept only requests with a valid `X-API-Key` header, but the API documentation at `/api/docs/` becomes public.
 
 #### Cloudflare Access: verify the token
 
