@@ -56,7 +56,7 @@ class JellyfinClient(RestApiMixin):
         kwargs.setdefault("token_key", "api_key")
         super().__init__(*args, **kwargs)
 
-    def _headers(self) -> dict[str, str]:  # type: ignore
+    def _headers(self) -> dict[str, str]:
         """Return default headers for Jellyfin API requests."""
         return media_browser_auth_headers(self.token)
 

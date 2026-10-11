@@ -107,8 +107,9 @@ def server_settings():
 
         ok, error_msg = _check_server_connection(data)
         if not ok:
-            # Add the error message to the form
-            form.server_url.errors = [error_msg]
+            # Add the error message to the form. WTForms declares errors as
+            # tuple(), but validate_on_submit() has already set a list here.
+            form.server_url.errors = [error_msg]  # ty: ignore[invalid-assignment]
             # HTMX‐render of the same form with errors
             return render_template(
                 "settings/partials/server_form.html",
@@ -541,9 +542,9 @@ def sync_all_ldap_users():
             message=_("LDAP is not configured"),
         )
 
-    # Get all LDAP users
+    # Get all LDAP users. On failure, result is the error message.
     success, result = list_ldap_users()
-    if not success:
+    if not success or isinstance(result, str):
         return render_template(
             "_partials/ldap_alert.html",
             level="error",

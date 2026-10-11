@@ -140,6 +140,23 @@ def test_settings_save_sync_filter(admin_client):
     assert config.user_sync_filter is None
 
 
+def test_sync_route_shows_list_error_and_imports_users(admin_client, ldap_config):
+    list_users = "app.services.ldap.user_sync.list_ldap_users"
+    with patch(list_users, return_value=(False, "Cannot connect to LDAP server")):
+        body = admin_client.post("/settings/ldap/users/sync-all").get_data(as_text=True)
+    assert "Cannot connect to LDAP server" in body
+
+    found = [{"username": "alice", "email": "", "dn": "uid=alice,dc=example"}]
+    with (
+        patch(list_users, return_value=(True, found)),
+        patch(
+            "app.services.ldap.user_sync.import_ldap_user", return_value=(True, "")
+        ) as import_user,
+    ):
+        admin_client.post("/settings/ldap/users/sync-all")
+    import_user.assert_called_once_with("alice")
+
+
 def test_migration_adds_and_removes_the_column(tmp_path):
     db_url = f"sqlite:///{tmp_path / 'migration.db'}"
 
