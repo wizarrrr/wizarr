@@ -38,7 +38,7 @@ Paste these lines into the **Unauthenticated Paths** field of the Proxy Provider
 
 ```
 ^/j(/.*)?$
-^/join(/.*)?$
+^/join([/?].*)?$
 ^/invitation/process$
 ^/plex/callback$
 ^/wizard(/.*)?$
@@ -50,7 +50,7 @@ Paste these lines into the **Unauthenticated Paths** field of the Proxy Provider
 ^/favicon\.ico$
 ```
 
-In **Forward auth (domain level)** mode, Authentik matches the full URL, not only the path. Add the scheme and the host to each line, for example `^https://wizarr\.domain\.com/j(/.*)?$`.
+In **Forward auth (domain level)** mode, Authentik matches the full URL, not only the path. The full URL includes the query string, for example `/join?code=ABC123` from the invitation code page. For this reason, the `/join` expression also accepts a `?`. Add the scheme and the host to each line, for example `^https://wizarr\.domain\.com/j(/.*)?$`.
 {% endtab %}
 {% endtabs %}
 
