@@ -793,6 +793,38 @@ class JellyfinClient(RestApiMixin):
 
         return now_playing_sessions
 
+    @staticmethod
+    def _play_method(session: dict) -> str | None:
+        """Return the play method of a /Sessions entry.
+
+        Jellyfin and Emby put PlayMethod in PlayState. The top-level key is
+        a fallback.
+        """
+        play_state = session.get("PlayState") or {}
+        return play_state.get("PlayMethod") or session.get("PlayMethod")
+
+    @classmethod
+    def _playback_mode(cls, session: dict) -> tuple[bool, bool]:
+        """Return (is_transcoding, direct_play) for a /Sessions entry.
+
+        The server also sends TranscodingInfo for a remux, where it copies
+        the video and the audio into a new container. A remux is a direct
+        stream, not a transcode. The Jellyfin dashboard uses the same rules.
+        """
+        play_method = cls._play_method(session)
+        if play_method == "DirectPlay":
+            return False, True
+        if play_method == "DirectStream":
+            return False, False
+        transcode = session.get("TranscodingInfo")
+        if transcode:
+            video_direct = transcode.get("IsVideoDirect") or not transcode.get(
+                "VideoCodec"
+            )
+            return not (video_direct and transcode.get("IsAudioDirect")), False
+        is_transcoding = play_method == "Transcode"
+        return is_transcoding, not is_transcoding
+
     def _now_playing_entry(self, session: dict) -> dict | None:
         """Convert one /Sessions entry to a now-playing dict."""
         if session.get("NowPlayingItem") is None:
@@ -851,36 +883,25 @@ class JellyfinClient(RestApiMixin):
         series_id = now_playing_item.get("SeriesId")
         artwork_info = self._get_artwork_urls(item_id, media_type, series_id)
 
+        is_transcoding, direct_play = self._playback_mode(session)
         transcoding_info: dict[str, Any] = {
-            "is_transcoding": False,
+            "is_transcoding": is_transcoding,
             "video_codec": None,
             "audio_codec": None,
             "container": None,
             "video_resolution": None,
             "transcoding_speed": None,
-            "direct_play": True,
+            "direct_play": direct_play,
         }
 
         if session.get("TranscodingInfo"):
             transcode_info = session["TranscodingInfo"]
-            transcoding_info["is_transcoding"] = True
-            transcoding_info["direct_play"] = False
             transcoding_info["video_codec"] = transcode_info.get("VideoCodec")
             transcoding_info["audio_codec"] = transcode_info.get("AudioCodec")
             transcoding_info["container"] = transcode_info.get("Container")
             transcoding_info["transcoding_speed"] = transcode_info.get(
                 "TranscodingFramerate"
             )
-
-        if session.get("PlayMethod"):
-            play_method = session["PlayMethod"]
-            if play_method == "DirectPlay":
-                transcoding_info["direct_play"] = True
-                transcoding_info["is_transcoding"] = False
-            elif play_method in ["DirectStream", "Transcode"]:
-                transcoding_info["direct_play"] = False
-                if play_method == "Transcode":
-                    transcoding_info["is_transcoding"] = True
 
         if now_playing_item.get("MediaStreams"):
             for stream in now_playing_item["MediaStreams"]:
@@ -937,7 +958,7 @@ class JellyfinClient(RestApiMixin):
                 "jellyfin_session_id": session_id,
                 "jellyfin_item_id": item_id,
                 "jellyfin_series_id": series_id,
-                "play_method": session.get("PlayMethod"),
+                "play_method": self._play_method(session),
             },
         }
 

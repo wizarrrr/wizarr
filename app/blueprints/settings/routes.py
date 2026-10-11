@@ -524,8 +524,12 @@ def sync_all_ldap_users():
     This imports all new LDAP users that don't exist in Wizarr yet,
     then returns the updated unified user list.
     """
-    from app.models import LDAPConfiguration, User
-    from app.services.ldap.user_sync import import_ldap_user, list_ldap_users
+    from app.models import LDAPConfiguration
+    from app.services.ldap.user_sync import (
+        find_local_user,
+        import_ldap_user,
+        list_ldap_users,
+    )
 
     ldap_config = LDAPConfiguration.query.filter_by(enabled=True).first()
     if not ldap_config:
@@ -555,7 +559,7 @@ def sync_all_ldap_users():
         username = ldap_user["username"]
 
         # Check if user already exists
-        existing = User.query.filter_by(username=username).first()
+        existing = find_local_user(username)
         if existing:
             skipped_count += 1
             continue

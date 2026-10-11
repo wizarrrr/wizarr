@@ -4,11 +4,22 @@ import logging
 import uuid
 from typing import Any
 
+from sqlalchemy import func
+
 from app.extensions import db
 from app.models import LDAPConfiguration, User
 from app.services.ldap.client import LDAPClient
 
 logger = logging.getLogger(__name__)
+
+
+def find_local_user(username: str) -> User | None:
+    """Return the Wizarr user that has this LDAP username.
+
+    Wizarr writes LDAP uids in lowercase. A user invited as "JohnDoe" gets
+    the uid "johndoe", so the compare ignores case.
+    """
+    return User.query.filter(func.lower(User.username) == username.lower()).first()
 
 
 def list_ldap_users() -> tuple[bool, list[dict[str, Any]] | str]:
@@ -73,7 +84,7 @@ def import_ldap_user(username: str) -> tuple[bool, str]:
             return False, "LDAP is not configured"
 
         # Check if user already exists in Wizarr
-        existing_user = User.query.filter_by(username=username).first()
+        existing_user = find_local_user(username)
         if existing_user:
             return False, f"User {username} already exists in Wizarr"
 
