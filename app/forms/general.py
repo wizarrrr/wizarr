@@ -17,3 +17,21 @@ class GeneralSettingsForm(FlaskForm):
         default="delete",
         validators=[DataRequired()],
     )
+    cinema_posters_source = SelectField(
+        "Join Page Posters",
+        choices=[],
+        default="",
+        validators=[Optional()],
+    )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        from app.models import MediaServer
+
+        self.cinema_posters_source.choices = [
+            ("", "First server (default)"),
+            ("invite", "The server the invite is for"),
+        ] + [
+            (str(server.id), server.name)
+            for server in MediaServer.query.order_by(MediaServer.name).all()
+        ]

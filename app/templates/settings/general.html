@@ -50,6 +50,14 @@
                   {{ form.server_name(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
                   {% for err in form.server_name.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
                 </div>
+                <div class="col-span-1 md:col-span-2">
+                  {{ form.cinema_posters_source.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                  {{ form.cinema_posters_source(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
+                  <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
+                    {{ _("Which server's posters fill the background of the public join page. 'The server the invite is for' shows nothing without a valid invite.") }}
+                  </p>
+                  {% for err in form.cinema_posters_source.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+                </div>
               </div>
             </div>
             {# ───── Access Control ───────────────────────────────── #}
