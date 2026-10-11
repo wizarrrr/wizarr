@@ -31,6 +31,10 @@ if TYPE_CHECKING:
 # Global token cache: {cache_key: (jwt_token, expiry_time)}
 _JWT_TOKEN_CACHE = {}
 
+# Kavita AgeRating.NotApplicable (-1) means no age restriction. 0 is
+# AgeRating.Unknown, which hides every series that has an age rating.
+NO_AGE_RESTRICTION = {"ageRating": -1, "includeUnknowns": True}
+
 
 @register_media_client("kavita")
 class KavitaClient(RestApiMixin):
@@ -57,7 +61,6 @@ class KavitaClient(RestApiMixin):
 
         Library Management:
             - GET  /api/Library/libraries - List all libraries
-            - POST /api/Library/grant-access - Grant user access to library
 
         Content:
             - POST /api/Series - Get series with filter (paginated, requires FilterDto)
@@ -276,7 +279,7 @@ class KavitaClient(RestApiMixin):
                 "email": user_email,
                 "roles": ["Login"],
                 "libraries": kavita_library_ids,
-                "ageRestriction": {"ageRating": 0, "includeUnknowns": True},
+                "ageRestriction": NO_AGE_RESTRICTION,
             }
             invite_response = self.post("/api/Account/invite", json=invite_data)
 
@@ -522,9 +525,7 @@ class KavitaClient(RestApiMixin):
                 "libraries": form.get("libraries", []),
                 "ageRestriction": form.get(
                     "ageRestriction",
-                    target_user.get(
-                        "ageRestriction", {"ageRating": 0, "includeUnknowns": True}
-                    ),
+                    target_user.get("ageRestriction", NO_AGE_RESTRICTION),
                 ),
                 "identityProvider": form.get(
                     "identityProvider", target_user.get("identityProvider", 0)
@@ -603,9 +604,7 @@ class KavitaClient(RestApiMixin):
                 "email": target_user.get("email"),
                 "roles": target_user.get("roles", []),
                 "libraries": [],
-                "ageRestriction": target_user.get(
-                    "ageRestriction", {"ageRating": 0, "includeUnknowns": True}
-                ),
+                "ageRestriction": target_user.get("ageRestriction", NO_AGE_RESTRICTION),
                 "identityProvider": target_user.get("identityProvider", 0),
             }
 
@@ -620,28 +619,6 @@ class KavitaClient(RestApiMixin):
         except Exception as e:
             structlog.get_logger().error(f"Failed to disable Kavita user: {e}")
             return False
-
-    def grant_library_access(self, user_id: str, library_ids: list[str]) -> None:
-        """Grant user access to specific libraries.
-
-        API Endpoint: POST /api/Library/grant-access
-        Request Body: {"userId": int, "libraryId": int}
-
-        Args:
-            user_id: The user's Kavita ID (numeric)
-            library_ids: List of library IDs to grant access to
-        """
-        for library_id in library_ids:
-            try:
-                response = self.post(
-                    "/api/Library/grant-access",
-                    json={"userId": int(user_id), "libraryId": int(library_id)},
-                )
-                response.raise_for_status()
-            except Exception as e:
-                logging.error(
-                    f"Failed to grant library {library_id} access to user {user_id}: {e}"
-                )
 
     def list_users(self) -> list[User]:
         """Sync users from Kavita into the local DB and return the list of User records."""
@@ -784,57 +761,6 @@ class KavitaClient(RestApiMixin):
                 }
             )
             db.session.commit()
-
-            # Grant library access if user creation returned email fallback
-            if library_ids:
-                try:
-                    if user_identifier.isdigit():
-                        self.grant_library_access(user_identifier, library_ids)
-                        logging.info(
-                            f"Granted library access to Kavita user {username} (ID: {user_identifier}): {library_ids}"
-                        )
-                    else:
-                        logging.info(
-                            f"Attempting to grant library access using email identifier: {user_identifier}"
-                        )
-                        try:
-                            users_response = self.get("/api/Users")
-                            if (
-                                users_response.status_code == 200
-                                and users_response.text.strip()
-                            ):
-                                users = users_response.json()
-                                for user in users:
-                                    uname2 = user.get("username") or user.get(
-                                        "userName"
-                                    )
-                                    if uname2 == username or user.get("email") == email:
-                                        found_user_id = str(user["id"])
-                                        self.grant_library_access(
-                                            found_user_id, library_ids
-                                        )
-                                        logging.info(
-                                            f"Granted library access to Kavita user {username} (found ID: {found_user_id}): {library_ids}"
-                                        )
-                                        break
-                                else:
-                                    logging.warning(
-                                        f"Could not find user {username} in user list for library access"
-                                    )
-                            else:
-                                logging.warning(
-                                    "Could not retrieve user list for library access granting"
-                                )
-                        except Exception as find_exc:
-                            logging.warning(
-                                f"Failed to find user ID for library access: {find_exc}"
-                            )
-                except Exception as e:
-                    logging.warning(
-                        f"Failed to grant library access for Kavita user {username}: {e}"
-                    )
-            else:
-                logging.info(f"No libraries specified for Kavita user {username}")
 
             return (
                 True,
