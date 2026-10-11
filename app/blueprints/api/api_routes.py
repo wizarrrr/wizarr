@@ -31,6 +31,9 @@ from app.services.media.service import (
 from app.services.server_name_resolver import get_display_name_info
 
 from .models import (
+    activity_content_list_model,
+    activity_stats_model,
+    activity_user_list_model,
     admin_list_model,
     api_key_list_model,
     error_model,
@@ -67,6 +70,7 @@ libraries_ns = api.namespace("libraries", description="Library information opera
 servers_ns = api.namespace("servers", description="Server information operations")
 api_keys_ns = api.namespace("api-keys", description="API key management operations")
 admins_ns = api.namespace("admins", description="Admin management operations")
+activity_ns = api.namespace("activity", description="Playback activity statistics")
 
 
 def require_api_key(f):
@@ -1091,5 +1095,229 @@ class UserResetPasswordResource(Resource):
 
         except Exception as e:
             logger.error("Error creating reset token for user %s: %s", user_id, str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+_ACTIVITY_PERIOD_PARAMS = {
+    "days": (
+        "Days back from now (default 30, 0 for all time). "
+        "Do not combine with start or end."
+    ),
+    "start": (
+        "Start of the period, as an ISO 8601 date or date-time "
+        "(for example 2026-09-01). A value without a time zone is UTC."
+    ),
+    "end": (
+        "End of the period, as an ISO 8601 date or date-time. "
+        "A date includes the whole day."
+    ),
+    "server_id": "Only count sessions on this media server",
+    "username": "Only count sessions of this user (exact match)",
+}
+
+_ACTIVITY_LIST_PARAMS = {
+    **_ACTIVITY_PERIOD_PARAMS,
+    "limit": "Maximum number of rows (1 to 1000, default 100)",
+}
+
+
+def _int_query_arg(
+    name: str, default: int | None, minimum: int, maximum: int
+) -> int | None:
+    """Read an integer query parameter.
+
+    Raises:
+        ValueError: The value is not an integer in [minimum, maximum]
+    """
+    raw = request.args.get(name)
+    if raw is None or raw == "":
+        return default
+    try:
+        value = int(raw)
+    except ValueError:
+        raise ValueError(f"'{name}' must be an integer") from None
+    if not minimum <= value <= maximum:
+        raise ValueError(f"'{name}' must be between {minimum} and {maximum}")
+    return value
+
+
+def _parse_activity_time(name: str, raw: str, is_end: bool) -> datetime.datetime:
+    """Parse an ISO 8601 date or date-time query parameter as UTC.
+
+    A date without a time starts at midnight UTC. As an end, it moves to the
+    next midnight, so that the period includes the whole day.
+
+    Raises:
+        ValueError: The value is not an ISO 8601 date or date-time
+    """
+    try:
+        day = datetime.date.fromisoformat(raw)
+    except ValueError:
+        pass
+    else:
+        midnight = datetime.datetime.combine(
+            day, datetime.time.min, tzinfo=datetime.UTC
+        )
+        return midnight + datetime.timedelta(days=1) if is_end else midnight
+
+    try:
+        value = datetime.datetime.fromisoformat(raw)
+    except ValueError:
+        raise ValueError(f"'{name}' must be an ISO 8601 date or date-time") from None
+    if value.tzinfo is None:
+        return value.replace(tzinfo=datetime.UTC)
+    return value.astimezone(datetime.UTC)
+
+
+def _activity_period_args() -> dict:
+    """Read the period and the filters of an activity request.
+
+    Returns:
+        Keyword arguments for the ActivityAnalyticsService period methods
+
+    Raises:
+        ValueError: A query parameter is not valid. The message is for the client.
+    """
+    start_raw = request.args.get("start")
+    end_raw = request.args.get("end")
+
+    start = end = None
+    if start_raw or end_raw:
+        if request.args.get("days"):
+            raise ValueError("Use 'days' or 'start'/'end', not both")
+        if start_raw:
+            start = _parse_activity_time("start", start_raw, is_end=False)
+        if end_raw:
+            end = _parse_activity_time("end", end_raw, is_end=True)
+        if start and end and start >= end:
+            raise ValueError("'start' must be before 'end'")
+    else:
+        days = _int_query_arg("days", 30, minimum=0, maximum=36500)
+        if days:
+            start = datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=days)
+
+    return {
+        "start": start,
+        "end": end,
+        "server_id": _int_query_arg("server_id", None, minimum=1, maximum=2**31 - 1),
+        "username": request.args.get("username") or None,
+    }
+
+
+def _activity_period_echo(period: dict) -> dict:
+    """Return the period bounds of a request as ISO 8601 strings."""
+    return {
+        "start": period["start"].isoformat() if period["start"] else None,
+        "end": period["end"].isoformat() if period["end"] else None,
+    }
+
+
+@activity_ns.route("/stats")
+class ActivityStatsResource(Resource):
+    @api.doc("get_activity_stats", security="apikey", params=_ACTIVITY_PERIOD_PARAMS)
+    @api.response(200, "Success", activity_stats_model)
+    @api.response(400, "Invalid query parameter", error_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self):
+        """Get the playback totals for a period, as on the Activity dashboard.
+
+        Sessions with an Unknown user, title or device are not counted. Watch
+        time counts only finished sessions.
+        """
+        try:
+            period = _activity_period_args()
+        except ValueError as e:
+            abort(400, error=str(e))
+            return None  # Type narrowing: unreachable but helps type checker
+
+        try:
+            from app.services.activity.analytics import ActivityAnalyticsService
+
+            logger.info("API: Getting activity stats")
+            stats = ActivityAnalyticsService().get_period_summary(**period)
+            return {**_activity_period_echo(period), **stats}
+
+        except Exception as e:
+            logger.error("Error getting activity stats: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@activity_ns.route("/users")
+class ActivityUsersResource(Resource):
+    @api.doc("list_activity_users", security="apikey", params=_ACTIVITY_LIST_PARAMS)
+    @api.response(200, "Success", activity_user_list_model)
+    @api.response(400, "Invalid query parameter", error_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self):
+        """List the sessions and the watch time of each user in a period.
+
+        Users with the most watch time come first.
+        """
+        try:
+            period = _activity_period_args()
+            limit = _int_query_arg("limit", 100, minimum=1, maximum=1000)
+        except ValueError as e:
+            abort(400, error=str(e))
+            return None  # Type narrowing: unreachable but helps type checker
+
+        try:
+            from app.services.activity.analytics import ActivityAnalyticsService
+
+            logger.info("API: Listing activity per user")
+            users = ActivityAnalyticsService().get_user_breakdown(**period, limit=limit)
+            return {
+                **_activity_period_echo(period),
+                "users": users,
+                "count": len(users),
+            }
+
+        except Exception as e:
+            logger.error("Error listing activity per user: %s", str(e))
+            logger.error(traceback.format_exc())
+            return {"error": "Internal server error"}, 500
+
+
+@activity_ns.route("/content")
+class ActivityContentResource(Resource):
+    @api.doc("list_activity_content", security="apikey", params=_ACTIVITY_LIST_PARAMS)
+    @api.response(200, "Success", activity_content_list_model)
+    @api.response(400, "Invalid query parameter", error_model)
+    @api.response(401, "Invalid or missing API key", error_model)
+    @api.response(500, "Internal server error", error_model)
+    @require_api_key
+    def get(self):
+        """List the plays and the watch time of each movie or series in a period.
+
+        Episodes and seasons count toward their series. The titles with the
+        most plays come first.
+        """
+        try:
+            period = _activity_period_args()
+            limit = _int_query_arg("limit", 100, minimum=1, maximum=1000)
+        except ValueError as e:
+            abort(400, error=str(e))
+            return None  # Type narrowing: unreachable but helps type checker
+
+        try:
+            from app.services.activity.analytics import ActivityAnalyticsService
+
+            logger.info("API: Listing activity per title")
+            content = ActivityAnalyticsService().get_content_breakdown(
+                **period, limit=limit
+            )
+            return {
+                **_activity_period_echo(period),
+                "content": content,
+                "count": len(content),
+            }
+
+        except Exception as e:
+            logger.error("Error listing activity per title: %s", str(e))
             logger.error(traceback.format_exc())
             return {"error": "Internal server error"}, 500

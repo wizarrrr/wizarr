@@ -252,6 +252,80 @@ api_key_list_model = api.model(
     },
 )
 
+# Activity Models
+_activity_period_fields = {
+    "start": fields.DateTime(
+        description="Start of the period (inclusive, UTC), or null for no limit"
+    ),
+    "end": fields.DateTime(
+        description="End of the period (exclusive, UTC), or null for no limit"
+    ),
+}
+
+activity_stats_model = api.model(
+    "ActivityStats",
+    {
+        **_activity_period_fields,
+        "total_sessions": fields.Integer(
+            description="Playback sessions that started in the period"
+        ),
+        "unique_users": fields.Integer(
+            description="Users with at least one session in the period"
+        ),
+        "total_watch_time_seconds": fields.Integer(
+            description="Watch time of the finished sessions, in seconds"
+        ),
+        "avg_session_length_seconds": fields.Integer(
+            description="Average watch time of a finished session, in seconds"
+        ),
+    },
+)
+
+activity_user_model = api.model(
+    "ActivityUser",
+    {
+        "username": fields.String(description="Username on the media server"),
+        "session_count": fields.Integer(description="Playback sessions"),
+        "total_watch_time_seconds": fields.Integer(
+            description="Watch time of the finished sessions, in seconds"
+        ),
+    },
+)
+
+activity_user_list_model = api.model(
+    "ActivityUserList",
+    {
+        **_activity_period_fields,
+        "users": fields.List(fields.Nested(activity_user_model)),
+        "count": fields.Integer(description="Number of users returned"),
+    },
+)
+
+activity_content_model = api.model(
+    "ActivityContent",
+    {
+        "title": fields.String(
+            description="Movie title, or series name for episodes and seasons"
+        ),
+        "media_type": fields.String(
+            description="Movie, Series, or the media type that the server reports"
+        ),
+        "play_count": fields.Integer(description="Playback sessions"),
+        "total_watch_time_seconds": fields.Integer(
+            description="Watch time of the finished sessions, in seconds"
+        ),
+    },
+)
+
+activity_content_list_model = api.model(
+    "ActivityContentList",
+    {
+        **_activity_period_fields,
+        "content": fields.List(fields.Nested(activity_content_model)),
+        "count": fields.Integer(description="Number of titles returned"),
+    },
+)
+
 # Error Models
 error_model = api.model(
     "Error",
