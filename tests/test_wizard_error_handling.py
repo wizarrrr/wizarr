@@ -17,14 +17,19 @@ from app.extensions import db
 from app.models import Invitation, MediaServer, WizardStep
 
 
+def _utc_now() -> datetime.datetime:
+    """Return the time in UTC without a time zone, as Wizarr stores it."""
+    return datetime.datetime.now(datetime.UTC).replace(tzinfo=None)
+
+
 class TestInvalidInviteCodeHandling:
     """Test handling of invalid invite codes (Requirement 13.1)."""
 
     def test_pre_wizard_with_no_invite_code(self, app, client):
-        """Test pre-wizard redirects to home when no invite code in session."""
+        """Test pre-wizard redirects to the help page with no invite code."""
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
         assert response.status_code == 302
-        assert response.location == "/"
+        assert response.location == "/wizard/help"
 
     def test_pre_wizard_with_invalid_invite_code(self, app, client):
         """Test pre-wizard redirects to home with invalid invite code."""
@@ -66,7 +71,7 @@ class TestExpiredInviteCodeHandling:
             invitation = Invitation(
                 code="EXPIRED123",
                 unlimited=True,
-                expires=datetime.datetime.now() - timedelta(hours=1),
+                expires=_utc_now() - timedelta(hours=1),
             )
             invitation.servers.append(server)
             db.session.add(invitation)
@@ -115,11 +120,10 @@ class TestSessionExpirationHandling:
     """Test handling of session expiration (Requirement 13.2, 13.5)."""
 
     def test_post_wizard_without_authentication(self, app, client):
-        """Test post-wizard redirects to login when not authenticated."""
+        """Test post-wizard redirects to the help page, not the admin login."""
         response = client.get("/wizard/post-wizard", follow_redirects=False)
         assert response.status_code == 302
-        # Should redirect to login
-        assert "/login" in response.location or response.location == "/"
+        assert response.location == "/wizard/help"
 
     def test_pre_wizard_session_validation_on_each_request(self, app, client):
         """Test that pre-wizard validates invite code on each request."""
@@ -154,7 +158,7 @@ class TestSessionExpirationHandling:
         # Now expire the invitation
         with app.app_context():
             invitation = Invitation.query.filter_by(code="VALID123").first()
-            invitation.expires = datetime.datetime.now() - timedelta(hours=1)
+            invitation.expires = _utc_now() - timedelta(hours=1)
             db.session.commit()
 
         # Second request should fail
@@ -233,8 +237,8 @@ class TestGracefulDegradation:
 
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
         assert response.status_code == 302
-        # Should redirect to home page
-        assert response.location == "/"
+        # The invite flow did not start, so show the help page
+        assert response.location == "/wizard/help"
 
     def test_pre_wizard_with_no_pre_invite_steps(self, app, client):
         """Test pre-wizard redirects to join when no pre-invite steps exist."""

@@ -291,6 +291,17 @@ By default, wizard access is restricted to:
 
 Set the `wizard_acl_enabled` setting to `false` to allow unrestricted access to the wizard.
 
+### Visitors Without Access
+
+When a visitor opens `/wizard/` or a wizard step without access, Wizarr shows a
+help page at `/wizard/help`. It does not show the admin login.
+
+- If **Protect Wizard Access** is on, the help page tells the visitor to open
+  the link from their invitation. It does not show wizard steps.
+- If **Protect Wizard Access** is off, the help page has a link to the wizard
+  steps of each server type. Thus you can send `/wizard/` to users who want to
+  read the steps again after they sign up.
+
 ***
 
 ## 7 · Previewing and Testing

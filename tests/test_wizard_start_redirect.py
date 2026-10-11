@@ -4,7 +4,7 @@ This module tests the backward compatibility redirect logic for the /wizard endp
 The start() function should intelligently redirect users based on their context:
 - Authenticated users → /post-wizard
 - Users with invite code → /pre-wizard
-- Others → home page
+- Others → help page (not the admin login)
 """
 
 import pytest
@@ -136,11 +136,11 @@ class TestWizardStartRedirect:
     #     """Test that users with invalid invite code are redirected to home."""
     #     pass
 
-    def test_user_without_context_redirects_to_home(self, app, client, session):
-        """Test that users without any context are redirected to home.
+    def test_user_without_context_redirects_to_help_page(self, app, client, session):
+        """Test that users without any context are redirected to the help page.
 
         Users who access /wizard directly without being authenticated
-        or having an invite code should be redirected to the home page.
+        or having an invite code see a help page, not the admin login.
         """
         # Create media server (needed for the app to function)
         server = MediaServer(
@@ -155,9 +155,9 @@ class TestWizardStartRedirect:
             # Access /wizard without any context
             response = client.get("/wizard/", follow_redirects=False)
 
-            # Should redirect to home page
+            # Should redirect to the help page
             assert response.status_code == 302
-            assert response.location == "/"
+            assert response.location == "/wizard/help"
 
     def test_backward_compatibility_with_old_wizard_url(self, app, client, session):
         """Test backward compatibility with old /wizard URL.
@@ -188,7 +188,7 @@ class TestWizardStartRedirect:
         assert "/wizard/post-wizard" in response.location
 
     def test_backward_compatibility_without_context(self, app, client, session):
-        """Test backward compatibility redirects to home when no context."""
+        """Test backward compatibility redirects to the help page when no context."""
         # Create media server (needed for the app to function)
         server = MediaServer(
             name="Test Plex",
@@ -201,4 +201,4 @@ class TestWizardStartRedirect:
         # Test: User without context
         response = client.get("/wizard/", follow_redirects=False)
         assert response.status_code == 302
-        assert response.location == "/"
+        assert response.location == "/wizard/help"
