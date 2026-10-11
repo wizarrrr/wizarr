@@ -1,5 +1,7 @@
 """Tests for wizard admin form handling with category field."""
 
+import re
+
 import pytest
 
 from app.extensions import db
@@ -642,3 +644,25 @@ def test_category_persists_after_multiple_edits(
     step = db.session.get(WizardStep, step_id)
     assert step is not None
     assert step.category == "post_invite"
+
+
+# ─── Test Step Modal Layout ───────────────────────────────────────────
+
+
+def test_create_step_modal_does_not_clip_add_menu(authenticated_client):
+    """The modal panel must not clip the "Add..." menu (issue #984)."""
+    response = authenticated_client.get(
+        "/settings/wizard/create", headers={"HX-Request": "true"}
+    )
+
+    html = response.get_data(as_text=True)
+    match = re.search(
+        r'<div class="([^"]*sm:max-w-3xl[^"]*)">\s*<div class="([^"]*)">', html
+    )
+    assert match is not None
+    panel, inner = match.group(1).split(), match.group(2).split()
+    assert "overflow-hidden" not in panel
+    # Without the clip, the inner block must round its own corners.
+    assert "rounded-lg" in panel
+    assert "rounded-lg" in inner
+    assert 'x-show="open"' in html
