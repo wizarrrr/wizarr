@@ -1,3 +1,14 @@
+{# After a failed connection test, show the values that the admin typed. #}
+{% set typed = values or {
+  "server_name": server.name,
+  "server_type": server.server_type,
+  "server_url": server.url,
+  "external_url": server.external_url or "",
+  "api_key": server.api_key or "",
+  "allow_downloads": server.allow_downloads,
+  "allow_live_tv": server.allow_live_tv,
+  "allow_mobile_uploads": server.allow_mobile_uploads
+} %}
 <div class="relative modal-container"
      aria-labelledby="modal-title"
      role="dialog"
@@ -25,7 +36,7 @@
               <input type="text"
                      name="server_name"
                      id="server_name"
-                     value="{{ server.name }}"
+                     value="{{ typed.server_name }}"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                      required>
             </div>
@@ -35,17 +46,17 @@
               <select name="server_type"
                       id="server_type"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                <option value="plex" {% if server.server_type=='plex' %}selected{% endif %}>Plex</option>
+                <option value="plex" {% if typed.server_type=='plex' %}selected{% endif %}>Plex</option>
                 <option value="jellyfin"
-                        {% if server.server_type=='jellyfin' %}selected{% endif %}>Jellyfin</option>
-                <option value="emby" {% if server.server_type=='emby' %}selected{% endif %}>Emby</option>
+                        {% if typed.server_type=='jellyfin' %}selected{% endif %}>Jellyfin</option>
+                <option value="emby" {% if typed.server_type=='emby' %}selected{% endif %}>Emby</option>
                 <option value="audiobookshelf"
-                        {% if server.server_type=='audiobookshelf' %}selected{% endif %}>Audiobookshelf</option>
-                <option value="romm" {% if server.server_type=='romm' %}selected{% endif %}>Romm</option>
-                <option value="komga" {% if server.server_type=='komga' %}selected{% endif %}>Komga</option>
+                        {% if typed.server_type=='audiobookshelf' %}selected{% endif %}>Audiobookshelf</option>
+                <option value="romm" {% if typed.server_type=='romm' %}selected{% endif %}>Romm</option>
+                <option value="komga" {% if typed.server_type=='komga' %}selected{% endif %}>Komga</option>
                 <option value="kavita"
-                        {% if server.server_type=='kavita' %}selected{% endif %}>Kavita</option>
-                <option value="drop" {% if server.server_type=='drop' %}selected{% endif %}>Drop</option>
+                        {% if typed.server_type=='kavita' %}selected{% endif %}>Kavita</option>
+                <option value="drop" {% if typed.server_type=='drop' %}selected{% endif %}>Drop</option>
               </select>
             </div>
             <div>
@@ -54,7 +65,7 @@
               <input type="text"
                      name="server_url"
                      id="server_url"
-                     value="{{ server.url }}"
+                     value="{{ typed.server_url }}"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                      required>
             </div>
@@ -66,7 +77,7 @@
               <input type="text"
                      name="external_url"
                      id="external_url"
-                     value="{{ server.external_url or '' }}"
+                     value="{{ typed.external_url }}"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
             </div>
             <div id="api-key-div">
@@ -75,7 +86,7 @@
               <input type="text"
                      name="api_key"
                      id="api_key"
-                     value="{{ server.api_key }}"
+                     value="{{ typed.api_key }}"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
             </div>
             <div id="romm-options" style="display:none;">
@@ -85,12 +96,14 @@
                 <input type="text"
                        name="server_username"
                        id="server_username"
+                       value="{{ typed.server_username }}"
                        placeholder="admin"
                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
               </div>
               <div>
                 <label for="server_password"
                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">RomM Password</label>
+                {# Do not echo the password back into the page. #}
                 <input type="password"
                        name="server_password"
                        id="server_password"
@@ -104,7 +117,7 @@
                          name="allow_downloads"
                          type="checkbox"
                          value="true"
-                         {% if server.allow_downloads %}checked{% endif %}
+                         {% if typed.allow_downloads %}checked{% endif %}
                          class="sr-only peer">
                   <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
                   </div>
@@ -117,7 +130,7 @@
                          name="allow_live_tv"
                          type="checkbox"
                          value="true"
-                         {% if server.allow_live_tv %}checked{% endif %}
+                         {% if typed.allow_live_tv %}checked{% endif %}
                          class="sr-only peer">
                   <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
                   </div>
@@ -130,7 +143,7 @@
                          name="allow_mobile_uploads"
                          type="checkbox"
                          value="true"
-                         {% if server.allow_mobile_uploads %}checked{% endif %}
+                         {% if typed.allow_mobile_uploads %}checked{% endif %}
                          class="sr-only peer">
                   <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
                   </div>
