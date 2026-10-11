@@ -1168,6 +1168,8 @@ class LDAPConfiguration(db.Model):
         db.String, nullable=False, default="(uid={username})"
     )
     user_object_class = db.Column(db.String, nullable=False, default="inetOrgPerson")
+    # Optional filter that limits the users that sync imports. Login ignores it.
+    user_sync_filter = db.Column(db.String, nullable=True)
 
     # User attribute mappings
     username_attribute = db.Column(db.String, nullable=False, default="uid")

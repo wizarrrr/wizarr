@@ -383,6 +383,7 @@ def ldap_settings():
         config.user_base_dn = form.user_base_dn.data
         config.user_search_filter = form.user_search_filter.data
         config.user_object_class = form.user_object_class.data
+        config.user_sync_filter = form.user_sync_filter.data or None
         config.username_attribute = form.username_attribute.data
         config.email_attribute = form.email_attribute.data
         config.group_base_dn = form.group_base_dn.data
@@ -405,6 +406,7 @@ def ldap_settings():
         form.user_base_dn.data = config.user_base_dn
         form.user_search_filter.data = config.user_search_filter
         form.user_object_class.data = config.user_object_class
+        form.user_sync_filter.data = config.user_sync_filter
         form.username_attribute.data = config.username_attribute
         form.email_attribute.data = config.email_attribute
         form.group_base_dn.data = config.group_base_dn

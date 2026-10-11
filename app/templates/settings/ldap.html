@@ -113,6 +113,14 @@
                 {% for err in form.user_base_dn.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
               </div>
               <div>
+                {{ form.user_sync_filter.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+                {{ form.user_sync_filter(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
+                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                  {{ _("Optional. User sync imports only the users that match this filter and the user object class. Login does not use this filter.") }}
+                </p>
+                {% for err in form.user_sync_filter.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
+              </div>
+              <div>
                 {{ form.group_base_dn.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
                 {{ form.group_base_dn(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white", placeholder="ou=groups,dc=example,dc=com") }}
                 <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">
