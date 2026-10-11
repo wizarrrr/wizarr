@@ -4,6 +4,7 @@
   Setup Wizarr
 {% endblock title %}
 {% block main %}
+  {% from "_partials/password_toggle.html" import password_toggle %}
   <section class="bg-gray-50 dark:bg-gray-900">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
       <a class="mb-6 text-2xl font-semibold text-gray-900 dark:text-white">Wizarr</a>
@@ -29,13 +30,19 @@
             {# Password #}
             <div>
               {{ form.password.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-              {{ form.password(class="w-full p-2.5 rounded-lg border bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+              <div class="relative">
+                {{ form.password(class="w-full p-2.5 pr-10 rounded-lg border bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+                {{ password_toggle(form.password.id) }}
+              </div>
               {% for err in form.password.errors %}<p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>{% endfor %}
             </div>
             {# Confirm #}
             <div>
               {{ form.confirm.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
-              {{ form.confirm(class="w-full p-2.5 rounded-lg border bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+              <div class="relative">
+                {{ form.confirm(class="w-full p-2.5 pr-10 rounded-lg border bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white") }}
+                {{ password_toggle(form.confirm.id) }}
+              </div>
               {% for err in form.confirm.errors %}<p class="mt-1 text-sm text-red-600 dark:text-red-500">{{ err }}</p>{% endfor %}
             </div>
             <button type="submit"

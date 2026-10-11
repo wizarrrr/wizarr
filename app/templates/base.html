@@ -131,6 +131,8 @@
     {# The public wizard also uses wizard-steps.js (interaction gating). #}
     <script src="{{ url_for('static', filename='js/wizard-steps.js', v=app_version) }}"></script>
     <script src="{{ url_for('static', filename='js/pwa-registration.js', v=app_version) }}"></script>
+    {# The "show password" buttons on the public password forms. #}
+    <script src="{{ url_for('static', filename='js/password-toggle.js', v=app_version) }}"></script>
     {% block layout_scripts %}
       {# The settings page can also load as a full page without admin.html. #}
       {% if request.blueprint == "settings" and not request.headers.get("HX-Request") %}
