@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-11 10:00+0000\n"
+"POT-Creation-Date: 2026-10-12 10:50+0000\n"
 "PO-Revision-Date: 2026-09-25 07:09+0000\n"
 "Last-Translator: Jelmer Houtman <jelmerhout15@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -155,6 +155,9 @@ msgstr "in %(n)d m"
 
 msgid "soon"
 msgstr "binnenkort"
+
+msgid "Enter a valid email address, or leave the field empty."
+msgstr ""
 
 msgid "Admin created"
 msgstr "Beheerder aangemaakt"
@@ -355,9 +358,6 @@ msgstr ""
 msgid "Continue to Invite"
 msgstr "Nieuwe uitnodiging"
 
-msgid "Please log in to continue"
-msgstr "Log in om door te gaan"
-
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
@@ -380,6 +380,11 @@ msgstr "Kan nu afspelen niet laden"
 
 msgid "This bundle has no steps to preview."
 msgstr "Deze bundel heeft geen stappen om te bekijken."
+
+msgid ""
+"Cannot save the change because it conflicts with other wizard data. Refresh "
+"the page and try again."
+msgstr ""
 
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
@@ -477,6 +482,15 @@ msgstr "Nieuwe Wachtwoord"
 msgid "Please confirm the new password."
 msgstr "Bevestig Nieuwe Wachtwoord"
 
+#, python-format
+msgid ""
+"This LDAP filter is not valid. Enter one complete filter in parentheses, for "
+"example %(example)s."
+msgstr ""
+
+msgid "User Sync Filter"
+msgstr ""
+
 #, fuzzy
 msgid "Server Type"
 msgstr "Server"
@@ -503,8 +517,8 @@ msgstr "Downloads Toestaan"
 msgid "Allow Live TV"
 msgstr "Live TV Toegang Toestaan"
 
-msgid "Overseerr/Ombi URL"
-msgstr "Overseerr/Ombi URL"
+msgid "Seerr/Ombi URL"
+msgstr ""
 
 #, fuzzy
 msgid "Ombi API Key"
@@ -580,11 +594,8 @@ msgstr "Kavita"
 msgid "Navidrome"
 msgstr "Navidrome"
 
-msgid "Invalid API token or insufficient permissions."
-msgstr "Ongeldige API sleutel of onvoldoende rechten."
-
-msgid "API token lacks required permissions."
-msgstr "API sleutel mist vereiste rechten."
+msgid "Invalid API token, or the token does not have the 'user:read' ACL."
+msgstr ""
 
 msgid "Could not connect to Drop server."
 msgstr "Kan niet verbinden met Drop server."
@@ -625,6 +636,19 @@ msgstr "Genereer in plaats daarvan een sterk willekeurig wachtwoord"
 
 msgid "Continue"
 msgstr "Doorgaan"
+
+msgid "Invitation Code"
+msgstr "Uitnodigingscode"
+
+#, fuzzy
+msgid "Wizarr"
+msgstr "Wizard"
+
+msgid "Enter Code to Continue"
+msgstr "Voer code in om door te gaan"
+
+msgid "Enter your code"
+msgstr "Voer code in"
 
 msgid "Complete your account setup for local servers"
 msgstr "Voltooi uw accountconfiguratie voor lokale servers"
@@ -706,10 +730,6 @@ msgstr "Wachtwoord sterkte: Sterk"
 
 msgid "Passwords do not match"
 msgstr "Wachtwoorden komen niet overeen"
-
-#, fuzzy
-msgid "Wizarr"
-msgstr "Wizard"
 
 msgid "Invalid Invitation"
 msgstr "Ongeldige Uitnodiging"
@@ -941,15 +961,6 @@ msgstr "Lid worden"
 
 msgid "Join the ultimate media server experience."
 msgstr "Word lid van de ultieme media server ervaring."
-
-msgid "Enter Code to Continue"
-msgstr "Voer code in om door te gaan"
-
-msgid "Invitation Code"
-msgstr "Uitnodigingscode"
-
-msgid "Enter your code"
-msgstr "Voer code in"
 
 msgid "Join Server"
 msgstr "Word lid van de server"
@@ -1183,6 +1194,14 @@ msgstr "Wijzig Server"
 msgid "Close modal"
 msgstr "Sluiten modaal"
 
+msgid "Update"
+msgstr "Update"
+
+msgid ""
+"Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
+"user. Wizarr does not send it to the media server."
+msgstr ""
+
 #, fuzzy
 msgid "Tabs"
 msgstr "Status"
@@ -1235,9 +1254,6 @@ msgstr "API Sleutel Beheer"
 msgid "Expiry date"
 msgstr "Vervaldatum"
 
-msgid "Update"
-msgstr "Update"
-
 msgid "Current expiry"
 msgstr "Huidige vervaldatum"
 
@@ -1253,6 +1269,12 @@ msgstr "Voeg notities toe over deze gebruiker..."
 
 msgid "Update Notes"
 msgstr "Update Notities"
+
+msgid "Sync users from media servers"
+msgstr ""
+
+msgid "Sync"
+msgstr ""
 
 msgid "Link"
 msgstr "Koppel"
@@ -1394,13 +1416,13 @@ msgstr "Toevoegen Nieuwe Verbinding"
 msgid "Edit Connection"
 msgstr "Wijzig Verbinding"
 
-msgid "Overseerr/Jellyseerr Information"
-msgstr "Overseerr/Jellyseerr Informatie"
+msgid "Seerr Information"
+msgstr ""
 
 msgid ""
-"Overseerr and Jellyseerr create an account the first time someone signs in, "
-"so by default an invited user has no account there until they visit and log "
-"in themselves."
+"Seerr creates an account the first time someone signs in, so by default an "
+"invited user has no account there until they visit and log in themselves. "
+"Overseerr and Jellyseerr, which merged into Seerr, work the same way."
 msgstr ""
 
 msgid ""
@@ -1466,6 +1488,12 @@ msgstr ""
 msgid "New Agent"
 msgstr "Nieuwe Agent"
 
+msgid "User Key"
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
 msgid "Channel ID"
 msgstr "Kanaal ID"
 
@@ -1501,6 +1529,9 @@ msgstr "Test & Creëer Agent"
 
 msgid "Add Server"
 msgstr "Toevoegen Server"
+
+msgid "Hide new users from login screens"
+msgstr ""
 
 msgid "Test & Add"
 msgstr "Test & Toevoegen"
@@ -1769,8 +1800,8 @@ msgstr "Kies wanneer deze stap aan gebruikers wordt getoond"
 msgid "Your Discord server ID"
 msgstr "Je Discord server ID"
 
-msgid "URL to your Overseerr/Ombi instance"
-msgstr "ULR naar je Overseerr/Ombi omgeving"
+msgid "URL to your Seerr/Ombi instance"
+msgstr ""
 
 msgid "Create Step"
 msgstr "Creëer Stap"
@@ -1877,11 +1908,11 @@ msgstr "Verbinding Naam"
 msgid "Media Server"
 msgstr "Media Server"
 
-msgid "Overseerr"
+msgid "Seerr"
 msgstr ""
 
-msgid "Overseerr (Info)"
-msgstr "Overseerr (Info)"
+msgid "Seerr (Info)"
+msgstr ""
 
 msgid "Ombi"
 msgstr "Ombi"
@@ -2063,6 +2094,11 @@ msgstr "Instellingen Opslaan"
 
 msgid "Where to find users and groups"
 msgstr "Waar gebruikers en groepen gevonden worden"
+
+msgid ""
+"Optional. User sync imports only the users that match this filter and the "
+"user object class. Login does not use this filter."
+msgstr ""
 
 msgid "Optional - only needed for admin group restriction"
 msgstr "Optioneel — alleen nodig voor beperking tot beheerdersgroep"
@@ -2443,6 +2479,12 @@ msgstr "Configureer Wizarr"
 msgid "Create an account"
 msgstr "Maak een account"
 
+msgid "Pagination"
+msgstr ""
+
+msgid "Show more"
+msgstr ""
+
 msgid "Unlimited"
 msgstr "Ongelimiteerd"
 
@@ -2511,6 +2553,25 @@ msgstr "Huidige Wachtwoord"
 
 msgid "Remove user"
 msgstr "Verwijder gebruiker"
+
+msgid "Setup Guide"
+msgstr ""
+
+msgid "Select your server to open its setup guide."
+msgstr ""
+
+#, python-format
+msgid "Open the setup guide for %(name)s"
+msgstr ""
+
+msgid ""
+"This page is for invited users. Open the link from your invitation to start."
+msgstr ""
+
+msgid ""
+"If you already accepted your invitation, ask the server administrator for "
+"help."
+msgstr ""
 
 #, fuzzy
 msgid "Before Invitation"
@@ -3108,6 +3169,27 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Please log in to continue"
+#~ msgstr "Log in om door te gaan"
+
+#~ msgid "Overseerr/Ombi URL"
+#~ msgstr "Overseerr/Ombi URL"
+
+#~ msgid "Invalid API token or insufficient permissions."
+#~ msgstr "Ongeldige API sleutel of onvoldoende rechten."
+
+#~ msgid "API token lacks required permissions."
+#~ msgstr "API sleutel mist vereiste rechten."
+
+#~ msgid "Overseerr/Jellyseerr Information"
+#~ msgstr "Overseerr/Jellyseerr Informatie"
+
+#~ msgid "URL to your Overseerr/Ombi instance"
+#~ msgstr "ULR naar je Overseerr/Ombi omgeving"
+
+#~ msgid "Overseerr (Info)"
+#~ msgstr "Overseerr (Info)"
 
 #~ msgid ""
 #~ "Overseerr and Jellyseerr automatically import new users by default. No "

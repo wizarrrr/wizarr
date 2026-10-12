@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-11 10:00+0000\n"
+"POT-Creation-Date: 2026-10-12 10:50+0000\n"
 "PO-Revision-Date: 2025-11-03 20:08+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -156,6 +156,9 @@ msgid "in %(n)d m"
 msgstr ""
 
 msgid "soon"
+msgstr ""
+
+msgid "Enter a valid email address, or leave the field empty."
 msgstr ""
 
 #, fuzzy
@@ -346,9 +349,6 @@ msgstr ""
 msgid "Continue to Invite"
 msgstr "Greitas pakvietimas"
 
-msgid "Please log in to continue"
-msgstr ""
-
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
@@ -366,6 +366,11 @@ msgid "Unable to load wizard steps. Please try again."
 msgstr ""
 
 msgid "This bundle has no steps to preview."
+msgstr ""
+
+msgid ""
+"Cannot save the change because it conflicts with other wizard data. Refresh "
+"the page and try again."
 msgstr ""
 
 #, python-brace-format
@@ -467,6 +472,15 @@ msgstr "Slaptažodis"
 msgid "Please confirm the new password."
 msgstr "Slaptažodis"
 
+#, python-format
+msgid ""
+"This LDAP filter is not valid. Enter one complete filter in parentheses, for "
+"example %(example)s."
+msgstr ""
+
+msgid "User Sync Filter"
+msgstr ""
+
 #, fuzzy
 msgid "Server Type"
 msgstr "Niekada"
@@ -493,7 +507,7 @@ msgstr "Parsisiųsti"
 msgid "Allow Live TV"
 msgstr ""
 
-msgid "Overseerr/Ombi URL"
+msgid "Seerr/Ombi URL"
 msgstr ""
 
 #, fuzzy
@@ -561,10 +575,7 @@ msgstr ""
 msgid "Navidrome"
 msgstr ""
 
-msgid "Invalid API token or insufficient permissions."
-msgstr ""
-
-msgid "API token lacks required permissions."
+msgid "Invalid API token, or the token does not have the 'user:read' ACL."
 msgstr ""
 
 msgid "Could not connect to Drop server."
@@ -607,6 +618,22 @@ msgstr ""
 
 msgid "Continue"
 msgstr ""
+
+#, fuzzy
+msgid "Invitation Code"
+msgstr "Pakvietimo kodas"
+
+#, fuzzy
+msgid "Wizarr"
+msgstr "Sąrankos vedlys"
+
+#, fuzzy
+msgid "Enter Code to Continue"
+msgstr "Kvietimo kodo eilutė"
+
+#, fuzzy
+msgid "Enter your code"
+msgstr "Pakvietimo kodas"
 
 msgid "Complete your account setup for local servers"
 msgstr ""
@@ -690,10 +717,6 @@ msgstr ""
 
 msgid "Passwords do not match"
 msgstr ""
-
-#, fuzzy
-msgid "Wizarr"
-msgstr "Sąrankos vedlys"
 
 #, fuzzy
 msgid "Invalid Invitation"
@@ -917,18 +940,6 @@ msgstr "Prisijungti"
 
 msgid "Join the ultimate media server experience."
 msgstr ""
-
-#, fuzzy
-msgid "Enter Code to Continue"
-msgstr "Kvietimo kodo eilutė"
-
-#, fuzzy
-msgid "Invitation Code"
-msgstr "Pakvietimo kodas"
-
-#, fuzzy
-msgid "Enter your code"
-msgstr "Pakvietimo kodas"
 
 #, fuzzy
 msgid "Join Server"
@@ -1179,6 +1190,14 @@ msgstr "Niekada"
 msgid "Close modal"
 msgstr ""
 
+msgid "Update"
+msgstr ""
+
+msgid ""
+"Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
+"user. Wizarr does not send it to the media server."
+msgstr ""
+
 msgid "Tabs"
 msgstr ""
 
@@ -1227,9 +1246,6 @@ msgstr "Slapyvardis"
 msgid "Expiry date"
 msgstr "Baigia galioti"
 
-msgid "Update"
-msgstr ""
-
 msgid "Current expiry"
 msgstr ""
 
@@ -1245,6 +1261,12 @@ msgid "Add notes about this user..."
 msgstr ""
 
 msgid "Update Notes"
+msgstr ""
+
+msgid "Sync users from media servers"
+msgstr ""
+
+msgid "Sync"
 msgstr ""
 
 #, fuzzy
@@ -1392,13 +1414,13 @@ msgstr ""
 msgid "Edit Connection"
 msgstr ""
 
-msgid "Overseerr/Jellyseerr Information"
+msgid "Seerr Information"
 msgstr ""
 
 msgid ""
-"Overseerr and Jellyseerr create an account the first time someone signs in, "
-"so by default an invited user has no account there until they visit and log "
-"in themselves."
+"Seerr creates an account the first time someone signs in, so by default an "
+"invited user has no account there until they visit and log in themselves. "
+"Overseerr and Jellyseerr, which merged into Seerr, work the same way."
 msgstr ""
 
 msgid ""
@@ -1465,6 +1487,12 @@ msgstr ""
 msgid "New Agent"
 msgstr ""
 
+msgid "User Key"
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
 msgid "Channel ID"
 msgstr ""
 
@@ -1502,6 +1530,9 @@ msgstr ""
 #, fuzzy
 msgid "Add Server"
 msgstr "Niekada"
+
+msgid "Hide new users from login screens"
+msgstr ""
 
 msgid "Test & Add"
 msgstr ""
@@ -1772,7 +1803,7 @@ msgstr ""
 msgid "Your Discord server ID"
 msgstr ""
 
-msgid "URL to your Overseerr/Ombi instance"
+msgid "URL to your Seerr/Ombi instance"
 msgstr ""
 
 #, fuzzy
@@ -1882,10 +1913,10 @@ msgstr ""
 msgid "Media Server"
 msgstr "Niekada"
 
-msgid "Overseerr"
+msgid "Seerr"
 msgstr ""
 
-msgid "Overseerr (Info)"
+msgid "Seerr (Info)"
 msgstr ""
 
 msgid "Ombi"
@@ -2064,6 +2095,11 @@ msgid "User & Group Settings"
 msgstr "Serverio nustatymai"
 
 msgid "Where to find users and groups"
+msgstr ""
+
+msgid ""
+"Optional. User sync imports only the users that match this filter and the "
+"user object class. Login does not use this filter."
 msgstr ""
 
 msgid "Optional - only needed for admin group restriction"
@@ -2419,6 +2455,12 @@ msgstr "Sąrankos vedlys"
 msgid "Create an account"
 msgstr "Sukurti paskyrą"
 
+msgid "Pagination"
+msgstr ""
+
+msgid "Show more"
+msgstr ""
+
 msgid "Unlimited"
 msgstr "Neribota"
 
@@ -2491,6 +2533,25 @@ msgstr "Slaptažodis"
 #, fuzzy
 msgid "Remove user"
 msgstr "Pradinis"
+
+msgid "Setup Guide"
+msgstr ""
+
+msgid "Select your server to open its setup guide."
+msgstr ""
+
+#, python-format
+msgid "Open the setup guide for %(name)s"
+msgstr ""
+
+msgid ""
+"This page is for invited users. Open the link from your invitation to start."
+msgstr ""
+
+msgid ""
+"If you already accepted your invitation, ask the server administrator for "
+"help."
+msgstr ""
 
 #, fuzzy
 msgid "Before Invitation"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-11 10:00+0000\n"
+"POT-Creation-Date: 2026-10-12 10:50+0000\n"
 "PO-Revision-Date: 2026-07-13 06:29+0000\n"
 "Last-Translator: Václav Štěpáník <stepanikvaclav@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -153,6 +153,9 @@ msgstr "v %(n)d m"
 
 msgid "soon"
 msgstr "brzy"
+
+msgid "Enter a valid email address, or leave the field empty."
+msgstr ""
 
 msgid "Admin created"
 msgstr "Vytvořil správce"
@@ -353,9 +356,6 @@ msgstr "Nelze načíst kroky průvodce. Pokračuje se k přijetí pozvánky."
 msgid "Continue to Invite"
 msgstr "Pokračovat v pozvání"
 
-msgid "Please log in to continue"
-msgstr "Chcete-li pokračovat, přihlaste se prosím"
-
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
@@ -376,6 +376,11 @@ msgstr "Nelze načíst kroky průvodce. Zkuste to prosím znovu."
 
 msgid "This bundle has no steps to preview."
 msgstr "U tohoto balíčku není k dispozici náhled jednotlivých kroků."
+
+msgid ""
+"Cannot save the change because it conflicts with other wizard data. Refresh "
+"the page and try again."
+msgstr ""
 
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
@@ -471,6 +476,15 @@ msgstr "Nové heslo"
 msgid "Please confirm the new password."
 msgstr "Potvrďte prosím nové heslo."
 
+#, python-format
+msgid ""
+"This LDAP filter is not valid. Enter one complete filter in parentheses, for "
+"example %(example)s."
+msgstr ""
+
+msgid "User Sync Filter"
+msgstr ""
+
 msgid "Server Type"
 msgstr "Typ serveru"
 
@@ -492,9 +506,8 @@ msgstr "Povolit stahování"
 msgid "Allow Live TV"
 msgstr "Povolit živé televizní vysílání"
 
-#, fuzzy
-msgid "Overseerr/Ombi URL"
-msgstr "Overseerr/Ombi URL"
+msgid "Seerr/Ombi URL"
+msgstr ""
 
 msgid "Ombi API Key"
 msgstr "Ombi API Klíč"
@@ -576,11 +589,8 @@ msgstr "Kavita"
 msgid "Navidrome"
 msgstr "Navidrome"
 
-msgid "Invalid API token or insufficient permissions."
-msgstr "Neplatný token API nebo nedostatečná oprávnění."
-
-msgid "API token lacks required permissions."
-msgstr "API token nemá potřebná oprávnění."
+msgid "Invalid API token, or the token does not have the 'user:read' ACL."
+msgstr ""
 
 msgid "Could not connect to Drop server."
 msgstr "Nepodařilo se navázat spojení se serverem Drop."
@@ -622,6 +632,18 @@ msgstr "Místo toho si vygenerujte silné náhodné heslo"
 
 msgid "Continue"
 msgstr "Pokračovat"
+
+msgid "Invitation Code"
+msgstr "Pozvánkový kód"
+
+msgid "Wizarr"
+msgstr "Wizarr"
+
+msgid "Enter Code to Continue"
+msgstr "Zadejte kód a pokračujte"
+
+msgid "Enter your code"
+msgstr "Zadejte svůj kód"
 
 msgid "Complete your account setup for local servers"
 msgstr "Dokončete nastavení účtu pro lokální servery"
@@ -700,9 +722,6 @@ msgstr "Síla hesla: Silné"
 
 msgid "Passwords do not match"
 msgstr "Hesla se neshodují"
-
-msgid "Wizarr"
-msgstr "Wizarr"
 
 msgid "Invalid Invitation"
 msgstr "Neplatná pozvánka"
@@ -921,15 +940,6 @@ msgstr "Připojit se"
 
 msgid "Join the ultimate media server experience."
 msgstr "Zažijte ten nejlepší zážitek z mediálního serveru."
-
-msgid "Enter Code to Continue"
-msgstr "Zadejte kód a pokračujte"
-
-msgid "Invitation Code"
-msgstr "Pozvánkový kód"
-
-msgid "Enter your code"
-msgstr "Zadejte svůj kód"
 
 msgid "Join Server"
 msgstr "Připojit se k serveru"
@@ -1174,6 +1184,14 @@ msgstr "Nikdy"
 msgid "Close modal"
 msgstr ""
 
+msgid "Update"
+msgstr ""
+
+msgid ""
+"Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
+"user. Wizarr does not send it to the media server."
+msgstr ""
+
 msgid "Tabs"
 msgstr ""
 
@@ -1222,9 +1240,6 @@ msgstr "Uživatelské jméno"
 msgid "Expiry date"
 msgstr "Vyprší"
 
-msgid "Update"
-msgstr ""
-
 msgid "Current expiry"
 msgstr ""
 
@@ -1240,6 +1255,12 @@ msgid "Add notes about this user..."
 msgstr ""
 
 msgid "Update Notes"
+msgstr ""
+
+msgid "Sync users from media servers"
+msgstr ""
+
+msgid "Sync"
 msgstr ""
 
 #, fuzzy
@@ -1390,13 +1411,13 @@ msgstr ""
 msgid "Edit Connection"
 msgstr ""
 
-msgid "Overseerr/Jellyseerr Information"
+msgid "Seerr Information"
 msgstr ""
 
 msgid ""
-"Overseerr and Jellyseerr create an account the first time someone signs in, "
-"so by default an invited user has no account there until they visit and log "
-"in themselves."
+"Seerr creates an account the first time someone signs in, so by default an "
+"invited user has no account there until they visit and log in themselves. "
+"Overseerr and Jellyseerr, which merged into Seerr, work the same way."
 msgstr ""
 
 msgid ""
@@ -1463,6 +1484,12 @@ msgstr ""
 msgid "New Agent"
 msgstr ""
 
+msgid "User Key"
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
 msgid "Channel ID"
 msgstr ""
 
@@ -1500,6 +1527,9 @@ msgstr ""
 #, fuzzy
 msgid "Add Server"
 msgstr "Nikdy"
+
+msgid "Hide new users from login screens"
+msgstr ""
 
 msgid "Test & Add"
 msgstr ""
@@ -1769,7 +1799,7 @@ msgstr ""
 msgid "Your Discord server ID"
 msgstr ""
 
-msgid "URL to your Overseerr/Ombi instance"
+msgid "URL to your Seerr/Ombi instance"
 msgstr ""
 
 #, fuzzy
@@ -1880,10 +1910,10 @@ msgstr ""
 msgid "Media Server"
 msgstr "Nikdy"
 
-msgid "Overseerr"
+msgid "Seerr"
 msgstr ""
 
-msgid "Overseerr (Info)"
+msgid "Seerr (Info)"
 msgstr ""
 
 msgid "Ombi"
@@ -2061,6 +2091,11 @@ msgid "User & Group Settings"
 msgstr "Nastavení serveru"
 
 msgid "Where to find users and groups"
+msgstr ""
+
+msgid ""
+"Optional. User sync imports only the users that match this filter and the "
+"user object class. Login does not use this filter."
 msgstr ""
 
 msgid "Optional - only needed for admin group restriction"
@@ -2416,6 +2451,12 @@ msgstr "Nastavit Wizarr"
 msgid "Create an account"
 msgstr "Vytvořit účet"
 
+msgid "Pagination"
+msgstr ""
+
+msgid "Show more"
+msgstr ""
+
 #, fuzzy
 msgid "Unlimited"
 msgstr "Neomezené"
@@ -2490,6 +2531,25 @@ msgstr "Heslo"
 #, fuzzy
 msgid "Remove user"
 msgstr "Domů"
+
+msgid "Setup Guide"
+msgstr ""
+
+msgid "Select your server to open its setup guide."
+msgstr ""
+
+#, python-format
+msgid "Open the setup guide for %(name)s"
+msgstr ""
+
+msgid ""
+"This page is for invited users. Open the link from your invitation to start."
+msgstr ""
+
+msgid ""
+"If you already accepted your invitation, ask the server administrator for "
+"help."
+msgstr ""
 
 #, fuzzy
 msgid "Before Invitation"
@@ -3087,6 +3147,19 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Please log in to continue"
+#~ msgstr "Chcete-li pokračovat, přihlaste se prosím"
+
+#, fuzzy
+#~ msgid "Overseerr/Ombi URL"
+#~ msgstr "Overseerr/Ombi URL"
+
+#~ msgid "Invalid API token or insufficient permissions."
+#~ msgstr "Neplatný token API nebo nedostatečná oprávnění."
+
+#~ msgid "API token lacks required permissions."
+#~ msgstr "API token nemá potřebná oprávnění."
 
 #~ msgid "Invitation Details"
 #~ msgstr "Pozvánky"

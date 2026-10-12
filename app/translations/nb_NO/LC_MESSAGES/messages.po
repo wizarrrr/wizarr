@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-11 10:00+0000\n"
+"POT-Creation-Date: 2026-10-12 10:50+0000\n"
 "PO-Revision-Date: 2026-08-12 22:34+0000\n"
 "Last-Translator: Thomas Jensen <thomas.jensen1992@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/wizarr/"
@@ -151,6 +151,9 @@ msgstr "om %(n)d min"
 
 msgid "soon"
 msgstr "snart"
+
+msgid "Enter a valid email address, or leave the field empty."
+msgstr ""
 
 msgid "Admin created"
 msgstr "Administrator opprettet"
@@ -346,9 +349,6 @@ msgstr ""
 msgid "Continue to Invite"
 msgstr "Fortsett"
 
-msgid "Please log in to continue"
-msgstr "Logg inn for å fortsette"
-
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
@@ -368,6 +368,11 @@ msgstr "Kunne ikke laste veiviserstegene. Prøv igjen."
 
 msgid "This bundle has no steps to preview."
 msgstr "Denne pakken har ingen steg å forhåndsvise."
+
+msgid ""
+"Cannot save the change because it conflicts with other wizard data. Refresh "
+"the page and try again."
+msgstr ""
 
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
@@ -462,6 +467,15 @@ msgstr "Nytt passord"
 msgid "Please confirm the new password."
 msgstr "Bekreft det nye passordet."
 
+#, python-format
+msgid ""
+"This LDAP filter is not valid. Enter one complete filter in parentheses, for "
+"example %(example)s."
+msgstr ""
+
+msgid "User Sync Filter"
+msgstr ""
+
 msgid "Server Type"
 msgstr "Servertype"
 
@@ -483,8 +497,8 @@ msgstr "Tillat nedlastinger"
 msgid "Allow Live TV"
 msgstr "Tillat direktesendt TV"
 
-msgid "Overseerr/Ombi URL"
-msgstr "Overseerr/Ombi-URL"
+msgid "Seerr/Ombi URL"
+msgstr ""
 
 msgid "Ombi API Key"
 msgstr "Ombi API-nøkkel"
@@ -557,11 +571,8 @@ msgstr "Kavita"
 msgid "Navidrome"
 msgstr "Navidrome"
 
-msgid "Invalid API token or insufficient permissions."
-msgstr "Ugyldig API-token eller utilstrekkelige tillatelser."
-
-msgid "API token lacks required permissions."
-msgstr "API-tokenet mangler nødvendige tillatelser."
+msgid "Invalid API token, or the token does not have the 'user:read' ACL."
+msgstr ""
 
 msgid "Could not connect to Drop server."
 msgstr "Kunne ikke koble til Drop-serveren."
@@ -602,6 +613,18 @@ msgstr "Generer et sterkt tilfeldig passord i stedet"
 
 msgid "Continue"
 msgstr "Fortsett"
+
+msgid "Invitation Code"
+msgstr "Invitasjonskode"
+
+msgid "Wizarr"
+msgstr "Wizarr"
+
+msgid "Enter Code to Continue"
+msgstr "Skriv inn kode for å fortsette"
+
+msgid "Enter your code"
+msgstr "Skriv inn koden din"
 
 msgid "Complete your account setup for local servers"
 msgstr "Fullfør kontooppsettet for lokale servere"
@@ -681,9 +704,6 @@ msgstr "Passordstyrke: Sterk"
 
 msgid "Passwords do not match"
 msgstr "Passordene er ikke like"
-
-msgid "Wizarr"
-msgstr "Wizarr"
 
 msgid "Invalid Invitation"
 msgstr "Ugyldig invitasjon"
@@ -897,15 +917,6 @@ msgstr "For å bli med"
 
 msgid "Join the ultimate media server experience."
 msgstr "Bli med på den ultimate medieserveropplevelsen."
-
-msgid "Enter Code to Continue"
-msgstr "Skriv inn kode for å fortsette"
-
-msgid "Invitation Code"
-msgstr "Invitasjonskode"
-
-msgid "Enter your code"
-msgstr "Skriv inn koden din"
 
 msgid "Join Server"
 msgstr "Bli med"
@@ -1138,6 +1149,14 @@ msgstr "Rediger bruker"
 msgid "Close modal"
 msgstr "Lukk dialogvindu"
 
+msgid "Update"
+msgstr "Oppdater"
+
+msgid ""
+"Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
+"user. Wizarr does not send it to the media server."
+msgstr ""
+
 msgid "Tabs"
 msgstr "Faner"
 
@@ -1181,9 +1200,6 @@ msgstr "Utløpshåndtering"
 msgid "Expiry date"
 msgstr "Utløpsdato"
 
-msgid "Update"
-msgstr "Oppdater"
-
 msgid "Current expiry"
 msgstr "Gjeldende utløp"
 
@@ -1198,6 +1214,12 @@ msgstr "Legg til notater om denne brukeren …"
 
 msgid "Update Notes"
 msgstr "Oppdater notater"
+
+msgid "Sync users from media servers"
+msgstr ""
+
+msgid "Sync"
+msgstr ""
 
 msgid "Link"
 msgstr "Koble til"
@@ -1339,13 +1361,13 @@ msgstr "Legg til ny tilkobling"
 msgid "Edit Connection"
 msgstr "Rediger tilkobling"
 
-msgid "Overseerr/Jellyseerr Information"
-msgstr "Informasjon om Overseerr/Jellyseerr"
+msgid "Seerr Information"
+msgstr ""
 
 msgid ""
-"Overseerr and Jellyseerr create an account the first time someone signs in, "
-"so by default an invited user has no account there until they visit and log "
-"in themselves."
+"Seerr creates an account the first time someone signs in, so by default an "
+"invited user has no account there until they visit and log in themselves. "
+"Overseerr and Jellyseerr, which merged into Seerr, work the same way."
 msgstr ""
 
 msgid ""
@@ -1410,6 +1432,12 @@ msgstr ""
 msgid "New Agent"
 msgstr "Ny agent"
 
+msgid "User Key"
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
 msgid "Channel ID"
 msgstr "Kanal-ID"
 
@@ -1442,6 +1470,9 @@ msgstr "Test og opprett agent"
 
 msgid "Add Server"
 msgstr "Legg til server"
+
+msgid "Hide new users from login screens"
+msgstr ""
 
 msgid "Test & Add"
 msgstr "Test og legg til"
@@ -1690,8 +1721,8 @@ msgstr "Velg når dette steget skal vises til brukerne"
 msgid "Your Discord server ID"
 msgstr "Discord-server-ID-en din"
 
-msgid "URL to your Overseerr/Ombi instance"
-msgstr "URL til Overseerr/Ombi-instansen din"
+msgid "URL to your Seerr/Ombi instance"
+msgstr ""
 
 msgid "Create Step"
 msgstr "Opprett steg"
@@ -1794,11 +1825,11 @@ msgstr "Tilkoblingsnavn"
 msgid "Media Server"
 msgstr "Medieserver"
 
-msgid "Overseerr"
+msgid "Seerr"
 msgstr ""
 
-msgid "Overseerr (Info)"
-msgstr "Overseerr (info)"
+msgid "Seerr (Info)"
+msgstr ""
 
 msgid "Ombi"
 msgstr "Ombi"
@@ -1967,6 +1998,11 @@ msgstr "Bruker- og gruppeinnstillinger"
 
 msgid "Where to find users and groups"
 msgstr "Hvor brukere og grupper finnes"
+
+msgid ""
+"Optional. User sync imports only the users that match this filter and the "
+"user object class. Login does not use this filter."
+msgstr ""
 
 msgid "Optional - only needed for admin group restriction"
 msgstr "Valgfritt – bare nødvendig ved begrensning til administratorgruppe"
@@ -2329,6 +2365,12 @@ msgstr "Sett opp Wizarr"
 msgid "Create an account"
 msgstr "Opprett en konto"
 
+msgid "Pagination"
+msgstr ""
+
+msgid "Show more"
+msgstr ""
+
 msgid "Unlimited"
 msgstr "Ubegrenset"
 
@@ -2391,6 +2433,25 @@ msgstr "Tilbakestill passord"
 
 msgid "Remove user"
 msgstr "Fjern bruker"
+
+msgid "Setup Guide"
+msgstr ""
+
+msgid "Select your server to open its setup guide."
+msgstr ""
+
+#, python-format
+msgid "Open the setup guide for %(name)s"
+msgstr ""
+
+msgid ""
+"This page is for invited users. Open the link from your invitation to start."
+msgstr ""
+
+msgid ""
+"If you already accepted your invitation, ask the server administrator for "
+"help."
+msgstr ""
 
 msgid "Before Invitation"
 msgstr "Før invitasjon"
@@ -2986,6 +3047,27 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Please log in to continue"
+#~ msgstr "Logg inn for å fortsette"
+
+#~ msgid "Overseerr/Ombi URL"
+#~ msgstr "Overseerr/Ombi-URL"
+
+#~ msgid "Invalid API token or insufficient permissions."
+#~ msgstr "Ugyldig API-token eller utilstrekkelige tillatelser."
+
+#~ msgid "API token lacks required permissions."
+#~ msgstr "API-tokenet mangler nødvendige tillatelser."
+
+#~ msgid "Overseerr/Jellyseerr Information"
+#~ msgstr "Informasjon om Overseerr/Jellyseerr"
+
+#~ msgid "URL to your Overseerr/Ombi instance"
+#~ msgstr "URL til Overseerr/Ombi-instansen din"
+
+#~ msgid "Overseerr (Info)"
+#~ msgstr "Overseerr (info)"
 
 #~ msgid ""
 #~ "Overseerr and Jellyseerr automatically import new users by default. No "

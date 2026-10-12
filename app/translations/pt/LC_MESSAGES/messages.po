@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-11 10:00+0000\n"
+"POT-Creation-Date: 2026-10-12 10:50+0000\n"
 "PO-Revision-Date: 2026-07-03 06:42+0000\n"
 "Last-Translator: ssantos <ssantos@web.de>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -156,6 +156,9 @@ msgstr "em %(n)d m"
 
 msgid "soon"
 msgstr "em breve"
+
+msgid "Enter a valid email address, or leave the field empty."
+msgstr ""
 
 #, fuzzy
 msgid "Admin created"
@@ -357,9 +360,6 @@ msgstr ""
 msgid "Continue to Invite"
 msgstr "Convite rápido"
 
-msgid "Please log in to continue"
-msgstr "Por favor, faça login para continuar"
-
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
@@ -385,6 +385,11 @@ msgstr ""
 
 msgid "This bundle has no steps to preview."
 msgstr "Este pacote não tem etapas para pré-visualizar."
+
+msgid ""
+"Cannot save the change because it conflicts with other wizard data. Refresh "
+"the page and try again."
+msgstr ""
 
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
@@ -486,6 +491,15 @@ msgstr "Nova Palavra-passe"
 msgid "Please confirm the new password."
 msgstr "Palavra-passe"
 
+#, python-format
+msgid ""
+"This LDAP filter is not valid. Enter one complete filter in parentheses, for "
+"example %(example)s."
+msgstr ""
+
+msgid "User Sync Filter"
+msgstr ""
+
 #, fuzzy
 msgid "Server Type"
 msgstr "Nunca"
@@ -510,8 +524,8 @@ msgstr "Permitir descargas"
 msgid "Allow Live TV"
 msgstr "Permitir TV ao Vivo"
 
-msgid "Overseerr/Ombi URL"
-msgstr "URL do Overseerr/Ombi"
+msgid "Seerr/Ombi URL"
+msgstr ""
 
 #, fuzzy
 msgid "Ombi API Key"
@@ -583,11 +597,8 @@ msgstr "Kavita"
 msgid "Navidrome"
 msgstr "Navidrome"
 
-msgid "Invalid API token or insufficient permissions."
-msgstr "Token de API inválido ou permissões insuficientes."
-
-msgid "API token lacks required permissions."
-msgstr "O token de API não tem as permissões necessárias."
+msgid "Invalid API token, or the token does not have the 'user:read' ACL."
+msgstr ""
 
 msgid "Could not connect to Drop server."
 msgstr "Não foi possível conectar ao servidor Drop."
@@ -629,6 +640,22 @@ msgstr "Gerar uma palavra-passe forte aleatória em vez disso"
 
 msgid "Continue"
 msgstr "Continuar"
+
+#, fuzzy
+msgid "Invitation Code"
+msgstr "Código de convite"
+
+#, fuzzy
+msgid "Wizarr"
+msgstr "Configurar Wizarr"
+
+#, fuzzy
+msgid "Enter Code to Continue"
+msgstr "Código de convite"
+
+#, fuzzy
+msgid "Enter your code"
+msgstr "Código de convite"
 
 msgid "Complete your account setup for local servers"
 msgstr "Complete a configuração da sua conta para servidores locais"
@@ -717,10 +744,6 @@ msgstr "Força da palavra-passe: Forte"
 
 msgid "Passwords do not match"
 msgstr "As palavras-passe não coincidem"
-
-#, fuzzy
-msgid "Wizarr"
-msgstr "Configurar Wizarr"
 
 #, fuzzy
 msgid "Invalid Invitation"
@@ -953,18 +976,6 @@ msgstr "Entrar"
 
 msgid "Join the ultimate media server experience."
 msgstr "Junte-se à experiência definitiva de servidor de média."
-
-#, fuzzy
-msgid "Enter Code to Continue"
-msgstr "Código de convite"
-
-#, fuzzy
-msgid "Invitation Code"
-msgstr "Código de convite"
-
-#, fuzzy
-msgid "Enter your code"
-msgstr "Código de convite"
 
 #, fuzzy
 msgid "Join Server"
@@ -1211,6 +1222,14 @@ msgstr "Editar utilizador"
 msgid "Close modal"
 msgstr "Fechar modal"
 
+msgid "Update"
+msgstr "Atualizar"
+
+msgid ""
+"Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
+"user. Wizarr does not send it to the media server."
+msgstr ""
+
 msgid "Tabs"
 msgstr "Guias"
 
@@ -1262,9 +1281,6 @@ msgstr "Nome de Utilizador"
 msgid "Expiry date"
 msgstr "Data de expiração"
 
-msgid "Update"
-msgstr "Atualizar"
-
 msgid "Current expiry"
 msgstr ""
 
@@ -1280,6 +1296,12 @@ msgstr "Adicionar notas sobre este utilizador..."
 
 msgid "Update Notes"
 msgstr "Atualizar Notas"
+
+msgid "Sync users from media servers"
+msgstr ""
+
+msgid "Sync"
+msgstr ""
 
 msgid "Link"
 msgstr "Ligação"
@@ -1427,13 +1449,13 @@ msgstr "Adicionar Nova Conexão"
 msgid "Edit Connection"
 msgstr "Editar Conexão"
 
-msgid "Overseerr/Jellyseerr Information"
-msgstr "Informações do Overseerr/Jellyseerr"
+msgid "Seerr Information"
+msgstr ""
 
 msgid ""
-"Overseerr and Jellyseerr create an account the first time someone signs in, "
-"so by default an invited user has no account there until they visit and log "
-"in themselves."
+"Seerr creates an account the first time someone signs in, so by default an "
+"invited user has no account there until they visit and log in themselves. "
+"Overseerr and Jellyseerr, which merged into Seerr, work the same way."
 msgstr ""
 
 msgid ""
@@ -1503,6 +1525,12 @@ msgstr ""
 msgid "New Agent"
 msgstr "Novo Agente"
 
+msgid "User Key"
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
 msgid "Channel ID"
 msgstr ""
 
@@ -1539,6 +1567,9 @@ msgstr "Teste & Criar Agente"
 
 msgid "Add Server"
 msgstr "Adicionar servidor"
+
+msgid "Hide new users from login screens"
+msgstr ""
 
 msgid "Test & Add"
 msgstr "Testar e Adicionar"
@@ -1810,8 +1841,8 @@ msgstr "Escolha quando esta etapa deve ser exibida aos utilizadores"
 msgid "Your Discord server ID"
 msgstr "ID do seu servidor Discord"
 
-msgid "URL to your Overseerr/Ombi instance"
-msgstr "URL da sua instância Overseerr/Ombi"
+msgid "URL to your Seerr/Ombi instance"
+msgstr ""
 
 #, fuzzy
 msgid "Create Step"
@@ -1920,11 +1951,11 @@ msgstr "Nome da conexão"
 msgid "Media Server"
 msgstr "Nunca"
 
-msgid "Overseerr"
+msgid "Seerr"
 msgstr ""
 
-msgid "Overseerr (Info)"
-msgstr "Overseerr (Informação)"
+msgid "Seerr (Info)"
+msgstr ""
 
 msgid "Ombi"
 msgstr ""
@@ -2108,6 +2139,11 @@ msgid "User & Group Settings"
 msgstr "Preferências do Servidor"
 
 msgid "Where to find users and groups"
+msgstr ""
+
+msgid ""
+"Optional. User sync imports only the users that match this filter and the "
+"user object class. Login does not use this filter."
 msgstr ""
 
 msgid "Optional - only needed for admin group restriction"
@@ -2481,6 +2517,12 @@ msgstr "Configurar Wizarr"
 msgid "Create an account"
 msgstr "Criar uma conta"
 
+msgid "Pagination"
+msgstr ""
+
+msgid "Show more"
+msgstr ""
+
 msgid "Unlimited"
 msgstr "Ilimitado"
 
@@ -2547,6 +2589,25 @@ msgstr "Redefinir palavra-passe"
 
 msgid "Remove user"
 msgstr "Remover utilizador"
+
+msgid "Setup Guide"
+msgstr ""
+
+msgid "Select your server to open its setup guide."
+msgstr ""
+
+#, python-format
+msgid "Open the setup guide for %(name)s"
+msgstr ""
+
+msgid ""
+"This page is for invited users. Open the link from your invitation to start."
+msgstr ""
+
+msgid ""
+"If you already accepted your invitation, ask the server administrator for "
+"help."
+msgstr ""
 
 #, fuzzy
 msgid "Before Invitation"
@@ -3144,6 +3205,27 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Please log in to continue"
+#~ msgstr "Por favor, faça login para continuar"
+
+#~ msgid "Overseerr/Ombi URL"
+#~ msgstr "URL do Overseerr/Ombi"
+
+#~ msgid "Invalid API token or insufficient permissions."
+#~ msgstr "Token de API inválido ou permissões insuficientes."
+
+#~ msgid "API token lacks required permissions."
+#~ msgstr "O token de API não tem as permissões necessárias."
+
+#~ msgid "Overseerr/Jellyseerr Information"
+#~ msgstr "Informações do Overseerr/Jellyseerr"
+
+#~ msgid "URL to your Overseerr/Ombi instance"
+#~ msgstr "URL da sua instância Overseerr/Ombi"
+
+#~ msgid "Overseerr (Info)"
+#~ msgstr "Overseerr (Informação)"
 
 #~ msgid ""
 #~ "Overseerr and Jellyseerr automatically import new users by default. No "

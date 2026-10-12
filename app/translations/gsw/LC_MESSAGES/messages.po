@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-11 10:00+0000\n"
+"POT-Creation-Date: 2026-10-12 10:50+0000\n"
 "PO-Revision-Date: 2026-09-16 08:36+0000\n"
 "Last-Translator: Nivigro <Nickvincentdegroot@outlook.com>\n"
 "Language-Team: Alemannic <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -147,6 +147,9 @@ msgid "in %(n)d m"
 msgstr ""
 
 msgid "soon"
+msgstr ""
+
+msgid "Enter a valid email address, or leave the field empty."
 msgstr ""
 
 msgid "Admin created"
@@ -334,9 +337,6 @@ msgstr ""
 msgid "Continue to Invite"
 msgstr ""
 
-msgid "Please log in to continue"
-msgstr ""
-
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
@@ -354,6 +354,11 @@ msgid "Unable to load wizard steps. Please try again."
 msgstr ""
 
 msgid "This bundle has no steps to preview."
+msgstr ""
+
+msgid ""
+"Cannot save the change because it conflicts with other wizard data. Refresh "
+"the page and try again."
 msgstr ""
 
 #, python-brace-format
@@ -451,6 +456,15 @@ msgstr "Passwort"
 msgid "Please confirm the new password."
 msgstr "Passwort"
 
+#, python-format
+msgid ""
+"This LDAP filter is not valid. Enter one complete filter in parentheses, for "
+"example %(example)s."
+msgstr ""
+
+msgid "User Sync Filter"
+msgstr ""
+
 #, fuzzy
 msgid "Server Type"
 msgstr "Benutzer"
@@ -476,7 +490,7 @@ msgstr ""
 msgid "Allow Live TV"
 msgstr ""
 
-msgid "Overseerr/Ombi URL"
+msgid "Seerr/Ombi URL"
 msgstr ""
 
 #, fuzzy
@@ -544,10 +558,7 @@ msgstr ""
 msgid "Navidrome"
 msgstr ""
 
-msgid "Invalid API token or insufficient permissions."
-msgstr ""
-
-msgid "API token lacks required permissions."
+msgid "Invalid API token, or the token does not have the 'user:read' ACL."
 msgstr ""
 
 msgid "Could not connect to Drop server."
@@ -589,6 +600,20 @@ msgid "Generate a strong random password instead"
 msgstr ""
 
 msgid "Continue"
+msgstr ""
+
+#, fuzzy
+msgid "Invitation Code"
+msgstr "Iiladige"
+
+#, fuzzy
+msgid "Wizarr"
+msgstr "Iirichtigs Zauberer"
+
+msgid "Enter Code to Continue"
+msgstr ""
+
+msgid "Enter your code"
 msgstr ""
 
 msgid "Complete your account setup for local servers"
@@ -672,10 +697,6 @@ msgstr ""
 
 msgid "Passwords do not match"
 msgstr ""
-
-#, fuzzy
-msgid "Wizarr"
-msgstr "Iirichtigs Zauberer"
 
 #, fuzzy
 msgid "Invalid Invitation"
@@ -897,16 +918,6 @@ msgid "To join"
 msgstr ""
 
 msgid "Join the ultimate media server experience."
-msgstr ""
-
-msgid "Enter Code to Continue"
-msgstr ""
-
-#, fuzzy
-msgid "Invitation Code"
-msgstr "Iiladige"
-
-msgid "Enter your code"
 msgstr ""
 
 msgid "Join Server"
@@ -1146,6 +1157,14 @@ msgstr "Dihei"
 msgid "Close modal"
 msgstr ""
 
+msgid "Update"
+msgstr ""
+
+msgid ""
+"Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
+"user. Wizarr does not send it to the media server."
+msgstr ""
+
 msgid "Tabs"
 msgstr ""
 
@@ -1190,9 +1209,6 @@ msgstr "Username"
 msgid "Expiry date"
 msgstr ""
 
-msgid "Update"
-msgstr ""
-
 msgid "Current expiry"
 msgstr ""
 
@@ -1207,6 +1223,12 @@ msgid "Add notes about this user..."
 msgstr ""
 
 msgid "Update Notes"
+msgstr ""
+
+msgid "Sync users from media servers"
+msgstr ""
+
+msgid "Sync"
 msgstr ""
 
 #, fuzzy
@@ -1352,13 +1374,13 @@ msgstr ""
 msgid "Edit Connection"
 msgstr ""
 
-msgid "Overseerr/Jellyseerr Information"
+msgid "Seerr Information"
 msgstr ""
 
 msgid ""
-"Overseerr and Jellyseerr create an account the first time someone signs in, "
-"so by default an invited user has no account there until they visit and log "
-"in themselves."
+"Seerr creates an account the first time someone signs in, so by default an "
+"invited user has no account there until they visit and log in themselves. "
+"Overseerr and Jellyseerr, which merged into Seerr, work the same way."
 msgstr ""
 
 msgid ""
@@ -1423,6 +1445,12 @@ msgstr ""
 msgid "New Agent"
 msgstr ""
 
+msgid "User Key"
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
 msgid "Channel ID"
 msgstr ""
 
@@ -1456,6 +1484,9 @@ msgid "Test & Create Agent"
 msgstr ""
 
 msgid "Add Server"
+msgstr ""
+
+msgid "Hide new users from login screens"
 msgstr ""
 
 msgid "Test & Add"
@@ -1711,7 +1742,7 @@ msgstr ""
 msgid "Your Discord server ID"
 msgstr ""
 
-msgid "URL to your Overseerr/Ombi instance"
+msgid "URL to your Seerr/Ombi instance"
 msgstr ""
 
 #, fuzzy
@@ -1818,10 +1849,10 @@ msgstr ""
 msgid "Media Server"
 msgstr ""
 
-msgid "Overseerr"
+msgid "Seerr"
 msgstr ""
 
-msgid "Overseerr (Info)"
+msgid "Seerr (Info)"
 msgstr ""
 
 msgid "Ombi"
@@ -1998,6 +2029,11 @@ msgid "User & Group Settings"
 msgstr "Server Iistellige"
 
 msgid "Where to find users and groups"
+msgstr ""
+
+msgid ""
+"Optional. User sync imports only the users that match this filter and the "
+"user object class. Login does not use this filter."
 msgstr ""
 
 msgid "Optional - only needed for admin group restriction"
@@ -2348,6 +2384,12 @@ msgstr "Iirichtigs Zauberer"
 msgid "Create an account"
 msgstr "Es Konto erstelle"
 
+msgid "Pagination"
+msgstr ""
+
+msgid "Show more"
+msgstr ""
+
 msgid "Unlimited"
 msgstr ""
 
@@ -2416,6 +2458,25 @@ msgstr "Passwort"
 #, fuzzy
 msgid "Remove user"
 msgstr "Dihei"
+
+msgid "Setup Guide"
+msgstr ""
+
+msgid "Select your server to open its setup guide."
+msgstr ""
+
+#, python-format
+msgid "Open the setup guide for %(name)s"
+msgstr ""
+
+msgid ""
+"This page is for invited users. Open the link from your invitation to start."
+msgstr ""
+
+msgid ""
+"If you already accepted your invitation, ask the server administrator for "
+"help."
+msgstr ""
 
 #, fuzzy
 msgid "Before Invitation"
