@@ -24,6 +24,34 @@
         <span class="sr-only">{{ _("Close modal") }}</span>
       </button>
     </div>
+    <!-- Email (one address for the person, stored only in Wizarr) -->
+    {% if email_editable %}
+      <form hx-post="{{ url_for('admin.user_detail', db_id=user.id) }}"
+            class="px-4 sm:px-6 pb-4">
+        <label for="user_email"
+               class="block mb-2 text-sm font-medium text-gray-700 dark:text-gray-300">{{ _("Email") }}</label>
+        <div class="flex items-end gap-3">
+          <input id="user_email"
+                 name="email"
+                 type="email"
+                 value="{{ email_value }}"
+                 placeholder="name@example.com"
+                 aria-describedby="user-email-help user-email-error"
+                 class="flex-1 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-900 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white" />
+          <button type="submit"
+                  class="inline-flex items-center px-4 py-2.5 text-sm font-medium text-white bg-primary rounded-lg hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-primary_focus dark:bg-primary dark:hover:bg-primary_hover dark:focus:ring-primary_focus">
+            {{ _("Update") }}
+          </button>
+        </div>
+        <p id="user-email-error"
+           class="mt-2 text-sm text-red-600 dark:text-red-400"
+           role="alert"></p>
+        <p id="user-email-help"
+           class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+          {{ _("Wizarr keeps this address for the Jellyfin, Emby and local accounts of this user. Wizarr does not send it to the media server.") }}
+        </p>
+      </form>
+    {% endif %}
     <!-- Tab Navigation -->
     <div class="border-b border-gray-200 dark:border-gray-700 px-4 sm:px-6">
       <nav class="flex -mb-px space-x-2 overflow-x-auto"

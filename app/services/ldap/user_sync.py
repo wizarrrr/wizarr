@@ -9,6 +9,7 @@ from sqlalchemy import func
 from app.extensions import db
 from app.models import LDAPConfiguration, User
 from app.services.ldap.client import LDAPClient
+from app.services.ldap.filters import build_sync_filter
 
 logger = logging.getLogger(__name__)
 
@@ -34,8 +35,10 @@ def list_ldap_users() -> tuple[bool, list[dict[str, Any]] | str]:
         if not conn:
             return False, "Cannot connect to LDAP server"
 
-        # Search for all users
-        search_filter = f"(objectClass={ldap_config.user_object_class})"
+        # Search for all users of the object class that match the sync filter
+        search_filter = build_sync_filter(
+            ldap_config.user_object_class, ldap_config.user_sync_filter
+        )
         success = conn.search(
             search_base=ldap_config.user_base_dn,
             search_filter=search_filter,

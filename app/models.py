@@ -470,6 +470,10 @@ class MediaServer(db.Model):
     allow_live_tv = db.Column(db.Boolean, default=False, nullable=False)
     allow_mobile_uploads = db.Column(db.Boolean, default=False, nullable=False)
 
+    # Jellyfin only: hide the users that Wizarr creates from the login screens.
+    # Jellyfin hides new users by default, so True keeps that behaviour.
+    hide_users_from_login = db.Column(db.Boolean, default=True, nullable=False)
+
     # Whether the connection credentials were validated successfully
     verified = db.Column(db.Boolean, default=False, nullable=False)
 
@@ -1164,6 +1168,8 @@ class LDAPConfiguration(db.Model):
         db.String, nullable=False, default="(uid={username})"
     )
     user_object_class = db.Column(db.String, nullable=False, default="inetOrgPerson")
+    # Optional filter that limits the users that sync imports. Login ignores it.
+    user_sync_filter = db.Column(db.String, nullable=True)
 
     # User attribute mappings
     username_attribute = db.Column(db.String, nullable=False, default="uid")

@@ -113,9 +113,9 @@ app/services/
 Flask sends custom headers on HTMX requests:
 
 ```python
-resp.headers['X-Wizard-Idx'] = str(idx)
-resp.headers['X-Require-Interaction'] = 'true' | 'false'
-resp.headers['X-Wizard-Step-Phase'] = 'pre' | 'post' | ''
+resp.headers["X-Wizard-Idx"] = str(idx)
+resp.headers["X-Require-Interaction"] = "true" | "false"
+resp.headers["X-Wizard-Step-Phase"] = "pre" | "post" | ""
 ```
 
 ### Client State Storage
@@ -194,17 +194,23 @@ WizardController.updateUI(xhr)
 All wizard routes follow this pattern:
 
 ```python
-def _serve_wizard(server: str, idx: int, steps: list, phase: str,
-                  *, completion_url: str | None = None,
-                  completion_label: str | None = None,
-                  current_step_phase: str | None = None):
+def _serve_wizard(
+    server: str,
+    idx: int,
+    steps: list,
+    phase: str,
+    *,
+    completion_url: str | None = None,
+    completion_label: str | None = None,
+    current_step_phase: str | None = None,
+):
     # ... build HTML content ...
 
     # Smart template selection
     if not request.headers.get("HX-Request"):
-        page = "wizard/frame.html"        # Initial load
+        page = "wizard/frame.html"  # Initial load
     else:
-        page = "wizard/_content.html"     # HTMX swap
+        page = "wizard/_content.html"  # HTMX swap
 
     response = render_template(
         page,
@@ -212,18 +218,18 @@ def _serve_wizard(server: str, idx: int, steps: list, phase: str,
         idx=idx,
         max_idx=len(steps) - 1,
         server_type=server,
-        phase=phase,                      # NEW: Phase context
-        step_phase=display_phase,         # NEW: Current step phase
-        completion_url=completion_url,    # NEW: Completion redirect
-        completion_label=completion_label # NEW: Completion button text
+        phase=phase,  # NEW: Phase context
+        step_phase=display_phase,  # NEW: Current step phase
+        completion_url=completion_url,  # NEW: Completion redirect
+        completion_label=completion_label,  # NEW: Completion button text
     )
 
     # Add headers for HTMX requests
     if request.headers.get("HX-Request"):
         resp = make_response(response)
-        resp.headers['X-Wizard-Idx'] = str(idx)
-        resp.headers['X-Require-Interaction'] = 'true' | 'false'
-        resp.headers['X-Wizard-Step-Phase'] = display_phase or ''  # NEW
+        resp.headers["X-Wizard-Idx"] = str(idx)
+        resp.headers["X-Require-Interaction"] = "true" | "false"
+        resp.headers["X-Wizard-Step-Phase"] = display_phase or ""  # NEW
         return resp
 
     return response
@@ -244,9 +250,12 @@ def pre_wizard(idx: int = 0):
 
     # Render with pre-phase context
     return _serve_wizard(
-        server_type, idx, steps, "pre",
+        server_type,
+        idx,
+        steps,
+        "pre",
         completion_url=url_for("wizard.pre_wizard_complete"),
-        completion_label=_("Continue to Invite")
+        completion_label=_("Continue to Invite"),
     )
 ```
 
@@ -298,8 +307,7 @@ def _steps(server: str, cfg: dict, category: str = "post_invite"):
         List of wizard steps filtered by category
     """
     db_rows = (
-        WizardStep.query
-        .filter_by(server_type=server, category=category)
+        WizardStep.query.filter_by(server_type=server, category=category)
         .order_by(WizardStep.position)
         .all()
     )
@@ -379,7 +387,7 @@ Phase indicator updated: pre
 
 **Session Management:**
 ```python
-InviteCodeManager.get_invite_code()           # Retrieve invite code
+InviteCodeManager.get_invite_code()  # Retrieve invite code
 InviteCodeManager.validate_invite_code(code)  # Validate invite code
 InviteCodeManager.mark_pre_wizard_complete()  # Mark phase complete
 ```
@@ -400,7 +408,7 @@ InviteCodeManager.mark_pre_wizard_complete()  # Mark phase complete
 **Session Cleanup:**
 ```python
 InviteCodeManager.clear_invite_data()  # Clear invite-related data
-session.pop("wizard_access", None)     # Clear wizard access flag
+session.pop("wizard_access", None)  # Clear wizard access flag
 session.pop("wizard_server_order", None)
 session.pop("wizard_bundle_id", None)
 ```

@@ -119,9 +119,9 @@ The mock system simulates realistic API behavior:
 # Success response
 {
     "Id": "user-uuid",
-    "Name": "username", 
+    "Name": "username",
     "Primary": "email@example.com",
-    "Policy": {"EnableDownloads": True}
+    "Policy": {"EnableDownloads": True},
 }
 
 # Library assignment

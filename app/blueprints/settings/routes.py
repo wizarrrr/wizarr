@@ -107,8 +107,9 @@ def server_settings():
 
         ok, error_msg = _check_server_connection(data)
         if not ok:
-            # Add the error message to the form
-            form.server_url.errors = [error_msg]
+            # Add the error message to the form. WTForms declares errors as
+            # tuple(), but validate_on_submit() has already set a list here.
+            form.server_url.errors = [error_msg]  # ty: ignore[invalid-assignment]
             # HTMX‐render of the same form with errors
             return render_template(
                 "settings/partials/server_form.html",
@@ -383,6 +384,7 @@ def ldap_settings():
         config.user_base_dn = form.user_base_dn.data
         config.user_search_filter = form.user_search_filter.data
         config.user_object_class = form.user_object_class.data
+        config.user_sync_filter = form.user_sync_filter.data or None
         config.username_attribute = form.username_attribute.data
         config.email_attribute = form.email_attribute.data
         config.group_base_dn = form.group_base_dn.data
@@ -405,6 +407,7 @@ def ldap_settings():
         form.user_base_dn.data = config.user_base_dn
         form.user_search_filter.data = config.user_search_filter
         form.user_object_class.data = config.user_object_class
+        form.user_sync_filter.data = config.user_sync_filter
         form.username_attribute.data = config.username_attribute
         form.email_attribute.data = config.email_attribute
         form.group_base_dn.data = config.group_base_dn
@@ -539,9 +542,9 @@ def sync_all_ldap_users():
             message=_("LDAP is not configured"),
         )
 
-    # Get all LDAP users
+    # Get all LDAP users. On failure, result is the error message.
     success, result = list_ldap_users()
-    if not success:
+    if not success or isinstance(result, str):
         return render_template(
             "_partials/ldap_alert.html",
             level="error",
