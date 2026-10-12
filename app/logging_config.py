@@ -21,6 +21,13 @@ LOGGING_CONFIG = {
             "formatter": "default",
             "level": LOG_LEVEL,
         },
+        # The audit trail is written at INFO whatever LOG_LEVEL is (app/services/audit.py)
+        "audit": {
+            "class": "logging.StreamHandler",
+            "stream": sys.stdout,
+            "formatter": "default",
+            "level": "INFO",
+        },
         # Note: Rotating file handler can be added if persistent logging is needed.
     },
     "root": {
@@ -31,6 +38,11 @@ LOGGING_CONFIG = {
         "app.services.media.romm": {
             "level": "DEBUG",
             "handlers": ["console"],
+            "propagate": False,
+        },
+        "wizarr.audit": {
+            "level": "INFO",
+            "handlers": ["audit"],
             "propagate": False,
         },
         "wizarr.api": {
