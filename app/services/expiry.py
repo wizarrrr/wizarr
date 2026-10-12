@@ -401,20 +401,17 @@ def disable_or_delete_user_if_expired() -> list[int]:
                         server_type or "unknown",
                     )
                 except Exception as disable_exc:
+                    # Keep the account and try again on the next run. Deleting
+                    # here would remove a user the admin chose to keep, over a
+                    # server that may only have been down for a moment.
                     db.session.rollback()
+                    _release_expiry_claim(event_id)
                     logging.warning(
-                        "Failed to disable user %s, falling back to deletion: %s",
+                        "Failed to disable user %s, keeping it for the next run: %s",
                         user_id,
                         disable_exc,
                     )
-                    # Fallback to deletion using service function
-                    _delete_expired_user(user_id)
-                    processed.append(user_id)
-                    logging.info(
-                        "🗑️ Expired user %s (%s) deleted (disable fallback)",
-                        user_id,
-                        username,
-                    )
+                    continue
             else:
                 # Delete the user (either by setting or server doesn't support disable)
                 _delete_expired_user(user_id)
