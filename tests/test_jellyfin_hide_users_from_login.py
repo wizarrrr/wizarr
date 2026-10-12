@@ -232,3 +232,98 @@ def test_migration_keeps_existing_servers_hidden(tmp_path):
             }
         assert "hide_users_from_login" not in columns
     engine.dispose()
+
+
+def test_migration_keeps_rows_that_reference_the_server(tmp_path):
+    """A rebuild of media_server deletes child rows through ON DELETE CASCADE."""
+    db_url = f"sqlite:///{tmp_path / 'migration.db'}"
+
+    class Config(BaseConfig):
+        TESTING = True
+        SQLALCHEMY_DATABASE_URI = db_url
+
+    app = create_app(Config)  # type: ignore[arg-type]
+    engine = create_engine(db_url)
+    child_rows = text(
+        'SELECT (SELECT count(*) FROM library), (SELECT count(*) FROM "user"),'
+        " (SELECT count(*) FROM invitation_server),"
+        " (SELECT server_id FROM invitation)"
+    )
+    with app.app_context():
+        upgrade(revision=f"{REVISION}-1")
+        with engine.begin() as conn:
+            conn.execute(
+                text(
+                    "INSERT INTO media_server (id, name, server_type, url, verified,"
+                    " allow_downloads, allow_live_tv, allow_mobile_uploads, created_at)"
+                    " VALUES (1, 'JF', 'jellyfin', 'http://jf', 1, 0, 0, 0, '2026-01-01')"
+                )
+            )
+            conn.execute(
+                text(
+                    "INSERT INTO library (external_id, name, enabled, server_id)"
+                    " VALUES ('L1', 'Movies', 1, 1)"
+                )
+            )
+            conn.execute(
+                text(
+                    'INSERT INTO "user" (token, username, code, server_id)'
+                    " VALUES ('t1', 'alice', 'c1', 1)"
+                )
+            )
+            conn.execute(
+                text(
+                    "INSERT INTO invitation (id, code, used, created, server_id)"
+                    " VALUES (1, 'INV1', 0, '2026-01-01', 1)"
+                )
+            )
+            conn.execute(
+                text(
+                    "INSERT INTO invitation_server (invite_id, server_id, used)"
+                    " VALUES (1, 1, 0)"
+                )
+            )
+            # A failed run of the first version of this migration left this table.
+            conn.execute(text("CREATE TABLE _alembic_tmp_media_server (id INTEGER)"))
+
+        upgrade(revision=REVISION)
+        with engine.connect() as conn:
+            assert conn.execute(child_rows).one() == (1, 1, 1, 1)
+            leftover = conn.execute(
+                text(
+                    "SELECT name FROM sqlite_master"
+                    " WHERE name = '_alembic_tmp_media_server'"
+                )
+            ).first()
+            assert leftover is None
+
+        downgrade(revision=f"{REVISION}-1")
+        with engine.connect() as conn:
+            assert conn.execute(child_rows).one() == (1, 1, 1, 1)
+    engine.dispose()
+
+
+def test_migration_skips_a_column_that_an_admin_added_by_hand(tmp_path):
+    db_url = f"sqlite:///{tmp_path / 'migration.db'}"
+
+    class Config(BaseConfig):
+        TESTING = True
+        SQLALCHEMY_DATABASE_URI = db_url
+
+    app = create_app(Config)  # type: ignore[arg-type]
+    engine = create_engine(db_url)
+    with app.app_context():
+        upgrade(revision=f"{REVISION}-1")
+        with engine.begin() as conn:
+            conn.execute(
+                text(
+                    "ALTER TABLE media_server"
+                    " ADD COLUMN hide_users_from_login BOOLEAN DEFAULT 1 NOT NULL"
+                )
+            )
+
+        upgrade(revision=REVISION)
+        with engine.connect() as conn:
+            version = conn.execute(text("SELECT version_num FROM alembic_version"))
+            assert version.scalar() == REVISION
+    engine.dispose()
