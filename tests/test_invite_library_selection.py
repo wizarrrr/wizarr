@@ -4,144 +4,88 @@ surprise with an explicit error. An invite whose picker was never opened is
 unaffected and still falls back to all enabled libraries at redeem time.
 """
 
-from app.models import AdminAccount, Invitation, Library, MediaServer
+import pytest
+
+from app.models import Invitation, Library, MediaServer
 
 # /invite is an HTMX-only endpoint (it redirects to the dashboard otherwise).
 HX = {"HX-Request": "true", "HX-Current-URL": "http://localhost/admin/invites"}
 
 
-def _login(client, session):
-    admin = AdminAccount(username="testadmin")
-    admin.set_password("TestPass123")
-    session.add(admin)
-    session.commit()
-    resp = client.post(
-        "/login", data={"username": "testadmin", "password": "TestPass123"}
-    )
-    assert resp.status_code in {200, 302, 303}
-    return admin
-
-
-def _server(session):
+def _server(session, name="Plex"):
     server = MediaServer(
-        name="Plex", server_type="plex", url="http://plex.local", api_key="token"
+        name=name, server_type="plex", url="http://plex.local", api_key="token"
     )
     session.add(server)
     session.commit()
     return server
 
 
-def test_opened_picker_but_cleared_is_rejected(client, session):
-    """Marker present + zero boxes checked -> 400 and no invite is created."""
-    _login(client, session)
-    server = _server(session)
+def _library(session, server):
+    lib = Library(external_id="1", name="Movies", server_id=server.id, enabled=True)
+    session.add(lib)
+    session.commit()
+    return lib
 
-    resp = client.post(
+
+def _create_invite(client, server, **data):
+    return client.post(
         "/invite",
-        data={
-            "server_ids": str(server.id),
-            "expires": "never",
-            "library_picker_used": "1",
-        },
+        data={"server_ids": str(server.id), "expires": "never", **data},
         headers=HX,
     )
+
+
+@pytest.mark.parametrize(
+    "libraries",
+    [
+        # Marker present and zero boxes checked.
+        lambda session: None,
+        # A stale or deleted ID resolves to zero eligible libraries. Without
+        # the check the invite has no library rows, and redemption falls back
+        # to every enabled library.
+        lambda session: "999999",
+        # An ID from a server that is not part of this invite must not resolve
+        # to zero libraries and slip through as an unscoped invite.
+        lambda session: str(_library(session, _server(session, "Other Plex")).id),
+    ],
+    ids=["cleared", "stale-id", "other-server-library"],
+)
+def test_picker_used_without_an_eligible_library_is_rejected(
+    admin_client, session, libraries
+):
+    server = _server(session)
+    data = {"library_picker_used": "1"}
+    if (library_ids := libraries(session)) is not None:
+        data["libraries"] = library_ids
+
+    resp = _create_invite(admin_client, server, **data)
+
     assert resp.status_code == 400
     assert b"at least one library" in resp.data
     assert Invitation.query.count() == 0
 
 
-def test_picker_with_a_selection_is_created(client, session):
+def test_picker_with_a_selection_is_created(admin_client, session):
     """Marker present + a library kept -> invite created with exactly that library."""
-    _login(client, session)
     server = _server(session)
-    lib = Library(external_id="1", name="Movies", server_id=server.id, enabled=True)
-    session.add(lib)
-    session.commit()
+    lib = _library(session, server)
 
-    resp = client.post(
-        "/invite",
-        data={
-            "server_ids": str(server.id),
-            "expires": "never",
-            "library_picker_used": "1",
-            "libraries": str(lib.id),
-        },
-        headers=HX,
+    resp = _create_invite(
+        admin_client, server, library_picker_used="1", libraries=str(lib.id)
     )
+
     assert resp.status_code == 200
     inv = Invitation.query.one()
     assert [library.id for library in inv.libraries] == [lib.id]
 
 
-def test_picker_used_with_only_a_stale_library_id_is_rejected(client, session):
-    """A submitted ID that resolves to zero eligible libraries (stale/deleted, or
-    never existed) must be rejected the same as an empty selection - otherwise
-    the invite commits with no library associations and redemption falls back
-    to every enabled library, defeating the picker's restriction.
-    """
-    _login(client, session)
-    server = _server(session)
-
-    resp = client.post(
-        "/invite",
-        data={
-            "server_ids": str(server.id),
-            "expires": "never",
-            "library_picker_used": "1",
-            "libraries": "999999",
-        },
-        headers=HX,
-    )
-    assert resp.status_code == 400
-    assert b"at least one library" in resp.data
-    assert Invitation.query.count() == 0
-
-
-def test_picker_used_with_a_library_from_an_unselected_server_is_rejected(
-    client, session
-):
-    """A submitted ID belonging to a server that isn't part of this invite must
-    not silently resolve to zero libraries and slip through as an unscoped
-    invite.
-    """
-    _login(client, session)
-    server = _server(session)
-    other_server = MediaServer(
-        name="Other Plex", server_type="plex", url="http://other.local", api_key="tok"
-    )
-    session.add(other_server)
-    session.commit()
-    foreign_lib = Library(
-        external_id="1", name="Movies", server_id=other_server.id, enabled=True
-    )
-    session.add(foreign_lib)
-    session.commit()
-
-    resp = client.post(
-        "/invite",
-        data={
-            "server_ids": str(server.id),
-            "expires": "never",
-            "library_picker_used": "1",
-            "libraries": str(foreign_lib.id),
-        },
-        headers=HX,
-    )
-    assert resp.status_code == 400
-    assert b"at least one library" in resp.data
-    assert Invitation.query.count() == 0
-
-
-def test_untouched_picker_is_allowed(client, session):
+def test_untouched_picker_is_allowed(admin_client, session):
     """No marker (picker never opened) -> allowed; redeem-time fallback still applies."""
-    _login(client, session)
     server = _server(session)
 
-    resp = client.post(
-        "/invite",
-        data={"server_ids": str(server.id), "expires": "never"},
-        headers=HX,
-    )
+    resp = _create_invite(admin_client, server)
+
     assert resp.status_code == 200
     inv = Invitation.query.one()
     assert list(inv.libraries) == []

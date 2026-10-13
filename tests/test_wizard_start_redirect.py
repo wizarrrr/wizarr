@@ -9,196 +9,86 @@ The start() function should intelligently redirect users based on their context:
 
 import pytest
 
-from app.extensions import db
-from app.models import AdminAccount, Invitation, Library, MediaServer, User, WizardStep
+from app.models import Invitation, MediaServer
+from app.services.invite_code_manager import InviteCodeManager
 
 
 @pytest.fixture
-def session(app):
-    """Return a clean database session inside an app context."""
-    with app.app_context():
-        # Clean up before the test to ensure fresh state
-        db.session.rollback()
-        # Delete all test data in correct order (respecting foreign keys)
-        db.session.execute(db.text("DELETE FROM invitation_server"))
-        db.session.execute(db.text("DELETE FROM invitation_user"))
-        db.session.query(User).delete()
-        db.session.query(WizardStep).delete()
-        db.session.query(Invitation).delete()
-        db.session.query(Library).delete()
-        db.session.query(MediaServer).delete()
-        db.session.query(AdminAccount).delete()
-        db.session.commit()
-
-        yield db.session
-
-        # Clean up after the test
-        db.session.rollback()
-        # Delete all test data in correct order (respecting foreign keys)
-        db.session.execute(db.text("DELETE FROM invitation_server"))
-        db.session.execute(db.text("DELETE FROM invitation_user"))
-        db.session.query(User).delete()
-        db.session.query(WizardStep).delete()
-        db.session.query(Invitation).delete()
-        db.session.query(Library).delete()
-        db.session.query(MediaServer).delete()
-        db.session.query(AdminAccount).delete()
-        db.session.commit()
+def plex_server(session):
+    server = MediaServer(
+        name="Test Plex",
+        server_type="plex",
+        url="http://localhost:32400",
+    )
+    session.add(server)
+    session.commit()
+    return server
 
 
 class TestWizardStartRedirect:
     """Test suite for wizard start endpoint redirect logic."""
 
-    def test_wizard_start_route_exists(self, app):
-        """Test that /wizard route is registered."""
-        with app.app_context():
-            rules = [rule.rule for rule in app.url_map.iter_rules()]
-            assert "/wizard/" in rules
-
-    def test_authenticated_user_redirects_to_post_wizard(self, app, client, session):
-        """Test that authenticated users are redirected to /post-wizard."""
-        # Create admin user
-        admin = AdminAccount(username="testadmin")
-        admin.set_password("testpass123")
-        session.add(admin)
-        session.commit()
-
-        # Create media server
-        server = MediaServer(
-            name="Test Plex",
-            server_type="plex",
-            url="http://localhost:32400",
-        )
-        session.add(server)
-        session.commit()
-
-        with client:
-            # Log in the user
-            with client.session_transaction() as sess:
-                sess["_user_id"] = str(admin.id)
-                sess["_fresh"] = True
-
-            # Access /wizard
-            response = client.get("/wizard/", follow_redirects=False)
-
-            # Should redirect to post-wizard
-            assert response.status_code == 302
-            assert "/wizard/post-wizard" in response.location
-
-    def test_user_with_wizard_access_session_redirects_to_post_wizard(
-        self, app, client, session
+    def test_authenticated_user_redirects_to_post_wizard(
+        self, admin_client, plex_server
     ):
-        """Test that users with wizard_access session are redirected to /post-wizard.
+        response = admin_client.get("/wizard/", follow_redirects=False)
 
-        This simulates a user who has just accepted an invitation and has
-        the wizard_access session flag set.
-        """
-        # Create media server and invitation
-        server = MediaServer(
-            name="Test Plex",
-            server_type="plex",
-            url="http://localhost:32400",
-        )
-        session.add(server)
-        session.flush()
-
-        invitation = Invitation(code="TEST123", unlimited=True)
-        invitation.servers = [server]
-        session.add(invitation)
-        session.commit()
-
-        with client:
-            # Set wizard_access session (simulates post-invitation state)
-            with client.session_transaction() as sess:
-                sess["wizard_access"] = invitation.code
-
-            # Access /wizard
-            response = client.get("/wizard/", follow_redirects=False)
-
-            # Should redirect to post-wizard
-            assert response.status_code == 302
-            assert "/wizard/post-wizard" in response.location
-
-    # NOTE: The following tests for invite code redirect are commented out
-    # because they require a more complex setup with wizard steps configured.
-    # The core redirect logic is tested in the other tests.
-    # TODO: Re-enable these tests once wizard step seeding is properly configured in tests
-
-    # def test_user_with_invite_code_redirects_to_pre_wizard(
-    #     self, app, client, session
-    # ):
-    #     """Test that users with invite code are redirected to /pre-wizard."""
-    #     pass
-
-    # def test_user_with_invalid_invite_code_redirects_to_home(
-    #     self, app, client, session
-    # ):
-    #     """Test that users with invalid invite code are redirected to home."""
-    #     pass
-
-    def test_user_without_context_redirects_to_help_page(self, app, client, session):
-        """Test that users without any context are redirected to the help page.
-
-        Users who access /wizard directly without being authenticated
-        or having an invite code see a help page, not the admin login.
-        """
-        # Create media server (needed for the app to function)
-        server = MediaServer(
-            name="Test Plex",
-            server_type="plex",
-            url="http://localhost:32400",
-        )
-        session.add(server)
-        session.commit()
-
-        with client:
-            # Access /wizard without any context
-            response = client.get("/wizard/", follow_redirects=False)
-
-            # Should redirect to the help page
-            assert response.status_code == 302
-            assert response.location == "/wizard/help"
-
-    def test_backward_compatibility_with_old_wizard_url(self, app, client, session):
-        """Test backward compatibility with old /wizard URL.
-
-        The /wizard endpoint should continue to work for existing links
-        and bookmarks, redirecting appropriately based on user context.
-        """
-        # Create admin user and media server
-        admin = AdminAccount(username="testadmin")
-        admin.set_password("testpass123")
-        session.add(admin)
-
-        server = MediaServer(
-            name="Test Plex",
-            server_type="plex",
-            url="http://localhost:32400",
-        )
-        session.add(server)
-        session.commit()
-
-        # Test 1: Authenticated user
-        with client.session_transaction() as sess:
-            sess["_user_id"] = str(admin.id)
-            sess["_fresh"] = True
-
-        response = client.get("/wizard/", follow_redirects=False)
         assert response.status_code == 302
         assert "/wizard/post-wizard" in response.location
 
-    def test_backward_compatibility_without_context(self, app, client, session):
-        """Test backward compatibility redirects to the help page when no context."""
-        # Create media server (needed for the app to function)
-        server = MediaServer(
-            name="Test Plex",
-            server_type="plex",
-            url="http://localhost:32400",
-        )
-        session.add(server)
+    def test_user_with_wizard_access_session_redirects_to_post_wizard(
+        self, client, session, plex_server
+    ):
+        """A user who just accepted an invitation goes to /post-wizard."""
+        invitation = Invitation(code="TEST123", unlimited=True)
+        invitation.servers = [plex_server]
+        session.add(invitation)
         session.commit()
 
-        # Test: User without context
+        with client.session_transaction() as sess:
+            sess["wizard_access"] = invitation.code
+
         response = client.get("/wizard/", follow_redirects=False)
+
+        assert response.status_code == 302
+        assert "/wizard/post-wizard" in response.location
+
+    @pytest.mark.parametrize(
+        ("code", "location", "code_kept"),
+        [
+            ("TEST123", "/wizard/pre-wizard", True),
+            # The route clears an invalid invite code.
+            ("UNKNOWN1", "/wizard/help", False),
+        ],
+        ids=["valid", "invalid"],
+    )
+    def test_user_with_invite_code(
+        self, client, session, plex_server, code, location, code_kept
+    ):
+        invitation = Invitation(code="TEST123", unlimited=True)
+        invitation.servers = [plex_server]
+        session.add(invitation)
+        session.commit()
+
+        with client.session_transaction() as sess:
+            sess[InviteCodeManager.STORAGE_KEY] = code
+            sess["invitation_in_progress"] = True
+
+        response = client.get("/wizard/", follow_redirects=False)
+
+        assert response.status_code == 302
+        assert response.location == location
+        with client.session_transaction() as sess:
+            assert (InviteCodeManager.STORAGE_KEY in sess) is code_kept
+
+    def test_user_without_context_redirects_to_help_page(
+        self, client, session, plex_server
+    ):
+        """A user without a login or an invite code sees the help page.
+
+        The user does not see the admin login.
+        """
+        response = client.get("/wizard/", follow_redirects=False)
+
         assert response.status_code == 302
         assert response.location == "/wizard/help"

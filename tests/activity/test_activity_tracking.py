@@ -1,4 +1,7 @@
+import re
 from unittest.mock import Mock, patch
+
+import pytest
 
 from app.activity.tracking import (
     ACTIVITY_TRACKING_SETTING,
@@ -69,54 +72,40 @@ def test_enabled_tracking_starts_monitor_and_registers_jobs(app, session):
     assert all(scheduler.get_job(job_id) is not None for job_id in ACTIVITY_JOB_IDS)
 
 
-def test_activity_settings_renders_enabled_toggle(logged_activity_client):
-    response = logged_activity_client.get(
-        "/activity/settings", headers={"HX-Request": "true"}
+@pytest.mark.parametrize("enabled", [True, False])
+def test_activity_settings_shows_tracking_state(admin_client, enabled):
+    set_activity_tracking_enabled(enabled)
+
+    response = admin_client.get("/activity/settings", headers={"HX-Request": "true"})
+
+    assert response.status_code == 200
+    toggle = re.search(
+        r'<input id="activity-tracking-enabled"[^>]*>', response.get_data(as_text=True)
     )
-    body = response.get_data(as_text=True)
+    assert toggle is not None
+    assert ("checked" in toggle.group(0)) is enabled
+
+
+@pytest.mark.parametrize(
+    ("form", "enabled", "message"),
+    [
+        # The browser sends no value for an unchecked checkbox.
+        ({}, False, "Activity tracking is disabled"),
+        ({"activity_tracking_enabled": "true"}, True, "Activity tracking is enabled"),
+    ],
+)
+def test_activity_settings_sets_tracking(admin_client, form, enabled, message):
+    set_activity_tracking_enabled(not enabled)
+
+    response = admin_client.post(
+        "/activity/settings",
+        data={"action": "set_tracking", **form},
+        headers={"HX-Request": "true"},
+    )
 
     assert response.status_code == 200
-    assert 'name="activity_tracking_enabled"' in body
-    assert "checked" in body
-
-
-def test_activity_settings_can_disable_tracking(logged_activity_client):
-    with (
-        patch(
-            "app.activity.api.blueprint.set_activity_tracking_enabled"
-        ) as set_tracking,
-        patch("app.activity.api.blueprint._", side_effect=lambda text: text),
-    ):
-        response = logged_activity_client.post(
-            "/activity/settings",
-            data={"action": "set_tracking"},
-            headers={"HX-Request": "true"},
-        )
-
-    assert response.status_code == 200
-    set_tracking.assert_called_once_with(False)
-    assert "Activity tracking is disabled" in response.get_data(as_text=True)
-
-
-def test_activity_settings_can_enable_tracking(logged_activity_client):
-    with (
-        patch(
-            "app.activity.api.blueprint.set_activity_tracking_enabled"
-        ) as set_tracking,
-        patch("app.activity.api.blueprint._", side_effect=lambda text: text),
-    ):
-        response = logged_activity_client.post(
-            "/activity/settings",
-            data={
-                "action": "set_tracking",
-                "activity_tracking_enabled": "true",
-            },
-            headers={"HX-Request": "true"},
-        )
-
-    assert response.status_code == 200
-    set_tracking.assert_called_once_with(True)
-    assert "Activity tracking is enabled" in response.get_data(as_text=True)
+    assert is_activity_tracking_enabled() is enabled
+    assert message in response.get_data(as_text=True)
 
 
 def test_disabled_tracking_heartbeat_does_not_restart_monitor(

@@ -1,4 +1,6 @@
+import atexit
 import contextlib
+import logging
 import os
 import shutil
 import tempfile
@@ -19,6 +21,7 @@ os.environ["no_proxy"] = "*"
 # Each test process gets its own directory for the database. Then test runs
 # in parallel (for example in two git worktrees) do not share one SQLite file.
 _TEST_DB_DIR = tempfile.mkdtemp(prefix="wizarr-tests-")
+atexit.register(shutil.rmtree, _TEST_DB_DIR, ignore_errors=True)
 
 
 class TestConfig(BaseConfig):
@@ -40,9 +43,9 @@ def app():
 
     app = create_app(TestConfig)  # type: ignore
     with app.app_context():
-        # Use Alembic migrations instead of db.create_all()
-        # This ensures the test database schema matches production
-        upgrade()
+        # Use the Alembic migrations, not db.create_all(), so that the test
+        # schema is the same as in production.
+        _upgrade()
     yield app
     with app.app_context():
         db.drop_all()
@@ -53,7 +56,32 @@ def app():
         if os.path.exists(db_file):
             with contextlib.suppress(Exception):
                 os.unlink(db_file)
-    shutil.rmtree(_TEST_DB_DIR, ignore_errors=True)
+
+
+# The loggers that were enabled before the first migration run. The
+# fileConfig() call in migrations/env.py disables all loggers that exist, each
+# time a test runs migrations. Production runs `flask db upgrade` in a
+# separate process, so this does not occur there.
+_ENABLED_LOGGERS: list[logging.Logger] = []
+
+
+def _enable_loggers():
+    for logger in _ENABLED_LOGGERS:
+        logger.disabled = False
+
+
+def _upgrade():
+    """Run the migrations, then undo their side effects on this process."""
+    _ENABLED_LOGGERS[:] = [
+        logger
+        for logger in logging.Logger.manager.loggerDict.values()
+        if isinstance(logger, logging.Logger) and not logger.disabled
+    ]
+    upgrade()
+    _enable_loggers()
+    # Some migrations set PRAGMA foreign_keys=OFF on the pooled connection.
+    # Close it, so that each new connection gets foreign_keys=ON.
+    db.engine.dispose()
 
 
 @pytest.fixture
@@ -79,6 +107,7 @@ def _delete_test_data():
 
     db.session.rollback()
     db.session.execute(db.text("DELETE FROM activity_snapshot"))
+    db.session.execute(db.text("DELETE FROM password_reset_token"))
     db.session.execute(db.text("DELETE FROM historical_import_job"))
     db.session.query(ActivitySession).delete()
     db.session.query(ExpiredUser).delete()
@@ -86,9 +115,11 @@ def _delete_test_data():
     db.session.execute(db.text("DELETE FROM wizard_bundle"))
     db.session.execute(db.text("DELETE FROM invitation_server"))
     db.session.execute(db.text("DELETE FROM invitation_user"))
+    db.session.execute(db.text("DELETE FROM invite_library"))
     db.session.query(WizardStep).delete()
     db.session.query(Invitation).delete()
     db.session.query(User).delete()
+    db.session.execute(db.text("DELETE FROM identity"))
     db.session.query(Library).delete()
     db.session.query(MediaServer).delete()
     db.session.query(WebAuthnCredential).delete()
@@ -147,6 +178,13 @@ def clear_media_caches():
     clear()
     yield
     clear()
+
+
+@pytest.fixture(autouse=True)
+def _keep_loggers_enabled():
+    """Enable the loggers again after a test that runs migrations."""
+    yield
+    _enable_loggers()
 
 
 @pytest.fixture(autouse=True)

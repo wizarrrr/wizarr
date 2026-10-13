@@ -9,23 +9,12 @@ does not change it for their accounts.
 import pytest
 
 from app.extensions import db
-from app.models import AdminAccount, Identity, MediaServer, User
+from app.models import Identity, MediaServer, User
 from app.services.user_email import (
     InvalidEmailError,
     current_email,
     set_user_email,
 )
-
-
-@pytest.fixture
-def admin_user(app, session):
-    # The session fixture removes admin accounts, so it must run first.
-    with app.app_context():
-        admin = AdminAccount(username="emailadmin")
-        admin.set_password("TestPass123")
-        db.session.add(admin)
-        db.session.commit()
-        yield admin
 
 
 @pytest.fixture
@@ -43,10 +32,6 @@ def servers(app, session):
         User.query.delete()
         Identity.query.delete()
         db.session.commit()
-
-
-def _login(client):
-    client.post("/login", data={"username": "emailadmin", "password": "TestPass123"})
 
 
 def _user(server_id, username, email, identity=None):
@@ -128,15 +113,14 @@ def test_identity_keeps_one_address_and_plex_keeps_its_own(app, servers):
         assert _primary_email(identity.id) == "plex@example.com"
 
 
-def test_modal_post_saves_email(client, app, admin_user, servers):
+def test_modal_post_saves_email(admin_client, app, servers):
     with app.app_context():
         user_id = _user(servers["jellyfin"], "jf_post", "empty").id
 
-    _login(client)
-    modal = client.get(f"/user/{user_id}").get_data(as_text=True)
+    modal = admin_client.get(f"/user/{user_id}").get_data(as_text=True)
     assert 'name="email"' in modal
 
-    resp = client.post(f"/user/{user_id}", data={"email": "post@example.com"})
+    resp = admin_client.post(f"/user/{user_id}", data={"email": "post@example.com"})
     assert resp.status_code == 200
     assert "closeModal" in resp.headers["HX-Trigger"]
 
@@ -144,12 +128,11 @@ def test_modal_post_saves_email(client, app, admin_user, servers):
         assert _load(user_id).email == "post@example.com"
 
 
-def test_modal_post_shows_error_for_invalid_email(client, app, admin_user, servers):
+def test_modal_post_shows_error_for_invalid_email(admin_client, app, servers):
     with app.app_context():
         user_id = _user(servers["jellyfin"], "jf_post_bad", "old@example.com").id
 
-    _login(client)
-    resp = client.post(f"/user/{user_id}", data={"email": "user@localhost"})
+    resp = admin_client.post(f"/user/{user_id}", data={"email": "user@localhost"})
 
     assert resp.headers["HX-Retarget"] == "#user-email-error"
     assert "HX-Trigger" not in resp.headers
@@ -157,11 +140,10 @@ def test_modal_post_shows_error_for_invalid_email(client, app, admin_user, serve
         assert _load(user_id).email == "old@example.com"
 
 
-def test_modal_has_no_email_field_for_plex_only_user(client, app, admin_user, servers):
+def test_modal_has_no_email_field_for_plex_only_user(admin_client, app, servers):
     with app.app_context():
         user_id = _user(servers["plex"], "plex_only", "plex@example.com").id
 
-    _login(client)
-    modal = client.get(f"/user/{user_id}").get_data(as_text=True)
+    modal = admin_client.get(f"/user/{user_id}").get_data(as_text=True)
 
     assert 'name="email"' not in modal

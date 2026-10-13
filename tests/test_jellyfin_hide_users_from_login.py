@@ -17,10 +17,8 @@ from app import create_app
 from app.config import BaseConfig
 from app.extensions import db
 from app.models import (
-    AdminAccount,
     Invitation,
     MediaServer,
-    Settings,
     User,
     invitation_servers,
 )
@@ -107,9 +105,6 @@ def test_jellyfin_join_sends_the_option(session, hidden):
 
 
 def test_password_prompt_sends_the_option(client, session):
-    admin = AdminAccount(username="admin")
-    admin.set_password("password")
-    db.session.add_all([admin, Settings(key="admin_username", value="admin")])
     server = _server(hide_users_from_login=False)
     invitation = Invitation(code="HIDEPROMPT", used=False, unlimited=True)
     db.session.add(invitation)
@@ -142,16 +137,6 @@ SERVER_FORM = {
     "server_url": "http://jellyfin.local",
     "api_key": "key",
 }
-
-
-@pytest.fixture
-def admin_client(client, session):
-    admin = AdminAccount(username="admin")
-    admin.set_password("password")
-    db.session.add_all([admin, Settings(key="admin_username", value="admin")])
-    db.session.commit()
-    client.post("/login", data={"username": "admin", "password": "password"})
-    return client
 
 
 def _hide_checked(html: str) -> bool:
@@ -198,7 +183,12 @@ def test_edit_server_saves_the_option(admin_client):
         assert server.hide_users_from_login is True
 
 
-def test_migration_keeps_existing_servers_hidden(tmp_path):
+@pytest.fixture
+def engine(tmp_path):
+    """Give a new database at the revision before the option.
+
+    The test runs in the app context of that database.
+    """
     db_url = f"sqlite:///{tmp_path / 'migration.db'}"
 
     class Config(BaseConfig):
@@ -209,121 +199,103 @@ def test_migration_keeps_existing_servers_hidden(tmp_path):
     engine = create_engine(db_url)
     with app.app_context():
         upgrade(revision=f"{REVISION}-1")
-        with engine.begin() as conn:
-            conn.execute(
-                text(
-                    "INSERT INTO media_server (name, server_type, url, verified,"
-                    " allow_downloads, allow_live_tv, allow_mobile_uploads, created_at)"
-                    " VALUES ('JF', 'jellyfin', 'http://jf', 1, 0, 0, 0, '2026-01-01')"
-                )
-            )
-
-        upgrade(revision=REVISION)
-        with engine.connect() as conn:
-            hidden = conn.execute(
-                text("SELECT hide_users_from_login FROM media_server")
-            ).scalar()
-        assert hidden == 1
-
-        downgrade(revision=f"{REVISION}-1")
-        with engine.connect() as conn:
-            columns = {
-                row[1] for row in conn.execute(text("PRAGMA table_info(media_server)"))
-            }
-        assert "hide_users_from_login" not in columns
+        yield engine
     engine.dispose()
 
 
-def test_migration_keeps_rows_that_reference_the_server(tmp_path):
+def test_migration_keeps_existing_servers_hidden(engine):
+    with engine.begin() as conn:
+        conn.execute(
+            text(
+                "INSERT INTO media_server (name, server_type, url, verified,"
+                " allow_downloads, allow_live_tv, allow_mobile_uploads, created_at)"
+                " VALUES ('JF', 'jellyfin', 'http://jf', 1, 0, 0, 0, '2026-01-01')"
+            )
+        )
+
+    upgrade(revision=REVISION)
+    with engine.connect() as conn:
+        hidden = conn.execute(
+            text("SELECT hide_users_from_login FROM media_server")
+        ).scalar()
+    assert hidden == 1
+
+    downgrade(revision=f"{REVISION}-1")
+    with engine.connect() as conn:
+        columns = {
+            row[1] for row in conn.execute(text("PRAGMA table_info(media_server)"))
+        }
+    assert "hide_users_from_login" not in columns
+
+
+def test_migration_keeps_rows_that_reference_the_server(engine):
     """A rebuild of media_server deletes child rows through ON DELETE CASCADE."""
-    db_url = f"sqlite:///{tmp_path / 'migration.db'}"
-
-    class Config(BaseConfig):
-        TESTING = True
-        SQLALCHEMY_DATABASE_URI = db_url
-
-    app = create_app(Config)  # type: ignore[arg-type]
-    engine = create_engine(db_url)
     child_rows = text(
         'SELECT (SELECT count(*) FROM library), (SELECT count(*) FROM "user"),'
         " (SELECT count(*) FROM invitation_server),"
         " (SELECT server_id FROM invitation)"
     )
-    with app.app_context():
-        upgrade(revision=f"{REVISION}-1")
-        with engine.begin() as conn:
-            conn.execute(
-                text(
-                    "INSERT INTO media_server (id, name, server_type, url, verified,"
-                    " allow_downloads, allow_live_tv, allow_mobile_uploads, created_at)"
-                    " VALUES (1, 'JF', 'jellyfin', 'http://jf', 1, 0, 0, 0, '2026-01-01')"
-                )
+    with engine.begin() as conn:
+        conn.execute(
+            text(
+                "INSERT INTO media_server (id, name, server_type, url, verified,"
+                " allow_downloads, allow_live_tv, allow_mobile_uploads, created_at)"
+                " VALUES (1, 'JF', 'jellyfin', 'http://jf', 1, 0, 0, 0, '2026-01-01')"
             )
-            conn.execute(
-                text(
-                    "INSERT INTO library (external_id, name, enabled, server_id)"
-                    " VALUES ('L1', 'Movies', 1, 1)"
-                )
+        )
+        conn.execute(
+            text(
+                "INSERT INTO library (external_id, name, enabled, server_id)"
+                " VALUES ('L1', 'Movies', 1, 1)"
             )
-            conn.execute(
-                text(
-                    'INSERT INTO "user" (token, username, code, server_id)'
-                    " VALUES ('t1', 'alice', 'c1', 1)"
-                )
+        )
+        conn.execute(
+            text(
+                'INSERT INTO "user" (token, username, code, server_id)'
+                " VALUES ('t1', 'alice', 'c1', 1)"
             )
-            conn.execute(
-                text(
-                    "INSERT INTO invitation (id, code, used, created, server_id)"
-                    " VALUES (1, 'INV1', 0, '2026-01-01', 1)"
-                )
+        )
+        conn.execute(
+            text(
+                "INSERT INTO invitation (id, code, used, created, server_id)"
+                " VALUES (1, 'INV1', 0, '2026-01-01', 1)"
             )
-            conn.execute(
-                text(
-                    "INSERT INTO invitation_server (invite_id, server_id, used)"
-                    " VALUES (1, 1, 0)"
-                )
+        )
+        conn.execute(
+            text(
+                "INSERT INTO invitation_server (invite_id, server_id, used)"
+                " VALUES (1, 1, 0)"
             )
-            # A failed run of the first version of this migration left this table.
-            conn.execute(text("CREATE TABLE _alembic_tmp_media_server (id INTEGER)"))
+        )
+        # A failed run of the first version of this migration left this table.
+        conn.execute(text("CREATE TABLE _alembic_tmp_media_server (id INTEGER)"))
 
-        upgrade(revision=REVISION)
-        with engine.connect() as conn:
-            assert conn.execute(child_rows).one() == (1, 1, 1, 1)
-            leftover = conn.execute(
-                text(
-                    "SELECT name FROM sqlite_master"
-                    " WHERE name = '_alembic_tmp_media_server'"
-                )
-            ).first()
-            assert leftover is None
-
-        downgrade(revision=f"{REVISION}-1")
-        with engine.connect() as conn:
-            assert conn.execute(child_rows).one() == (1, 1, 1, 1)
-    engine.dispose()
-
-
-def test_migration_skips_a_column_that_an_admin_added_by_hand(tmp_path):
-    db_url = f"sqlite:///{tmp_path / 'migration.db'}"
-
-    class Config(BaseConfig):
-        TESTING = True
-        SQLALCHEMY_DATABASE_URI = db_url
-
-    app = create_app(Config)  # type: ignore[arg-type]
-    engine = create_engine(db_url)
-    with app.app_context():
-        upgrade(revision=f"{REVISION}-1")
-        with engine.begin() as conn:
-            conn.execute(
-                text(
-                    "ALTER TABLE media_server"
-                    " ADD COLUMN hide_users_from_login BOOLEAN DEFAULT 1 NOT NULL"
-                )
+    upgrade(revision=REVISION)
+    with engine.connect() as conn:
+        assert conn.execute(child_rows).one() == (1, 1, 1, 1)
+        leftover = conn.execute(
+            text(
+                "SELECT name FROM sqlite_master"
+                " WHERE name = '_alembic_tmp_media_server'"
             )
+        ).first()
+        assert leftover is None
 
-        upgrade(revision=REVISION)
-        with engine.connect() as conn:
-            version = conn.execute(text("SELECT version_num FROM alembic_version"))
-            assert version.scalar() == REVISION
-    engine.dispose()
+    downgrade(revision=f"{REVISION}-1")
+    with engine.connect() as conn:
+        assert conn.execute(child_rows).one() == (1, 1, 1, 1)
+
+
+def test_migration_skips_a_column_that_an_admin_added_by_hand(engine):
+    with engine.begin() as conn:
+        conn.execute(
+            text(
+                "ALTER TABLE media_server"
+                " ADD COLUMN hide_users_from_login BOOLEAN DEFAULT 1 NOT NULL"
+            )
+        )
+
+    upgrade(revision=REVISION)
+    with engine.connect() as conn:
+        version = conn.execute(text("SELECT version_num FROM alembic_version"))
+        assert version.scalar() == REVISION

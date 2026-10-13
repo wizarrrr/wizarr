@@ -2,13 +2,12 @@
 
 import gzip
 import hashlib
+import re
 from pathlib import Path
 
 import pytest
 from flask import url_for
 
-from app.extensions import db
-from app.models import AdminAccount
 from app.static_assets import IMMUTABLE_MAX_AGE, StaticFileHashes
 
 STATIC_DIR = Path(__file__).resolve().parents[1] / "app" / "static"
@@ -22,22 +21,6 @@ def _expected_hash(relative_path: str) -> str:
 def _versioned_url(app, filename: str) -> str:
     with app.test_request_context():
         return url_for("static", filename=filename, v="dev")
-
-
-@pytest.fixture
-def admin_client(client, app):
-    """A test client logged in as an admin account."""
-    with app.app_context():
-        if AdminAccount.query.filter_by(username="static-admin").first() is None:
-            account = AdminAccount(username="static-admin")
-            account.set_password("Password1")
-            db.session.add(account)
-            db.session.commit()
-    response = client.post(
-        "/login", data={"username": "static-admin", "password": "Password1"}
-    )
-    assert response.status_code in {302, 303}
-    return client
 
 
 def test_static_url_uses_content_hash(app):
@@ -179,7 +162,11 @@ def test_public_page_does_not_load_admin_libraries(client):
     assert "inapp-spy.min.js" in body
     # The public wizard needs wizard-steps.js for the interaction gating.
     assert "wizard-steps.js" in body
-    assert '<script defer\n            src="/static/js/vendor/htmx.min.js' in body
+    htmx_tag = re.search(
+        r'<script\b[^>]*\bsrc="/static/js/vendor/htmx\.min\.js[^>]*>', body
+    )
+    assert htmx_tag is not None
+    assert re.search(r"\bdefer\b", htmx_tag.group(0))
 
 
 def test_admin_layout_loads_editor_libraries(admin_client):

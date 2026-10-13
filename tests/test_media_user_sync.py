@@ -15,7 +15,7 @@ import pytest
 from sqlalchemy import event
 
 from app.extensions import db
-from app.models import AdminAccount, ApiKey, Library, MediaServer, Settings, User
+from app.models import ApiKey, Library, MediaServer, User
 from app.services.media import service
 from app.services.media.audiobookshelf import AudiobookshelfClient
 from app.services.media.drop import DropClient
@@ -432,18 +432,13 @@ def test_concurrent_callers_sync_a_server_once(
 
 
 @pytest.fixture
-def api_key(session):
-    admin = AdminAccount(username="testadmin")
-    admin.set_password("testpass")
-    session.add(admin)
-    session.add(Settings(key="admin_username", value="testadmin"))
-    session.commit()
+def api_key(session, admin_user):
     raw_key = "sync_test_api_key"
     session.add(
         ApiKey(
             name="Sync test key",
             key_hash=hashlib.sha256(raw_key.encode()).hexdigest(),
-            created_by_id=admin.id,
+            created_by_id=admin_user.id,
             is_active=True,
         )
     )

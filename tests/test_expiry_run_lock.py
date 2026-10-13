@@ -1,36 +1,14 @@
-import datetime
 import os
 import threading
 from unittest.mock import Mock
 
 import pytest
 
-from app.models import ExpiredUser, MediaServer, Settings, User
+from app.models import ExpiredUser
 from app.services import expiry
+from tests.expiry_helpers import add_expired_users
 
 fcntl = pytest.importorskip("fcntl")
-
-
-def _setup_expired_jellyfin_user(session) -> int:
-    server = MediaServer(
-        name="Jellyfin",
-        server_type="jellyfin",
-        url="http://jellyfin.example.com",
-        api_key="test-key",
-    )
-    session.add(server)
-    session.flush()
-    user = User(
-        token="expired-user-token",
-        username="expired-user",
-        email="expired@example.com",
-        code="EXPIRED",
-        expires=datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=1),
-        server_id=server.id,
-    )
-    session.add_all([user, Settings(key="expiry_action", value="disable")])
-    session.commit()
-    return user.id
 
 
 @pytest.fixture
@@ -43,7 +21,7 @@ def test_second_process_run_does_nothing_while_lock_is_held(
     app, session, monkeypatch, lock_dir
 ):
     with app.app_context():
-        _setup_expired_jellyfin_user(session)
+        add_expired_users(session, action="disable")
         disable_user = Mock(return_value=True)
         monkeypatch.setattr(expiry, "disable_user", disable_user)
         monkeypatch.setattr(expiry.time, "sleep", lambda _seconds: None)
@@ -65,7 +43,7 @@ def test_run_in_other_thread_does_nothing_while_run_is_active(
     app, session, monkeypatch, lock_dir
 ):
     with app.app_context():
-        user_id = _setup_expired_jellyfin_user(session)
+        user_id = add_expired_users(session, action="disable")[0]
         monkeypatch.setattr(expiry.time, "sleep", lambda _seconds: None)
 
         second_result: list[list[int]] = []
@@ -90,7 +68,7 @@ def test_run_in_other_thread_does_nothing_while_run_is_active(
 
 def test_lock_is_released_after_a_run(app, session, monkeypatch, lock_dir):
     with app.app_context():
-        user_id = _setup_expired_jellyfin_user(session)
+        user_id = add_expired_users(session, action="disable")[0]
         monkeypatch.setattr(expiry, "disable_user", Mock(return_value=True))
         monkeypatch.setattr(expiry.time, "sleep", lambda _seconds: None)
 

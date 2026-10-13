@@ -4,8 +4,10 @@ All network calls are fakes. The tests count the calls that the Plex client
 makes, so a change that adds calls for each user or each request fails here.
 """
 
+import gc
 import json
 import re
+import weakref
 from types import SimpleNamespace
 from typing import ClassVar
 from unittest.mock import Mock
@@ -25,15 +27,10 @@ from app.services.media import plex as plex_module
 from app.services.media.client_base import get_http_session
 from app.services.media.plex import PlexClient
 
+pytestmark = pytest.mark.usefixtures("clear_media_caches")
+
 MACHINE_ID = "machine-1"
 ADMIN_TOKEN = "plex-admin-token"  # test fixture, not a real credential
-
-
-@pytest.fixture(autouse=True)
-def _clear_plex_caches():
-    plex_module.clear_plex_connection_cache()
-    yield
-    plex_module.clear_plex_connection_cache()
 
 
 class FakePlexServer:
@@ -398,11 +395,17 @@ def test_sync_does_not_query_the_database_per_remote_user(app, plex_row):
     assert User.query.filter_by(server_id=plex_row.id).count() == 5
 
 
-def test_list_users_has_no_per_instance_cache():
+def test_list_users_does_not_keep_the_client_alive(plex_row):
     # The old @cached key was the client object, so it never hit and kept
     # up to 1024 clients (and their sockets) alive.
-    assert not hasattr(PlexClient.list_users, "cache")
-    assert not hasattr(PlexClient.list_users, "__wrapped__")
+    client, _admin = _sync_client(plex_row, [], lambda *a, **k: _JsonResponse([]))
+    client.list_users()
+    client_ref = weakref.ref(client)
+
+    del client
+    gc.collect()
+
+    assert client_ref() is None
 
 
 # ─── Delete ─────────────────────────────────────────────────────────────────
@@ -507,13 +510,6 @@ class _ImageResponse:
 def test_posters_use_the_photo_transcoder_and_the_proxy_can_fetch_them(
     app, client, plex_row, monkeypatch
 ):
-    for cache in (
-        ImageProxyService._token_cache,
-        ImageProxyService._server_url_cache,
-        ImageProxyService._server_header_cache,
-    ):
-        cache.clear()
-
     plex_client = PlexClient(media_server=plex_row)
     fake_server = FakePlexServer(plex_row.url, plex_row.api_key)
     fake_server.library = SimpleNamespace(sections=lambda: [_FakeMovieSection()])

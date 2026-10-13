@@ -2,18 +2,13 @@
 Retention cleanup, backfill, job registration and historical import batching.
 """
 
-from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
-
-import pytest
-from sqlalchemy import event
 
 from app.extensions import db
 from app.models import (
     ActivitySession,
     ActivitySnapshot,
     Identity,
-    MediaServer,
     User,
 )
 from app.services.activity.ingestion import KEEPALIVE_INTERVAL
@@ -23,57 +18,7 @@ from app.services.activity.maintenance import (
 )
 from app.services.historical import HistoricalDataService
 from app.tasks.activity import register_activity_tasks
-
-
-@contextmanager
-def count_commits(app):
-    record = {"commits": 0, "statements": []}
-
-    def on_commit(conn):
-        record["commits"] += 1
-
-    def before_cursor_execute(conn, cursor, statement, params, context, many):
-        record["statements"].append(statement)
-
-    engine = db.engine
-    event.listen(engine, "commit", on_commit)
-    event.listen(engine, "before_cursor_execute", before_cursor_execute)
-    try:
-        yield record
-    finally:
-        event.remove(engine, "commit", on_commit)
-        event.remove(engine, "before_cursor_execute", before_cursor_execute)
-
-
-@pytest.fixture
-def server(app, session):
-    server = MediaServer(
-        name="Maintenance Server",
-        server_type="plex",
-        url="http://localhost:32400",
-        api_key="key",
-        verified=True,
-    )
-    session.add(server)
-    session.commit()
-    yield server
-    session.rollback()
-    session.execute(db.text("DELETE FROM activity_snapshot"))
-    session.query(ActivitySession).delete()
-    session.query(User).delete()
-    session.query(Identity).delete()
-    session.commit()
-
-
-def add_session(server_id, session_id, started_at, **values):
-    defaults = {"user_name": "alice", "media_title": "Movie", "active": False}
-    defaults.update(values)
-    row = ActivitySession(
-        server_id=server_id, session_id=session_id, started_at=started_at, **defaults
-    )
-    db.session.add(row)
-    db.session.flush()
-    return row
+from tests.activity.conftest import add_session, count_sql, set_updated_at
 
 
 def test_cleanup_deletes_in_batches(app, server):
@@ -88,7 +33,7 @@ def test_cleanup_deletes_in_batches(app, server):
         db.session.commit()
         recent_id = recent.id
 
-        with count_commits(app) as record:
+        with count_sql() as record:
             deleted = ActivityMaintenanceService().cleanup_old_activity(
                 retention_days=90, batch_size=2
             )
@@ -120,12 +65,16 @@ def test_backfill_sets_reference_and_user_links(app, server):
         owner = add_session(server.id, "s3", datetime.now(UTC), user_name="owner")
         db.session.commit()
         ids = [first.id, second.id, owner.id]
+        # Rows from before the backfill have no reference_id.
         db.session.execute(
-            db.text("UPDATE activity_session SET updated_at = '2025-01-01 12:00:00'")
+            db.text(
+                "UPDATE activity_session"
+                " SET reference_id = NULL, updated_at = '2025-01-01 12:00:00'"
+            )
         )
         db.session.commit()
 
-        with count_commits(app) as record:
+        with count_sql() as record:
             ActivityMaintenanceService().backfill_session_links()
 
         # One identity lookup for each distinct user name, not for each row.
@@ -203,12 +152,8 @@ def test_startup_recovery_keeps_sessions_inside_the_keepalive_margin(
         # Last keepalive write 30 min before the stop, then 35 min of restart.
         paused_write = now - (KEEPALIVE_INTERVAL + timedelta(minutes=35))
         gone_write = now - STARTUP_RECOVERY_CUTOFF - timedelta(minutes=1)
-        for row_id, value in ((paused_id, paused_write), (gone_id, gone_write)):
-            db.session.execute(
-                db.text("UPDATE activity_session SET updated_at = :v WHERE id = :id"),
-                {"v": value.strftime("%Y-%m-%d %H:%M:%S.%f"), "id": row_id},
-            )
-        db.session.commit()
+        set_updated_at(paused_id, paused_write)
+        set_updated_at(gone_id, gone_write)
 
         ended = ActivityMaintenanceService().recover_sessions_on_startup()
 
@@ -240,7 +185,7 @@ def test_historical_import_stores_in_batches(app, server):
         # A duplicate inside the same import.
         rows.append(make_import_row(server.id, 3))
 
-        with count_commits(app) as record:
+        with count_sql() as record:
             stored = service._store_activity_sessions(rows, batch_size=3)
 
         assert stored == 6

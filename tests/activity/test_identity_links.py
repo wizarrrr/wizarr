@@ -14,43 +14,12 @@ import pytest
 from sqlalchemy import delete
 
 from app.extensions import db
-from app.models import ActivitySession, Identity, MediaServer, User
+from app.models import ActivitySession, Identity, User
 from app.services.activity import identity_resolution, ingestion
 from app.services.activity.identity_resolution import resolve_user_identity_cached
-from app.services.activity.ingestion import ActivityIngestionService
-from tests.activity.test_ingestion_writes import (
-    count_sql,
-    make_event,
-    set_updated_at,
-    user_queries,
-)
+from tests.activity.conftest import count_sql, make_event, set_updated_at, user_queries
 
 _numbers = count(1)
-
-
-@pytest.fixture
-def server(app, session):
-    server = MediaServer(
-        name="Identity Server",
-        server_type="jellyfin",
-        url="http://localhost:8096",
-        api_key="key",
-        verified=True,
-    )
-    session.add(server)
-    session.commit()
-    yield server
-    session.rollback()
-    session.execute(db.text("DELETE FROM activity_snapshot"))
-    session.query(ActivitySession).delete()
-    session.query(User).delete()
-    session.query(Identity).delete()
-    session.commit()
-
-
-@pytest.fixture
-def service():
-    return ActivityIngestionService()
 
 
 def add_user(server_id, username, **values):
@@ -133,7 +102,7 @@ def test_other_user_changes_keep_cache(app, server):
         user.expires = datetime.now(UTC) + timedelta(days=30)
         db.session.commit()
 
-        with count_sql(app) as record:
+        with count_sql() as record:
             assert cached_user_id(server.id, "bob") == user_id
         assert user_queries(record) == []
 

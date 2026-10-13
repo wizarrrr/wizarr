@@ -10,7 +10,7 @@ import datetime
 import pytest
 
 from app.extensions import db
-from app.models import AdminAccount, Invitation, MediaServer, Settings
+from app.models import Invitation, MediaServer, Settings
 
 
 class PosterClient:
@@ -129,25 +129,16 @@ def test_cache_is_kept_per_server(client, session, contacted):
     assert _get(client) == ["poster-from-Shared"]
 
 
-def _login(client):
-    admin = AdminAccount(username="testadmin")
-    admin.set_password("TestPass123")
-    db.session.add(admin)
-    db.session.commit()
-    client.post("/login", data={"username": "testadmin", "password": "TestPass123"})
-
-
-def test_settings_page_offers_and_saves_the_choice(client, session):
+def test_settings_page_offers_and_saves_the_choice(admin_client):
     _family, shared, _books = _servers()
-    _login(client)
 
-    page = client.get("/settings/general", headers={"HX-Request": "true"})
+    page = admin_client.get("/settings/general", headers={"HX-Request": "true"})
     body = page.get_data(as_text=True)
     assert 'name="cinema_posters_source"' in body
     assert 'value="invite"' in body
     assert f'value="{shared.id}"' in body
 
-    client.post(
+    admin_client.post(
         "/settings/general",
         data={
             "server_name": "Wizarr",

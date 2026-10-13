@@ -8,28 +8,22 @@ import hashlib
 import pytest
 
 from app.context_processors import inject_app_version
-from app.extensions import db
-from app.models import AdminAccount, ApiKey
+from app.models import ApiKey
 
 RAW_KEY = "version-api-test-key"
 
 
 @pytest.fixture
-def api_key(app, session):
-    with app.app_context():
-        admin = AdminAccount(username="version-admin")
-        admin.set_password("Password1")
-        db.session.add(admin)
-        db.session.flush()
-        db.session.add(
-            ApiKey(
-                name="version",
-                key_hash=hashlib.sha256(RAW_KEY.encode()).hexdigest(),
-                created_by_id=admin.id,
-                is_active=True,
-            )
+def api_key(session, admin_user):
+    session.add(
+        ApiKey(
+            name="version",
+            key_hash=hashlib.sha256(RAW_KEY.encode()).hexdigest(),
+            created_by_id=admin_user.id,
+            is_active=True,
         )
-        db.session.commit()
+    )
+    session.commit()
     return RAW_KEY
 
 

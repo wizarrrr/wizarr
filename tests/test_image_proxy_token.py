@@ -7,7 +7,6 @@ disclose the media server's admin credentials or the internal upstream URL.
 
 import base64
 import json
-from typing import ClassVar
 from urllib.parse import unquote_plus
 
 import pytest
@@ -18,12 +17,16 @@ from app.services.image_proxy import ImageProxyService
 from app.services.media.emby import EmbyClient
 from app.services.media.jellyfin import JellyfinClient
 
+pytestmark = pytest.mark.usefixtures("clear_media_caches")
+
 PLEX_TOKEN = "sUpErSeCrEtAdM1nT0k3n"  # test fixture, not a real credential
 POSTER_URL = (
     "http://plex.internal:32400/library/metadata/12345/thumb/1700000000"
     f"?X-Plex-Token={PLEX_TOKEN}"
 )
 POSTER_URL_CLEAN = "http://plex.internal:32400/library/metadata/12345/thumb/1700000000"
+THUMB_URL = "http://plex.internal:32400/thumb.jpg"
+JPEG = b"\xff\xd8\xff\xe0-jpeg-bytes"
 
 
 def _decode(token: str) -> bytes:
@@ -40,22 +43,77 @@ class _FrozenTime:
         return self.current
 
 
-@pytest.fixture(autouse=True)
-def _clear_caches():
-    """validate_token() short-circuits on the token cache, so isolate every test."""
-    ImageProxyService._token_cache.clear()
-    ImageProxyService._image_cache.clear()
-    ImageProxyService._total_image_bytes = 0
-    ImageProxyService._cipher_key_cache.clear()
-    ImageProxyService._server_url_cache.clear()
-    ImageProxyService._server_header_cache.clear()
-    yield
-    ImageProxyService._token_cache.clear()
-    ImageProxyService._image_cache.clear()
-    ImageProxyService._total_image_bytes = 0
-    ImageProxyService._cipher_key_cache.clear()
-    ImageProxyService._server_url_cache.clear()
-    ImageProxyService._server_header_cache.clear()
+def _server(
+    session,
+    server_type="plex",
+    url="http://plex.internal:32400",
+    api_key=PLEX_TOKEN,
+):
+    from app.models import MediaServer
+
+    server = MediaServer(
+        name=server_type, server_type=server_type, url=url, api_key=api_key
+    )
+    session.add(server)
+    session.commit()
+    return server
+
+
+class _FakeUpstream:
+    """A fake upstream session and response for the /image-proxy route.
+
+    The fake records the request and counts the body chunks that the route reads.
+    """
+
+    def __init__(self):
+        self.status_code = 200
+        self.headers = CaseInsensitiveDict({"Content-Type": "image/jpeg"})
+        self.chunks = [JPEG]
+        self.pulled = 0
+        self.closed = False
+        self.url = None
+        self.request_headers = None
+        self.kwargs = None
+
+    def get(self, url, headers=None, timeout=None, **kwargs):
+        self.url = url
+        self.request_headers = headers or {}
+        self.kwargs = kwargs
+        return self
+
+    def raise_for_status(self):
+        return None  # requests does not raise on 2xx or 3xx
+
+    def iter_content(self, chunk_size):
+        for chunk in self.chunks:
+            self.pulled += 1
+            yield chunk
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        self.closed = True
+        return False
+
+
+@pytest.fixture
+def upstream(monkeypatch):
+    """Send each upstream fetch of the proxy to one _FakeUpstream."""
+    fake = _FakeUpstream()
+    monkeypatch.setattr(
+        ImageProxyService,
+        "get_session",
+        classmethod(lambda cls, url, server_id: fake),
+    )
+    return fake
+
+
+def _fetch(app, client, url, server_id=None):
+    """Make a token for url and request it through /image-proxy."""
+    with app.app_context():
+        token = ImageProxyService.generate_token(url, server_id=server_id)
+    return client.get(f"/image-proxy?token={token}")
 
 
 # ─── Confidentiality ────────────────────────────────────────────────────────
@@ -89,16 +147,7 @@ def test_token_does_not_disclose_admin_token(app):
     ],
 )
 def test_known_credential_params_are_stripped(app, session, param):
-    from app.models import MediaServer
-
-    server = MediaServer(
-        name="Media",
-        server_type="jellyfin",
-        url="http://media.internal:8096",
-        api_key="SECRETVALUE",
-    )
-    session.add(server)
-    session.commit()
+    server = _server(session, "jellyfin", "http://media.internal:8096", "SECRETVALUE")
 
     url = f"http://media.internal:8096/Items/1/Images/Primary?{param}=SECRETVALUE&maxWidth=300"
 
@@ -114,16 +163,7 @@ def test_known_credential_params_are_stripped(app, session, param):
 
 
 def test_userinfo_credentials_are_stripped(app, session):
-    from app.models import MediaServer
-
-    server = MediaServer(
-        name="Plex",
-        server_type="plex",
-        url="http://admin:hunter2@plex.internal:32400",
-        api_key="key",
-    )
-    session.add(server)
-    session.commit()
+    server = _server(session, url="http://admin:hunter2@plex.internal:32400")
 
     with app.app_context():
         token = ImageProxyService.generate_token(
@@ -134,7 +174,7 @@ def test_userinfo_credentials_are_stripped(app, session):
         mapping = ImageProxyService.validate_token(token)
 
     assert mapping is not None
-    assert mapping["url"] == "http://plex.internal:32400/thumb.jpg"
+    assert mapping["url"] == THUMB_URL
 
 
 def test_url_kept_without_server_id_but_still_opaque(app):
@@ -156,16 +196,7 @@ def test_url_kept_without_server_id_but_still_opaque(app):
 
 
 def test_round_trip(app, session):
-    from app.models import MediaServer
-
-    server = MediaServer(
-        name="Plex",
-        server_type="plex",
-        url="http://plex.internal:32400",
-        api_key=PLEX_TOKEN,
-    )
-    session.add(server)
-    session.commit()
+    server = _server(session)
 
     with app.app_context():
         token = ImageProxyService.generate_token(POSTER_URL, server_id=server.id)
@@ -202,34 +233,19 @@ def test_hand_crafted_payload_rejected(app):
         assert ImageProxyService.validate_token(forged) is None
 
 
-def test_token_from_a_different_secret_rejected(app):
-    with app.app_context():
-        token = ImageProxyService.generate_token(POSTER_URL, server_id=1)
-
-    ImageProxyService._token_cache.clear()
-    ImageProxyService._cipher_key_cache.clear()
-
-    original = app.config["SECRET_KEY"]
-    app.config["SECRET_KEY"] = "a-completely-different-secret"
-    try:
-        with app.app_context():
-            assert ImageProxyService.validate_token(token) is None
-    finally:
-        app.config["SECRET_KEY"] = original
-
-
-def test_token_cache_does_not_bypass_secret_rotation(app):
+@pytest.mark.parametrize("cached", [False, True], ids=["cold-cache", "warm-cache"])
+def test_token_from_a_different_secret_rejected(app, monkeypatch, cached):
     """A cached mapping belongs to the key that authenticated its token."""
     with app.app_context():
         token = ImageProxyService.generate_token(POSTER_URL, server_id=1)
 
-    original = app.config["SECRET_KEY"]
-    app.config["SECRET_KEY"] = "a-completely-different-secret"
-    try:
-        with app.app_context():
-            assert ImageProxyService.validate_token(token) is None
-    finally:
-        app.config["SECRET_KEY"] = original
+    if not cached:
+        ImageProxyService._token_cache.clear()
+        ImageProxyService._cipher_key_cache.clear()
+
+    monkeypatch.setitem(app.config, "SECRET_KEY", "a-completely-different-secret")
+    with app.app_context():
+        assert ImageProxyService.validate_token(token) is None
 
 
 @pytest.mark.parametrize("token", ["", "not-a-token", "a.b", "AAAA"])
@@ -257,15 +273,9 @@ def test_expired_token_rejected(app, monkeypatch):
 
     ImageProxyService._token_cache.clear()
 
-    real_time = image_proxy_module.time.time
     skew = ImageProxyService.TOKEN_EXPIRY + ImageProxyService.TOKEN_BUCKET_SECONDS
-
-    class _LaterTime:
-        @staticmethod
-        def time():
-            return real_time() + skew
-
-    monkeypatch.setattr(image_proxy_module, "time", _LaterTime)
+    later = _FrozenTime(image_proxy_module.time.time() + skew)
+    monkeypatch.setattr(image_proxy_module, "time", later)
 
     with app.app_context():
         assert ImageProxyService.validate_token(token) is None
@@ -306,6 +316,12 @@ def test_cache_does_not_extend_token_lifetime(app, monkeypatch):
         assert ImageProxyService.validate_token(token) is None
 
 
+def _cache_poster(data=b"cached-image"):
+    ImageProxyService.cache_image(
+        ImageProxyService.image_cache_key(None, POSTER_URL), data, "image/jpeg"
+    )
+
+
 def test_cached_image_does_not_outlive_token_bucket(app, client, monkeypatch):
     """An image-cache hit must still reject its expired access token."""
     start = 1_800_000_000.0  # Exact hourly bucket boundary
@@ -316,7 +332,8 @@ def test_cached_image_does_not_outlive_token_bucket(app, client, monkeypatch):
         token = ImageProxyService.generate_token(POSTER_URL, server_id=None)
 
     clock.current = start + ImageProxyService.TOKEN_EXPIRY - 60
-    ImageProxyService.cache_image(token, b"cached-image", "image/jpeg")
+    _cache_poster()
+    assert client.get(f"/image-proxy?token={token}").data == b"cached-image"
 
     # The image itself is fresh, but its token is just over 24 hours old.
     clock.current = start + ImageProxyService.TOKEN_EXPIRY + 1
@@ -325,208 +342,78 @@ def test_cached_image_does_not_outlive_token_bucket(app, client, monkeypatch):
     assert response.status_code == 403
 
 
-def test_cached_image_fails_closed_without_secret(app, client):
+def test_cached_image_fails_closed_without_secret(app, client, monkeypatch):
     """An image-cache hit cannot bypass SECRET_KEY validation."""
     with app.app_context():
         token = ImageProxyService.generate_token(POSTER_URL, server_id=None)
-    ImageProxyService.cache_image(token, b"cached-image", "image/jpeg")
+    _cache_poster()
+    assert client.get(f"/image-proxy?token={token}").data == b"cached-image"
 
-    original = app.config["SECRET_KEY"]
-    app.config["SECRET_KEY"] = ""
-    try:
-        response = client.get(f"/image-proxy?token={token}")
-        assert response.status_code == 502
-    finally:
-        app.config["SECRET_KEY"] = original
+    monkeypatch.setitem(app.config, "SECRET_KEY", "")
+    response = client.get(f"/image-proxy?token={token}")
+
+    assert response.status_code == 502
 
 
 # ─── End-to-end through the /image-proxy route ──────────────────────────────
 
 
-def test_proxy_reattaches_credentials_server_side(app, client, session, monkeypatch):
+def test_proxy_reattaches_credentials_server_side(app, client, session, upstream):
     """The stripped credential must come back as a header on the upstream request.
 
     This is what keeps artwork rendering after the token is removed from the URL.
     """
-    from app.models import MediaServer
+    server = _server(session)
 
-    server = MediaServer(
-        name="Plex",
-        server_type="plex",
-        url="http://plex.internal:32400",
-        api_key=PLEX_TOKEN,
-    )
-    session.add(server)
-    session.commit()
-
-    ImageProxyService._server_header_cache.clear()
-
-    captured = {}
-
-    class _FakeResponse:
-        status_code = 200
-        headers: ClassVar = {"Content-Type": "image/jpeg"}
-        content = b"\xff\xd8\xff\xe0-jpeg-bytes"
-
-        def raise_for_status(self):
-            return None
-
-        def iter_content(self, chunk_size):
-            yield self.content
-
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *exc):
-            return False
-
-    class _FakeSession:
-        def get(self, url, headers=None, timeout=None, **kwargs):
-            captured["url"] = url
-            captured["headers"] = headers or {}
-            captured["kwargs"] = kwargs
-            return _FakeResponse()
-
-    monkeypatch.setattr(
-        ImageProxyService,
-        "get_session",
-        classmethod(lambda cls, url, server_id: _FakeSession()),
-    )
-
-    with app.app_context():
-        token = ImageProxyService.generate_token(POSTER_URL, server_id=server.id)
-
-    resp = client.get(f"/image-proxy?token={token}")
+    resp = _fetch(app, client, POSTER_URL, server.id)
 
     assert resp.status_code == 200
-    assert resp.data == _FakeResponse.content
+    assert resp.data == JPEG
 
     # The credential was stripped from the URL...
-    assert "X-Plex-Token" not in captured["url"]
-    assert PLEX_TOKEN not in captured["url"]
+    assert "X-Plex-Token" not in upstream.url
+    assert PLEX_TOKEN not in upstream.url
     # ...and re-attached as a header from the MediaServer row
-    assert captured["headers"].get("X-Plex-Token") == PLEX_TOKEN
+    assert upstream.request_headers.get("X-Plex-Token") == PLEX_TOKEN
     # Hardening: the proxied fetch does not follow redirects.
-    assert captured["kwargs"].get("allow_redirects") is False
+    assert upstream.kwargs.get("allow_redirects") is False
     # Hardening: upstream-controlled Content-Type on a public, cacheable route
     # must forbid MIME sniffing.
     assert resp.headers.get("X-Content-Type-Options") == "nosniff"
 
 
 def test_proxy_does_not_send_media_credentials_to_foreign_origin(
-    app, client, session, monkeypatch
+    app, client, session, upstream
 ):
     """External artwork may keep its own query auth but gets no media-server key."""
-    from app.models import MediaServer
-
-    server = MediaServer(
-        name="Audiobookshelf",
-        server_type="audiobookshelf",
-        url="http://abs.internal:13378",
-        api_key="ABS-ADMIN-KEY",
+    server = _server(
+        session, "audiobookshelf", "http://abs.internal:13378", "ABS-ADMIN-KEY"
     )
-    session.add(server)
-    session.commit()
-
     external_url = "https://cdn.example.com/cover.jpg?token=CDN-SIGNATURE"
-    captured = {}
 
-    class _FakeResponse:
-        status_code = 200
-        headers: ClassVar = {"Content-Type": "image/jpeg"}
-
-        def raise_for_status(self):
-            return None
-
-        def iter_content(self, chunk_size):
-            yield b"image"
-
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *exc):
-            return False
-
-    class _FakeSession:
-        def get(self, url, headers=None, timeout=None, **kwargs):
-            captured["url"] = url
-            captured["headers"] = headers or {}
-            return _FakeResponse()
-
-    monkeypatch.setattr(
-        ImageProxyService,
-        "get_session",
-        classmethod(lambda cls, url, server_id: _FakeSession()),
-    )
-
-    with app.app_context():
-        token = ImageProxyService.generate_token(external_url, server_id=server.id)
-
-    response = client.get(f"/image-proxy?token={token}")
+    response = _fetch(app, client, external_url, server.id)
 
     assert response.status_code == 200
-    assert captured["url"] == external_url
-    assert "Authorization" not in captured["headers"]
+    assert upstream.url == external_url
+    assert upstream.request_headers == {}
 
 
-def test_proxy_reconstructs_configured_basic_auth(app, client, session, monkeypatch):
+def test_proxy_reconstructs_configured_basic_auth(app, client, session, upstream):
     """Stripped URL userinfo is restored as server-side Basic authentication."""
-    from app.models import MediaServer
-
-    server = MediaServer(
-        name="Plex behind Basic Auth",
-        server_type="plex",
-        url="http://proxy-user:proxy-pass@plex.internal:32400",
-        api_key=PLEX_TOKEN,
-    )
-    session.add(server)
-    session.commit()
-
+    server = _server(session, url="http://proxy-user:proxy-pass@plex.internal:32400")
     upstream_url = (
         "http://proxy-user:proxy-pass@plex.internal:32400/thumb.jpg"
         f"?X-Plex-Token={PLEX_TOKEN}"
     )
-    captured = {}
 
-    class _FakeResponse:
-        status_code = 200
-        headers: ClassVar = {"Content-Type": "image/jpeg"}
-
-        def raise_for_status(self):
-            return None
-
-        def iter_content(self, chunk_size):
-            yield b"image"
-
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *exc):
-            return False
-
-    class _FakeSession:
-        def get(self, url, headers=None, timeout=None, **kwargs):
-            captured["url"] = url
-            captured["headers"] = headers or {}
-            return _FakeResponse()
-
-    monkeypatch.setattr(
-        ImageProxyService,
-        "get_session",
-        classmethod(lambda cls, url, server_id: _FakeSession()),
-    )
-
-    with app.app_context():
-        token = ImageProxyService.generate_token(upstream_url, server_id=server.id)
-
-    response = client.get(f"/image-proxy?token={token}")
+    response = _fetch(app, client, upstream_url, server.id)
 
     assert response.status_code == 200
-    assert captured["url"] == "http://plex.internal:32400/thumb.jpg"
-    assert captured["headers"]["Authorization"] == (
+    assert upstream.url == THUMB_URL
+    assert upstream.request_headers["Authorization"] == (
         "Basic cHJveHktdXNlcjpwcm94eS1wYXNz"
     )
-    assert captured["headers"]["X-Plex-Token"] == PLEX_TOKEN
+    assert upstream.request_headers["X-Plex-Token"] == PLEX_TOKEN
 
 
 # ─── Movie-poster builders must not leak credentials ────────────────────────
@@ -575,8 +462,10 @@ def test_movie_posters_are_proxied_not_credential_bearing(app, cls):
         assert url.startswith("/image-proxy?token=")
 
         # Defense in depth: opaque even to a client that decodes the token.
-        token = unquote_plus(url.split("token=", 1)[1])
-        assert JELLYFIN_EMBY_ADMIN_KEY.encode() not in _decode(token)
+        raw = _decode(unquote_plus(url.split("token=", 1)[1]))
+        assert JELLYFIN_EMBY_ADMIN_KEY.encode() not in raw
+        assert b"/Items/" not in raw
+        assert b"maxWidth" not in raw
 
 
 @pytest.mark.parametrize("cls", [JellyfinClient, EmbyClient])
@@ -619,56 +508,6 @@ def test_distinct_payloads_produce_distinct_tokens(app):
     assert tok_a != tok_a_other_server
 
 
-# ─── Host-scoped credential stripping ────────────────────────────────────────
-
-
-def test_credentials_stripped_only_from_matching_host(app, session):
-    from app.models import MediaServer
-
-    server = MediaServer(
-        name="Plex",
-        server_type="plex",
-        url="http://plex.internal:32400",
-        api_key="k",
-    )
-    session.add(server)
-    session.commit()
-
-    url = "http://plex.internal:32400/thumb?X-Plex-Token=SECRET&maxWidth=300"
-    with app.app_context():
-        token = ImageProxyService.generate_token(url, server_id=server.id)
-        ImageProxyService._token_cache.clear()
-        mapping = ImageProxyService.validate_token(token)
-
-    assert mapping is not None
-    assert "SECRET" not in mapping["url"]
-    assert "maxWidth=300" in mapping["url"]
-
-
-def test_credentials_kept_on_foreign_host(app, session):
-    """A token/api_key param on an external host (not the media server) may be
-    genuinely required, so it must survive; encryption keeps it opaque."""
-    from app.models import MediaServer
-
-    server = MediaServer(
-        name="ABS",
-        server_type="audiobookshelf",
-        url="http://abs.internal:13378",
-        api_key="abs-key",
-    )
-    session.add(server)
-    session.commit()
-
-    external = "https://cdn.example.com/podcast/cover.jpg?token=SIGNEDCDN&w=1"
-    with app.app_context():
-        token = ImageProxyService.generate_token(external, server_id=server.id)
-        ImageProxyService._token_cache.clear()
-        mapping = ImageProxyService.validate_token(token)
-
-    assert mapping is not None
-    assert mapping["url"] == external
-
-
 # ─── Token canonicality & cache bounding ─────────────────────────────────────
 
 
@@ -705,221 +544,77 @@ def test_token_cache_is_bounded(app):
 
 
 @pytest.mark.parametrize(
-    "server_type,header_name,expected",
+    "server_type,expected",
     [
-        ("plex", "X-Plex-Token", "THE-KEY"),
-        ("jellyfin", "X-MediaBrowser-Token", "THE-KEY"),
-        ("emby", "X-Emby-Token", "THE-KEY"),
-        ("komga", "X-API-Key", "THE-KEY"),
-        ("audiobookshelf", "Authorization", "Bearer THE-KEY"),
+        ("plex", {"X-Plex-Token": "THE-KEY"}),
+        ("jellyfin", {"X-MediaBrowser-Token": "THE-KEY"}),
+        ("emby", {"X-Emby-Token": "THE-KEY"}),
+        ("komga", {"X-API-Key": "THE-KEY"}),
+        ("audiobookshelf", {"Authorization": "Bearer THE-KEY"}),
+        ("navidrome", {}),  # no known auth header for this type
     ],
 )
-def test_get_server_headers_per_type(app, session, server_type, header_name, expected):
-    from app.models import MediaServer
-
-    server = MediaServer(
-        name=server_type,
-        server_type=server_type,
-        url="http://media.internal",
-        api_key="THE-KEY",
-    )
-    session.add(server)
-    session.commit()
+def test_get_server_headers_per_type(app, session, server_type, expected):
+    server = _server(session, server_type, "http://media.internal", "THE-KEY")
 
     with app.app_context():
         headers = ImageProxyService.get_server_headers(server.id, server.url)
 
-    assert headers.get(header_name) == expected
-
-
-def test_get_server_headers_unknown_type_is_empty(app, session):
-    from app.models import MediaServer
-
-    server = MediaServer(
-        name="other",
-        server_type="navidrome",
-        url="http://other.internal",
-        api_key="THE-KEY",
-    )
-    session.add(server)
-    session.commit()
-
-    with app.app_context():
-        headers = ImageProxyService.get_server_headers(server.id, server.url)
-
-    assert headers == {}
+    assert headers == expected
 
 
 # ─── Hardening: fail-closed secret, no redirects, response-size cap ──────────
 
 
-def test_missing_secret_key_fails_closed(app):
+def test_missing_secret_key_fails_closed(app, monkeypatch):
     """With no SECRET_KEY the token is neither opaque nor unforgeable, so token
     generation must raise rather than fall back to a public constant."""
-    original = app.config["SECRET_KEY"]
-    app.config["SECRET_KEY"] = ""
-    try:
-        with app.app_context(), pytest.raises(RuntimeError):
-            ImageProxyService.generate_token(
-                "http://plex.internal:32400/thumb.jpg", server_id=1
-            )
-    finally:
-        app.config["SECRET_KEY"] = original
+    monkeypatch.setitem(app.config, "SECRET_KEY", "")
+    with app.app_context(), pytest.raises(RuntimeError):
+        ImageProxyService.generate_token(THUMB_URL, server_id=1)
 
 
-def _poster_server(session):
-    from app.models import MediaServer
-
-    server = MediaServer(
-        name="Plex",
-        server_type="plex",
-        url="http://plex.internal:32400",
-        api_key=PLEX_TOKEN,
-    )
-    session.add(server)
-    session.commit()
-    return server
-
-
-def test_proxy_rejects_oversize_upstream(app, client, session, monkeypatch):
+def test_proxy_rejects_oversize_upstream(app, client, session, upstream, monkeypatch):
     """A body over the hard cap must be abandoned mid-stream (not fully
     buffered), the connection released, and redirects must not be followed."""
-    server = _poster_server(session)
-
+    server = _server(session)
     monkeypatch.setattr(ImageProxyService, "IMAGE_PROXY_MAX_BYTES", 32)
-    events = {"pulled": 0, "closed": False}
-    captured = {}
+    upstream.chunks = [b"\x00" * 16] * 1000  # far more than the 32-byte cap allows
 
-    class _BigResponse:
-        status_code = 200
-        headers: ClassVar = CaseInsensitiveDict({"Content-Type": "image/jpeg"})
-
-        def raise_for_status(self):
-            return None
-
-        def iter_content(self, chunk_size):
-            for _ in range(1000):  # far more than the 32-byte cap allows
-                events["pulled"] += 1
-                yield b"\x00" * 16
-
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *exc):
-            events["closed"] = True
-            return False
-
-    class _BigSession:
-        def get(self, url, headers=None, timeout=None, **kwargs):
-            captured["kwargs"] = kwargs
-            return _BigResponse()
-
-    monkeypatch.setattr(
-        ImageProxyService,
-        "get_session",
-        classmethod(lambda cls, url, server_id: _BigSession()),
-    )
-
-    with app.app_context():
-        token = ImageProxyService.generate_token(
-            "http://plex.internal:32400/thumb.jpg", server_id=server.id
-        )
-
-    resp = client.get(f"/image-proxy?token={token}")
+    resp = _fetch(app, client, THUMB_URL, server.id)
 
     assert resp.status_code == 502
-    assert events["pulled"] < 10  # aborted mid-stream, not fully buffered
-    assert events["closed"] is True  # context manager released the connection
-    assert captured["kwargs"].get("allow_redirects") is False
-    assert captured["kwargs"].get("stream") is True
+    assert upstream.pulled < 10  # aborted mid-stream, not fully buffered
+    assert upstream.closed is True  # context manager released the connection
+    assert upstream.kwargs.get("allow_redirects") is False
+    assert upstream.kwargs.get("stream") is True
 
 
-def test_proxy_does_not_follow_redirects(app, client, session, monkeypatch):
+def test_proxy_does_not_follow_redirects(app, client, session, upstream):
     """An unfollowed 3xx becomes a 502; the redirect body is never read/served."""
-    server = _poster_server(session)
-    served = {"body": False}
-
-    class _RedirectResponse:
-        status_code = 302
-        headers: ClassVar = CaseInsensitiveDict(
-            {"Content-Type": "text/html", "Location": "http://evil.example/"}
-        )
-
-        def raise_for_status(self):
-            return None  # requests does not raise on 3xx
-
-        def iter_content(self, chunk_size):
-            served["body"] = True
-            yield b"redirect-body"
-
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *exc):
-            return False
-
-    monkeypatch.setattr(
-        ImageProxyService,
-        "get_session",
-        classmethod(
-            lambda cls, url, server_id: type(
-                "_S", (), {"get": lambda s, *a, **k: _RedirectResponse()}
-            )()
-        ),
+    server = _server(session)
+    upstream.status_code = 302
+    upstream.headers.update(
+        {"Content-Type": "text/html", "Location": "http://evil.example/"}
     )
+    upstream.chunks = [b"redirect-body"]
 
-    with app.app_context():
-        token = ImageProxyService.generate_token(
-            "http://plex.internal:32400/thumb.jpg", server_id=server.id
-        )
-
-    resp = client.get(f"/image-proxy?token={token}")
+    resp = _fetch(app, client, THUMB_URL, server.id)
 
     assert resp.status_code == 502
-    assert served["body"] is False
+    assert upstream.pulled == 0
 
 
-def test_proxy_rejects_oversize_content_length(app, client, session, monkeypatch):
+def test_proxy_rejects_oversize_content_length(
+    app, client, session, upstream, monkeypatch
+):
     """An honest over-cap Content-Length is refused before the body is read."""
-    server = _poster_server(session)
+    server = _server(session)
     monkeypatch.setattr(ImageProxyService, "IMAGE_PROXY_MAX_BYTES", 100)
-    events = {"pulled": 0}
+    upstream.headers["Content-Length"] = "500"
+    upstream.chunks = [b"\x00" * 16]
 
-    class _ClResponse:
-        status_code = 200
-        headers: ClassVar = CaseInsensitiveDict(
-            {"Content-Type": "image/jpeg", "Content-Length": "500"}
-        )
-
-        def raise_for_status(self):
-            return None
-
-        def iter_content(self, chunk_size):
-            events["pulled"] += 1
-            yield b"\x00" * 16
-
-        def __enter__(self):
-            return self
-
-        def __exit__(self, *exc):
-            return False
-
-    monkeypatch.setattr(
-        ImageProxyService,
-        "get_session",
-        classmethod(
-            lambda cls, url, server_id: type(
-                "_S", (), {"get": lambda s, *a, **k: _ClResponse()}
-            )()
-        ),
-    )
-
-    with app.app_context():
-        token = ImageProxyService.generate_token(
-            "http://plex.internal:32400/thumb.jpg", server_id=server.id
-        )
-
-    resp = client.get(f"/image-proxy?token={token}")
+    resp = _fetch(app, client, THUMB_URL, server.id)
 
     assert resp.status_code == 502
-    assert events["pulled"] == 0  # rejected on Content-Length before reading body
+    assert upstream.pulled == 0  # rejected on Content-Length before reading body

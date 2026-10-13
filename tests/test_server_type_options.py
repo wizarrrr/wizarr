@@ -9,20 +9,9 @@ check then ran against the wrong server type, so the edit could never be saved.
 import re
 from unittest.mock import Mock, patch
 
-from app.models import AdminAccount, MediaServer
+from app.models import MediaServer
 from app.services.media.client_base import CLIENTS
 from app.services.media.service import server_type_choices
-
-
-def _login(client, session):
-    admin = AdminAccount(username="testadmin")
-    admin.set_password("TestPass123")
-    session.add(admin)
-    session.commit()
-    resp = client.post(
-        "/login", data={"username": "testadmin", "password": "TestPass123"}
-    )
-    assert resp.status_code in {200, 302, 303}
 
 
 def _server(session, server_type):
@@ -74,28 +63,29 @@ def test_an_unregistered_current_type_is_kept(app):
     assert choices[0] == ("mystery", "Mystery")
 
 
-def test_create_modal_offers_every_registered_type(client, session):
-    _login(client, session)
-    html = client.get("/settings/servers/create").get_data(as_text=True)
+def test_create_modal_offers_every_registered_type(admin_client):
+    html = admin_client.get("/settings/servers/create").get_data(as_text=True)
 
     assert set(_options(html)) >= set(CLIENTS)
 
 
-def test_edit_modal_preselects_navidrome(client, session):
-    _login(client, session)
+def test_edit_modal_preselects_navidrome(admin_client, session):
     server = _server(session, "navidrome")
 
-    html = client.get(f"/settings/servers/{server.id}/edit").get_data(as_text=True)
+    html = admin_client.get(f"/settings/servers/{server.id}/edit").get_data(
+        as_text=True
+    )
 
     assert _selected(html) == "navidrome"
 
 
-def test_editing_a_navidrome_server_keeps_its_type(client, session):
+def test_editing_a_navidrome_server_keeps_its_type(admin_client, session):
     """Round-trip the form exactly as the browser would submit it."""
-    _login(client, session)
     server = _server(session, "navidrome")
 
-    html = client.get(f"/settings/servers/{server.id}/edit").get_data(as_text=True)
+    html = admin_client.get(f"/settings/servers/{server.id}/edit").get_data(
+        as_text=True
+    )
     submitted_type = _selected(html)
     assert submitted_type is not None, "no option selected: browser would send Plex"
 
@@ -104,7 +94,7 @@ def test_editing_a_navidrome_server_keeps_its_type(client, session):
     ok = Mock(status_code=200, url="http://navidrome.local:4533/rest/ping")
     ok.json.return_value = {"subsonic-response": {"status": "ok"}}
     with patch("app.services.servers.requests.get", return_value=ok) as check:
-        resp = client.post(
+        resp = admin_client.post(
             f"/settings/servers/{server.id}/edit",
             data={
                 "server_name": "Renamed",

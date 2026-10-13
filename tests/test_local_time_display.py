@@ -13,7 +13,7 @@ import pytest
 
 from app import jinja_filters
 from app.extensions import db
-from app.models import AdminAccount, MediaServer, User
+from app.models import MediaServer, User
 
 EDMONTON = ZoneInfo("America/Edmonton")
 
@@ -26,24 +26,6 @@ def _naive(*args):
 @pytest.fixture
 def edmonton(monkeypatch):
     monkeypatch.setattr(jinja_filters, "_LOCAL_TIMEZONE", EDMONTON)
-
-
-@pytest.fixture
-def admin_user(app):
-    with app.app_context():
-        admin = AdminAccount.query.filter_by(username="tzadmin").first()
-        if not admin:
-            admin = AdminAccount(username="tzadmin")
-            db.session.add(admin)
-        admin.set_password("TestPass123")
-        db.session.commit()
-        yield admin
-        db.session.delete(admin)
-        db.session.commit()
-
-
-def _login(client):
-    client.post("/login", data={"username": "tzadmin", "password": "TestPass123"})
 
 
 def test_to_local_treats_naive_as_utc(edmonton):
@@ -84,9 +66,7 @@ def test_local_date_renders_local_time(edmonton):
     )
 
 
-def test_user_modal_expiry_round_trips_in_local_time(
-    client, app, session, admin_user, edmonton
-):
+def test_user_modal_expiry_round_trips_in_local_time(admin_client, app, edmonton):
     with app.app_context():
         server = MediaServer(
             name="TZ Server", server_type="jellyfin", url="http://tz", api_key="k"
@@ -105,13 +85,11 @@ def test_user_modal_expiry_round_trips_in_local_time(
         db.session.commit()
         user_id = user.id
 
-    _login(client)
-
-    modal = client.get(f"/user/{user_id}").data.decode("utf-8")
+    modal = admin_client.get(f"/user/{user_id}").data.decode("utf-8")
     assert 'value="2025-01-15T00:00"' in modal
 
     # The admin types midnight local on Mar 1 (MST); that is 07:00 UTC.
-    client.post(f"/user/{user_id}", data={"expires": "2025-03-01T00:00"})
+    admin_client.post(f"/user/{user_id}", data={"expires": "2025-03-01T00:00"})
 
     with app.app_context():
         saved_user = db.session.get(User, user_id)
