@@ -138,13 +138,22 @@ def session(app):
         _delete_test_data()
 
 
+@pytest.fixture(scope="session")
+def _admin_password_hash():
+    """Hash the admin password one time. Each scrypt hash takes about 65 ms."""
+    from app.models import AdminAccount
+
+    admin = AdminAccount()
+    admin.set_password("TestPass123")
+    return admin.password_hash
+
+
 @pytest.fixture
-def admin_user(session):
+def admin_user(session, _admin_password_hash):
     """An admin account (username "testadmin", password "TestPass123")."""
     from app.models import AdminAccount
 
-    admin = AdminAccount(username="testadmin")
-    admin.set_password("TestPass123")
+    admin = AdminAccount(username="testadmin", password_hash=_admin_password_hash)
     session.add(admin)
     session.commit()
     return admin

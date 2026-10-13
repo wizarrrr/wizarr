@@ -42,18 +42,26 @@ def test_should_create_ldap_user(
     assert InvitationLDAPHandler(invitation).should_create_ldap_user() is expected
 
 
+@pytest.mark.parametrize(
+    "outcome",
+    [
+        (True, "uid=testuser,ou=people,dc=example,dc=com"),
+        (False, "LDAP error: User exists"),
+    ],
+)
 @patch("app.services.ldap.invitation_ldap.LDAPClient")
-def test_create_ldap_user_success(mock_client_class, ldap_config):
+def test_create_ldap_user_returns_the_client_result(
+    mock_client_class, ldap_config, outcome
+):
     client = mock_client_class.return_value
-    client.create_user.return_value = (True, "uid=testuser,ou=people,dc=example,dc=com")
+    client.create_user.return_value = outcome
     invitation = Invitation(code="TESTCODE", create_ldap_user=True)
 
-    success, result = InvitationLDAPHandler(invitation).create_ldap_user(
+    result = InvitationLDAPHandler(invitation).create_ldap_user(
         username="testuser", email="test@example.com", password="password123"
     )
 
-    assert success is True
-    assert result == "uid=testuser,ou=people,dc=example,dc=com"
+    assert result == outcome
     client.create_user.assert_called_once_with(
         username="testuser", email="test@example.com", password="password123"
     )

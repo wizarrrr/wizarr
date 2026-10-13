@@ -64,6 +64,33 @@ def test_invite_scan_rendered_checkboxes_match_enabled(admin_client, session):
     assert html.count("checked") == 1
 
 
+@pytest.mark.parametrize(
+    ("scan", "authoritative", "expected"),
+    [
+        # A short scan that the client marks unreliable drops nothing.
+        ({"2": "TV Shows"}, False, {"1": True, "2": True}),
+        # A reliable scan removes a library that is gone.
+        ({"2": "TV Shows"}, True, {"2": True}),
+    ],
+)
+def test_invite_scan_passes_the_authoritative_flag(
+    admin_client, session, scan, authoritative, expected
+):
+    server = _server(session)
+    _libs(session, server, {"1": ("Movies", True), "2": ("TV Shows", True)})
+
+    with patch(
+        "app.blueprints.admin.routes.scan_libraries_for_server",
+        return_value=(scan, authoritative),
+    ):
+        resp = admin_client.post(
+            "/invite/scan-libraries", data={"server_ids": str(server.id)}
+        )
+
+    assert resp.status_code == 200
+    assert _enabled_map(server.id) == expected
+
+
 def test_server_edit_scan_preserves_disabled_libraries(admin_client, session):
     """The scan that the server edit form runs keeps a disabled library."""
     server = _server(session)

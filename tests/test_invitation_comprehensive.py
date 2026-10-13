@@ -99,7 +99,7 @@ def test_multi_server_success(session, failures):
     assert _process("MULTI123") == (True, "MULTI123", [])
 
     users = User.query.filter_by(code="MULTI123").all()
-    assert {user.server_id for user in users} == {server.id for server in servers}
+    assert sorted(user.server_id for user in users) == sorted(s.id for s in servers)
 
 
 def test_multi_server_partial_failure(session, failures):

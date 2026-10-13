@@ -183,6 +183,7 @@ def test_list_admins_success(client, api_key, admin_user):
     assert admin["id"] == admin_user.id
     assert admin["username"] == "testadmin"
     assert admin["passkeys"] == 0
+    assert "created" in admin
 
 
 class TestAPIInvitations:
@@ -198,6 +199,7 @@ class TestAPIInvitations:
         assert invitation["status"] == "pending"
         assert invitation["url"] == "/j/INV123"
         assert invitation["duration"] == "30"
+        assert {"created", "expires"} <= invitation.keys()
 
     def test_list_invitations_returns_relative_url_for_loopback_host(
         self, client, api_key, sample_data
@@ -259,6 +261,8 @@ class TestAPIInvitations:
         assert invitation["unlimited"] is False
         assert invitation["url"] == f"/j/{invitation['code']}"
         assert invitation["server_names"] == ["Test Plex Server"]
+        assert invitation["display_name"] == "Test Plex Server"
+        assert invitation["uses_global_setting"] is False
 
     def test_create_invitation_default_values(self, client, api_key, sample_data):
         response = client.post(
@@ -351,6 +355,13 @@ def test_list_servers_success(client, api_key, sample_data):
     assert server["server_type"] == "plex"
     assert server["server_url"] == "http://localhost:32400"
     assert server["verified"] is True
+    assert {
+        "external_url",
+        "allow_downloads",
+        "allow_live_tv",
+        "allow_mobile_uploads",
+        "created_at",
+    } <= server.keys()
 
 
 class TestAPIKeyManagement:
@@ -363,6 +374,7 @@ class TestAPIKeyManagement:
         key_data = data["api_keys"][0]
         assert key_data["name"] == "Test API Key"
         assert key_data["last_used_at"] is not None
+        assert {"id", "created_at"} <= key_data.keys()
         # The API must never expose the key hash.
         assert "key_hash" not in key_data
 

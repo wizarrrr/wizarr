@@ -105,3 +105,14 @@ def test_unlimited_invite_different_users_remain_separate(session, servers):
 
     assert user1.identity_id is not None
     assert user2.identity_id is None
+
+
+@pytest.mark.parametrize("code", ["NONEXISTENT123", ""])
+def test_code_without_invitation_links_nobody(session, servers, code):
+    """With no invitation for the code, the user gets no identity."""
+    _create_user_with_identity(session, code, servers[0], "user1", "same@example.com")
+
+    user = _create_user(session, code, servers[1], "user2", "same@example.com")
+
+    assert user.identity_id is None
+    assert user.code == code

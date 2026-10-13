@@ -59,6 +59,30 @@ def service(app, session, tmp_path):
 class TestWizardResetService:
     """Test WizardResetService class."""
 
+    @pytest.mark.parametrize(
+        ("front_matter", "title", "requires"),
+        [
+            (
+                "title: Test Title\nrequires:\n  - setting1\n  - setting2",
+                "Test Title",
+                ["setting1", "setting2"],
+            ),
+            ("requires: []", "Content Header", []),
+        ],
+    )
+    def test_parse_markdown(self, service, tmp_path, front_matter, title, requires):
+        """The title comes from the front matter, else from the first header."""
+        md_file = tmp_path / "test.md"
+        md_file.write_text(
+            f"---\n{front_matter}\n---\n\n# Content Header\n\nThis is the content.\n"
+        )
+
+        result = service._parse_markdown(md_file)
+
+        assert result["title"] == title
+        assert result["markdown"] == "# Content Header\n\nThis is the content."
+        assert result["requires"] == requires
+
     def test_get_default_steps_for_nonexistent_server(self, service):
         with pytest.raises(ValueError, match="No default steps found"):
             service.get_default_steps_for_server("nonexistent")

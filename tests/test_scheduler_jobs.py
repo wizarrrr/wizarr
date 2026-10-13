@@ -3,6 +3,7 @@
 from datetime import UTC, datetime, timedelta
 from unittest.mock import patch
 
+from app.config import BaseConfig, DevelopmentConfig, ProductionConfig
 from app.extensions import init_scheduler, register_scheduled_jobs, scheduler
 from app.models import LDAPConfiguration
 from app.tasks.ldap_sync import sync_ldap_users
@@ -72,6 +73,22 @@ def test_disable_flag_keeps_the_scheduler_stopped(app, monkeypatch):
         assert init_scheduler(app) is False
 
     start.assert_not_called()
+
+
+def test_scheduler_configuration():
+    assert not hasattr(BaseConfig, "SCHEDULER_JOBSTORE_URL")
+    assert BaseConfig.SCHEDULER_API_ENABLED is False
+    assert BaseConfig.SCHEDULER_JOB_DEFAULTS["coalesce"] is True
+    assert BaseConfig.SCHEDULER_JOB_DEFAULTS["max_instances"] == 1
+
+
+def test_sqlite_engine_has_no_pre_ping():
+    assert "pool_pre_ping" not in BaseConfig.SQLALCHEMY_ENGINE_OPTIONS
+
+
+def test_template_auto_reload_is_for_development_only():
+    assert DevelopmentConfig.TEMPLATES_AUTO_RELOAD is True
+    assert getattr(ProductionConfig, "TEMPLATES_AUTO_RELOAD", None) is None
 
 
 def test_sqlite_optimize_runs_without_error(app, caplog):
