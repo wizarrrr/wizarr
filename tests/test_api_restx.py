@@ -7,7 +7,7 @@ import pytest
 
 from app.models import ApiKey, Invitation, Library, MediaServer, Settings, User
 
-API_KEY = "test_api_key_12345"
+RAW_KEY = "test_api_key_12345"
 
 
 def _add_api_key(session, admin, raw_key, *, name="Test API Key", is_active=True):
@@ -25,8 +25,8 @@ def _add_api_key(session, admin, raw_key, *, name="Test API Key", is_active=True
 @pytest.fixture
 def api_key(session, admin_user):
     """An active API key. The fixture returns the raw key."""
-    _add_api_key(session, admin_user, API_KEY)
-    return API_KEY
+    _add_api_key(session, admin_user, RAW_KEY)
+    return RAW_KEY
 
 
 @pytest.fixture
@@ -115,9 +115,7 @@ def test_status_with_valid_key(client, api_key, sample_data):
 
 
 def test_api_key_last_used_updated(client, session, api_key):
-    key = ApiKey.query.filter_by(
-        key_hash=hashlib.sha256(api_key.encode()).hexdigest()
-    ).one()
+    key = ApiKey.query.filter_by(name="Test API Key").one()
     assert key.last_used_at is None
 
     response = client.get("/api/status", headers={"X-API-Key": api_key})
@@ -384,9 +382,7 @@ class TestAPIKeyManagement:
         assert response.get_json()["error"] == "API key not found"
 
     def test_delete_api_key_cannot_delete_itself(self, client, api_key):
-        key = ApiKey.query.filter_by(
-            key_hash=hashlib.sha256(api_key.encode()).hexdigest()
-        ).one()
+        key = ApiKey.query.filter_by(name="Test API Key").one()
 
         response = client.delete(
             f"/api/api-keys/{key.id}", headers={"X-API-Key": api_key}

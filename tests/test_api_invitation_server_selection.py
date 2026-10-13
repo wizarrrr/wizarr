@@ -6,7 +6,7 @@ import pytest
 
 from app.models import ApiKey, Invitation, MediaServer
 
-RAW_API_KEY = "test_api_key_12345"
+RAW_KEY = "test_api_key_12345"
 
 
 @pytest.fixture
@@ -14,13 +14,13 @@ def api_key(session, admin_user):
     session.add(
         ApiKey(
             name="Test API Key",
-            key_hash=hashlib.sha256(RAW_API_KEY.encode()).hexdigest(),
+            key_hash=hashlib.sha256(RAW_KEY.encode()).hexdigest(),
             created_by_id=admin_user.id,
             is_active=True,
         )
     )
     session.commit()
-    return RAW_API_KEY
+    return RAW_KEY
 
 
 def _add_servers(session, *specs):
