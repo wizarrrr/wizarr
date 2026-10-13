@@ -29,13 +29,6 @@ class TestConfig(BaseConfig):
     SQLALCHEMY_DATABASE_URI = f"sqlite:///{_temp_db_path}"
 
 
-class E2ETestConfig(BaseConfig):
-    TESTING = True
-    WTF_CSRF_ENABLED = False
-    # Use a temporary file database that both test process and live server can access
-    SQLALCHEMY_DATABASE_URI = f"sqlite:///{tempfile.gettempdir()}/wizarr_e2e_test.db"
-
-
 @pytest.fixture(scope="session")
 def app():
     # Clean up any existing test database files (including WAL files)
@@ -68,18 +61,8 @@ def client(app):
     return app.test_client()
 
 
-@pytest.fixture
-def runner(app):
-    return app.test_cli_runner()
-
-
-@pytest.fixture
-def session(app):
-    """Provide a clean database session for tests that explicitly request it.
-
-    This fixture ensures test isolation by cleaning up all test data
-    before and after the test runs.
-    """
+def _delete_test_data():
+    """Delete all test rows, children before parents (foreign keys)."""
     from app.models import (
         ActivitySession,
         AdminAccount,
@@ -94,62 +77,76 @@ def session(app):
         WizardStep,
     )
 
+    db.session.rollback()
+    db.session.execute(db.text("DELETE FROM activity_snapshot"))
+    db.session.execute(db.text("DELETE FROM historical_import_job"))
+    db.session.query(ActivitySession).delete()
+    db.session.query(ExpiredUser).delete()
+    db.session.execute(db.text("DELETE FROM wizard_bundle_step"))
+    db.session.execute(db.text("DELETE FROM wizard_bundle"))
+    db.session.execute(db.text("DELETE FROM invitation_server"))
+    db.session.execute(db.text("DELETE FROM invitation_user"))
+    db.session.query(WizardStep).delete()
+    db.session.query(Invitation).delete()
+    db.session.query(User).delete()
+    db.session.query(Library).delete()
+    db.session.query(MediaServer).delete()
+    db.session.query(WebAuthnCredential).delete()
+    db.session.query(ApiKey).delete()
+    db.session.query(AdminAccount).delete()
+    db.session.query(Settings).delete()
+    db.session.commit()
+
+
+@pytest.fixture
+def session(app):
+    """Provide a database session that starts and ends with empty tables."""
     with app.app_context():
-        # Clean up before the test to ensure fresh state
-        db.session.rollback()
-        # Delete all test data in correct order (respecting foreign keys)
-        # Plus tables first
-        db.session.execute(db.text("DELETE FROM activity_snapshot"))
-        db.session.execute(db.text("DELETE FROM historical_import_job"))
-        db.session.query(ActivitySession).delete()
-        db.session.query(ExpiredUser).delete()
-        # Junction tables
-        db.session.execute(db.text("DELETE FROM wizard_bundle_step"))
-        db.session.execute(db.text("DELETE FROM wizard_bundle"))
-        db.session.execute(db.text("DELETE FROM invitation_server"))
-        db.session.execute(db.text("DELETE FROM invitation_user"))
-        # Main tables
-        db.session.query(WizardStep).delete()
-        db.session.query(Invitation).delete()
-        db.session.query(User).delete()
-        db.session.query(Library).delete()
-        db.session.query(MediaServer).delete()
-        # Tables with FK to AdminAccount - delete before AdminAccount
-        db.session.query(WebAuthnCredential).delete()
-        db.session.query(ApiKey).delete()
-        # Now safe to delete AdminAccount
-        db.session.query(AdminAccount).delete()
-        db.session.query(Settings).delete()
-        db.session.commit()
-
+        _delete_test_data()
         yield db.session
+        _delete_test_data()
 
-        # Clean up after the test
-        db.session.rollback()
-        # Delete all test data in correct order (respecting foreign keys)
-        # Plus tables first
-        db.session.execute(db.text("DELETE FROM activity_snapshot"))
-        db.session.execute(db.text("DELETE FROM historical_import_job"))
-        db.session.query(ActivitySession).delete()
-        db.session.query(ExpiredUser).delete()
-        # Junction tables
-        db.session.execute(db.text("DELETE FROM wizard_bundle_step"))
-        db.session.execute(db.text("DELETE FROM wizard_bundle"))
-        db.session.execute(db.text("DELETE FROM invitation_server"))
-        db.session.execute(db.text("DELETE FROM invitation_user"))
-        # Main tables
-        db.session.query(WizardStep).delete()
-        db.session.query(Invitation).delete()
-        db.session.query(User).delete()
-        db.session.query(Library).delete()
-        db.session.query(MediaServer).delete()
-        # Tables with FK to AdminAccount - delete before AdminAccount
-        db.session.query(WebAuthnCredential).delete()
-        db.session.query(ApiKey).delete()
-        # Now safe to delete AdminAccount
-        db.session.query(AdminAccount).delete()
-        db.session.query(Settings).delete()
-        db.session.commit()
+
+@pytest.fixture
+def admin_user(session):
+    """An admin account (username "testadmin", password "TestPass123")."""
+    from app.models import AdminAccount
+
+    admin = AdminAccount(username="testadmin")
+    admin.set_password("TestPass123")
+    session.add(admin)
+    session.commit()
+    return admin
+
+
+@pytest.fixture
+def admin_client(client, admin_user):
+    """A test client with a logged-in admin session."""
+    with client.session_transaction() as sess:
+        sess["_user_id"] = str(admin_user.id)
+        sess["_fresh"] = True
+    return client
+
+
+@pytest.fixture
+def clear_media_caches():
+    """Clear the class-level image proxy and Plex caches before and after a test."""
+    from app.services.image_proxy import ImageProxyService
+    from app.services.media.plex import clear_plex_connection_cache
+
+    def clear():
+        ImageProxyService._token_cache.clear()
+        ImageProxyService._image_cache.clear()
+        ImageProxyService._total_image_bytes = 0
+        ImageProxyService._cipher_key_cache.clear()
+        ImageProxyService._server_url_cache.clear()
+        ImageProxyService._server_header_cache.clear()
+        ImageProxyService._session_cache.clear()
+        clear_plex_connection_cache()
+
+    clear()
+    yield
+    clear()
 
 
 @pytest.fixture(autouse=True)
