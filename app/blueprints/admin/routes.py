@@ -8,7 +8,9 @@ from urllib.parse import urlparse
 from flask import (
     Blueprint,
     Response,
+    current_app,
     jsonify,
+    make_response,
     redirect,
     render_template,
     request,
@@ -1034,12 +1036,47 @@ def unlink_account():
     return response
 
 
+def _delete_accounts(user_ids) -> list[tuple[str, str]]:
+    """Delete accounts, each one only once its server confirms.
+
+    A server that cannot be reached or refuses the delete keeps the Wizarr row,
+    so the account can be found and removed on the next try. Returns the
+    (username, server name) of every account that was not removed.
+    """
+    failed = []
+    for uid in user_ids:
+        user = db.session.get(User, uid)
+        if user is None:
+            continue
+        who = (user.username, user.server.name if user.server else "")
+        try:
+            delete_user(uid, require_remote=True)
+        except Exception as exc:
+            db.session.rollback()
+            current_app.logger.warning(
+                "Kept %s on %s, the server did not remove it: %s", *who, exc
+            )
+            failed.append(who)
+    return failed
+
+
+def _delete_failed_response(failed: list[tuple[str, str]]):
+    """The dialog that names the accounts a delete did not remove."""
+    response = make_response(
+        render_template("_partials/delete_failed_modal.html", failed=failed)
+    )
+    response.headers["HX-Retarget"] = "#modal-user"
+    response.headers["HX-Reswap"] = "innerHTML"
+    response.headers["HX-Trigger"] = "refreshUserTable"
+    return response
+
+
 @admin_bp.post("/users/bulk-delete")
 @login_required
 def bulk_delete_users():
-    ids = request.form.getlist("uids")
-    for uid in ids:
-        delete_user(int(uid))
+    failed = _delete_accounts(int(uid) for uid in request.form.getlist("uids"))
+    if failed:
+        return _delete_failed_response(failed)
 
     # Trigger user table refresh to preserve filters/sorting
     response = Response("")
@@ -1101,8 +1138,9 @@ def process_user_deletion():
         return Response("No accounts selected", status=400)
 
     # Remove users from their respective servers
-    for account_id in selected_accounts:
-        delete_user(int(account_id))
+    failed = _delete_accounts(int(account_id) for account_id in selected_accounts)
+    if failed:
+        return _delete_failed_response(failed)
 
     # Trigger user table refresh
     response = Response("")
