@@ -9,7 +9,7 @@ a merge looked random.
 import pytest
 
 from app.extensions import db
-from app.models import AdminAccount, Identity, MediaServer, User
+from app.models import Identity, MediaServer, User
 
 
 @pytest.fixture
@@ -41,19 +41,10 @@ def accounts(session):
     session.commit()
 
 
-def _login(client, session):
-    admin = AdminAccount(username="linkadmin")
-    admin.set_password("TestPass123")
-    session.add(admin)
-    session.commit()
-    client.post("/login", data={"username": "linkadmin", "password": "TestPass123"})
-
-
-def test_link_uses_the_account_with_a_real_email(client, session, accounts):
+def test_link_uses_the_account_with_a_real_email(admin_client, accounts):
     jf_user, plex_user = accounts
-    _login(client, session)
 
-    response = client.post(
+    response = admin_client.post(
         "/users/link", data={"uids": [str(jf_user.id), str(plex_user.id)]}
     )
 
@@ -65,16 +56,17 @@ def test_link_uses_the_account_with_a_real_email(client, session, accounts):
     assert identity.primary_username == "john"
 
 
-def test_card_shows_the_real_email_and_keeps_jellyfin_reset(client, session, accounts):
+def test_card_shows_the_real_email_and_keeps_jellyfin_reset(
+    admin_client, session, accounts
+):
     jf_user, plex_user = accounts
     identity = Identity()
     session.add(identity)
     session.flush()
     jf_user.identity_id = plex_user.identity_id = identity.id
     session.commit()
-    _login(client, session)
 
-    html = client.get("/users/table").get_data(as_text=True)
+    html = admin_client.get("/users/table").get_data(as_text=True)
 
     assert 'truncate">john@example.com</p>' in html
     assert 'truncate">empty</p>' not in html

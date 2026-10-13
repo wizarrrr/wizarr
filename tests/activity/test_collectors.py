@@ -126,28 +126,6 @@ def test_failed_poll_keeps_sessions_and_resets_client(app, built_clients):
     assert [e.event_type for e in events] == ["session_start", "session_end"]
 
 
-def test_jellyfin_loop_skips_failed_cycle(app, monkeypatch):
-    events = []
-    collector = JellyfinCollector(
-        make_server(), events.append, app=app, batch_callback=events.extend
-    )
-    collector.active_sessions["s1"] = session_payload("s1")
-
-    def failing_now_playing():
-        collector.running = False
-        collector._stop_event.set()
-        raise ConnectionError("network down")
-
-    client = SimpleNamespace(now_playing=failing_now_playing)
-    monkeypatch.setattr(FACTORY, lambda server: client)
-
-    collector.running = True
-    collector._collect_loop()
-
-    assert events == []
-    assert list(collector.active_sessions) == ["s1"]
-
-
 def test_plex_poll_failure_does_not_end_sessions(app, monkeypatch):
     events = []
     collector = PollingCollector(
@@ -272,13 +250,24 @@ def test_client_build_failure_counts_as_failed_poll(app, monkeypatch):
     assert collector.active_sessions == {}
 
 
-def test_jellyfin_loop_ends_sessions_after_long_outage(app, monkeypatch):
+@pytest.mark.parametrize(
+    ("long_outage", "expected_events", "expected_sessions"),
+    [
+        # One failed cycle sends no events and keeps the session.
+        (False, [], ["s1"]),
+        (True, ["session_end"], []),
+    ],
+)
+def test_jellyfin_loop_failed_cycle(
+    app, monkeypatch, long_outage, expected_events, expected_sessions
+):
     events = []
     collector = JellyfinCollector(
         make_server(), events.append, app=app, batch_callback=events.extend
     )
     collector.active_sessions["s1"] = session_payload("s1")
-    collector.last_successful_poll = outage_start()
+    if long_outage:
+        collector.last_successful_poll = outage_start()
 
     def failing_now_playing():
         collector.running = False
@@ -291,8 +280,8 @@ def test_jellyfin_loop_ends_sessions_after_long_outage(app, monkeypatch):
     collector.running = True
     collector._collect_loop()
 
-    assert event_types(events) == ["session_end"]
-    assert collector.active_sessions == {}
+    assert event_types(events) == expected_events
+    assert list(collector.active_sessions) == expected_sessions
 
 
 def test_now_playing_runs_in_app_context(app, monkeypatch):
@@ -341,6 +330,23 @@ def test_collector_without_batch_callback_sends_events_one_by_one(app):
     assert [e.event_type for e in single] == ["session_start", "session_start"]
 
 
+def add_server(app, **values):
+    """Store a verified Jellyfin server and return its id."""
+    values = {
+        "name": "Server",
+        "server_type": "jellyfin",
+        "url": "http://server",
+        "api_key": "k",
+        "verified": True,
+        **values,
+    }
+    with app.app_context():
+        server = MediaServer(**values)
+        db.session.add(server)
+        db.session.commit()
+        return server.id
+
+
 class FakeCollector:
     def __init__(self, server):
         self.server = server
@@ -362,17 +368,7 @@ class FakeCollector:
 
 
 def test_monitor_gives_collectors_the_edited_server(app, session, monkeypatch):
-    with app.app_context():
-        server = MediaServer(
-            name="Edit Me",
-            server_type="jellyfin",
-            url="http://old",
-            api_key="old-key",
-            verified=True,
-        )
-        db.session.add(server)
-        db.session.commit()
-        server_id = server.id
+    server_id = add_server(app, name="Edit Me", url="http://old", api_key="old-key")
 
     monitor = WebSocketMonitor(app)
     monkeypatch.setattr(monitor, "_create_collector", FakeCollector)
@@ -419,18 +415,8 @@ class BlockingCollector(FakeCollector):
 
 def test_monitor_starts_a_collector_for_each_server(app, session, monkeypatch):
     """A pool of 10 workers gave no thread to the servers after the ninth."""
-    with app.app_context():
-        for i in range(12):
-            db.session.add(
-                MediaServer(
-                    name=f"Server {i}",
-                    server_type="jellyfin",
-                    url=f"http://srv{i}",
-                    api_key="k",
-                    verified=True,
-                )
-            )
-        db.session.commit()
+    for i in range(12):
+        add_server(app, name=f"Server {i}", url=f"http://srv{i}")
 
     monitor = WebSocketMonitor(app)
     monkeypatch.setattr(monitor, "_create_collector", BlockingCollector)
@@ -503,17 +489,7 @@ class SlowCollector(FakeCollector):
 
 def test_type_change_waits_for_the_old_collector_thread(app, session, monkeypatch):
     monkeypatch.setattr(monitor_module, "COLLECTOR_RESTART_JOIN_TIMEOUT", 0.05)
-    with app.app_context():
-        server = MediaServer(
-            name="Typed",
-            server_type="jellyfin",
-            url="http://typed",
-            api_key="k",
-            verified=True,
-        )
-        db.session.add(server)
-        db.session.commit()
-        server_id = server.id
+    server_id = add_server(app)
 
     monitor = WebSocketMonitor(app)
     created = []
@@ -569,17 +545,7 @@ def test_type_change_waits_for_the_old_collector_thread(app, session, monkeypatc
 def test_stop_keeps_handles_of_collectors_that_still_run(app, session, monkeypatch):
     monkeypatch.setattr(monitor_module, "COLLECTOR_JOIN_TIMEOUT", 0.05)
     monkeypatch.setattr(monitor_module, "COLLECTOR_RESTART_JOIN_TIMEOUT", 0.05)
-    with app.app_context():
-        server = MediaServer(
-            name="Slow",
-            server_type="jellyfin",
-            url="http://slow",
-            api_key="k",
-            verified=True,
-        )
-        db.session.add(server)
-        db.session.commit()
-        server_id = server.id
+    server_id = add_server(app)
 
     monitor = WebSocketMonitor(app)
     created = []

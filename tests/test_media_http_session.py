@@ -109,7 +109,7 @@ def test_shared_session_keeps_no_cookies():
     request = requests.Request("GET", "http://media.local/login").prepare()
     headers = {"Set-Cookie": "sid=secret; Path=/"}
 
-    # The same call stores the cookie in a plain Session.
+    # Control: the fake response gives the cookie to a plain Session.
     plain = requests.Session()
     requests.cookies.extract_cookies_to_jar(
         plain.cookies, request, _RawHeaders(headers)

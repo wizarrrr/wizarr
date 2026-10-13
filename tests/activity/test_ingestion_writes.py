@@ -8,99 +8,19 @@ once per minute, resolves identities once per session, and records a poll
 cycle in one transaction.
 """
 
-from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
 
-import pytest
-from sqlalchemy import event
-
-from app.activity.domain.models import ActivityEvent
 from app.extensions import db
-from app.models import ActivitySession, ActivitySnapshot, Identity, MediaServer, User
+from app.models import ActivitySession, ActivitySnapshot, Identity, User
 from app.services.activity.identity_resolution import resolve_user_identity
-from app.services.activity.ingestion import (
-    PLAYBACK_STATE_KEY,
-    ActivityIngestionService,
+from app.services.activity.ingestion import PLAYBACK_STATE_KEY
+from tests.activity.conftest import (
+    count_sql,
+    make_event,
+    set_updated_at,
+    user_queries,
+    writes,
 )
-
-
-@contextmanager
-def count_sql(app):
-    """Collect statements and commits that run in the block."""
-    record = {"statements": [], "commits": 0, "params": []}
-
-    def before_cursor_execute(conn, cursor, statement, params, context, many):
-        record["statements"].append(statement)
-        record["params"].append(params)
-
-    def on_commit(conn):
-        record["commits"] += 1
-
-    engine = db.engine
-    event.listen(engine, "before_cursor_execute", before_cursor_execute)
-    event.listen(engine, "commit", on_commit)
-    try:
-        yield record
-    finally:
-        event.remove(engine, "before_cursor_execute", before_cursor_execute)
-        event.remove(engine, "commit", on_commit)
-
-
-def writes(record):
-    return [
-        s
-        for s in record["statements"]
-        if s.lstrip().upper().startswith(("INSERT", "UPDATE", "DELETE"))
-    ]
-
-
-def user_queries(record):
-    return [s for s in record["statements"] if "FROM user" in s]
-
-
-@pytest.fixture
-def server(app, session):
-    server = MediaServer(
-        name="Ingestion Server",
-        server_type="jellyfin",
-        url="http://localhost:8096",
-        api_key="key",
-        verified=True,
-    )
-    session.add(server)
-    session.commit()
-    yield server
-    session.rollback()
-    session.execute(db.text("DELETE FROM activity_snapshot"))
-    session.query(ActivitySession).delete()
-    session.query(User).delete()
-    session.query(Identity).delete()
-    session.commit()
-
-
-@pytest.fixture
-def service():
-    return ActivityIngestionService()
-
-
-def make_event(kind, server_id, session_id="s1", **overrides):
-    values = {
-        "event_type": kind,
-        "server_id": server_id,
-        "session_id": session_id,
-        "user_name": "alice",
-        "media_title": "Movie",
-        "media_type": "movie",
-        "media_id": "m1",
-        "device_name": "TV",
-        "position_ms": 0,
-        "duration_ms": 7_200_000,
-        "state": "playing",
-        "transcoding_info": {"is_transcoding": False, "direct_play": True},
-        "metadata": {"play_method": "DirectPlay"},
-    }
-    values.update(overrides)
-    return ActivityEvent(**values)
 
 
 def snapshot_states(session_row_id):
@@ -112,20 +32,12 @@ def snapshot_states(session_row_id):
     ]
 
 
-def set_updated_at(session_row_id, value):
-    db.session.execute(
-        db.text("UPDATE activity_session SET updated_at = :value WHERE id = :id"),
-        {"value": value.strftime("%Y-%m-%d %H:%M:%S.%f"), "id": session_row_id},
-    )
-    db.session.commit()
-
-
 def test_unchanged_progress_does_not_write(app, server, service):
     with app.app_context():
         started = service.record_activity_event(make_event("session_start", server.id))
         session_row_id = started.id
 
-        with count_sql(app) as record:
+        with count_sql() as record:
             for position in (10_000, 20_000, 30_000, 40_000):
                 service.record_activity_event(
                     make_event("session_progress", server.id, position_ms=position)
@@ -173,7 +85,7 @@ def test_state_change_writes_at_once(app, server, service):
         started = service.record_activity_event(make_event("session_start", server.id))
         session_row_id = started.id
 
-        with count_sql(app) as record:
+        with count_sql() as record:
             service.record_activity_event(
                 make_event(
                     "session_pause", server.id, position_ms=7_000, state="paused"
@@ -202,7 +114,7 @@ def test_position_is_written_after_the_interval(app, server, service):
         # More than 60 seconds after the last write: the position is written.
         old = datetime.now(UTC) - timedelta(seconds=61)
         set_updated_at(session_row_id, old)
-        with count_sql(app) as record:
+        with count_sql() as record:
             service.record_activity_event(
                 make_event("session_progress", server.id, position_ms=61_000)
             )
@@ -222,7 +134,7 @@ def test_paused_session_gets_a_keepalive_write(app, server, service):
         session_row_id = started.id
 
         set_updated_at(session_row_id, datetime.now(UTC) - timedelta(minutes=31))
-        with count_sql(app) as record:
+        with count_sql() as record:
             service.record_activity_event(
                 make_event("session_progress", server.id, state="paused")
             )
@@ -237,7 +149,7 @@ def test_meaningful_change_writes_at_once(app, server, service):
         session_row_id = started.id
 
         # A new transcoding speed alone is not a meaningful change.
-        with count_sql(app) as record:
+        with count_sql() as record:
             service.record_activity_event(
                 make_event(
                     "session_progress",
@@ -252,7 +164,7 @@ def test_meaningful_change_writes_at_once(app, server, service):
         assert record["commits"] == 0
 
         # A new stream decision is written at once.
-        with count_sql(app) as record:
+        with count_sql() as record:
             service.record_activity_event(
                 make_event(
                     "session_progress",
@@ -271,7 +183,7 @@ def test_poll_cycle_is_one_transaction(app, server, service):
             make_event("session_start", server.id, session_id=f"s{i}", media_id=f"m{i}")
             for i in range(3)
         ]
-        with count_sql(app) as record:
+        with count_sql() as record:
             sessions = service.record_activity_events(starts)
         assert all(s is not None for s in sessions)
         assert record["commits"] == 1
@@ -286,7 +198,7 @@ def test_poll_cycle_is_one_transaction(app, server, service):
             )
             for i in range(3)
         ]
-        with count_sql(app) as record:
+        with count_sql() as record:
             service.record_activity_events(progress)
 
         session_selects = [
@@ -339,7 +251,7 @@ def test_identity_is_resolved_once_per_session(app, server, service):
         db.session.add(user)
         db.session.commit()
 
-        with count_sql(app) as record:
+        with count_sql() as record:
             started = service.record_activity_event(
                 make_event("session_start", server.id, user_name="alice")
             )
@@ -355,7 +267,7 @@ def test_identity_is_resolved_once_per_session(app, server, service):
         assert row.wizarr_identity_id == identity.id
 
         # A second session of the same user uses the cache.
-        with count_sql(app) as record:
+        with count_sql() as record:
             service.record_activity_event(
                 make_event("session_start", server.id, session_id="s2", media_id="m2")
             )
@@ -364,14 +276,14 @@ def test_identity_is_resolved_once_per_session(app, server, service):
 
 def test_unmatched_user_is_cached(app, server, service):
     with app.app_context():
-        with count_sql(app) as record:
+        with count_sql() as record:
             service.record_activity_event(
                 make_event("session_start", server.id, user_name="owner")
             )
         # Three lookups (user name, nickname, primary user name) for a miss.
         assert len(user_queries(record)) == 3
 
-        with count_sql(app) as record:
+        with count_sql() as record:
             service.record_activity_event(
                 make_event(
                     "session_start",
@@ -411,7 +323,7 @@ def test_user_name_change_resolves_again(app, server, service):
 
 def test_identity_lookup_uses_lower_username_index(app, server):
     with app.app_context():
-        with count_sql(app) as record:
+        with count_sql() as record:
             resolve_user_identity(server.id, None, "Somebody")
 
         index = next(
@@ -452,7 +364,7 @@ def test_same_metadata_in_other_python_types_is_not_a_change(app, server, servic
             make_event("session_start", server.id, metadata=metadata)
         )
 
-        with count_sql(app) as record:
+        with count_sql() as record:
             service.record_activity_event(
                 make_event("session_progress", server.id, metadata=metadata)
             )

@@ -10,38 +10,24 @@ import re
 
 import pytest
 
-from app.extensions import db
-from app.models import AdminAccount, Connection, MediaServer
+from app.models import Connection, MediaServer
 
 
 @pytest.fixture
-def admin_client(client, app):
-    """A test client logged in as an admin account."""
-    with app.app_context():
-        if AdminAccount.query.filter_by(username="conn-admin").first() is None:
-            acc = AdminAccount(username="conn-admin")
-            acc.set_password("Password1")
-            db.session.add(acc)
-            db.session.commit()
-    resp = client.post(
-        "/login", data={"username": "conn-admin", "password": "Password1"}
+def media_server(session):
+    server = MediaServer(
+        name="Jellyfin",
+        server_type="jellyfin",
+        url="http://jellyfin:8096",
+        api_key="test-key",
     )
-    assert resp.status_code in {302, 303}
-    return client
-
-
-@pytest.fixture
-def media_server(app):
-    with app.app_context():
-        server = MediaServer(
-            name="Jellyfin",
-            server_type="jellyfin",
-            url="http://jellyfin:8096",
-            api_key="test-key",
-        )
-        db.session.add(server)
-        db.session.commit()
-        return server.id
+    session.add(server)
+    session.commit()
+    yield server.id
+    # The conftest cleanup does not delete connections.
+    session.rollback()
+    session.query(Connection).delete()
+    session.commit()
 
 
 def _field_tag(html: str, tag: str, name: str) -> str:
@@ -51,10 +37,8 @@ def _field_tag(html: str, tag: str, name: str) -> str:
 
 
 @pytest.mark.parametrize("htmx", [False, True], ids=["page", "modal"])
-def test_overseerr_form_required_fields_are_not_disabled(
-    admin_client, media_server, htmx
-):
-    """Both connection form templates must keep name/media_server_id submittable."""
+def test_overseerr_form_renders_for_seerr(admin_client, media_server, htmx):
+    """Both connection form templates must render a usable Seerr form."""
     headers = {"HX-Request": "true"} if htmx else {}
     resp = admin_client.get(
         "/settings/connections/create?connection_type=overseerr", headers=headers
@@ -62,11 +46,21 @@ def test_overseerr_form_required_fields_are_not_disabled(
     assert resp.status_code == 200
     html = resp.get_data(as_text=True)
 
+    # #1343: the browser must submit the required fields.
     assert "disabled" not in _field_tag(html, "input", "name")
     assert "disabled" not in _field_tag(html, "select", "media_server_id")
 
+    # #1419: the label names Seerr, but the stored value stays "overseerr" so
+    # that existing connections keep their type.
+    option = re.search(
+        r"<option\b[^>]*\bvalue=\"overseerr\"[^>]*>([^<]*)</option>", html
+    )
+    assert option is not None
+    assert option.group(1).strip() == "Seerr (Overseerr/Jellyseerr)"
+    assert "Seerr Information" in html
 
-def test_create_overseerr_connection_persists(admin_client, media_server, app):
+
+def test_create_overseerr_connection_persists(admin_client, session, media_server):
     """Submitting the info-only form with its required fields creates the row."""
     resp = admin_client.post(
         "/settings/connections/create",
@@ -78,33 +72,9 @@ def test_create_overseerr_connection_persists(admin_client, media_server, app):
             "api_key": "",
         },
     )
-    assert resp.status_code in {200, 302, 303}
+    assert resp.status_code == 302
 
-    with app.app_context():
-        conn = Connection.query.filter_by(name="Jellyseerr").first()
-        assert conn is not None
-        assert conn.connection_type == "overseerr"
-        assert conn.media_server_id == media_server
-        assert conn.url == "https://jellyseerr.example.com"
-
-
-@pytest.mark.parametrize("htmx", [False, True], ids=["page", "modal"])
-def test_connection_type_is_labelled_seerr(admin_client, media_server, htmx):
-    """Overseerr and Jellyseerr merged into Seerr (#1419).
-
-    The label names Seerr, but the stored value stays ``overseerr`` so that
-    existing connections keep their type.
-    """
-    headers = {"HX-Request": "true"} if htmx else {}
-    resp = admin_client.get(
-        "/settings/connections/create?connection_type=overseerr", headers=headers
-    )
-    assert resp.status_code == 200
-    html = resp.get_data(as_text=True)
-
-    option = re.search(
-        r"<option\b[^>]*\bvalue=\"overseerr\"[^>]*>([^<]*)</option>", html
-    )
-    assert option is not None
-    assert option.group(1).strip() == "Seerr (Overseerr/Jellyseerr)"
-    assert "Seerr Information" in html
+    conn = Connection.query.filter_by(name="Jellyseerr").one()
+    assert conn.connection_type == "overseerr"
+    assert conn.media_server_id == media_server
+    assert conn.url == "https://jellyseerr.example.com"

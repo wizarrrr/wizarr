@@ -9,44 +9,22 @@ and no endpoint that could store a nickname for them.
 import pytest
 
 from app.extensions import db
-from app.models import AdminAccount, Identity, MediaServer, User
+from app.models import Identity, MediaServer, User
 from app.services.media.service import _auto_link_identities
 
 
 @pytest.fixture
-def admin_user(app):
-    with app.app_context():
-        admin = AdminAccount.query.filter_by(username="nickadmin").first()
-        if not admin:
-            admin = AdminAccount(username="nickadmin")
-            admin.set_password("TestPass123")
-            db.session.add(admin)
-            db.session.commit()
-        yield admin
-        db.session.delete(admin)
-        db.session.commit()
-
-
-@pytest.fixture
-def server(app):
-    with app.app_context():
-        server = MediaServer(
-            name="Nick Server", server_type="jellyfin", url="http://nick", api_key="k"
-        )
-        db.session.add(server)
-        db.session.commit()
-        yield server
-        User.query.filter_by(server_id=server.id).delete()
-        db.session.delete(server)
-        db.session.commit()
-        Identity.query.filter(~Identity.accounts.any()).delete(
-            synchronize_session=False
-        )
-        db.session.commit()
-
-
-def _login(client):
-    client.post("/login", data={"username": "nickadmin", "password": "TestPass123"})
+def server(session):
+    server = MediaServer(
+        name="Nick Server", server_type="jellyfin", url="http://nick", api_key="k"
+    )
+    session.add(server)
+    session.commit()
+    yield server
+    # The session fixture does not delete identities. Delete the users first.
+    User.query.delete()
+    Identity.query.delete()
+    session.commit()
 
 
 def _user(server, username, email):
@@ -68,24 +46,22 @@ def _load(model, pk):
     return row
 
 
-def test_single_account_user_card_has_edit_button(client, app, admin_user, server):
+def test_single_account_user_card_has_edit_button(admin_client, app, server):
     with app.app_context():
         user = _user(server, "solo", "solo@example.com")
         user_id = user.id
         assert user.identity_id is None
 
-    _login(client)
-    body = client.get("/users/table").get_data(as_text=True)
+    body = admin_client.get("/users/table").get_data(as_text=True)
     assert f"/user/{user_id}/nickname" in body
 
 
-def test_single_account_user_can_be_named(client, app, admin_user, server):
+def test_single_account_user_can_be_named(admin_client, app, server):
     with app.app_context():
         user_id = _user(server, "solo", "solo@example.com").id
 
-    _login(client)
-    assert client.get(f"/user/{user_id}/nickname").status_code == 200
-    resp = client.post(f"/user/{user_id}/nickname", data={"nickname": "Sam"})
+    assert admin_client.get(f"/user/{user_id}/nickname").status_code == 200
+    resp = admin_client.post(f"/user/{user_id}/nickname", data={"nickname": "Sam"})
     assert resp.status_code == 200
 
     with app.app_context():
@@ -94,43 +70,39 @@ def test_single_account_user_can_be_named(client, app, admin_user, server):
         assert identity.nickname == "Sam"
         assert identity.primary_email == "solo@example.com"
 
-    body = client.get("/users/table").get_data(as_text=True)
+    body = admin_client.get("/users/table").get_data(as_text=True)
     assert "Sam" in body
 
 
-def test_save_does_not_swap_the_table_and_triggers_a_refresh(
-    client, app, admin_user, server
-):
+def test_save_does_not_swap_the_table_and_triggers_a_refresh(admin_client, app, server):
     """The save response is empty. If the form swapped it into #user_table,
     the table disappeared when its refresh took longer than the swap delay."""
     with app.app_context():
         user_id = _user(server, "solo", "solo@example.com").id
 
-    _login(client)
-    form = client.get(f"/user/{user_id}/nickname").get_data(as_text=True)
+    form = admin_client.get(f"/user/{user_id}/nickname").get_data(as_text=True)
     assert 'hx-swap="none"' in form
     assert 'hx-target="#user_table"' not in form
 
-    resp = client.post(f"/user/{user_id}/nickname", data={"nickname": "Sam"})
+    resp = admin_client.post(f"/user/{user_id}/nickname", data={"nickname": "Sam"})
     triggers = {t.strip() for t in resp.headers["HX-Trigger"].split(",")}
     assert {"closeModal", "refreshUserTable"} <= triggers
 
 
-def test_opening_or_saving_empty_creates_no_identity(client, app, admin_user, server):
+def test_opening_or_saving_empty_creates_no_identity(admin_client, app, server):
     with app.app_context():
         user_id = _user(server, "solo", "solo@example.com").id
         before = Identity.query.count()
 
-    _login(client)
-    client.get(f"/user/{user_id}/nickname")
-    client.post(f"/user/{user_id}/nickname", data={"nickname": "  "})
+    admin_client.get(f"/user/{user_id}/nickname")
+    admin_client.post(f"/user/{user_id}/nickname", data={"nickname": "  "})
 
     with app.app_context():
         assert _load(User, user_id).identity_id is None
         assert Identity.query.count() == before
 
 
-def test_renaming_reuses_the_existing_identity(client, app, admin_user, server):
+def test_renaming_reuses_the_existing_identity(admin_client, app, server):
     with app.app_context():
         user = _user(server, "solo", "solo@example.com")
         identity = Identity(primary_email=user.email, nickname="Old")
@@ -139,8 +111,7 @@ def test_renaming_reuses_the_existing_identity(client, app, admin_user, server):
         db.session.commit()
         user_id, identity_id = user.id, identity.id
 
-    _login(client)
-    client.post(f"/user/{user_id}/nickname", data={"nickname": "Pat"})
+    admin_client.post(f"/user/{user_id}/nickname", data={"nickname": "Pat"})
 
     with app.app_context():
         user = _load(User, user_id)

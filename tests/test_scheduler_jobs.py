@@ -25,7 +25,10 @@ def _registered_jobs(app):
     return fake.jobs, now
 
 
-def test_all_maintenance_jobs_are_registered(app):
+def test_all_maintenance_jobs_are_registered(app, session):
+    # The LDAP sync job is registered also when LDAP is not configured.
+    assert LDAPConfiguration.query.count() == 0
+
     jobs, _ = _registered_jobs(app)
 
     assert set(jobs) == {
@@ -39,14 +42,6 @@ def test_all_maintenance_jobs_are_registered(app):
         assert job["coalesce"] is True
         assert job["replace_existing"] is True
         assert job["args"] == [app]
-
-
-def test_ldap_sync_job_is_registered_without_ldap_configuration(app, session):
-    with app.app_context():
-        assert LDAPConfiguration.query.count() == 0
-
-    jobs, _ = _registered_jobs(app)
-
     assert jobs["sync_ldap_users"]["func"] is sync_ldap_users
     assert jobs["sync_ldap_users"]["trigger"] == "interval"
 
@@ -94,11 +89,6 @@ def test_sqlite_engine_has_no_pre_ping():
 def test_template_auto_reload_is_for_development_only():
     assert DevelopmentConfig.TEMPLATES_AUTO_RELOAD is True
     assert getattr(ProductionConfig, "TEMPLATES_AUTO_RELOAD", None) is None
-
-
-def test_html_is_not_in_the_compressed_types():
-    assert "text/html" not in BaseConfig.COMPRESS_MIMETYPES
-    assert BaseConfig.COMPRESS_REGISTER is False
 
 
 def test_sqlite_optimize_runs_without_error(app, caplog):

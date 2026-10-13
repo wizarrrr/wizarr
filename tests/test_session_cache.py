@@ -2,6 +2,7 @@
 
 import struct
 import time
+from pathlib import Path
 
 import pytest
 
@@ -68,13 +69,15 @@ class TestRemoveExpired:
 
         assert not (cache_dir / "short_header").exists()
 
-    def test_normal_expiry_still_works(self, cache_dir):
-        cache = RobustFileSystemCache(str(cache_dir), default_timeout=1)
-        cache.set("ephemeral", "data")
-        assert cache.get("ephemeral") == "data"
+    def test_removes_only_expired_files(self, cache_dir):
+        cache = RobustFileSystemCache(str(cache_dir))
+        cache.set("expired", "data", timeout=1)
+        cache.set("fresh", "data", timeout=3600)
+        cache.set("no_expiry", "data", timeout=0)
 
-        # Wait for expiry
-        time.sleep(1.5)
-        cache._remove_expired(time.time())
+        # A "now" in the future makes the first entry expired without a sleep.
+        cache._remove_expired(time.time() + 60)
 
-        assert cache.get("ephemeral") is None
+        assert not Path(cache._get_filename("expired")).exists()
+        assert Path(cache._get_filename("fresh")).exists()
+        assert Path(cache._get_filename("no_expiry")).exists()

@@ -9,19 +9,7 @@ import re
 import pytest
 
 from app.extensions import db
-from app.models import AdminAccount, MediaServer
-
-
-@pytest.fixture
-def admin_client(client, session):
-    admin = AdminAccount(username="serveradmin")
-    admin.set_password("TestPass123")
-    session.add(admin)
-    session.commit()
-    with client.session_transaction() as sess:
-        sess["_user_id"] = str(admin.id)
-        sess["_fresh"] = True
-    return client
+from app.models import MediaServer
 
 
 @pytest.fixture(autouse=True)

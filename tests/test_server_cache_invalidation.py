@@ -13,25 +13,12 @@ from unittest.mock import Mock
 import pytest
 
 from app.extensions import db
-from app.models import AdminAccount, MediaServer
+from app.models import MediaServer
 from app.services.image_proxy import ImageProxyService
 from app.services.media import plex as plex_module
 from app.services.media import service
 
-
-@pytest.fixture(autouse=True)
-def _clear_caches():
-    def clear():
-        ImageProxyService._server_url_cache.clear()
-        ImageProxyService._server_header_cache.clear()
-        ImageProxyService._image_cache.clear()
-        ImageProxyService._total_image_bytes = 0
-        ImageProxyService._session_cache.clear()
-        plex_module.clear_plex_connection_cache()
-
-    clear()
-    yield
-    clear()
+pytestmark = pytest.mark.usefixtures("clear_media_caches")
 
 
 def _server(name, url, api_key="old-key"):
@@ -100,11 +87,8 @@ def test_invalidate_server_caches_uses_the_new_url_and_key(app, session):
         assert len(plex_module._plex_servers) == 0
 
 
-def test_edit_route_clears_the_image_proxy_headers(app, client, session, monkeypatch):
+def test_edit_route_clears_the_image_proxy_headers(app, admin_client, monkeypatch):
     with app.app_context():
-        admin = AdminAccount(username="cacheadmin")
-        admin.set_password("TestPass123")
-        db.session.add(admin)
         server = _server("Edited", "http://old.local")
         server_id = server.id
         ImageProxyService.get_server_headers(server_id, "http://old.local/a.jpg")
@@ -114,8 +98,7 @@ def test_edit_route_clears_the_image_proxy_headers(app, client, session, monkeyp
         "app.blueprints.media_servers.routes.check_server_connection",
         lambda *_args: (True, ""),
     )
-    client.post("/login", data={"username": "cacheadmin", "password": "TestPass123"})
-    response = client.post(
+    response = admin_client.post(
         f"/settings/servers/{server_id}/edit",
         data={
             "server_name": "Edited",

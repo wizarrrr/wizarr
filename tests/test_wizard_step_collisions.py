@@ -14,7 +14,6 @@ from werkzeug.exceptions import InternalServerError
 from app.blueprints.wizard_admin import routes as wizard_admin_routes
 from app.extensions import db
 from app.models import (
-    AdminAccount,
     MediaServer,
     WizardBundle,
     WizardBundleStep,
@@ -23,19 +22,6 @@ from app.models import (
 from app.settings_cache import clear_settings_cache
 
 CONFLICT_MESSAGE = "Cannot save the change because it conflicts"
-
-
-@pytest.fixture
-def client_as_admin(client, session):
-    """Return a client with an authenticated admin session."""
-    admin = AdminAccount(username="testadmin")
-    admin.set_password("testpass123")
-    session.add(admin)
-    session.commit()
-    with client.session_transaction() as sess:
-        sess["_user_id"] = str(admin.id)
-        sess["_fresh"] = True
-    return client
 
 
 @pytest.fixture
@@ -68,8 +54,8 @@ def _edit_to_plex(client, step_id: int):
     )
 
 
-def test_edit_into_other_group_moves_step_to_free_position(client_as_admin, steps):
-    response = _edit_to_plex(client_as_admin, steps["jellyfin"])
+def test_edit_into_other_group_moves_step_to_free_position(admin_client, steps):
+    response = _edit_to_plex(admin_client, steps["jellyfin"])
 
     assert response.status_code == 200
     assert CONFLICT_MESSAGE not in response.get_data(as_text=True)
@@ -82,17 +68,17 @@ def test_edit_into_other_group_moves_step_to_free_position(client_as_admin, step
         1,
     )
 
-    later = client_as_admin.get("/settings/wizard/", headers={"HX-Request": "true"})
+    later = admin_client.get("/settings/wizard/", headers={"HX-Request": "true"})
     assert later.status_code == 200
 
 
 def test_edit_that_collides_shows_error_and_next_request_works(
-    client_as_admin, steps, monkeypatch
+    admin_client, steps, monkeypatch
 ):
     # Make the edit write a position that the Plex step already holds.
     monkeypatch.setattr(wizard_admin_routes, "_next_free_position", lambda *_: 0)
 
-    response = _edit_to_plex(client_as_admin, steps["jellyfin"])
+    response = _edit_to_plex(admin_client, steps["jellyfin"])
 
     assert response.status_code == 200
     assert CONFLICT_MESSAGE in response.get_data(as_text=True)
@@ -101,12 +87,12 @@ def test_edit_that_collides_shows_error_and_next_request_works(
     assert unchanged is not None
     assert unchanged.server_type == "jellyfin"
 
-    later = client_as_admin.get("/settings/wizard/", headers={"HX-Request": "true"})
+    later = admin_client.get("/settings/wizard/", headers={"HX-Request": "true"})
     assert later.status_code == 200
     assert CONFLICT_MESSAGE not in later.get_data(as_text=True)
 
 
-def test_reorder_skips_duplicates_and_keeps_unlisted_steps(client_as_admin, session):
+def test_reorder_skips_duplicates_and_keeps_unlisted_steps(admin_client, session):
     rows = [
         WizardStep(server_type="plex", category="pre_invite", position=i, markdown="x")
         for i in range(3)
@@ -115,7 +101,7 @@ def test_reorder_skips_duplicates_and_keeps_unlisted_steps(client_as_admin, sess
     session.commit()
     a, b, c = (r.id for r in rows)
 
-    response = client_as_admin.post(
+    response = admin_client.post(
         "/settings/wizard/reorder",
         data=json.dumps(
             {"server_type": "plex", "category": "pre_invite", "order": [c, c, a]}
@@ -134,9 +120,7 @@ def test_reorder_skips_duplicates_and_keeps_unlisted_steps(client_as_admin, sess
     assert [(s.id, s.position) for s in ordered] == [(c, 0), (a, 1), (b, 2)]
 
 
-def test_reorder_bundle_moves_step_after_step_at_position_zero(
-    client_as_admin, session
-):
+def test_reorder_bundle_moves_step_after_step_at_position_zero(admin_client, session):
     post = WizardStep(
         server_type="custom", category="post_invite", position=0, markdown="x"
     )
@@ -154,7 +138,7 @@ def test_reorder_bundle_moves_step_after_step_at_position_zero(
     )
     session.commit()
 
-    response = client_as_admin.post(
+    response = admin_client.post(
         f"/settings/wizard/bundle/{bundle.id}/reorder",
         data=json.dumps(
             {

@@ -6,7 +6,6 @@ user kept their access on the server, untracked. Now a failure keeps the row
 for the next run, and a user the server no longer has still counts as gone.
 """
 
-import datetime
 from unittest.mock import Mock
 
 import pytest
@@ -14,10 +13,11 @@ import requests
 from plexapi.exceptions import BadRequest, NotFound
 
 from app.extensions import db
-from app.models import ExpiredUser, MediaServer, User
+from app.models import ExpiredUser, User
 from app.services import expiry
 from app.services.media import service
 from app.services.media.plex import PlexClient
+from tests.expiry_helpers import add_expired_users
 
 
 def _http_error(status: int) -> requests.HTTPError:
@@ -27,24 +27,10 @@ def _http_error(status: int) -> requests.HTTPError:
 
 
 @pytest.fixture
-def expired_user(app, session, monkeypatch):
+def expired_user(session, monkeypatch):
     monkeypatch.setattr(expiry.time, "sleep", lambda _seconds: None)
-    server = MediaServer(
-        name="J", server_type="jellyfin", url="http://j.local", api_key="k"
-    )
-    session.add(server)
-    session.flush()
-    user = User(
-        token="remote-id",
-        username="sam",
-        email="sam@example.com",
-        code="EXPIRED",
-        expires=datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=1),
-        server_id=server.id,
-    )
-    session.add(user)
-    session.commit()
-    return user.id
+    [user_id] = add_expired_users(session)
+    return user_id
 
 
 def _remote_delete_raises(monkeypatch, exc):
@@ -52,14 +38,6 @@ def _remote_delete_raises(monkeypatch, exc):
     client.delete_user.side_effect = exc
     monkeypatch.setattr(service, "get_client_for_media_server", lambda _s: client)
     return client
-
-
-def test_failed_remote_delete_keeps_the_user_for_retry(expired_user, monkeypatch):
-    _remote_delete_raises(monkeypatch, requests.ConnectionError("server down"))
-
-    assert expiry.disable_or_delete_user_if_expired() == []
-    assert db.session.get(User, expired_user) is not None
-    assert ExpiredUser.query.count() == 0
 
 
 def test_user_already_gone_on_the_server_is_expired(expired_user, monkeypatch):

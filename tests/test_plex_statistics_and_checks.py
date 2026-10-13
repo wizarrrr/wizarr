@@ -18,16 +18,10 @@ from app.blueprints.plex import routes as plex_routes
 from app.extensions import db
 from app.models import MediaServer, User
 from app.services import servers as servers_module
-from app.services.media import plex as plex_module
 from app.services.media.plex import PlexClient
 from app.services.servers import PLEX_CHECK_TIMEOUT, check_plex
 
-
-@pytest.fixture(autouse=True)
-def _clear_plex_caches():
-    plex_module.clear_plex_connection_cache()
-    yield
-    plex_module.clear_plex_connection_cache()
+pytestmark = pytest.mark.usefixtures("clear_media_caches")
 
 
 class _FakePlexServer:

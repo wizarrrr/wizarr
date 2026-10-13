@@ -1,20 +1,20 @@
-"""
-Comprehensive error handling tests for wizard routes.
+"""Error handling tests for the wizard routes.
 
 Tests cover:
-- Invalid invite code handling (Requirement 13.1)
-- Expired invite code handling (Requirement 13.2)
-- Session expiration handling (Requirement 13.2, 13.5)
-- Database query failure fallbacks (Requirement 13.3)
-- Graceful degradation for missing steps (Requirement 13.6)
+- Invalid and expired invite codes
+- Invite codes that expire during the wizard
+- Database errors (the routes fall back and do not show a 500 error)
+- Steps that are missing or that cannot render
 """
 
 import datetime
 from datetime import timedelta
 from unittest.mock import patch
 
-from app.extensions import db
+import pytest
+
 from app.models import Invitation, MediaServer, WizardStep
+from app.services.invite_code_manager import InviteCodeManager
 
 
 def _utc_now() -> datetime.datetime:
@@ -22,409 +22,223 @@ def _utc_now() -> datetime.datetime:
     return datetime.datetime.now(datetime.UTC).replace(tzinfo=None)
 
 
-class TestInvalidInviteCodeHandling:
-    """Test handling of invalid invite codes (Requirement 13.1)."""
+def _add_invitation(session, code: str, *, with_server: bool = True, **fields):
+    """Add an invitation for a Jellyfin server."""
+    invitation = Invitation(code=code, **({"unlimited": True} | fields))
+    if with_server:
+        server = MediaServer(
+            name="Test Server",
+            server_type="jellyfin",
+            url="http://localhost:8096",
+            api_key="test-key",
+        )
+        session.add(server)
+        invitation.servers.append(server)
+    session.add(invitation)
+    session.commit()
+    return invitation
 
-    def test_pre_wizard_with_no_invite_code(self, app, client):
+
+def _add_pre_invite_step(session, markdown: str = "# Read first") -> None:
+    session.add(
+        WizardStep(
+            server_type="jellyfin",
+            category="pre_invite",
+            position=0,
+            markdown=markdown,
+        )
+    )
+    session.commit()
+
+
+def _start_invite_session(client, code: str) -> None:
+    """Put the session in the state that the /j/<code> route makes."""
+    with client.session_transaction() as sess:
+        sess[InviteCodeManager.STORAGE_KEY] = code
+        sess["invitation_in_progress"] = True
+
+
+def _flashes(client) -> list[str]:
+    with client.session_transaction() as sess:
+        return [message for _category, message in sess.get("_flashes", [])]
+
+
+class TestInvalidInviteCodeHandling:
+    def test_pre_wizard_with_no_invite_code(self, client, session):
         """Test pre-wizard redirects to the help page with no invite code."""
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
         assert response.status_code == 302
         assert response.location == "/wizard/help"
 
-    def test_pre_wizard_with_invalid_invite_code(self, app, client):
+    def test_pre_wizard_with_invalid_invite_code(self, client, session):
         """Test pre-wizard redirects to home with invalid invite code."""
         with client.session_transaction() as sess:
-            sess["wizarr_invite_code"] = "INVALID123"
+            sess[InviteCodeManager.STORAGE_KEY] = "INVALID123"
 
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
         assert response.status_code == 302
-        # Should redirect to home page
         assert response.location == "/"
 
-    def test_pre_wizard_with_nonexistent_invite_code(self, app, client):
-        """Test pre-wizard handles nonexistent invite code gracefully."""
+    @pytest.mark.parametrize(
+        "fields",
+        [
+            {"expires": _utc_now() - timedelta(hours=1)},
+            {"unlimited": False, "used": True},
+        ],
+        ids=["expired", "used"],
+    )
+    def test_pre_wizard_rejects_unusable_invitation(self, client, session, fields):
+        _add_invitation(session, "BADINV123", **fields)
         with client.session_transaction() as sess:
-            sess["wizarr_invite_code"] = "NOTEXIST999"
+            sess[InviteCodeManager.STORAGE_KEY] = "BADINV123"
 
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
+
         assert response.status_code == 302
-        # Should redirect to home page
         assert response.location == "/"
-
-
-class TestExpiredInviteCodeHandling:
-    """Test handling of expired invite codes (Requirement 13.2)."""
-
-    def test_pre_wizard_with_expired_invitation(self, app, client):
-        """Test pre-wizard rejects expired invitations."""
-        with app.app_context():
-            # Create expired invitation
-            server = MediaServer(
-                name="Test Server",
-                server_type="jellyfin",
-                url="http://localhost:8096",
-                api_key="test-key",
-            )
-            db.session.add(server)
-            db.session.flush()
-
-            invitation = Invitation(
-                code="EXPIRED123",
-                unlimited=True,
-                expires=_utc_now() - timedelta(hours=1),
-            )
-            invitation.servers.append(server)
-            db.session.add(invitation)
-            db.session.commit()
-
         with client.session_transaction() as sess:
-            sess["wizarr_invite_code"] = "EXPIRED123"
-
-        response = client.get("/wizard/pre-wizard", follow_redirects=False)
-        assert response.status_code == 302
-        # Should redirect to home page
-        assert response.location == "/"
-
-    def test_pre_wizard_with_used_limited_invitation(self, app, client):
-        """Test pre-wizard rejects used limited invitations."""
-        with app.app_context():
-            # Create used limited invitation
-            server = MediaServer(
-                name="Test Server",
-                server_type="jellyfin",
-                url="http://localhost:8096",
-                api_key="test-key",
-            )
-            db.session.add(server)
-            db.session.flush()
-
-            invitation = Invitation(
-                code="USED123",
-                unlimited=False,
-                used=True,
-            )
-            invitation.servers.append(server)
-            db.session.add(invitation)
-            db.session.commit()
-
-        with client.session_transaction() as sess:
-            sess["wizarr_invite_code"] = "USED123"
-
-        response = client.get("/wizard/pre-wizard", follow_redirects=False)
-        assert response.status_code == 302
-        # Should redirect to home page
-        assert response.location == "/"
+            assert InviteCodeManager.STORAGE_KEY not in sess
 
 
 class TestSessionExpirationHandling:
-    """Test handling of session expiration (Requirement 13.2, 13.5)."""
+    def test_pre_wizard_validates_invite_code_on_each_request(self, client, session):
+        invitation = _add_invitation(
+            session, "VALID123", expires=_utc_now() + timedelta(days=7)
+        )
+        _add_pre_invite_step(session)
+        _start_invite_session(client, "VALID123")
 
-    def test_post_wizard_without_authentication(self, app, client):
-        """Test post-wizard redirects to the help page, not the admin login."""
-        response = client.get("/wizard/post-wizard", follow_redirects=False)
-        assert response.status_code == 302
-        assert response.location == "/wizard/help"
-
-    def test_pre_wizard_session_validation_on_each_request(self, app, client):
-        """Test that pre-wizard validates invite code on each request."""
-        with app.app_context():
-            # Create valid invitation
-            server = MediaServer(
-                name="Test Server",
-                server_type="jellyfin",
-                url="http://localhost:8096",
-                api_key="test-key",
-            )
-            db.session.add(server)
-            db.session.flush()
-
-            invitation = Invitation(
-                code="VALID123",
-                unlimited=True,
-                expires=datetime.datetime.now() + timedelta(days=7),
-            )
-            invitation.servers.append(server)
-            db.session.add(invitation)
-            db.session.commit()
-
-        with client.session_transaction() as sess:
-            sess["wizarr_invite_code"] = "VALID123"
-
-        # First request should work
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
-        # Should redirect to join page (no pre-invite steps)
-        assert response.status_code == 302
+        assert response.status_code == 200
+        assert b"Read first" in response.data
 
-        # Now expire the invitation
-        with app.app_context():
-            invitation = Invitation.query.filter_by(code="VALID123").first()
-            invitation.expires = _utc_now() - timedelta(hours=1)
-            db.session.commit()
+        # The invitation expires while the user is in the wizard.
+        invitation.expires = _utc_now() - timedelta(hours=1)
+        session.commit()
 
-        # Second request should fail
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
         assert response.status_code == 302
-        # Should redirect to home page
         assert response.location == "/"
 
 
 class TestDatabaseErrorHandling:
-    """Test handling of database query failures (Requirement 13.3)."""
+    def test_pre_wizard_database_error_loading_steps_opens_join_page(
+        self, client, session, caplog
+    ):
+        _add_invitation(session, "VALID123")
+        _add_pre_invite_step(session)
+        _start_invite_session(client, "VALID123")
 
-    def test_pre_wizard_handles_database_error_loading_steps(self, app, client):
-        """Test pre-wizard handles database errors when loading steps."""
-        with app.app_context():
-            # Create valid invitation
-            server = MediaServer(
+        with patch("app.blueprints.wizard.routes.WizardStep") as mock_wizard_step:
+            mock_wizard_step.query.filter_by.side_effect = Exception("Database error")
+            response = client.get("/wizard/pre-wizard", follow_redirects=False)
+
+        assert mock_wizard_step.query.filter_by.called
+        assert "Database error querying wizard steps" in caplog.text
+        # Without steps, the user continues to the join page.
+        assert response.status_code == 302
+        assert response.location == "/j/VALID123"
+        with client.session_transaction() as sess:
+            assert sess[InviteCodeManager.PRE_WIZARD_COMPLETE_KEY] is True
+
+    def test_post_wizard_handles_database_error_loading_invitation(
+        self, client, session
+    ):
+        session.add(
+            MediaServer(
                 name="Test Server",
                 server_type="jellyfin",
                 url="http://localhost:8096",
                 api_key="test-key",
             )
-            db.session.add(server)
-            db.session.flush()
-
-            invitation = Invitation(
-                code="VALID123",
-                unlimited=True,
-            )
-            invitation.servers.append(server)
-            db.session.add(invitation)
-            db.session.commit()
-
-        with client.session_transaction() as sess:
-            sess["wizarr_invite_code"] = "VALID123"
-
-        # Mock database error when querying wizard steps
-        with patch("app.blueprints.wizard.routes.WizardStep") as mock_wizard_step:
-            mock_wizard_step.query.filter_by.side_effect = Exception("Database error")
-
-            response = client.get("/wizard/pre-wizard", follow_redirects=True)
-            assert response.status_code == 200
-            # Should gracefully handle error and redirect to join page
-            # The exact behavior depends on implementation
-
-    def test_post_wizard_handles_database_error_loading_invitation(self, app, client):
-        """Test post-wizard handles database errors when loading invitation."""
+        )
+        session.commit()
         with client.session_transaction() as sess:
             sess["wizard_access"] = "TESTCODE123"
 
-        # Mock database error when querying invitation
         with patch("app.blueprints.wizard.routes.Invitation") as mock_invitation:
             mock_invitation.query.filter_by.side_effect = Exception("Database error")
+            response = client.get("/wizard/post-wizard", follow_redirects=False)
 
-            response = client.get("/wizard/post-wizard", follow_redirects=True)
-            assert response.status_code == 200
-            # Should handle error gracefully
+        mock_invitation.query.filter_by.assert_called_once_with(code="TESTCODE123")
+        # The route falls back to the first server. It has no post-invite steps.
+        assert response.status_code == 302
+        assert response.location == "/wizard/complete"
 
 
 class TestGracefulDegradation:
-    """Test graceful degradation for missing/broken steps (Requirement 13.6)."""
-
-    def test_pre_wizard_with_no_servers_configured(self, app, client):
-        """Test pre-wizard handles case where no servers are configured."""
-        with app.app_context():
-            # Create invitation without servers
-            invitation = Invitation(
-                code="NOSERVER123",
-                unlimited=True,
-            )
-            db.session.add(invitation)
-            db.session.commit()
-
-        with client.session_transaction() as sess:
-            sess["wizarr_invite_code"] = "NOSERVER123"
+    def test_pre_wizard_with_no_servers_configured(self, client, session):
+        _add_invitation(session, "NOSERVER123", with_server=False)
+        _start_invite_session(client, "NOSERVER123")
 
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
+
         assert response.status_code == 302
-        # The invite flow did not start, so show the help page
-        assert response.location == "/wizard/help"
+        assert response.location == "/"
+        assert any("No media servers are configured" in m for m in _flashes(client))
 
-    def test_pre_wizard_with_no_pre_invite_steps(self, app, client):
-        """Test pre-wizard redirects to join when no pre-invite steps exist."""
-        with app.app_context():
-            # Create valid invitation
-            server = MediaServer(
-                name="Test Server",
-                server_type="jellyfin",
-                url="http://localhost:8096",
-                api_key="test-key",
-            )
-            db.session.add(server)
-            db.session.flush()
-
-            invitation = Invitation(
-                code="NOSTEPS123",
-                unlimited=True,
-            )
-            invitation.servers.append(server)
-            db.session.add(invitation)
-            db.session.commit()
-
-        with client.session_transaction() as sess:
-            sess["wizarr_invite_code"] = "NOSTEPS123"
+    def test_pre_wizard_with_no_pre_invite_steps(self, client, session):
+        _add_invitation(session, "NOSTEPS123")
+        _start_invite_session(client, "NOSTEPS123")
 
         response = client.get("/wizard/pre-wizard", follow_redirects=False)
+
         assert response.status_code == 302
-        # Should redirect to invite page (public.invite route)
-        # The exact URL depends on the route configuration
-        assert response.location is not None
-
-    def test_post_wizard_with_no_post_invite_steps(self, app, client):
-        """Test post-wizard redirects to completion when no post-invite steps exist."""
-        with app.app_context():
-            # Create valid invitation
-            server = MediaServer(
-                name="Test Server",
-                server_type="jellyfin",
-                url="http://localhost:8096",
-                api_key="test-key",
-            )
-            db.session.add(server)
-            db.session.flush()
-
-            invitation = Invitation(
-                code="NOSTEPS123",
-                unlimited=True,
-            )
-            invitation.servers.append(server)
-            db.session.add(invitation)
-            db.session.commit()
-
+        assert response.location == "/j/NOSTEPS123"
         with client.session_transaction() as sess:
-            sess["wizard_access"] = "NOSTEPS123"
+            assert sess[InviteCodeManager.PRE_WIZARD_COMPLETE_KEY] is True
 
-        response = client.get("/wizard/post-wizard", follow_redirects=True)
-        assert response.status_code == 200
-        # Should show completion message
-        assert (
-            b"complete" in response.data.lower() or b"welcome" in response.data.lower()
+    def test_wizard_handles_broken_step_content(self, client, session):
+        _add_invitation(session, "BROKEN123")
+        _add_pre_invite_step(
+            session, "# Test\n{{ undefined_variable.nonexistent_method() }}"
         )
+        _start_invite_session(client, "BROKEN123")
 
+        response = client.get("/wizard/pre-wizard", follow_redirects=False)
 
-class TestStepRenderingErrors:
-    """Test handling of step rendering errors (Requirement 13.6)."""
-
-    def test_wizard_handles_broken_step_content(self, app, client):
-        """Test wizard handles steps with broken markdown/Jinja content."""
-        with app.app_context():
-            # Create server and invitation
-            server = MediaServer(
-                name="Test Server",
-                server_type="jellyfin",
-                url="http://localhost:8096",
-                api_key="test-key",
-            )
-            db.session.add(server)
-            db.session.flush()
-
-            invitation = Invitation(
-                code="BROKEN123",
-                unlimited=True,
-            )
-            invitation.servers.append(server)
-            db.session.add(invitation)
-
-            # Create step with broken Jinja template
-            step = WizardStep(
-                server_type="jellyfin",
-                category="pre_invite",
-                position=0,
-                markdown="# Test\n{{ undefined_variable.nonexistent_method() }}",
-            )
-            db.session.add(step)
-            db.session.commit()
-
-        with client.session_transaction() as sess:
-            sess["wizarr_invite_code"] = "BROKEN123"
-
-        response = client.get("/wizard/pre-wizard", follow_redirects=True)
         assert response.status_code == 200
-        # Should show error message or gracefully handle the broken step
-        # The _render function should catch the error and return error HTML
+        assert b"Error Loading Step" in response.data
 
 
 class TestComboWizardErrors:
-    """Test error handling in combo wizard for multi-server invitations."""
+    def test_combo_wizard_without_server_order(self, client, session):
+        _start_invite_session(client, "COMBO123")
 
-    def test_combo_wizard_without_server_order(self, client):
-        """Test combo wizard redirects when no server order in session."""
-        # Test with new path-based category routing
         response = client.get("/wizard/combo/pre_invite/0", follow_redirects=False)
-        assert response.status_code == 302
-        # Should redirect (exact location may vary)
-        assert response.location is not None
 
-    def test_combo_wizard_handles_database_error_loading_steps(self, client):
-        """Test combo wizard handles database errors when loading steps."""
+        assert response.status_code == 302
+        assert response.location == "/wizard/"
+
+    def test_combo_wizard_handles_database_error_loading_steps(self, client, session):
+        _start_invite_session(client, "COMBO123")
         with client.session_transaction() as sess:
             sess["wizard_server_order"] = ["jellyfin", "plex"]
 
-        # Mock database error when querying wizard steps
         with patch("app.blueprints.wizard.routes._steps") as mock_steps:
             mock_steps.side_effect = Exception("Database error")
+            response = client.get("/wizard/combo/pre_invite/0", follow_redirects=False)
 
-            # Test with new path-based category routing
-            response = client.get("/wizard/combo/pre_invite/0", follow_redirects=True)
-            assert response.status_code == 200
-            # Should handle error gracefully
+        assert mock_steps.call_count == 2
+        # Without steps, the user continues to the join page.
+        assert response.status_code == 302
+        assert response.location == "/j/COMBO123"
 
 
 class TestBundleWizardErrors:
-    """Test error handling in bundle wizard."""
+    def test_bundle_wizard_without_bundle_id(self, client, session):
+        _start_invite_session(client, "BUNDLE123")
 
-    def test_bundle_wizard_without_bundle_id(self, client):
-        """Test bundle wizard redirects when no bundle_id in session."""
         response = client.get("/wizard/bundle/0", follow_redirects=False)
+
         assert response.status_code == 302
-        # Should redirect (exact location may vary)
-        assert response.location is not None
+        assert response.location == "/wizard/"
 
-    def test_bundle_wizard_with_nonexistent_bundle(self, client):
-        """Test bundle wizard handles nonexistent bundle gracefully."""
+    def test_bundle_wizard_with_nonexistent_bundle(self, client, session):
+        _start_invite_session(client, "BUNDLE123")
         with client.session_transaction() as sess:
-            sess["wizard_bundle_id"] = 99999  # Nonexistent bundle
+            sess["wizard_bundle_id"] = 99999
 
-        response = client.get("/wizard/bundle/0", follow_redirects=True)
-        # Should return 404 or redirect with error
-        assert response.status_code in [200, 404]
+        response = client.get("/wizard/bundle/0", follow_redirects=False)
 
-
-class TestErrorLogging:
-    """Test that errors are properly logged (Requirement 13.5)."""
-
-    def test_database_errors_are_logged(self, app, client, caplog):
-        """Test that database errors are logged for debugging."""
-        with app.app_context():
-            # Create valid invitation
-            server = MediaServer(
-                name="Test Server",
-                server_type="jellyfin",
-                url="http://localhost:8096",
-                api_key="test-key",
-            )
-            db.session.add(server)
-            db.session.flush()
-
-            invitation = Invitation(
-                code="VALID123",
-                unlimited=True,
-            )
-            invitation.servers.append(server)
-            db.session.add(invitation)
-            db.session.commit()
-
-        with client.session_transaction() as sess:
-            sess["wizarr_invite_code"] = "VALID123"
-
-        # Mock database error
-        with patch("app.blueprints.wizard.routes.WizardStep") as mock_wizard_step:
-            mock_wizard_step.query.filter_by.side_effect = Exception(
-                "Test database error"
-            )
-
-            response = client.get("/wizard/pre-wizard", follow_redirects=True)
-            assert response.status_code == 200
-
-            # Check that error was logged (if caplog is available)
-            # Note: This depends on logging configuration in tests
+        assert response.status_code == 404

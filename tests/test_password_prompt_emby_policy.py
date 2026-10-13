@@ -1,7 +1,12 @@
+"""The password prompt /j/<code>/password gives a new Emby user a safe policy.
+
+The policy turns off admin rights and the features that the server and the
+invitation do not allow.
+"""
+
 from unittest.mock import patch
 
-from app.extensions import db
-from app.models import AdminAccount, Invitation, MediaServer, Settings
+from app.models import Invitation, MediaServer
 
 
 class _Response:
@@ -44,15 +49,7 @@ class PolicyCapturingClient:
         self.policy_updates.append(policy)
 
 
-def _complete_setup():
-    admin = AdminAccount(username="admin")
-    admin.set_password("password")
-    db.session.add(admin)
-    db.session.add(Settings(key="admin_username", value="admin"))
-
-
 def test_password_prompt_applies_safe_emby_policy(client, session):
-    _complete_setup()
     server = MediaServer(
         name="Emby",
         server_type="emby",
@@ -71,8 +68,8 @@ def test_password_prompt_applies_safe_emby_policy(client, session):
         allow_mobile_uploads=False,
     )
     invitation.servers = [server]
-    db.session.add_all([server, invitation])
-    db.session.commit()
+    session.add_all([server, invitation])
+    session.commit()
 
     media_client = PolicyCapturingClient()
 

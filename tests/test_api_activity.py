@@ -10,26 +10,22 @@ from datetime import UTC, datetime, timedelta
 import pytest
 
 from app.extensions import db
-from app.models import ActivitySession, AdminAccount, ApiKey, MediaServer
+from app.models import ActivitySession, ApiKey, MediaServer
 
 RAW_KEY = "activity-api-test-key"
 HOUR_MS = 60 * 60 * 1000
 
 
 @pytest.fixture
-def activity_data(app, session):
+def activity_data(app, session, admin_user):
     """Two servers, an API key, and sessions inside and outside 30 days."""
     now = datetime.now(UTC)
     with app.app_context():
-        admin = AdminAccount(username="activity-admin")
-        admin.set_password("Password1")
-        db.session.add(admin)
-        db.session.flush()
         db.session.add(
             ApiKey(
                 name="activity",
                 key_hash=hashlib.sha256(RAW_KEY.encode()).hexdigest(),
-                created_by_id=admin.id,
+                created_by_id=admin_user.id,
                 is_active=True,
             )
         )

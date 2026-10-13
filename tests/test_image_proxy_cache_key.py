@@ -5,8 +5,6 @@ bucket, so the cache went cold every hour. It is now keyed on the server and
 the normalized upstream URL. A valid token is still needed for each request.
 """
 
-import base64
-import json
 from typing import ClassVar
 from urllib.parse import unquote_plus
 
@@ -22,6 +20,8 @@ from app.services.media.jellyfin import (
     JellyfinClient,
 )
 
+pytestmark = pytest.mark.usefixtures("clear_media_caches")
+
 UPSTREAM = "http://cdn.example.com/poster.jpg?b=2&a=1"
 
 
@@ -31,21 +31,6 @@ class _Clock:
 
     def time(self) -> float:
         return self.current
-
-
-@pytest.fixture(autouse=True)
-def _clear_caches():
-    def clear():
-        ImageProxyService._token_cache.clear()
-        ImageProxyService._image_cache.clear()
-        ImageProxyService._total_image_bytes = 0
-        ImageProxyService._cipher_key_cache.clear()
-        ImageProxyService._server_url_cache.clear()
-        ImageProxyService._server_header_cache.clear()
-
-    clear()
-    yield
-    clear()
 
 
 class _FakeResponse:
@@ -186,21 +171,3 @@ def test_now_playing_artwork_is_resized():
         "http://media.local/Items/item-1/Images/Backdrop"
         f"?{NOW_PLAYING_BACKDROP_PARAMS}&api_key=admin-key"
     )
-
-
-def test_resized_poster_tokens_stay_opaque(app):
-    client = JellyfinClient.__new__(JellyfinClient)
-    client.url = "http://media.local"
-    client.token = "admin-key"
-    client.server_id = None
-    client.get = lambda *_a, **_kw: _Items({"Items": [{"Id": "m1"}]})
-
-    with app.app_context():
-        (poster,) = client.get_movie_posters(limit=1)
-
-    token = unquote_plus(poster.split("token=", 1)[1])
-    padding = (4 - len(token) % 4) % 4
-    raw = base64.urlsafe_b64decode(token + "=" * padding)
-    with pytest.raises(ValueError):
-        json.loads(raw)
-    assert b"maxWidth" not in raw

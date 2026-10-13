@@ -14,13 +14,11 @@ import datetime
 import re
 from contextlib import contextmanager
 
-import pytest
 from flask import template_rendered
 from sqlalchemy import event
 
 from app.extensions import db
 from app.models import (
-    AdminAccount,
     ExpiredUser,
     Identity,
     Invitation,
@@ -32,34 +30,6 @@ from app.models import (
 
 ROUTES = "app.blueprints.admin.routes"
 SERVICE = "app.services.media.service"
-
-
-@pytest.fixture
-def admin_user(app):
-    """Create an admin account for authenticated requests."""
-    with app.app_context():
-        admin = AdminAccount.query.filter_by(username="testadmin").first()
-        if not admin:
-            admin = AdminAccount(username="testadmin")
-            db.session.add(admin)
-        admin.set_password("TestPass123")
-        db.session.commit()
-        yield admin
-
-
-@pytest.fixture
-def logged_in(app, client, session, admin_user):
-    # The shared session fixture does not clean invite_library. Old rows can
-    # collide with new invitation ids, so remove them here.
-    with app.app_context():
-        db.session.execute(db.text("DELETE FROM invite_library"))
-        db.session.commit()
-    client.post("/login", data={"username": "testadmin", "password": "TestPass123"})
-    yield client
-    with app.app_context():
-        db.session.rollback()
-        db.session.execute(db.text("DELETE FROM invite_library"))
-        db.session.commit()
 
 
 @contextmanager
@@ -153,7 +123,7 @@ def _card_count(body: str) -> int:
 # ─── /users/table ──────────────────────────────────────────────────────────
 
 
-def test_users_table_query_count_does_not_grow_with_users(app, logged_in):
+def test_users_table_query_count_does_not_grow_with_users(app, admin_client):
     with app.app_context():
         server = _server()
         server_id = server.id
@@ -161,7 +131,7 @@ def test_users_table_query_count_does_not_grow_with_users(app, logged_in):
         _add_users(server, 3, 2, linked=True)
 
     with count_statements(app) as small:
-        assert logged_in.get("/users/table").status_code == 200
+        assert admin_client.get("/users/table").status_code == 200
 
     with app.app_context():
         server = db.session.get(MediaServer, server_id)
@@ -169,7 +139,7 @@ def test_users_table_query_count_does_not_grow_with_users(app, logged_in):
         _add_users(server, 20, 10, linked=True)
 
     with count_statements(app) as large:
-        response = logged_in.get("/users/table")
+        response = admin_client.get("/users/table")
     assert response.status_code == 200
     assert _card_count(response.data.decode()) == 30
 
@@ -180,7 +150,7 @@ def test_users_table_query_count_does_not_grow_with_users(app, logged_in):
     assert not any(s.lstrip().upper().startswith("UPDATE") for s in large)
 
 
-def test_users_table_paginates_identity_groups(app, logged_in, monkeypatch):
+def test_users_table_paginates_identity_groups(app, admin_client, monkeypatch):
     monkeypatch.setattr(f"{ROUTES}.USERS_PAGE_SIZE", 4)
     with app.app_context():
         server = _server()
@@ -189,8 +159,8 @@ def test_users_table_paginates_identity_groups(app, logged_in, monkeypatch):
         # Two linked rows for one person: one card, not two.
         _add_users(server, 6, 1, linked=True)
 
-    page1 = logged_in.get("/users/table").data.decode()
-    page2 = logged_in.get("/users/table", query_string={"page": 2}).data.decode()
+    page1 = admin_client.get("/users/table").data.decode()
+    page2 = admin_client.get("/users/table", query_string={"page": 2}).data.decode()
 
     assert _card_count(page1) == 4
     assert _card_count(page2) == 3
@@ -201,21 +171,21 @@ def test_users_table_paginates_identity_groups(app, logged_in, monkeypatch):
     assert "1 / 2" in page1 and "2 / 2" in page2
 
     # A page after the last page shows the last page.
-    clamped = logged_in.get("/users/table", query_string={"page": 99}).data.decode()
+    clamped = admin_client.get("/users/table", query_string={"page": 99}).data.decode()
     assert 'id="users_page" name="page" value="2"' in clamped
 
     # The filters still apply when a page is given.
-    searched = logged_in.get(
+    searched = admin_client.get(
         "/users/table", query_string={"q": "user_0005", "page": 1}
     ).data.decode()
     assert _card_count(searched) == 1
-    other = logged_in.get(
+    other = admin_client.get(
         "/users/table", query_string={"server": server_id + 1000}
     ).data.decode()
     assert _card_count(other) == 0
 
 
-def test_users_table_expiry_sort_is_global_across_pages(app, logged_in, monkeypatch):
+def test_users_table_expiry_sort_is_global_across_pages(app, admin_client, monkeypatch):
     monkeypatch.setattr(f"{ROUTES}.USERS_PAGE_SIZE", 2)
     with app.app_context():
         server = _server()
@@ -246,7 +216,7 @@ def test_users_table_expiry_sort_is_global_across_pages(app, logged_in, monkeypa
         db.session.commit()
 
     def names(page, order):
-        body = logged_in.get(
+        body = admin_client.get(
             "/users/table", query_string={"order": order, "page": page}
         ).data.decode()
         return re.findall(r'<h3 class="font-semibold[^"]*">([^<]+)</h3>', body)
@@ -260,14 +230,14 @@ def test_users_table_expiry_sort_is_global_across_pages(app, logged_in, monkeypa
     assert desc == ["never", "d5", "d3", "d2", "linked"]
 
 
-def test_users_table_partial_adds_no_listeners(app, logged_in):
-    body = logged_in.get("/users/table").data.decode()
+def test_users_table_partial_adds_no_listeners(app, admin_client):
+    body = admin_client.get("/users/table").data.decode()
     # A table render must not add document listeners (they add up on each
     # refresh). The listeners are in admin/users.html, behind a guard flag.
     assert "<script" not in body
 
 
-def test_users_page_refreshes_table_from_body_and_lists_expired_once(app, logged_in):
+def test_users_page_refreshes_table_from_body_and_lists_expired_once(app, admin_client):
     with app.app_context():
         server = _server()
         db.session.add(
@@ -280,7 +250,7 @@ def test_users_page_refreshes_table_from_body_and_lists_expired_once(app, logged
         )
         db.session.commit()
 
-    body = logged_in.get("/users", headers={"HX-Request": "true"}).data.decode()
+    body = admin_client.get("/users", headers={"HX-Request": "true"}).data.decode()
     assert 'hx-trigger="load, refreshUserTable from:body"' in body
     assert "#users_page" in body
     assert "window.wizarrUsersPageListeners" in body
@@ -295,7 +265,7 @@ def test_users_page_refreshes_table_from_body_and_lists_expired_once(app, logged
 # ─── /hx/users/sync ────────────────────────────────────────────────────────
 
 
-def test_sync_route_triggers_refresh_only_when_sync_ran(app, logged_in, monkeypatch):
+def test_sync_route_triggers_refresh_only_when_sync_ran(app, admin_client, monkeypatch):
     calls = []
     result = {"value": False}
 
@@ -305,22 +275,22 @@ def test_sync_route_triggers_refresh_only_when_sync_ran(app, logged_in, monkeypa
 
     monkeypatch.setattr(f"{SERVICE}.sync_users", fake_sync_users, raising=False)
 
-    response = logged_in.get("/hx/users/sync", query_string={"server": ""})
+    response = admin_client.get("/hx/users/sync", query_string={"server": ""})
     assert response.status_code == 200
     assert "HX-Trigger" not in response.headers
     assert calls[-1] == (None, False)
 
     result["value"] = True
-    response = logged_in.get("/hx/users/sync")
+    response = admin_client.get("/hx/users/sync")
     assert response.headers.get("HX-Trigger") == "refreshUserTable"
 
-    response = logged_in.get("/hx/users/sync", query_string={"force": "1"})
+    response = admin_client.get("/hx/users/sync", query_string={"force": "1"})
     assert calls[-1] == (None, True)
     assert response.headers.get("HX-Trigger") == "refreshUserTable"
 
     with app.app_context():
         server_id = _server().id
-    logged_in.get("/hx/users/sync", query_string={"server": server_id})
+    admin_client.get("/hx/users/sync", query_string={"server": server_id})
     assert calls[-1][0].id == server_id
     assert calls[-1][1] is False
 
@@ -328,7 +298,7 @@ def test_sync_route_triggers_refresh_only_when_sync_ran(app, logged_in, monkeypa
 # ─── /server-health-card ───────────────────────────────────────────────────
 
 
-def test_server_health_card_uses_in_process_health(app, logged_in, monkeypatch):
+def test_server_health_card_uses_in_process_health(app, admin_client, monkeypatch):
     def no_http(*args, **kwargs):
         raise AssertionError("the health card must not make an HTTP request")
 
@@ -377,7 +347,7 @@ def test_server_health_card_uses_in_process_health(app, logged_in, monkeypatch):
     monkeypatch.setattr(f"{ROUTES}.get_now_playing_all_servers", lambda: sessions)
 
     with captured_templates(app) as templates:
-        response = logged_in.get("/server-health-card")
+        response = admin_client.get("/server-health-card")
     assert response.status_code == 200
     _, context = templates[-1]
     assert context["success"] is True
@@ -394,12 +364,14 @@ def test_server_health_card_uses_in_process_health(app, logged_in, monkeypatch):
     assert not alpha["online"] and "offline" in alpha["error"]
 
 
-def test_server_health_card_shows_error_when_service_fails(app, logged_in, monkeypatch):
+def test_server_health_card_shows_error_when_service_fails(
+    app, admin_client, monkeypatch
+):
     def broken(*, use_cache=True):
         raise RuntimeError("boom")
 
     monkeypatch.setattr(f"{SERVICE}.get_all_server_health", broken, raising=False)
-    response = logged_in.get("/server-health-card")
+    response = admin_client.get("/server-health-card")
     assert response.status_code == 200
     assert "boom" in response.data.decode()
 
@@ -407,7 +379,7 @@ def test_server_health_card_shows_error_when_service_fails(app, logged_in, monke
 # ─── /accepted-invites-card ────────────────────────────────────────────────
 
 
-def test_accepted_invites_card_counts_and_pages_in_sql(app, logged_in):
+def test_accepted_invites_card_counts_and_pages_in_sql(app, admin_client):
     with app.app_context():
         server = _server()  # one server → 3 rows per page
         base = datetime.datetime(2025, 1, 1, tzinfo=datetime.UTC)
@@ -432,7 +404,7 @@ def test_accepted_invites_card_counts_and_pages_in_sql(app, logged_in):
         db.session.commit()
 
     with captured_templates(app) as templates, count_statements(app) as statements:
-        response = logged_in.get("/accepted-invites-card", query_string={"page": 2})
+        response = admin_client.get("/accepted-invites-card", query_string={"page": 2})
     assert response.status_code == 200
     _, context = templates[-1]
     assert context["total"] == 7
@@ -448,7 +420,7 @@ def test_accepted_invites_card_counts_and_pages_in_sql(app, logged_in):
     assert "limit" in joined
 
     with captured_templates(app) as templates:
-        logged_in.get("/accepted-invites-card", query_string={"page": 99})
+        admin_client.get("/accepted-invites-card", query_string={"page": 99})
     _, context = templates[-1]
     assert context["page"] == 3
     assert [u.username for u in context["recent_users"]] == ["joined_0"]
@@ -457,7 +429,7 @@ def test_accepted_invites_card_counts_and_pages_in_sql(app, logged_in):
 # ─── /expired-users/table ──────────────────────────────────────────────────
 
 
-def test_expired_users_table_loads_in_chunks(app, logged_in, monkeypatch):
+def test_expired_users_table_loads_in_chunks(app, admin_client, monkeypatch):
     monkeypatch.setattr(f"{ROUTES}.EXPIRED_USERS_PAGE_SIZE", 4)
     with app.app_context():
         base = datetime.datetime(2025, 1, 1, tzinfo=datetime.UTC)
@@ -472,14 +444,14 @@ def test_expired_users_table_loads_in_chunks(app, logged_in, monkeypatch):
             )
         db.session.commit()
 
-    first = logged_in.get("/expired-users/table").data.decode()
+    first = admin_client.get("/expired-users/table").data.decode()
     assert 'id="expired_users_table"' in first
     assert len(re.findall(r">expired_\d+<", first)) == 4
     assert "expired_5" in first and "expired_1" not in first
     assert 'hx-get="/expired-users/table?offset=4"' in first
     assert "6 expired user" in first
 
-    more = logged_in.get("/expired-users/table", query_string={"offset": 4})
+    more = admin_client.get("/expired-users/table", query_string={"offset": 4})
     body = more.data.decode()
     assert 'id="expired_users_table"' not in body
     assert "expired_1" in body and "expired_0" in body
@@ -510,20 +482,20 @@ def _add_invites(server, start, count):
     db.session.commit()
 
 
-def test_invite_table_query_count_does_not_grow_with_invites(app, logged_in):
+def test_invite_table_query_count_does_not_grow_with_invites(app, admin_client):
     with app.app_context():
         server = _server(server_type="plex")
         server_id = server.id
         _add_invites(server, 0, 2)
 
     with count_statements(app) as small:
-        assert logged_in.post("/invite/table").status_code == 200
+        assert admin_client.post("/invite/table").status_code == 200
 
     with app.app_context():
         _add_invites(db.session.get(MediaServer, server_id), 2, 10)
 
     with count_statements(app) as large:
-        response = logged_in.post("/invite/table")
+        response = admin_client.post("/invite/table")
     assert response.status_code == 200
     assert response.data.decode().count('class="sr-only invite-check"') == 12
     small, large = _data_statements(small), _data_statements(large)
@@ -534,15 +506,15 @@ def test_invite_table_query_count_does_not_grow_with_invites(app, logged_in):
     assert all("invite_id IN" in s for s in flag_queries if "WHERE" in s)
 
 
-def test_invite_table_paginates(app, logged_in, monkeypatch):
+def test_invite_table_paginates(app, admin_client, monkeypatch):
     monkeypatch.setattr(f"{ROUTES}.INVITES_PAGE_SIZE", 2)
     with app.app_context():
         server = _server(server_type="plex")
         server_id = server.id
         _add_invites(server, 0, 5)
 
-    page1 = logged_in.post("/invite/table").data.decode()
-    page3 = logged_in.post("/invite/table", data={"page": "3"}).data.decode()
+    page1 = admin_client.post("/invite/table").data.decode()
+    page3 = admin_client.post("/invite/table", data={"page": "3"}).data.decode()
 
     # Newest first
     assert "INV0004" in page1 and "INV0003" in page1 and "INV0002" not in page1
@@ -551,13 +523,13 @@ def test_invite_table_paginates(app, logged_in, monkeypatch):
     assert 'hx-include="#invite_server_filter"' in page1
 
     # The server filter still applies with a page number.
-    filtered = logged_in.post(
+    filtered = admin_client.post(
         "/invite/table", data={"server": str(server_id + 1000), "page": "2"}
     ).data.decode()
     assert "INV000" not in filtered
 
 
-def test_invite_delete_keeps_the_page_and_the_filter(app, logged_in, monkeypatch):
+def test_invite_delete_keeps_the_page_and_the_filter(app, admin_client, monkeypatch):
     monkeypatch.setattr(f"{ROUTES}.INVITES_PAGE_SIZE", 2)
     with app.app_context():
         server = _server(server_type="plex")
@@ -566,14 +538,14 @@ def test_invite_delete_keeps_the_page_and_the_filter(app, logged_in, monkeypatch
         delete_id = Invitation.query.filter_by(code="INV0002").one().id
 
     # The table has the page field that the delete button includes.
-    page2 = logged_in.post("/invite/table", data={"page": "2"}).data.decode()
+    page2 = admin_client.post("/invite/table", data={"page": "2"}).data.decode()
     assert 'id="invite_page"' in page2
 
-    modal = logged_in.get(f"/invite/{delete_id}/delete-modal").data.decode()
+    modal = admin_client.get(f"/invite/{delete_id}/delete-modal").data.decode()
     assert 'hx-include="#invite_server_filter,#invite_page"' in modal
 
     # The delete button sends the values of the included fields.
-    body = logged_in.post(
+    body = admin_client.post(
         f"/invite/table?delete_id={delete_id}",
         data={"server": str(server_id), "page": "2"},
     ).data.decode()
@@ -586,8 +558,8 @@ def test_invite_delete_keeps_the_page_and_the_filter(app, logged_in, monkeypatch
 # ─── Dashboard polling ─────────────────────────────────────────────────────
 
 
-def test_dashboard_polls_only_in_visible_tabs(app, logged_in):
-    body = logged_in.get("/home", headers={"HX-Request": "true"}).data.decode()
+def test_dashboard_polls_only_in_visible_tabs(app, admin_client):
+    body = admin_client.get("/home", headers={"HX-Request": "true"}).data.decode()
     visible = "[document.visibilityState === 'visible']"
     for interval in ("10s", "30s", "45s"):
         assert f"every {interval} {visible}" in body

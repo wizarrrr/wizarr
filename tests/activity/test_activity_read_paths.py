@@ -12,94 +12,17 @@ Read paths of the activity pages.
 import csv
 import io
 import json
-from contextlib import contextmanager
 from datetime import UTC, datetime, timedelta
 
 import pytest
-from sqlalchemy import event
 
 from app.activity.domain.models import ActivityEvent, ActivityQuery
 from app.extensions import db
-from app.models import (
-    ActivitySession,
-    AdminAccount,
-    Identity,
-    MediaServer,
-    User,
-)
+from app.models import ActivitySession, Identity, User
 from app.services.activity.analytics import ActivityAnalyticsService
 from app.services.activity.ingestion import ActivityIngestionService
 from app.services.activity.queries import ActivityQueryService
-
-
-@contextmanager
-def count_sql(app):
-    record = {"statements": [], "commits": 0}
-
-    def before_cursor_execute(conn, cursor, statement, params, context, many):
-        record["statements"].append(statement)
-
-    def on_commit(conn):
-        record["commits"] += 1
-
-    engine = db.engine
-    event.listen(engine, "before_cursor_execute", before_cursor_execute)
-    event.listen(engine, "commit", on_commit)
-    try:
-        yield record
-    finally:
-        event.remove(engine, "before_cursor_execute", before_cursor_execute)
-        event.remove(engine, "commit", on_commit)
-
-
-def writes(record):
-    return [
-        s
-        for s in record["statements"]
-        if s.lstrip().upper().startswith(("INSERT", "UPDATE", "DELETE"))
-    ]
-
-
-@pytest.fixture
-def server(app, session):
-    server = MediaServer(
-        name="Read Server",
-        server_type="plex",
-        url="http://localhost:32400",
-        api_key="key",
-        verified=True,
-    )
-    session.add(server)
-    session.commit()
-    yield server
-    session.rollback()
-    session.execute(db.text("DELETE FROM activity_snapshot"))
-    session.query(ActivitySession).delete()
-    session.query(User).delete()
-    session.query(Identity).delete()
-    session.commit()
-
-
-def add_session(server_id, session_id, started_at, reference_id=None, **values):
-    defaults = {
-        "user_name": "alice",
-        "media_title": "Movie",
-        "media_type": "movie",
-        "device_name": "TV",
-        "active": False,
-        "duration_ms": 600_000,
-    }
-    defaults.update(values)
-    row = ActivitySession(
-        server_id=server_id,
-        session_id=session_id,
-        started_at=started_at,
-        **defaults,
-    )
-    db.session.add(row)
-    db.session.flush()
-    row.reference_id = reference_id if reference_id is not None else row.id
-    return row
+from tests.activity.conftest import add_session, count_sql, writes
 
 
 def test_grid_groups_on_reference_id_without_writes(app, server):
@@ -128,7 +51,7 @@ def test_grid_groups_on_reference_id_without_writes(app, server):
         db.session.commit()
 
         service = ActivityQueryService()
-        with count_sql(app) as record:
+        with count_sql() as record:
             sessions, total = service.get_activity_sessions(
                 ActivityQuery(limit=20, offset=0)
             )
@@ -217,38 +140,27 @@ def test_export_iterator_matches_grid(app, server):
         assert total == 7
 
 
-@pytest.fixture
-def logged_in(app, client, session):
-    with app.app_context():
-        admin = AdminAccount(username="activityadmin")
-        admin.set_password("TestPass123")
-        db.session.add(admin)
-        db.session.commit()
-    client.post("/login", data={"username": "activityadmin", "password": "TestPass123"})
-    return client
-
-
-def test_export_streams_csv_and_json(app, server, logged_in):
+def test_export_streams_csv_and_json(app, server, admin_client):
     with app.app_context():
         now = datetime.now(UTC)
         for i in range(3):
             add_session(server.id, f"s{i}", now - timedelta(minutes=i))
         db.session.commit()
 
-    response = logged_in.get("/activity/export?format=csv&days=1")
+    response = admin_client.get("/activity/export?format=csv&days=1")
     assert response.status_code == 200
     assert response.is_streamed
     rows = list(csv.reader(io.StringIO(response.get_data(as_text=True))))
     assert rows[0][0] == "Session ID"
     assert [row[0] for row in rows[1:]] == ["s0", "s1", "s2"]
 
-    response = logged_in.get("/activity/export?format=json&days=1")
+    response = admin_client.get("/activity/export?format=json&days=1")
     assert response.status_code == 200
     data = json.loads(response.get_data(as_text=True))
     assert [item["session_id"] for item in data] == ["s0", "s1", "s2"]
 
 
-def test_summary_signal_ignores_progress_writes(app, server, logged_in):
+def test_summary_signal_ignores_progress_writes(app, server, admin_client):
     service = ActivityIngestionService()
     with app.app_context():
         started = service.record_activity_event(
@@ -264,7 +176,7 @@ def test_summary_signal_ignores_progress_writes(app, server, logged_in):
         )
         session_row_id = started.id
 
-    first = logged_in.get("/activity/summary").get_json()
+    first = admin_client.get("/activity/summary").get_json()
     assert first["active_sessions"] == 1
     assert first["latest_session_id"] == session_row_id
 
@@ -289,7 +201,7 @@ def test_summary_signal_ignores_progress_writes(app, server, logged_in):
             )
         )
 
-    second = logged_in.get("/activity/summary").get_json()
+    second = admin_client.get("/activity/summary").get_json()
     assert second["latest_updated_at"] != first["latest_updated_at"]
     for key in ("active_sessions", "latest_session_id", "latest_started_at"):
         assert second[key] == first[key]
@@ -307,7 +219,7 @@ def test_summary_signal_ignores_progress_writes(app, server, logged_in):
             )
         )
 
-    third = logged_in.get("/activity/summary").get_json()
+    third = admin_client.get("/activity/summary").get_json()
     assert third["active_sessions"] == 0
 
 
@@ -349,7 +261,7 @@ def test_dashboard_stats_values_and_query_count(app, server):
         add_session(server.id, "e", base - timedelta(days=30), user_name="u2")
         db.session.commit()
 
-        with count_sql(app) as record:
+        with count_sql() as record:
             stats = ActivityAnalyticsService().get_dashboard_stats(days=7)
 
         assert len(record["statements"]) == 6
@@ -376,7 +288,7 @@ def test_dashboard_stats_values_and_query_count(app, server):
         assert sum(stats["time_series_data"]) == 3
 
 
-def test_import_jobs_poll_only_while_a_job_is_active(app, server, logged_in):
+def test_import_jobs_poll_only_while_a_job_is_active(app, server, admin_client):
     from app.models import HistoricalImportJob
 
     with app.app_context():
@@ -385,12 +297,12 @@ def test_import_jobs_poll_only_while_a_job_is_active(app, server, logged_in):
         db.session.commit()
         job_id = job.id
 
-    body = logged_in.get("/activity/settings/historical-jobs").get_data(as_text=True)
+    body = admin_client.get("/activity/settings/historical-jobs").get_data(as_text=True)
     assert "every 8s [document.visibilityState === 'visible']" in body
 
     with app.app_context():
         db.session.get(HistoricalImportJob, job_id).status = "failed"
         db.session.commit()
 
-    body = logged_in.get("/activity/settings/historical-jobs").get_data(as_text=True)
+    body = admin_client.get("/activity/settings/historical-jobs").get_data(as_text=True)
     assert "every 8s" not in body

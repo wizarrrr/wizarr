@@ -6,7 +6,6 @@ second for each user in it. Every other writer waited. After one failure,
 ``ROLLBACK TO`` kept the outer transaction open for the rest of the loop.
 """
 
-import datetime
 import sqlite3
 from unittest.mock import Mock
 
@@ -14,9 +13,10 @@ import pytest
 import requests
 
 from app.extensions import db
-from app.models import ExpiredUser, MediaServer, Settings, User
+from app.models import ExpiredUser, User
 from app.services import expiry
 from app.services.media import service
+from tests.expiry_helpers import add_expired_users
 
 
 def _write_lock_is_free() -> bool:
@@ -43,29 +43,6 @@ def lock_checks(monkeypatch):
     return checks
 
 
-def _expired(session, *, action="delete", count=2):
-    server = MediaServer(
-        name="J", server_type="jellyfin", url="http://j.local", api_key="k"
-    )
-    session.add(server)
-    session.flush()
-    users = [
-        User(
-            token=f"remote-{i}",
-            username=f"user{i}",
-            email=f"user{i}@example.com",
-            code="EXPIRED",
-            expires=datetime.datetime.now(datetime.UTC) - datetime.timedelta(days=1),
-            server_id=server.id,
-        )
-        for i in range(count)
-    ]
-    session.add_all(users)
-    session.add(Settings(key="expiry_action", value=action))
-    session.commit()
-    return [u.id for u in users]
-
-
 def _remote_client(monkeypatch, checks, *, fail_tokens=()):
     client = Mock()
 
@@ -85,7 +62,7 @@ def _remote_client(monkeypatch, checks, *, fail_tokens=()):
 
 
 def test_remote_delete_runs_without_the_write_lock(session, monkeypatch, lock_checks):
-    user_ids = _expired(session, action="delete")
+    user_ids = add_expired_users(session, count=2, action="delete")
     _remote_client(monkeypatch, lock_checks)
 
     assert expiry.disable_or_delete_user_if_expired() == user_ids
@@ -97,7 +74,7 @@ def test_remote_delete_runs_without_the_write_lock(session, monkeypatch, lock_ch
 
 
 def test_remote_disable_runs_without_the_write_lock(session, monkeypatch, lock_checks):
-    user_ids = _expired(session, action="disable")
+    user_ids = add_expired_users(session, count=2, action="disable")
     _remote_client(monkeypatch, lock_checks)
 
     assert expiry.disable_or_delete_user_if_expired() == user_ids
@@ -110,7 +87,7 @@ def test_remote_disable_runs_without_the_write_lock(session, monkeypatch, lock_c
 
 def test_failure_does_not_keep_a_transaction_open(session, monkeypatch, lock_checks):
     """After a failed user, the next remote call still runs without the lock."""
-    first_id, second_id = _expired(session, action="delete")
+    first_id, second_id = add_expired_users(session, count=2, action="delete")
     _remote_client(monkeypatch, lock_checks, fail_tokens={"remote-0"})
 
     assert expiry.disable_or_delete_user_if_expired() == [second_id]
@@ -125,7 +102,7 @@ def test_failure_does_not_keep_a_transaction_open(session, monkeypatch, lock_che
 
 
 def test_legacy_delete_runs_without_the_write_lock(session, monkeypatch, lock_checks):
-    user_ids = _expired(session, action="delete")
+    user_ids = add_expired_users(session, count=2, action="delete")
     _remote_client(monkeypatch, lock_checks)
 
     assert expiry.delete_user_if_expired() == user_ids
