@@ -1090,7 +1090,17 @@ def remove_user_from_server_endpoint(user_id: int, server_id: int):
     """Remove a user from a specific server while preserving other server accounts."""
     from app.services.media.service import remove_user_from_server
 
-    success = remove_user_from_server(user_id, server_id)
+    user = db.session.get(User, user_id)
+    server = db.session.get(MediaServer, server_id)
+    who = (user.username if user else "", server.name if server else "")
+    try:
+        success = remove_user_from_server(user_id, server_id, require_remote=True)
+    except Exception as exc:
+        db.session.rollback()
+        current_app.logger.warning(
+            "Kept %s on %s, the server did not remove it: %s", *who, exc
+        )
+        return _delete_failed_response([who])
 
     if success:
         # Trigger user table refresh to show updated server badges
