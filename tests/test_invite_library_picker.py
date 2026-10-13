@@ -116,3 +116,31 @@ def test_invite_scan_libraries_renders_existing_choices_without_duplicate_ids(
     for library in saved_libraries:
         assert f'id="lib{server.id}-{library.id}"' in html
         assert f'value="{library.id}"' in html
+
+
+def test_invite_modal_swaps_return_content_without_dialog(client, session):
+    _create_logged_in_admin(client, session)
+    server = MediaServer(
+        name="Plex Server",
+        server_type="plex",
+        url="http://plex.local",
+        api_key="plex-token",
+        verified=True,
+    )
+    session.add(server)
+    session.commit()
+
+    opened = client.get(
+        "/invite", headers={"HX-Request": "true", "HX-Target": "invite-modal"}
+    ).data.decode("utf-8")
+    assert opened.count("<dialog") == 1
+    assert opened.count('id="inviteModalContent"') == 1
+
+    # "Create Another" and the form submit swap into #inviteModalContent.
+    # A second dialog in that swap would nest the modal inside itself.
+    swapped = client.get(
+        "/invite", headers={"HX-Request": "true", "HX-Target": "inviteModalContent"}
+    ).data.decode("utf-8")
+    assert "<dialog" not in swapped
+    assert 'id="inviteModalContent"' not in swapped
+    assert f'id="srv{server.id}"' in swapped
