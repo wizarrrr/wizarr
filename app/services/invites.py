@@ -15,6 +15,7 @@ from app.models import (
     invitation_servers,
     invitation_users,
 )
+from app.services.plex_restrictions import PlexRestrictions
 
 MIN_CODESIZE = 6  # Minimum allowed invite code length
 MAX_CODESIZE = 10  # Maximum allowed invite code length (default for generated codes)
@@ -130,6 +131,11 @@ def create_invite(form: Any) -> Invitation:
             "untouched to grant access to all enabled libraries."
         )
 
+    # Only a Plex share can carry these filters.
+    restrictions = (
+        PlexRestrictions.from_form(form) if plex_servers else PlexRestrictions()
+    )
+
     invite = Invitation(
         code=code,
         used=False,
@@ -163,6 +169,7 @@ def create_invite(form: Any) -> Invitation:
             and str(form.get("max_active_sessions")).strip().isdigit()
             else None
         ),
+        **restrictions.invitation_columns(),
     )
     db.session.add(invite)
     db.session.flush()  # so invite.id exists, but not yet committed

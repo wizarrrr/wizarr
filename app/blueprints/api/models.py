@@ -145,6 +145,41 @@ invitation_list_model = api.model(
     },
 )
 
+_label_restrictions = {
+    "allow_labels": fields.List(
+        fields.String, description="Show only the items that have one of these labels"
+    ),
+    "exclude_labels": fields.List(
+        fields.String, description="Hide the items that have one of these labels"
+    ),
+}
+
+plex_library_restrictions_model = api.model(
+    "PlexLibraryRestrictions",
+    {
+        **_label_restrictions,
+        "allow_ratings": fields.List(
+            fields.String,
+            description="Show only the items that have one of these content ratings",
+        ),
+        "exclude_ratings": fields.List(
+            fields.String,
+            description="Hide the items that have one of these content ratings",
+        ),
+    },
+)
+
+plex_music_restrictions_model = api.model("PlexMusicRestrictions", _label_restrictions)
+
+plex_restrictions_model = api.model(
+    "PlexRestrictions",
+    {
+        "movies": fields.Nested(plex_library_restrictions_model),
+        "television": fields.Nested(plex_library_restrictions_model),
+        "music": fields.Nested(plex_music_restrictions_model),
+    },
+)
+
 invitation_create_request = api.model(
     "InvitationCreateRequest",
     {
@@ -179,6 +214,11 @@ invitation_create_request = api.model(
         "wizard_bundle_id": fields.Integer(
             required=False,
             description="Wizard bundle ID to use for this invitation (omit for automatic selection)",
+        ),
+        "plex_restrictions": fields.Nested(
+            plex_restrictions_model,
+            required=False,
+            description="Plex label and rating filters for the share (Plex servers only, requires Plex Pass)",
         ),
     },
 )
