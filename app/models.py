@@ -106,6 +106,11 @@ class Invitation(db.Model):
     plex_allow_sync = db.Column(db.Boolean, default=False, nullable=True)
     plex_home = db.Column(db.Boolean, default=False, nullable=True)
     plex_allow_channels = db.Column(db.Boolean, default=False, nullable=True)
+    # Plex content restrictions (label and rating filters) for each library
+    # type, in the plexapi filter format. See app/services/plex_restrictions.py.
+    plex_filter_movies = db.Column(db.JSON, nullable=True)
+    plex_filter_television = db.Column(db.JSON, nullable=True)
+    plex_filter_music = db.Column(db.JSON, nullable=True)
     server_id = db.Column(
         db.Integer, db.ForeignKey("media_server.id", ondelete="SET NULL"), nullable=True
     )

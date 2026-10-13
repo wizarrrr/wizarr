@@ -28,6 +28,7 @@ from app.services.media.service import (
     enable_user,
     sync_users,
 )
+from app.services.plex_restrictions import form_fields_from_api
 from app.services.server_name_resolver import get_display_name_info
 from app.services.update_check import get_app_version
 
@@ -779,6 +780,13 @@ class InvitationsListResource(Resource):
                         else []
                     )
 
+            try:
+                restriction_fields = form_fields_from_api(data.get("plex_restrictions"))
+            except ValueError as e:
+                from flask import jsonify, make_response
+
+                return make_response(jsonify({"error": str(e)}), 400)
+
             # Map expires_in_days to the format expected by create_invite
             expires_mapping = {1: "day", 7: "week", 30: "month"}
             expires_key = expires_mapping.get(data.get("expires_in_days"), "never")  # type: ignore
@@ -796,6 +804,7 @@ class InvitationsListResource(Resource):
                     "allow_live_tv": data.get("allow_live_tv", False),
                     "allow_mobile_uploads": data.get("allow_mobile_uploads", False),
                     "wizard_bundle_id": data.get("wizard_bundle_id"),
+                    **restriction_fields,
                 }
             )
 

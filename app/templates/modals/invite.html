@@ -63,6 +63,10 @@
               libraryCheckboxes.forEach(libCheckbox => {
                   libCheckbox.disabled = !checkbox.checked;
               });
+              // Plex restrictions of a server that is not selected must not apply
+              document.querySelectorAll(`#plexRestrictions${serverId} input`).forEach(input => {
+                  input.disabled = !checkbox.checked;
+              });
           });
 
           return true;
