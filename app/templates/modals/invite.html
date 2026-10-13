@@ -240,6 +240,7 @@
                             </div>
                             <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Allow Mobile Uploads") }}</span>
                           </label>
+                          {% include "partials/plex_restrictions_fields.html" %}
                         {% elif s.server_type == "jellyfin" %}
                           <label class="flex items-center cursor-pointer">
                             <input id="allow_downloads_{{ s.id }}"
@@ -499,6 +500,10 @@
             const libraryCheckboxes = document.querySelectorAll(`#libMenu${serverId} input[name="libraries"]`);
             libraryCheckboxes.forEach(libCheckbox => {
                 libCheckbox.disabled = !checkbox.checked;
+            });
+            // Plex restrictions of a server that is not selected must not apply
+            document.querySelectorAll(`#plexRestrictions${serverId} input`).forEach(input => {
+                input.disabled = !checkbox.checked;
             });
         });
 
