@@ -160,19 +160,6 @@ class Invitation(db.Model):
         """Get all users who have used this invitation."""
         return list(self.users)  # type: ignore
 
-    def get_user_count(self):
-        """Get the total number of users who have used this invitation."""
-        return len(list(self.users))  # type: ignore
-
-    def get_first_user(self):
-        """Get the first user who used this invitation (for backward compatibility)."""
-        users_list = list(self.users)  # type: ignore
-        return users_list[0] if users_list else None
-
-    def has_user(self, user):
-        """Check if a specific user has used this invitation."""
-        return user in list(self.users)  # type: ignore
-
 
 class Settings(db.Model):
     __tablename__ = "settings"

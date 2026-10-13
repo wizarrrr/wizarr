@@ -437,16 +437,6 @@ def _serve_wizard(
     return response
 
 
-def _serve(server: str, idx: int):
-    """Legacy serve function - maintained for backward compatibility.
-
-    This function now delegates to _serve_wizard() with default post_invite phase.
-    """
-    cfg = _settings()
-    steps, _ = _gather_steps_with_phases(server, cfg, include_post=True)
-    return _serve_wizard(server, idx, steps, phase="post", current_step_phase="post")
-
-
 def _get_server_type_from_invitation(invitation: Invitation) -> str | None:
     """Get server type from invitation.
 
