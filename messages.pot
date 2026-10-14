@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -155,7 +155,7 @@ msgstr ""
 
 #: app/blueprints/admin/routes.py:396
 #: app/templates/admin/user_details_modal.html:70
-#: app/templates/modals/invite.html:69
+#: app/templates/modals/invite_content.html:79
 #: app/templates/tables/invite_card.html:116
 #: app/templates/tables/user_card.html:105
 #: app/templates/tables/user_card.html:124
@@ -410,60 +410,60 @@ msgid ""
 "invitation."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:332 app/blueprints/wizard/routes.py:1262
-#: app/blueprints/wizard/routes.py:1425
+#: app/blueprints/wizard/routes.py:332 app/blueprints/wizard/routes.py:1252
+#: app/blueprints/wizard/routes.py:1415
 msgid "Error Loading Step"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:335 app/blueprints/wizard/routes.py:1265
-#: app/blueprints/wizard/routes.py:1428
+#: app/blueprints/wizard/routes.py:335 app/blueprints/wizard/routes.py:1255
+#: app/blueprints/wizard/routes.py:1418
 msgid ""
 "This step could not be loaded. Please contact the administrator or skip "
 "to the next step."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:550 app/blueprints/wizard/routes.py:557
-#: app/blueprints/wizard/routes.py:661 app/blueprints/wizard/routes.py:1163
-#: app/blueprints/wizard/routes.py:1171
+#: app/blueprints/wizard/routes.py:540 app/blueprints/wizard/routes.py:547
+#: app/blueprints/wizard/routes.py:651 app/blueprints/wizard/routes.py:1153
+#: app/blueprints/wizard/routes.py:1161
 msgid "Invalid or expired invitation"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:610 app/blueprints/wizard/routes.py:775
+#: app/blueprints/wizard/routes.py:600 app/blueprints/wizard/routes.py:765
 msgid ""
 "No media servers are configured. Please contact the administrator to set "
 "up a media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:627
+#: app/blueprints/wizard/routes.py:617
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:651 app/blueprints/wizard/routes.py:999
-#: app/blueprints/wizard/routes.py:1284 app/templates/wizard/steps.html:21
+#: app/blueprints/wizard/routes.py:641 app/blueprints/wizard/routes.py:989
+#: app/blueprints/wizard/routes.py:1274 app/templates/wizard/steps.html:21
 msgid "Continue to Invite"
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:815
+#: app/blueprints/wizard/routes.py:805
 msgid "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:863
+#: app/blueprints/wizard/routes.py:853
 msgid "Setup complete! Welcome to your media server."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:984
+#: app/blueprints/wizard/routes.py:974
 msgid "Unable to load wizard configuration. Please try again."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:1141
+#: app/blueprints/wizard/routes.py:1131
 msgid "Unable to load wizard bundle. Please try again."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:1192
+#: app/blueprints/wizard/routes.py:1182
 msgid "Unable to load wizard steps. Please try again."
 msgstr ""
 
-#: app/blueprints/wizard/routes.py:1385
+#: app/blueprints/wizard/routes.py:1375
 msgid "This bundle has no steps to preview."
 msgstr ""
 
@@ -639,9 +639,11 @@ msgid "Libraries"
 msgstr ""
 
 #: app/forms/settings.py:30 app/forms/settings.py:46
-#: app/templates/admin/user_modal.html:115 app/templates/modals/invite.html:219
-#: app/templates/modals/invite.html:253 app/templates/modals/invite.html:296
-#: app/templates/modals/invite.html:330 app/templates/modals/invite.html:342
+#: app/templates/admin/user_modal.html:115
+#: app/templates/modals/invite_content.html:128
+#: app/templates/modals/invite_content.html:133
+#: app/templates/modals/invite_content.html:156
+#: app/templates/modals/invite_content.html:160
 msgid "Allow Downloads"
 msgstr ""
 
@@ -1527,7 +1529,7 @@ msgstr ""
 #: app/templates/components/admin_passkeys.html:61
 #: app/templates/components/admin_passkeys.html:77
 #: app/templates/components/passkey_error.html:19
-#: app/templates/modals/invite.html:436
+#: app/templates/modals/invite_content.html:295
 #: app/templates/modals/password-reset-link.html:143
 msgid "Close"
 msgstr ""
@@ -1729,12 +1731,12 @@ msgstr ""
 #: app/templates/modals/create-admin.html:48
 #: app/templates/modals/create-api-key.html:82
 #: app/templates/modals/create-notification-agent.html:180
-#: app/templates/modals/create-server.html:196
+#: app/templates/modals/create-server.html:189
 #: app/templates/modals/edit-admin.html:50
 #: app/templates/modals/edit-identity.html:50
 #: app/templates/modals/edit-notification-agent.html:200
-#: app/templates/modals/edit-server.html:207
-#: app/templates/modals/invite.html:387
+#: app/templates/modals/edit-server.html:200
+#: app/templates/modals/invite_content.html:253
 #: app/templates/modals/wizard-bundle-form.html:34
 #: app/templates/modals/wizard-import-form.html:102
 #: app/templates/modals/wizard-preset-form.html:59
@@ -2027,12 +2029,12 @@ msgstr ""
 msgid "Add Server"
 msgstr ""
 
-#: app/templates/modals/create-server.html:136
-#: app/templates/modals/edit-server.html:164
+#: app/templates/modals/create-server.html:129
+#: app/templates/modals/edit-server.html:157
 msgid "Hide new users from login screens"
 msgstr ""
 
-#: app/templates/modals/create-server.html:191
+#: app/templates/modals/create-server.html:184
 msgid "Test & Add"
 msgstr ""
 
@@ -2046,7 +2048,7 @@ msgstr ""
 
 #: app/templates/modals/edit-admin.html:45
 #: app/templates/modals/edit-identity.html:45
-#: app/templates/modals/edit-server.html:202
+#: app/templates/modals/edit-server.html:195
 #: app/templates/modals/wizard-bundle-form.html:36
 #: app/templates/modals/wizard-simple-step-form.html:50
 #: app/templates/modals/wizard-step-form.html:159
@@ -2085,154 +2087,154 @@ msgstr ""
 msgid "Edit Server"
 msgstr ""
 
-#: app/templates/modals/invite.html:14 app/templates/modals/invite.html:382
-msgid "Create Invitation"
-msgstr ""
-
-#: app/templates/modals/invite.html:16
-msgid "Invitation Created"
-msgstr ""
-
-#: app/templates/modals/invite.html:46
-msgid "Invite Code String"
-msgstr ""
-
-#: app/templates/modals/invite.html:47
-msgid "optional"
+#: app/templates/modals/invite.html:39
+#: app/templates/modals/invite_content.html:188
+msgid "Loading…"
 msgstr ""
 
 #: app/templates/modals/invite.html:55
+msgid "Please select at least one server for the invitation."
+msgstr ""
+
+#: app/templates/modals/invite_content.html:25
+#: app/templates/modals/invite_content.html:254
+msgid "Create Invitation"
+msgstr ""
+
+#: app/templates/modals/invite_content.html:27
+msgid "Invitation Created"
+msgstr ""
+
+#: app/templates/modals/invite_content.html:58
+msgid "Invite Code String"
+msgstr ""
+
+#: app/templates/modals/invite_content.html:59
+msgid "optional"
+msgstr ""
+
+#: app/templates/modals/invite_content.html:69
 msgid "E.g. XMFGEJIKNQ"
 msgstr ""
 
-#: app/templates/modals/invite.html:61
+#: app/templates/modals/invite_content.html:74
 msgid "Expiration"
 msgstr ""
 
-#: app/templates/modals/invite.html:66
+#: app/templates/modals/invite_content.html:76
 msgid "1 day"
 msgstr ""
 
-#: app/templates/modals/invite.html:67
+#: app/templates/modals/invite_content.html:77
 msgid "1 week"
 msgstr ""
 
-#: app/templates/modals/invite.html:68
+#: app/templates/modals/invite_content.html:78
 msgid "1 month"
 msgstr ""
 
-#: app/templates/modals/invite.html:77
+#: app/templates/modals/invite_content.html:85
 msgid "Wizard bundle"
 msgstr ""
 
-#: app/templates/modals/invite.html:82 wizard_steps/emby/99_tips.md:9
+#: app/templates/modals/invite_content.html:89 wizard_steps/emby/99_tips.md:9
 #: wizard_steps/jellyfin/99_tips.md:9 wizard_steps/plex/99_tips.md:10
 msgid "Automatic"
 msgstr ""
 
-#: app/templates/modals/invite.html:91
+#: app/templates/modals/invite_content.html:97
+msgid "Target servers"
+msgstr ""
+
+#: app/templates/modals/invite_content.html:127
+msgid "Invite to Plex Home"
+msgstr ""
+
+#: app/templates/modals/invite_content.html:129
+#: app/templates/modals/invite_content.html:134
+#: app/templates/modals/invite_content.html:157
+msgid "Allow Live TV Access"
+msgstr ""
+
+#: app/templates/modals/invite_content.html:130
+#: app/templates/modals/invite_content.html:158
+msgid "Allow Mobile Uploads"
+msgstr ""
+
+#: app/templates/modals/invite_content.html:140
+msgid "Max Active Sessions"
+msgstr ""
+
+#: app/templates/modals/invite_content.html:141
+msgid "simultaneous devices"
+msgstr ""
+
+#: app/templates/modals/invite_content.html:152
+msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
+msgstr ""
+
+#: app/templates/modals/invite_content.html:175
+msgid "Select Libraries"
+msgstr ""
+
+#: app/templates/modals/invite_content.html:204
 msgid "Advanced Options"
 msgstr ""
 
-#: app/templates/modals/invite.html:98
+#: app/templates/modals/invite_content.html:217
 msgid "Invite Settings"
 msgstr ""
 
-#: app/templates/modals/invite.html:108
+#: app/templates/modals/invite_content.html:218
 msgid "Unlimited Usages"
 msgstr ""
 
-#: app/templates/modals/invite.html:114 app/templates/modals/invite.html:136
+#: app/templates/modals/invite_content.html:222
 #: app/templates/tables/invite_card.html:130
 msgid "Duration"
 msgstr ""
 
-#: app/templates/modals/invite.html:115
+#: app/templates/modals/invite_content.html:223
 msgid "in days"
 msgstr ""
 
-#: app/templates/modals/invite.html:128
-msgid "Show Information"
-msgstr ""
-
-#: app/templates/modals/invite.html:137
+#: app/templates/modals/invite_content.html:233
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
 "number of days. (1-999)"
 msgstr ""
 
-#: app/templates/modals/invite.html:153
+#: app/templates/modals/invite_content.html:240
 msgid "LDAP Integration"
 msgstr ""
 
-#: app/templates/modals/invite.html:165
+#: app/templates/modals/invite_content.html:241
 msgid "Create LDAP User"
 msgstr ""
 
-#: app/templates/modals/invite.html:168
+#: app/templates/modals/invite_content.html:243
 msgid "Automatically create an LDAP user when this invitation is accepted"
 msgstr ""
 
-#: app/templates/modals/invite.html:175
-msgid "Target servers"
-msgstr ""
-
-#: app/templates/modals/invite.html:208
-msgid "Invite to Plex Home"
-msgstr ""
-
-#: app/templates/modals/invite.html:230 app/templates/modals/invite.html:264
-#: app/templates/modals/invite.html:307
-msgid "Allow Live TV Access"
-msgstr ""
-
-#: app/templates/modals/invite.html:241 app/templates/modals/invite.html:318
-msgid "Allow Mobile Uploads"
-msgstr ""
-
-#: app/templates/modals/invite.html:272
-msgid "Max Active Sessions"
-msgstr ""
-
-#: app/templates/modals/invite.html:273
-msgid "simultaneous devices"
-msgstr ""
-
-#: app/templates/modals/invite.html:283
-msgid "Number of devices that can stream simultaneously. Set to 0 for unlimited."
-msgstr ""
-
-#: app/templates/modals/invite.html:358
-msgid "Select Libraries"
-msgstr ""
-
-#: app/templates/modals/invite.html:371 app/templates/modals/invite.html:476
-msgid "Loading…"
-msgstr ""
-
-#: app/templates/modals/invite.html:402
+#: app/templates/modals/invite_content.html:270
 msgid "Successfully generated an Invitation!"
 msgstr ""
 
-#: app/templates/modals/invite.html:408
+#: app/templates/modals/invite_content.html:273
 msgid "Invitation Link"
 msgstr ""
 
-#: app/templates/modals/invite.html:420
+#: app/templates/modals/invite_content.html:284
 #: app/templates/modals/password-reset-link.html:81
 msgid "Copy"
 msgstr ""
 
-#: app/templates/modals/invite.html:425
+#: app/templates/modals/invite_content.html:289
 msgid "Link has been copied to clipboard!"
 msgstr ""
 
-#: app/templates/modals/invite.html:431
+#: app/templates/modals/invite_content.html:298
 msgid "Create Another"
-msgstr ""
-
-#: app/templates/modals/invite.html:492
-msgid "Please select at least one server for the invitation."
 msgstr ""
 
 #: app/templates/modals/password-reset-link.html:14
@@ -2431,6 +2433,69 @@ msgstr ""
 
 #: app/templates/partials/api_keys_grid.html:59
 msgid "Get started by creating a new API key."
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:17
+msgid "Content Restrictions"
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:20
+msgid ""
+"Plex hides content from the invited user with these filters. Separate "
+"values with commas. Leave a field empty for no filter. Requires Plex "
+"Pass."
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:23
+msgid "Movies"
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:23
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:23
+msgid "E.g. R, NC-17"
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:24
+msgid "TV Shows"
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:24
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:24
+msgid "E.g. TV-MA"
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:25
+msgid "Music"
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:31
+msgid "Exclude labels"
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:31
+msgid "E.g. private"
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:32
+msgid "Allow only labels"
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:32
+msgid "E.g. kids"
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:35
+msgid "Allow only ratings"
+msgstr ""
+
+#: app/templates/partials/plex_restrictions_fields.html:36
+msgid "Exclude ratings"
 msgstr ""
 
 #: app/templates/servers/index.html:4 app/templates/settings/servers.html:4
