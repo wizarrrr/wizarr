@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2025-11-03 20:06+0000\n"
 "Last-Translator: איתם לוין <eyt.lev@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -1577,6 +1577,13 @@ msgstr "צור ובדוק שירות"
 msgid "Edit Server"
 msgstr "שרת"
 
+#, fuzzy
+msgid "Loading…"
+msgstr "התחברות"
+
+msgid "Please select at least one server for the invitation."
+msgstr ""
+
 msgid "Create Invitation"
 msgstr "צור הזמנה"
 
@@ -1612,43 +1619,6 @@ msgstr ""
 msgid "Automatic"
 msgstr ""
 
-msgid "Advanced Options"
-msgstr "אפשרויות מתקדמות"
-
-#, fuzzy
-msgid "Invite Settings"
-msgstr "סטרינג קוד הזמנה"
-
-msgid "Unlimited Usages"
-msgstr "שימושים לא מוגבלים"
-
-msgid "Duration"
-msgstr "משך"
-
-#, fuzzy
-msgid "in days"
-msgstr "(בימים)"
-
-msgid "Show Information"
-msgstr "הצג מידע"
-
-#, fuzzy
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr "כאשר מוגדר, משתמש(ים) יוסרו משרת הPlex לאחר מספר ימים (1-999)"
-
-#, fuzzy
-msgid "LDAP Integration"
-msgstr "צור הזמנה"
-
-#, fuzzy
-msgid "Create LDAP User"
-msgstr "צור שירות"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
-
 #, fuzzy
 msgid "Target servers"
 msgstr "שרת"
@@ -1677,9 +1647,39 @@ msgstr ""
 msgid "Select Libraries"
 msgstr "ספריות"
 
+msgid "Advanced Options"
+msgstr "אפשרויות מתקדמות"
+
 #, fuzzy
-msgid "Loading…"
-msgstr "התחברות"
+msgid "Invite Settings"
+msgstr "סטרינג קוד הזמנה"
+
+msgid "Unlimited Usages"
+msgstr "שימושים לא מוגבלים"
+
+msgid "Duration"
+msgstr "משך"
+
+#, fuzzy
+msgid "in days"
+msgstr "(בימים)"
+
+#, fuzzy
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr "כאשר מוגדר, משתמש(ים) יוסרו משרת הPlex לאחר מספר ימים (1-999)"
+
+#, fuzzy
+msgid "LDAP Integration"
+msgstr "צור הזמנה"
+
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "צור שירות"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
 
 msgid "Successfully generated an Invitation!"
 msgstr "ההזמנה נוצרה בהצלחתה!"
@@ -1697,9 +1697,6 @@ msgstr "הקישור הועתק בהצלחה!"
 #, fuzzy
 msgid "Create Another"
 msgstr "צור חשבון"
-
-msgid "Please select at least one server for the invitation."
-msgstr ""
 
 #, fuzzy
 msgid "Password Reset Link"
@@ -1854,6 +1851,53 @@ msgid "No API keys"
 msgstr ""
 
 msgid "Get started by creating a new API key."
+msgstr ""
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
 msgstr ""
 
 #, fuzzy
@@ -3154,6 +3198,9 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Show Information"
+#~ msgstr "הצג מידע"
 
 #~ msgid "Edit expiry"
 #~ msgstr "ערויכת תפוגה"

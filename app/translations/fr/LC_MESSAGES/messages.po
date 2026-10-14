@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2026-09-08 08:05+0000\n"
 "Last-Translator: Damien Macq <damien@macq.xyz>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -1549,6 +1549,12 @@ msgstr "Tester & sauvegarder les changements"
 msgid "Edit Server"
 msgstr "Modifier le serveur"
 
+msgid "Loading…"
+msgstr "Chargement…"
+
+msgid "Please select at least one server for the invitation."
+msgstr "Veuillez sélectionner au moins un serveur pour l'invitation."
+
 msgid "Create Invitation"
 msgstr "Créer une invitation"
 
@@ -1582,42 +1588,6 @@ msgstr ""
 msgid "Automatic"
 msgstr "Automatique"
 
-msgid "Advanced Options"
-msgstr "Options avancées"
-
-msgid "Invite Settings"
-msgstr "Paramètres d'invitation"
-
-msgid "Unlimited Usages"
-msgstr "Utilisations illimitées"
-
-msgid "Duration"
-msgstr "Durée"
-
-msgid "in days"
-msgstr "en jours"
-
-msgid "Show Information"
-msgstr "Montrer les informations"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-"Si sélectionné, les utilisateurs invités seront retirés du serveur Plex "
-"après plusieurs jours. (1-999)"
-
-#, fuzzy
-msgid "LDAP Integration"
-msgstr "Accepter l'invitation"
-
-#, fuzzy
-msgid "Create LDAP User"
-msgstr "Créer une clé API"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
-
 msgid "Target servers"
 msgstr "Serveurs cibles"
 
@@ -1644,8 +1614,38 @@ msgstr ""
 msgid "Select Libraries"
 msgstr "Sélectionner les bibliothèques"
 
-msgid "Loading…"
-msgstr "Chargement…"
+msgid "Advanced Options"
+msgstr "Options avancées"
+
+msgid "Invite Settings"
+msgstr "Paramètres d'invitation"
+
+msgid "Unlimited Usages"
+msgstr "Utilisations illimitées"
+
+msgid "Duration"
+msgstr "Durée"
+
+msgid "in days"
+msgstr "en jours"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"Si sélectionné, les utilisateurs invités seront retirés du serveur Plex "
+"après plusieurs jours. (1-999)"
+
+#, fuzzy
+msgid "LDAP Integration"
+msgstr "Accepter l'invitation"
+
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "Créer une clé API"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
 
 msgid "Successfully generated an Invitation!"
 msgstr "Invitation générée avec succès !"
@@ -1661,9 +1661,6 @@ msgstr "Le lien a été copié dans le presse-papiers !"
 
 msgid "Create Another"
 msgstr "En créer un autre"
-
-msgid "Please select at least one server for the invitation."
-msgstr "Veuillez sélectionner au moins un serveur pour l'invitation."
 
 #, fuzzy
 msgid "Password Reset Link"
@@ -1816,6 +1813,53 @@ msgstr "Aucune clé d'API"
 
 msgid "Get started by creating a new API key."
 msgstr "Commencez en crééant une nouvelle clé d'API."
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
+msgstr ""
 
 msgid "Media Servers"
 msgstr "Serveurs de médias"
@@ -3101,6 +3145,9 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Show Information"
+#~ msgstr "Montrer les informations"
 
 #~ msgid "Please log in to continue"
 #~ msgstr "Veuillez vous connecter pour continuer"

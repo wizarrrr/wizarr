@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2025-11-03 20:09+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -1527,6 +1527,12 @@ msgstr "Testează și salvează modificările"
 msgid "Edit Server"
 msgstr "Editează serverul"
 
+msgid "Loading…"
+msgstr "Se încarcă…"
+
+msgid "Please select at least one server for the invitation."
+msgstr "Selectează cel puțin un server pentru invitație."
+
 msgid "Create Invitation"
 msgstr "Creează Invitație"
 
@@ -1560,42 +1566,6 @@ msgstr "Pachet de pași"
 msgid "Automatic"
 msgstr "Automat"
 
-msgid "Advanced Options"
-msgstr "Opțiuni avansate"
-
-msgid "Invite Settings"
-msgstr "Setări invitație"
-
-msgid "Unlimited Usages"
-msgstr "Utilizări nelimitate"
-
-msgid "Duration"
-msgstr "Durată"
-
-msgid "in days"
-msgstr "(în zile)"
-
-msgid "Show Information"
-msgstr "Arată informața"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-"Când este activată, persoanele invitate vor fi eliminate de pe serverul Plex "
-"după un anumit număr de zile (1-999)."
-
-#, fuzzy
-msgid "LDAP Integration"
-msgstr "Acceptă invitația"
-
-#, fuzzy
-msgid "Create LDAP User"
-msgstr "Creează cheie API"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
-
 msgid "Target servers"
 msgstr "Servere țintă"
 
@@ -1622,8 +1592,38 @@ msgstr ""
 msgid "Select Libraries"
 msgstr "Selectează bibliotecile"
 
-msgid "Loading…"
-msgstr "Se încarcă…"
+msgid "Advanced Options"
+msgstr "Opțiuni avansate"
+
+msgid "Invite Settings"
+msgstr "Setări invitație"
+
+msgid "Unlimited Usages"
+msgstr "Utilizări nelimitate"
+
+msgid "Duration"
+msgstr "Durată"
+
+msgid "in days"
+msgstr "(în zile)"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"Când este activată, persoanele invitate vor fi eliminate de pe serverul Plex "
+"după un anumit număr de zile (1-999)."
+
+#, fuzzy
+msgid "LDAP Integration"
+msgstr "Acceptă invitația"
+
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "Creează cheie API"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
 
 msgid "Successfully generated an Invitation!"
 msgstr "Invitație generată cu succes!"
@@ -1639,9 +1639,6 @@ msgstr "Link-ul a fost copiat cu succes în clipboard!"
 
 msgid "Create Another"
 msgstr "Creează altă invitație"
-
-msgid "Please select at least one server for the invitation."
-msgstr "Selectează cel puțin un server pentru invitație."
 
 #, fuzzy
 msgid "Password Reset Link"
@@ -1797,6 +1794,53 @@ msgstr "Nu există chei API"
 
 msgid "Get started by creating a new API key."
 msgstr "Începe prin a crea o cheie API nouă."
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
+msgstr ""
 
 msgid "Media Servers"
 msgstr "Servere media"
@@ -3085,6 +3129,9 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Show Information"
+#~ msgstr "Arată informața"
 
 #~ msgid "Please log in to continue"
 #~ msgstr "Autentifică-te pentru a continua"

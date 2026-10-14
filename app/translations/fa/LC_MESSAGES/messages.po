@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2025-11-03 20:05+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Persian <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -1533,6 +1533,12 @@ msgstr ""
 msgid "Edit Server"
 msgstr "ذخیره"
 
+msgid "Loading…"
+msgstr ""
+
+msgid "Please select at least one server for the invitation."
+msgstr ""
+
 msgid "Create Invitation"
 msgstr ""
 
@@ -1567,41 +1573,6 @@ msgstr ""
 msgid "Automatic"
 msgstr ""
 
-msgid "Advanced Options"
-msgstr ""
-
-#, fuzzy
-msgid "Invite Settings"
-msgstr "تنظیمات"
-
-msgid "Unlimited Usages"
-msgstr ""
-
-msgid "Duration"
-msgstr ""
-
-msgid "in days"
-msgstr ""
-
-msgid "Show Information"
-msgstr ""
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-
-#, fuzzy
-msgid "LDAP Integration"
-msgstr "دعوت ها"
-
-#, fuzzy
-msgid "Create LDAP User"
-msgstr "ساخت حساب کاربری"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
-
 #, fuzzy
 msgid "Target servers"
 msgstr "ذخیره"
@@ -1628,7 +1599,36 @@ msgstr ""
 msgid "Select Libraries"
 msgstr ""
 
-msgid "Loading…"
+msgid "Advanced Options"
+msgstr ""
+
+#, fuzzy
+msgid "Invite Settings"
+msgstr "تنظیمات"
+
+msgid "Unlimited Usages"
+msgstr ""
+
+msgid "Duration"
+msgstr ""
+
+msgid "in days"
+msgstr ""
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+
+#, fuzzy
+msgid "LDAP Integration"
+msgstr "دعوت ها"
+
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "ساخت حساب کاربری"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
 msgstr ""
 
 msgid "Successfully generated an Invitation!"
@@ -1647,9 +1647,6 @@ msgstr ""
 #, fuzzy
 msgid "Create Another"
 msgstr "ساخت حساب کاربری"
-
-msgid "Please select at least one server for the invitation."
-msgstr ""
 
 msgid "Password Reset Link"
 msgstr ""
@@ -1797,6 +1794,53 @@ msgid "No API keys"
 msgstr ""
 
 msgid "Get started by creating a new API key."
+msgstr ""
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
 msgstr ""
 
 #, fuzzy

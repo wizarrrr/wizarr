@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2025-11-03 20:07+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Icelandic <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -1554,6 +1554,13 @@ msgstr ""
 msgid "Edit Server"
 msgstr "Aldrei"
 
+#, fuzzy
+msgid "Loading…"
+msgstr "Innskrá"
+
+msgid "Please select at least one server for the invitation."
+msgstr ""
+
 msgid "Create Invitation"
 msgstr ""
 
@@ -1589,43 +1596,6 @@ msgstr ""
 msgid "Automatic"
 msgstr ""
 
-msgid "Advanced Options"
-msgstr ""
-
-#, fuzzy
-msgid "Invite Settings"
-msgstr "Stillingar"
-
-msgid "Unlimited Usages"
-msgstr "Ótakmarkað"
-
-#, fuzzy
-msgid "Duration"
-msgstr "Gildistími"
-
-#, fuzzy
-msgid "in days"
-msgstr "1 dagur"
-
-msgid "Show Information"
-msgstr ""
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-
-#, fuzzy
-msgid "LDAP Integration"
-msgstr "Boð"
-
-#, fuzzy
-msgid "Create LDAP User"
-msgstr "Búa til aðgang"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
-
 #, fuzzy
 msgid "Target servers"
 msgstr "Aldrei"
@@ -1654,9 +1624,39 @@ msgstr ""
 msgid "Select Libraries"
 msgstr ""
 
+msgid "Advanced Options"
+msgstr ""
+
 #, fuzzy
-msgid "Loading…"
-msgstr "Innskrá"
+msgid "Invite Settings"
+msgstr "Stillingar"
+
+msgid "Unlimited Usages"
+msgstr "Ótakmarkað"
+
+#, fuzzy
+msgid "Duration"
+msgstr "Gildistími"
+
+#, fuzzy
+msgid "in days"
+msgstr "1 dagur"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+
+#, fuzzy
+msgid "LDAP Integration"
+msgstr "Boð"
+
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "Búa til aðgang"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
 
 msgid "Successfully generated an Invitation!"
 msgstr ""
@@ -1674,9 +1674,6 @@ msgstr ""
 #, fuzzy
 msgid "Create Another"
 msgstr "Búa til aðgang"
-
-msgid "Please select at least one server for the invitation."
-msgstr ""
 
 #, fuzzy
 msgid "Password Reset Link"
@@ -1828,6 +1825,53 @@ msgid "No API keys"
 msgstr ""
 
 msgid "Get started by creating a new API key."
+msgstr ""
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
 msgstr ""
 
 #, fuzzy

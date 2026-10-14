@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2026-08-11 04:39+0000\n"
 "Last-Translator: Todos aman al Hipnosapo <veteacagarte@yahoo.es>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -1543,6 +1543,12 @@ msgstr "Probar & Guardar Cambios"
 msgid "Edit Server"
 msgstr "Editar Servidor"
 
+msgid "Loading…"
+msgstr "Cargando…"
+
+msgid "Please select at least one server for the invitation."
+msgstr "Por favor seleccione al menos un servidor para la invitación."
+
 msgid "Create Invitation"
 msgstr "Crear invitación"
 
@@ -1576,40 +1582,6 @@ msgstr "Paquete Genio"
 msgid "Automatic"
 msgstr "Automático"
 
-msgid "Advanced Options"
-msgstr "Opciones avanzadas"
-
-msgid "Invite Settings"
-msgstr "Ajustes de Invitación"
-
-msgid "Unlimited Usages"
-msgstr "Usos ilimitados"
-
-msgid "Duration"
-msgstr "Duración"
-
-msgid "in days"
-msgstr "en días"
-
-msgid "Show Information"
-msgstr "Mostrar información"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-"Cuando está activo, los usuarios invitados serán eliminados del servidor "
-"Plex luego de un número de días. (1-999)"
-
-msgid "LDAP Integration"
-msgstr "Integración con LDAP"
-
-msgid "Create LDAP User"
-msgstr "Crear Usuario LDAP"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr "Crear automáticamente un usuario LDAP cuando se acepte esta invitación"
-
 msgid "Target servers"
 msgstr "Servidores de destino"
 
@@ -1637,8 +1609,36 @@ msgstr ""
 msgid "Select Libraries"
 msgstr "Seleccionar Bibliotecas"
 
-msgid "Loading…"
-msgstr "Cargando…"
+msgid "Advanced Options"
+msgstr "Opciones avanzadas"
+
+msgid "Invite Settings"
+msgstr "Ajustes de Invitación"
+
+msgid "Unlimited Usages"
+msgstr "Usos ilimitados"
+
+msgid "Duration"
+msgstr "Duración"
+
+msgid "in days"
+msgstr "en días"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"Cuando está activo, los usuarios invitados serán eliminados del servidor "
+"Plex luego de un número de días. (1-999)"
+
+msgid "LDAP Integration"
+msgstr "Integración con LDAP"
+
+msgid "Create LDAP User"
+msgstr "Crear Usuario LDAP"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr "Crear automáticamente un usuario LDAP cuando se acepte esta invitación"
 
 msgid "Successfully generated an Invitation!"
 msgstr "¡Invitación generada con éxito!"
@@ -1654,9 +1654,6 @@ msgstr "¡El enlace ha sido copiado al portapapeles!"
 
 msgid "Create Another"
 msgstr "Crear Otra"
-
-msgid "Please select at least one server for the invitation."
-msgstr "Por favor seleccione al menos un servidor para la invitación."
 
 msgid "Password Reset Link"
 msgstr "Enlace para Restablecer la Contraseña"
@@ -1808,6 +1805,53 @@ msgstr "No hay claves API"
 
 msgid "Get started by creating a new API key."
 msgstr "Inicie creando una nueva clave API."
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
+msgstr ""
 
 msgid "Media Servers"
 msgstr "Servidores Multimedia"
@@ -3101,6 +3145,9 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Show Information"
+#~ msgstr "Mostrar información"
 
 #~ msgid "Please log in to continue"
 #~ msgstr "Por favor, inicia sesión para continuar"

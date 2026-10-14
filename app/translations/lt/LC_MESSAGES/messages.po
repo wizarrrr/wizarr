@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2025-11-03 20:08+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -1571,6 +1571,13 @@ msgstr ""
 msgid "Edit Server"
 msgstr "Niekada"
 
+#, fuzzy
+msgid "Loading…"
+msgstr "Prisijungti"
+
+msgid "Please select at least one server for the invitation."
+msgstr ""
+
 msgid "Create Invitation"
 msgstr "Sukurti kvietimą"
 
@@ -1606,46 +1613,6 @@ msgstr ""
 msgid "Automatic"
 msgstr ""
 
-msgid "Advanced Options"
-msgstr "Išplėstiniai nustatymai"
-
-#, fuzzy
-msgid "Invite Settings"
-msgstr "Kvietimo kodo eilutė"
-
-msgid "Unlimited Usages"
-msgstr "Neribotas naudojimas"
-
-msgid "Duration"
-msgstr "Trukmė"
-
-#, fuzzy
-msgid "in days"
-msgstr "(dienomis)"
-
-msgid "Show Information"
-msgstr "Rodyti informaciją"
-
-#, fuzzy
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-"Kai bus nustatyta, pavkiesti vartotojai bus pašalinti iš jūsų Plex serverio\n"
-"                                        po\n"
-"                                        dienų. (1-999)"
-
-#, fuzzy
-msgid "LDAP Integration"
-msgstr "Sukurti kvietimą"
-
-#, fuzzy
-msgid "Create LDAP User"
-msgstr "Sukurti paskyrą"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
-
 #, fuzzy
 msgid "Target servers"
 msgstr "Niekada"
@@ -1675,9 +1642,42 @@ msgstr ""
 msgid "Select Libraries"
 msgstr "Bibliotekos"
 
+msgid "Advanced Options"
+msgstr "Išplėstiniai nustatymai"
+
 #, fuzzy
-msgid "Loading…"
-msgstr "Prisijungti"
+msgid "Invite Settings"
+msgstr "Kvietimo kodo eilutė"
+
+msgid "Unlimited Usages"
+msgstr "Neribotas naudojimas"
+
+msgid "Duration"
+msgstr "Trukmė"
+
+#, fuzzy
+msgid "in days"
+msgstr "(dienomis)"
+
+#, fuzzy
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"Kai bus nustatyta, pavkiesti vartotojai bus pašalinti iš jūsų Plex serverio\n"
+"                                        po\n"
+"                                        dienų. (1-999)"
+
+#, fuzzy
+msgid "LDAP Integration"
+msgstr "Sukurti kvietimą"
+
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "Sukurti paskyrą"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
 
 msgid "Successfully generated an Invitation!"
 msgstr "Kvietimas sėkmingai sugeneruotas!"
@@ -1695,9 +1695,6 @@ msgstr "Nuoroda nukopijuota į iškarpinę!"
 #, fuzzy
 msgid "Create Another"
 msgstr "Sukurti paskyrą"
-
-msgid "Please select at least one server for the invitation."
-msgstr ""
 
 #, fuzzy
 msgid "Password Reset Link"
@@ -1852,6 +1849,53 @@ msgid "No API keys"
 msgstr ""
 
 msgid "Get started by creating a new API key."
+msgstr ""
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
 msgstr ""
 
 #, fuzzy
@@ -3149,6 +3193,9 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Show Information"
+#~ msgstr "Rodyti informaciją"
 
 #~ msgid "Invitation Details"
 #~ msgstr "Kvietimai"

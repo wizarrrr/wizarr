@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2026-09-11 08:03+0000\n"
 "Last-Translator: wolfling45 <tdwangfei@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -1474,6 +1474,12 @@ msgstr "测试并保存更改"
 msgid "Edit Server"
 msgstr "编辑服务器"
 
+msgid "Loading…"
+msgstr "加载中……"
+
+msgid "Please select at least one server for the invitation."
+msgstr "请至少选择一个服务器进行邀请。"
+
 msgid "Create Invitation"
 msgstr "创建邀请"
 
@@ -1507,38 +1513,6 @@ msgstr "向导组合包"
 msgid "Automatic"
 msgstr "自动"
 
-msgid "Advanced Options"
-msgstr "高级选项"
-
-msgid "Invite Settings"
-msgstr "邀请设置"
-
-msgid "Unlimited Usages"
-msgstr "不限制使用次数"
-
-msgid "Duration"
-msgstr "有效期"
-
-msgid "in days"
-msgstr "以天为单位"
-
-msgid "Show Information"
-msgstr "显示信息"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr "设置后，受邀用户将在若干天后从 Plex 服务器中移除。（1-999 天）"
-
-msgid "LDAP Integration"
-msgstr "LDAP 集成"
-
-msgid "Create LDAP User"
-msgstr "创建 LDAP 用户"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr "接受邀请后自动创建 LDAP 用户"
-
 msgid "Target servers"
 msgstr "目标服务器"
 
@@ -1564,8 +1538,34 @@ msgstr "可同时进行流媒体播放的设备数量。设置为 0 表示无限
 msgid "Select Libraries"
 msgstr "选择媒体库"
 
-msgid "Loading…"
-msgstr "加载中……"
+msgid "Advanced Options"
+msgstr "高级选项"
+
+msgid "Invite Settings"
+msgstr "邀请设置"
+
+msgid "Unlimited Usages"
+msgstr "不限制使用次数"
+
+msgid "Duration"
+msgstr "有效期"
+
+msgid "in days"
+msgstr "以天为单位"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr "设置后，受邀用户将在若干天后从 Plex 服务器中移除。（1-999 天）"
+
+msgid "LDAP Integration"
+msgstr "LDAP 集成"
+
+msgid "Create LDAP User"
+msgstr "创建 LDAP 用户"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr "接受邀请后自动创建 LDAP 用户"
 
 msgid "Successfully generated an Invitation!"
 msgstr "已成功生成邀请！"
@@ -1581,9 +1581,6 @@ msgstr "链接已复制到剪贴板！"
 
 msgid "Create Another"
 msgstr "创建另一个"
-
-msgid "Please select at least one server for the invitation."
-msgstr "请至少选择一个服务器进行邀请。"
 
 msgid "Password Reset Link"
 msgstr "密码重置链接"
@@ -1728,6 +1725,53 @@ msgstr "没有API密钥"
 
 msgid "Get started by creating a new API key."
 msgstr "开始使用前，请创建一个新的API密钥。"
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
+msgstr ""
 
 msgid "Media Servers"
 msgstr "媒体服务器"
@@ -2982,6 +3026,9 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Show Information"
+#~ msgstr "显示信息"
 
 #~ msgid "Please log in to continue"
 #~ msgstr "请登录以继续操作"

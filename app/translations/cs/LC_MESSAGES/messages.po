@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2026-07-13 06:29+0000\n"
 "Last-Translator: Václav Štěpáník <stepanikvaclav@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -1568,6 +1568,13 @@ msgstr ""
 msgid "Edit Server"
 msgstr "Nikdy"
 
+#, fuzzy
+msgid "Loading…"
+msgstr "Přihlášení"
+
+msgid "Please select at least one server for the invitation."
+msgstr ""
+
 msgid "Create Invitation"
 msgstr "Vytvořit pozvánku"
 
@@ -1604,44 +1611,6 @@ msgstr ""
 msgid "Automatic"
 msgstr ""
 
-msgid "Advanced Options"
-msgstr "Pokročilé možnosti"
-
-#, fuzzy
-msgid "Invite Settings"
-msgstr "Nastavení"
-
-#, fuzzy
-msgid "Unlimited Usages"
-msgstr "Neomezené použití"
-
-#, fuzzy
-msgid "Duration"
-msgstr "Délka trvání"
-
-#, fuzzy
-msgid "in days"
-msgstr "(ve dnech)"
-
-msgid "Show Information"
-msgstr "Zobrazit informace"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-
-#, fuzzy
-msgid "LDAP Integration"
-msgstr "Vytvořit pozvánku"
-
-#, fuzzy
-msgid "Create LDAP User"
-msgstr "Vytvořit účet"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
-
 #, fuzzy
 msgid "Target servers"
 msgstr "Nikdy"
@@ -1671,9 +1640,40 @@ msgstr ""
 msgid "Select Libraries"
 msgstr "Knihovny"
 
+msgid "Advanced Options"
+msgstr "Pokročilé možnosti"
+
 #, fuzzy
-msgid "Loading…"
-msgstr "Přihlášení"
+msgid "Invite Settings"
+msgstr "Nastavení"
+
+#, fuzzy
+msgid "Unlimited Usages"
+msgstr "Neomezené použití"
+
+#, fuzzy
+msgid "Duration"
+msgstr "Délka trvání"
+
+#, fuzzy
+msgid "in days"
+msgstr "(ve dnech)"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+
+#, fuzzy
+msgid "LDAP Integration"
+msgstr "Vytvořit pozvánku"
+
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "Vytvořit účet"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
 
 msgid "Successfully generated an Invitation!"
 msgstr "Pozvánka úspěšně vytvořena!"
@@ -1691,9 +1691,6 @@ msgstr "Odkaz byl zkopírován do schránky!"
 #, fuzzy
 msgid "Create Another"
 msgstr "Vytvořit účet"
-
-msgid "Please select at least one server for the invitation."
-msgstr ""
 
 #, fuzzy
 msgid "Password Reset Link"
@@ -1848,6 +1845,53 @@ msgid "No API keys"
 msgstr ""
 
 msgid "Get started by creating a new API key."
+msgstr ""
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
 msgstr ""
 
 #, fuzzy
@@ -3147,6 +3191,9 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Show Information"
+#~ msgstr "Zobrazit informace"
 
 #~ msgid "Please log in to continue"
 #~ msgstr "Chcete-li pokračovat, přihlaste se prosím"

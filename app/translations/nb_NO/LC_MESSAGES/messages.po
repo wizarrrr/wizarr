@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2026-08-12 22:34+0000\n"
 "Last-Translator: Thomas Jensen <thomas.jensen1992@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/wizarr/"
@@ -1507,6 +1507,12 @@ msgstr "Test og lagre endringer"
 msgid "Edit Server"
 msgstr "Rediger server"
 
+msgid "Loading…"
+msgstr "Laster …"
+
+msgid "Please select at least one server for the invitation."
+msgstr "Velg minst én server for invitasjonen."
+
 msgid "Create Invitation"
 msgstr "Opprett invitasjon"
 
@@ -1540,40 +1546,6 @@ msgstr "Veiviserpakke"
 msgid "Automatic"
 msgstr "Automatisk"
 
-msgid "Advanced Options"
-msgstr "Avanserte alternativer"
-
-msgid "Invite Settings"
-msgstr "Invitasjonsinnstillinger"
-
-msgid "Unlimited Usages"
-msgstr "Ubegrenset bruk"
-
-msgid "Duration"
-msgstr "Varighet"
-
-msgid "in days"
-msgstr "i dager"
-
-msgid "Show Information"
-msgstr "Vis informasjon"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-"Når dette er angitt, fjernes inviterte brukere fra Plex-serveren etter et "
-"bestemt antall dager. (1–999)"
-
-msgid "LDAP Integration"
-msgstr "LDAP-integrasjon"
-
-msgid "Create LDAP User"
-msgstr "Opprett LDAP-bruker"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr "Opprett automatisk en LDAP-bruker når denne invitasjonen godtas"
-
 msgid "Target servers"
 msgstr "Målservere"
 
@@ -1599,8 +1571,36 @@ msgstr "Antall enheter som kan strømme samtidig. Sett til 0 for ubegrenset."
 msgid "Select Libraries"
 msgstr "Velg biblioteker"
 
-msgid "Loading…"
-msgstr "Laster …"
+msgid "Advanced Options"
+msgstr "Avanserte alternativer"
+
+msgid "Invite Settings"
+msgstr "Invitasjonsinnstillinger"
+
+msgid "Unlimited Usages"
+msgstr "Ubegrenset bruk"
+
+msgid "Duration"
+msgstr "Varighet"
+
+msgid "in days"
+msgstr "i dager"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"Når dette er angitt, fjernes inviterte brukere fra Plex-serveren etter et "
+"bestemt antall dager. (1–999)"
+
+msgid "LDAP Integration"
+msgstr "LDAP-integrasjon"
+
+msgid "Create LDAP User"
+msgstr "Opprett LDAP-bruker"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr "Opprett automatisk en LDAP-bruker når denne invitasjonen godtas"
 
 msgid "Successfully generated an Invitation!"
 msgstr "Invitasjonen er opprettet!"
@@ -1616,9 +1616,6 @@ msgstr "Lenken er kopiert til utklippstavlen!"
 
 msgid "Create Another"
 msgstr "Opprett en til"
-
-msgid "Please select at least one server for the invitation."
-msgstr "Velg minst én server for invitasjonen."
 
 msgid "Password Reset Link"
 msgstr "Lenke for tilbakestilling av passord"
@@ -1768,6 +1765,53 @@ msgstr "Ingen API-nøkler"
 
 msgid "Get started by creating a new API key."
 msgstr "Kom i gang ved å opprette en ny API-nøkkel."
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
+msgstr ""
 
 msgid "Media Servers"
 msgstr "Medieservere"
@@ -3047,6 +3091,9 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Show Information"
+#~ msgstr "Vis informasjon"
 
 #~ msgid "Please log in to continue"
 #~ msgstr "Logg inn for å fortsette"

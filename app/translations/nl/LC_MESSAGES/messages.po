@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2026-09-25 07:09+0000\n"
 "Last-Translator: Jelmer Houtman <jelmerhout15@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -1569,6 +1569,12 @@ msgstr "Test & Creëer Agent"
 msgid "Edit Server"
 msgstr "Wijzig Server"
 
+msgid "Loading…"
+msgstr "Laden…"
+
+msgid "Please select at least one server for the invitation."
+msgstr "Selecteer op zn minst een server voor de uitnodiging."
+
 msgid "Create Invitation"
 msgstr "Maak Uitnodiging"
 
@@ -1602,44 +1608,6 @@ msgstr "Wizard bundel"
 msgid "Automatic"
 msgstr "Automatisch"
 
-msgid "Advanced Options"
-msgstr "Geadvanceerde Opties"
-
-msgid "Invite Settings"
-msgstr "Uitnodigings Instellingen"
-
-msgid "Unlimited Usages"
-msgstr "Ongelimiteerd Gebruiksmogelijkheden"
-
-msgid "Duration"
-msgstr "Duur"
-
-msgid "in days"
-msgstr "in dagen"
-
-msgid "Show Information"
-msgstr "Toon Informatie"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-"Indien ingevuld, uitgenodigde gebruiker(s) worden verwijderd van de Plex "
-"server na een aantal dagen. (1-999)"
-
-#, fuzzy
-msgid "LDAP Integration"
-msgstr "Accepteer Uitnodiging"
-
-#, fuzzy
-msgid "Create LDAP User"
-msgstr "Aanmaken API Sleutel"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
-"Maak automatisch een LDAP-gebruiker aan wanneer deze uitnodiging wordt "
-"geaccepteerd"
-
 msgid "Target servers"
 msgstr "Doel servers"
 
@@ -1667,8 +1635,40 @@ msgstr ""
 msgid "Select Libraries"
 msgstr "Selecteer Bibliotheken"
 
-msgid "Loading…"
-msgstr "Laden…"
+msgid "Advanced Options"
+msgstr "Geadvanceerde Opties"
+
+msgid "Invite Settings"
+msgstr "Uitnodigings Instellingen"
+
+msgid "Unlimited Usages"
+msgstr "Ongelimiteerd Gebruiksmogelijkheden"
+
+msgid "Duration"
+msgstr "Duur"
+
+msgid "in days"
+msgstr "in dagen"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"Indien ingevuld, uitgenodigde gebruiker(s) worden verwijderd van de Plex "
+"server na een aantal dagen. (1-999)"
+
+#, fuzzy
+msgid "LDAP Integration"
+msgstr "Accepteer Uitnodiging"
+
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "Aanmaken API Sleutel"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
+"Maak automatisch een LDAP-gebruiker aan wanneer deze uitnodiging wordt "
+"geaccepteerd"
 
 msgid "Successfully generated an Invitation!"
 msgstr "Uitnodiging succesvol gegenereerd!"
@@ -1684,9 +1684,6 @@ msgstr "De link is gekopieerd naar het klembord!"
 
 msgid "Create Another"
 msgstr "Maak nog een"
-
-msgid "Please select at least one server for the invitation."
-msgstr "Selecteer op zn minst een server voor de uitnodiging."
 
 #, fuzzy
 msgid "Password Reset Link"
@@ -1852,6 +1849,53 @@ msgstr "Geen API sleutels"
 
 msgid "Get started by creating a new API key."
 msgstr "Begin met het maken van een nieuwe API-sleutel."
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
+msgstr ""
 
 msgid "Media Servers"
 msgstr "Media Servers"
@@ -3169,6 +3213,9 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Show Information"
+#~ msgstr "Toon Informatie"
 
 #~ msgid "Please log in to continue"
 #~ msgstr "Log in om door te gaan"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2026-10-13 10:36+0000\n"
 "Last-Translator: Kisnov <kisnov@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -1559,6 +1559,12 @@ msgstr "Prova i guarda els canvis"
 msgid "Edit Server"
 msgstr "Edita el servidor"
 
+msgid "Loading…"
+msgstr "S'està carregant…"
+
+msgid "Please select at least one server for the invitation."
+msgstr "Selecciona com a mínim un servidor per a la invitació."
+
 msgid "Create Invitation"
 msgstr "Crear Invitació"
 
@@ -1592,40 +1598,6 @@ msgstr "Paquet de l'auxiliar"
 msgid "Automatic"
 msgstr "Automàtic"
 
-msgid "Advanced Options"
-msgstr "Opcions avançades"
-
-msgid "Invite Settings"
-msgstr "Configuració de la invitació"
-
-msgid "Unlimited Usages"
-msgstr "Usos il·limitats"
-
-msgid "Duration"
-msgstr "Duració"
-
-msgid "in days"
-msgstr "en dies"
-
-msgid "Show Information"
-msgstr "Mostra informació"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-"Si s'estableix, els usuaris convidats s'eliminaran del servidor de Plex al "
-"cap d'uns quants dies. (1-999)"
-
-msgid "LDAP Integration"
-msgstr "Integració amb LDAP"
-
-msgid "Create LDAP User"
-msgstr "Crea un usuari LDAP"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr "Crea automàticament un usuari LDAP quan s'accepti aquesta invitació"
-
 msgid "Target servers"
 msgstr "Servidors de destinació"
 
@@ -1652,8 +1624,36 @@ msgstr ""
 msgid "Select Libraries"
 msgstr "Selecciona les biblioteques"
 
-msgid "Loading…"
-msgstr "S'està carregant…"
+msgid "Advanced Options"
+msgstr "Opcions avançades"
+
+msgid "Invite Settings"
+msgstr "Configuració de la invitació"
+
+msgid "Unlimited Usages"
+msgstr "Usos il·limitats"
+
+msgid "Duration"
+msgstr "Duració"
+
+msgid "in days"
+msgstr "en dies"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"Si s'estableix, els usuaris convidats s'eliminaran del servidor de Plex al "
+"cap d'uns quants dies. (1-999)"
+
+msgid "LDAP Integration"
+msgstr "Integració amb LDAP"
+
+msgid "Create LDAP User"
+msgstr "Crea un usuari LDAP"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr "Crea automàticament un usuari LDAP quan s'accepti aquesta invitació"
 
 msgid "Successfully generated an Invitation!"
 msgstr "S'ha generat una invitació correctament!"
@@ -1669,9 +1669,6 @@ msgstr "L'enllaç s'ha copiat al porta-retalls!"
 
 msgid "Create Another"
 msgstr "Crea'n una altra"
-
-msgid "Please select at least one server for the invitation."
-msgstr "Selecciona com a mínim un servidor per a la invitació."
 
 msgid "Password Reset Link"
 msgstr "Enllaç de restabliment de contrasenya"
@@ -1822,6 +1819,53 @@ msgstr "Cap clau API"
 
 msgid "Get started by creating a new API key."
 msgstr "Comença creant una clau API nova."
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
+msgstr ""
 
 msgid "Media Servers"
 msgstr "Servidors multimèdia"
@@ -3188,6 +3232,9 @@ msgstr "Bones notícies! Ara tens accés a la nostra col·lecció de jocs."
 
 msgid "Open RomM"
 msgstr "Obre RomM"
+
+#~ msgid "Show Information"
+#~ msgstr "Mostra informació"
 
 #~ msgid "Please log in to continue"
 #~ msgstr "Inicia sessió per continuar"

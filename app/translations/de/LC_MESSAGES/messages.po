@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-10-13 10:36+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2026-09-16 08:35+0000\n"
 "Last-Translator: Fabio Scheer <fabio@yreefboi.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -1553,6 +1553,12 @@ msgstr "Testen & Änderungen speichern"
 msgid "Edit Server"
 msgstr "Server bearbeiten"
 
+msgid "Loading…"
+msgstr "Laden…"
+
+msgid "Please select at least one server for the invitation."
+msgstr "Bitte wähle mindestens einen Server für die Einladung aus."
+
 msgid "Create Invitation"
 msgstr "Einladung erstellen"
 
@@ -1586,38 +1592,6 @@ msgstr "Wizard Bündel"
 msgid "Automatic"
 msgstr "Automatisch"
 
-msgid "Advanced Options"
-msgstr "Erweiterte Optionen"
-
-msgid "Invite Settings"
-msgstr "Einladungseinstellungen"
-
-msgid "Unlimited Usages"
-msgstr "Unbegrenzte Nutzung"
-
-msgid "Duration"
-msgstr "Dauer"
-
-msgid "in days"
-msgstr "in Tagen"
-
-msgid "Show Information"
-msgstr "Informationen anzeigen"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr "Entfernt eingeladene Benutzer nach X Tagen vom Plex Server. (1–999)"
-
-msgid "LDAP Integration"
-msgstr "LDAP-Integration"
-
-msgid "Create LDAP User"
-msgstr "LDAP-Benutzer erstellen"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr "Bei Annahme dieser Einladung automatisch einen LDAP-Benutzer erstellen"
-
 msgid "Target servers"
 msgstr "Ziel Server"
 
@@ -1646,8 +1620,34 @@ msgstr ""
 msgid "Select Libraries"
 msgstr "Bibliotheken auswählen"
 
-msgid "Loading…"
-msgstr "Laden…"
+msgid "Advanced Options"
+msgstr "Erweiterte Optionen"
+
+msgid "Invite Settings"
+msgstr "Einladungseinstellungen"
+
+msgid "Unlimited Usages"
+msgstr "Unbegrenzte Nutzung"
+
+msgid "Duration"
+msgstr "Dauer"
+
+msgid "in days"
+msgstr "in Tagen"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr "Entfernt eingeladene Benutzer nach X Tagen vom Plex Server. (1–999)"
+
+msgid "LDAP Integration"
+msgstr "LDAP-Integration"
+
+msgid "Create LDAP User"
+msgstr "LDAP-Benutzer erstellen"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr "Bei Annahme dieser Einladung automatisch einen LDAP-Benutzer erstellen"
 
 msgid "Successfully generated an Invitation!"
 msgstr "Einladung erfolgreich erstellt!"
@@ -1663,9 +1663,6 @@ msgstr "Link wurde in die Zwischenablage kopiert!"
 
 msgid "Create Another"
 msgstr "Erstelle ein weiteres"
-
-msgid "Please select at least one server for the invitation."
-msgstr "Bitte wähle mindestens einen Server für die Einladung aus."
 
 msgid "Password Reset Link"
 msgstr "Link zum Zurücksetzen des Passworts"
@@ -1822,6 +1819,53 @@ msgstr "Keine API-Schlüssel"
 
 msgid "Get started by creating a new API key."
 msgstr "Beginne damit, einen neuen API-Schlüssel zu erstellen."
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
+msgstr ""
 
 msgid "Media Servers"
 msgstr "Medienserver"
@@ -3223,6 +3267,9 @@ msgstr "Tolle Neuigkeiten! Du hast jetzt Zugriff auf unsere Spielesammlung."
 
 msgid "Open RomM"
 msgstr "RomM öffnen"
+
+#~ msgid "Show Information"
+#~ msgstr "Informationen anzeigen"
 
 #~ msgid "Please log in to continue"
 #~ msgstr "Melde dich bitte an, um fortzufahren"
