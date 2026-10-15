@@ -9,6 +9,7 @@
   {{ _("You've been invited to join the %(name)s server!", name=server_name|default("Media Server", true)) }}
 {% endblock og_description %}
 {% block main %}
+  {% from "_partials/password_toggle.html" import password_toggle %}
   {% set has_form_errors = form is defined and form.errors %}
   {% set show_form_on_load = show_form|default(false) or error|default(false) or has_form_errors %}
   {% set form_field_style = "opacity: 1; transform: translateY(0);" if show_form_on_load else "opacity: 0; transform: translateY(10px);" %}
@@ -146,8 +147,11 @@
                     </svg>
                     {{ _("Password") }}
                   </label>
-                  {{ form.password(class="w-full px-3 py-2 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
-                    placeholder=_("Create a password")) }}
+                  <div class="relative">
+                    {{ form.password(class="w-full px-3 py-2 pr-10 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
+                      placeholder=_("Create a password")) }}
+                    {{ password_toggle(form.password.id) }}
+                  </div>
                   {% for err in form.password.errors %}<p class="text-red-400 text-xs mt-1">{{ err }}</p>{% endfor %}
                 </div>
                 <div class="form-field" data-field="4" style="{{ form_field_style }}">
@@ -161,8 +165,11 @@
                     </svg>
                     {{ _("Confirm Password") }}
                   </label>
-                  {{ form.confirm_password(class="w-full px-3 py-2 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
-                    placeholder=_("Confirm your password")) }}
+                  <div class="relative">
+                    {{ form.confirm_password(class="w-full px-3 py-2 pr-10 bg-white/80 dark:bg-gray-700/50 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm transition-all duration-200 text-sm",
+                      placeholder=_("Confirm your password")) }}
+                    {{ password_toggle(form.confirm_password.id) }}
+                  </div>
                   {% for err in form.confirm_password.errors %}<p class="text-red-400 text-xs mt-1">{{ err }}</p>{% endfor %}
                 </div>
                 <div class="form-field" data-field="5" style="{{ form_field_style }}">

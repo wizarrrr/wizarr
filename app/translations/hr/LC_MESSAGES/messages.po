@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-14 08:55+0000\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
 "PO-Revision-Date: 2025-11-03 20:06+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -150,6 +150,9 @@ msgstr ""
 msgid "soon"
 msgstr ""
 
+msgid "Enter a valid email address, or leave the field empty."
+msgstr ""
+
 msgid "Admin created"
 msgstr ""
 
@@ -198,6 +201,9 @@ msgid "Login successful"
 msgstr ""
 
 msgid "LDAP authentication failed"
+msgstr ""
+
+msgid "Sign in through Cloudflare Access to reach the admin pages."
 msgstr ""
 
 msgid "Invalid username or password"
@@ -329,9 +335,6 @@ msgstr ""
 msgid "Continue to Invite"
 msgstr ""
 
-msgid "Please log in to continue"
-msgstr ""
-
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
@@ -349,6 +352,11 @@ msgid "Unable to load wizard steps. Please try again."
 msgstr ""
 
 msgid "This bundle has no steps to preview."
+msgstr ""
+
+msgid ""
+"Cannot save the change because it conflicts with other wizard data. Refresh "
+"the page and try again."
 msgstr ""
 
 #, python-brace-format
@@ -443,6 +451,15 @@ msgstr ""
 msgid "Please confirm the new password."
 msgstr ""
 
+#, python-format
+msgid ""
+"This LDAP filter is not valid. Enter one complete filter in parentheses, for "
+"example %(example)s."
+msgstr ""
+
+msgid "User Sync Filter"
+msgstr ""
+
 msgid "Server Type"
 msgstr ""
 
@@ -464,7 +481,7 @@ msgstr ""
 msgid "Allow Live TV"
 msgstr ""
 
-msgid "Overseerr/Ombi URL"
+msgid "Seerr/Ombi URL"
 msgstr ""
 
 msgid "Ombi API Key"
@@ -531,10 +548,7 @@ msgstr ""
 msgid "Navidrome"
 msgstr ""
 
-msgid "Invalid API token or insufficient permissions."
-msgstr ""
-
-msgid "API token lacks required permissions."
+msgid "Invalid API token, or the token does not have the 'user:read' ACL."
 msgstr ""
 
 msgid "Could not connect to Drop server."
@@ -575,6 +589,18 @@ msgid "Generate a strong random password instead"
 msgstr ""
 
 msgid "Continue"
+msgstr ""
+
+msgid "Invitation Code"
+msgstr ""
+
+msgid "Wizarr"
+msgstr ""
+
+msgid "Enter Code to Continue"
+msgstr ""
+
+msgid "Enter your code"
 msgstr ""
 
 msgid "Complete your account setup for local servers"
@@ -653,9 +679,6 @@ msgid "Password strength: Strong"
 msgstr ""
 
 msgid "Passwords do not match"
-msgstr ""
-
-msgid "Wizarr"
 msgstr ""
 
 msgid "Invalid Invitation"
@@ -809,6 +832,36 @@ msgstr ""
 msgid "Log in to your media server with your username and new password."
 msgstr ""
 
+msgid "Signing you in"
+msgstr ""
+
+msgid "Finishing up with Plex. This only takes a moment."
+msgstr ""
+
+msgid "Back to your invitation"
+msgstr ""
+
+msgid "Nothing to finish"
+msgstr ""
+
+msgid "Open your invitation link again to sign in with Plex."
+msgstr ""
+
+msgid "All set"
+msgstr ""
+
+msgid "Taking you to the next step..."
+msgstr ""
+
+msgid "Sign-in failed"
+msgstr ""
+
+msgid "That took too long"
+msgstr ""
+
+msgid "We did not hear back from Plex. Please try signing in again."
+msgstr ""
+
 msgid "Administrator"
 msgstr ""
 
@@ -835,15 +888,6 @@ msgid "To join"
 msgstr ""
 
 msgid "Join the ultimate media server experience."
-msgstr ""
-
-msgid "Enter Code to Continue"
-msgstr ""
-
-msgid "Invitation Code"
-msgstr ""
-
-msgid "Enter your code"
 msgstr ""
 
 msgid "Join Server"
@@ -1074,6 +1118,14 @@ msgstr ""
 msgid "Close modal"
 msgstr ""
 
+msgid "Update"
+msgstr ""
+
+msgid ""
+"Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
+"user. Wizarr does not send it to the media server."
+msgstr ""
+
 msgid "Tabs"
 msgstr ""
 
@@ -1116,9 +1168,6 @@ msgstr ""
 msgid "Expiry date"
 msgstr ""
 
-msgid "Update"
-msgstr ""
-
 msgid "Current expiry"
 msgstr ""
 
@@ -1132,6 +1181,12 @@ msgid "Add notes about this user..."
 msgstr ""
 
 msgid "Update Notes"
+msgstr ""
+
+msgid "Sync users from media servers"
+msgstr ""
+
+msgid "Sync"
 msgstr ""
 
 msgid "Link"
@@ -1274,20 +1329,25 @@ msgstr ""
 msgid "Edit Connection"
 msgstr ""
 
-msgid "Overseerr/Jellyseerr Information"
+msgid "Seerr Information"
 msgstr ""
 
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No API "
-"connection is required for Wizarr integration."
-msgstr ""
-
-msgid "To enable auto-import:"
+"Seerr creates an account the first time someone signs in, so by default an "
+"invited user has no account there until they visit and log in themselves. "
+"Overseerr and Jellyseerr, which merged into Seerr, work the same way."
 msgstr ""
 
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
-"users' and 'Import Jellyfin/Plex users'"
+"Set the Service URL and turn on account creation below, and Wizarr signs "
+"them in during the invite so their account exists before they arrive. This "
+"uses the service's own sign-in route rather than an API key, so it needs "
+"'Enable New Plex Sign-In' under its Settings → Users."
+msgstr ""
+
+msgid ""
+"Must be https if the service has CSRF protection enabled, which sets its "
+"cookies Secure."
 msgstr ""
 
 msgid "Testing connection..."
@@ -1337,6 +1397,12 @@ msgstr ""
 msgid "New Agent"
 msgstr ""
 
+msgid "User Key"
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
 msgid "Channel ID"
 msgstr ""
 
@@ -1368,6 +1434,9 @@ msgid "Test & Create Agent"
 msgstr ""
 
 msgid "Add Server"
+msgstr ""
+
+msgid "Hide new users from login screens"
 msgstr ""
 
 msgid "Test & Add"
@@ -1403,6 +1472,12 @@ msgstr ""
 msgid "Edit Server"
 msgstr ""
 
+msgid "Loading…"
+msgstr ""
+
+msgid "Please select at least one server for the invitation."
+msgstr ""
+
 msgid "Create Invitation"
 msgstr ""
 
@@ -1436,38 +1511,6 @@ msgstr ""
 msgid "Automatic"
 msgstr ""
 
-msgid "Advanced Options"
-msgstr ""
-
-msgid "Invite Settings"
-msgstr ""
-
-msgid "Unlimited Usages"
-msgstr ""
-
-msgid "Duration"
-msgstr ""
-
-msgid "in days"
-msgstr ""
-
-msgid "Show Information"
-msgstr ""
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-
-msgid "LDAP Integration"
-msgstr ""
-
-msgid "Create LDAP User"
-msgstr ""
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
-
 msgid "Target servers"
 msgstr ""
 
@@ -1493,7 +1536,33 @@ msgstr ""
 msgid "Select Libraries"
 msgstr ""
 
-msgid "Loading…"
+msgid "Advanced Options"
+msgstr ""
+
+msgid "Invite Settings"
+msgstr ""
+
+msgid "Unlimited Usages"
+msgstr ""
+
+msgid "Duration"
+msgstr ""
+
+msgid "in days"
+msgstr ""
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+
+msgid "LDAP Integration"
+msgstr ""
+
+msgid "Create LDAP User"
+msgstr ""
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
 msgstr ""
 
 msgid "Successfully generated an Invitation!"
@@ -1509,9 +1578,6 @@ msgid "Link has been copied to clipboard!"
 msgstr ""
 
 msgid "Create Another"
-msgstr ""
-
-msgid "Please select at least one server for the invitation."
 msgstr ""
 
 msgid "Password Reset Link"
@@ -1609,7 +1675,7 @@ msgstr ""
 msgid "Your Discord server ID"
 msgstr ""
 
-msgid "URL to your Overseerr/Ombi instance"
+msgid "URL to your Seerr/Ombi instance"
 msgstr ""
 
 msgid "Create Step"
@@ -1625,6 +1691,12 @@ msgid "Recently Added Media"
 msgstr ""
 
 msgid "Show recent content"
+msgstr ""
+
+msgid "Collection Media"
+msgstr ""
+
+msgid "Show media from a Plex collection"
 msgstr ""
 
 msgid "Button"
@@ -1649,6 +1721,53 @@ msgid "No API keys"
 msgstr ""
 
 msgid "Get started by creating a new API key."
+msgstr ""
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
 msgstr ""
 
 msgid "Media Servers"
@@ -1705,7 +1824,10 @@ msgstr ""
 msgid "Media Server"
 msgstr ""
 
-msgid "Overseerr (Info)"
+msgid "Seerr"
+msgstr ""
+
+msgid "Seerr (Info)"
 msgstr ""
 
 msgid "Ombi"
@@ -1744,6 +1866,11 @@ msgid "Display"
 msgstr ""
 
 msgid "Configure how your application appears to users"
+msgstr ""
+
+msgid ""
+"Which server's posters fill the background of the public join page. 'The "
+"server the invite is for' shows nothing without a valid invite."
 msgstr ""
 
 msgid "Access Control"
@@ -1865,6 +1992,11 @@ msgstr ""
 msgid "Where to find users and groups"
 msgstr ""
 
+msgid ""
+"Optional. User sync imports only the users that match this filter and the "
+"user object class. Login does not use this filter."
+msgstr ""
+
 msgid "Optional - only needed for admin group restriction"
 msgstr ""
 
@@ -1959,16 +2091,21 @@ msgstr ""
 msgid "Which media server should trigger invitations to this external service"
 msgstr ""
 
-msgid "Open your Overseerr/Jellyseerr admin panel"
+msgid "To have Wizarr create the account instead:"
 msgstr ""
 
-msgid "Navigate to Settings → Users"
+msgid "Set the Service URL below"
 msgstr ""
 
-msgid "Enable 'Auto-approve new users'"
+msgid "Turn on account creation below"
 msgstr ""
 
-msgid "Enable 'Import Jellyfin/Plex users'"
+msgid "In the service, enable Settings → Users → 'Enable New Plex Sign-In'"
+msgstr ""
+
+msgid ""
+"This uses the service's own sign-in route, so there is no API key to "
+"configure."
 msgstr ""
 
 msgid "The full URL to your external service instance"
@@ -2199,6 +2336,12 @@ msgstr ""
 msgid "Create an account"
 msgstr ""
 
+msgid "Pagination"
+msgstr ""
+
+msgid "Show more"
+msgstr ""
+
 msgid "Unlimited"
 msgstr ""
 
@@ -2260,6 +2403,25 @@ msgid "Reset password"
 msgstr ""
 
 msgid "Remove user"
+msgstr ""
+
+msgid "Setup Guide"
+msgstr ""
+
+msgid "Select your server to open its setup guide."
+msgstr ""
+
+#, python-format
+msgid "Open the setup guide for %(name)s"
+msgstr ""
+
+msgid ""
+"This page is for invited users. Open the link from your invitation to start."
+msgstr ""
+
+msgid ""
+"If you already accepted your invitation, ask the server administrator for "
+"help."
 msgstr ""
 
 msgid "Before Invitation"

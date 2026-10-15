@@ -7,9 +7,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-14 08:55+0000\n"
-"PO-Revision-Date: 2026-09-08 08:05+0000\n"
-"Last-Translator: Kisnov <gabrielmarfil0@gmail.com>\n"
+"POT-Creation-Date: 2026-10-14 08:43+0000\n"
+"PO-Revision-Date: 2026-10-13 10:36+0000\n"
+"Last-Translator: Kisnov <kisnov@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/ca/>\n"
 "Language: ca\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
 msgid "Failed to load settings"
@@ -154,6 +154,9 @@ msgstr "en %(n)d m"
 msgid "soon"
 msgstr "aviat"
 
+msgid "Enter a valid email address, or leave the field empty."
+msgstr "Introdueix una adreça electrònica vàlida o deixa el camp buit."
+
 msgid "Admin created"
 msgstr "Admin creat"
 
@@ -207,6 +210,11 @@ msgstr "Inici de sessió satisfactori"
 
 msgid "LDAP authentication failed"
 msgstr "Error en l'autenticació LDAP"
+
+msgid "Sign in through Cloudflare Access to reach the admin pages."
+msgstr ""
+"Inicia la sessió a través de Cloudflare Access per accedir a les pàgines "
+"d'administració."
 
 msgid "Invalid username or password"
 msgstr "Nom d'usuari o contrasenya incorrectes"
@@ -350,9 +358,6 @@ msgstr ""
 msgid "Continue to Invite"
 msgstr "Continua per convidar"
 
-msgid "Please log in to continue"
-msgstr "Inicia sessió per continuar"
-
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
@@ -378,6 +383,13 @@ msgstr ""
 
 msgid "This bundle has no steps to preview."
 msgstr "Aquest paquet no té etapes per a la previsualització."
+
+msgid ""
+"Cannot save the change because it conflicts with other wizard data. Refresh "
+"the page and try again."
+msgstr ""
+"No es pot guardar el canvi perquè entra en conflicte amb altres dades de "
+"l'auxiliar. Actualitza la pàgina i torna-ho a provar."
 
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
@@ -473,6 +485,17 @@ msgstr "Contrasenya nova"
 msgid "Please confirm the new password."
 msgstr "Confirma la contrasenya nova."
 
+#, python-format
+msgid ""
+"This LDAP filter is not valid. Enter one complete filter in parentheses, for "
+"example %(example)s."
+msgstr ""
+"Aquest filtre LDAP no és vàlid. Introdueix un sol filtre complet entre "
+"parèntesis, per exemple %(example)s."
+
+msgid "User Sync Filter"
+msgstr "Filtre de sincronització d'usuaris"
+
 msgid "Server Type"
 msgstr "Tipus de servidor"
 
@@ -494,8 +517,8 @@ msgstr "Permet les baixades"
 msgid "Allow Live TV"
 msgstr "Permet la TV en directe"
 
-msgid "Overseerr/Ombi URL"
-msgstr "URL d'Overseerr/Ombi"
+msgid "Seerr/Ombi URL"
+msgstr "URL de Seerr/Ombi"
 
 msgid "Ombi API Key"
 msgstr "Clau API d'Ombi"
@@ -568,11 +591,8 @@ msgstr "Kavita"
 msgid "Navidrome"
 msgstr "Navidrome"
 
-msgid "Invalid API token or insufficient permissions."
-msgstr "Token API invàlid o permisos insuficients."
-
-msgid "API token lacks required permissions."
-msgstr "El token d'API no té permisos necessaris."
+msgid "Invalid API token, or the token does not have the 'user:read' ACL."
+msgstr "El testimoni de l'API no és vàlid o no té l'ACL 'user:read'."
 
 msgid "Could not connect to Drop server."
 msgstr "No s'ha pogut connectar al servidor Drop."
@@ -614,6 +634,18 @@ msgstr "Generar una contrasenya aleatòria segura"
 
 msgid "Continue"
 msgstr "Continuar"
+
+msgid "Invitation Code"
+msgstr "Codi d'invitació"
+
+msgid "Wizarr"
+msgstr "Wizarr"
+
+msgid "Enter Code to Continue"
+msgstr "Introdueix el codi per continuar"
+
+msgid "Enter your code"
+msgstr "Introdueix el teu codi"
 
 msgid "Complete your account setup for local servers"
 msgstr "Completa la configuració del teu compte pels servidors locals"
@@ -695,9 +727,6 @@ msgstr "Seguretat de la contrasenya: alta"
 
 msgid "Passwords do not match"
 msgstr "Les contrasenyes no coincideixen"
-
-msgid "Wizarr"
-msgstr "Wizarr"
 
 msgid "Invalid Invitation"
 msgstr "Invitació no vàlida"
@@ -859,6 +888,36 @@ msgstr ""
 "Inicia la sessió al teu servidor multimèdia amb el teu nom d'usuari i la "
 "contrasenya nova."
 
+msgid "Signing you in"
+msgstr "S'està iniciant la sessió"
+
+msgid "Finishing up with Plex. This only takes a moment."
+msgstr "S'està completant l'inici de sessió amb Plex. Només serà un moment."
+
+msgid "Back to your invitation"
+msgstr "Torna a la teva invitació"
+
+msgid "Nothing to finish"
+msgstr "No hi ha res per completar"
+
+msgid "Open your invitation link again to sign in with Plex."
+msgstr "Torna a obrir l'enllaç d'invitació per iniciar la sessió amb Plex."
+
+msgid "All set"
+msgstr "Tot a punt"
+
+msgid "Taking you to the next step..."
+msgstr "T'estem portant a l'etapa següent..."
+
+msgid "Sign-in failed"
+msgstr "No s'ha pogut iniciar la sessió"
+
+msgid "That took too long"
+msgstr "Ha trigat massa"
+
+msgid "We did not hear back from Plex. Please try signing in again."
+msgstr "No hem rebut resposta de Plex. Torna a provar d'iniciar la sessió."
+
 msgid "Administrator"
 msgstr "Administrador"
 
@@ -886,15 +945,6 @@ msgstr "Per unir-te"
 
 msgid "Join the ultimate media server experience."
 msgstr "Uneix-te a la millor experiència de servidor multimèdia."
-
-msgid "Enter Code to Continue"
-msgstr "Introdueix el codi per continuar"
-
-msgid "Invitation Code"
-msgstr "Codi d'invitació"
-
-msgid "Enter your code"
-msgstr "Introdueix el teu codi"
 
 msgid "Join Server"
 msgstr "Uneix-te al servidor"
@@ -1132,6 +1182,16 @@ msgstr "Edita l'usuari"
 msgid "Close modal"
 msgstr "Tanca la finestra"
 
+msgid "Update"
+msgstr "Actualitza"
+
+msgid ""
+"Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
+"user. Wizarr does not send it to the media server."
+msgstr ""
+"Wizarr conserva aquesta adreça per als comptes de Jellyfin, Emby i locals "
+"d'aquest usuari. Wizarr no l'envia al servidor multimèdia."
+
 msgid "Tabs"
 msgstr "Pestanyes"
 
@@ -1178,9 +1238,6 @@ msgstr "Gestió de la caducitat"
 msgid "Expiry date"
 msgstr "Data de caducitat"
 
-msgid "Update"
-msgstr "Actualitza"
-
 msgid "Current expiry"
 msgstr "Caducitat actual"
 
@@ -1195,6 +1252,12 @@ msgstr "Afegeix notes sobre aquest usuari..."
 
 msgid "Update Notes"
 msgstr "Actualitza les notes"
+
+msgid "Sync users from media servers"
+msgstr "Sincronitza els usuaris dels servidors multimèdia"
+
+msgid "Sync"
+msgstr "Sincronitza"
 
 msgid "Link"
 msgstr "Enllaç"
@@ -1339,25 +1402,37 @@ msgstr "Afegeix una connexió"
 msgid "Edit Connection"
 msgstr "Edita la connexió"
 
-msgid "Overseerr/Jellyseerr Information"
-msgstr "Informació d'Overseerr/Jellyseerr"
+msgid "Seerr Information"
+msgstr "Informació de Seerr"
 
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No API "
-"connection is required for Wizarr integration."
+"Seerr creates an account the first time someone signs in, so by default an "
+"invited user has no account there until they visit and log in themselves. "
+"Overseerr and Jellyseerr, which merged into Seerr, work the same way."
 msgstr ""
-"Overseerr i Jellyseerr importen automàticament els usuaris nous per defecte. "
-"No cal cap connexió d'API per a la integració amb Wizarr."
-
-msgid "To enable auto-import:"
-msgstr "Per activar la importació automàtica:"
+"Seerr crea un compte la primera vegada que algú inicia la sessió, de manera "
+"que, per defecte, un usuari convidat no hi té cap compte fins que hi entra i "
+"inicia la sessió per si mateix. Overseerr i Jellyseerr, que es van fusionar "
+"a Seerr, funcionen de la mateixa manera."
 
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
-"users' and 'Import Jellyfin/Plex users'"
+"Set the Service URL and turn on account creation below, and Wizarr signs "
+"them in during the invite so their account exists before they arrive. This "
+"uses the service's own sign-in route rather than an API key, so it needs "
+"'Enable New Plex Sign-In' under its Settings → Users."
 msgstr ""
-"Ves a la configuració d'Overseerr/Jellyseerr → Users → activa «Auto-approve "
-"new users» i «Import Jellyfin/Plex users»"
+"Defineix l'URL del servei i activa la creació de comptes a continuació, i "
+"Wizarr iniciarà la sessió dels usuaris durant la invitació perquè el compte "
+"ja existeixi abans que hi arribin. Fa servir la ruta d'inici de sessió "
+"pròpia del servei en lloc d'una clau API, de manera que cal activar «Enable "
+"New Plex Sign-In» a Settings → Users del servei."
+
+msgid ""
+"Must be https if the service has CSRF protection enabled, which sets its "
+"cookies Secure."
+msgstr ""
+"Ha de ser https si el servei té activada la protecció CSRF, que marca les "
+"seves galetes com a Secure."
 
 msgid "Testing connection..."
 msgstr "S'està provant la connexió..."
@@ -1409,6 +1484,12 @@ msgstr ""
 msgid "New Agent"
 msgstr "Nou agent"
 
+msgid "User Key"
+msgstr "Clau d'usuari"
+
+msgid "API Token"
+msgstr "Testimoni de l'API"
+
 msgid "Channel ID"
 msgstr "ID del canal"
 
@@ -1441,6 +1522,9 @@ msgstr "Prova i crea agent"
 
 msgid "Add Server"
 msgstr "Afegeix un servidor"
+
+msgid "Hide new users from login screens"
+msgstr "Amaga els usuaris nous de les pantalles d'inici de sessió"
 
 msgid "Test & Add"
 msgstr "Prova i afegeix"
@@ -1475,6 +1559,12 @@ msgstr "Prova i guarda els canvis"
 msgid "Edit Server"
 msgstr "Edita el servidor"
 
+msgid "Loading…"
+msgstr "S'està carregant…"
+
+msgid "Please select at least one server for the invitation."
+msgstr "Selecciona com a mínim un servidor per a la invitació."
+
 msgid "Create Invitation"
 msgstr "Crear Invitació"
 
@@ -1508,40 +1598,6 @@ msgstr "Paquet de l'auxiliar"
 msgid "Automatic"
 msgstr "Automàtic"
 
-msgid "Advanced Options"
-msgstr "Opcions avançades"
-
-msgid "Invite Settings"
-msgstr "Configuració de la invitació"
-
-msgid "Unlimited Usages"
-msgstr "Usos il·limitats"
-
-msgid "Duration"
-msgstr "Duració"
-
-msgid "in days"
-msgstr "en dies"
-
-msgid "Show Information"
-msgstr "Mostra informació"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-"Si s'estableix, els usuaris convidats s'eliminaran del servidor de Plex al "
-"cap d'uns quants dies. (1-999)"
-
-msgid "LDAP Integration"
-msgstr "Integració amb LDAP"
-
-msgid "Create LDAP User"
-msgstr "Crea un usuari LDAP"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr "Crea automàticament un usuari LDAP quan s'accepti aquesta invitació"
-
 msgid "Target servers"
 msgstr "Servidors de destinació"
 
@@ -1568,8 +1624,36 @@ msgstr ""
 msgid "Select Libraries"
 msgstr "Selecciona les biblioteques"
 
-msgid "Loading…"
-msgstr "S'està carregant…"
+msgid "Advanced Options"
+msgstr "Opcions avançades"
+
+msgid "Invite Settings"
+msgstr "Configuració de la invitació"
+
+msgid "Unlimited Usages"
+msgstr "Usos il·limitats"
+
+msgid "Duration"
+msgstr "Duració"
+
+msgid "in days"
+msgstr "en dies"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"Si s'estableix, els usuaris convidats s'eliminaran del servidor de Plex al "
+"cap d'uns quants dies. (1-999)"
+
+msgid "LDAP Integration"
+msgstr "Integració amb LDAP"
+
+msgid "Create LDAP User"
+msgstr "Crea un usuari LDAP"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr "Crea automàticament un usuari LDAP quan s'accepti aquesta invitació"
 
 msgid "Successfully generated an Invitation!"
 msgstr "S'ha generat una invitació correctament!"
@@ -1585,9 +1669,6 @@ msgstr "L'enllaç s'ha copiat al porta-retalls!"
 
 msgid "Create Another"
 msgstr "Crea'n una altra"
-
-msgid "Please select at least one server for the invitation."
-msgstr "Selecciona com a mínim un servidor per a la invitació."
 
 msgid "Password Reset Link"
 msgstr "Enllaç de restabliment de contrasenya"
@@ -1691,8 +1772,8 @@ msgstr "Tria quan s'ha de mostrar aquesta etapa als usuaris"
 msgid "Your Discord server ID"
 msgstr "L'ID del teu servidor de Discord"
 
-msgid "URL to your Overseerr/Ombi instance"
-msgstr "URL de la teva instància d'Overseerr/Ombi"
+msgid "URL to your Seerr/Ombi instance"
+msgstr "URL de la teva instància de Seerr/Ombi"
 
 msgid "Create Step"
 msgstr "Crea una etapa"
@@ -1708,6 +1789,12 @@ msgstr "Contingut afegit recentment"
 
 msgid "Show recent content"
 msgstr "Mostra el contingut recent"
+
+msgid "Collection Media"
+msgstr "Contingut d'una col·lecció"
+
+msgid "Show media from a Plex collection"
+msgstr "Mostra contingut d'una col·lecció de Plex"
 
 msgid "Button"
 msgstr "Botó"
@@ -1732,6 +1819,53 @@ msgstr "Cap clau API"
 
 msgid "Get started by creating a new API key."
 msgstr "Comença creant una clau API nova."
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
+msgstr ""
 
 msgid "Media Servers"
 msgstr "Servidors multimèdia"
@@ -1789,8 +1923,11 @@ msgstr "Nom de la connexió"
 msgid "Media Server"
 msgstr "Servidor multimèdia"
 
-msgid "Overseerr (Info)"
-msgstr "Seerr (Info)"
+msgid "Seerr"
+msgstr "Seerr"
+
+msgid "Seerr (Info)"
+msgstr "Seerr (informació)"
 
 msgid "Ombi"
 msgstr "Ombi"
@@ -1831,6 +1968,14 @@ msgstr "Visualització"
 
 msgid "Configure how your application appears to users"
 msgstr "Configura com veuen l'aplicació els usuaris"
+
+msgid ""
+"Which server's posters fill the background of the public join page. 'The "
+"server the invite is for' shows nothing without a valid invite."
+msgstr ""
+"Tria de quin servidor són els pòsters que omplen el fons de la pàgina "
+"pública per unir-se. «El servidor de la invitació» no mostra res sense una "
+"invitació vàlida."
 
 msgid "Access Control"
 msgstr "Control d'accés"
@@ -1955,6 +2100,14 @@ msgstr "Configuració d'usuaris i grups"
 msgid "Where to find users and groups"
 msgstr "On trobar els usuaris i els grups"
 
+msgid ""
+"Optional. User sync imports only the users that match this filter and the "
+"user object class. Login does not use this filter."
+msgstr ""
+"Opcional. La sincronització d'usuaris només importa els usuaris que "
+"coincideixen amb aquest filtre i amb la classe d'objecte d'usuari. L'inici "
+"de sessió no fa servir aquest filtre."
+
 msgid "Optional - only needed for admin group restriction"
 msgstr "Opcional: només cal per restringir el grup d'administradors"
 
@@ -2061,17 +2214,24 @@ msgid "Which media server should trigger invitations to this external service"
 msgstr ""
 "Quin servidor multimèdia ha d'activar les invitacions a aquest servei extern"
 
-msgid "Open your Overseerr/Jellyseerr admin panel"
-msgstr "Obre el tauler d'administració d'Overseerr/Jellyseerr"
+msgid "To have Wizarr create the account instead:"
+msgstr "Perquè sigui Wizarr qui creï el compte:"
 
-msgid "Navigate to Settings → Users"
-msgstr "Ves a Settings → Users"
+msgid "Set the Service URL below"
+msgstr "Defineix l'URL del servei a continuació"
 
-msgid "Enable 'Auto-approve new users'"
-msgstr "Activa «Auto-approve new users»"
+msgid "Turn on account creation below"
+msgstr "Activa la creació de comptes a continuació"
 
-msgid "Enable 'Import Jellyfin/Plex users'"
-msgstr "Activa «Import Jellyfin/Plex users»"
+msgid "In the service, enable Settings → Users → 'Enable New Plex Sign-In'"
+msgstr "Al servei, activa Settings → Users → «Enable New Plex Sign-In»"
+
+msgid ""
+"This uses the service's own sign-in route, so there is no API key to "
+"configure."
+msgstr ""
+"Fa servir la ruta d'inici de sessió pròpia del servei, així que no cal "
+"configurar cap clau API."
 
 msgid "The full URL to your external service instance"
 msgstr "L'URL complet de la teva instància del servei extern"
@@ -2321,6 +2481,12 @@ msgstr "Configurar Wizarr"
 msgid "Create an account"
 msgstr "Crea un compte"
 
+msgid "Pagination"
+msgstr "Paginació"
+
+msgid "Show more"
+msgstr "Mostra'n més"
+
 msgid "Unlimited"
 msgstr "Il·limitat"
 
@@ -2383,6 +2549,28 @@ msgstr "Restableix la contrasenya"
 
 msgid "Remove user"
 msgstr "Elimina l'usuari"
+
+msgid "Setup Guide"
+msgstr "Guia de configuració"
+
+msgid "Select your server to open its setup guide."
+msgstr "Selecciona el teu servidor per obrir-ne la guia de configuració."
+
+#, python-format
+msgid "Open the setup guide for %(name)s"
+msgstr "Obre la guia de configuració de %(name)s"
+
+msgid ""
+"This page is for invited users. Open the link from your invitation to start."
+msgstr ""
+"Aquesta pàgina és per als usuaris convidats. Obre l'enllaç de la teva "
+"invitació per començar."
+
+msgid ""
+"If you already accepted your invitation, ask the server administrator for "
+"help."
+msgstr ""
+"Si ja has acceptat la invitació, demana ajuda a l'administrador del servidor."
 
 msgid "Before Invitation"
 msgstr "Abans de la invitació"
@@ -3044,6 +3232,71 @@ msgstr "Bones notícies! Ara tens accés a la nostra col·lecció de jocs."
 
 msgid "Open RomM"
 msgstr "Obre RomM"
+
+#~ msgid "Show Information"
+#~ msgstr "Mostra informació"
+
+#~ msgid "Please log in to continue"
+#~ msgstr "Inicia sessió per continuar"
+
+#~ msgid "Overseerr/Ombi URL"
+#~ msgstr "URL d'Overseerr/Ombi"
+
+#~ msgid "Invalid API token or insufficient permissions."
+#~ msgstr "Token API invàlid o permisos insuficients."
+
+#~ msgid "API token lacks required permissions."
+#~ msgstr "El token d'API no té permisos necessaris."
+
+#~ msgid "Overseerr/Jellyseerr Information"
+#~ msgstr "Informació d'Overseerr/Jellyseerr"
+
+#~ msgid ""
+#~ "Overseerr and Jellyseerr create an account the first time someone signs "
+#~ "in, so by default an invited user has no account there until they visit "
+#~ "and log in themselves."
+#~ msgstr ""
+#~ "Overseerr i Jellyseerr creen un compte la primera vegada que algú inicia "
+#~ "la sessió, de manera que, per defecte, un usuari convidat no hi té compte "
+#~ "fins que hi entra i inicia la sessió pel seu compte."
+
+#~ msgid "URL to your Overseerr/Ombi instance"
+#~ msgstr "URL de la teva instància d'Overseerr/Ombi"
+
+#~ msgid "Overseerr"
+#~ msgstr "Overseerr"
+
+#~ msgid "Overseerr (Info)"
+#~ msgstr "Seerr (Info)"
+
+#~ msgid ""
+#~ "Overseerr and Jellyseerr automatically import new users by default. No "
+#~ "API connection is required for Wizarr integration."
+#~ msgstr ""
+#~ "Overseerr i Jellyseerr importen automàticament els usuaris nous per "
+#~ "defecte. No cal cap connexió d'API per a la integració amb Wizarr."
+
+#~ msgid "To enable auto-import:"
+#~ msgstr "Per activar la importació automàtica:"
+
+#~ msgid ""
+#~ "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
+#~ "new users' and 'Import Jellyfin/Plex users'"
+#~ msgstr ""
+#~ "Ves a la configuració d'Overseerr/Jellyseerr → Users → activa «Auto-"
+#~ "approve new users» i «Import Jellyfin/Plex users»"
+
+#~ msgid "Open your Overseerr/Jellyseerr admin panel"
+#~ msgstr "Obre el tauler d'administració d'Overseerr/Jellyseerr"
+
+#~ msgid "Navigate to Settings → Users"
+#~ msgstr "Ves a Settings → Users"
+
+#~ msgid "Enable 'Auto-approve new users'"
+#~ msgstr "Activa «Auto-approve new users»"
+
+#~ msgid "Enable 'Import Jellyfin/Plex users'"
+#~ msgstr "Activa «Import Jellyfin/Plex users»"
 
 #~ msgid "Edit expiry"
 #~ msgstr "Edita la caducitat"

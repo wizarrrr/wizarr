@@ -47,15 +47,20 @@
     }
 
     function closeInviteModal() {
-        document.getElementById('invite-modal').innerHTML = '';
+        const inviteModal = document.getElementById('invite-modal');
+        if (inviteModal) inviteModal.innerHTML = '';
     }
 
-    // Close modal on escape key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape') {
-            closeInviteModal();
-        }
-    });
+    // Close modal on escape key. HTMX navigation runs this script again on
+    // each visit, so add the listener one time only. home.html uses the same flag.
+    if (!window.wizarrInviteModalEscapeListener) {
+        window.wizarrInviteModalEscapeListener = true;
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeInviteModal();
+            }
+        });
+    }
 
     function tableCopyLink(invite_code) {
         var url = window.location.origin;

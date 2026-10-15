@@ -25,7 +25,23 @@ def ldap_config():
     config.group_base_dn = "ou=groups,dc=example,dc=com"
     config.group_object_class = "groupOfUniqueNames"
     config.group_member_attribute = "uniqueMember"
+    # Login must ignore the sync filter (#1261).
+    config.user_sync_filter = "(memberOf=cn=users,ou=groups,dc=example,dc=com)"
     return config
+
+
+@pytest.fixture
+def ldap_conn():
+    """Patch the ldap3 connection. The add and the password change succeed."""
+    conn = MagicMock()
+    conn.add.return_value = True
+    conn.extend.standard.modify_password.return_value = True
+    conn.entries = []
+    with (
+        patch("app.services.ldap.client.Server"),
+        patch("app.services.ldap.client.Connection", return_value=conn),
+    ):
+        yield conn
 
 
 @patch("app.services.ldap.client.Connection")
@@ -85,28 +101,63 @@ def test_authenticate_user_success(mock_server, mock_connection, ldap_config):
     assert attrs["uid"] == "testuser"
 
 
-@patch("app.services.ldap.client.Connection")
-@patch("app.services.ldap.client.Server")
-def test_create_user_success(mock_server, mock_connection, ldap_config):
-    mock_conn = MagicMock()
-    mock_conn.add.return_value = True
-    mock_conn.extend.standard.modify_password.return_value = True
-    mock_conn.search.return_value = False
-    mock_conn.entries = []
-    mock_connection.return_value = mock_conn
-
-    client = LDAPClient(ldap_config)
-    success, result = client.create_user(
-        username="newuser",
-        email="newuser@example.com",
-        password="password123",
+def test_create_user_sends_schema_required_cn_and_sn(ldap_conn, ldap_config):
+    """Schema-strict servers reject an inetOrgPerson without cn and sn."""
+    success, user_dn = LDAPClient(ldap_config).create_user(
+        username="newuser", email="newuser@example.com", password="password123"
     )
 
     assert success is True
-    assert "uid=newuser,ou=people,dc=example,dc=com" in result
-    mock_conn.add.assert_called_once()
-    mock_conn.extend.standard.modify_password.assert_called_once()
-    mock_conn.unbind.assert_called_once()
+    assert user_dn == "uid=newuser,ou=people,dc=example,dc=com"
+    ldap_conn.add.assert_called_once()
+    attrs = ldap_conn.add.call_args.kwargs["attributes"]
+    assert attrs == {
+        "objectClass": ["inetOrgPerson"],
+        "uid": "newuser",
+        "mail": "newuser@example.com",
+        "cn": "newuser",
+        "sn": "newuser",
+    }
+    ldap_conn.extend.standard.modify_password.assert_called_once()
+    ldap_conn.unbind.assert_called_once()
+
+
+def test_create_user_keeps_mapped_cn(ldap_conn, ldap_config):
+    """A username mapped to cn is not replaced by the schema default."""
+    ldap_config.username_attribute = "cn"
+
+    LDAPClient(ldap_config).create_user(
+        username="newuser", email="newuser@example.com", password="password123"
+    )
+
+    attrs = ldap_conn.add.call_args.kwargs["attributes"]
+    assert attrs["cn"] == "newuser"
+    assert attrs["sn"] == "newuser"
+    assert "uid" not in attrs
+
+
+def test_create_user_writes_lowercase_uid_and_dn(ldap_conn, ldap_config):
+    """LLDAP rejects a DN with uppercase letters, and a uid that differs from it."""
+    ldap_config.user_base_dn = "ou=People,dc=Example,dc=com"
+
+    success, user_dn = LDAPClient(ldap_config).create_user(
+        username="JohnDoe", email="john@example.com", password="password123"
+    )
+
+    assert success is True
+    assert user_dn == "uid=johndoe,ou=people,dc=example,dc=com"
+    assert ldap_conn.add.call_args.args[0] == user_dn
+    assert ldap_conn.add.call_args.kwargs["attributes"]["uid"] == "johndoe"
+
+
+def test_find_user_dn_searches_lowercase_username(ldap_conn, ldap_config):
+    """A lookup uses the same lowercase uid that create_user writes.
+
+    The login filter applies alone. The sync filter does not apply.
+    """
+    LDAPClient(ldap_config).find_user_dn("JohnDoe")
+
+    assert ldap_conn.search.call_args.kwargs["search_filter"] == "(uid=johndoe)"
 
 
 @patch("app.services.ldap.client.Connection")
@@ -177,17 +228,6 @@ def test_delete_user_failure(mock_server, mock_connection, ldap_config):
 
 @patch("app.services.ldap.client.Connection")
 @patch("app.services.ldap.client.Server")
-def test_delete_user_missing_dn(mock_server, mock_connection, ldap_config):
-    """Test LDAP user deletion with missing DN."""
-    client = LDAPClient(ldap_config)
-    success, message = client.delete_user("")
-
-    assert success is False
-    assert message == "User DN is required"
-
-
-@patch("app.services.ldap.client.Connection")
-@patch("app.services.ldap.client.Server")
 def test_change_password_success(mock_server, mock_connection, ldap_config):
     """Test successful LDAP password change."""
     mock_conn = MagicMock()
@@ -225,24 +265,20 @@ def test_change_password_failure(mock_server, mock_connection, ldap_config):
     mock_conn.unbind.assert_called_once()
 
 
-@patch("app.services.ldap.client.Connection")
-@patch("app.services.ldap.client.Server")
-def test_change_password_missing_dn(mock_server, mock_connection, ldap_config):
-    """Test LDAP password change with missing DN."""
-    client = LDAPClient(ldap_config)
-    success, message = client.change_password("", "newpassword123")
+@pytest.mark.parametrize(
+    ("method", "args", "message"),
+    [
+        ("delete_user", ("",), "User DN is required"),
+        ("change_password", ("", "newpassword123"), "User DN is required"),
+        (
+            "change_password",
+            ("uid=testuser,ou=people,dc=example,dc=com", ""),
+            "New password is required",
+        ),
+    ],
+)
+def test_missing_input_is_rejected(ldap_conn, ldap_config, method, args, message):
+    success, result = getattr(LDAPClient(ldap_config), method)(*args)
 
     assert success is False
-    assert message == "User DN is required"
-
-
-@patch("app.services.ldap.client.Connection")
-@patch("app.services.ldap.client.Server")
-def test_change_password_missing_password(mock_server, mock_connection, ldap_config):
-    """Test LDAP password change with missing password."""
-    client = LDAPClient(ldap_config)
-    user_dn = "uid=testuser,ou=people,dc=example,dc=com"
-    success, message = client.change_password(user_dn, "")
-
-    assert success is False
-    assert message == "New password is required"
+    assert result == message

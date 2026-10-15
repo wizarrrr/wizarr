@@ -5,7 +5,6 @@ Polls Emby's Sessions API to monitor active playback sessions.
 Uses similar approach to Jellyfin since Emby and Jellyfin share similar APIs.
 """
 
-from datetime import UTC, datetime
 from typing import Any
 
 from ...domain.models import ActivityEvent
@@ -15,8 +14,8 @@ from ..monitor import BaseCollector
 class EmbyCollector(BaseCollector):
     """Emby activity collector using Sessions API polling."""
 
-    def __init__(self, server, event_callback):
-        super().__init__(server, event_callback)
+    def __init__(self, server, event_callback, **kwargs):
+        super().__init__(server, event_callback, **kwargs)
         self.active_sessions: dict[str, dict[str, Any]] = {}
 
     def _collect_loop(self):
@@ -28,10 +27,17 @@ class EmbyCollector(BaseCollector):
                 client = self._get_media_client()
                 if client:
                     self.logger.debug("Polling Emby Sessions API...")
-                    sessions = client.now_playing()
+                    sessions = self._fetch_sessions(client)
+
+                    if sessions is None:
+                        # The poll failed. Keep the active sessions, unless
+                        # the outage is long (see BaseCollector._poll_failed).
+                        # Wait longer before the next poll.
+                        self._stop_event.wait(30)
+                        continue
 
                     if sessions:
-                        self.logger.info(f"Found {len(sessions)} active sessions")
+                        self.logger.debug(f"Found {len(sessions)} active sessions")
                         for i, session in enumerate(sessions):
                             self.logger.debug(
                                 f"Session {i + 1}: {session.get('user_name', 'Unknown')} - {session.get('media_title', 'Unknown')}"
@@ -39,7 +45,8 @@ class EmbyCollector(BaseCollector):
                     else:
                         self.logger.debug("No active sessions found")
 
-                    self._process_sessions(sessions)
+                    with self._event_batch():
+                        self._process_sessions(sessions)
                 else:
                     self.logger.warning("Failed to get media client for polling")
 
@@ -137,7 +144,7 @@ class EmbyCollector(BaseCollector):
                 session_id=session_data.get("session_id", ""),
                 user_name=session_data.get("user_name", "Unknown"),
                 media_title=session_data.get("media_title", "Unknown"),
-                timestamp=datetime.now(UTC),
+                timestamp=self._event_now(),
                 user_id=session_data.get("user_id"),
                 media_type=session_data.get("media_type"),
                 media_id=session_data.get("media_id"),

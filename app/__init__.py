@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from .config import DevelopmentConfig
 from .error_handlers import register_error_handlers
@@ -32,6 +33,17 @@ def create_app(config_object=DevelopmentConfig):
     app = Flask(__name__)
     app.config.from_object(config_object)
 
+    # Apply ProxyFix if configured
+    if app.config.get("TRUST_PROXY_HEADERS"):
+        app.wsgi_app = ProxyFix(
+            app.wsgi_app,
+            x_for=app.config.get("PROXY_FIX_X_FOR", 1),
+            x_proto=app.config.get("PROXY_FIX_X_PROTO", 1),
+            x_host=app.config.get("PROXY_FIX_X_HOST", 1),
+            x_port=app.config.get("PROXY_FIX_X_PORT", 1),
+            x_prefix=app.config.get("PROXY_FIX_X_PREFIX", 1),
+        )
+
     # Step 3: Initialize extensions
     if show_startup:
         logger.step("Initializing extensions", "🔧")
@@ -44,11 +56,6 @@ def create_app(config_object=DevelopmentConfig):
 
     for bp in all_blueprints:
         app.register_blueprint(bp)
-
-    # Initialise activity monitoring (blueprint already registered above)
-    from app.activity import init_app as init_activity
-
-    init_activity(app)
 
     # Step 5: Setup context processors and filters
     if show_startup:
@@ -64,6 +71,11 @@ def create_app(config_object=DevelopmentConfig):
     app.context_processor(inject_app_version)
     register_error_handlers(app)
 
+    # Versioned static URLs, static cache headers and static compression
+    from .static_assets import init_static_assets
+
+    init_static_assets(app)
+
     # Register custom Jinja filters
     from .jinja_filters import register_filters
 
@@ -73,7 +85,11 @@ def create_app(config_object=DevelopmentConfig):
     # Step 6: Initialize wizard steps
     if show_startup:
         logger.step("Setting up wizard steps", "🪄")
-    with app.app_context():
+    from .background import startup_data_lock
+
+    # With more than one gunicorn worker, each worker creates the app at the
+    # same time. The lock makes the workers do steps 6 and 7 one at a time.
+    with app.app_context(), startup_data_lock():
         try:
             from .services.wizard_seed import import_default_wizard_steps
 
@@ -100,32 +116,7 @@ def create_app(config_object=DevelopmentConfig):
             # Non-fatal – log and continue startup to avoid blocking the app
             logger.warning(f"Wizard step migration failed: {exc}")
 
-        # Step 8: Scan libraries for all media servers
-        # Skip during migrations to avoid database locking issues
-        skip_library_scan = os.getenv("FLASK_SKIP_SCHEDULER") == "true"
-
-        if not skip_library_scan:
-            if show_startup:
-                logger.step("Scanning media server libraries", "📚")
-            try:
-                from .services.library_scanner import scan_all_server_libraries
-
-                total_scanned, _ = scan_all_server_libraries(show_logs=show_startup)
-
-                if show_startup:
-                    if total_scanned > 0:
-                        logger.success(f"Scanned {total_scanned} libraries")
-                    else:
-                        logger.info("No media servers configured")
-            except Exception as exc:
-                # Non-fatal – log and continue startup to avoid blocking the app
-                if show_startup:
-                    logger.warning(f"Library scanning failed: {exc}")
-        elif show_startup:
-            logger.step("Scanning media server libraries", "📚")
-            logger.info("Skipped during migrations")
-
-    # Step 9: Initialize Plus features if enabled
+    # Step 8: Initialize Plus features if enabled
     if show_startup:
         logger.step("Checking for Plus features", "⭐")
 
@@ -156,6 +147,23 @@ def create_app(config_object=DevelopmentConfig):
     elif show_startup:
         logger.info("Plus features disabled")
 
+    # Step 9: Start background services. Only one process (the background
+    # leader) runs the scheduler, the activity monitor, the startup
+    # migrations and the startup tasks. The library scan and the manifest
+    # fetch run in the background, so they do not delay startup.
+    if show_startup:
+        logger.step("Starting background services", "🕒")
+    from .background import start_background_services
+
+    role = start_background_services(app)
+    if show_startup:
+        if role == "leader":
+            logger.success(f"Background leader (pid {os.getpid()})")
+        elif role == "standby":
+            logger.info("Another process runs the background services")
+        else:
+            logger.info("Background services skipped in this process")
+
     # Step 10: Show scheduler status and complete startup
     if show_startup:
         logger.step("Finalizing application setup", "✨")
@@ -172,7 +180,7 @@ def create_app(config_object=DevelopmentConfig):
                 )
                 logger.scheduler_status(enabled=True, dev_mode=dev_mode)
             else:
-                logger.info("Scheduler initialized but not running")
+                logger.info("Scheduler not running in this process")
         else:
             logger.info("Scheduler disabled")
 

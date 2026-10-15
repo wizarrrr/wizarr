@@ -1,6 +1,6 @@
 """Wizard step preset templates and management.
 
-Provides hardcoded preset templates for common integrations like Discord and Overseerr,
+Provides hardcoded preset templates for common integrations like Discord and Seerr,
 allowing users to quickly add wizard steps through the Multi-Action create button.
 """
 
@@ -52,8 +52,8 @@ Discord is a free chat platform where our community hangs out. Join us to:
     ),
     "overseerr_requests": WizardPreset(
         id="overseerr_requests",
-        name="Overseerr/Ombi Requests",
-        description="Add a link to your Overseerr/Ombi instance for media requests",
+        name="Seerr/Ombi Requests",
+        description="Add a link to your Seerr/Ombi instance for media requests",
         title="Automatic requests",
         template="""## 🎬 Request New Content
 

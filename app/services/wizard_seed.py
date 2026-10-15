@@ -18,13 +18,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent / "wizard_steps"
 # 2. Add steps for NEW server types on upgrades (not new steps for existing types)
 
 
-def _gather_step_files() -> list[Path]:
-    """Return all bundled markdown files."""
-    if not BASE_DIR.exists():
-        return []
-    return list(BASE_DIR.rglob("*.md"))
-
-
 def _collect_server_files(root: Path) -> dict[str, list[Path]]:
     """Return mapping *server_type* → list[Path] under *root* (markdown only).
 

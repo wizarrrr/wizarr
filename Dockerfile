@@ -40,8 +40,12 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 # Build translations (include fuzzy entries so pending translations are bundled)
 RUN uv run --frozen --no-dev pybabel compile --use-fuzzy -d app/translations
 
-# Ensure static directories exist and build static assets
-RUN mkdir -p app/static/js app/static/css && DOCKER_BUILD=true npm --prefix app/static/ run build
+# Ensure static directories exist and build static assets.
+# Then remove node_modules: the runtime image does not need it, and Flask
+# would serve it under /static/node_modules/.
+RUN mkdir -p app/static/js app/static/css \
+    && DOCKER_BUILD=true npm --prefix app/static/ run build \
+    && rm -rf app/static/node_modules
 
 # ─── Stage 3: Runtime ─────────────────────────────────────────────────────
 FROM ghcr.io/astral-sh/uv:python3.13-alpine
@@ -82,9 +86,9 @@ ENV FLASK_ENV=production
 # Healthcheck: curl to localhost:${PORT:-5690}/health
 # Increased start-period to 60s to account for:
 # - Database migrations
-# - Library scanning
 # - Wizard step imports
 # - Worker initialization
+# (The library scan runs in the background after startup.)
 HEALTHCHECK --interval=30s --timeout=5s --start-period=60s --retries=3 \
   CMD ["sh", "-c", "curl -fs http://localhost:${PORT:-5690}/health || exit 1"]
 

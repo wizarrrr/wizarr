@@ -53,7 +53,9 @@ if [ "$(id -u)" = "0" ]; then
   fi
 
   # Re-exec as that user
-  exec su-exec "$TARGET_USER":"$TARGET_GRP" "$0" "$@"
+  if [ "$PUID:$PGID" != "0:0" ]; then
+    exec su-exec "$TARGET_USER":"$TARGET_GRP" "$0" "$@"
+  fi
 fi
 
 echo "[entrypoint] 👍 Running as $(id -un):$(id -gn) ($(id -u):$(id -g))"

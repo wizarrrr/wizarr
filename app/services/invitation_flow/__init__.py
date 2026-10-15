@@ -7,7 +7,6 @@ while providing advanced features for multiple server types and authentication m
 
 from .manager import InvitationFlowManager
 from .results import AuthResult, InvitationResult, ProcessingStatus
-from .server_registry import ServerIntegrationRegistry
 from .strategies import (
     AuthenticationStrategy,
     FormBasedStrategy,
@@ -28,5 +27,4 @@ __all__ = [
     "PlexOAuthStrategy",
     "PlexOAuthWorkflow",
     "ProcessingStatus",
-    "ServerIntegrationRegistry",
 ]

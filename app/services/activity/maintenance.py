@@ -15,7 +15,19 @@ try:
 except ImportError:  # pragma: no cover - during tests
     db = None  # type: ignore
 
-from app.models import ActivitySession
+from app.models import ActivitySession, ActivitySnapshot
+from app.services.activity.ingestion import KEEPALIVE_INTERVAL
+
+# Delete old rows in small transactions. SQLite has one write lock, and a large
+# DELETE blocks all other writers until it ends.
+CLEANUP_BATCH_SIZE = 5000
+
+# At startup, when the media server does not answer, keep the active sessions
+# that were written in this time. The ingestion service writes a paused
+# session only once per KEEPALIVE_INTERVAL, so its last write can be one
+# interval old when Wizarr stops. The other intervals are for the poll delay
+# and the restart time.
+STARTUP_RECOVERY_CUTOFF = 3 * KEEPALIVE_INTERVAL
 
 
 class ActivityMaintenanceService:
@@ -24,27 +36,126 @@ class ActivityMaintenanceService:
     def __init__(self):
         self.logger = structlog.get_logger(__name__)
 
-    def cleanup_old_activity(self, retention_days: int = 90) -> int:
-        """Delete activity sessions older than the retention window."""
+    def cleanup_old_activity(
+        self, retention_days: int = 90, batch_size: int = CLEANUP_BATCH_SIZE
+    ) -> int:
+        """Delete activity sessions older than the retention window.
+
+        The service deletes ``batch_size`` sessions (and their snapshots) per
+        transaction, so that it holds the write lock for a short time only.
+        """
         if db is None:
             return 0
 
+        deleted_count = 0
         try:
             cutoff_date = datetime.now(UTC) - timedelta(days=retention_days)
-            deleted_count = (
-                db.session.query(ActivitySession)  # type: ignore
-                .filter(ActivitySession.started_at < cutoff_date)
-                .delete()
-            )
+            while True:
+                # No ORDER BY: the started_at index serves this query, and
+                # when no row is old, the query reads a few index pages only.
+                ids = [
+                    row[0]
+                    for row in db.session.query(ActivitySession.id)  # type: ignore
+                    .filter(ActivitySession.started_at < cutoff_date)
+                    .limit(batch_size)
+                    .all()
+                ]
+                if not ids:
+                    break
 
-            db.session.commit()  # type: ignore
+                db.session.query(ActivitySnapshot).filter(  # type: ignore
+                    ActivitySnapshot.session_id.in_(ids)
+                ).delete(synchronize_session=False)
+                deleted_count += (
+                    db.session.query(ActivitySession)  # type: ignore
+                    .filter(ActivitySession.id.in_(ids))
+                    .delete(synchronize_session=False)
+                )
+                db.session.commit()  # type: ignore
+
+                if len(ids) < batch_size:
+                    break
+
             self.logger.info("Cleaned up %s old activity sessions", deleted_count)
             return deleted_count
 
         except Exception as exc:  # pragma: no cover - log and rollback
             self.logger.error("Failed to cleanup old activity: %s", exc, exc_info=True)
             db.session.rollback()  # type: ignore
+            return deleted_count
+
+    def backfill_session_links(self) -> int:
+        """Set reference_id and Wizarr user links on rows that do not have them.
+
+        The history grid groups on reference_id, and the read path shows the
+        stored user links. Old rows and rows from old imports can lack them.
+        Identity resolution runs once for each distinct (server, user name),
+        not once for each row. The update keeps updated_at unchanged.
+        """
+        if db is None:
             return 0
+
+        from app.services.activity.identity_resolution import (
+            resolve_user_identity_cached,
+        )
+
+        updated = 0
+        try:
+            updated += (
+                db.session.query(ActivitySession)  # type: ignore
+                .filter(ActivitySession.reference_id.is_(None))
+                .update(
+                    {
+                        ActivitySession.reference_id: ActivitySession.id,
+                        ActivitySession.updated_at: ActivitySession.updated_at,
+                    },
+                    synchronize_session=False,
+                )
+            )
+            db.session.commit()  # type: ignore
+
+            pairs = (
+                db.session.query(  # type: ignore
+                    ActivitySession.server_id, ActivitySession.user_name
+                )
+                .filter(ActivitySession.wizarr_user_id.is_(None))
+                .distinct()
+                .all()
+            )
+            for server_id, user_name in pairs:
+                user_id, identity_id, _ = resolve_user_identity_cached(
+                    server_id, user_name
+                )
+                if not user_id:
+                    continue
+
+                values = {
+                    ActivitySession.wizarr_user_id: user_id,
+                    ActivitySession.updated_at: ActivitySession.updated_at,
+                }
+                if identity_id:
+                    values[ActivitySession.wizarr_identity_id] = identity_id
+                updated += (
+                    db.session.query(ActivitySession)  # type: ignore
+                    .filter(
+                        ActivitySession.server_id == server_id,
+                        ActivitySession.user_name == user_name,
+                        ActivitySession.wizarr_user_id.is_(None),
+                    )
+                    .update(values, synchronize_session=False)
+                )
+                db.session.commit()  # type: ignore
+
+            if updated:
+                self.logger.info("Backfilled links on %s activity sessions", updated)
+            return updated
+
+        except Exception as exc:  # pragma: no cover - log and rollback
+            self.logger.error(
+                "Failed to backfill activity session links: %s", exc, exc_info=True
+            )
+            db.session.rollback()  # type: ignore
+            return updated
 
     def end_stale_sessions(self, timeout_hours: int = 24) -> int:
         """Mark sessions as ended when they have not updated within timeout."""
@@ -182,7 +293,7 @@ class ActivityMaintenanceService:
                 self.logger.warning(
                     "Failed to poll server %s sessions: %s", server_id, exc
                 )
-                cutoff_time = datetime.now(UTC) - timedelta(hours=1)
+                cutoff_time = datetime.now(UTC) - STARTUP_RECOVERY_CUTOFF
                 for session in sessions:
                     updated_at = session.updated_at
                     if updated_at.tzinfo is None:  # type: ignore
@@ -212,7 +323,7 @@ class ActivityMaintenanceService:
             self.logger.error(
                 "Error validating sessions for server %s: %s", server_id, exc
             )
-            cutoff_time = datetime.now(UTC) - timedelta(hours=1)
+            cutoff_time = datetime.now(UTC) - STARTUP_RECOVERY_CUTOFF
             for session in sessions:
                 updated_at = session.updated_at
                 if updated_at.tzinfo is None:  # type: ignore

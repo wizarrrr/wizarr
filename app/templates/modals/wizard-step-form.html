@@ -6,8 +6,9 @@
   <div class="fixed inset-0 modal-backdrop transition-opacity"></div>
   <div class="fixed inset-0 z-10 overflow-y-auto">
     <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-      <div class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
-        <div class="bg-white dark:bg-gray-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+      {# No overflow-hidden here: it clips the "Add..." menu. The inner block has its own rounded corners. #}
+      <div class="relative transform rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-3xl">
+        <div class="rounded-lg bg-white dark:bg-gray-800 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
           <div class="flex justify-between items-center pb-3">
             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white">
               {{ _(action == 'create' and 'New Wizard Step' or 'Edit Wizard Step') }}
@@ -77,6 +78,23 @@
                         <div class="text-left">
                           <div class="font-medium">{{ _("Recently Added Media") }}</div>
                           <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Show recent content") }}</div>
+                        </div>
+                      </button>
+                      <button type="button"
+                              onclick="insertWidget('collection_media')"
+                              @click="open = false"
+                              class="w-full flex items-center gap-3 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-md transition-colors">
+                        <div class="flex-shrink-0 w-8 h-8 bg-cyan-500/10 rounded-lg flex items-center justify-center">
+                          <svg class="w-4 h-4 text-cyan-500"
+                               fill="none"
+                               stroke="currentColor"
+                               viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                          </svg>
+                        </div>
+                        <div class="text-left">
+                          <div class="font-medium">{{ _("Collection Media") }}</div>
+                          <div class="text-xs text-gray-500 dark:text-gray-400">{{ _("Show media from a Plex collection") }}</div>
                         </div>
                       </button>
                       <button type="button"
@@ -157,7 +175,10 @@
         let widgetSyntax = '';
         switch (widgetType) {
             case 'recently_added_media':
-                widgetSyntax = '\n\n{' + '{ widget:recently_added_media }' + '}\n\n';
+                widgetSyntax = '\n\n{' + '{ widget:recently_added_media libraries="" limit=6 }' + '}\n\n';
+                break;
+            case 'collection_media':
+                widgetSyntax = '\n\n{' + '{ widget:collection_media collection="Collection Name" limit=15 }' + '}\n\n';
                 break;
             case 'button':
                 widgetSyntax = '\n\n{' + '{ widget:button url="https://example.com" text="Click Here" }' + '}\n\n';

@@ -1,4 +1,14 @@
 {# Improved Wizard sub-navigation #}
+{# Show the errors that the wizard admin routes flash, for example a failed save. #}
+{% with errors = get_flashed_messages(category_filter=["error"]) %}
+  {% if errors %}
+    <div class="mb-4 space-y-2" role="alert">
+      {% for message in errors %}
+        <p class="p-3 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400">{{ message }}</p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
 <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
   <!-- Segmented Control for Default/Custom -->
   <div class="inline-flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1 max-w-fit">

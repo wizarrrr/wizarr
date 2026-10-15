@@ -1,0 +1,32 @@
+{#
+  Prev / Next controls for a server-side paginated HTMX table.
+  The buttons send the new page number in hx-vals. They also include the
+  filter fields, so that the filters stay the same on the new page.
+#}
+{% macro pager(page, total_pages, total, start_index, end_index, url, target, include, method="get") -%}
+  {% if total_pages and total_pages > 1 %}
+    <nav class="mt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-sm text-gray-500 dark:text-gray-400"
+         aria-label="{{ _('Pagination') }}">
+      <div>{{ _("Showing") }} {{ start_index }}-{{ end_index }} {{ _("of") }} {{ total }}</div>
+      <div class="flex items-center gap-2">
+        <button type="button"
+                class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed"
+                hx-{{ method }}="{{ url }}"
+                hx-vals='{"page": "{{ page - 1 }}"}'
+                hx-include="{{ include }}"
+                hx-target="{{ target }}"
+                hx-swap="outerHTML show:{{ target }}:top"
+                {% if page <= 1 %}disabled{% endif %}>{{ _("Prev") }}</button>
+        <span>{{ _("Page") }} {{ page }} / {{ total_pages }}</span>
+        <button type="button"
+                class="px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 disabled:opacity-40 disabled:cursor-not-allowed"
+                hx-{{ method }}="{{ url }}"
+                hx-vals='{"page": "{{ page + 1 }}"}'
+                hx-include="{{ include }}"
+                hx-target="{{ target }}"
+                hx-swap="outerHTML show:{{ target }}:top"
+                {% if page >= total_pages %}disabled{% endif %}>{{ _("Next") }}</button>
+      </div>
+    </nav>
+  {% endif %}
+{%- endmacro %}

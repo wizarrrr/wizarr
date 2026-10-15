@@ -6,7 +6,7 @@
 </script>
 <section class="space-y-6">
   {% set is_default = False %}
-  {% include 'settings/wizard/_sub_nav.html' with context %}
+  {% include "settings/wizard/_sub_nav.html" with context %}
   {% if not bundles %}<p class="text-gray-600 dark:text-gray-300">{{ _("No bundles found.") }}</p>{% endif %}
   {% for b in bundles %}
     {% set real_steps = b.steps | selectattr('step') | list %}

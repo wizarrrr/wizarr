@@ -29,50 +29,41 @@ from app.models import (
     invitation_users,
 )
 from app.services.media.service import (
+    HEALTH_TIMEOUT,
+    check_server_connection,
+    get_all_server_health,
+    invalidate_server_caches,
     list_users_for_server,
     scan_libraries_for_server,
+    server_type_choices,
     upsert_scanned_libraries,
-)
-from app.services.servers import (
-    check_audiobookshelf,
-    check_drop,
-    check_emby,
-    check_jellyfin,
-    check_kavita,
-    check_komga,
-    check_navidrome,
-    check_plex,
-    check_romm,
 )
 
 media_servers_bp = Blueprint("media_servers", __name__, url_prefix="/settings/servers")
 
 
 def _check_connection(data: dict):
-    stype = data["server_type"]
-    if stype == "plex":
-        return check_plex(data["server_url"], data["api_key"])
-    if stype == "emby":
-        return check_emby(data["server_url"], data["api_key"])
-    if stype == "audiobookshelf":
-        return check_audiobookshelf(data["server_url"], data["api_key"])
-    if stype == "drop":
-        return check_drop(data["server_url"], data["api_key"])
-    if stype == "romm":
+    if data["server_type"] == "romm":
         username = data.get("server_username", "").strip()
         password = data.get("server_password", "").strip()
         if username and password:
             data["api_key"] = base64.b64encode(
                 f"{username}:{password}".encode()
             ).decode()
-        return check_romm(data["server_url"], data["api_key"])
-    if stype == "komga":
-        return check_komga(data["server_url"], data["api_key"])
-    if stype == "kavita":
-        return check_kavita(data["server_url"], data["api_key"])
-    if stype == "navidrome":
-        return check_navidrome(data["server_url"], data["api_key"])
-    return check_jellyfin(data["server_url"], data["api_key"])
+    return check_server_connection(
+        data["server_type"], data["server_url"], data.get("api_key") or ""
+    )
+
+
+def _typed_values() -> dict[str, str]:
+    """Return the server form values that the admin typed, without the password.
+
+    A server modal that renders again after a failed connection test shows
+    these values, so that the admin does not have to type them again.
+    """
+    values = request.form.to_dict()
+    values.pop("server_password", None)
+    return values
 
 
 @media_servers_bp.route("", methods=["GET"])  # list all
@@ -103,7 +94,12 @@ def create_server():
         if not ok:
             # Re-render modal with error
             resp = make_response(
-                render_template("modals/create-server.html", error=error_msg)
+                render_template(
+                    "modals/create-server.html",
+                    error=error_msg,
+                    values=_typed_values(),
+                    server_types=server_type_choices(),
+                )
             )
             resp.headers["HX-Retarget"] = "#create-server-modal"
             return resp
@@ -116,6 +112,7 @@ def create_server():
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))
         server.allow_live_tv = bool(data.get("allow_live_tv"))
+        server.hide_users_from_login = bool(data.get("hide_users_from_login"))
         server.verified = True
         db.session.add(server)
         db.session.commit()
@@ -137,6 +134,10 @@ def create_server():
                     db.session.add(lib)
             db.session.commit()
 
+        # A new server can reuse the id of a deleted one. Forget any state
+        # that is kept for that id.
+        invalidate_server_caches(server.id)
+
         # Automatically sync users from the newly added server
         try:
             list_users_for_server(server)
@@ -148,7 +149,9 @@ def create_server():
 
         return redirect(url_for("media_servers.list_servers"))
     # GET
-    return render_template("modals/create-server.html", error="")
+    return render_template(
+        "modals/create-server.html", error="", server_types=server_type_choices()
+    )
 
 
 @media_servers_bp.post("/<int:server_id>/scan-libraries")
@@ -196,7 +199,11 @@ def edit_server(server_id):
         if not ok:
             resp = make_response(
                 render_template(
-                    "modals/edit-server.html", server=server, error=error_msg
+                    "modals/edit-server.html",
+                    server=server,
+                    error=error_msg,
+                    values=_typed_values(),
+                    server_types=server_type_choices(server.server_type),
                 )
             )
             resp.headers["HX-Retarget"] = "#create-server-modal"
@@ -209,15 +216,24 @@ def edit_server(server_id):
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))
         server.allow_live_tv = bool(data.get("allow_live_tv"))
+        server.hide_users_from_login = bool(data.get("hide_users_from_login"))
         # update libraries
         chosen = request.form.getlist("libraries")
         if chosen:
             for lib in Library.query.filter_by(server_id=server.id):
                 lib.enabled = lib.external_id in chosen
         db.session.commit()
+        # The URL or key can have changed: the next sync and health check
+        # must use the new values.
+        invalidate_server_caches(server.id)
         return redirect(url_for("media_servers.list_servers"))
     # GET → modal
-    return render_template("modals/edit-server.html", server=server, error="")
+    return render_template(
+        "modals/edit-server.html",
+        server=server,
+        error="",
+        server_types=server_type_choices(server.server_type),
+    )
 
 
 @media_servers_bp.route("/", methods=["DELETE"])
@@ -291,6 +307,7 @@ def delete_server():
             # Database CASCADE constraints handle all dependent records automatically
             db.session.delete(server)
             db.session.commit()
+            invalidate_server_caches(server_id)
     if request.headers.get("HX-Request"):
         servers = MediaServer.query.order_by(MediaServer.name).all()
         return render_template("settings/servers.html", servers=servers)
@@ -390,7 +407,9 @@ def get_server_health(server_id):
                 {"error": f"No client available for server type: {server.server_type}"}
             ), 400
 
-        # Use the new lightweight readonly statistics method
+        # Use the new lightweight readonly statistics method, with short
+        # timeouts so that an offline server fails fast.
+        client.timeout = HEALTH_TIMEOUT
         stats = client.get_readonly_statistics()
         stats["server_name"] = server.name
         stats["server_type"] = server.server_type
@@ -506,50 +525,9 @@ def get_statistics_by_type(server_type):
 @media_servers_bp.get("/health/all")
 @login_required
 def get_all_health():
-    """Return lightweight health statistics for all servers without triggering user sync."""
-    servers = MediaServer.query.all()
-    all_health = {}
+    """Return lightweight health statistics for all servers without triggering user sync.
 
-    for server in servers:
-        # Extract server data before making client calls to avoid session corruption
-        server_data = {
-            "id": server.id,
-            "name": server.name,
-            "server_type": server.server_type,
-        }
-
-        try:
-            from app.services.media.service import get_media_client
-
-            client = get_media_client(server_data["server_type"], media_server=server)
-            if client:
-                # Use lightweight readonly statistics instead of full statistics
-                stats = client.get_readonly_statistics()
-                stats["server_name"] = server_data["name"]
-                stats["server_type"] = server_data["server_type"]
-                stats["server_id"] = server_data["id"]
-                all_health[server_data["id"]] = stats
-            else:
-                all_health[server_data["id"]] = {
-                    "error": f"No client available for server type: {server_data['server_type']}",
-                    "server_name": server_data["name"],
-                    "server_type": server_data["server_type"],
-                    "server_id": server_data["id"],
-                    "user_stats": {"total_users": 0, "active_sessions": 0},
-                    "server_stats": {"version": "Unknown", "transcoding_sessions": 0},
-                    "library_stats": {},
-                    "content_stats": {},
-                }
-        except Exception as e:
-            all_health[server_data["id"]] = {
-                "error": f"Failed to get health: {e!s}",
-                "server_name": server_data["name"],
-                "server_type": server_data["server_type"],
-                "server_id": server_data["id"],
-                "user_stats": {"total_users": 0, "active_sessions": 0},
-                "server_stats": {"version": "Unknown", "transcoding_sessions": 0},
-                "library_stats": {},
-                "content_stats": {},
-            }
-
-    return jsonify(all_health)
+    The servers are checked in parallel, and the results are cached for a
+    short time (see ``get_all_server_health``).
+    """
+    return jsonify(get_all_server_health())

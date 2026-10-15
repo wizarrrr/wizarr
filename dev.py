@@ -1,42 +1,66 @@
 import argparse
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 
+def resolve_command(command_name: str) -> str:
+    """Resolve a command in a cross-platform way.
+
+    On Windows, commands installed via npm are often exposed as .cmd files,
+    e.g. npm.cmd. shutil.which() understands PATHEXT and resolves those.
+    """
+    resolved = shutil.which(command_name)
+    if resolved is None:
+        print(f"❌ Required command not found: {command_name}")
+        sys.exit(1)
+
+    return resolved
+
+
 def check_node_installation():
     print("Checking Node.js and npm installation...")
+    node_cmd = resolve_command("node")
+    npm_cmd = resolve_command("npm")
+
     try:
         node_version = subprocess.run(
-            ["node", "--version"], capture_output=True, text=True, check=True
+            [node_cmd, "--version"], capture_output=True, text=True, check=True
         ).stdout.strip()
         print(f"✓ Node.js {node_version} is installed")
 
         npm_version = subprocess.run(
-            ["npm", "--version"], capture_output=True, text=True, check=True
+            [npm_cmd, "--version"], capture_output=True, text=True, check=True
         ).stdout.strip()
         print(f"✓ npm {npm_version} is installed")
     except subprocess.CalledProcessError:
-        print("❌ Node.js and/or npm is not installed!")
+        print("❌ Node.js and/or npm is not working correctly!")
         print("Please install Node.js and npm before running this script.")
         print("You can download them from: https://nodejs.org/")
         sys.exit(1)
 
+    return node_cmd, npm_cmd
+
 
 def check_uv_installation():
     print("Checking uv installation...")
+    uv_cmd = resolve_command("uv")
+
     try:
         uv_version = subprocess.run(
-            ["uv", "--version"], capture_output=True, text=True, check=True
+            [uv_cmd, "--version"], capture_output=True, text=True, check=True
         ).stdout.strip()
         print(f"✓ uv {uv_version} is installed")
     except subprocess.CalledProcessError:
-        print("❌ uv is not installed!")
+        print("❌ uv is not working correctly!")
         print("Please install uv before running this script.")
         print(
             "You can download it from: https://docs.astral.sh/uv/getting-started/installation/"
         )
         sys.exit(1)
+
+    return uv_cmd
 
 
 def run_command(command, cwd=None, env=None):
@@ -95,8 +119,8 @@ Plus features include:
     )
     args = parser.parse_args()
 
-    check_node_installation()
-    check_uv_installation()
+    _, npm_cmd = check_node_installation()
+    uv_cmd = check_uv_installation()
 
     project_root = Path(__file__).parent
     static_dir = project_root / "app" / "static"
@@ -106,27 +130,27 @@ Plus features include:
     npm_env["NODE_ENV"] = "development"
 
     print("Compiling translations...")
-    run_command(["uv", "run", "pybabel", "compile", "-d", "app/translations", "-f"])
+    run_command([uv_cmd, "run", "pybabel", "compile", "-d", "app/translations", "-f"])
 
     print("Running database setup...")
 
     print("Applying alembic migrations...")
-    run_command(["uv", "run", "flask", "db", "upgrade"])
+    run_command([uv_cmd, "run", "flask", "db", "upgrade"])
 
     print("Installing/updating npm dependencies...")
-    run_command(["npm", "install"], cwd=static_dir, env=npm_env)
+    run_command([npm_cmd, "install"], cwd=static_dir, env=npm_env)
 
     print("Building static assets (CSS & JS)...")
-    run_command(["npm", "run", "build"], cwd=static_dir, env=npm_env)
+    run_command([npm_cmd, "run", "build"], cwd=static_dir, env=npm_env)
 
     # Start the Tailwind watcher in the background
     print("Starting Tailwind watcher...")
     tailwind_process = subprocess.Popen(
-        ["npm", "run", "watch:css"], cwd=static_dir, env=npm_env
+        [npm_cmd, "run", "watch:css"], cwd=static_dir, env=npm_env
     )
 
     try:
-        flask_command = ["uv", "run", "flask", "run", "--debug"]
+        flask_command = [uv_cmd, "run", "flask", "run", "--debug"]
 
         # Set environment variables based on flags
         if args.scheduler:

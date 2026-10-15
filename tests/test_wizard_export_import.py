@@ -2,25 +2,8 @@
 
 import pytest
 
-from app.extensions import db
 from app.models import WizardBundle, WizardBundleStep, WizardStep
 from app.services.wizard_export_import import WizardExportImportService
-
-
-@pytest.fixture
-def session(app):
-    """Return a clean database session inside an app context."""
-    with app.app_context():
-        # Clean up any existing data before the test
-        db.session.query(WizardBundleStep).delete()
-        db.session.query(WizardBundle).delete()
-        db.session.query(WizardStep).delete()
-        db.session.commit()
-
-        yield db.session
-
-        # Clean up after the test
-        db.session.rollback()
 
 
 @pytest.fixture
@@ -61,8 +44,7 @@ def sample_steps(session):
             require_interaction=False,
         ),
     ]
-    for step in steps:
-        session.add(step)
+    session.add_all(steps)
     session.commit()
     return steps
 
@@ -78,13 +60,12 @@ class TestExportWithCategory:
         assert export_dto.total_count == 2  # 2 plex steps
         assert len(export_dto.steps) == 2
 
-        # Check that category is included in export
-        export_dict = export_dto.to_dict()
-        assert "steps" in export_dict
-
-        for step_dict in export_dict["steps"]:
-            assert "category" in step_dict
-            assert step_dict["category"] in ["pre_invite", "post_invite"]
+        # Each exported step keeps its own category.
+        exported = {s["title"]: s["category"] for s in export_dto.to_dict()["steps"]}
+        assert exported == {
+            "Pre-Invite Welcome": "pre_invite",
+            "Post-Invite Setup": "post_invite",
+        }
 
     def test_export_bundle_includes_category(self, service, session):
         """Test that exported bundles include category field in steps."""
@@ -121,15 +102,11 @@ class TestExportWithCategory:
         export_dto = service.export_bundle(bundle.id)
 
         assert export_dto.export_type == "bundle"
-        export_dict = export_dto.to_dict()
-
-        assert "bundle" in export_dict
-        assert "steps" in export_dict["bundle"]
-
-        # Check that category is included in each step
-        for step_dict in export_dict["bundle"]["steps"]:
-            assert "category" in step_dict
-            assert step_dict["category"] in ["pre_invite", "post_invite"]
+        exported = export_dto.to_dict()["bundle"]["steps"]
+        assert [(s["markdown"], s["category"]) for s in exported] == [
+            ("# Step 1", "pre_invite"),
+            ("# Step 2", "post_invite"),
+        ]
 
 
 class TestImportWithCategory:
@@ -300,10 +277,10 @@ class TestBackwardCompatibility:
         assert step is not None
         assert step.category == "post_invite"
 
-    def test_update_existing_step_preserves_category_if_not_provided(
+    def test_update_existing_step_without_category_resets_to_post_invite(
         self, service, session
     ):
-        """Test that updating existing step without category preserves it."""
+        """An import without a category sets the existing step to post_invite."""
         # Create an existing step with pre_invite category
         existing_step = WizardStep(
             server_type="plex",
@@ -455,8 +432,7 @@ class TestExportImportRoundTrip:
                 markdown="# Post",
             ),
         ]
-        for step in steps:
-            session.add(step)
+        session.add_all(steps)
         session.commit()
 
         # Export

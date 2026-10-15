@@ -1,3 +1,5 @@
+{# After a failed connection test, show the values that the admin typed. #}
+{% set typed = values or {} %}
 <div class="relative modal-container"
      aria-labelledby="modal-title"
      role="dialog"
@@ -25,6 +27,7 @@
               <input type="text"
                      name="server_name"
                      id="server_name"
+                     value="{{ typed.server_name }}"
                      placeholder="e.g. My Plex"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                      required>
@@ -35,13 +38,10 @@
               <select name="server_type"
                       id="server_type"
                       class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
-                <option value="plex">Plex</option>
-                <option value="jellyfin">Jellyfin</option>
-                <option value="emby">Emby</option>
-                <option value="audiobookshelf">Audiobookshelf</option>
-                <option value="romm">Romm</option>
-                <option value="komga">Komga</option>
-                <option value="kavita">Kavita</option>
+                {% for value, label in server_types %}
+                  <option value="{{ value }}"
+                          {% if typed.server_type == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
               </select>
             </div>
             <div>
@@ -50,6 +50,7 @@
               <input type="text"
                      name="server_url"
                      id="server_url"
+                     value="{{ typed.server_url }}"
                      placeholder="https://plex.local"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                      required>
@@ -62,6 +63,7 @@
               <input type="text"
                      name="external_url"
                      id="external_url"
+                     value="{{ typed.external_url }}"
                      placeholder="https://media.example.com"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
             </div>
@@ -71,6 +73,7 @@
               <input type="text"
                      name="api_key"
                      id="api_key"
+                     value="{{ typed.api_key }}"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
             </div>
             <div id="media-server-options" style="display:none;">
@@ -80,6 +83,7 @@
                          name="allow_downloads"
                          type="checkbox"
                          value="true"
+                         {% if typed.allow_downloads %}checked{% endif %}
                          class="sr-only peer">
                   <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
                   </div>
@@ -92,6 +96,7 @@
                          name="allow_live_tv"
                          type="checkbox"
                          value="true"
+                         {% if typed.allow_live_tv %}checked{% endif %}
                          class="sr-only peer">
                   <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
                   </div>
@@ -104,10 +109,24 @@
                          name="allow_mobile_uploads"
                          type="checkbox"
                          value="true"
+                         {% if typed.allow_mobile_uploads %}checked{% endif %}
                          class="sr-only peer">
                   <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
                   </div>
                   <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">Allow Mobile Uploads</span>
+                </label>
+              </div>
+              <div id="hide-users-from-login-option" class="mt-2">
+                <label class="inline-flex items-center cursor-pointer">
+                  <input id="hide_users_from_login"
+                         name="hide_users_from_login"
+                         type="checkbox"
+                         value="true"
+                         {% if not values or typed.hide_users_from_login %}checked{% endif %}
+                         class="sr-only peer">
+                  <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-primary dark:peer-focus:ring-primary rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary dark:peer-checked:bg-primary">
+                  </div>
+                  <span class="ms-3 text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Hide new users from login screens") }}</span>
                 </label>
               </div>
             </div>
@@ -118,12 +137,14 @@
                 <input type="text"
                        name="server_username"
                        id="server_username"
+                       value="{{ typed.server_username }}"
                        placeholder="admin"
                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
               </div>
               <div>
                 <label for="server_password"
                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">RomM Password</label>
+                {# Do not echo the password back into the page. #}
                 <input type="password"
                        name="server_password"
                        id="server_password"
@@ -195,6 +216,12 @@
         const allowMobileUploadsOption = document.getElementById('allow-mobile-uploads-option');
         if (allowMobileUploadsOption) {
             allowMobileUploadsOption.style.display = ['plex', 'emby'].includes(type) ? 'block' : 'none';
+        }
+
+        // Show "Hide new users from login screens" for Jellyfin only
+        const hideUsersOption = document.getElementById('hide-users-from-login-option');
+        if (hideUsersOption) {
+            hideUsersOption.style.display = type === 'jellyfin' ? 'block' : 'none';
         }
 
         document.getElementById('romm-options').style.display = type === 'romm' ? 'block' : 'none';

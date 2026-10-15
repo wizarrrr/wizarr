@@ -11,17 +11,80 @@
 from __future__ import annotations
 
 import logging
+import os
+import re
+import threading
 from abc import ABC, abstractmethod
+from http.cookiejar import DefaultCookiePolicy
 from typing import TYPE_CHECKING
 
 import requests
+from requests.adapters import HTTPAdapter
 
 from app.extensions import db
 from app.models import MediaServer, Settings, User
 from app.services.notifications import notify
 
 if TYPE_CHECKING:
+    from collections.abc import Collection
+
     from app.services.media.user_details import MediaUserDetails
+
+# ---------------------------------------------------------------------------
+# Shared HTTP session
+# ---------------------------------------------------------------------------
+
+# Timeout as (connect, read) seconds. The short connect timeout makes an
+# offline host fail fast. The long read timeout keeps slow calls (for example
+# a large user list) working.
+DEFAULT_TIMEOUT: tuple[float, float] = (5, 60)
+
+# Number of hosts that keep a pool, and number of kept connections per host.
+_POOL_HOSTS = 32
+_POOL_CONNECTIONS_PER_HOST = 16
+
+_http_session: requests.Session | None = None
+_http_session_pid: int | None = None
+_http_session_lock = threading.Lock()
+
+
+def get_http_session() -> requests.Session:
+    """Return the process-wide pooled ``requests.Session`` for outbound calls.
+
+    We use one module Session with a mounted HTTPAdapter, not one Session per
+    thread. The now-playing, health and library-scan calls run in short-lived
+    worker threads, so a per-thread Session would open new connections on each
+    call. The urllib3 pool in the adapter is thread-safe, so all threads can
+    share it.
+
+    The Session refuses all cookies. Before, each call used a new Session, so
+    no cookie went from one call to the next. This keeps that behavior and
+    prevents cookies from one server going to another.
+
+    The Session is made again after a fork, so that a gunicorn worker never
+    uses sockets that its parent process opened.
+    """
+    global _http_session, _http_session_pid
+
+    pid = os.getpid()
+    session = _http_session
+    if session is not None and _http_session_pid == pid:
+        return session
+
+    with _http_session_lock:
+        if _http_session is None or _http_session_pid != pid:
+            new_session = requests.Session()
+            adapter = HTTPAdapter(
+                pool_connections=_POOL_HOSTS,
+                pool_maxsize=_POOL_CONNECTIONS_PER_HOST,
+            )
+            new_session.mount("http://", adapter)
+            new_session.mount("https://", adapter)
+            new_session.cookies.set_policy(DefaultCookiePolicy(allowed_domains=[]))
+            _http_session = new_session
+            _http_session_pid = pid
+        return _http_session
+
 
 # ---------------------------------------------------------------------------
 # Registry helpers
@@ -29,6 +92,9 @@ if TYPE_CHECKING:
 
 # Holds mapping of server_type -> MediaClient subclass
 CLIENTS: dict[str, type[MediaClient]] = {}
+
+# The one e-mail check every client and the join flow use.
+EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$")
 
 
 def register_media_client(name: str):
@@ -64,8 +130,31 @@ class MediaClient(ABC):
        compatibility – these will be removed in a future release.
     """
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:  # noqa: ARG003
+        """Check that a server of this type answers at ``url`` with ``token``.
+
+        Used when a server is created or edited. Clients override this; the
+        default refuses, so a client without a check can never be saved by
+        accident against a server it cannot talk to.
+        """
+        name = getattr(cls, "_server_type", cls.__name__)
+        return False, f"No connection check is implemented for server type '{name}'"
+
     url: str | None
     token: str | None
+
+    # Timeout for outbound calls, as (connect, read) seconds or one number.
+    # Set it on an instance to use shorter timeouts, for example for health
+    # checks and now-playing polls. A class attribute, so that clients made
+    # with ``__new__`` (as in tests) also have it.
+    timeout: float | tuple[float, float] = DEFAULT_TIMEOUT
+
+    # Number of failed remote calls of this instance. Some ``list_users()``
+    # methods catch a remote error and return the stored users. The user sync
+    # throttle reads this value, so that it does not count such a call as a
+    # successful sync.
+    remote_errors: int = 0
 
     # NOTE: keep *url_key* & *token_key* keyword arguments so older subclass
     # calls (e.g. super().__init__(url_key="server_url")) continue to work.
@@ -185,7 +274,6 @@ class MediaClient(ABC):
         # Check if this is part of a multi-server invitation
         if code:
             from app.models import Invitation
-            from app.services.media.service import EMAIL_RE
 
             invitation = Invitation.query.filter_by(code=code).first()
 
@@ -436,12 +524,15 @@ class MediaClient(ABC):
         self,
         library_id: str | None = None,  # noqa: ARG002
         limit: int = 10,  # noqa: ARG002
+        library_names: Collection[str] | None = None,  # noqa: ARG002
     ) -> list[dict]:
         """Get recently added items from the media server.
 
         Args:
             library_id: Optional library ID to filter by
             limit: Maximum number of items to return
+            library_names: Optional library names to filter by. Case does
+                not matter. ``None`` uses all libraries.
 
         Returns:
             list: A list of recently added items with standardized keys:
@@ -670,22 +761,31 @@ class RestApiMixin(MediaClient):
     # ------------------------------------------------------------------
 
     def _request(self, method: str, path: str, **kwargs):
-        """Make HTTP request with consistent error handling and logging."""
+        """Make HTTP request with consistent error handling and logging.
+
+        The call uses the shared pooled session, so it reuses TCP/TLS
+        connections. A ``timeout`` keyword overrides ``self.timeout`` for this
+        call only.
+        """
         if self.url is None:
             raise ValueError("Media server URL is not configured")
 
         url = f"{self.url.rstrip('/')}{path}"
-        headers = {**self._headers(), **kwargs.pop("headers", {})}
+        timeout = kwargs.pop("timeout", None) or self.timeout
 
         logging.info("%s %s", method.upper(), url)
         try:
-            response = requests.request(
-                method, url, headers=headers, timeout=60, **kwargs
+            # Some clients get an auth token in _headers(). Count a failure
+            # there as a remote error too.
+            headers = {**self._headers(), **kwargs.pop("headers", {})}
+            response = get_http_session().request(
+                method, url, headers=headers, timeout=timeout, **kwargs
             )
             logging.info("→ %s", response.status_code)
             response.raise_for_status()
             return response
         except Exception as e:
+            self.remote_errors += 1
             logging.error("Request failed: %s", e)
             raise
 

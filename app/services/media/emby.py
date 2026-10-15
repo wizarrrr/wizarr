@@ -1,5 +1,4 @@
 import logging
-import re
 from typing import TYPE_CHECKING
 
 import requests
@@ -11,13 +10,12 @@ from app.models import Invitation, MediaServer, User
 
 from .auth_headers import media_browser_auth_headers
 from .client_base import register_media_client
-from .jellyfin import JellyfinClient
+from .jellyfin import POSTER_IMAGE_PARAMS, JellyfinClient
 
 if TYPE_CHECKING:
     pass
 
 # Reuse the same email regex as jellyfin
-EMAIL_RE = re.compile(r"[^@]+@[^@]+\.[^@]+")
 
 log = structlog.get_logger(__name__)
 
@@ -25,6 +23,12 @@ log = structlog.get_logger(__name__)
 @register_media_client("emby")
 class EmbyClient(JellyfinClient):
     """Wrapper around the Emby REST API using credentials from Settings."""
+
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_emby
+
+        return check_emby(url, token)
 
     @staticmethod
     def _library_policy_id(item: dict) -> str:
@@ -96,7 +100,9 @@ class EmbyClient(JellyfinClient):
             # Get sessions once - used for both user and server stats
             sessions = self.get("/Sessions").json()
             active_sessions = [s for s in sessions if s.get("NowPlayingItem")]
-            transcoding_sessions = [s for s in sessions if s.get("TranscodingInfo")]
+            transcoding_sessions = [
+                s for s in active_sessions if self._playback_mode(s)[0]
+            ]
 
             # User statistics - only what's displayed in UI
             try:
@@ -166,8 +172,13 @@ class EmbyClient(JellyfinClient):
                         # proxy. The api_key is deliberately kept out of the URL;
                         # the proxy re-attaches it as a header server-side (see
                         # ImageProxyService.get_server_headers), so the admin
-                        # token is never exposed to the client.
-                        poster_url = f"{self.url}/Items/{item_id}/Images/Primary"
+                        # token is never exposed to the client. We ask for a
+                        # resized image: the full-size poster is much larger
+                        # than the join page shows.
+                        poster_url = (
+                            f"{self.url}/Items/{item_id}/Images/Primary"
+                            f"?{POSTER_IMAGE_PARAMS}"
+                        )
                         poster_urls.append(self.generate_image_proxy_url(poster_url))
 
         except Exception as e:
@@ -178,7 +189,11 @@ class EmbyClient(JellyfinClient):
         return poster_urls[:limit]
 
     def create_user(self, username: str, password: str) -> str:
-        """Create user and set password."""
+        """Create user and set password.
+
+        If the password can't be set, the new user is removed again and the
+        error raised, so no account is left without a password.
+        """
         # Step 1: Create user without password
         user = self.post("/Users/New", json={"Name": username}).json()
         user_id = user["Id"]
@@ -197,7 +212,13 @@ class EmbyClient(JellyfinClient):
             logging.info("Password set response: %s", password_response.status_code)
         except Exception as e:
             logging.error("Failed to set password for user %s: %s", username, e)
-            # Continue with user creation even if password setting fails
+            try:
+                self.delete_user(user_id)
+            except Exception as cleanup_exc:
+                logging.error(
+                    "Could not remove passwordless user %s: %s", username, cleanup_exc
+                )
+            raise
 
         return user_id
 

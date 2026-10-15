@@ -50,8 +50,12 @@ def sync_ldap_users(app=None):
             return
 
     with app.app_context():
-        from app.models import LDAPConfiguration, User
-        from app.services.ldap.user_sync import import_ldap_user, list_ldap_users
+        from app.models import LDAPConfiguration
+        from app.services.ldap.user_sync import (
+            find_local_user,
+            import_ldap_user,
+            list_ldap_users,
+        )
 
         # Check if LDAP is enabled
         ldap_config = LDAPConfiguration.query.filter_by(enabled=True).first()
@@ -76,7 +80,7 @@ def sync_ldap_users(app=None):
             username = ldap_user["username"]
 
             # Check if user already exists
-            existing = User.query.filter_by(username=username).first()
+            existing = find_local_user(username)
             if existing:
                 skipped_count += 1
                 continue

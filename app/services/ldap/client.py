@@ -19,6 +19,16 @@ from .encryption import decrypt_credential
 logger = logging.getLogger(__name__)
 
 
+def ldap_username(username: str) -> str:
+    """Return the form of a username that Wizarr writes to and finds in LDAP.
+
+    LLDAP rejects a DN that has uppercase letters. The uid attribute
+    ignores case on LDAP servers, so a lowercase lookup also finds an entry
+    that has uppercase letters.
+    """
+    return username.lower()
+
+
 class LDAPClient:
     def __init__(self, config: LDAPConfiguration):
         self.config = config
@@ -38,9 +48,14 @@ class LDAPClient:
         )
 
     def build_user_dn(self, username: str) -> str:
-        """Build a user DN from a username, escaping special characters."""
-        escaped_name = escape_rdn(username)
-        return f"{self.config.username_attribute}={escaped_name},{self.config.user_base_dn}"
+        """Build a lowercase user DN from a username, escaping special characters.
+
+        LLDAP rejects an add request when the DN has an uppercase letter. Other
+        servers compare DNs without case, so the lowercase DN names the same entry.
+        """
+        escaped_name = escape_rdn(ldap_username(username))
+        dn = f"{self.config.username_attribute}={escaped_name},{self.config.user_base_dn}"
+        return dn.lower()
 
     def test_connection(self) -> tuple[bool, str]:
         if not self.config.service_account_dn:
@@ -117,7 +132,7 @@ class LDAPClient:
                 return None
 
             # Escape username to prevent LDAP injection
-            escaped_username = escape_filter_chars(username)
+            escaped_username = escape_filter_chars(ldap_username(username))
             search_filter = self.config.user_search_filter.replace(
                 "{username}", escaped_username
             )
@@ -250,9 +265,17 @@ class LDAPClient:
     ) -> tuple[bool, str]:
         attrs: dict[str, Any] = {
             "objectClass": [self.config.user_object_class],
-            self.config.username_attribute: username,
+            # LLDAP rejects a uid that is different from the uid in the DN.
+            self.config.username_attribute: ldap_username(username),
             self.config.email_attribute: email,
         }
+        # inetOrgPerson inherits cn and sn as MUST attributes from person.
+        # Servers that enforce the schema (389 DS, OpenLDAP, FreeIPA) reject
+        # the add without them, while LLDAP does not check. The username is
+        # the only value available for both, and a mapped attribute keeps its
+        # configured value.
+        attrs.setdefault("cn", username)
+        attrs.setdefault("sn", username)
 
         success = conn.add(user_dn, attributes=attrs)
         if not success:

@@ -348,26 +348,51 @@ class ImageProxyService:
 
         return {"url": payload["url"], "server_id": payload.get("server_id")}
 
-    @classmethod
-    def get_cached_image(cls, token: str) -> dict | None:
+    @staticmethod
+    def image_cache_key(server_id: int | None, url: str) -> str:
+        """Return the server-side image cache key for an upstream image.
+
+        The key is (server_id, normalized upstream URL), not the token. A token
+        contains an hourly bucket, so a key on the token made the cache go cold
+        every hour, although the image did not change. Only call this with the
+        mapping of a token that ``validate_token`` accepted, so that a valid
+        token still authorizes each request.
+
+        Normalization: lower-case scheme and host, sorted query parameters,
+        no fragment. Two URLs for the same image then share one entry.
         """
-        Get cached image data for a token.
+        try:
+            parsed = urlsplit(url)
+            userinfo, at, hostport = parsed.netloc.rpartition("@")
+            netloc = f"{userinfo}{at}{hostport.lower()}"
+            query = urlencode(sorted(parse_qsl(parsed.query, keep_blank_values=True)))
+            normalized = urlunsplit(
+                (parsed.scheme.lower(), netloc, parsed.path or "/", query, "")
+            )
+        except ValueError:
+            normalized = url
+        return f"{server_id}|{normalized}"
+
+    @classmethod
+    def get_cached_image(cls, key: str) -> dict | None:
+        """
+        Get cached image data for a cache key (see ``image_cache_key``).
 
         Returns:
             Dict with 'data' and 'content_type' if cached, None otherwise
         """
         with cls._image_cache_lock:
-            cached = cls._image_cache.get(token)
+            cached = cls._image_cache.get(key)
             if not cached:
                 return None
 
             # Check expiry
             if time.time() - cached["timestamp"] > cls.IMAGE_CACHE_EXPIRY:
-                cls._evict_image_locked(token)
+                cls._evict_image_locked(key)
                 return None
 
             # Move to end to mark as recently used
-            cls._image_cache.move_to_end(token)
+            cls._image_cache.move_to_end(key)
 
             return {
                 "data": cached["data"],
@@ -375,25 +400,25 @@ class ImageProxyService:
             }
 
     @classmethod
-    def cache_image(cls, token: str, data: bytes, content_type: str) -> None:
-        """Cache image data for a token."""
+    def cache_image(cls, key: str, data: bytes, content_type: str) -> None:
+        """Cache image data for a cache key (see ``image_cache_key``)."""
         image_size = len(data)
         if image_size > cls.IMAGE_CACHE_MAX_SINGLE_BYTES:
             return
 
         with cls._image_cache_lock:
-            existing = cls._image_cache.pop(token, None)
+            existing = cls._image_cache.pop(key, None)
             if existing:
                 cls._total_image_bytes -= existing.get("size", 0)
                 cls._total_image_bytes = max(cls._total_image_bytes, 0)
 
-            cls._image_cache[token] = {
+            cls._image_cache[key] = {
                 "data": data,
                 "content_type": content_type,
                 "timestamp": time.time(),
                 "size": image_size,
             }
-            cls._image_cache.move_to_end(token)
+            cls._image_cache.move_to_end(key)
             cls._total_image_bytes += image_size
             cls._enforce_image_cache_limits_locked()
 
@@ -451,6 +476,56 @@ class ImageProxyService:
             }
 
         return headers
+
+    @classmethod
+    def forget_server(cls, server_id: int | None = None) -> None:
+        """Forget the cached state of one media server, or of all servers.
+
+        Call this when a server is created, edited or deleted. Otherwise the
+        proxy uses the old origin and the old auth headers for up to
+        SERVER_HEADER_TTL, and images of the server fail to load. This also
+        removes the pooled session and the cached images of the server.
+        """
+
+        def matches(cached_server_id) -> bool:
+            if server_id is None:
+                return cached_server_id is not None
+            return cached_server_id == server_id
+
+        with cls._server_header_cache_lock:
+            for key in [k for k in cls._server_header_cache if matches(k)]:
+                del cls._server_header_cache[key]
+
+        with cls._server_url_cache_lock:
+            for key in [k for k in cls._server_url_cache if matches(k)]:
+                del cls._server_url_cache[key]
+
+        with cls._session_cache_lock:
+            session_keys = [
+                key
+                for key in cls._session_cache
+                if key[0] == "server" and matches(key[1])
+            ]
+            for key in session_keys:
+                session = cls._session_cache.pop(key).get("session")
+                if session:
+                    session.close()
+
+        # The image cache key starts with "<server_id>|" (see image_cache_key).
+        with cls._image_cache_lock:
+            image_keys = [
+                key
+                for key in cls._image_cache
+                if matches(cls._server_id_of_image_key(key))
+            ]
+            for key in image_keys:
+                cls._evict_image_locked(key)
+
+    @staticmethod
+    def _server_id_of_image_key(key: str) -> int | None:
+        """Return the server_id part of an image cache key, or None."""
+        prefix = key.partition("|")[0]
+        return int(prefix) if prefix.isdigit() else None
 
     @classmethod
     def get_session(cls, url: str, server_id: int | None) -> requests.Session:

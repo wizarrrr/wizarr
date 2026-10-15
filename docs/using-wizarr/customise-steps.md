@@ -132,13 +132,54 @@ Welcome to our **media server**! Here's what you need to know:
 - **Images**: Use standard Markdown syntax with optional classes
 - **Tailwind classes**: Add `{.class-name}` for custom styling
 
+### Recently Added Media Carousel
+
+Use the `recently_added_media` widget to show the posters of the newest items
+on the media server:
+
+```markdown
+{{ widget:recently_added_media }}
+{{ widget:recently_added_media libraries="Movies, TV Shows" limit=12 }}
+```
+
+The widget reads the newest items of each library. Then it sorts all the items
+by the date they were added, newest first, and shows the first items. Thus one
+library cannot fill the carousel.
+
+- `libraries` (optional): the names of the libraries to show, with commas
+  between them. Case does not matter. A name that is not on the server gives no
+  items. If you do not set `libraries`, the widget uses the libraries that are
+  enabled in Wizarr for the server. If Wizarr has no library list for the
+  server, the widget uses all the libraries.
+- `limit` (optional): the maximum number of posters. The default is 6.
+
+The **Add... → Recently Added Media** menu item in the wizard-step editor
+inserts this syntax for you.
+
+### Plex Collection Carousel
+
+For Plex wizard steps, use the `collection_media` widget to show posters from a
+named collection:
+
+```markdown
+{{ widget:collection_media collection="Summer Blockbusters" limit=15 }}
+```
+
+The collection name is matched case-insensitively across the Plex server's
+libraries. The optional `limit` parameter caps the number of posters and
+defaults to 15. Set it to `0` to show the entire collection. The
+**Add... → Collection Media** menu item in the wizard-step editor inserts this
+syntax for you.
+
 ### Templates in Shared Bundles
 
 You can import and export third-party bundles. Wizarr stores their content and applies the same rendering rules to imported and edited steps.
 
-Templates can use `server_name`, `server_type`, `server_url`, and `external_url`. The same values are available through `settings`, for example `settings.server_name`. Other application settings, credentials, sessions, and Python objects are not available.
+Wizarr renders step templates in a Jinja sandbox. A template cannot read Python internals or run commands on the server.
 
-Use `{{ _("Welcome") }}` for translations. Use `{% if external_url %}...{% endif %}` for conditions. Supported filters are `default` (`d`), `escape` (`e`), `upper`, `lower`, `title`, `trim`, `capitalize`, `length`, and `urlencode`.
+Templates can use `server_name`, `server_type`, `server_url`, `external_url`, and the application settings, for example `discord_id` or `overseerr_url`. The same values are available through `settings`, for example `settings.server_name`. Wizarr does not give templates settings with credential names (passwords, tokens, secrets, and API keys), sessions, or Python objects.
+
+You can use the usual Jinja features: conditions, loops, `set`, `with`, macros, filters, and string methods. For translations, use `{{ _("Welcome") }}`, `{{ _("Welcome to %(name)s", name=server_name) }}`, or `{% trans %}...{% endtrans %}`. `url_for` is available for links to Wizarr pages and static files.
 
 Cards, buttons, and media widgets remain available. For example:
 
@@ -152,9 +193,9 @@ Cards, buttons, and media widgets remain available. For example:
 |||
 ```
 
-Templates cannot use loops, assignments, macros, template imports, or arbitrary function calls. Rewrite these constructs as display text, conditions, or widgets. Wizarr shows a step error if a template uses an unsupported construct.
+Templates cannot include, import, or extend other templates, and cannot use recursive loops. Wizarr also stops a template that runs too many loop iterations or function calls, or that makes very large text. Wizarr shows a step error when this occurs.
 
-Wizarr removes scripts, event handlers, executable links, and application action attributes from rendered HTML. Titles display as plain text. The Discord widget preset keeps its restricted iframe. Other iframe sources are removed. Put custom styles in the application stylesheet; imported style blocks are removed.
+Wizarr shows the HTML in a step as you write it, including styles, scripts, and iframes. Titles display as plain text. Before you import a bundle from a third party, read its steps: their HTML and scripts run in the wizard for each invited user.
 
 ### Requiring User Interaction
 
@@ -249,6 +290,17 @@ By default, wizard access is restricted to:
 ### Disabling Access Control
 
 Set the `wizard_acl_enabled` setting to `false` to allow unrestricted access to the wizard.
+
+### Visitors Without Access
+
+When a visitor opens `/wizard/` or a wizard step without access, Wizarr shows a
+help page at `/wizard/help`. It does not show the admin login.
+
+- If **Protect Wizard Access** is on, the help page tells the visitor to open
+  the link from their invitation. It does not show wizard steps.
+- If **Protect Wizard Access** is off, the help page has a link to the wizard
+  steps of each server type. Thus you can send `/wizard/` to users who want to
+  read the steps again after they sign up.
 
 ***
 

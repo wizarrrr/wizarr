@@ -1,6 +1,23 @@
+from flask_babel import gettext as _
+from flask_babel import lazy_gettext as _l
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, PasswordField, SelectField, StringField
-from wtforms.validators import DataRequired, Optional
+from wtforms import BooleanField, Field, PasswordField, SelectField, StringField
+from wtforms.validators import DataRequired, Optional, ValidationError
+
+from app.forms.validators import strip_filter
+from app.services.ldap.filters import is_valid_filter
+
+
+def _valid_ldap_filter(_form: FlaskForm, field: Field) -> None:
+    """Reject a filter that ldap3 cannot parse."""
+    if field.data and not is_valid_filter(field.data):
+        raise ValidationError(
+            _(
+                "This LDAP filter is not valid. Enter one complete filter in "
+                "parentheses, for example %(example)s.",
+                example="(memberOf=cn=users,ou=groups,dc=example,dc=com)",
+            )
+        )
 
 
 class LDAPSettingsForm(FlaskForm):
@@ -58,6 +75,12 @@ class LDAPSettingsForm(FlaskForm):
         validators=[DataRequired()],
         default="inetOrgPerson",
         render_kw={"placeholder": "inetOrgPerson"},
+    )
+    user_sync_filter = StringField(
+        str(_l("User Sync Filter")),
+        filters=[strip_filter],
+        validators=[Optional(), _valid_ldap_filter],
+        render_kw={"placeholder": "(memberOf=cn=users,ou=groups,dc=example,dc=com)"},
     )
 
     # Group settings
