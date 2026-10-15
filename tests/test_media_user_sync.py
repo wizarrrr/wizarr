@@ -221,9 +221,9 @@ def test_navidrome_sync_query_count_does_not_grow(session):
         _clear_users(session)
         _seed_users(session, server, [f"n{i}" for i in range(count // 2)])
         client = _client(NavidromeClient, server)
-        remote = {"users": {"user": [{"username": f"n{i}"} for i in range(count)]}}
+        remote = [{"id": f"nid-{i}", "userName": f"n{i}"} for i in range(count)]
         with (
-            patch.object(NavidromeClient, "_subsonic_request", return_value=remote),
+            patch.object(NavidromeClient, "_native_users", return_value=remote),
             count_selects() as counter,
         ):
             client.list_users()
