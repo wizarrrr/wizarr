@@ -330,14 +330,37 @@ def test_update_user_merges_the_record_and_puts_the_full_object(fake_http):
 
     method, url, kwargs = http.calls[2]
     assert (method, url) == ("PUT", "http://music.local/api/user/nd-1")
-    assert kwargs["json"] == {
-        "id": "nd-1",
-        "userName": "sam",
-        "name": "sam",
-        "email": "new@example.com",
-        "isAdmin": True,
-    }
+    assert kwargs["json"] == {**SAM, "email": "new@example.com", "isAdmin": True}
     assert "password" not in kwargs["json"]
+
+
+def test_update_user_preserves_fields_wizarr_does_not_manage(fake_http):
+    # PUT replaces the record, so fields like scrobbleFilter, libraries and
+    # timestamps from the fetched user must survive an email-only update.
+    rich = {
+        **SAM,
+        "scrobbleFilter": "artist=skip",
+        "libraries": [{"id": 1, "name": "Music"}],
+        "someFutureField": "keep-me",
+    }
+    http = fake_http(LOGIN_OK, _Response(rich), _Response(rich))
+
+    _client().update_user("nd-1", {"email": "new@example.com"})
+
+    body = http.calls[2][2]["json"]
+    assert body == {**rich, "email": "new@example.com"}
+    assert body["isAdmin"] is False  # unchanged
+
+
+def test_update_user_never_replays_fetched_secrets(fake_http):
+    leaky = {**SAM, "password": "stale-hash", "currentPassword": "stale"}
+    http = fake_http(LOGIN_OK, _Response(leaky), _Response(leaky))
+
+    _client().update_user("nd-1", {"email": "new@example.com"})
+
+    body = http.calls[2][2]["json"]
+    assert "password" not in body
+    assert "currentPassword" not in body
 
 
 def test_update_user_includes_a_new_password_only_when_given(fake_http):

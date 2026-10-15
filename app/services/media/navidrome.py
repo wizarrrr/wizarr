@@ -399,13 +399,16 @@ class NavidromeClient(RestApiMixin):
             self._reject_download_restriction()
         try:
             current = self._resolve_native_user(user_identifier)
-            body = {
-                "id": current["id"],
-                "userName": current.get("userName", ""),
-                "name": current.get("name") or current.get("userName", ""),
-                "email": payload.get("email", current.get("email", "")),
-                "isAdmin": bool(payload.get("is_admin", current.get("isAdmin", False))),
-            }
+            # Shallow copy preserves every fetched field (scrobbleFilter,
+            # libraries, timestamps, future additions) since PUT replaces
+            # the record. Never replay secrets from the fetched object.
+            body = dict(current)
+            body.pop("password", None)
+            body.pop("currentPassword", None)
+            if "email" in payload:
+                body["email"] = payload["email"]
+            if "is_admin" in payload:
+                body["isAdmin"] = bool(payload["is_admin"])
             if payload.get("password"):
                 body["password"] = payload["password"]
 
