@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-10-14 08:43+0000\n"
-"PO-Revision-Date: 2026-10-13 10:36+0000\n"
+"PO-Revision-Date: 2026-10-15 08:18+0000\n"
 "Last-Translator: ugyes <ugyes@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/hu/>\n"
@@ -23,9 +23,8 @@ msgstr ""
 msgid "Failed to load settings"
 msgstr "Nem sikerült betölteni a beállításokat"
 
-#, fuzzy
 msgid "Failed to load dashboard data"
-msgstr "Nem sikerült betölteni a szerver állapotát"
+msgstr "Nem sikerült betölteni a műszerfal adatait"
 
 msgid "Failed to load history data"
 msgstr "Nem sikerült betölteni az előzményadatokat"
@@ -204,7 +203,7 @@ msgid "User DN not found in LDAP response"
 msgstr ""
 
 msgid "User is not authorized as an administrator"
-msgstr ""
+msgstr "A felhasználó nem rendelkezik rendszergazdai jogosultsággal"
 
 msgid "Login successful"
 msgstr "Bejelentkezés sikeres"
@@ -214,6 +213,8 @@ msgstr "Az LDAP-hitelesítés sikertelen volt"
 
 msgid "Sign in through Cloudflare Access to reach the admin pages."
 msgstr ""
+"Jelentkezzen be a Cloudflare Accessen keresztül, hogy elérje az "
+"adminisztrációs oldalakat."
 
 msgid "Invalid username or password"
 msgstr "Helytelen felhasználónév vagy jelszó"
@@ -256,6 +257,8 @@ msgstr "Érvénytelen űrlap adat: %(errors)s"
 msgid ""
 "There was an issue setting up your access. Please contact your server admin."
 msgstr ""
+"Probléma merült fel a hozzáférés beállításakor. Kérjük, vegye fel a "
+"kapcsolatot a szerver rendszergazdájával."
 
 msgid "Settings saved successfully!"
 msgstr "Beállítások sikeresen mentve!"
@@ -281,15 +284,17 @@ msgstr "A könyvtár vizsgálat sikertelen"
 
 #, python-brace-format
 msgid "Successfully cleaned {count} expired user(s)."
-msgstr ""
+msgstr "{count} lejárt felhasználó törlésre került."
 
 msgid "No expired users found to clean."
-msgstr ""
+msgstr "Nincs lejárt felhasználó, akit törölni kellene."
 
 msgid ""
 "Are you sure you want to clean all expired users? This action cannot be "
 "undone."
 msgstr ""
+"Biztosan törölni szeretné az összes lejárt felhasználót? Ez a művelet "
+"visszafordíthatatlan."
 
 msgid "Clean Expired Users"
 msgstr "Lejárt felhasználók törlése"
@@ -302,10 +307,10 @@ msgid "LDAP configuration saved successfully"
 msgstr "LDAP-beállítások mentése sikeresen megtörtént"
 
 msgid "LDAP not configured or disabled"
-msgstr ""
+msgstr "Az LDAP nincs beállítva vagy le van tiltva"
 
 msgid "No groups found in LDAP"
-msgstr ""
+msgstr "Nem található csoport az LDAP-ben"
 
 msgid "LDAP is not configured"
 msgstr "LDAP nincs beállítva"
@@ -320,7 +325,7 @@ msgstr "Admin felhasználó létrehozva - üdvözöllek!"
 msgid ""
 "Your invitation has expired or is no longer valid. Please request a new "
 "invitation."
-msgstr ""
+msgstr "A meghívója lejárt, vagy már nem érvényes. Kérjen új meghívót!"
 
 msgid "Error Loading Step"
 msgstr ""
@@ -341,9 +346,8 @@ msgstr ""
 msgid "Unable to load wizard steps. Proceeding to invitation acceptance."
 msgstr ""
 
-#, fuzzy
 msgid "Continue to Invite"
-msgstr "Új meghívás"
+msgstr "Tovább a meghíváshoz"
 
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
@@ -493,16 +497,16 @@ msgid "Allow Live TV"
 msgstr "Élő TV engedélyezése"
 
 msgid "Seerr/Ombi URL"
-msgstr ""
+msgstr "Seerr/Ombi URL"
 
 msgid "Ombi API Key"
 msgstr "Ombi API kulcs"
 
 msgid "Discord ID"
-msgstr ""
+msgstr "Discord ID"
 
 msgid "External URL"
-msgstr ""
+msgstr "Külső URL"
 
 #, python-format
 msgid "Server returned status code %(status_code)s"
@@ -569,6 +573,8 @@ msgstr "Navidrome"
 
 msgid "Invalid API token, or the token does not have the 'user:read' ACL."
 msgstr ""
+"Az API-token érvénytelen, vagy a token nem rendelkezik „user:read” ACL-"
+"joggal."
 
 msgid "Could not connect to Drop server."
 msgstr "Nem sikerült csatlakozni a Drop szerverhez."
@@ -623,109 +629,113 @@ msgid "Enter your code"
 msgstr "Írja be a kódját"
 
 msgid "Complete your account setup for local servers"
-msgstr ""
+msgstr "Fejezze be a fiók beállítását a helyi szerverekhez"
 
 msgid "Complete Your Account Setup"
-msgstr ""
+msgstr "Fejezze be a fiók beállítását"
 
 msgid "Plex Authentication Complete!"
-msgstr ""
+msgstr "A Plex hitelesítése befejeződött!"
 
 msgid "Now please set a password for your local server accounts."
-msgstr ""
+msgstr "Kérjük, állítson be jelszót a helyi szerverfiókjaihoz."
 
 msgid "Local Servers"
 msgstr "Helyi szerverek"
 
 msgid "Set Password for Local Servers"
-msgstr ""
+msgstr "Jelszó beállítása a helyi szerverekhez"
 
 msgid "Error!"
-msgstr ""
+msgstr "Hiba!"
 
 msgid "Your username"
 msgstr "Felhasználóneve"
 
 msgid "Email Address"
-msgstr ""
+msgstr "E-mail-cím"
 
 msgid "your.email@example.com"
-msgstr ""
+msgstr "your.email@example.com"
 
 msgid "Your password"
 msgstr "Jelszava"
 
 msgid "Confirm your password"
-msgstr ""
+msgstr "Erősítse meg a jelszavát"
 
 msgid "I agree to the"
-msgstr ""
+msgstr "Egyetértek a"
 
 msgid "Terms and Conditions"
-msgstr ""
+msgstr "Általános szerződési feltételek"
 
 msgid "Complete Setup"
-msgstr ""
+msgstr "Beállítás befejezése"
 
 msgid "Setting up..."
 msgstr "Beállítás folyamatban..."
 
 msgid "What happens next?"
-msgstr ""
+msgstr "Mi fog történni ezután?"
 
 msgid "Your Plex account is already set up and ready to use"
-msgstr ""
+msgstr "A Plex-fiókja már be van állítva és használatra kész"
 
 msgid "This password will be used to create accounts on your local servers"
 msgstr ""
+"Ezt a jelszót a helyi szerverein történő fiókok létrehozásához fogjuk "
+"használni"
 
 msgid "You'll be redirected to the setup wizard to complete configuration"
 msgstr ""
+"A rendszer átirányítja Önt a telepítővarázslóba, ahol befejezheti a "
+"telepítést"
 
 msgid "Only want to use Plex?"
-msgstr ""
+msgstr "Csak a Plexet szeretné használni?"
 
 msgid "Skip local servers"
-msgstr ""
+msgstr "Helyi szerverek kihagyása"
 
 msgid "Password too short"
 msgstr "Jelszó túl rövid"
 
 msgid "Password strength: Medium"
-msgstr ""
+msgstr "A jelszó erőssége: Közepes"
 
 msgid "Password strength: Strong"
-msgstr ""
+msgstr "A jelszó erőssége: Erős"
 
 msgid "Passwords do not match"
-msgstr ""
+msgstr "A jelszavak nem egyeznek"
 
 msgid "Invalid Invitation"
 msgstr "Érvénytelen meghívó"
 
 msgid ""
 "This invitation link is no longer valid. Please request a new invitation."
-msgstr ""
+msgstr "Ez a meghívó link már nem érvényes. Kérjen új meghívót!"
 
 msgid "Two-Factor Authentication"
-msgstr ""
+msgstr "Kétfaktoros hitelesítés"
 
 msgid "Login"
 msgstr "Bejelentkezés"
 
 msgid "This is the administrator login page."
-msgstr ""
+msgstr "Ez az adminisztrátori bejelentkezési oldal."
 
-#, fuzzy
 msgid "Go to your media server instead"
-msgstr "Adj hozzá tartalmat a média szervereidhez, hogy itt megjelenjenek"
+msgstr "Inkább térjen át a saját médiaszerverére"
 
 #, python-brace-format
 msgid "Welcome back, {}!"
-msgstr ""
+msgstr "Üdvözlünk újra, {}!"
 
 msgid "Please authenticate with your passkey to complete login."
 msgstr ""
+"Kérjük, hitelesítse magát Passkey segítségével a bejelentkezés befejezéséhez."
 
 msgid "Authentication Method"
 msgstr "Hitelesítési módszer"
@@ -734,7 +744,7 @@ msgid "Local Account"
 msgstr "Helyi fiók"
 
 msgid "LDAP"
-msgstr ""
+msgstr "LDAP"
 
 msgid "Remember me"
 msgstr "Emlékezz rám"
@@ -746,10 +756,10 @@ msgid "Authenticate with Passkey"
 msgstr ""
 
 msgid "Back to Login"
-msgstr ""
+msgstr "Vissza a bejelentkezéshez"
 
 msgid "Or"
-msgstr ""
+msgstr "Vagy"
 
 msgid "Sign in with Passkey"
 msgstr ""
@@ -799,10 +809,10 @@ msgid "The link has already been used"
 msgstr ""
 
 msgid "The link has expired (24 hour limit)"
-msgstr ""
+msgstr "A link érvényessége lejárt (24 órás korlát)"
 
 msgid "The link was not copied correctly"
-msgstr ""
+msgstr "A link nem megfelelően lett másolva"
 
 msgid "Reset Your Password"
 msgstr "Jelszó visszaállítása"
@@ -817,7 +827,7 @@ msgid "This link expires on"
 msgstr ""
 
 msgid "Enter new password (8-128 characters)"
-msgstr ""
+msgstr "Írja be az új jelszót (8–128 karakter)"
 
 msgid "Confirm new password"
 msgstr "Új jelszó megerősítése"
@@ -826,7 +836,7 @@ msgid "Password must be:"
 msgstr "Jelszónak a következőnek kell lennie:"
 
 msgid "Between 8 and 128 characters"
-msgstr ""
+msgstr "8 és 128 karakter között"
 
 msgid "Match the confirmation"
 msgstr ""
@@ -844,16 +854,17 @@ msgid "has been successfully reset."
 msgstr "sikeresen visszaállítva."
 
 msgid "You can now use your new password to log in to your media server."
-msgstr ""
+msgstr "Mostantól az új jelszavával jelentkezhet be a médiaszerverére."
 
 msgid "What's next?"
 msgstr ""
 
 msgid "Log in to your media server with your username and new password."
 msgstr ""
+"Jelentkezzen be a médiaszerverére a felhasználónevével és az új jelszavával."
 
 msgid "Signing you in"
-msgstr ""
+msgstr "Bejelentkezés"
 
 msgid "Finishing up with Plex. This only takes a moment."
 msgstr ""
@@ -862,7 +873,7 @@ msgid "Back to your invitation"
 msgstr ""
 
 msgid "Nothing to finish"
-msgstr ""
+msgstr "Nincs mit befejezni"
 
 msgid "Open your invitation link again to sign in with Plex."
 msgstr ""
@@ -874,25 +885,26 @@ msgid "Taking you to the next step..."
 msgstr ""
 
 msgid "Sign-in failed"
-msgstr ""
+msgstr "A bejelentkezés nem sikerült"
 
 msgid "That took too long"
-msgstr ""
+msgstr "Túl sokáig tartott"
 
 msgid "We did not hear back from Plex. Please try signing in again."
 msgstr ""
+"Nem kaptunk választ a Plex-től. Kérjük, próbáljon meg újra bejelentkezni."
 
 msgid "Administrator"
 msgstr ""
 
 msgid "Change your account password for security."
-msgstr ""
+msgstr "Biztonsági okokból módosítsa fiókjának jelszavát."
 
 msgid "Current Password"
 msgstr "Jelenlegi jelszó"
 
 msgid "Confirm New Password"
-msgstr ""
+msgstr "Új jelszó megerősítése"
 
 msgid "Change Password"
 msgstr "Jelszó módosítása"
@@ -911,18 +923,21 @@ msgstr "Csatlakozzon a"
 msgid "Join the ultimate media server experience."
 msgstr ""
 
-#, fuzzy
 msgid "Join Server"
-msgstr "Csatlakozás a Plex kiszolgálóhoz"
+msgstr "Csatlakozás a szerverhez"
 
 msgid "Secure invitation system powered by Wizarr"
 msgstr ""
 
 msgid "Pop-up blocked. Allow pop-ups for this site and try again."
 msgstr ""
+"A felugró ablakok blokkolva vannak. Engedélyezze a felugró ablakokat ezen a "
+"webhelyen, majd próbálja meg újra."
 
 msgid "Sign-in cancelled. Hit Join Server to try again."
 msgstr ""
+"A bejelentkezés megszakadt. Kattintson a „Csatlakozás a szerverhez” gombra "
+"az ismétléshez."
 
 msgid "Plex sign-in failed. Try again, or contact your server admin."
 msgstr ""
@@ -930,14 +945,12 @@ msgstr ""
 msgid "Invite User"
 msgstr "Felhasználó Meghívása"
 
-#, fuzzy
 msgid "Accept Invitation"
-msgstr "Meghívó létrehozása"
+msgstr "Meghívó elfogadása"
 
 msgid "Get ready to join the magic"
 msgstr ""
 
-#, fuzzy
 msgid "Create Account"
 msgstr "Fiók létrehozása"
 
@@ -954,16 +967,14 @@ msgstr "E-mail"
 msgid "Enter your email"
 msgstr ""
 
-#, fuzzy
 msgid "Create a password"
-msgstr "Fiók létrehozása"
+msgstr "Jelszó létrehozása"
 
 msgid "Invite Code"
 msgstr "Meghívó kód"
 
-#, fuzzy
 msgid "Enter invite code"
-msgstr "Meghívó kód"
+msgstr "Írja be a meghívó kódot"
 
 msgid "Creating account..."
 msgstr "Fiók létrehozása..."
@@ -980,13 +991,11 @@ msgstr ""
 msgid "of"
 msgstr "-ból"
 
-#, fuzzy
 msgid "Prev"
 msgstr "Előző"
 
-#, fuzzy
 msgid "Page"
-msgstr "Frissítés"
+msgstr "Oldal"
 
 msgid "Next"
 msgstr "Következő"
@@ -1142,9 +1151,8 @@ msgstr "Alap hozzáférés"
 msgid "Close"
 msgstr "Bezár"
 
-#, fuzzy
 msgid "Edit User"
-msgstr "Szerver"
+msgstr "Felhasználó szerkesztése"
 
 msgid "Close modal"
 msgstr ""
@@ -1156,19 +1164,20 @@ msgid ""
 "Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
 "user. Wizarr does not send it to the media server."
 msgstr ""
+"A Wizarr ezt a címet tárolja a felhasználó Jellyfin-, Emby- és helyi "
+"fiókjaihoz. A Wizarr nem továbbítja ezt a címet a médiaszervernek."
 
 msgid "Tabs"
 msgstr ""
 
 msgid "Local"
-msgstr ""
+msgstr "Helyi"
 
 msgid "Notes"
 msgstr "Megjegyzések"
 
-#, fuzzy
 msgid "Permission Management"
-msgstr "Felhasználónév"
+msgstr "Engedélyek kezelése"
 
 msgid "Toggle downloads permission"
 msgstr ""
@@ -1176,9 +1185,8 @@ msgstr ""
 msgid "Toggle live TV permission"
 msgstr ""
 
-#, fuzzy
 msgid "Allow Camera Upload"
-msgstr "Kamera feltöltések"
+msgstr "Kamerafeltöltés engedélyezése"
 
 msgid "Toggle camera upload permission"
 msgstr ""
@@ -1187,9 +1195,8 @@ msgstr ""
 msgid "Library Access"
 msgstr "Könyvtárak"
 
-#, fuzzy
 msgid "No libraries available"
-msgstr "Nem található könyvtár"
+msgstr "Nincs elérhető könyvtár"
 
 msgid "Scan libraries from the invitation page to enable library restrictions"
 msgstr ""
@@ -1197,9 +1204,8 @@ msgstr ""
 msgid "Click to toggle library access. Updates save automatically."
 msgstr ""
 
-#, fuzzy
 msgid "Expiry Management"
-msgstr "Felhasználónév"
+msgstr "Lejárat kezelése"
 
 msgid "Expiry date"
 msgstr "Lejárati dátum"
@@ -1210,9 +1216,8 @@ msgstr "Jelenlegi lejárat"
 msgid "No expiry set"
 msgstr "Nincs lejárat beállítva"
 
-#, fuzzy
 msgid "User notes"
-msgstr "Megjegyzés frissítése"
+msgstr "Felhasználói megjegyzések"
 
 msgid "Add notes about this user..."
 msgstr "Adj hozzá megjegyzést ehhez a felhasználóhoz..."
@@ -1354,9 +1359,8 @@ msgstr " Valami elromlott. Kérjük, próbálja meg később újra."
 msgid "Add steps to bundle"
 msgstr ""
 
-#, fuzzy
 msgid "Untitled"
-msgstr "Korlátlan"
+msgstr "Cím nélkül"
 
 msgid "All steps are already included."
 msgstr ""
@@ -1392,36 +1396,35 @@ msgid ""
 msgstr ""
 
 msgid "Testing connection..."
-msgstr ""
+msgstr "Kapcsolat ellenőrzése..."
 
-#, fuzzy
 msgid "Create Connection"
-msgstr "Meghívó létrehozása"
+msgstr "Kapcsolat létrehozása"
 
 msgid "Update Connection"
-msgstr ""
+msgstr "Kapcsolat frissítése"
 
 msgid "Test Connection"
-msgstr ""
+msgstr "Kapcsolat tesztelése"
 
 msgid "Add Administrator"
 msgstr ""
 
-#, fuzzy
 msgid "API Key Created"
-msgstr "Létrehozva"
+msgstr "API-kulcs létrehozva"
 
-#, fuzzy
 msgid "Create API Key"
-msgstr "Ügynök Létrehozása"
+msgstr "API-kulcs létrehozása"
 
 msgid "API Key Created Successfully"
-msgstr ""
+msgstr "API-kulcs létrehozása sikeresen megtörtént"
 
 msgid ""
 "Your API key has been created. Please copy it now as it will not be shown "
 "again."
 msgstr ""
+"API-kulcsa létrehozásra került. Kérjük, másolja ki most, mivel ezután az már "
+"nem fog megjelenni."
 
 msgid "Copy to clipboard"
 msgstr "Másolás a vágólapra"
@@ -1430,13 +1433,14 @@ msgid "Name:"
 msgstr "Név:"
 
 msgid "Done"
-msgstr ""
+msgstr "Kész"
 
 msgid "API Key Name"
 msgstr ""
 
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
+"Adjon meg egy leíró nevet, amely később segít azonosítani ezt az API-kulcsot."
 
 msgid "New Agent"
 msgstr "Új ügynök"
@@ -1445,49 +1449,43 @@ msgid "User Key"
 msgstr ""
 
 msgid "API Token"
-msgstr ""
+msgstr "API-token"
 
-#, fuzzy
 msgid "Channel ID"
-msgstr "Törölje"
+msgstr "Csatorna-azonosító"
 
 msgid "Bot Token"
-msgstr ""
+msgstr "Bot Token"
 
-#, fuzzy
 msgid "Chat ID"
-msgstr "Törölje"
+msgstr "Chat azonosító"
 
-#, fuzzy
 msgid "Username (optional)"
-msgstr "(opcionális)"
+msgstr "Felhasználónév (opcionális)"
 
 msgid "Password (optional)"
 msgstr "Jelszó (nem kötelező)"
 
 msgid "Agent URL"
-msgstr ""
+msgstr "Ügynök URL"
 
-#, fuzzy
 msgid "Notification Events"
-msgstr "Értesítési Ügynökök"
+msgstr "Értesítési esetek"
 
-#, fuzzy
 msgid "User Joined"
-msgstr "Csatlakozott"
+msgstr "Felhasználó csatlakozott"
 
 msgid "Update Available"
-msgstr ""
+msgstr "Frissítés érhető el"
 
 msgid "Test & Create Agent"
 msgstr "Teszt és ügynök létrehozása"
 
-#, fuzzy
 msgid "Add Server"
-msgstr "Szerver"
+msgstr "Szerver hozzáadása"
 
 msgid "Hide new users from login screens"
-msgstr ""
+msgstr "Az új felhasználók elrejtése a bejelentkezési képernyőkről"
 
 msgid "Test & Add"
 msgstr ""
@@ -1495,9 +1493,8 @@ msgstr ""
 msgid "Edit Administrator"
 msgstr ""
 
-#, fuzzy
 msgid "New Password (optional)"
-msgstr "Jelszó (nem kötelező)"
+msgstr "Új jelszó (opcionális)"
 
 msgid "Save"
 msgstr "Mentés"
@@ -1507,50 +1504,43 @@ msgid "Edit Identity"
 msgstr "Szerkesztés lejárat"
 
 msgid "Nickname"
-msgstr ""
+msgstr "Becenév"
 
-#, fuzzy
 msgid "Edit Agent"
-msgstr "Új ügynök"
+msgstr "Ügynök szerkesztése"
 
-#, fuzzy
 msgid "Name"
-msgstr "Felhasználónév"
+msgstr "Név"
 
-#, fuzzy
 msgid "Notification Service"
-msgstr "Értesítési Ügynökök"
+msgstr "Értesítési szolgáltatás"
 
-#, fuzzy
 msgid "Test & Save Changes"
-msgstr "Teszt és ügynök létrehozása"
+msgstr "Teszt és változások mentése"
 
-#, fuzzy
 msgid "Edit Server"
-msgstr "Szerver"
+msgstr "Szerver szerkesztése"
 
 msgid "Loading…"
 msgstr "Betöltés…"
 
 msgid "Please select at least one server for the invitation."
-msgstr ""
+msgstr "Kérjük, válasszon ki legalább egy szervert a meghívóhoz."
 
 msgid "Create Invitation"
 msgstr "Meghívó létrehozása"
 
-#, fuzzy
 msgid "Invitation Created"
-msgstr "Meghívások"
+msgstr "Meghívó létrehozva"
 
 msgid "Invite Code String"
 msgstr "Meghívó kódsorozat"
 
-#, fuzzy
 msgid "optional"
-msgstr "(opcionális)"
+msgstr "opcionális"
 
 msgid "E.g. XMFGEJIKNQ"
-msgstr ""
+msgstr "E.g. XMFGEJIKNQ"
 
 msgid "Expiration"
 msgstr "Lejárat"
@@ -1568,11 +1558,10 @@ msgid "Wizard bundle"
 msgstr ""
 
 msgid "Automatic"
-msgstr ""
+msgstr "Automatikus"
 
-#, fuzzy
 msgid "Target servers"
-msgstr "Szerver"
+msgstr "Cél szerverek"
 
 msgid "Invite to Plex Home"
 msgstr "Meghívás a Plex Home-ra"
@@ -1580,13 +1569,11 @@ msgstr "Meghívás a Plex Home-ra"
 msgid "Allow Live TV Access"
 msgstr ""
 
-#, fuzzy
 msgid "Allow Mobile Uploads"
-msgstr "Letöltések engedélyezése"
+msgstr "Mobilfeltöltések engedélyezése"
 
-#, fuzzy
 msgid "Max Active Sessions"
-msgstr "Aktív folyamok"
+msgstr "Aktív munkamenetek maximális száma"
 
 msgid "simultaneous devices"
 msgstr ""
@@ -1595,16 +1582,14 @@ msgid ""
 "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
 
-#, fuzzy
 msgid "Select Libraries"
-msgstr "Könyvtárak"
+msgstr "Könyvtárak kiválasztása"
 
 msgid "Advanced Options"
 msgstr "Speciális beállítások"
 
-#, fuzzy
 msgid "Invite Settings"
-msgstr "Meghívó kódsorozat"
+msgstr "Meghívó beállítások"
 
 msgid "Unlimited Usages"
 msgstr "Korlátlan használat"
@@ -1612,9 +1597,8 @@ msgstr "Korlátlan használat"
 msgid "Duration"
 msgstr "Időtartam"
 
-#, fuzzy
 msgid "in days"
-msgstr "(napokban)"
+msgstr "napokban"
 
 msgid ""
 "When set, invited user(s) will be removed from the Plex server after a "
@@ -1623,23 +1607,21 @@ msgstr ""
 "Ha ezt beállítja, a meghívott felhasználók egy bizonyos számú nap elteltével "
 "törlésre kerülnek a Plex-kiszolgálóról. (1–999)"
 
-#, fuzzy
 msgid "LDAP Integration"
-msgstr "Meghívó létrehozása"
+msgstr "LDAP-integráció"
 
-#, fuzzy
 msgid "Create LDAP User"
-msgstr "Ügynök Létrehozása"
+msgstr "LDAP felhasználó létrehozása"
 
 msgid "Automatically create an LDAP user when this invitation is accepted"
 msgstr ""
+"A meghívó elfogadásakor automatikusan hozzon létre egy LDAP-felhasználót"
 
 msgid "Successfully generated an Invitation!"
 msgstr "Sikeresen generált meghívót!"
 
-#, fuzzy
 msgid "Invitation Link"
-msgstr "Meghívások"
+msgstr "Meghívó link"
 
 msgid "Copy"
 msgstr ""
@@ -1651,16 +1633,14 @@ msgstr "A linket a vágólapra másoltuk!"
 msgid "Create Another"
 msgstr "Fiók létrehozása"
 
-#, fuzzy
 msgid "Password Reset Link"
-msgstr "Jelszó (nem kötelező)"
+msgstr "Jelszó-visszaállítási link"
 
 msgid "Generate Password Reset Link"
 msgstr ""
 
-#, fuzzy
 msgid "Password reset link for"
-msgstr "Jelszó"
+msgstr "Jelszó-visszaállítási link a következőhöz"
 
 msgid "Link expires:"
 msgstr "A link lejár:"
@@ -1671,6 +1651,8 @@ msgstr ""
 msgid ""
 "Send this link to the user. They can use it once to reset their password."
 msgstr ""
+"Küldje el ezt a linket a felhasználónak. A felhasználó egyszer használhatja "
+"fel a jelszavának visszaállításához."
 
 msgid "Reset Code"
 msgstr ""
@@ -1682,32 +1664,28 @@ msgid "This link can only be used once"
 msgstr "Ez a link csak egyszer használható fel"
 
 msgid "It expires in 24 hours"
-msgstr ""
+msgstr "24 óra múlva lejár"
 
 msgid "Send it securely (email, message, etc.)"
 msgstr ""
 
-#, fuzzy
 msgid "Generate a secure password reset link for"
-msgstr "Generálj egy erős, véletlenszerű jelszót inkább"
+msgstr "Biztonságos jelszó-visszaállítási link létrehozása a következő számára"
 
-#, fuzzy
 msgid "Generate Reset Link"
-msgstr "Szerver Beállítások"
+msgstr "Visszaállítási link létrehozása"
 
 msgid "The link will be valid for 24 hours and can only be used once."
 msgstr ""
 
-#, fuzzy
 msgid "Copy Link"
-msgstr "Össze csatolás"
+msgstr "Link másolása"
 
 msgid "Copied!"
 msgstr "Másolva!"
 
-#, fuzzy
 msgid "Reset link copied to clipboard!"
-msgstr "A linket a vágólapra másoltuk!"
+msgstr "A visszaállítási linket a vágólapra másoltuk!"
 
 msgid "Please manually copy the link"
 msgstr ""
@@ -1724,9 +1702,8 @@ msgstr ""
 msgid "JSON files only"
 msgstr ""
 
-#, fuzzy
 msgid "Import Options"
-msgstr "Jelszó (nem kötelező)"
+msgstr "Importálási beállítások"
 
 msgid ""
 "When checked, existing steps will be replaced. When unchecked, imported "
@@ -1740,6 +1717,9 @@ msgid ""
 "This action will modify your wizard steps configuration. Make sure to backup "
 "your current steps before importing if you want to preserve them."
 msgstr ""
+"Ez a művelet módosítja a varázsló lépéseinek beállításait. Ha meg szeretné "
+"őrizni a jelenlegi lépéseket, az importálás előtt feltétlenül készítsen "
+"róluk biztonsági másolatot."
 
 msgid "Import Steps"
 msgstr ""
@@ -1756,9 +1736,8 @@ msgstr ""
 msgid "URL to your Seerr/Ombi instance"
 msgstr ""
 
-#, fuzzy
 msgid "Create Step"
-msgstr "Ügynök Létrehozása"
+msgstr "Lépés létrehozása"
 
 msgid "Add..."
 msgstr ""
@@ -1766,13 +1745,11 @@ msgstr ""
 msgid "Widgets"
 msgstr ""
 
-#, fuzzy
 msgid "Recently Added Media"
-msgstr "Frissen hozzáadva"
+msgstr "Legutóbb hozzáadott média"
 
-#, fuzzy
 msgid "Show recent content"
-msgstr "Nem található friss tartalom"
+msgstr "Legújabb tartalmak megjelenítése"
 
 msgid "Collection Media"
 msgstr ""
@@ -1786,9 +1763,8 @@ msgstr ""
 msgid "Add a clickable link button"
 msgstr ""
 
-#, fuzzy
 msgid "Elements"
-msgstr "Ügynök Létrehozása"
+msgstr "Elemek"
 
 msgid "Card"
 msgstr ""
@@ -1796,9 +1772,8 @@ msgstr ""
 msgid "Add a styled content card"
 msgstr ""
 
-#, fuzzy
 msgid "Delete API Key"
-msgstr "Töröl"
+msgstr "API-kulcs törlése"
 
 msgid "No API keys"
 msgstr ""
@@ -1813,18 +1788,21 @@ msgid ""
 "Plex hides content from the invited user with these filters. Separate values "
 "with commas. Leave a field empty for no filter. Requires Plex Pass."
 msgstr ""
+"A Plex ezekkel a szűrőkkel rejti el a tartalmakat a meghívott felhasználó "
+"elől. Az értékeket vesszővel válassza el egymástól. Ha nem szeretne szűrőt "
+"alkalmazni, hagyja üresen a mezőt. Plex Pass előfizetés szükséges."
 
 msgid "Movies"
-msgstr ""
+msgstr "Filmek"
 
 msgid "E.g. G, PG, PG-13"
-msgstr ""
+msgstr "Pl. hu/6, hu/12"
 
 msgid "E.g. R, NC-17"
 msgstr ""
 
 msgid "TV Shows"
-msgstr ""
+msgstr "Sorozatok"
 
 msgid "E.g. TV-Y, TV-G"
 msgstr ""
@@ -1853,22 +1831,20 @@ msgstr ""
 msgid "Exclude ratings"
 msgstr ""
 
-#, fuzzy
 msgid "Media Servers"
-msgstr "Szerver"
+msgstr "Médiaszerverek"
 
 msgid "Type"
-msgstr ""
+msgstr "Típus"
 
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 msgid "Verified"
-msgstr ""
+msgstr "Ellenőrzött"
 
-#, fuzzy
 msgid "Actions"
-msgstr "Meghívások"
+msgstr "Akciók"
 
 msgid "Edit"
 msgstr ""
@@ -1879,9 +1855,8 @@ msgstr ""
 msgid "No servers configured yet."
 msgstr ""
 
-#, fuzzy
 msgid "Administrators"
-msgstr "Meghívások"
+msgstr "Adminisztrátorok"
 
 msgid "Manage Passkeys"
 msgstr ""
@@ -1889,12 +1864,11 @@ msgstr ""
 msgid "No administrators yet."
 msgstr ""
 
-#, fuzzy
 msgid "Add Admin"
-msgstr "Admin"
+msgstr "Admin hozzáadása"
 
 msgid "API Keys"
-msgstr ""
+msgstr "API-kulcsok"
 
 msgid "Connections"
 msgstr ""
@@ -1902,37 +1876,35 @@ msgstr ""
 msgid "Manage external service connections for automated user invitations"
 msgstr ""
 
-#, fuzzy
 msgid "Add Connection"
-msgstr "Speciális beállítások"
+msgstr "Kapcsolat hozzáadása"
 
 msgid "Connection Name"
-msgstr ""
+msgstr "Kapcsolat neve"
 
-#, fuzzy
 msgid "Media Server"
-msgstr "Szerver"
+msgstr "Médiaszerver"
 
 msgid "Seerr"
-msgstr ""
+msgstr "Seerr"
 
 msgid "Seerr (Info)"
-msgstr ""
+msgstr "Seerr (Infó)"
 
 msgid "Ombi"
-msgstr ""
+msgstr "Ombi"
 
 msgid "Audiobookrequest"
-msgstr ""
+msgstr "Audiobookrequest"
 
 msgid "Auto-import enabled"
-msgstr ""
+msgstr "Automatikus importálás engedélyezve"
 
 msgid "Are you sure you want to delete this connection?"
-msgstr ""
+msgstr "Biztosan törölni szeretné ezt a kapcsolatot?"
 
 msgid "No connections configured"
-msgstr ""
+msgstr "Nincs beállított kapcsolat"
 
 msgid ""
 "Connect your external services to automate user invitations when invites are "
@@ -1940,18 +1912,16 @@ msgid ""
 msgstr ""
 
 msgid "Add Your First Connection"
-msgstr ""
+msgstr "Adja hozzá az első kapcsolatot"
 
-#, fuzzy
 msgid "General Settings"
-msgstr "Szerver Beállítások"
+msgstr "Általános beállítások"
 
 msgid "Configure your application's basic settings and preferences"
 msgstr ""
 
-#, fuzzy
 msgid "Version"
-msgstr "Engedélyek"
+msgstr "Verzió"
 
 msgid "Display"
 msgstr ""
@@ -1973,16 +1943,14 @@ msgstr ""
 msgid "Control access to the wizard setup process"
 msgstr ""
 
-#, fuzzy
 msgid "User Management"
-msgstr "Felhasználónév"
+msgstr "Felhasználókezelés"
 
 msgid "Configure how users are managed when invitations expire"
 msgstr ""
 
-#, fuzzy
 msgid "Server Capabilities"
-msgstr "online szerverek"
+msgstr "Szerver képességei"
 
 msgid "Supports Disable:"
 msgstr ""
@@ -2014,11 +1982,10 @@ msgid "Create and manage API keys for external applications"
 msgstr ""
 
 msgid "Loading API keys..."
-msgstr ""
+msgstr "API-kulcsok betöltése..."
 
-#, fuzzy
 msgid "Save Settings"
-msgstr "Szerver Beállítások"
+msgstr "Beállítások mentése"
 
 msgid "Settings"
 msgstr "Beállítások"
@@ -2032,32 +1999,26 @@ msgstr ""
 msgid "Alerts"
 msgstr ""
 
-#, fuzzy
 msgid "Servers"
-msgstr "Szerver"
+msgstr "Szerverek"
 
-#, fuzzy
 msgid "Activity"
-msgstr "Aktív"
+msgstr "Aktivitás"
 
-#, fuzzy
 msgid "Admins"
-msgstr "Admin"
+msgstr "Adminisztrátorok"
 
 msgid "Wizard"
 msgstr ""
 
-#, fuzzy
 msgid "Audit"
-msgstr "Admin"
+msgstr "Audit"
 
-#, fuzzy
 msgid "LDAP Settings"
-msgstr "Szerver Beállítások"
+msgstr "LDAP beállítások"
 
-#, fuzzy
 msgid "Experimental"
-msgstr "Ügynök Létrehozása"
+msgstr "Kísérleti"
 
 msgid "Configure LDAP for user authentication and management"
 msgstr ""
@@ -2068,20 +2029,17 @@ msgstr ""
 msgid "Turn on LDAP integration"
 msgstr ""
 
-#, fuzzy
 msgid "Connection"
-msgstr "Speciális beállítások"
+msgstr "Kapcsolat"
 
-#, fuzzy
 msgid "LDAP server connection"
-msgstr "Meghívó létrehozása"
+msgstr "LDAP-szerver kapcsolat"
 
 msgid "e.g., ldap://server:3890 or ldaps://server:6360"
 msgstr ""
 
-#, fuzzy
 msgid "Use TLS"
-msgstr "Felhasználó részletek"
+msgstr "TLS használata"
 
 msgid "Verify Cert"
 msgstr ""
@@ -2089,9 +2047,8 @@ msgstr ""
 msgid "Encrypted before storage"
 msgstr ""
 
-#, fuzzy
 msgid "User & Group Settings"
-msgstr "Szerver Beállítások"
+msgstr "Felhasználó és csoportbeállítások"
 
 msgid "Where to find users and groups"
 msgstr ""
@@ -2100,6 +2057,9 @@ msgid ""
 "Optional. User sync imports only the users that match this filter and the "
 "user object class. Login does not use this filter."
 msgstr ""
+"Opcionális. A felhasználószinkronizálás csak azokat a felhasználókat "
+"importálja, amelyek megfelelnek ennek a szűrőnek és a felhasználói "
+"objektumosztálynak. A bejelentkezés nem használja ezt a szűrőt."
 
 msgid "Optional - only needed for admin group restriction"
 msgstr ""
@@ -2110,9 +2070,8 @@ msgstr ""
 msgid "Sync LDAP groups to populate admin group selection"
 msgstr ""
 
-#, fuzzy
 msgid "Advanced Settings"
-msgstr "Szerver Beállítások"
+msgstr "Speciális beállítások"
 
 msgid ""
 "Defaults are optimized for LLDAP. Only change if using a different LDAP "
@@ -2151,38 +2110,32 @@ msgstr "Értesítési Ügynökök"
 msgid "Configure notification services to alert you about important events"
 msgstr ""
 
-#, fuzzy
 msgid "Add Agent"
-msgstr "Új ügynök"
+msgstr "Ügynök hozzáadása"
 
-#, fuzzy
 msgid "Edit agent"
-msgstr "Új ügynök"
+msgstr "Ügynök szerkesztése"
 
 msgid "Are you sure you want to delete"
 msgstr ""
 
-#, fuzzy
 msgid "Delete agent"
-msgstr "Ügynök Létrehozása"
+msgstr "Ügynök törlése"
 
 msgid "Status"
 msgstr ""
 
-#, fuzzy
 msgid "Events"
-msgstr "Szerver"
+msgstr "Események"
 
-#, fuzzy
 msgid "No notification agents"
-msgstr "Értesítési Ügynökök"
+msgstr "Nincs értesítési ügynök"
 
 msgid "Get started by creating your first notification agent"
 msgstr ""
 
-#, fuzzy
 msgid "Unverified"
-msgstr "Korlátlan"
+msgstr "Nem ellenőrzött"
 
 msgid "Checking..."
 msgstr ""
@@ -2225,9 +2178,8 @@ msgstr ""
 msgid "API key from your external service settings"
 msgstr ""
 
-#, fuzzy
 msgid "Default Steps"
-msgstr "Alapértelmezett"
+msgstr "Alapértelmezett lépések"
 
 msgid "Custom Bundles"
 msgstr ""
@@ -2241,16 +2193,14 @@ msgstr ""
 msgid "Import steps or bundles from JSON file"
 msgstr ""
 
-#, fuzzy
 msgid "Create"
-msgstr "Létrehozva"
+msgstr "Létrehozás"
 
 msgid "Add a new wizard step"
 msgstr ""
 
-#, fuzzy
 msgid "Add Step to Bundle"
-msgstr "Létrehozva"
+msgstr "Lépés hozzáadása a csomaghoz"
 
 msgid "No bundles available yet"
 msgstr ""
@@ -2261,9 +2211,8 @@ msgstr ""
 msgid "Create step from template"
 msgstr ""
 
-#, fuzzy
 msgid "Create Bundle"
-msgstr "Létrehozva"
+msgstr "Csomag létrehozása"
 
 msgid "Create a collection of steps"
 msgstr ""
@@ -2281,9 +2230,8 @@ msgstr ""
 msgid "Are you sure you want to delete this bundle?"
 msgstr ""
 
-#, fuzzy
 msgid "Before Invite Acceptance"
-msgstr "Nincsenek utoljára jóváhagyott meghívások"
+msgstr "A meghívó elfogadása előtt"
 
 msgid "Steps shown to users before they accept the invitation"
 msgstr ""
@@ -2291,9 +2239,8 @@ msgstr ""
 msgid "Are you sure you want to delete this step?"
 msgstr ""
 
-#, fuzzy
 msgid "No pre-invite steps configured"
-msgstr "Nincs konfigurált szerver"
+msgstr "Nincs beállítva meghívás előtti lépés"
 
 #, fuzzy
 msgid "After Invite Acceptance"
@@ -2312,9 +2259,8 @@ msgstr ""
 msgid "Steps that use custom categories keep their order here."
 msgstr ""
 
-#, fuzzy
 msgid "Orphaned Steps"
-msgstr "Árva lépés törölve"
+msgstr "Árva lépések"
 
 msgid ""
 "These entries no longer have an associated step. Remove them to keep the "
@@ -2330,9 +2276,8 @@ msgstr ""
 msgid "Remove orphaned step"
 msgstr ""
 
-#, fuzzy
 msgid "Preview"
-msgstr "Előző"
+msgstr "Előnézet"
 
 msgid "Import Wizard Configuration"
 msgstr ""
@@ -2429,13 +2374,11 @@ msgstr "Korlátlan használat"
 msgid "Step"
 msgstr ""
 
-#, fuzzy
 msgid "Edit step"
-msgstr "Szerkesztés lejárat"
+msgstr "Lépés szerkesztése"
 
-#, fuzzy
 msgid "Delete step"
-msgstr "Töröl"
+msgstr "Lépés törlése"
 
 msgid "No steps found."
 msgstr ""
@@ -2472,20 +2415,17 @@ msgstr "Korlátlan"
 msgid "There are currently no invitations."
 msgstr "Jelenleg nincsenek meghívók."
 
-#, fuzzy
 msgid "Used by"
-msgstr "Használt"
+msgstr "Használja"
 
 msgid "Used"
 msgstr "Használt"
 
-#, fuzzy
 msgid "Not used yet"
-msgstr "Használt"
+msgstr "Még nem használt"
 
-#, fuzzy
 msgid "Bundle"
-msgstr "Létrehozva"
+msgstr "Csomag"
 
 msgid "days"
 msgstr "napok"
@@ -2496,9 +2436,8 @@ msgstr "Alapértelmezett"
 msgid "Copy invite link"
 msgstr ""
 
-#, fuzzy
 msgid "Delete invite"
-msgstr "Töröl"
+msgstr "Meghívó törlése"
 
 msgid "There are currently no users."
 msgstr "Jelenleg nincsenek felhasználók."
@@ -2506,13 +2445,11 @@ msgstr "Jelenleg nincsenek felhasználók."
 msgid "Edit nickname"
 msgstr ""
 
-#, fuzzy
 msgid "Home User"
-msgstr "Otthoni Felhasználó"
+msgstr "Otthoni felhasználó"
 
-#, fuzzy
 msgid "Invited"
-msgstr "Meghívó kód"
+msgstr "Meghívott"
 
 msgid "Disabled"
 msgstr ""
@@ -2523,21 +2460,17 @@ msgstr ""
 msgid "Live TV enabled"
 msgstr ""
 
-#, fuzzy
 msgid "View details"
-msgstr "Felhasználó részletek"
+msgstr "Részletek megtekintése"
 
-#, fuzzy
 msgid "Edit user"
-msgstr "Szerver"
+msgstr "Felhasználó szerkesztése"
 
-#, fuzzy
 msgid "Reset password"
-msgstr "Jelszó"
+msgstr "Jelszó visszaállítása"
 
-#, fuzzy
 msgid "Remove user"
-msgstr "Otthoni Felhasználó"
+msgstr "Felhasználó eltávolítása"
 
 msgid "Setup Guide"
 msgstr ""
@@ -2558,13 +2491,11 @@ msgid ""
 "help."
 msgstr ""
 
-#, fuzzy
 msgid "Before Invitation"
-msgstr "Meghívó létrehozása"
+msgstr "Meghívás előtt"
 
-#, fuzzy
 msgid "After Invitation"
-msgstr "Meghívó létrehozása"
+msgstr "Meghívás után"
 
 msgid "Previous"
 msgstr "Előző"
@@ -2814,9 +2745,12 @@ msgid ""
 "Open Kavita in your browser, sign in with your new account, and start "
 "reading. You can also use mobile apps for a better experience."
 msgstr ""
+"Nyissa meg a Kavita alkalmazást a böngészőjében, jelentkezzen be az új "
+"fiókjával, és máris kezdheti az olvasást. A még kényelmesebb használat "
+"érdekében mobilalkalmazásokat is használhat."
 
 msgid "Open Kavita"
-msgstr ""
+msgstr "Kavita megnyitása"
 
 msgid "Want to read on your phone?"
 msgstr ""
@@ -2948,12 +2882,14 @@ msgid ""
 "Komga works with many popular comic readers — install apps on your favorite "
 "devices:"
 msgstr ""
+"A Komga számos népszerű képregény-olvasóval kompatibilis - telepítse az "
+"alkalmazásokat kedvenc eszközeire:"
 
 msgid "iOS (Panels, Chunky) & Android (Mihon/Tachiyomi, Komga Client)"
-msgstr ""
+msgstr "iOS (Panels, Chunky) & Android (Mihon/Tachiyomi, Komga Client)"
 
 msgid "Windows (CDisplayEx, YACReader), macOS & Linux (YACReader)"
-msgstr ""
+msgstr "Windows (CDisplayEx, YACReader), macOS & Linux (YACReader)"
 
 msgid "Tablets"
 msgstr ""
@@ -2962,13 +2898,13 @@ msgid "iPad & Android tablets with comic reader apps"
 msgstr ""
 
 msgid "Read instantly in your browser at"
-msgstr ""
+msgstr "Olvassa el azonnal a böngészőjében itt:"
 
 msgid "E-Readers"
 msgstr ""
 
 msgid "KOReader and other OPDS-compatible readers"
-msgstr ""
+msgstr "KOReader és más OPDS-kompatibilis olvasók"
 
 msgid "📚 View Compatible Readers"
 msgstr ""
@@ -2990,6 +2926,8 @@ msgstr ""
 
 msgid "Perfect for manga and webtoons with continuous scrolling"
 msgstr ""
+"Tökéletes választás a folyamatos görgetéssel olvasható mangákhoz és "
+"webtoonokhoz"
 
 msgid "Page-by-Page"
 msgstr ""
