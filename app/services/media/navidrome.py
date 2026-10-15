@@ -6,6 +6,7 @@ import random
 import string
 from datetime import datetime
 from typing import TYPE_CHECKING, Any
+from urllib.parse import quote
 
 import requests
 import structlog
@@ -123,7 +124,7 @@ class NavidromeClient(RestApiMixin):
             headers={"Content-Type": "application/json"},
         )
         token = response.json().get("token")
-        if not token:
+        if not isinstance(token, str) or not token:
             raise ValueError("Navidrome login did not return a token")
         self._native_token = token
         return token
@@ -166,11 +167,31 @@ class NavidromeClient(RestApiMixin):
         )  # pragma: no cover
 
     def _native_users(self) -> list[dict]:
-        """Return all users from the native API."""
+        """Return all users from the native API.
+
+        Every entry must be a dict with a nonempty string ``id`` and
+        ``userName``. A snapshot containing malformed entries raises instead
+        of being silently filtered, so a broken remote response can never
+        partially prune local rows.
+        """
         users = self._native_request("GET", "/user")
         if not isinstance(users, list):
             raise ValueError("Navidrome returned an invalid user list")
+        for user in users:
+            if not (
+                isinstance(user, dict)
+                and isinstance(user.get("id"), str)
+                and user["id"]
+                and isinstance(user.get("userName"), str)
+                and user["userName"]
+            ):
+                raise ValueError("Navidrome returned an invalid user list")
         return users
+
+    @staticmethod
+    def _path_segment(identifier: Any) -> str:
+        """Quote a user id/username as exactly one URL path segment."""
+        return quote(str(identifier), safe="")
 
     def _resolve_native_user(self, identifier: str) -> dict:
         """Fetch a user by native id, falling back to a username lookup.
@@ -181,7 +202,9 @@ class NavidromeClient(RestApiMixin):
         the user as already gone.
         """
         try:
-            user = self._native_request("GET", f"/user/{identifier}")
+            user = self._native_request(
+                "GET", f"/user/{self._path_segment(identifier)}"
+            )
             if isinstance(user, dict) and user.get("id"):
                 return user
             raise ValueError(f"Navidrome returned an invalid user for {identifier!r}")
@@ -194,11 +217,17 @@ class NavidromeClient(RestApiMixin):
             raise
 
     @staticmethod
-    def _warn_downloads_unenforceable() -> None:
-        """Navidrome has no per-user download role – say so, don't pretend."""
-        structlog.get_logger().warning(
-            "Navidrome cannot enforce a per-user download restriction; "
-            "downloads follow the server-wide EnableDownloads setting."
+    def _reject_download_restriction() -> None:
+        """Navidrome has no per-user download role – reject, don't pretend.
+
+        Raised before any network mutation: provisioning a user while
+        silently ignoring an explicitly configured download restriction
+        would weaken the configured policy.
+        """
+        raise ValueError(
+            "Navidrome cannot enforce a per-user download restriction "
+            "(downloads follow the server-wide EnableDownloads setting); "
+            "refusing to provision the user with downloads disabled."
         )
 
     @staticmethod
@@ -269,7 +298,7 @@ class NavidromeClient(RestApiMixin):
             logging.warning("Navidrome: failed to list users – %s", exc)
             return []
 
-        users_by_name = {u["userName"]: u for u in users_data if u.get("userName")}
+        users_by_name = {u["userName"]: u for u in users_data}
 
         known_users = User.query.filter(User.server_id == server_id).all()
         if self._skip_prune_on_empty_remote(not users_by_name, known_users):
@@ -339,7 +368,7 @@ class NavidromeClient(RestApiMixin):
     ) -> str:
         """Create a user via the native API and return the native user id."""
         if not allow_downloads:
-            self._warn_downloads_unenforceable()
+            self._reject_download_restriction()
         try:
             payload = {
                 "userName": username,
@@ -366,8 +395,8 @@ class NavidromeClient(RestApiMixin):
         Navidrome's PUT replaces the record, so the current user is fetched
         and merged first.
         """
-        if "allow_downloads" in payload:
-            self._warn_downloads_unenforceable()
+        if "allow_downloads" in payload and not payload["allow_downloads"]:
+            self._reject_download_restriction()
         try:
             current = self._resolve_native_user(user_identifier)
             body = {
@@ -380,7 +409,9 @@ class NavidromeClient(RestApiMixin):
             if payload.get("password"):
                 body["password"] = payload["password"]
 
-            self._native_request("PUT", f"/user/{current['id']}", json=body)
+            self._native_request(
+                "PUT", f"/user/{self._path_segment(current['id'])}", json=body
+            )
         except Exception as exc:
             logging.error(
                 "Navidrome: failed to update user %s – %s", user_identifier, exc
@@ -436,7 +467,7 @@ class NavidromeClient(RestApiMixin):
         """
         try:
             user = self._resolve_native_user(user_identifier)
-            self._native_request("DELETE", f"/user/{user['id']}")
+            self._native_request("DELETE", f"/user/{self._path_segment(user['id'])}")
         except Exception as exc:
             logging.error(
                 "Navidrome: failed to delete user %s – %s", user_identifier, exc
@@ -560,6 +591,11 @@ class NavidromeClient(RestApiMixin):
 
             return True, ""
 
+        except ValueError as exc:
+            # e.g. an invite requesting an unenforceable download restriction
+            logging.error("Navidrome join rejected: %s", exc)
+            db.session.rollback()
+            return False, str(exc)
         except Exception as exc:
             logging.error("Navidrome join failed: %s", exc)
             db.session.rollback()
