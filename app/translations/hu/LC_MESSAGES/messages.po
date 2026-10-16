@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-10-16 08:10+0000\n"
-"PO-Revision-Date: 2026-10-16 08:10+0000\n"
+"PO-Revision-Date: 2026-10-17 10:10+0000\n"
 "Last-Translator: ugyes <ugyes@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/hu/>\n"
@@ -1381,7 +1381,7 @@ msgid "Add"
 msgstr ""
 
 msgid "Add New Connection"
-msgstr ""
+msgstr "Új kapcsolat hozzáadása"
 
 msgid "Edit Connection"
 msgstr "Kapcsolat szerkesztése"
@@ -1417,6 +1417,8 @@ msgid ""
 "Must be https if the service has CSRF protection enabled, which sets its "
 "cookies Secure."
 msgstr ""
+"Ha a szolgáltatásnál engedélyezve van a CSRF-védelem – ami a cookie-kat „"
+"Secure”ként állítja be –, akkor https-kapcsolatot kell használni."
 
 msgid "Testing connection..."
 msgstr "Kapcsolat ellenőrzése..."
@@ -1459,7 +1461,7 @@ msgid "Done"
 msgstr "Kész"
 
 msgid "API Key Name"
-msgstr ""
+msgstr "API-kulcs neve"
 
 msgid "Enter a descriptive name to help you identify this API key later."
 msgstr ""
@@ -1511,7 +1513,7 @@ msgid "Hide new users from login screens"
 msgstr "Az új felhasználók elrejtése a bejelentkezési képernyőkről"
 
 msgid "Test & Add"
-msgstr ""
+msgstr "Teszt és hozzáadás"
 
 msgid "Edit Administrator"
 msgstr ""
@@ -1590,7 +1592,7 @@ msgid "Invite to Plex Home"
 msgstr "Meghívás a Plex Home-ra"
 
 msgid "Allow Live TV Access"
-msgstr ""
+msgstr "Élő TV-nézés engedélyezése"
 
 msgid "Allow Mobile Uploads"
 msgstr "Mobilfeltöltések engedélyezése"
@@ -1599,11 +1601,13 @@ msgid "Max Active Sessions"
 msgstr "Aktív munkamenetek maximális száma"
 
 msgid "simultaneous devices"
-msgstr ""
+msgstr "egyidejűleg használt eszközök"
 
 msgid ""
 "Number of devices that can stream simultaneously. Set to 0 for unlimited."
 msgstr ""
+"Az egyszerre streamelésre alkalmas eszközök száma. A korlátlan számhoz "
+"állítsa be 0-ra."
 
 msgid "Select Libraries"
 msgstr "Könyvtárak kiválasztása"
@@ -1647,7 +1651,7 @@ msgid "Invitation Link"
 msgstr "Meghívó link"
 
 msgid "Copy"
-msgstr ""
+msgstr "Másolás"
 
 msgid "Link has been copied to clipboard!"
 msgstr "A linket a vágólapra másoltuk!"
@@ -2655,109 +2659,122 @@ msgid "Mobile"
 msgstr ""
 
 msgid "iOS & Android phones/tablets"
-msgstr ""
+msgstr "iOS és Android okostelefonok/táblagépek"
 
 msgid "Desktop"
-msgstr ""
+msgstr "Asztali számítógép"
 
 msgid "Windows, macOS, Linux"
-msgstr ""
+msgstr "Windows, macOS, Linux"
 
 msgid "Smart TVs & Streaming Devices"
-msgstr ""
+msgstr "Okostévék és streaming-eszközök"
 
 msgid "Apple TV, Fire TV, Roku, Chromecast, Android TV"
-msgstr ""
+msgstr "Apple TV, Fire TV, Roku, Chromecast, Android TV"
 
 msgid "Consoles"
-msgstr ""
+msgstr "Konzolok"
 
 msgid "PlayStation & Xbox"
-msgstr ""
+msgstr "PlayStation & Xbox"
 
 msgid "Watch instantly in your browser"
-msgstr ""
+msgstr "Azonnali megtekintés a böngészőben"
 
 msgid "⬇️ Download Emby Clients"
-msgstr ""
+msgstr "⬇️ Emby kliensek letöltése"
 
 msgid "Get the best quality"
-msgstr ""
+msgstr "Szerezze be a legjobb minőséget"
 
 msgid ""
 "Emby offers great quality, but here's how to make sure you get the best "
 "experience:"
 msgstr ""
+"Az Emby kiváló minőséget nyújt, de íme, hogyan biztosíthatja a legjobb "
+"felhasználói élményt:"
 
 msgid "Force original quality"
-msgstr ""
+msgstr "Eredeti minőség kényszerítése"
 
 msgid "Settings → Playback → set"
-msgstr ""
+msgstr "Beállítások → Lejátszás → beállítás"
 
 msgid "to"
 msgstr ""
 
 msgid "Maximum"
-msgstr ""
+msgstr "Maximum"
 
 msgid "Enable hardware decoding"
-msgstr ""
+msgstr "Hardveres dekódolás engedélyezése"
 
 msgid "Settings → Playback → enable for smoother 4K"
-msgstr ""
+msgstr "Beállítások → Lejátszás → engedélyezés a simább 4K-lejátszáshoz"
 
 msgid "Use a wired connection"
-msgstr ""
+msgstr "Használjon vezetékes kapcsolatot"
 
 msgid "if you're on a smart-TV for stutter-free 4K."
-msgstr ""
+msgstr "ha okostévén nézi, akkor akadozásmentes 4K-minőséget élvezhet."
 
 msgid "Happy viewing!"
-msgstr ""
+msgstr "Jó műsort!"
 
 msgid "Go to Emby"
-msgstr ""
+msgstr "Ugrás az Emby-re"
 
 msgid "What is Jellyfin?"
-msgstr ""
+msgstr "Mi a Jellyfin?"
 
 msgid "Welcome to Our Jellyfin Server"
-msgstr ""
+msgstr "Üdvözöljük a Jellyfin szerverünkön!"
 
 msgid ""
 "Great news — you now have access to our **media library** through Jellyfin!"
 msgstr ""
+"Nagyszerű hír — mostantól a Jellyfin segítségével hozzáférhet a "
+"**médiakönyvtárunkhoz**!"
 
 msgid ""
 "Jellyfin is a free, open-source media server that lets people share their "
 "film and TV libraries with friends and family. If you're here, it means "
 "you've been invited to join ours — welcome!"
 msgstr ""
+"A Jellyfin egy ingyenes, nyílt forráskódú médiaszerver, amely lehetővé teszi "
+"a felhasználók számára, hogy film- és tévéműsor-gyűjteményüket megosszák "
+"barátaikkal és családtagjaikkal. Ha ide érkezett, az azt jelenti, hogy "
+"meghívták Önt a mi közösségünkbe – üdvözöljük!"
 
 msgid "Download Jellyfin Clients"
-msgstr ""
+msgstr "Jellyfin kliensek letöltése"
 
 msgid "Jellyfin has many clients from which you can view our media!"
 msgstr ""
+"A Jellyfinnek számos kliense van, amelyeken keresztül nézheti a tartalmunkat!"
 
 msgid ""
 "Jellyfin works almost everywhere — install the app on your favourite devices:"
 msgstr ""
+"A Jellyfin szinte mindenhol működik — telepítse az alkalmazást kedvenc "
+"eszközeire:"
 
 msgid "⬇️ Download Jellyfin Clients"
-msgstr ""
+msgstr "⬇️ Jellyfin kliens letöltése"
 
 msgid ""
 "Jellyfin offers great quality, but here's how to make sure you get the best "
 "experience:"
 msgstr ""
+"A Jellyfin kiváló minőséget nyújt, de íme néhány tipp, hogyan biztosíthatja "
+"a legjobb felhasználói élményt:"
 
 msgid "Go to Jellyfin"
-msgstr ""
+msgstr "Ugrás a Jellyfinre"
 
 msgid "Welcome to your digital library"
-msgstr ""
+msgstr "Üdvözöljük a digitális könyvtárában!"
 
 msgid "Great news! You now have access to our comic and manga collection."
 msgstr ""
@@ -2766,9 +2783,12 @@ msgid ""
 "Kavita lets people share their digital libraries with friends. Read comics, "
 "manga, and books directly in your browser or mobile app."
 msgstr ""
+"A Kavita lehetővé teszi, hogy az emberek megosszák digitális könyvtáraikat "
+"barátaikkal. Olvasson képregényeket, mangákat és könyveket közvetlenül a "
+"böngészőjében vagy a mobilalkalmazásában."
 
 msgid "How do I read stuff?"
-msgstr ""
+msgstr "Hogyan olvassak el valamit?"
 
 msgid ""
 "Open Kavita in your browser, sign in with your new account, and start "
@@ -2782,108 +2802,119 @@ msgid "Open Kavita"
 msgstr "Kavita megnyitása"
 
 msgid "Want to read on your phone?"
-msgstr ""
+msgstr "Telefonján szeretne olvasni?"
 
 msgid "Download a comic reader app for the best mobile experience."
 msgstr ""
+"Töltse le a képregény-olvasó alkalmazást a legjobb mobilélmény érdekében."
 
 msgid "Android"
-msgstr ""
+msgstr "Android"
 
 msgid "Popular manga reader with Kavita support"
-msgstr ""
+msgstr "Népszerű manga-olvasó, Kavita-támogatással"
 
 msgid "Great for comics and books"
-msgstr ""
+msgstr "Kiválóan alkalmas képregényekhez és könyvekhez"
 
 msgid "iOS"
-msgstr ""
+msgstr "iOS"
 
 msgid "Premium comic reader with Kavita integration"
-msgstr ""
+msgstr "Prémium képregény-olvasó Kavita-integrációval"
 
 msgid "Full-featured comic reader"
-msgstr ""
+msgstr "Teljes funkcionalitású képregény-olvasó"
 
 msgid "Connect your app"
-msgstr ""
+msgstr "Csatlakoztassa az alkalmazását"
 
 msgid "Use this OPDS URL in your reader app:"
-msgstr ""
+msgstr "Használja ezt az OPDS-URL-t az olvasóalkalmazásában:"
 
 msgid "Login with your Kavita username and password."
-msgstr ""
+msgstr "Jelentkezzen be a Kavita felhasználónevével és jelszavával."
 
 msgid "Your library includes"
-msgstr ""
+msgstr "A könyvtára a következőket tartalmazza:"
 
 msgid ""
 "Browse collections of comics, manga, light novels, and digital books. "
 "Everything is organized by series and automatically tracks your reading "
 "progress."
 msgstr ""
+"Böngésszen a képregények, mangák, könnyű regények és digitális könyvek "
+"gyűjteményei között. Minden sorozat szerint rendezett, és az alkalmazás "
+"automatikusan nyomon követi az olvasási előrehaladását."
 
 msgid "Cool features"
-msgstr ""
+msgstr "Remek funkciók"
 
 msgid "Pick up exactly where you left off"
-msgstr ""
+msgstr "Folytassa pont ott, ahol abbahagyta"
 
 msgid "Create custom reading lists"
-msgstr ""
+msgstr "Saját olvasási listák létrehozása"
 
 msgid "Find content by title, author, or genre"
-msgstr ""
+msgstr "Tartalom keresése cím, szerző vagy műfaj szerint"
 
 msgid "Easy on the eyes for night reading"
-msgstr ""
+msgstr "Kényelmes az éjszakai olvasáshoz"
 
 msgid "Get the best reading experience"
-msgstr ""
+msgstr "Élvezze a legjobb olvasási élményt"
 
 msgid "Kavita has some handy settings to make reading more comfortable:"
 msgstr ""
+"A Kavita néhány praktikus beállítással rendelkezik, amelyek kényelmesebbé "
+"teszik az olvasást:"
 
 msgid "Set reading direction"
-msgstr ""
+msgstr "Olvasási irány beállítása"
 
 msgid "Settings → Reader → set manga to right-to-left"
-msgstr ""
+msgstr "Beállítások → Olvasó → a manga irányának beállítása jobbról balra"
 
 msgid "Enable dark mode"
-msgstr ""
+msgstr "Sötét mód engedélyezése"
 
 msgid "Perfect for night reading"
-msgstr ""
+msgstr "Tökéletes éjszakai olvasáshoz"
 
 msgid "Use keyboard shortcuts"
-msgstr ""
+msgstr "Billentyűparancsok használata"
 
 msgid "Space for next page, arrows to navigate"
 msgstr ""
 
 msgid "What is Komga?"
-msgstr ""
+msgstr "Mi a Komga?"
 
 msgid "Welcome to Our Komga Server"
-msgstr ""
+msgstr "Üdvözöljük a Komga szerverünkön!"
 
 msgid ""
 "Great news — you now have access to our **digital comic and manga library** "
 "through Komga!"
 msgstr ""
+"Nagyszerű hír — mostantól a Komga segítségével hozzáférhet a **digitális "
+"képregény- és manga-könyvtárunkhoz**!"
 
 msgid ""
 "Komga is a free, open-source media server designed specifically for comics, "
 "manga, and digital books. If you're here, it means you've been invited to "
 "join our library — welcome!"
 msgstr ""
+"A Komga egy ingyenes, nyílt forráskódú médiaszerver, amelyet kifejezetten "
+"képregények, mangák és digitális könyvek tárolására fejlesztettek ki. Ha ide "
+"látogatott, az azt jelenti, hogy meghívták a könyvtárunkba — üdvözöljük!"
 
 msgid "Access to our constantly updated collection of comics and manga"
-msgstr ""
+msgstr "Hozzáférés a folyamatosan frissülő képregény- és manga-gyűjteményünkhöz"
 
 msgid "Read online directly in your browser"
-msgstr ""
+msgstr "Olvassa el közvetlenül a böngészőjében"
 
 msgid "Download for offline reading on your favorite devices"
 msgstr ""
@@ -3027,7 +3058,7 @@ msgid "On Deck"
 msgstr ""
 
 msgid "See your next suggested reads"
-msgstr ""
+msgstr "Tekintse meg a következő ajánlott olvasmányokat"
 
 msgid ""
 "Komga offers a great reading experience, but here's how to make it even "
@@ -3047,6 +3078,7 @@ msgstr "Olvasási irány beállítása"
 
 msgid "Settings → Reader → set right-to-left for manga"
 msgstr ""
+"Beállítások → Olvasó → a manga esetében a jobbról balra irány beállítása"
 
 msgid "Easier on your eyes during night reading sessions"
 msgstr "Kíméli a szemet az éjszakai olvasás során"
@@ -3135,7 +3167,7 @@ msgid "Go to Plex"
 msgstr "Ugrás a Plexre"
 
 msgid "Welcome to RomM"
-msgstr ""
+msgstr "Üdvözöljük a RomM-nél!"
 
 msgid "Great news! You now have access to our game collection."
 msgstr "Nagyszerű hír! Mostantól hozzáférhet a játékgyűjteményünkhöz."
