@@ -18,6 +18,7 @@ from flask_babel import gettext as _
 from app.extensions import db, limiter
 from app.models import Invitation, MediaServer, Settings, User
 from app.services.invites import is_invite_valid
+from app.services.media.jellyfin import login_screen_policy
 from app.services.media.plex import PlexInvitationError, handle_oauth_token
 
 public_bp = Blueprint("public", __name__)
@@ -58,6 +59,7 @@ def _apply_safe_media_user_policy(
     max_sessions = getattr(invitation, "max_active_sessions", None)
     if server.server_type == "jellyfin" and max_sessions is not None:
         current_policy["MaxActiveSessions"] = max_sessions
+    current_policy.update(login_screen_policy(server))
 
     client.set_policy(user_id, current_policy)
     return permissions
@@ -94,6 +96,27 @@ def invite(code):
     return result.to_flask_response()
 
 
+# ─── Plex OAuth return target  /plex/callback ───────────────────────────────
+@public_bp.route("/plex/callback")
+@limiter.limit("50 per minute")
+def plex_callback():
+    """Page Plex forwards the browser back to once the user has signed in.
+
+    The invite page hands Plex a ``forwardUrl`` pointing here so the browser
+    leaves app.plex.tv by itself. Usually the window that started the sign-in is
+    still open and polling; it finishes the sign-in and closes this popup. When
+    that window is hidden or gone - the normal outcome on mobile, where the
+    sign-in window is a whole tab and the one behind it may be discarded - this
+    page finishes the sign-in instead, using state left in localStorage. It never
+    closes itself. It needs no session and reads no invitation rows.
+    """
+    name_setting = Settings.query.filter_by(key="server_name").first()
+    return render_template(
+        "plex-oauth-callback.html",
+        server_name=name_setting.value if name_setting else "Wizarr",
+    )
+
+
 # ─── Unified invitation processing ─────────────────────────────────────────
 @public_bp.route("/invitation/process", methods=["POST"])
 @limiter.limit("20 per minute")
@@ -105,6 +128,21 @@ def process_invitation():
     form_data = request.form.to_dict()
     result = manager.process_invitation_submission(form_data)
     return result.to_flask_response()
+
+
+# ─── GET /join  (Page where users type an invite code) ─────────────────────
+@public_bp.route("/join", methods=["GET"])
+@limiter.limit("20 per minute")
+def enter_invite_code():
+    """Show the code form. Send a valid code to the normal invite flow."""
+    code = (request.args.get("code") or "").strip()
+    if not code:
+        return render_template("enter-invite-code.html")
+
+    valid, message = is_invite_valid(code)
+    if not valid:
+        return render_template("enter-invite-code.html", code=code, error=message)
+    return redirect(url_for("public.invite", code=code))
 
 
 # ─── POST /join  (Legacy Plex OAuth route - kept for compatibility) ────────
@@ -267,6 +305,39 @@ def health():
     return jsonify(status="ok"), 200
 
 
+def _cinema_poster_servers(code: str | None) -> list[MediaServer]:
+    """Servers to take join-page posters from, in order of preference.
+
+    The ``cinema_posters_source`` setting picks them: empty for the first
+    server, ``invite`` for the servers on the visitor's invite, or a server id.
+    Invite mode returns nothing without a valid code, so the endpoint never
+    falls back to a server the visitor wasn't invited to.
+    """
+    setting = Settings.query.filter_by(key="cinema_posters_source").first()
+    source = (setting.value or "").strip() if setting else ""
+
+    if source == "invite":
+        if not code or not is_invite_valid(code)[0]:
+            return []
+        invitation = Invitation.query.filter(
+            db.func.lower(Invitation.code) == code.lower()
+        ).first()
+        if invitation is None:
+            return []
+        servers = list(invitation.servers)
+        if not servers and invitation.server is not None:
+            servers = [invitation.server]
+        return servers
+
+    if source.isdigit():
+        server = db.session.get(MediaServer, int(source))
+        if server is not None:
+            return [server]
+
+    first = MediaServer.query.order_by(MediaServer.id).first()
+    return [first] if first else []
+
+
 @public_bp.route("/cinema-posters")
 def cinema_posters():
     """Get movie poster URLs for cinema background display."""
@@ -275,42 +346,30 @@ def cinema_posters():
 
         from flask import current_app
 
-        from app.models import MediaServer
         from app.services.media.service import get_client_for_media_server
 
-        # Cache key for poster URLs
-        cache_key = "cinema_posters"
         cache_duration = 1800  # 30 minutes
+        cache = current_app.config.setdefault("POSTER_CACHE", {})
 
-        # Check cache first
-        cached_data = current_app.config.get("POSTER_CACHE", {})
-        cached_entry = cached_data.get(cache_key)
+        for server in _cinema_poster_servers(request.args.get("code")):
+            # Keyed per server so one server's posters are never served for another
+            cache_key = f"cinema_posters:{server.id}"
+            cached_entry = cache.get(cache_key)
+            if (
+                cached_entry
+                and (time.time() - cached_entry["timestamp"]) < cache_duration
+            ):
+                return jsonify(cached_entry["data"])
 
-        if cached_entry and (time.time() - cached_entry["timestamp"]) < cache_duration:
-            return jsonify(cached_entry["data"])
+            client = get_client_for_media_server(server)
+            if not hasattr(client, "get_movie_posters"):
+                continue
 
-        # Get the primary media server (or first available)
-        server = MediaServer.query.first()
-        if not server:
-            return jsonify([])
-
-        # Get media client for the server
-        client = get_client_for_media_server(server)
-
-        # Check if client has get_movie_posters method
-        poster_urls = []
-        if hasattr(client, "get_movie_posters"):
             poster_urls = client.get_movie_posters(limit=80)
+            cache[cache_key] = {"data": poster_urls, "timestamp": time.time()}
+            return jsonify(poster_urls)
 
-        # Cache the results
-        if "POSTER_CACHE" not in current_app.config:
-            current_app.config["POSTER_CACHE"] = {}
-        current_app.config["POSTER_CACHE"][cache_key] = {
-            "data": poster_urls,
-            "timestamp": time.time(),
-        }
-
-        return jsonify(poster_urls)
+        return jsonify([])
 
     except Exception as e:
         import logging
@@ -463,10 +522,15 @@ def password_prompt(code):
     return render_template("choose-password.html", code=code)
 
 
+# Proxied images are posters and artwork, which seldom change. A long browser
+# cache saves the same download on each page load.
+IMAGE_PROXY_MAX_AGE = 24 * 3600  # 1 day
+
+
 def _image_proxy_response(data: bytes, content_type: str) -> Response:
     """Build a browser-safe, cacheable response for proxied image bytes."""
     response = Response(data, content_type=content_type)
-    response.headers["Cache-Control"] = "public, max-age=3600"
+    response.headers["Cache-Control"] = f"public, max-age={IMAGE_PROXY_MAX_AGE}"
     response.headers["X-Content-Type-Options"] = "nosniff"
     return response
 
@@ -494,17 +558,20 @@ def image_proxy():
         if not mapping:
             return Response(status=403)  # Invalid or expired token
 
-        # Cache hits still require a currently valid token. In particular, this
-        # keeps cached image bytes from bypassing token expiry or SECRET_KEY
-        # removal/rotation.
-        cached_image = ImageProxyService.get_cached_image(token)
+        url = mapping["url"]
+        server_id = mapping.get("server_id")
+
+        # The cache key is the upstream image, not the token, so the entry
+        # stays valid when the hourly token changes. Cache hits still require
+        # a currently valid token: validate_token ran above. In particular,
+        # this keeps cached image bytes from bypassing token expiry or
+        # SECRET_KEY removal/rotation.
+        cache_key = ImageProxyService.image_cache_key(server_id, url)
+        cached_image = ImageProxyService.get_cached_image(cache_key)
         if cached_image:
             return _image_proxy_response(
                 cached_image["data"], cached_image["content_type"]
             )
-
-        url = mapping["url"]
-        server_id = mapping.get("server_id")
 
         # Prepare headers for authenticated requests (cached per server)
         headers = ImageProxyService.get_server_headers(server_id, url).copy()
@@ -557,7 +624,7 @@ def image_proxy():
             content_type = r.headers.get("Content-Type", "image/jpeg")
 
         # Cache the image
-        ImageProxyService.cache_image(token, image_data, content_type)
+        ImageProxyService.cache_image(cache_key, image_data, content_type)
 
         return _image_proxy_response(image_data, content_type)
 

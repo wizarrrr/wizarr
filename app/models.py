@@ -73,13 +73,14 @@ invitation_users = db.Table(
         db.ForeignKey("media_server.id", ondelete="SET NULL"),
         nullable=True,
     ),
+    db.Index("ix_invitation_user_user_id", "user_id"),
 )
 
 
 class Invitation(db.Model):
     __tablename__ = "invitation"
     id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String, nullable=False)
+    code = db.Column(db.String, nullable=False, index=True)
     used = db.Column(db.Boolean, default=False, nullable=False)
     used_at = db.Column(db.DateTime, nullable=True)
     created = db.Column(db.DateTime, default=lambda: datetime.now(UTC), nullable=False)
@@ -105,6 +106,11 @@ class Invitation(db.Model):
     plex_allow_sync = db.Column(db.Boolean, default=False, nullable=True)
     plex_home = db.Column(db.Boolean, default=False, nullable=True)
     plex_allow_channels = db.Column(db.Boolean, default=False, nullable=True)
+    # Plex content restrictions (label and rating filters) for each library
+    # type, in the plexapi filter format. See app/services/plex_restrictions.py.
+    plex_filter_movies = db.Column(db.JSON, nullable=True)
+    plex_filter_television = db.Column(db.JSON, nullable=True)
+    plex_filter_music = db.Column(db.JSON, nullable=True)
     server_id = db.Column(
         db.Integer, db.ForeignKey("media_server.id", ondelete="SET NULL"), nullable=True
     )
@@ -153,19 +159,6 @@ class Invitation(db.Model):
     def get_all_users(self):
         """Get all users who have used this invitation."""
         return list(self.users)  # type: ignore
-
-    def get_user_count(self):
-        """Get the total number of users who have used this invitation."""
-        return len(list(self.users))  # type: ignore
-
-    def get_first_user(self):
-        """Get the first user who used this invitation (for backward compatibility)."""
-        users_list = list(self.users)  # type: ignore
-        return users_list[0] if users_list else None
-
-    def has_user(self, user):
-        """Check if a specific user has used this invitation."""
-        return user in list(self.users)  # type: ignore
 
 
 class Settings(db.Model):
@@ -218,6 +211,13 @@ class User(db.Model, UserMixin):
 
     # Legacy metadata caching fields (will be phased out)
     library_access_json = db.Column(db.Text, nullable=True)
+
+    __table_args__ = (
+        db.Index("ix_user_server_email", "server_id", "email"),
+        db.Index("ix_user_server_token", "server_id", "token"),
+        db.Index("ix_user_server_lower_username", "server_id", db.func.lower(username)),
+        db.Index("ix_user_identity_id", "identity_id"),
+    )
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -372,6 +372,8 @@ class Notification(db.Model):
     channel_id = db.Column(db.Integer, nullable=True)
     telegram_bot_token = db.Column(db.String, nullable=True)
     telegram_chat_id = db.Column(db.String, nullable=True)
+    pushover_user_key = db.Column(db.String, nullable=True)
+    pushover_api_token = db.Column(db.String, nullable=True)
     notification_events = db.Column(
         db.String, nullable=False, default="user_joined,update_available"
     )
@@ -398,6 +400,22 @@ class Connection(db.Model):
     api_key = db.Column(db.String, nullable=True)  # Optional for info-only connections
     media_server_id = db.Column(
         db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=False
+    )
+    # Opt-in: create the account on this service during a Plex invite, instead of
+    # leaving the user to go and sign in by hand. Off by default so an existing
+    # connection never changes behaviour on upgrade, and so instances without the
+    # service are unaffected.
+    provision_plex_users = db.Column(
+        db.Boolean, nullable=False, default=False, server_default="0"
+    )
+    # Opt-in: turn on the user's own watchlist syncing while provisioning them.
+    # Overseerr leaves both watchlist flags unset for a new account and skips
+    # anyone whose flags are unset, so a watchlist added on day one otherwise
+    # requests nothing and reports no error. Separate from provisioning because
+    # this changes a preference that belongs to the user, not just whether the
+    # account exists.
+    enable_watchlist_sync = db.Column(
+        db.Boolean, nullable=False, default=False, server_default="0"
     )
     created_at = db.Column(
         db.DateTime, default=lambda: datetime.now(UTC), nullable=False
@@ -443,6 +461,10 @@ class MediaServer(db.Model):
     allow_downloads = db.Column(db.Boolean, default=False, nullable=False)
     allow_live_tv = db.Column(db.Boolean, default=False, nullable=False)
     allow_mobile_uploads = db.Column(db.Boolean, default=False, nullable=False)
+
+    # Jellyfin only: hide the users that Wizarr creates from the login screens.
+    # Jellyfin hides new users by default, so True keeps that behaviour.
+    hide_users_from_login = db.Column(db.Boolean, default=True, nullable=False)
 
     # Whether the connection credentials were validated successfully
     verified = db.Column(db.Boolean, default=False, nullable=False)
@@ -786,11 +808,11 @@ class ActivitySession(db.Model):
         db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=False
     )
     session_id = db.Column(db.String, nullable=False, index=True)
-    reference_id = db.Column(db.Integer, nullable=True, index=True)
+    reference_id = db.Column(db.Integer, nullable=True)
     user_name = db.Column(db.String, nullable=False, index=True)
     user_id = db.Column(db.String, nullable=True)
     media_title = db.Column(db.String, nullable=False)
-    media_type = db.Column(db.String, nullable=True, index=True)
+    media_type = db.Column(db.String, nullable=True)
     media_id = db.Column(db.String, nullable=True)
     series_name = db.Column(db.String, nullable=True)
     season_number = db.Column(db.Integer, nullable=True)
@@ -848,6 +870,8 @@ class ActivitySession(db.Model):
     __table_args__ = (
         db.Index("ix_activity_session_server_started", "server_id", "started_at"),
         db.Index("ix_activity_session_user_started", "user_name", "started_at"),
+        db.Index("ix_activity_session_reference_started", "reference_id", "started_at"),
+        db.Index("ix_activity_session_updated_at", "updated_at"),
     )
 
     def get_transcoding_info(self) -> dict[str, Any]:
@@ -1052,13 +1076,12 @@ class ActivitySnapshot(db.Model):
         db.Integer,
         db.ForeignKey("activity_session.id", ondelete="CASCADE"),
         nullable=False,
-        index=True,
     )
     timestamp = db.Column(
         db.DateTime, nullable=False, index=True, default=lambda: datetime.now(UTC)
     )
     position_ms = db.Column(db.BigInteger, nullable=True)
-    state = db.Column(db.String, nullable=False, index=True)
+    state = db.Column(db.String, nullable=False)
     transcoding_details = db.Column(db.Text, nullable=True)
     bandwidth_kbps = db.Column(db.Integer, nullable=True)
     quality = db.Column(db.String, nullable=True)
@@ -1137,6 +1160,8 @@ class LDAPConfiguration(db.Model):
         db.String, nullable=False, default="(uid={username})"
     )
     user_object_class = db.Column(db.String, nullable=False, default="inetOrgPerson")
+    # Optional filter that limits the users that sync imports. Login ignores it.
+    user_sync_filter = db.Column(db.String, nullable=True)
 
     # User attribute mappings
     username_attribute = db.Column(db.String, nullable=False, default="uid")

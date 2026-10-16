@@ -1,14 +1,24 @@
+import contextlib
 import datetime
+import functools
 import logging
+import os
+import threading
 import time
-from contextlib import suppress
-
-from sqlalchemy.exc import ResourceClosedError
+from pathlib import Path
 
 from app.extensions import db
 from app.models import ExpiredUser, Invitation, User, invitation_servers
 from app.services.email import send_user_lifecycle_email
 from app.services.media.service import delete_user, disable_user
+
+try:
+    import fcntl
+except ImportError:  # pragma: no cover - Windows
+    fcntl = None
+
+EXPIRY_LOCK_FILENAME = "wizarr-expiry.lock"
+_expiry_thread_lock = threading.Lock()
 
 
 def calculate_user_expiry(
@@ -92,6 +102,146 @@ def set_server_specific_expiry(
     db.session.commit()
 
 
+@contextlib.contextmanager
+def _expiry_run_lock():
+    """Let only one expiry run work at a time, in all processes.
+
+    The history row is committed before the remote calls, so it cannot stop
+    a second run that starts at the same time. The scheduled job runs in the
+    background leader, but an admin can start a run from any worker.
+
+    Yields True when this run has the lock. The lock file stays in the
+    database directory. The operating system releases the lock when the file
+    closes or the process stops.
+    """
+    if not _expiry_thread_lock.acquire(blocking=False):
+        yield False
+        return
+
+    fd = None
+    try:
+        if fcntl is not None:
+            from app.config import DATABASE_DIR
+
+            try:
+                fd = os.open(
+                    Path(DATABASE_DIR) / EXPIRY_LOCK_FILENAME,
+                    os.O_RDWR | os.O_CREAT,
+                    0o600,
+                )
+                fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            except BlockingIOError:
+                yield False
+                return
+            except OSError as exc:
+                logging.warning(
+                    "Cannot use the expiry lock file (%s). The run continues.", exc
+                )
+        yield True
+    finally:
+        if fd is not None:
+            os.close(fd)
+        _expiry_thread_lock.release()
+
+
+def _one_expiry_run_at_a_time(func):
+    """Skip the run when another expiry run is active."""
+
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        with _expiry_run_lock() as acquired:
+            if not acquired:
+                logging.info(
+                    "Another expiry run is active. %s does nothing.", func.__name__
+                )
+                return []
+            return func(*args, **kwargs)
+
+    return wrapper
+
+
+def _record_expiry_event(user: User) -> ExpiredUser | None:
+    """Reuse history when an expired account was enabled without extending expiry.
+
+    Returns the new ExpiredUser row, or None when the history row exists.
+    """
+    existing = ExpiredUser.query.filter_by(
+        original_user_id=user.id, expired_at=user.expires
+    ).first()
+    if existing is not None:
+        return None
+
+    event = ExpiredUser(
+        original_user_id=user.id,
+        username=user.username,
+        email=user.email,
+        invitation_code=user.code,
+        server_id=user.server_id,
+        expired_at=user.expires,
+        deleted_at=datetime.datetime.now(datetime.UTC),
+    )
+    db.session.add(event)
+    # A concurrent insertion must still abort this worker's claim before any
+    # media operation; do not treat a uniqueness failure as reusable history.
+    db.session.flush()
+    return event
+
+
+def _claim_expiry(user: User) -> tuple[bool, int | None]:
+    """Record the expiry event in one short transaction of its own.
+
+    The unique history row is the claim: when another worker processes the
+    same user at the same time, its insert fails here, before any media
+    operation. The transaction ends before the remote calls, so the SQLite
+    write lock is not held while we wait for a media server.
+
+    Returns (claimed, new_event_id). ``new_event_id`` is None when the history
+    row existed before (an expired user that was enabled again).
+    """
+    user_id = user.id
+    try:
+        event = _record_expiry_event(user)
+        # The flush gave the row its id. Read it before the commit expires it.
+        event_id = event.id if event is not None else None
+        db.session.commit()
+    except Exception as exc:
+        db.session.rollback()
+        logging.error(
+            "Failed to claim expired user %s – %s. Will retry on next run.",
+            user_id,
+            exc,
+        )
+        return False, None
+    return True, event_id
+
+
+def _release_expiry_claim(event_id: int | None) -> None:
+    """Remove the history row of a failed attempt, so the next run retries.
+
+    A history row that existed before the attempt is kept.
+    """
+    if event_id is None:
+        return
+    try:
+        ExpiredUser.query.filter_by(id=event_id).delete()
+        db.session.commit()
+    except Exception as exc:
+        db.session.rollback()
+        logging.error("Failed to remove expiry history %s – %s", event_id, exc)
+
+
+def _delete_expired_user(user_id: int, *, email_event: str = "deleted") -> None:
+    """Delete the user remotely, then locally, and commit.
+
+    ``delete_user`` does all remote calls (media server, LDAP, companion
+    apps) before its only local write, so no write transaction is open
+    during the remote calls. The local delete is one short transaction.
+    """
+    delete_user(user_id, commit=False, require_remote=True, email_event=email_event)
+    db.session.commit()
+
+
+@_one_expiry_run_at_a_time
 def delete_user_if_expired() -> list[int]:
     """
     Find users whose `expires` < now, delete them from their associated media servers
@@ -99,52 +249,52 @@ def delete_user_if_expired() -> list[int]:
 
     This function is multi-server aware and will delete users from their specific
     servers rather than assuming a single global server.
+
+    No DB write transaction is open during a remote call. For each user:
+    a short transaction records the expiry event, the remote deletion runs,
+    then a short transaction deletes the local row. When the remote deletion
+    fails, the event is removed again and the user is kept for the next run.
     """
     now = datetime.datetime.now(datetime.UTC)
     expired_rows = User.query.filter(
         User.expires.is_not(None),  # not null
         User.expires < now,
     ).all()
+    # End the read before the loop. Each step below commits on its own.
+    db.session.commit()
 
     deleted: list[int] = []
     for user in expired_rows:
-        # Use a nested transaction (savepoint) so if deletion fails,
-        # we can rollback the ExpiredUser creation too
-        savepoint = db.session.begin_nested()
         try:
-            # Log the user to expired_users table before deletion
-            expired_user = ExpiredUser(
-                original_user_id=user.id,
-                username=user.username,
-                email=user.email,
-                invitation_code=user.code,
-                server_id=user.server_id,
-                expired_at=user.expires,
-                deleted_at=datetime.datetime.now(datetime.UTC),
-            )
-            db.session.add(expired_user)
-            db.session.flush()  # Ensure it's saved before we delete the user
-
-            # Delete the user (handles server-specific deletion internally)
-            delete_user(user.id, commit=False)
-
-            deleted.append(user.id)
-            logging.info(
-                "🗑️ Expired user %s (%s) logged and deleted", user.id, user.username
-            )
-            savepoint.commit()  # Commit the savepoint on success
-            # Add delay to prevent hammering the media server's database
-            time.sleep(1)
+            user_id, username = user.id, user.username
         except Exception as exc:
-            # Rollback the savepoint - this removes the ExpiredUser record
-            # and keeps the User record for retry on next scheduler run
-            with suppress(ResourceClosedError):
-                savepoint.rollback()
+            # The row was removed by another process after the query.
+            db.session.rollback()
+            logging.info("Expired user is gone already – %s", exc)
+            continue
+
+        claimed, event_id = _claim_expiry(user)
+        if not claimed:
+            continue
+
+        try:
+            _delete_expired_user(user_id)
+        except Exception as exc:
+            # Keep the User record for retry on next scheduler run
+            db.session.rollback()
+            _release_expiry_claim(event_id)
             logging.error(
                 "Failed to delete expired user %s – %s. Will retry on next run.",
-                user.id,
+                user_id,
                 exc,
             )
+            continue
+
+        deleted.append(user_id)
+        logging.info("🗑️ Expired user %s (%s) logged and deleted", user_id, username)
+        # Add delay to prevent hammering the media server's database. No
+        # transaction is open here.
+        time.sleep(1)
 
     db.session.commit()
     return deleted
@@ -169,6 +319,35 @@ def get_server_disable_capabilities() -> dict[str, bool]:
     }
 
 
+def _disable_expired_user(user: User) -> bool:
+    """Disable the user remotely, then mark it disabled locally, and commit.
+
+    ``disable_user`` does the remote call first and writes locally only on
+    success, so no write transaction is open during the remote call.
+    Returns False when the remote disable failed. Then nothing is written.
+    """
+    if not disable_user(user.id, commit=False):
+        db.session.rollback()
+        return False
+    user.is_disabled = True
+    db.session.flush()
+    db.session.commit()
+    # The user is disabled now. A failed email must not trigger the
+    # deletion fallback of the caller.
+    try:
+        send_user_lifecycle_email(
+            user,
+            event_type="expired",
+            server_name=user.server.name if user.server else None,
+            expires_at=user.expires,
+            action_label="disabled",
+        )
+    except Exception as exc:
+        logging.warning("Failed to send expiry email for user %s: %s", user.id, exc)
+    return True
+
+
+@_one_expiry_run_at_a_time
 def disable_or_delete_user_if_expired() -> list[int]:
     """
     Find users whose `expires` < now, and either disable or delete them based on
@@ -176,6 +355,12 @@ def disable_or_delete_user_if_expired() -> list[int]:
 
     This function is multi-server aware and will handle users from their specific
     servers rather than assuming a single global server.
+
+    No DB write transaction is open during a remote call. For each user:
+    a short transaction records the expiry event, the remote disable or
+    deletion runs, then a short transaction writes the local change. When the
+    remote action fails, the event is removed again and the user is kept for
+    the next run.
     """
     from app.models import Settings
 
@@ -189,105 +374,84 @@ def disable_or_delete_user_if_expired() -> list[int]:
         User.expires < now,
         User.is_disabled.is_(False),
     ).all()
+    # End the read before the loop. Each step below commits on its own.
+    db.session.commit()
 
+    capabilities = get_server_disable_capabilities()
     processed: list[int] = []
     for user in expired_rows:
-        # Use a nested transaction (savepoint) so if deletion/disabling fails,
-        # we can rollback the ExpiredUser creation too
-        savepoint = db.session.begin_nested()
         try:
-            # Log the user to expired_users table before processing
-            expired_user = ExpiredUser(
-                original_user_id=user.id,
-                username=user.username,
-                email=user.email,
-                invitation_code=user.code,
-                server_id=user.server_id,
-                expired_at=user.expires,
-                deleted_at=datetime.datetime.now(datetime.UTC),
-            )
-            db.session.add(expired_user)
-            db.session.flush()  # Ensure it's saved before we process the user
+            user_id, username = user.id, user.username
+            server_type = user.server.server_type if user.server else None
+        except Exception as exc:
+            # The row was removed by another process after the query.
+            db.session.rollback()
+            logging.info("Expired user is gone already – %s", exc)
+            continue
 
-            # Determine action based on setting and server capability
-            should_disable = (
-                expiry_action == "disable"
-                and user.server
-                and get_server_disable_capabilities().get(
-                    user.server.server_type, False
-                )
-            )
+        claimed, event_id = _claim_expiry(user)
+        if not claimed:
+            continue
 
+        # Determine action based on setting and server capability
+        should_disable = (
+            expiry_action == "disable"
+            and server_type is not None
+            and capabilities.get(server_type, False)
+        )
+
+        try:
             if should_disable:
                 # Try to disable the user using the service function
                 try:
-                    if disable_user(user.id, commit=False):
-                        send_user_lifecycle_email(
-                            user,
-                            event_type="expired",
-                            server_name=user.server.name if user.server else None,
-                            expires_at=user.expires,
-                            action_label="disabled",
-                        )
-                        # Successfully disabled the user
-                        user.is_disabled = True
-                        db.session.flush()
-                        processed.append(user.id)
-                        logging.info(
-                            "🔒 Expired user %s (%s) disabled on %s",
-                            user.id,
-                            user.username,
-                            user.server.server_type if user.server else "unknown",
-                        )
-                        savepoint.commit()  # Commit the savepoint on success
-                        # Add delay to prevent hammering the media server's database
-                        time.sleep(1)
-                    else:
-                        # Disable failed, fallback to deletion
+                    if not _disable_expired_user(user):
                         raise Exception("Disable operation failed")
+                    processed.append(user_id)
+                    logging.info(
+                        "🔒 Expired user %s (%s) disabled on %s",
+                        user_id,
+                        username,
+                        server_type or "unknown",
+                    )
                 except Exception as disable_exc:
+                    # Keep the account and try again on the next run. Deleting
+                    # here would remove a user the admin chose to keep, over a
+                    # server that may only have been down for a moment.
+                    db.session.rollback()
+                    _release_expiry_claim(event_id)
                     logging.warning(
-                        "Failed to disable user %s, falling back to deletion: %s",
-                        user.id,
+                        "Failed to disable user %s, keeping it for the next run: %s",
+                        user_id,
                         disable_exc,
                     )
-                    # Fallback to deletion using service function
-                    delete_user(user.id, commit=False, email_event="expired")
-                    processed.append(user.id)
-                    logging.info(
-                        "🗑️ Expired user %s (%s) deleted (disable fallback)",
-                        user.id,
-                        user.username,
-                    )
-                    savepoint.commit()  # Commit the savepoint on success
-                    # Add delay to prevent hammering the media server's database
-                    time.sleep(1)
+                    continue
             else:
                 # Delete the user (either by setting or server doesn't support disable)
-                delete_user(user.id, commit=False, email_event="expired")
-                processed.append(user.id)
+                _delete_expired_user(user_id, email_event="expired")
+                processed.append(user_id)
                 action_reason = (
                     "setting" if expiry_action == "delete" else "unsupported"
                 )
                 logging.info(
                     "🗑️ Expired user %s (%s) deleted (%s)",
-                    user.id,
-                    user.username,
+                    user_id,
+                    username,
                     action_reason,
                 )
-                savepoint.commit()  # Commit the savepoint on success
-                # Add delay to prevent hammering the media server's database
-                time.sleep(1)
         except Exception as exc:
-            # Rollback the savepoint - this removes the ExpiredUser record
-            # and keeps the User record for retry on next scheduler run
-            with suppress(ResourceClosedError):
-                savepoint.rollback()
+            # Keep the User record for retry on next scheduler run
+            db.session.rollback()
+            _release_expiry_claim(event_id)
             logging.error(
                 "Failed to process expired user %s – %s. Will retry on next run.",
-                user.id,
+                user_id,
                 exc,
             )
+            continue
+
+        # Add delay to prevent hammering the media server's database. No
+        # transaction is open here.
+        time.sleep(1)
 
     db.session.commit()
     return processed

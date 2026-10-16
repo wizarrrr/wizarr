@@ -5,28 +5,48 @@ and invitation management through a System token with appropriate scopes.
 """
 
 import logging
-import re
-from datetime import UTC
+from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING, Any
 
+import requests
 import structlog
 from sqlalchemy import or_
 
 from app.extensions import db
 from app.models import Invitation, User
 from app.services.invites import is_invite_valid
-from app.services.media.client_base import RestApiMixin, register_media_client
+from app.services.media.client_base import EMAIL_RE, RestApiMixin, register_media_client
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
 
-# Simple email validation pattern
-EMAIL_RE = re.compile(r"[^@]+@[^@]+\.[^@]+")
+
+class DropSignupError(Exception):
+    """Drop refused the sign-up data. The message is safe to show the user."""
+
+
+def _error_message(response: requests.Response) -> str:
+    """Return the reason that Drop gives in an error response."""
+    try:
+        body = response.json()
+    except ValueError:
+        body = None
+    if isinstance(body, dict):
+        message = body.get("message") or body.get("statusMessage")
+        if message:
+            return str(message)
+    return f"Drop returned HTTP {response.status_code}"
 
 
 @register_media_client("drop")
 class DropClient(RestApiMixin):
     """Drop media server client using System token authentication."""
+
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_drop
+
+        return check_drop(url, token)
 
     def __init__(self, *args, **kwargs):
         # Defaults for historical callers
@@ -105,46 +125,40 @@ class DropClient(RestApiMixin):
 
             remote_by_id = {str(u.get("id")): u for u in remote_users if u.get("id")}
 
-            known_users = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
+            server_id = getattr(self, "server_id", None)
+            known_users = User.query.filter(User.server_id == server_id).all()
             if self._skip_prune_on_empty_remote(not remote_by_id, known_users):
                 return known_users
 
+            # Use the rows that are already loaded, not one query for each
+            # remote user. The first local row with a token is the match.
+            users: list[User] = []
+            rows_by_token: dict[str, User] = {}
+            for local in known_users:
+                if local.token in remote_by_id:
+                    users.append(local)
+                    rows_by_token.setdefault(local.token, local)
+                else:
+                    # Remove local users that no longer exist upstream
+                    db.session.delete(local)
+
             # Upsert user rows in local DB
             for user_id, drop_user in remote_by_id.items():
-                db_row: User | None = User.query.filter_by(
-                    token=user_id, server_id=getattr(self, "server_id", None)
-                ).first()
-
-                if not db_row:
+                db_row = rows_by_token.get(user_id)
+                if db_row is None:
                     db_row = User(
                         token=user_id,
                         username=drop_user.get("username", "drop-user"),
                         email=drop_user.get("email", ""),
                         code="drop",  # placeholder – no invite code
-                        server_id=getattr(self, "server_id", None),
+                        server_id=server_id,
                     )
                     db.session.add(db_row)
+                    users.append(db_row)
                 else:
                     # Update existing user
                     db_row.username = drop_user.get("username", db_row.username)
                     db_row.email = drop_user.get("email", db_row.email)
-
-            db.session.commit()
-
-            # Remove local users that no longer exist upstream
-            for local in User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all():
-                if local.token not in remote_by_id:
-                    db.session.delete(local)
-            db.session.commit()
-
-            # Get users with default policy information
-            users = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
 
             # Add policy attributes based on actual Drop user data
             for user in users:
@@ -177,35 +191,34 @@ class DropClient(RestApiMixin):
         """Create a Drop user using the invitation system.
 
         Drop uses a two-step process:
-        1. Create an invitation
-        2. Consume the invitation to create the user
+        1. Create an invitation (the API token needs the
+           ``auth:simple:invitation:new`` ACL)
+        2. Consume the invitation to create the user (Simple Authentication
+           must be enabled on the Drop server)
+
+        Raises:
+            DropSignupError: Drop refused the username, e-mail or password.
         """
+        # isoformat() of an aware datetime already ends in "+00:00"
+        expires = datetime.now(UTC) + timedelta(hours=1)
+        invitation_payload = {
+            "expires": expires.isoformat(),
+            "username": username,
+            "email": email,
+            "isAdmin": False,
+        }
+
         try:
-            # Step 1: Create invitation
-            from datetime import datetime, timedelta
-
-            expires = datetime.now(UTC) + timedelta(hours=1)
-            invitation_payload = {
-                "expires": expires.isoformat() + "Z",
-                "username": username,
-                "email": email,
-                "isAdmin": False,
-            }
-
             invite_response = self.post(
-                "/api/v1/admin/invitation", json=invitation_payload
+                "/api/v1/admin/auth/invitation", json=invitation_payload
             )
-            invitation_data = invite_response.json()
-            invitation_id = invitation_data.get("id")
-
+            invitation_id = invite_response.json().get("id")
             if not invitation_id:
                 raise ValueError("No invitation ID returned from Drop API")
 
-            # Step 2: Consume invitation to create user
-            # Drop requires minimum 14 character password
-            if len(password) < 14:
-                password = password + "0" * (14 - len(password))
-
+            # Send the password unchanged. Drop 0.3 needs 14 characters and
+            # Drop 0.4 needs 8. If it is too short, Drop answers 400 with the
+            # reason, and the user sees it.
             signup_payload = {
                 "invitation": invitation_id,
                 "username": username,
@@ -213,20 +226,20 @@ class DropClient(RestApiMixin):
                 "email": email,
                 "displayName": username,
             }
-
             user_response = self.post("/api/v1/auth/signup/simple", json=signup_payload)
-            user_data = user_response.json()
-
-            return str(user_data.get("id", ""))
-
-        except Exception as exc:
-            if "404" in str(exc):
-                raise NotImplementedError(
-                    "Drop server does not support Simple Authentication. "
-                    "Please enable Simple Authentication in your Drop server configuration."
+        except requests.HTTPError as exc:
+            response = exc.response
+            if response is not None and response.status_code == 400:
+                raise DropSignupError(_error_message(response)) from exc
+            if response is not None and response.status_code == 403:
+                raise PermissionError(
+                    "Drop refused the request. Give the API token the "
+                    "'auth:simple:invitation:new' ACL and enable Simple "
+                    "Authentication on the Drop server."
                 ) from exc
-            logging.error("Drop: failed to create user – %s", exc)
             raise
+
+        return str(user_response.json().get("id", ""))
 
     def update_user(self, _user_id: str, _patch: dict[str, Any]):
         """Update a Drop user.
@@ -333,16 +346,11 @@ class DropClient(RestApiMixin):
     def now_playing(self) -> list[dict]:
         """Return currently playing sessions.
 
-        Note: Drop may not have session tracking functionality.
-        Returns empty list as placeholder.
+        The Drop API has no session endpoint, so this makes no request and
+        always returns []. There is no fetch that can fail.
         """
-        try:
-            # Drop API doesn't seem to have session tracking endpoints
-            logging.debug("Drop: No session tracking available")
-            return []
-        except Exception as exc:
-            logging.warning("Drop: failed to get now playing – %s", exc)
-            return []
+        logging.debug("Drop: No session tracking available")
+        return []
 
     def statistics(self):
         """Return Drop server statistics for the dashboard."""
@@ -520,6 +528,10 @@ class DropClient(RestApiMixin):
 
             return True, ""
 
+        except DropSignupError as exc:
+            logging.warning("Drop refused the sign-up: %s", exc)
+            db.session.rollback()
+            return False, f"Drop refused the account: {exc}"
         except Exception:
             logging.error("Drop join error", exc_info=True)
             db.session.rollback()

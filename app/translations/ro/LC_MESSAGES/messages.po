@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-22 08:32+0000\n"
+"POT-Creation-Date: 2026-10-16 08:10+0000\n"
 "PO-Revision-Date: 2025-11-03 20:09+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -154,6 +154,9 @@ msgstr "în %(n)d minute"
 msgid "soon"
 msgstr "în curând"
 
+msgid "Enter a valid email address, or leave the field empty."
+msgstr ""
+
 msgid "Admin created"
 msgstr "Administrator creat"
 
@@ -210,6 +213,9 @@ msgstr "Testul conexiunii a reușit!"
 #, fuzzy
 msgid "LDAP authentication failed"
 msgstr "Autentificare eșuată"
+
+msgid "Sign in through Cloudflare Access to reach the admin pages."
+msgstr ""
 
 msgid "Invalid username or password"
 msgstr "Nume de utilizator sau parolă incorectă"
@@ -351,9 +357,6 @@ msgstr ""
 msgid "Continue to Invite"
 msgstr "Continuă către invitație"
 
-msgid "Please log in to continue"
-msgstr "Autentifică-te pentru a continua"
-
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
@@ -374,6 +377,11 @@ msgid "Unable to load wizard steps. Please try again."
 msgstr "Nu se pot încărca pașii expertului. Te rugăm să încerci din nou."
 
 msgid "This bundle has no steps to preview."
+msgstr ""
+
+msgid ""
+"Cannot save the change because it conflicts with other wizard data. Refresh "
+"the page and try again."
 msgstr ""
 
 #, python-brace-format
@@ -469,6 +477,15 @@ msgstr "Parolă nouă"
 msgid "Please confirm the new password."
 msgstr "Te rugăm să confirmi noua parolă."
 
+#, python-format
+msgid ""
+"This LDAP filter is not valid. Enter one complete filter in parentheses, for "
+"example %(example)s."
+msgstr ""
+
+msgid "User Sync Filter"
+msgstr ""
+
 msgid "Server Type"
 msgstr "Tip server"
 
@@ -490,8 +507,8 @@ msgstr "Permite descărcări"
 msgid "Allow Live TV"
 msgstr "Permite TV în direct"
 
-msgid "Overseerr/Ombi URL"
-msgstr "URL Overseerr/Ombi"
+msgid "Seerr/Ombi URL"
+msgstr ""
 
 msgid "Ombi API Key"
 msgstr "Cheie API Ombi"
@@ -563,11 +580,8 @@ msgstr "Kavita"
 msgid "Navidrome"
 msgstr "Navidrome"
 
-msgid "Invalid API token or insufficient permissions."
-msgstr "Token API invalid sau permisiuni insuficiente."
-
-msgid "API token lacks required permissions."
-msgstr "Tokenul API nu are permisiunile necesare."
+msgid "Invalid API token, or the token does not have the 'user:read' ACL."
+msgstr ""
 
 msgid "Could not connect to Drop server."
 msgstr "Nu s-a putut realiza conexiunea la serverul Drop."
@@ -608,6 +622,19 @@ msgstr "Generează în schimb o parolă puternică aleatorie"
 
 msgid "Continue"
 msgstr "Continuă"
+
+msgid "Invitation Code"
+msgstr "Cod de invitație"
+
+#, fuzzy
+msgid "Wizarr"
+msgstr "Configurează Wizarr"
+
+msgid "Enter Code to Continue"
+msgstr "Introdu codul pentru a continua"
+
+msgid "Enter your code"
+msgstr "Introdu codul"
 
 msgid "Complete your account setup for local servers"
 msgstr "Finalizează configurarea contului pentru serverele locale"
@@ -688,10 +715,6 @@ msgstr "Putere parolă: mare"
 
 msgid "Passwords do not match"
 msgstr "Parolele nu coincid"
-
-#, fuzzy
-msgid "Wizarr"
-msgstr "Configurează Wizarr"
 
 msgid "Invalid Invitation"
 msgstr "Invitație invalidă"
@@ -857,6 +880,36 @@ msgstr ""
 msgid "Log in to your media server with your username and new password."
 msgstr ""
 
+msgid "Signing you in"
+msgstr ""
+
+msgid "Finishing up with Plex. This only takes a moment."
+msgstr ""
+
+msgid "Back to your invitation"
+msgstr ""
+
+msgid "Nothing to finish"
+msgstr ""
+
+msgid "Open your invitation link again to sign in with Plex."
+msgstr ""
+
+msgid "All set"
+msgstr ""
+
+msgid "Taking you to the next step..."
+msgstr ""
+
+msgid "Sign-in failed"
+msgstr ""
+
+msgid "That took too long"
+msgstr ""
+
+msgid "We did not hear back from Plex. Please try signing in again."
+msgstr ""
+
 msgid "Administrator"
 msgstr "Administrator"
 
@@ -884,15 +937,6 @@ msgstr "Pentru a te alătura"
 
 msgid "Join the ultimate media server experience."
 msgstr "Alătură-te celei mai bune experiențe media."
-
-msgid "Enter Code to Continue"
-msgstr "Introdu codul pentru a continua"
-
-msgid "Invitation Code"
-msgstr "Cod de invitație"
-
-msgid "Enter your code"
-msgstr "Introdu codul"
 
 msgid "Join Server"
 msgstr "Alătură-te serverului"
@@ -1123,6 +1167,14 @@ msgstr "Editează utilizator"
 msgid "Close modal"
 msgstr "Închide fereastra"
 
+msgid "Update"
+msgstr "Actualizează"
+
+msgid ""
+"Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
+"user. Wizarr does not send it to the media server."
+msgstr ""
+
 msgid "Tabs"
 msgstr "File"
 
@@ -1168,9 +1220,6 @@ msgstr "Administrare expirare"
 msgid "Expiry date"
 msgstr "Data expirării"
 
-msgid "Update"
-msgstr "Actualizează"
-
 msgid "Current expiry"
 msgstr "Data curentă de expirare"
 
@@ -1185,6 +1234,12 @@ msgstr "Adaugă notițe despre acest utilizator..."
 
 msgid "Update Notes"
 msgstr "Actualizează notițele"
+
+msgid "Sync users from media servers"
+msgstr ""
+
+msgid "Sync"
+msgstr ""
 
 msgid "Link"
 msgstr "Leagă"
@@ -1326,25 +1381,26 @@ msgstr "Adaugă o conexiune nouă"
 msgid "Edit Connection"
 msgstr "Editează conexiunea"
 
-msgid "Overseerr/Jellyseerr Information"
-msgstr "Informații Overseerr/Jellyseerr"
+msgid "Seerr Information"
+msgstr ""
 
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No API "
-"connection is required for Wizarr integration."
+"Seerr creates an account the first time someone signs in, so by default an "
+"invited user has no account there until they visit and log in themselves. "
+"Overseerr and Jellyseerr, which merged into Seerr, work the same way."
 msgstr ""
-"Overseerr și Jellyseerr importă automat utilizatorii noi. Nu este necesară o "
-"conexiune API pentru integrarea cu Wizarr."
-
-msgid "To enable auto-import:"
-msgstr "Pentru a activa importul automat:"
 
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
-"users' and 'Import Jellyfin/Plex users'"
+"Set the Service URL and turn on account creation below, and Wizarr signs "
+"them in during the invite so their account exists before they arrive. This "
+"uses the service's own sign-in route rather than an API key, so it needs "
+"'Enable New Plex Sign-In' under its Settings → Users."
 msgstr ""
-"Accesează Overseerr/Jellyseerr → Settings → Users → activează „Auto-approve "
-"new users” și „Import Jellyfin/Plex users”"
+
+msgid ""
+"Must be https if the service has CSRF protection enabled, which sets its "
+"cookies Secure."
+msgstr ""
 
 msgid "Testing connection..."
 msgstr "Se testează conexiunea..."
@@ -1394,6 +1450,12 @@ msgstr ""
 msgid "New Agent"
 msgstr "Agent nou"
 
+msgid "User Key"
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
 msgid "Channel ID"
 msgstr "ID canal"
 
@@ -1429,6 +1491,9 @@ msgstr "Testează și creează agentul"
 msgid "Add Server"
 msgstr "Adaugă server"
 
+msgid "Hide new users from login screens"
+msgstr ""
+
 msgid "Test & Add"
 msgstr "Testează și adaugă"
 
@@ -1461,6 +1526,12 @@ msgstr "Testează și salvează modificările"
 
 msgid "Edit Server"
 msgstr "Editează serverul"
+
+msgid "Loading…"
+msgstr "Se încarcă…"
+
+msgid "Please select at least one server for the invitation."
+msgstr "Selectează cel puțin un server pentru invitație."
 
 msgid "Create Invitation"
 msgstr "Creează Invitație"
@@ -1495,42 +1566,6 @@ msgstr "Pachet de pași"
 msgid "Automatic"
 msgstr "Automat"
 
-msgid "Advanced Options"
-msgstr "Opțiuni avansate"
-
-msgid "Invite Settings"
-msgstr "Setări invitație"
-
-msgid "Unlimited Usages"
-msgstr "Utilizări nelimitate"
-
-msgid "Duration"
-msgstr "Durată"
-
-msgid "in days"
-msgstr "(în zile)"
-
-msgid "Show Information"
-msgstr "Arată informața"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-"Când este activată, persoanele invitate vor fi eliminate de pe serverul Plex "
-"după un anumit număr de zile (1-999)."
-
-#, fuzzy
-msgid "LDAP Integration"
-msgstr "Acceptă invitația"
-
-#, fuzzy
-msgid "Create LDAP User"
-msgstr "Creează cheie API"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
-
 msgid "Target servers"
 msgstr "Servere țintă"
 
@@ -1557,8 +1592,38 @@ msgstr ""
 msgid "Select Libraries"
 msgstr "Selectează bibliotecile"
 
-msgid "Loading…"
-msgstr "Se încarcă…"
+msgid "Advanced Options"
+msgstr "Opțiuni avansate"
+
+msgid "Invite Settings"
+msgstr "Setări invitație"
+
+msgid "Unlimited Usages"
+msgstr "Utilizări nelimitate"
+
+msgid "Duration"
+msgstr "Durată"
+
+msgid "in days"
+msgstr "(în zile)"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"Când este activată, persoanele invitate vor fi eliminate de pe serverul Plex "
+"după un anumit număr de zile (1-999)."
+
+#, fuzzy
+msgid "LDAP Integration"
+msgstr "Acceptă invitația"
+
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "Creează cheie API"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
 
 msgid "Successfully generated an Invitation!"
 msgstr "Invitație generată cu succes!"
@@ -1574,9 +1639,6 @@ msgstr "Link-ul a fost copiat cu succes în clipboard!"
 
 msgid "Create Another"
 msgstr "Creează altă invitație"
-
-msgid "Please select at least one server for the invitation."
-msgstr "Selectează cel puțin un server pentru invitație."
 
 #, fuzzy
 msgid "Password Reset Link"
@@ -1685,8 +1747,8 @@ msgstr "Alege când să fie arătat acest pas utilizatorilor"
 msgid "Your Discord server ID"
 msgstr "ID-ul serverului tău Discord"
 
-msgid "URL to your Overseerr/Ombi instance"
-msgstr "URL-ul instanței tale Overseerr/Ombi"
+msgid "URL to your Seerr/Ombi instance"
+msgstr ""
 
 msgid "Create Step"
 msgstr "Creează pas"
@@ -1702,6 +1764,12 @@ msgstr "Media adăugate recent"
 
 msgid "Show recent content"
 msgstr "Afișează conținutul recent"
+
+msgid "Collection Media"
+msgstr ""
+
+msgid "Show media from a Plex collection"
+msgstr ""
 
 msgid "Button"
 msgstr "Buton"
@@ -1726,6 +1794,53 @@ msgstr "Nu există chei API"
 
 msgid "Get started by creating a new API key."
 msgstr "Începe prin a crea o cheie API nouă."
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
+msgstr ""
 
 msgid "Media Servers"
 msgstr "Servere media"
@@ -1781,8 +1896,11 @@ msgstr "Numele conexiunii"
 msgid "Media Server"
 msgstr "Server media"
 
-msgid "Overseerr (Info)"
-msgstr "Overseerr (Info)"
+msgid "Seerr"
+msgstr ""
+
+msgid "Seerr (Info)"
+msgstr ""
 
 msgid "Ombi"
 msgstr "Ombi"
@@ -1823,6 +1941,11 @@ msgstr "Interfață"
 
 msgid "Configure how your application appears to users"
 msgstr "Configurează modul în care aplicația este afișată utilizatorilor"
+
+msgid ""
+"Which server's posters fill the background of the public join page. 'The "
+"server the invite is for' shows nothing without a valid invite."
+msgstr ""
 
 msgid "Access Control"
 msgstr "Control acces"
@@ -1954,6 +2077,11 @@ msgstr "Salvează setările"
 msgid "Where to find users and groups"
 msgstr ""
 
+msgid ""
+"Optional. User sync imports only the users that match this filter and the "
+"user object class. Login does not use this filter."
+msgstr ""
+
 msgid "Optional - only needed for admin group restriction"
 msgstr ""
 
@@ -2055,17 +2183,22 @@ msgid "Which media server should trigger invitations to this external service"
 msgstr ""
 "Ce server media ar trebui să trimită invitații către acest serviciu extern"
 
-msgid "Open your Overseerr/Jellyseerr admin panel"
-msgstr "Deschide panoul de administrare Overseerr/Jellyseerr"
+msgid "To have Wizarr create the account instead:"
+msgstr ""
 
-msgid "Navigate to Settings → Users"
-msgstr "Mergi la Settings → Users"
+msgid "Set the Service URL below"
+msgstr ""
 
-msgid "Enable 'Auto-approve new users'"
-msgstr "Activează „Auto-approve new users”"
+msgid "Turn on account creation below"
+msgstr ""
 
-msgid "Enable 'Import Jellyfin/Plex users'"
-msgstr "Activează „Import Jellyfin/Plex users”"
+msgid "In the service, enable Settings → Users → 'Enable New Plex Sign-In'"
+msgstr ""
+
+msgid ""
+"This uses the service's own sign-in route, so there is no API key to "
+"configure."
+msgstr ""
 
 msgid "The full URL to your external service instance"
 msgstr "URL-ul complet al instanței serviciului extern"
@@ -2313,6 +2446,12 @@ msgstr "Configurează Wizarr"
 msgid "Create an account"
 msgstr "Creează un cont"
 
+msgid "Pagination"
+msgstr ""
+
+msgid "Show more"
+msgstr ""
+
 msgid "Unlimited"
 msgstr "Nelimitat"
 
@@ -2376,6 +2515,25 @@ msgstr "Parolă"
 
 msgid "Remove user"
 msgstr "Șterge utilizatorul"
+
+msgid "Setup Guide"
+msgstr ""
+
+msgid "Select your server to open its setup guide."
+msgstr ""
+
+#, python-format
+msgid "Open the setup guide for %(name)s"
+msgstr ""
+
+msgid ""
+"This page is for invited users. Open the link from your invitation to start."
+msgstr ""
+
+msgid ""
+"If you already accepted your invitation, ask the server administrator for "
+"help."
+msgstr ""
 
 msgid "Before Invitation"
 msgstr "Înainte de invitație"
@@ -2971,6 +3129,59 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Show Information"
+#~ msgstr "Arată informața"
+
+#~ msgid "Please log in to continue"
+#~ msgstr "Autentifică-te pentru a continua"
+
+#~ msgid "Overseerr/Ombi URL"
+#~ msgstr "URL Overseerr/Ombi"
+
+#~ msgid "Invalid API token or insufficient permissions."
+#~ msgstr "Token API invalid sau permisiuni insuficiente."
+
+#~ msgid "API token lacks required permissions."
+#~ msgstr "Tokenul API nu are permisiunile necesare."
+
+#~ msgid "Overseerr/Jellyseerr Information"
+#~ msgstr "Informații Overseerr/Jellyseerr"
+
+#~ msgid "URL to your Overseerr/Ombi instance"
+#~ msgstr "URL-ul instanței tale Overseerr/Ombi"
+
+#~ msgid "Overseerr (Info)"
+#~ msgstr "Overseerr (Info)"
+
+#~ msgid ""
+#~ "Overseerr and Jellyseerr automatically import new users by default. No "
+#~ "API connection is required for Wizarr integration."
+#~ msgstr ""
+#~ "Overseerr și Jellyseerr importă automat utilizatorii noi. Nu este "
+#~ "necesară o conexiune API pentru integrarea cu Wizarr."
+
+#~ msgid "To enable auto-import:"
+#~ msgstr "Pentru a activa importul automat:"
+
+#~ msgid ""
+#~ "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
+#~ "new users' and 'Import Jellyfin/Plex users'"
+#~ msgstr ""
+#~ "Accesează Overseerr/Jellyseerr → Settings → Users → activează „Auto-"
+#~ "approve new users” și „Import Jellyfin/Plex users”"
+
+#~ msgid "Open your Overseerr/Jellyseerr admin panel"
+#~ msgstr "Deschide panoul de administrare Overseerr/Jellyseerr"
+
+#~ msgid "Navigate to Settings → Users"
+#~ msgstr "Mergi la Settings → Users"
+
+#~ msgid "Enable 'Auto-approve new users'"
+#~ msgstr "Activează „Auto-approve new users”"
+
+#~ msgid "Enable 'Import Jellyfin/Plex users'"
+#~ msgstr "Activează „Import Jellyfin/Plex users”"
 
 #, fuzzy
 #~ msgid "Invitation Details"

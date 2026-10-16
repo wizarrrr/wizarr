@@ -15,8 +15,8 @@ from ..monitor import BaseCollector
 class PollingCollector(BaseCollector):
     """Generic polling collector for servers without WebSocket support."""
 
-    def __init__(self, server, event_callback):
-        super().__init__(server, event_callback)
+    def __init__(self, server, event_callback, **kwargs):
+        super().__init__(server, event_callback, **kwargs)
         self.active_sessions: dict[str, dict[str, Any]] = {}
         self.poll_interval = 30  # seconds
 
@@ -37,14 +37,24 @@ class PollingCollector(BaseCollector):
 
     def _poll_sessions(self):
         """Poll server for current sessions."""
-        try:
-            client = self._get_media_client()
-            if not client:
-                self.logger.warning("No media client available for polling")
-                return
+        client = self._get_media_client()
+        if not client:
+            self.logger.warning("No media client available for polling")
+            return
 
-            # Get current sessions from server
-            current_sessions = client.now_playing()
+        # Get current sessions from server. A failed poll returns None and
+        # keeps the active sessions, unless the outage is long (see
+        # BaseCollector._poll_failed).
+        current_sessions = self._fetch_sessions(client)
+        if current_sessions is None:
+            return
+
+        with self._event_batch():
+            self._process_sessions(current_sessions)
+
+    def _process_sessions(self, current_sessions: list[dict[str, Any]]):
+        """Compare the current sessions with the known sessions and emit events."""
+        try:
             current_session_ids = set()
 
             # Process each current session
@@ -104,7 +114,7 @@ class PollingCollector(BaseCollector):
                         duration_ms = int(last_position)
                     elif isinstance(started_ts, datetime):
                         elapsed = (
-                            datetime.now(UTC) - started_ts
+                            self._event_now() - started_ts
                         ).total_seconds() * 1000
                         duration_ms = max(int(elapsed), 0)
                     else:
@@ -142,7 +152,7 @@ class PollingCollector(BaseCollector):
                 session_id=session_id,
                 user_name=user_name,
                 media_title=media_title,
-                timestamp=datetime.now(UTC),
+                timestamp=self._event_now(),
                 user_id=session_data.get("user_id"),
                 media_type=session_data.get("media_type"),
                 media_id=session_data.get("media_id"),

@@ -9,7 +9,9 @@ __all__ = [
     "delete_user",
     "delete_user_from_connections",
     "get_connection_for_server",
+    "has_plex_provisioning_connections",
     "invite_user_to_connections",
+    "provision_plex_user_on_connections",
     "run_user_importer",
 ]
 
@@ -82,6 +84,68 @@ def invite_user_to_connections(
                     "message": f"Unknown connection type: {connection.connection_type}",
                 }
             )
+
+    return results
+
+
+def has_plex_provisioning_connections(server_id: int) -> bool:
+    """Whether any companion for this server has opted in to provisioning."""
+    return (
+        Connection.query.filter_by(
+            media_server_id=server_id, provision_plex_users=True
+        ).count()
+        > 0
+    )
+
+
+def provision_plex_user_on_connections(auth_token: str, server_id: int) -> list[dict]:
+    """
+    Create the freshly invited Plex user on every companion for this server.
+
+    Called once the Plex share exists, since request systems check that the user
+    can reach the media server before accepting them. Best effort by design: a
+    companion being down must never fail the invite the user just accepted, so
+    every failure is logged and returned rather than raised.
+
+    Args:
+        auth_token: The invited user's Plex auth token
+        server_id: Media server ID to check for connections
+
+    Returns:
+        List of results with connection details and status
+    """
+    results = []
+
+    # Opt-in only. Most instances have no request system attached, and an
+    # existing connection predating the flag must not change behaviour.
+    connections = Connection.query.filter_by(
+        media_server_id=server_id, provision_plex_users=True
+    ).all()
+
+    for connection in connections:
+        try:
+            client = get_companion_client(connection.connection_type)()
+            result = client.provision_plex_user(auth_token, connection)
+        except ValueError as exc:
+            logging.error(
+                "Unknown connection type %s: %s", connection.connection_type, exc
+            )
+            result = {
+                "status": "error",
+                "message": f"Unknown connection type: {connection.connection_type}",
+            }
+        except Exception as exc:
+            logging.error("Provisioning %s failed: %s", connection.connection_type, exc)
+            result = {"status": "error", "message": str(exc)}
+
+        results.append(
+            {
+                "connection_name": connection.name,
+                "connection_type": connection.connection_type,
+                "status": result["status"],
+                "message": result["message"],
+            }
+        )
 
     return results
 

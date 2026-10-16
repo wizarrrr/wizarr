@@ -3,13 +3,76 @@ Ombi companion client implementation.
 """
 
 import logging
+import threading
+import time
 
 import requests
 import requests.exceptions
 
 from app.models import Connection
+from app.services.media.client_base import get_http_session
 
 from .base import CompanionClient
+
+# The Ombi user list is cached for a short time for each connection, so that a
+# batch of deletions (for example the expiry job) downloads it one time, not
+# one time for each user.
+USER_LIST_TTL = 60.0  # seconds
+
+# (connection id, url, api key) -> (monotonic time, list of Ombi users)
+_user_list_cache: dict[tuple, tuple[float, list[dict]]] = {}
+_user_list_lock = threading.Lock()
+
+
+def _user_list_key(connection: Connection) -> tuple:
+    return (connection.id, (connection.url or "").rstrip("/"), connection.api_key)
+
+
+def invalidate_user_list_cache(connection: Connection | None = None) -> None:
+    """Forget the cached Ombi user list of one connection, or of all."""
+    with _user_list_lock:
+        if connection is None:
+            _user_list_cache.clear()
+        else:
+            _user_list_cache.pop(_user_list_key(connection), None)
+
+
+def _forget_cached_user(connection: Connection, ombi_user_id) -> None:
+    """Remove one deleted user from the cached list, and keep the rest."""
+    key = _user_list_key(connection)
+    with _user_list_lock:
+        entry = _user_list_cache.get(key)
+        if entry is not None:
+            fetched_at, users = entry
+            _user_list_cache[key] = (
+                fetched_at,
+                [u for u in users if u.get("id") != ombi_user_id],
+            )
+
+
+def _get_ombi_users(connection: Connection) -> list[dict]:
+    """Return the Ombi user list, from the cache when it is recent."""
+    key = _user_list_key(connection)
+    with _user_list_lock:
+        entry = _user_list_cache.get(key)
+        if entry is not None and time.monotonic() - entry[0] < USER_LIST_TTL:
+            return entry[1]
+
+    users = (
+        get_http_session()
+        .get(
+            f"{connection.url}/api/v1/Identity/Users",
+            headers={"ApiKey": connection.api_key},
+            timeout=5,
+        )
+        .json()
+    )
+    if not isinstance(users, list):
+        raise ValueError("Unexpected Ombi user list response")
+
+    with _user_list_lock:
+        _user_list_cache[key] = (time.monotonic(), users)
+    return users
 
 
 class OmbiClient(CompanionClient):
@@ -69,6 +132,8 @@ class OmbiClient(CompanionClient):
             )
 
             if resp.status_code in [200, 201]:
+                # The cached user list does not have the new user.
+                invalidate_user_list_cache(connection)
                 logging.info(
                     "Ombi user creation for %s → %s", username, resp.status_code
                 )
@@ -108,12 +173,8 @@ class OmbiClient(CompanionClient):
             return {"status": "error", "message": "Connection missing URL or API key"}
 
         try:
-            # 1. Get Ombi user list
-            users = requests.get(
-                f"{connection.url}/api/v1/Identity/Users",
-                headers={"ApiKey": connection.api_key},
-                timeout=5,
-            ).json()
+            # 1. Get Ombi user list (cached for a short time)
+            users = _get_ombi_users(connection)
 
             # 2. Find user by username
             ombi_user = next((u for u in users if u.get("userName") == username), None)
@@ -125,13 +186,15 @@ class OmbiClient(CompanionClient):
                 }
 
             # 3. Delete user
-            resp = requests.delete(
+            resp = get_http_session().delete(
                 f"{connection.url}/api/v1/Identity/{ombi_user['id']}",
                 headers={"ApiKey": connection.api_key},
                 timeout=5,
             )
 
             if resp.status_code in [200, 204]:
+                # Keep the cached list correct for the next deletion.
+                _forget_cached_user(connection, ombi_user["id"])
                 logging.info(
                     "Ombi delete user %s from %s → %s",
                     username,
@@ -142,6 +205,8 @@ class OmbiClient(CompanionClient):
                     "status": "success",
                     "message": f"User deleted from {connection.name}",
                 }
+            # The cached list can be wrong. Download it again next time.
+            invalidate_user_list_cache(connection)
             logging.warning(
                 "Ombi delete user failed for %s from %s → %s",
                 username,

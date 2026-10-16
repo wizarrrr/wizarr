@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import base64
 import logging
-import re
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -16,7 +15,7 @@ from app.extensions import db
 from app.models import Invitation, User
 from app.services.invites import is_invite_valid
 
-from .client_base import RestApiMixin, register_media_client
+from .client_base import EMAIL_RE, RestApiMixin, register_media_client
 
 """Romm media‐server client.
 
@@ -41,12 +40,17 @@ needs:
 # ---------------------------------------------------------------------------
 
 # Simple e-mail validation (same pattern as other clients)
-EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 
 
 @register_media_client("romm")
 class RommClient(RestApiMixin):
     """Very small wrapper around the RomM REST API."""
+
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_romm
+
+        return check_romm(url, token)
 
     API_PREFIX = "/api"
 
@@ -149,44 +153,41 @@ class RommClient(RestApiMixin):
 
         remote_by_id = {str(u.get("id") or u["username"]): u for u in remote_users}
 
-        known_users = User.query.filter(
-            User.server_id == getattr(self, "server_id", None)
-        ).all()
+        server_id = getattr(self, "server_id", None)
+        known_users = User.query.filter(User.server_id == server_id).all()
         if self._skip_prune_on_empty_remote(not remote_by_id, known_users):
             return known_users
 
-        # 1) upsert basic user rows so Wizarr UI has something to show
+        # Use the rows that are already loaded, not one query for each remote
+        # user. The first local row with a token is the match.
+        users: list[User] = []
+        rows_by_token: dict[str, User] = {}
+        for local in known_users:
+            if local.token in remote_by_id:
+                users.append(local)
+                rows_by_token.setdefault(local.token, local)
+            else:
+                # Remove local users that no longer exist upstream
+                db.session.delete(local)
+
+        # Upsert basic user rows so Wizarr UI has something to show
         for romm_id, ru in remote_by_id.items():
-            db_row: User | None = User.query.filter_by(
-                token=romm_id, server_id=getattr(self, "server_id", None)
-            ).first()
-            if not db_row:
+            db_row = rows_by_token.get(romm_id)
+            if db_row is None:
                 db_row = User(
                     token=romm_id,
                     username=ru.get("username", "romm-user"),
                     email=ru.get("email", ""),
                     code="romm",  # placeholder – no invite code
-                    password="romm",  # noqa: S106  # Placeholder string, not actual password
-                    server_id=getattr(self, "server_id", None),
+                    # No password: User has no password column. The old
+                    # placeholder made this constructor raise TypeError.
+                    server_id=server_id,
                 )
                 db.session.add(db_row)
+                users.append(db_row)
             else:
                 db_row.username = ru.get("username", db_row.username)
                 db_row.email = ru.get("email", db_row.email)
-        db.session.commit()
-
-        # 2) Remove local users that no longer exist upstream
-        for local in User.query.filter(
-            User.server_id == getattr(self, "server_id", None)
-        ).all():
-            if local.token not in remote_by_id:
-                db.session.delete(local)
-        db.session.commit()
-
-        # Get users with default policy information
-        users = User.query.filter(
-            User.server_id == getattr(self, "server_id", None)
-        ).all()
 
         # Add default policy attributes (RomM doesn't have specific download/live TV policies)
         for user in users:

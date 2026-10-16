@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-22 08:32+0000\n"
-"PO-Revision-Date: 2026-09-09 08:09+0000\n"
+"POT-Creation-Date: 2026-10-16 08:10+0000\n"
+"PO-Revision-Date: 2026-09-25 07:09+0000\n"
 "Last-Translator: Jelmer Houtman <jelmerhout15@gmail.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/nl/>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.9.1\n"
+"X-Generator: Weblate 2026.10.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
 msgid "Failed to load settings"
@@ -156,6 +156,9 @@ msgstr "in %(n)d m"
 msgid "soon"
 msgstr "binnenkort"
 
+msgid "Enter a valid email address, or leave the field empty."
+msgstr ""
+
 msgid "Admin created"
 msgstr "Beheerder aangemaakt"
 
@@ -189,13 +192,11 @@ msgstr ""
 msgid "API key deleted successfully"
 msgstr "API sleutel succesvol verwijderd"
 
-#, fuzzy
 msgid "LDAP authentication is not enabled"
-msgstr "Authenticatie gefaald"
+msgstr "LDAP-authenticatie is niet geactiveerd"
 
-#, fuzzy
 msgid "LDAP admin authentication is not allowed"
-msgstr "Authenticatie gefaald"
+msgstr "LDAP-administrator-authenticatie is niet toegestaan"
 
 msgid "Invalid LDAP credentials"
 msgstr "Ongeldige LDAP-inloggegevens"
@@ -206,13 +207,14 @@ msgstr "Gebruikers-DN niet gevonden in LDAP-response"
 msgid "User is not authorized as an administrator"
 msgstr "Gebruiker is niet gemachtigd als beheerder"
 
-#, fuzzy
 msgid "Login successful"
-msgstr "Verbinding test succesvol!"
+msgstr "Succesvol ingelogd!"
 
-#, fuzzy
 msgid "LDAP authentication failed"
-msgstr "Authenticatie gefaald"
+msgstr "LDAP-authenticatie mislukt"
+
+msgid "Sign in through Cloudflare Access to reach the admin pages."
+msgstr ""
 
 msgid "Invalid username or password"
 msgstr "Ongeldige gebruikersnaam of wachtwoord"
@@ -284,27 +286,25 @@ msgstr "Bibliotheek scan mislukt"
 msgid "Successfully cleaned {count} expired user(s)."
 msgstr "{count} verlopen gebruiker(s) succesvol opgeschoond."
 
-#, fuzzy
 msgid "No expired users found to clean."
-msgstr "Geen wizard stappen gevonden"
+msgstr "Geen ongebruikte gebruikers gevonden om op te ruimen."
 
-#, fuzzy
 msgid ""
 "Are you sure you want to clean all expired users? This action cannot be "
 "undone."
-msgstr "Weet je zeker dat je deze bundel wilt verwijderen?"
+msgstr ""
+"Weet u zeker dat u ongebruikte gebruikers wilt verwijderen? Deze actie kan "
+"niet ongedaan gemaakt worden."
 
-#, fuzzy
 msgid "Clean Expired Users"
-msgstr "Geen vervaldatum ingesteld"
+msgstr "Verwijder ongebruikte gebruikers"
 
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid "Failed to clean expired users: {error}"
-msgstr "Niet gelukt om de passkeys voor {} opnieuw in te stellen"
+msgstr "Ongebruikte gebruikers konden niet verwijderd worden: {error}"
 
-#, fuzzy
 msgid "LDAP configuration saved successfully"
-msgstr "Verbinding succesvol aangepast!"
+msgstr "LDAP-instellingen succesvol opgeslagen"
 
 msgid "LDAP not configured or disabled"
 msgstr "LDAP is niet geconfigureerd of uitgeschakeld"
@@ -312,9 +312,8 @@ msgstr "LDAP is niet geconfigureerd of uitgeschakeld"
 msgid "No groups found in LDAP"
 msgstr "Geen groepen gevonden in LDAP"
 
-#, fuzzy
 msgid "LDAP is not configured"
-msgstr "stappen geconfigureerd"
+msgstr "LDAP is niet ingesteld"
 
 #, fuzzy, python-format
 msgid "Failed to list LDAP users: %(error)s"
@@ -359,9 +358,6 @@ msgstr ""
 msgid "Continue to Invite"
 msgstr "Nieuwe uitnodiging"
 
-msgid "Please log in to continue"
-msgstr "Log in om door te gaan"
-
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
@@ -384,6 +380,11 @@ msgstr "Kan nu afspelen niet laden"
 
 msgid "This bundle has no steps to preview."
 msgstr "Deze bundel heeft geen stappen om te bekijken."
+
+msgid ""
+"Cannot save the change because it conflicts with other wizard data. Refresh "
+"the page and try again."
+msgstr ""
 
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
@@ -481,6 +482,15 @@ msgstr "Nieuwe Wachtwoord"
 msgid "Please confirm the new password."
 msgstr "Bevestig Nieuwe Wachtwoord"
 
+#, python-format
+msgid ""
+"This LDAP filter is not valid. Enter one complete filter in parentheses, for "
+"example %(example)s."
+msgstr ""
+
+msgid "User Sync Filter"
+msgstr ""
+
 #, fuzzy
 msgid "Server Type"
 msgstr "Server"
@@ -507,8 +517,8 @@ msgstr "Downloads Toestaan"
 msgid "Allow Live TV"
 msgstr "Live TV Toegang Toestaan"
 
-msgid "Overseerr/Ombi URL"
-msgstr "Overseerr/Ombi URL"
+msgid "Seerr/Ombi URL"
+msgstr ""
 
 #, fuzzy
 msgid "Ombi API Key"
@@ -584,11 +594,8 @@ msgstr "Kavita"
 msgid "Navidrome"
 msgstr "Navidrome"
 
-msgid "Invalid API token or insufficient permissions."
-msgstr "Ongeldige API sleutel of onvoldoende rechten."
-
-msgid "API token lacks required permissions."
-msgstr "API sleutel mist vereiste rechten."
+msgid "Invalid API token, or the token does not have the 'user:read' ACL."
+msgstr ""
 
 msgid "Could not connect to Drop server."
 msgstr "Kan niet verbinden met Drop server."
@@ -629,6 +636,19 @@ msgstr "Genereer in plaats daarvan een sterk willekeurig wachtwoord"
 
 msgid "Continue"
 msgstr "Doorgaan"
+
+msgid "Invitation Code"
+msgstr "Uitnodigingscode"
+
+#, fuzzy
+msgid "Wizarr"
+msgstr "Wizard"
+
+msgid "Enter Code to Continue"
+msgstr "Voer code in om door te gaan"
+
+msgid "Enter your code"
+msgstr "Voer code in"
 
 msgid "Complete your account setup for local servers"
 msgstr "Voltooi uw accountconfiguratie voor lokale servers"
@@ -710,10 +730,6 @@ msgstr "Wachtwoord sterkte: Sterk"
 
 msgid "Passwords do not match"
 msgstr "Wachtwoorden komen niet overeen"
-
-#, fuzzy
-msgid "Wizarr"
-msgstr "Wizard"
 
 msgid "Invalid Invitation"
 msgstr "Ongeldige Uitnodiging"
@@ -888,6 +904,36 @@ msgstr "Wat gebeurt er daarna?"
 msgid "Log in to your media server with your username and new password."
 msgstr "Log in op je mediaserver met je gebruikersnaam en nieuwe wachtwoord."
 
+msgid "Signing you in"
+msgstr ""
+
+msgid "Finishing up with Plex. This only takes a moment."
+msgstr ""
+
+msgid "Back to your invitation"
+msgstr ""
+
+msgid "Nothing to finish"
+msgstr ""
+
+msgid "Open your invitation link again to sign in with Plex."
+msgstr ""
+
+msgid "All set"
+msgstr ""
+
+msgid "Taking you to the next step..."
+msgstr ""
+
+msgid "Sign-in failed"
+msgstr ""
+
+msgid "That took too long"
+msgstr ""
+
+msgid "We did not hear back from Plex. Please try signing in again."
+msgstr ""
+
 msgid "Administrator"
 msgstr "Administrator"
 
@@ -915,15 +961,6 @@ msgstr "Lid worden"
 
 msgid "Join the ultimate media server experience."
 msgstr "Word lid van de ultieme media server ervaring."
-
-msgid "Enter Code to Continue"
-msgstr "Voer code in om door te gaan"
-
-msgid "Invitation Code"
-msgstr "Uitnodigingscode"
-
-msgid "Enter your code"
-msgstr "Voer code in"
 
 msgid "Join Server"
 msgstr "Word lid van de server"
@@ -1157,6 +1194,14 @@ msgstr "Wijzig Server"
 msgid "Close modal"
 msgstr "Sluiten modaal"
 
+msgid "Update"
+msgstr "Update"
+
+msgid ""
+"Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
+"user. Wizarr does not send it to the media server."
+msgstr ""
+
 #, fuzzy
 msgid "Tabs"
 msgstr "Status"
@@ -1209,9 +1254,6 @@ msgstr "API Sleutel Beheer"
 msgid "Expiry date"
 msgstr "Vervaldatum"
 
-msgid "Update"
-msgstr "Update"
-
 msgid "Current expiry"
 msgstr "Huidige vervaldatum"
 
@@ -1227,6 +1269,12 @@ msgstr "Voeg notities toe over deze gebruiker..."
 
 msgid "Update Notes"
 msgstr "Update Notities"
+
+msgid "Sync users from media servers"
+msgstr ""
+
+msgid "Sync"
+msgstr ""
 
 msgid "Link"
 msgstr "Koppel"
@@ -1368,26 +1416,26 @@ msgstr "Toevoegen Nieuwe Verbinding"
 msgid "Edit Connection"
 msgstr "Wijzig Verbinding"
 
-msgid "Overseerr/Jellyseerr Information"
-msgstr "Overseerr/Jellyseerr Informatie"
+msgid "Seerr Information"
+msgstr ""
 
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No API "
-"connection is required for Wizarr integration."
+"Seerr creates an account the first time someone signs in, so by default an "
+"invited user has no account there until they visit and log in themselves. "
+"Overseerr and Jellyseerr, which merged into Seerr, work the same way."
 msgstr ""
-"Overseerr and Jellyseer kunnen standaard automatisch gebruikers importeren. "
-"Geen API verbinding nodig voor Wizarr intergratie."
-
-msgid "To enable auto-import:"
-msgstr "Om automatisch importeren in te schakelen:"
 
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
-"users' and 'Import Jellyfin/Plex users'"
+"Set the Service URL and turn on account creation below, and Wizarr signs "
+"them in during the invite so their account exists before they arrive. This "
+"uses the service's own sign-in route rather than an API key, so it needs "
+"'Enable New Plex Sign-In' under its Settings → Users."
 msgstr ""
-"Ga naar je Overseerr/Jellyseerr Instelling → Gebruikers → Schakel "
-"'Automatisch goedkeuren nieuwe gebruikers' en 'Importeer Jellyfin/Plex "
-"gebruikers' in"
+
+msgid ""
+"Must be https if the service has CSRF protection enabled, which sets its "
+"cookies Secure."
+msgstr ""
 
 msgid "Testing connection..."
 msgstr "Verbinding testen..."
@@ -1440,6 +1488,12 @@ msgstr ""
 msgid "New Agent"
 msgstr "Nieuwe Agent"
 
+msgid "User Key"
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
 msgid "Channel ID"
 msgstr "Kanaal ID"
 
@@ -1475,6 +1529,9 @@ msgstr "Test & Creëer Agent"
 
 msgid "Add Server"
 msgstr "Toevoegen Server"
+
+msgid "Hide new users from login screens"
+msgstr ""
 
 msgid "Test & Add"
 msgstr "Test & Toevoegen"
@@ -1512,6 +1569,12 @@ msgstr "Test & Creëer Agent"
 msgid "Edit Server"
 msgstr "Wijzig Server"
 
+msgid "Loading…"
+msgstr "Laden…"
+
+msgid "Please select at least one server for the invitation."
+msgstr "Selecteer op zn minst een server voor de uitnodiging."
+
 msgid "Create Invitation"
 msgstr "Maak Uitnodiging"
 
@@ -1545,44 +1608,6 @@ msgstr "Wizard bundel"
 msgid "Automatic"
 msgstr "Automatisch"
 
-msgid "Advanced Options"
-msgstr "Geadvanceerde Opties"
-
-msgid "Invite Settings"
-msgstr "Uitnodigings Instellingen"
-
-msgid "Unlimited Usages"
-msgstr "Ongelimiteerd Gebruiksmogelijkheden"
-
-msgid "Duration"
-msgstr "Duur"
-
-msgid "in days"
-msgstr "in dagen"
-
-msgid "Show Information"
-msgstr "Toon Informatie"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-"Indien ingevuld, uitgenodigde gebruiker(s) worden verwijderd van de Plex "
-"server na een aantal dagen. (1-999)"
-
-#, fuzzy
-msgid "LDAP Integration"
-msgstr "Accepteer Uitnodiging"
-
-#, fuzzy
-msgid "Create LDAP User"
-msgstr "Aanmaken API Sleutel"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
-"Maak automatisch een LDAP-gebruiker aan wanneer deze uitnodiging wordt "
-"geaccepteerd"
-
 msgid "Target servers"
 msgstr "Doel servers"
 
@@ -1610,8 +1635,40 @@ msgstr ""
 msgid "Select Libraries"
 msgstr "Selecteer Bibliotheken"
 
-msgid "Loading…"
-msgstr "Laden…"
+msgid "Advanced Options"
+msgstr "Geadvanceerde Opties"
+
+msgid "Invite Settings"
+msgstr "Uitnodigings Instellingen"
+
+msgid "Unlimited Usages"
+msgstr "Ongelimiteerd Gebruiksmogelijkheden"
+
+msgid "Duration"
+msgstr "Duur"
+
+msgid "in days"
+msgstr "in dagen"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"Indien ingevuld, uitgenodigde gebruiker(s) worden verwijderd van de Plex "
+"server na een aantal dagen. (1-999)"
+
+#, fuzzy
+msgid "LDAP Integration"
+msgstr "Accepteer Uitnodiging"
+
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "Aanmaken API Sleutel"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
+"Maak automatisch een LDAP-gebruiker aan wanneer deze uitnodiging wordt "
+"geaccepteerd"
 
 msgid "Successfully generated an Invitation!"
 msgstr "Uitnodiging succesvol gegenereerd!"
@@ -1627,9 +1684,6 @@ msgstr "De link is gekopieerd naar het klembord!"
 
 msgid "Create Another"
 msgstr "Maak nog een"
-
-msgid "Please select at least one server for the invitation."
-msgstr "Selecteer op zn minst een server voor de uitnodiging."
 
 #, fuzzy
 msgid "Password Reset Link"
@@ -1743,8 +1797,8 @@ msgstr "Kies wanneer deze stap aan gebruikers wordt getoond"
 msgid "Your Discord server ID"
 msgstr "Je Discord server ID"
 
-msgid "URL to your Overseerr/Ombi instance"
-msgstr "ULR naar je Overseerr/Ombi omgeving"
+msgid "URL to your Seerr/Ombi instance"
+msgstr ""
 
 msgid "Create Step"
 msgstr "Creëer Stap"
@@ -1763,6 +1817,12 @@ msgstr "Recent toegevoegd"
 #, fuzzy
 msgid "Show recent content"
 msgstr "Geen recente content gevonden"
+
+msgid "Collection Media"
+msgstr ""
+
+msgid "Show media from a Plex collection"
+msgstr ""
 
 msgid "Button"
 msgstr "Knop"
@@ -1789,6 +1849,53 @@ msgstr "Geen API sleutels"
 
 msgid "Get started by creating a new API key."
 msgstr "Begin met het maken van een nieuwe API-sleutel."
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
+msgstr ""
 
 msgid "Media Servers"
 msgstr "Media Servers"
@@ -1845,8 +1952,11 @@ msgstr "Verbinding Naam"
 msgid "Media Server"
 msgstr "Media Server"
 
-msgid "Overseerr (Info)"
-msgstr "Overseerr (Info)"
+msgid "Seerr"
+msgstr ""
+
+msgid "Seerr (Info)"
+msgstr ""
 
 msgid "Ombi"
 msgstr "Ombi"
@@ -1888,6 +1998,11 @@ msgstr "Weergave"
 
 msgid "Configure how your application appears to users"
 msgstr "Configureer hoe de applicatie voor gebruikers wordt weergegeven"
+
+msgid ""
+"Which server's posters fill the background of the public join page. 'The "
+"server the invite is for' shows nothing without a valid invite."
+msgstr ""
 
 msgid "Access Control"
 msgstr "Toegangsbeheer"
@@ -2024,6 +2139,11 @@ msgstr "Instellingen Opslaan"
 msgid "Where to find users and groups"
 msgstr "Waar gebruikers en groepen gevonden worden"
 
+msgid ""
+"Optional. User sync imports only the users that match this filter and the "
+"user object class. Login does not use this filter."
+msgstr ""
+
 msgid "Optional - only needed for admin group restriction"
 msgstr "Optioneel — alleen nodig voor beperking tot beheerdersgroep"
 
@@ -2132,17 +2252,22 @@ msgid "Which media server should trigger invitations to this external service"
 msgstr ""
 "Welke mediaserver moet uitnodigingen voor deze externe service activeren"
 
-msgid "Open your Overseerr/Jellyseerr admin panel"
-msgstr "Open je Overseerr/Jellyseer beheer paneel"
+msgid "To have Wizarr create the account instead:"
+msgstr ""
 
-msgid "Navigate to Settings → Users"
-msgstr "Navigeer naar Instellingen → Gebruikers"
+msgid "Set the Service URL below"
+msgstr ""
 
-msgid "Enable 'Auto-approve new users'"
-msgstr "Inschakelen 'Automatisch goedkeuren nieuwe gebruikers'"
+msgid "Turn on account creation below"
+msgstr ""
 
-msgid "Enable 'Import Jellyfin/Plex users'"
-msgstr "Inschakelen 'Importeren Jellyfin/Plex gebruikers'"
+msgid "In the service, enable Settings → Users → 'Enable New Plex Sign-In'"
+msgstr ""
+
+msgid ""
+"This uses the service's own sign-in route, so there is no API key to "
+"configure."
+msgstr ""
 
 msgid "The full URL to your external service instance"
 msgstr "De volledige URL van je externe service omgeving"
@@ -2398,6 +2523,12 @@ msgstr "Configureer Wizarr"
 msgid "Create an account"
 msgstr "Maak een account"
 
+msgid "Pagination"
+msgstr ""
+
+msgid "Show more"
+msgstr ""
+
 msgid "Unlimited"
 msgstr "Ongelimiteerd"
 
@@ -2466,6 +2597,25 @@ msgstr "Huidige Wachtwoord"
 
 msgid "Remove user"
 msgstr "Verwijder gebruiker"
+
+msgid "Setup Guide"
+msgstr ""
+
+msgid "Select your server to open its setup guide."
+msgstr ""
+
+#, python-format
+msgid "Open the setup guide for %(name)s"
+msgstr ""
+
+msgid ""
+"This page is for invited users. Open the link from your invitation to start."
+msgstr ""
+
+msgid ""
+"If you already accepted your invitation, ask the server administrator for "
+"help."
+msgstr ""
 
 #, fuzzy
 msgid "Before Invitation"
@@ -3063,6 +3213,60 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Show Information"
+#~ msgstr "Toon Informatie"
+
+#~ msgid "Please log in to continue"
+#~ msgstr "Log in om door te gaan"
+
+#~ msgid "Overseerr/Ombi URL"
+#~ msgstr "Overseerr/Ombi URL"
+
+#~ msgid "Invalid API token or insufficient permissions."
+#~ msgstr "Ongeldige API sleutel of onvoldoende rechten."
+
+#~ msgid "API token lacks required permissions."
+#~ msgstr "API sleutel mist vereiste rechten."
+
+#~ msgid "Overseerr/Jellyseerr Information"
+#~ msgstr "Overseerr/Jellyseerr Informatie"
+
+#~ msgid "URL to your Overseerr/Ombi instance"
+#~ msgstr "ULR naar je Overseerr/Ombi omgeving"
+
+#~ msgid "Overseerr (Info)"
+#~ msgstr "Overseerr (Info)"
+
+#~ msgid ""
+#~ "Overseerr and Jellyseerr automatically import new users by default. No "
+#~ "API connection is required for Wizarr integration."
+#~ msgstr ""
+#~ "Overseerr and Jellyseer kunnen standaard automatisch gebruikers "
+#~ "importeren. Geen API verbinding nodig voor Wizarr intergratie."
+
+#~ msgid "To enable auto-import:"
+#~ msgstr "Om automatisch importeren in te schakelen:"
+
+#~ msgid ""
+#~ "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
+#~ "new users' and 'Import Jellyfin/Plex users'"
+#~ msgstr ""
+#~ "Ga naar je Overseerr/Jellyseerr Instelling → Gebruikers → Schakel "
+#~ "'Automatisch goedkeuren nieuwe gebruikers' en 'Importeer Jellyfin/Plex "
+#~ "gebruikers' in"
+
+#~ msgid "Open your Overseerr/Jellyseerr admin panel"
+#~ msgstr "Open je Overseerr/Jellyseer beheer paneel"
+
+#~ msgid "Navigate to Settings → Users"
+#~ msgstr "Navigeer naar Instellingen → Gebruikers"
+
+#~ msgid "Enable 'Auto-approve new users'"
+#~ msgstr "Inschakelen 'Automatisch goedkeuren nieuwe gebruikers'"
+
+#~ msgid "Enable 'Import Jellyfin/Plex users'"
+#~ msgstr "Inschakelen 'Importeren Jellyfin/Plex gebruikers'"
 
 #~ msgid "No one is watching"
 #~ msgstr "Niemand is aan het kijken"

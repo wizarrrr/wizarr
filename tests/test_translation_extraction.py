@@ -31,6 +31,7 @@ def test_babel_config_extracts_default_wizard_steps():
 
     assert wizard_files <= extracted_wizard_files
     assert any(
-        Path(filename).as_posix() == "wizard_steps/plex/01_what_is.md" and message == "What is Plex?"
+        Path(filename).as_posix() == "wizard_steps/plex/01_what_is.md"
+        and message == "What is Plex?"
         for filename, _line, message, _comments, _context in extracted
     )

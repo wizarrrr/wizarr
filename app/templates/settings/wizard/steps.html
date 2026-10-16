@@ -6,7 +6,7 @@
 </script>
 <section class="space-y-6">
   {% set is_default = True %}
-  {% include 'settings/wizard/_sub_nav.html' with context %}
+  {% include "settings/wizard/_sub_nav.html" with context %}
   {% if not grouped %}<p class="text-gray-600 dark:text-gray-300">{{ _("No steps found.") }}</p>{% endif %}
   {% for server, categories in grouped.items() %}
     <div class="border rounded-md p-4 dark:border-gray-700">

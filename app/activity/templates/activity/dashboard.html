@@ -175,11 +175,23 @@ function filterActivities() {
     refreshActivities({ page: 1 });
 }
 
-const ACTIVITY_SUMMARY_URL = '{{ url_for("activity.activity_summary") }}';
+// htmx runs this script again on each tab load. A top-level "const" fails on
+// the second run, so use "var".
+var ACTIVITY_SUMMARY_URL = '{{ url_for("activity.activity_summary") }}';
 
 async function checkActivitySummary() {
     const state = ensureActivityState();
     if (state.summaryInFlight) {
+        return;
+    }
+
+    // Stop when the history table is not on the page any more (for example
+    // after a tab change). Do not poll while the browser tab is hidden.
+    if (!document.getElementById('activity-table-container')) {
+        stopActivitySummaryPolling();
+        return;
+    }
+    if (document.visibilityState !== 'visible') {
         return;
     }
 
@@ -201,12 +213,16 @@ async function checkActivitySummary() {
             return;
         }
 
+        // Reload the grid only when a session starts or ends. Progress
+        // updates change latest_updated_at only, and the grid shows a live
+        // timer for active sessions, so they do not need a reload.
         const activeChanged =
             data.active_sessions !== state.lastSummary.active_sessions;
-        const updatedChanged =
-            data.latest_updated_at !== state.lastSummary.latest_updated_at;
+        const sessionsChanged =
+            data.latest_session_id !== state.lastSummary.latest_session_id ||
+            data.latest_started_at !== state.lastSummary.latest_started_at;
 
-        if (activeChanged || updatedChanged) {
+        if (activeChanged || sessionsChanged) {
             state.lastSummary = data;
 
             if (state.detailOpen) {
@@ -226,11 +242,17 @@ async function checkActivitySummary() {
     }
 }
 
-function scheduleActivitySummaryPolling() {
+function stopActivitySummaryPolling() {
     const state = ensureActivityState();
     if (state.summaryTimer) {
         clearInterval(state.summaryTimer);
+        state.summaryTimer = null;
     }
+}
+
+function scheduleActivitySummaryPolling() {
+    const state = ensureActivityState();
+    stopActivitySummaryPolling();
 
     const container = document.getElementById('activity-table-container');
     if (!container) {
@@ -239,6 +261,19 @@ function scheduleActivitySummaryPolling() {
 
     state.summaryTimer = setInterval(checkActivitySummary, 15000);
     checkActivitySummary();
+
+    // Check at once when the browser tab becomes visible again.
+    if (!window.wizarrActivityVisibilityListener) {
+        window.wizarrActivityVisibilityListener = true;
+        document.addEventListener('visibilitychange', () => {
+            if (
+                document.visibilityState === 'visible' &&
+                ensureActivityState().summaryTimer
+            ) {
+                checkActivitySummary();
+            }
+        });
+    }
 }
 
 scheduleActivitySummaryPolling();

@@ -36,8 +36,10 @@
                     class="px-4 py-2 text-sm font-medium text-gray-500 bg-gray-100 hover:bg-gray-200 rounded-lg dark:bg-gray-600 dark:text-gray-300 dark:hover:bg-gray-700">
               {{ _("Cancel") }}
             </button>
+            <!-- Send the server filter and the page, so that the table stays on the same page. -->
             <button type="button"
                     hx-post="/invite/table?delete_id={{ invitation.id }}"
+                    hx-include="#invite_server_filter,#invite_page"
                     hx-target="#invite_table"
                     hx-swap="outerHTML swap:0.5s"
                     hx-on::after-request="closeInviteModal()"

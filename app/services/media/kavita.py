@@ -1,6 +1,5 @@
 import hashlib
 import logging
-import re
 import time
 from typing import TYPE_CHECKING
 from urllib.parse import parse_qs, urlparse
@@ -12,7 +11,12 @@ from app.extensions import db
 from app.models import Invitation, User
 from app.services.invites import is_invite_valid
 
-from .client_base import RestApiMixin, register_media_client
+from .client_base import (
+    EMAIL_RE,
+    RestApiMixin,
+    get_http_session,
+    register_media_client,
+)
 from .utils import (
     DateHelper,
     LibraryAccessHelper,
@@ -23,10 +27,13 @@ from .utils import (
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
 
-EMAIL_RE = re.compile(r"^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$")
 
 # Global token cache: {cache_key: (jwt_token, expiry_time)}
 _JWT_TOKEN_CACHE = {}
+
+# Kavita AgeRating.NotApplicable (-1) means no age restriction. 0 is
+# AgeRating.Unknown, which hides every series that has an age rating.
+NO_AGE_RESTRICTION = {"ageRating": -1, "includeUnknowns": True}
 
 
 @register_media_client("kavita")
@@ -54,7 +61,6 @@ class KavitaClient(RestApiMixin):
 
         Library Management:
             - GET  /api/Library/libraries - List all libraries
-            - POST /api/Library/grant-access - Grant user access to library
 
         Content:
             - POST /api/Series - Get series with filter (paginated, requires FilterDto)
@@ -70,6 +76,12 @@ class KavitaClient(RestApiMixin):
         - JWT tokens are cached for 1 hour to reduce authentication calls
         - Series listing requires POST with FilterDto (even for basic queries)
     """
+
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_kavita
+
+        return check_kavita(url, token)
 
     def __init__(self, *args, **kwargs):
         # Ensure default url/token keys if caller didn't override.
@@ -135,16 +147,17 @@ class KavitaClient(RestApiMixin):
             return ""
 
         try:
-            import requests
-
             # Make direct request to avoid circular dependency with _headers()
-            # Include pluginName parameter as shown in Kavita docs
+            # Include pluginName parameter as shown in Kavita docs. Use the
+            # shared pooled session, so the next API call reuses the connection.
             url = f"{(self.url or '').rstrip('/')}/api/Plugin/authenticate"
             params = {"apiKey": self.token, "pluginName": "Wizarr"}
             headers = {"Content-Type": "application/json"}
 
             logging.info(f"Authenticating with Kavita API (cache miss): {url}")
-            response = requests.post(url, params=params, headers=headers, timeout=10)
+            response = get_http_session().post(
+                url, params=params, headers=headers, timeout=(5, 10)
+            )
 
             response.raise_for_status()
 
@@ -266,7 +279,7 @@ class KavitaClient(RestApiMixin):
                 "email": user_email,
                 "roles": ["Login"],
                 "libraries": kavita_library_ids,
-                "ageRestriction": {"ageRating": 0, "includeUnknowns": True},
+                "ageRestriction": NO_AGE_RESTRICTION,
             }
             invite_response = self.post("/api/Account/invite", json=invite_data)
 
@@ -512,9 +525,7 @@ class KavitaClient(RestApiMixin):
                 "libraries": form.get("libraries", []),
                 "ageRestriction": form.get(
                     "ageRestriction",
-                    target_user.get(
-                        "ageRestriction", {"ageRating": 0, "includeUnknowns": True}
-                    ),
+                    target_user.get("ageRestriction", NO_AGE_RESTRICTION),
                 ),
                 "identityProvider": form.get(
                     "identityProvider", target_user.get("identityProvider", 0)
@@ -593,9 +604,7 @@ class KavitaClient(RestApiMixin):
                 "email": target_user.get("email"),
                 "roles": target_user.get("roles", []),
                 "libraries": [],
-                "ageRestriction": target_user.get(
-                    "ageRestriction", {"ageRating": 0, "includeUnknowns": True}
-                ),
+                "ageRestriction": target_user.get("ageRestriction", NO_AGE_RESTRICTION),
                 "identityProvider": target_user.get("identityProvider", 0),
             }
 
@@ -610,28 +619,6 @@ class KavitaClient(RestApiMixin):
         except Exception as e:
             structlog.get_logger().error(f"Failed to disable Kavita user: {e}")
             return False
-
-    def grant_library_access(self, user_id: str, library_ids: list[str]) -> None:
-        """Grant user access to specific libraries.
-
-        API Endpoint: POST /api/Library/grant-access
-        Request Body: {"userId": int, "libraryId": int}
-
-        Args:
-            user_id: The user's Kavita ID (numeric)
-            library_ids: List of library IDs to grant access to
-        """
-        for library_id in library_ids:
-            try:
-                response = self.post(
-                    "/api/Library/grant-access",
-                    json={"userId": int(user_id), "libraryId": int(library_id)},
-                )
-                response.raise_for_status()
-            except Exception as e:
-                logging.error(
-                    f"Failed to grant library {library_id} access to user {user_id}: {e}"
-                )
 
     def list_users(self) -> list[User]:
         """Sync users from Kavita into the local DB and return the list of User records."""
@@ -658,39 +645,36 @@ class KavitaClient(RestApiMixin):
                 return []
 
             users_dict = {str(u["id"]): u for u in kavita_users}
+            server_id = getattr(self, "server_id", None)
 
-            known_users = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
+            known_users = User.query.filter(User.server_id == server_id).all()
             if self._skip_prune_on_empty_remote(not users_dict, known_users):
                 return known_users
 
-            for kavita_user in users_dict.values():
-                existing = User.query.filter_by(token=str(kavita_user["id"])).first()
-                if not existing:
+            # Use the rows that are already loaded, not one query for each
+            # remote user. The match is for this server only, so a user with
+            # the same id on another server does not block this one.
+            users: list[User] = []
+            for dbu in known_users:
+                if dbu.token in users_dict:
+                    users.append(dbu)
+                else:
+                    # Delete local users that no longer exist upstream
+                    db.session.delete(dbu)
+
+            known_tokens = {user.token for user in users}
+            for token, kavita_user in users_dict.items():
+                if token not in known_tokens:
                     new = User(
-                        token=str(kavita_user["id"]),
+                        token=token,
                         username=kavita_user.get("username")
                         or kavita_user.get("userName", "kavita-user"),
                         email=kavita_user.get("email", "empty"),
                         code="empty",
-                        server_id=getattr(self, "server_id", None),
+                        server_id=server_id,
                     )
                     db.session.add(new)
-            db.session.commit()
-
-            # Delete local users that no longer exist upstream
-            to_check = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
-            for dbu in to_check:
-                if dbu.token not in users_dict:
-                    db.session.delete(dbu)
-            db.session.commit()
-
-            users = User.query.filter(
-                User.server_id == getattr(self, "server_id", None)
-            ).all()
+                    users.append(new)
 
             for user in users:
                 permissions = StandardizedPermissions.for_basic_server(
@@ -777,57 +761,6 @@ class KavitaClient(RestApiMixin):
                 }
             )
             db.session.commit()
-
-            # Grant library access if user creation returned email fallback
-            if library_ids:
-                try:
-                    if user_identifier.isdigit():
-                        self.grant_library_access(user_identifier, library_ids)
-                        logging.info(
-                            f"Granted library access to Kavita user {username} (ID: {user_identifier}): {library_ids}"
-                        )
-                    else:
-                        logging.info(
-                            f"Attempting to grant library access using email identifier: {user_identifier}"
-                        )
-                        try:
-                            users_response = self.get("/api/Users")
-                            if (
-                                users_response.status_code == 200
-                                and users_response.text.strip()
-                            ):
-                                users = users_response.json()
-                                for user in users:
-                                    uname2 = user.get("username") or user.get(
-                                        "userName"
-                                    )
-                                    if uname2 == username or user.get("email") == email:
-                                        found_user_id = str(user["id"])
-                                        self.grant_library_access(
-                                            found_user_id, library_ids
-                                        )
-                                        logging.info(
-                                            f"Granted library access to Kavita user {username} (found ID: {found_user_id}): {library_ids}"
-                                        )
-                                        break
-                                else:
-                                    logging.warning(
-                                        f"Could not find user {username} in user list for library access"
-                                    )
-                            else:
-                                logging.warning(
-                                    "Could not retrieve user list for library access granting"
-                                )
-                        except Exception as find_exc:
-                            logging.warning(
-                                f"Failed to find user ID for library access: {find_exc}"
-                            )
-                except Exception as e:
-                    logging.warning(
-                        f"Failed to grant library access for Kavita user {username}: {e}"
-                    )
-            else:
-                logging.info(f"No libraries specified for Kavita user {username}")
 
             return (
                 True,

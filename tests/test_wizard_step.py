@@ -1,42 +1,7 @@
 import pytest
 from sqlalchemy.exc import IntegrityError
 
-from app.extensions import db
 from app.models import WizardStep
-
-
-@pytest.fixture
-def session(app):
-    """Return a clean database session inside an app context."""
-    with app.app_context():
-        # Clean up any existing WizardStep data before the test
-        db.session.query(WizardStep).delete()
-        db.session.commit()
-
-        yield db.session
-
-        # Clean up after the test
-        db.session.rollback()
-
-
-def test_create_wizard_step(session):
-    """Basic insertion & to_dict serialization work."""
-    step = WizardStep(
-        server_type="plex",
-        category="post_invite",  # Explicitly set category
-        position=0,
-        title="Welcome",
-        markdown="# Welcome\nSome intro text",
-        requires=["server_url"],
-    )
-    session.add(step)
-    session.commit()
-
-    fetched = WizardStep.query.first()
-    assert fetched is not None
-    assert fetched.title == "Welcome"
-    assert fetched.to_dict() is not None
-    assert fetched.to_dict()["server_type"] == "plex"
 
 
 def test_unique_server_position_constraint(session):

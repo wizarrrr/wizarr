@@ -23,7 +23,7 @@ Post-invite steps are shown to users **after** they've accepted the invitation a
 - **Welcome messages** and getting started guides
 - **App setup instructions** specific to their account
 - **Feature tours** and advanced tips
-- **Request system integration** (Overseerr, Ombi)
+- **Request system integration** (Seerr, Ombi)
 - **Discord invites** and community links
 
 ***
@@ -139,7 +139,7 @@ Before joining our media server, please read and acknowledge our terms:
 
 1. **No sharing** - Keep your account credentials private
 2. **Respect bandwidth** - Don't download excessively during peak hours
-3. **Content requests** - Use Overseerr for new content requests
+3. **Content requests** - Use Seerr for new content requests
 4. **Be respectful** - This is a community resource
 
 By clicking "Next" and accepting this invitation, you agree to these terms.
@@ -200,16 +200,16 @@ Join our Discord community for support and updates:
 ```markdown
 # Request New Content
 
-Want to watch something that's not in our library? Use Overseerr to request it!
+Want to watch something that's not in our library? Use Seerr to request it!
 
 ## How to Request Content
 
-1. Visit our Overseerr instance
+1. Visit our Seerr instance
 2. Sign in with your Plex account
 3. Search for movies or TV shows
 4. Click "Request" and we'll add it to the library
 
-[Open Overseerr](https://overseerr.example.com){:target="_blank" .btn}
+[Open Seerr](https://seerr.example.com){:target="_blank" .btn}
 ```
 
 ***

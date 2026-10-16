@@ -1,0 +1,42 @@
+{# Plex content restrictions for one Plex server in the invite modal.
+   The field names are for the invitation, not for the server.
+   validateServerSelection() disables the fields of a server that is not selected. #}
+{% macro restriction_input(server_id, kind, suffix, label, placeholder) %}
+  <div>
+    <label for="plex_{{ kind }}_{{ suffix }}_{{ server_id }}"
+           class="block mb-1 text-xs font-medium text-gray-700 dark:text-gray-300">{{ label }}</label>
+    <input id="plex_{{ kind }}_{{ suffix }}_{{ server_id }}"
+           name="plex_{{ kind }}_{{ suffix }}"
+           type="text"
+           autocomplete="off"
+           placeholder="{{ placeholder }}"
+           class="bg-gray-50 border border-gray-300 text-gray-900 text-base sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary dark:focus:border-primary">
+  </div>
+{% endmacro %}
+<details id="plexRestrictions{{ s.id }}" class="w-full pt-2">
+  <summary class="cursor-pointer text-sm font-medium text-gray-900 dark:text-gray-300">{{ _("Content Restrictions") }}</summary>
+  <div class="mt-3 space-y-4">
+    <p class="text-xs text-gray-500 dark:text-gray-400">
+      {{ _("Plex hides content from the invited user with these filters. Separate values with commas. Leave a field empty for no filter. Requires Plex Pass.") }}
+    </p>
+    {% set library_types = [
+      ("movies", _("Movies"), _("E.g. G, PG, PG-13"), _("E.g. R, NC-17")),
+      ("television", _("TV Shows"), _("E.g. TV-Y, TV-G"), _("E.g. TV-MA")),
+      ("music", _("Music"), None, None),
+    ] %}
+    {% for kind, title, allow_example, exclude_example in library_types %}
+      <fieldset class="space-y-2">
+        <legend class="text-sm font-semibold text-gray-800 dark:text-gray-200">{{ title }}</legend>
+        <div class="grid grid-cols-1 gap-2 sm:grid-cols-2">
+          {{ restriction_input(s.id, kind, "exclude_labels", _("Exclude labels"), _("E.g. private")) }}
+          {{ restriction_input(s.id, kind, "allow_labels", _("Allow only labels"), _("E.g. kids")) }}
+          {# Plex has no rating filter for music libraries #}
+          {% if allow_example %}
+            {{ restriction_input(s.id, kind, "allow_ratings", _("Allow only ratings"), allow_example) }}
+            {{ restriction_input(s.id, kind, "exclude_ratings", _("Exclude ratings"), exclude_example) }}
+          {% endif %}
+        </div>
+      </fieldset>
+    {% endfor %}
+  </div>
+</details>

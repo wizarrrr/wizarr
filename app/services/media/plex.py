@@ -1,10 +1,15 @@
 import logging
 import re
 import threading
+from collections.abc import Collection
+from contextlib import suppress
 from typing import TYPE_CHECKING, Any
 
+import requests
 import structlog
-from cachetools import TTLCache, cached
+from cachetools import TTLCache
+from plexapi import TIMEOUT as PLEXAPI_TIMEOUT
+from plexapi.exceptions import NotFound, Unauthorized
 from plexapi.myplex import MyPlexAccount
 from plexapi.server import PlexServer
 
@@ -12,9 +17,11 @@ from app.extensions import db
 from app.models import Invitation, Library, MediaServer, User
 from app.services.media.service import get_client_for_media_server
 from app.services.notifications import notify
+from app.services.plex_restrictions import PlexRestrictions
 
-from .client_base import MediaClient, register_media_client
+from .client_base import MediaClient, get_http_session, register_media_client
 from .plex_custom import accept_invite_v2, update_shared_server
+from .utils import library_name_selected, newest_first
 
 if TYPE_CHECKING:
     from app.services.media.user_details import MediaUserDetails
@@ -22,6 +29,155 @@ if TYPE_CHECKING:
 
 # Patch PlexAPI's acceptInvite method with our custom v2 implementation
 MyPlexAccount.acceptInvite = accept_invite_v2  # type: ignore
+
+
+# ─── Shared Plex connections ───────────────────────────────────────────────
+#
+# The app makes a new PlexClient for each request and each poll. PlexServer()
+# sends GET / and MyPlexAccount() signs in to plex.tv in their constructors, so
+# we keep the connected objects here and use them again.
+#
+# Thread safety: gunicorn threads and the activity monitor threads use these
+# caches at the same time. TTLCache is not thread-safe, so one lock guards each
+# read and write of the caches. We do not hold the lock during network calls.
+# Thus two threads can connect for the same key at the same time. The last
+# object stays in the cache and the other is discarded, which is harmless. The
+# plexapi objects send all requests through the shared requests.Session, and
+# its urllib3 pool is thread-safe.
+
+# (connect, read) timeout in seconds. The short connect timeout makes an
+# offline server fail in seconds. The read timeout stays at the plexapi default.
+_PLEX_TIMEOUT = (5, PLEXAPI_TIMEOUT)
+_CONNECTION_TTL = 600
+_USER_LIST_TTL = 60
+# A server edit changes the URL or token, and thus the cache key. The size
+# limit and the TTL remove the old entries.
+_CACHE_MAX_ENTRIES = 32
+
+_TRANSPORT_ERRORS = (
+    requests.exceptions.RequestException,
+    ConnectionError,
+    TimeoutError,
+)
+
+_plex_cache_lock = threading.Lock()
+_plex_servers: TTLCache = TTLCache(maxsize=_CACHE_MAX_ENTRIES, ttl=_CONNECTION_TTL)
+_plex_accounts: TTLCache = TTLCache(maxsize=_CACHE_MAX_ENTRIES, ttl=_CONNECTION_TTL)
+_plex_user_lists: TTLCache = TTLCache(maxsize=_CACHE_MAX_ENTRIES, ttl=_USER_LIST_TTL)
+
+
+def _get_plex_server(url: str | None, token: str | None) -> PlexServer:
+    """Return a connected PlexServer for (url, token). Use the cache if possible."""
+    key = (url, token)
+    with _plex_cache_lock:
+        server = _plex_servers.get(key)
+    if server is not None:
+        return server
+
+    # Connect outside the lock. A failure raises here, so it is never cached.
+    server = PlexServer(url, token, session=get_http_session(), timeout=_PLEX_TIMEOUT)
+    with _plex_cache_lock:
+        _plex_servers[key] = server
+    return server
+
+
+def _get_plex_account(token: str | None) -> MyPlexAccount:
+    """Return a signed-in MyPlexAccount for the token. Use the cache if possible."""
+    with _plex_cache_lock:
+        account = _plex_accounts.get(token)
+    if account is not None:
+        return account
+
+    account = MyPlexAccount(
+        token=token, session=get_http_session(), timeout=_PLEX_TIMEOUT
+    )
+    with _plex_cache_lock:
+        _plex_accounts[token] = account
+    return account
+
+
+def _forget_plex_server(url: str | None, token: str | None) -> None:
+    with _plex_cache_lock:
+        _plex_servers.pop((url, token), None)
+
+
+def _forget_plex_account(token: str | None) -> None:
+    with _plex_cache_lock:
+        _plex_accounts.pop(token, None)
+
+
+def _drop_cached_plex_data(plex_object) -> None:
+    """Remove the data that plexapi keeps on a shared object.
+
+    For example, PlexServer.library keeps the library sections. Each new
+    PlexClient must see current sections, as it did before we shared the
+    object. dict.pop is atomic, so other threads can use the object meanwhile.
+    """
+    for name in getattr(type(plex_object), "_cached_data_properties", ()):
+        plex_object.__dict__.pop(name, None)
+
+
+def _get_cached_plex_users(token: str | None) -> list | None:
+    if not token:
+        return None
+    with _plex_cache_lock:
+        return _plex_user_lists.get(token)
+
+
+def _store_plex_users(token: str | None, users: list) -> None:
+    if not token:
+        return
+    with _plex_cache_lock:
+        _plex_user_lists[token] = list(users)
+
+
+def _forget_plex_users(token: str | None) -> None:
+    if not token:
+        return
+    with _plex_cache_lock:
+        _plex_user_lists.pop(token, None)
+
+
+def _remove_from_cached_plex_users(token: str | None, plex_user) -> None:
+    """Remove one deleted user from the cached list. Keep the other users."""
+    if not token:
+        return
+    with _plex_cache_lock:
+        users = _plex_user_lists.get(token)
+        if users is not None:
+            _plex_user_lists[token] = [u for u in users if u is not plex_user]
+
+
+def _match_plex_user(users, identifier: str):
+    """Find a user with the same rules as MyPlexAccount.user() in plexapi."""
+    needle = str(identifier).lower()
+    for user in users:
+        # Home users do not have an email or a username.
+        if needle == (getattr(user, "title", "") or "").lower():
+            return user
+        username = getattr(user, "username", None)
+        email = getattr(user, "email", None)
+        user_id = getattr(user, "id", None)
+        if (
+            username
+            and email
+            and user_id
+            and needle in (username.lower(), email.lower(), str(user_id))
+        ):
+            return user
+    return None
+
+
+def clear_plex_connection_cache() -> None:
+    """Forget all shared Plex connections and user lists.
+
+    Call this after a server edit or delete to free the old entries at once.
+    Without a call, the TTL removes them.
+    """
+    with _plex_cache_lock:
+        _plex_servers.clear()
+        _plex_accounts.clear()
+        _plex_user_lists.clear()
 
 
 def extract_plex_error_message(exception) -> str:
@@ -92,6 +248,12 @@ class PlexInvitationError(Exception):
 class PlexClient(MediaClient):
     """Wrapper that connects to Plex using admin credentials."""
 
+    @classmethod
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+        from app.services.servers import check_plex
+
+        return check_plex(url, token)
+
     def __init__(self, *args, **kwargs):
         if "url_key" not in kwargs:
             kwargs["url_key"] = "server_url"
@@ -101,23 +263,68 @@ class PlexClient(MediaClient):
         super().__init__(*args, **kwargs)
         self._server = None
         self._admin = None
+        self._server_error: Exception | None = None
+        self._admin_error: Exception | None = None
 
     @property
     def server(self) -> PlexServer:
         if self._server is None:
-            self._server = PlexServer(self.url, self.token)
+            # Try to connect one time for each client. Before, each access
+            # after a failure connected again and waited for the full timeout.
+            if self._server_error is not None:
+                raise self._server_error
+            try:
+                server = _get_plex_server(self.url, self.token)
+            except Exception as exc:
+                self._server_error = exc
+                raise
+            _drop_cached_plex_data(server)
+            self._server = server
         return self._server
 
     @property
     def admin(self) -> MyPlexAccount:
         if self._admin is None:
+            if self._admin_error is not None:
+                raise self._admin_error
             try:
-                self._admin = MyPlexAccount(token=self.token)
+                self._admin = _get_plex_account(self.token)
             except Exception as e:
                 logging.error(f"Failed to connect to Plex MyPlexAccount: {e}")
-                # Instead of raising, return None and let callers handle it
-                raise ConnectionError(f"Unable to connect to Plex servers: {e}") from e
+                self._admin_error = ConnectionError(
+                    f"Unable to connect to Plex servers: {e}"
+                )
+                raise self._admin_error from e
         return self._admin
+
+    def _forget_server_on_error(self, exc: BaseException) -> None:
+        """Remove the shared server connection after a transport error."""
+        if isinstance(exc, (*_TRANSPORT_ERRORS, Unauthorized)):
+            _forget_plex_server(self.url, self.token)
+
+    def _forget_admin_on_error(self, exc: BaseException) -> None:
+        """Remove the shared plex.tv account after a transport error."""
+        if isinstance(exc, (*_TRANSPORT_ERRORS, Unauthorized)):
+            _forget_plex_account(self.token)
+
+    def _find_plex_user(self, identifier: str):
+        """Find a Plex friend or home user by email, username, title or ID.
+
+        A short-lived cache keeps the user list, so a batch of deletes
+        downloads the list one time. If the cached list does not have the
+        user, download the list again one time, because the user can be newer
+        than the list. Return None if Plex does not have the user.
+        """
+        token = getattr(self, "token", None)
+        cached_users = _get_cached_plex_users(token)
+        if cached_users is not None:
+            match = _match_plex_user(cached_users, identifier)
+            if match is not None:
+                return match
+
+        users = self.admin.users()
+        _store_plex_users(token, users)
+        return _match_plex_user(users, identifier)
 
     def libraries(self) -> dict[str, str]:
         """Get all libraries with their global IDs.
@@ -177,8 +384,18 @@ class PlexClient(MediaClient):
 
         return users_by_email
 
-    def _sync_user_permissions(self, user: User, plex_user) -> None:
-        """Sync permissions and library access from Plex to database user."""
+    def _sync_user_permissions(
+        self,
+        user: User,
+        plex_user,
+        library_access: dict[Any, tuple[bool, list[str]]] | None = None,
+    ) -> None:
+        """Sync permissions and library access from Plex to database user.
+
+        This method makes no network call. ``library_access`` comes from
+        ``_get_library_access_by_user``. If it is None, the library access of
+        restricted users stays as it is.
+        """
         # Update basic info
         user.username = getattr(plex_user, "title", user.username)
         user.photo = getattr(plex_user, "thumb", None)
@@ -191,7 +408,10 @@ class PlexClient(MediaClient):
         user.allow_camera_upload = permissions["allow_camera_upload"]
 
         # Update library access
-        library_names, has_full_access = self._get_user_library_access(plex_user)
+        access = self._get_user_library_access(plex_user, library_access)
+        if access is None:
+            return
+        library_names, has_full_access = access
         if has_full_access:
             user.set_accessible_libraries(None)
         else:
@@ -199,8 +419,16 @@ class PlexClient(MediaClient):
 
     # ─── Library Access Methods ────────────────────────────────────────────────
 
-    def _get_user_library_access(self, plex_user) -> tuple[list[str] | None, bool]:
-        """Extract library access: (library_names | None, has_full_access)."""
+    def _get_user_library_access(
+        self,
+        plex_user,
+        library_access: dict[Any, tuple[bool, list[str]]] | None,
+    ) -> tuple[list[str] | None, bool] | None:
+        """Extract library access: (library_names | None, has_full_access).
+
+        Return None when the library list of a restricted user is not known.
+        The caller then keeps the current access.
+        """
         # Find this server's share
         matching_share = next(
             (
@@ -222,7 +450,68 @@ class PlexClient(MediaClient):
         if getattr(matching_share, "allLibraries", False):
             return None, True
 
-        return self._extract_library_names_from_share(matching_share), False
+        if library_access is None:
+            return None
+
+        entry = library_access.get(getattr(plex_user, "id", None))
+        if entry is None:
+            email = getattr(plex_user, "email", None)
+            entry = library_access.get(email.lower()) if email else None
+        if entry is None:
+            logging.debug(
+                "PLEX: No accepted share for %s; keep current library access",
+                getattr(plex_user, "email", "unknown"),
+            )
+            return None
+
+        all_libraries, library_names = entry
+        if all_libraries:
+            return None, True
+        return library_names, False
+
+    def _get_library_access_by_user(
+        self, machine_id: str
+    ) -> dict[Any, tuple[bool, list[str]]] | None:
+        """Get the library access of all users on this server with one call.
+
+        Before, each restricted user cost one plex.tv call. The map has two
+        keys for each share: the Plex user ID (int) and the lowercase email
+        or username (str). Each value is (all_libraries, library titles).
+        Return None if the call fails.
+        """
+        try:
+            shares = self._fetch_owned_shares()
+        except Exception as exc:
+            logging.warning(
+                "PLEX: Could not get the library shares; keep current library access: %s",
+                exc,
+            )
+            self.remote_errors += 1
+            self._forget_admin_on_error(exc)
+            return None
+
+        access: dict[Any, tuple[bool, list[str]]] = {}
+        for share in shares or []:
+            if share.get("machineIdentifier") != machine_id:
+                continue
+            titles = [
+                lib.get("title")
+                for lib in share.get("libraries") or []
+                if lib.get("title")
+            ]
+            entry = (bool(share.get("allLibraries")), titles)
+            invited_id = share.get("invitedId")
+            if invited_id is not None:
+                access[invited_id] = entry
+            invited = share.get("invited") or {}
+            for name in (
+                invited.get("email"),
+                invited.get("username"),
+                share.get("invitedEmail"),
+            ):
+                if name:
+                    access.setdefault(str(name).lower(), entry)
+        return access
 
     def _extract_library_names_from_share(self, server_share) -> list[str]:
         """Extract library names from Plex server share object."""
@@ -254,6 +543,42 @@ class PlexClient(MediaClient):
             and not (hasattr(section, "shared") and section.shared is False)
         ]
 
+    # Pages show posters at about 120 x 180 px. This size is sharp on a
+    # high-density screen and is much smaller than the original image.
+    SMALL_IMAGE_WIDTH = 240
+    SMALL_IMAGE_HEIGHT = 360
+
+    @staticmethod
+    def _poster_key(item) -> str | None:
+        """Return the image key that plexapi uses for posterUrl."""
+        for attr in ("thumb", "parentThumb", "grandparentThumb"):
+            value = getattr(item, attr, None)
+            if value:
+                return str(value)
+        return None
+
+    def _small_image_url(self, key: str | None) -> str | None:
+        """Return the URL of a small copy of a Plex image.
+
+        A relative key goes through the Plex photo transcoder. The inner
+        ``url`` parameter stays relative and has no token. The outer URL has
+        the token, and the image proxy removes it and sends it as a header.
+        An absolute URL (an online image) stays as it is.
+        """
+        if not key:
+            return None
+        if key.startswith(("http://", "https://")):
+            return key
+        if getattr(self.server, "transcoderPhoto", True) is False:
+            return self.server.url(key, includeToken=True)
+        return self.server.transcodeImage(
+            key,
+            height=self.SMALL_IMAGE_HEIGHT,
+            width=self.SMALL_IMAGE_WIDTH,
+            minSize=True,
+            upscale=True,
+        )
+
     def get_movie_posters(self, limit: int = 10) -> list[str]:
         """Get movie poster URLs for background display."""
         if not self.url:
@@ -267,19 +592,9 @@ class PlexClient(MediaClient):
                     # Get recent movies from this library
                     movies = library.recentlyAdded(maxresults=limit)
                     for movie in movies[:limit]:
-                        poster_url = None
-
-                        if hasattr(movie, "posterUrl") and movie.posterUrl:
-                            poster_url = movie.posterUrl
-                        elif hasattr(movie, "thumb") and movie.thumb:
-                            # Fallback to thumb
-                            poster_url = movie.thumb
+                        poster_url = self._small_image_url(self._poster_key(movie))
 
                         if poster_url:
-                            # Convert to full URL if needed
-                            if poster_url.startswith("/"):
-                                poster_url = f"{self.url.rstrip('/')}{poster_url}"
-
                             # Generate secure proxy URL with opaque token
                             proxied_url = self.generate_image_proxy_url(poster_url)
                             poster_urls.append(proxied_url)
@@ -298,93 +613,73 @@ class PlexClient(MediaClient):
         return poster_urls[:limit]
 
     def get_recent_items(
-        self, library_id: str | None = None, limit: int = 10
+        self,
+        library_id: str | None = None,
+        limit: int = 10,
+        library_names: Collection[str] | None = None,
     ) -> list[dict]:
-        """Get recently added items from Plex server."""
+        """Get the newest items of all the selected Plex libraries.
+
+        Each library gives its newest *limit* items. The result is the newest
+        *limit* items of all the libraries together, so one library cannot
+        fill the list.
+        """
         if not self.url:
             return []
 
         try:
-            items = []
-
-            # Get all library sections or specific library if provided
-            if library_id:
-                try:
-                    library = self.server.library.sectionByID(library_id)
-                    libraries = [library] if library else []
-                except Exception:
-                    libraries = []
-            else:
-                libraries = list(self.server.library.sections())
-
-            for library in libraries:
-                if len(items) >= limit:
-                    break
-
-                try:
-                    # Get recently added items from this library
-                    recent_items = library.recentlyAdded(maxresults=limit - len(items))
-
-                    for item in recent_items:
-                        if len(items) >= limit:
-                            break
-
-                        # Only use posterUrl - skip items without proper posters
-                        thumb_url = None
-                        if hasattr(item, "posterUrl") and item.posterUrl:
-                            thumb_url = item.posterUrl
-
-                            # Convert relative URLs to full URLs
-                            if thumb_url.startswith("/"):
-                                thumb_url = f"{self.url.rstrip('/')}{thumb_url}"
-
-                            # Generate secure proxy URL with opaque token
-                            thumb_url = self.generate_image_proxy_url(thumb_url)
-
-                            # Extract year from releaseDate
-                            year = None
-                            if hasattr(item, "year") and item.year:
-                                year = item.year
-                            elif (
-                                hasattr(item, "originallyAvailableAt")
-                                and item.originallyAvailableAt
-                            ):
-                                from contextlib import suppress
-
-                                with suppress(Exception):
-                                    year = item.originallyAvailableAt.year
-
-                            # Get item type
-                            item_type = getattr(item, "type", "unknown").lower()
-
-                            # Get added date
-                            added_at = None
-                            if hasattr(item, "addedAt") and item.addedAt:
-                                from contextlib import suppress
-
-                                with suppress(Exception):
-                                    # Convert to ISO format string like Jellyfin
-                                    added_at = item.addedAt.isoformat() + "Z"
-
-                            # Only add items that have poster images
-                            items.append(
-                                {
-                                    "title": getattr(item, "title", "Unknown"),
-                                    "year": year,
-                                    "thumb": thumb_url,
-                                    "type": item_type,
-                                    "added_at": added_at,
-                                }
-                            )
-
-                except Exception as exc:
-                    logging.debug(f"Failed to process Plex media item: {exc}")
-                    continue
-
-            return items
-
-        except Exception:
+            sections = self._recent_sections(library_id, library_names)
+        except Exception as exc:
+            logging.debug(f"Failed to list Plex libraries: {exc}")
             return []
+
+        items: list[dict] = []
+        for section in sections:
+            try:
+                recent = section.recentlyAdded(maxresults=limit)
+                items.extend(filter(None, map(self._recent_item, recent)))
+            except Exception as exc:
+                logging.debug(f"Failed to process Plex media item: {exc}")
+        return newest_first(items, limit)
+
+    def _recent_sections(
+        self, library_id: str | None, library_names: Collection[str] | None
+    ) -> list:
+        """Return the library sections that give the recent items."""
+        if library_id:
+            try:
+                return [self.server.library.sectionByID(library_id)]
+            except Exception:
+                return []
+        return [
+            section
+            for section in self.server.library.sections()
+            if library_name_selected(section.title, library_names)
+        ]
+
+    def _recent_item(self, item) -> dict | None:
+        """Return the widget data of a Plex item, or None if it has no poster."""
+        thumb_url = self._small_image_url(self._poster_key(item))
+        if not thumb_url:
+            return None
+
+        year = getattr(item, "year", None) or None
+        if year is None:
+            with suppress(Exception):
+                year = item.originallyAvailableAt.year
+
+        added_at = None
+        with suppress(Exception):
+            # Use an ISO date, as Jellyfin does.
+            added_at = item.addedAt.isoformat() + "Z"
+
+        return {
+            "title": getattr(item, "title", "Unknown"),
+            "year": year,
+            "thumb": self.generate_image_proxy_url(thumb_url),
+            "type": getattr(item, "type", "unknown").lower(),
+            "added_at": added_at,
+        }
 
     def scan_libraries(
         self, url: str | None = None, token: str | None = None
@@ -427,6 +722,7 @@ class PlexClient(MediaClient):
         allow_sync: bool,
         allow_channels: bool,
         allow_camera_upload: bool = False,
+        restrictions: PlexRestrictions | None = None,
     ):
         try:
             self.admin.inviteFriend(
@@ -436,12 +732,16 @@ class PlexClient(MediaClient):
                 allowSync=allow_sync,
                 allowChannels=allow_channels,
                 allowCameraUpload=allow_camera_upload,
+                **(restrictions or PlexRestrictions()).plexapi_kwargs(),
             )
         except Exception as e:
             # Extract human-readable error message and raise custom exception
             error_message = extract_plex_error_message(e)
             logging.error(f"Failed to invite friend {email}: {error_message}")
             raise PlexInvitationError(error_message, e) from e
+        finally:
+            # The invite adds a user, so the cached user list is out of date.
+            _forget_plex_users(self.token)
 
     def invite_home(
         self,
@@ -450,7 +750,10 @@ class PlexClient(MediaClient):
         allow_sync: bool,
         allow_channels: bool,
         allow_camera_upload: bool = False,
+        restrictions: PlexRestrictions | None = None,
     ):
+        # plexapi sends the libraries and the filters only for an account that
+        # is not yet in the admin's user list. Else it sends the Home invite only.
         try:
             self.admin.createExistingUser(
                 user=email,
@@ -459,12 +762,16 @@ class PlexClient(MediaClient):
                 allowSync=allow_sync,
                 allowChannels=allow_channels,
                 allowCameraUpload=allow_camera_upload,
+                **(restrictions or PlexRestrictions()).plexapi_kwargs(),
             )
         except Exception as e:
             # Extract human-readable error message and raise custom exception
             error_message = extract_plex_error_message(e)
             logging.error(f"Failed to invite home user {email}: {error_message}")
             raise PlexInvitationError(error_message, e) from e
+        finally:
+            # The invite adds a user, so the cached user list is out of date.
+            _forget_plex_users(self.token)
 
     def get_user(self, db_id: int) -> dict:
         """Get user info in legacy format for backward compatibility."""
@@ -528,6 +835,31 @@ class PlexClient(MediaClient):
             library_access=library_access,
         )
 
+    def update_user_restrictions(
+        self, email: str, restrictions: PlexRestrictions
+    ) -> bool:
+        """Set the label and rating filters of an existing share.
+
+        Uses plexapi updateFriend. plexapi 4.18.3 sends filterMusic only when
+        allowChannels is a dict, so this call does not change music filters.
+
+        Returns:
+            bool: True if plex.tv accepted the filters, False otherwise
+        """
+        log = structlog.get_logger()
+        if restrictions.music:
+            log.warning("Plex music restrictions not applied", email=email)
+        try:
+            self.admin.updateFriend(email, self.server, **restrictions.plexapi_kwargs())
+        except Exception as e:
+            log.error(
+                "Failed to set Plex restrictions",
+                email=email,
+                error=extract_plex_error_message(e),
+            )
+            return False
+        return True
+
     def update_user(self, info: dict, form: dict) -> None:
         self.admin.updateFriend(
             info["Name"],
@@ -562,7 +894,9 @@ class PlexClient(MediaClient):
 
             headers = {"Accept": "application/json"}
 
-            resp = self.admin._session.get(url, params=params, headers=headers)
+            resp = self.admin._session.get(
+                url, params=params, headers=headers, timeout=_PLEX_TIMEOUT
+            )
             resp.raise_for_status()
             server_data = resp.json()
 
@@ -584,6 +918,33 @@ class PlexClient(MediaClient):
             logging.error(f"Failed to get library global IDs: {e}", exc_info=True)
             return {}
 
+    def _fetch_owned_shares(self) -> list[dict]:
+        """GET all accepted shares that the admin owns, on all servers.
+
+        Raises on a network or HTTP error.
+        """
+        base = "https://clients.plex.tv"
+        url = f"{base}/api/v2/shared_servers/owned/accepted"
+
+        params = {
+            "X-Plex-Product": "Wizarr",
+            "X-Plex-Version": "1.0",
+            "X-Plex-Client-Identifier": self.admin.uuid,
+            "X-Plex-Token": self.admin.authToken,
+            "X-Plex-Platform": "Web",
+            "X-Plex-Platform-Version": "1.0",
+            "X-Plex-Features": "external-media,indirect-media,hub-style-list",
+            "X-Plex-Language": "en",
+        }
+
+        headers = {"Accept": "application/json"}
+
+        resp = self.admin._session.get(
+            url, params=params, headers=headers, timeout=_PLEX_TIMEOUT
+        )
+        resp.raise_for_status()
+        return resp.json()
+
     def _get_share_data(self, email: str) -> dict | None:
         """Get the complete share data for a user.
 
@@ -600,7 +961,7 @@ class PlexClient(MediaClient):
             # First, try to get the Plex user object to find their ID
             plex_user_id = None
             try:
-                plex_user = self.admin.user(email)
+                plex_user = self._find_plex_user(email)
                 if plex_user:
                     plex_user_id = getattr(plex_user, "id", None)
             except Exception as exc:
@@ -608,25 +969,7 @@ class PlexClient(MediaClient):
                 logging.debug(f"Could not get Plex user by email {email}: {exc}")
 
             # GET the list of owned/accepted shares
-            base = "https://clients.plex.tv"
-            url = f"{base}/api/v2/shared_servers/owned/accepted"
-
-            params = {
-                "X-Plex-Product": "Wizarr",
-                "X-Plex-Version": "1.0",
-                "X-Plex-Client-Identifier": self.admin.uuid,
-                "X-Plex-Token": self.admin.authToken,
-                "X-Plex-Platform": "Web",
-                "X-Plex-Platform-Version": "1.0",
-                "X-Plex-Features": "external-media,indirect-media,hub-style-list",
-                "X-Plex-Language": "en",
-            }
-
-            headers = {"Accept": "application/json"}
-
-            resp = self.admin._session.get(url, params=params, headers=headers)
-            resp.raise_for_status()
-            shared_servers = resp.json()
+            shared_servers = self._fetch_owned_shares()
 
             # Find the share matching this server and user
             for share in shared_servers:
@@ -905,26 +1248,57 @@ class PlexClient(MediaClient):
             return False
 
     def delete_user(self, email: str) -> None:
-        """Remove a user from the Plex server."""
-        try:
-            self.admin.removeHomeUser(email)
-        except Exception:
-            try:
-                self.admin.removeFriend(email)
-            except Exception as e:
-                logging.error("Error removing friend: %s", e)
+        """Remove a user from the Plex server.
 
-    @cached(cache=TTLCache(maxsize=1024, ttl=600))
+        Raises if Plex could not remove them. A user Plex no longer lists
+        counts as removed.
+        """
+        admin = self.admin
+        # plexapi downloads the full user list each time it gets a user by
+        # email. Find the user one time (from a short-lived cache) and give
+        # the user object to plexapi, so it does not download the list again.
+        plex_user = self._find_plex_user(email)
+        if plex_user is None:
+            logging.info("Plex user %s is already removed", email)
+            return
+
+        try:
+            if getattr(plex_user, "home", False):
+                try:
+                    admin.removeHomeUser(plex_user)
+                    return
+                except NotFound:
+                    raise
+                except Exception as exc:
+                    logging.debug(
+                        "Plex: could not remove %s as a home user (%s)", email, exc
+                    )
+            admin.removeFriend(plex_user)
+        except NotFound:
+            logging.info("Plex user %s is already removed", email)
+        finally:
+            _remove_from_cached_plex_users(getattr(self, "token", None), plex_user)
+
     def list_users(self) -> list[User]:
         """Sync users from Plex to database with all permissions and library access."""
+        # Do all remote calls before the first database write. SQLite keeps
+        # its write lock from the first write until the commit, so a slow
+        # plex.tv call between them would block all other writers.
         try:
             admin_users = self.admin.users()
         except (ConnectionError, Exception) as e:
             logging.error(f"Failed to connect to Plex admin API: {e}")
+            self.remote_errors += 1
+            self._forget_admin_on_error(e)
             return self._get_server_users()
+        _store_plex_users(getattr(self, "token", None), admin_users)
 
-        plex_users_by_email = self._filter_users_for_server(
-            admin_users, self.server.machineIdentifier
+        machine_id = self.server.machineIdentifier
+        plex_users_by_email = self._filter_users_for_server(admin_users, machine_id)
+        library_access = (
+            self._get_library_access_by_user(machine_id)
+            if plex_users_by_email
+            else None
         )
 
         known_users = self._get_server_users()
@@ -932,27 +1306,31 @@ class PlexClient(MediaClient):
             return known_users
 
         # Remove users no longer in Plex, add new users
-        known_emails = set(plex_users_by_email.keys())
+        users_to_sync = []
         for db_user in known_users:
-            if db_user.email not in known_emails:
+            if db_user.email not in plex_users_by_email:
                 db.session.delete(db_user)
+            else:
+                users_to_sync.append(db_user)
 
+        known_emails = {db_user.email for db_user in known_users}
         for email, plex_user in plex_users_by_email.items():
-            if not User.query.filter_by(email=email, server_id=self.server_id).first():
-                db.session.add(
-                    User(
-                        email=email,
-                        username=getattr(plex_user, "title", "Unknown"),
-                        token="None",  # noqa: S106  # Placeholder string, not actual password
-                        code="None",
-                        server_id=self.server_id,
-                    )
+            if email not in known_emails:
+                new_user = User(
+                    email=email,
+                    username=getattr(plex_user, "title", "Unknown"),
+                    token="None",  # noqa: S106  # Placeholder string, not actual password
+                    code="None",
+                    server_id=self.server_id,
                 )
+                db.session.add(new_user)
+                users_to_sync.append(new_user)
 
-        # Sync all permissions and library access
-        for user in self._get_server_users():
-            if plex_user := plex_users_by_email.get(user.email):
-                self._sync_user_permissions(user, plex_user)
+        # Sync all permissions and library access (no network calls here)
+        for user in users_to_sync:
+            self._sync_user_permissions(
+                user, plex_users_by_email[user.email], library_access
+            )
 
         try:
             db.session.commit()
@@ -968,173 +1346,196 @@ class PlexClient(MediaClient):
         return user.id
 
     def now_playing(self) -> list[dict]:
+        """Return the active sessions on this server.
+
+        Raises on connection and transport errors, so a caller can tell a
+        failed poll from a server with no sessions. Returns [] only when the
+        server reports no sessions.
+        """
         try:
             sessions = self.server.sessions()
-            now_playing_sessions = []
+        except Exception as exc:
+            self._forget_server_on_error(exc)
+            raise
 
-            for session in sessions:
-                view_offset = getattr(session, "viewOffset", None)
-                if view_offset is None:
-                    continue
-
-                progress = 0.0
-                duration = getattr(session, "duration", None)
-                if duration and view_offset:
-                    progress = max(0.0, min(1.0, view_offset / duration))
-
-                media_type = getattr(session, "type", "unknown").lower()
-
-                media_title = getattr(session, "title", "Unknown")
-                if media_type == "episode":
-                    grandparent_title = getattr(session, "grandparentTitle", "")
-                    season_num = getattr(session, "parentIndex", None)
-                    episode_num = getattr(session, "index", None)
-                    if grandparent_title:
-                        media_title = f"{grandparent_title}"
-                        if season_num and episode_num:
-                            media_title += f" S{season_num:02d}E{episode_num:02d}"
-                        media_title += f" - {getattr(session, 'title', '')}"
-
-                players = getattr(session, "players", [])
-                state = "stopped"
-                if players:
-                    player_state = getattr(players[0], "state", "stopped")
-                    state = {
-                        "paused": "paused",
-                        "playing": "playing",
-                        "buffering": "buffering",
-                    }.get(player_state, "stopped")
-
-                user_info = "Unknown User"
-                usernames = getattr(session, "usernames", None)
-                users = getattr(session, "users", None)
-                if usernames:
-                    user_info = usernames[0]
-                elif users:
-                    user_info = users[0].title
-
-                client_name = device_name = ""
-                if players:
-                    client_name = getattr(players[0], "product", "")
-                    device_name = getattr(players[0], "title", "")
-
-                artwork_url = None
-                images_attr = getattr(session, "image", None)
-                if images_attr:
-                    images_list = (
-                        images_attr
-                        if isinstance(images_attr, list | tuple | set)
-                        else [images_attr]
-                    )
-                    for img in images_list:
-                        if getattr(img, "type", None) == "coverPoster":
-                            img_key = getattr(img, "key", None) or getattr(
-                                img, "thumb", None
-                            )
-                            if img_key:
-                                artwork_url = (
-                                    img_key
-                                    if str(img_key).startswith("http")
-                                    else self.server.url(img_key, includeToken=True)
-                                )
-                            elif getattr(img, "thumbUrl", None):
-                                artwork_url = img.thumbUrl
-                            elif getattr(img, "url", None):
-                                artwork_url = img.url
-                            if artwork_url:
-                                break
-
-                for attr in ("grandparentThumb", "parentThumb", "art"):
-                    if artwork_url is not None:
-                        break
-                    val = getattr(session, attr, None)
-                    if val:
-                        artwork_url = (
-                            val
-                            if str(val).startswith("http")
-                            else self.server.url(val, includeToken=True)
-                        )
-
-                thumb_url = getattr(session, "thumbUrl", None)
-                if artwork_url is None and thumb_url:
-                    artwork_url = thumb_url
-
-                # Check for transcoding using Plex API structure
-                is_transcoding = False
-                transcode_speed = None
-                media_list = getattr(session, "media", [])
-
-                # Method 1: Check for TranscodeSession using python-plexapi properties
-                # This is the most reliable method as it directly reflects the actual transcoding state
-                transcode_session = getattr(session, "transcodeSession", None)
-                if transcode_session:
-                    # TranscodeSession object has videoDecision and audioDecision attributes
-                    video_decision = getattr(transcode_session, "videoDecision", None)
-                    audio_decision = getattr(transcode_session, "audioDecision", None)
-
-                    # Only consider it transcoding if either video or audio is actually being transcoded
-                    # "copy" and "direct" mean no transcoding is happening
-                    if video_decision == "transcode" or audio_decision == "transcode":
-                        is_transcoding = True
-                        transcode_speed = getattr(transcode_session, "speed", None)
-
-                # Method 2: Check transcodeSessions list property (fallback)
-                if not is_transcoding and not transcode_session:
-                    transcode_sessions = getattr(session, "transcodeSessions", [])
-                    if transcode_sessions:
-                        # Check each transcode session for actual transcoding
-                        for ts in transcode_sessions:
-                            ts_video_decision = getattr(ts, "videoDecision", None)
-                            ts_audio_decision = getattr(ts, "audioDecision", None)
-                            if (
-                                ts_video_decision == "transcode"
-                                or ts_audio_decision == "transcode"
-                            ):
-                                is_transcoding = True
-                                transcode_speed = getattr(ts, "speed", None)
-                                break
-
-                video_codec = audio_codec = container = video_resolution = None
-                if media_list:
-                    media_obj = media_list[0]
-                    video_codec = getattr(media_obj, "videoCodec", None)
-                    audio_codec = getattr(media_obj, "audioCodec", None)
-                    container = getattr(media_obj, "container", None)
-                    video_resolution = getattr(media_obj, "videoResolution", None)
-
-                transcoding_info = {
-                    "is_transcoding": is_transcoding,
-                    "video_codec": video_codec,
-                    "audio_codec": audio_codec,
-                    "container": container,
-                    "video_resolution": video_resolution,
-                    "transcoding_speed": transcode_speed,
-                    "direct_play": not is_transcoding,
-                }
-
-                session_info = {
-                    "user_name": user_info,
-                    "media_title": media_title,
-                    "media_type": media_type,
-                    "progress": progress,
-                    "state": state,
-                    "session_id": str(getattr(session, "sessionKey", "")),
-                    "client": client_name,
-                    "device_name": device_name,
-                    "position_ms": getattr(session, "viewOffset", 0),
-                    "duration_ms": getattr(session, "duration", 0),
-                    "artwork_url": artwork_url,
-                    "transcoding_info": transcoding_info,
-                    "thumbnail_url": getattr(session, "thumbUrl", None),
-                }
-
+        now_playing_sessions = []
+        for session in sessions:
+            try:
+                session_info = self._now_playing_entry(session)
+            except _TRANSPORT_ERRORS as exc:
+                self._forget_server_on_error(exc)
+                raise
+            except Exception as exc:
+                # One bad session must not hide the other sessions.
+                logging.warning(f"Failed to read a Plex session: {exc}")
+                continue
+            if session_info is not None:
                 now_playing_sessions.append(session_info)
 
-            return now_playing_sessions
+        return now_playing_sessions
 
-        except Exception as e:
-            logging.error(f"Failed to get now playing from Plex: {e}")
-            return []
+    def _now_playing_entry(self, session) -> dict | None:
+        """Convert one plexapi session to a now-playing dict."""
+        view_offset = getattr(session, "viewOffset", None)
+        if view_offset is None:
+            return None
+
+        progress = 0.0
+        duration = getattr(session, "duration", None)
+        if duration and view_offset:
+            progress = max(0.0, min(1.0, view_offset / duration))
+
+        media_type = getattr(session, "type", "unknown").lower()
+
+        media_title = getattr(session, "title", "Unknown")
+        if media_type == "episode":
+            grandparent_title = getattr(session, "grandparentTitle", "")
+            season_num = getattr(session, "parentIndex", None)
+            episode_num = getattr(session, "index", None)
+            if grandparent_title:
+                media_title = f"{grandparent_title}"
+                if season_num and episode_num:
+                    media_title += f" S{season_num:02d}E{episode_num:02d}"
+                media_title += f" - {getattr(session, 'title', '')}"
+
+        players = getattr(session, "players", [])
+        state = "stopped"
+        if players:
+            player_state = getattr(players[0], "state", "stopped")
+            state = {
+                "paused": "paused",
+                "playing": "playing",
+                "buffering": "buffering",
+            }.get(player_state, "stopped")
+
+        user_info = "Unknown User"
+        usernames = getattr(session, "usernames", None)
+        users = getattr(session, "users", None)
+        if usernames:
+            user_info = usernames[0]
+        elif users:
+            user_info = users[0].title
+
+        client_name = device_name = ""
+        if players:
+            client_name = getattr(players[0], "product", "")
+            device_name = getattr(players[0], "title", "")
+
+        artwork_url = None
+        fallback_artwork_url = None
+        images_attr = getattr(session, "image", None)
+        if images_attr:
+            images_list = (
+                images_attr
+                if isinstance(images_attr, list | tuple | set)
+                else [images_attr]
+            )
+            for img in images_list:
+                if getattr(img, "type", None) == "coverPoster":
+                    img_key = getattr(img, "key", None) or getattr(img, "thumb", None)
+                    if img_key:
+                        artwork_url, fallback_artwork_url = self._artwork_urls(img_key)
+                    elif getattr(img, "thumbUrl", None):
+                        artwork_url = img.thumbUrl
+                    elif getattr(img, "url", None):
+                        artwork_url = img.url
+                    if artwork_url:
+                        break
+
+        for attr in ("grandparentThumb", "parentThumb", "art"):
+            if artwork_url is not None:
+                break
+            val = getattr(session, attr, None)
+            if val:
+                artwork_url, fallback_artwork_url = self._artwork_urls(val)
+
+        thumb_key = self._poster_key(session)
+        thumbnail_url = self._small_image_url(thumb_key)
+        if artwork_url is None and thumb_key:
+            artwork_url, fallback_artwork_url = self._artwork_urls(thumb_key)
+
+        # Check for transcoding using Plex API structure
+        is_transcoding = False
+        transcode_speed = None
+        media_list = getattr(session, "media", [])
+
+        # Method 1: Check for TranscodeSession using python-plexapi properties
+        # This is the most reliable method as it directly reflects the actual transcoding state
+        transcode_session = getattr(session, "transcodeSession", None)
+        if transcode_session:
+            # TranscodeSession object has videoDecision and audioDecision attributes
+            video_decision = getattr(transcode_session, "videoDecision", None)
+            audio_decision = getattr(transcode_session, "audioDecision", None)
+
+            # Only consider it transcoding if either video or audio is actually being transcoded
+            # "copy" and "direct" mean no transcoding is happening
+            if video_decision == "transcode" or audio_decision == "transcode":
+                is_transcoding = True
+                transcode_speed = getattr(transcode_session, "speed", None)
+
+        # Method 2: Check transcodeSessions list property (fallback)
+        if not is_transcoding and not transcode_session:
+            transcode_sessions = getattr(session, "transcodeSessions", [])
+            if transcode_sessions:
+                # Check each transcode session for actual transcoding
+                for ts in transcode_sessions:
+                    ts_video_decision = getattr(ts, "videoDecision", None)
+                    ts_audio_decision = getattr(ts, "audioDecision", None)
+                    if (
+                        ts_video_decision == "transcode"
+                        or ts_audio_decision == "transcode"
+                    ):
+                        is_transcoding = True
+                        transcode_speed = getattr(ts, "speed", None)
+                        break
+
+        video_codec = audio_codec = container = video_resolution = None
+        if media_list:
+            media_obj = media_list[0]
+            video_codec = getattr(media_obj, "videoCodec", None)
+            audio_codec = getattr(media_obj, "audioCodec", None)
+            container = getattr(media_obj, "container", None)
+            video_resolution = getattr(media_obj, "videoResolution", None)
+
+        transcoding_info = {
+            "is_transcoding": is_transcoding,
+            "video_codec": video_codec,
+            "audio_codec": audio_codec,
+            "container": container,
+            "video_resolution": video_resolution,
+            "transcoding_speed": transcode_speed,
+            "direct_play": not is_transcoding,
+        }
+
+        return {
+            "user_name": user_info,
+            "media_title": media_title,
+            "media_type": media_type,
+            "progress": progress,
+            "state": state,
+            "session_id": str(getattr(session, "sessionKey", "")),
+            "client": client_name,
+            "device_name": device_name,
+            "position_ms": getattr(session, "viewOffset", 0),
+            "duration_ms": getattr(session, "duration", 0),
+            "artwork_url": artwork_url,
+            "fallback_artwork_url": fallback_artwork_url,
+            "transcoding_info": transcoding_info,
+            "thumbnail_url": thumbnail_url,
+        }
+
+    def _artwork_urls(self, key) -> tuple[str | None, str | None]:
+        """Return (small image URL, full image URL) for a now-playing image.
+
+        The card shows the small image. The browser loads the full image only
+        if the small image fails, for example if the photo transcoder fails.
+        """
+        key = str(key)
+        if key.startswith("http"):
+            return key, None
+        small_url = self._small_image_url(key)
+        full_url = self.server.url(key, includeToken=True)
+        return small_url, (full_url if full_url != small_url else None)
 
     def statistics(self):
         try:
@@ -1151,23 +1552,18 @@ class PlexClient(MediaClient):
                 transcode_sessions = self.server.transcodeSessions()
             except Exception as e:
                 logging.warning(f"Failed to get Plex session info: {e}")
+                self._forget_server_on_error(e)
                 sessions = []
                 transcode_sessions = []
 
-            # Try to get user stats - this is where the SSL error occurs
-            try:
-                users = self.list_users()
-                stats["user_stats"] = {
-                    "total_users": len(users),
-                    "active_sessions": len(sessions),
-                }
-            except (ConnectionError, Exception) as e:
-                logging.error(f"Failed to get Plex user stats: {e}")
-                stats["user_stats"] = {
-                    "total_users": 0,
-                    "active_sessions": len(sessions),
-                    "connection_error": "Unable to connect to Plex.tv servers",
-                }
+            # Count the users in the database. list_users() does a full
+            # plex.tv sync with database writes, which is too slow and too
+            # heavy for a statistics view. The user sync keeps the count
+            # up to date.
+            stats["user_stats"] = {
+                "total_users": self.get_user_count(),
+                "active_sessions": len(sessions),
+            }
 
             # Try to get server stats
             try:
@@ -1234,7 +1630,10 @@ class PlexClient(MediaClient):
                 transcode_sessions = self.server.transcodeSessions()
             except Exception as e:
                 logging.warning(f"Failed to get Plex session info: {e}")
+                self._forget_server_on_error(e)
 
+            # After a failed connection, self.server raises at once (no second
+            # attempt), and the except block below returns the defaults.
             return {
                 "version": getattr(self.server, "version", "Unknown"),
                 "transcoding_sessions": len(transcode_sessions),
@@ -1278,6 +1677,21 @@ class PlexClient(MediaClient):
 
 
 # ─── Invite & onboarding ────────────────────────────────────────────────
+
+
+def _provision_companions(app, token: str, server_id: int) -> None:
+    """Create the invited Plex user on opted-in companions, in the background.
+
+    Needs its own app context: the request that started it is long gone by the
+    time this finishes.
+    """
+    with app.app_context():
+        try:
+            from app.services.ombi_client import provision_plex_user_on_connections
+
+            provision_plex_user_on_connections(token, server_id)
+        except Exception as exc:
+            logging.warning("Companion provisioning failed: %s", exc)
 
 
 def handle_oauth_token(app, token: str, code: str) -> None:
@@ -1335,6 +1749,28 @@ def handle_oauth_token(app, token: str, code: str) -> None:
 
             _invite_user(email, code, new_user.id, server)
 
+            # Create the user on any request system that asked for it, while we
+            # still hold their token. Otherwise their first visit there is a
+            # login screen, and watchlist syncing has no token to work with
+            # until they get to it.
+            #
+            # Off the request thread so a slow or unreachable companion cannot
+            # hold up the invite, and best effort throughout: a companion
+            # failing must never break an invite the user just accepted.
+            try:
+                from app.services.ombi_client import (
+                    has_plex_provisioning_connections,
+                )
+
+                if has_plex_provisioning_connections(server_id):
+                    threading.Thread(
+                        target=_provision_companions,
+                        args=(current_app._get_current_object(), token, server_id),  # type: ignore
+                        daemon=True,
+                    ).start()
+            except Exception as exc:
+                logging.warning("Companion provisioning failed: %s", exc)
+
             # Mark invitation as used for this server
             if inv:
                 from app.services.invites import mark_server_used
@@ -1383,12 +1819,13 @@ def _invite_user(email: str, code: str, _user_id: int, server: MediaServer) -> N
     allow_sync = bool(inv.allow_downloads)
     allow_tv = bool(inv.allow_live_tv)
     allow_camera_upload = bool(inv.allow_mobile_uploads)
+    restrictions = PlexRestrictions.from_invitation(inv)
+    send_invite = client.invite_home if inv.plex_home else client.invite_friend
 
     try:
-        if inv.plex_home:
-            client.invite_home(email, libs, allow_sync, allow_tv, allow_camera_upload)
-        else:
-            client.invite_friend(email, libs, allow_sync, allow_tv, allow_camera_upload)
+        send_invite(
+            email, libs, allow_sync, allow_tv, allow_camera_upload, restrictions
+        )
     except PlexInvitationError as e:
         if "already sharing" in e.message.lower():
             # User already has a share — update libraries and permissions instead
@@ -1403,6 +1840,9 @@ def _invite_user(email: str, code: str, _user_id: int, server: MediaServer) -> N
             }
             client.update_user_libraries(email, libs if libs else None)
             client.update_user_permissions(email, permissions)
+            # The two calls above clear the filters of the share.
+            if restrictions:
+                client.update_user_restrictions(email, restrictions)
         else:
             # Re-raise PlexInvitationError to preserve the user-friendly message
             raise
@@ -1414,20 +1854,17 @@ def _invite_user(email: str, code: str, _user_id: int, server: MediaServer) -> N
 
     logging.info("Invited %s to Plex", email)
 
-    PlexClient.list_users.cache_clear()
     db.session.commit()
 
 
-def _post_join_setup(app, server_url: str, api_token: str, token: str):
-    # Create a PlexServer instance with Flask app context
-    from plexapi.server import PlexServer
-
+def _post_join_setup(app, server_url: str, api_token: str, token: str):  # noqa: ARG001
     with app.app_context():
         try:
-            server = PlexServer(server_url, api_token)
             user = MyPlexAccount(token=token)
-            # use username as the v2 API returns only username, not e-mail
-            admin_account = server.myPlexAccount()
+            # use username as the v2 API returns only username, not e-mail.
+            # The shared admin account is the same account that
+            # PlexServer.myPlexAccount() returns, without two extra requests.
+            admin_account = _get_plex_account(api_token)
             user.acceptInvite(admin_account.username)
             user.enableViewStateSync()
             _opt_out_online_sources(user)

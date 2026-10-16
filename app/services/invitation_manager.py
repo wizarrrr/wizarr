@@ -146,7 +146,7 @@ class InvitationManager:
                     success_count += 1
 
                     # Mark invitation as used for this server
-                    from app.services.invites import mark_server_used
+                    from app.services.invites import find_joined_user, mark_server_used
 
                     invitation = Invitation.query.filter_by(code=code).first()
                     if invitation:
@@ -155,23 +155,9 @@ class InvitationManager:
                         db.session.flush()
                         db.session.commit()
 
-                        user = User.query.filter_by(
-                            code=code, server_id=server.id
-                        ).first()
-
-                        # If user not found, log debug info
-                        if not user:
-                            import logging
-
-                            all_users_for_server = User.query.filter_by(
-                                server_id=server.id
-                            ).all()
-                            all_users_with_code = User.query.filter_by(code=code).all()
-                            logging.error(
-                                f"User lookup failed for code={code}, server_id={server.id}. "
-                                f"Server has {len(all_users_for_server)} users, "
-                                f"code has {len(all_users_with_code)} users globally."
-                            )
+                        user = find_joined_user(
+                            code, server.id, username=username, email=email
+                        )
                         # Only set used_by for unlimited invites if not already set
                         # For limited invites, used_by should track the single user
                         if user and (

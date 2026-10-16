@@ -18,7 +18,7 @@
             <div class="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
               <!-- Content Type Icon -->
               <div class="flex-shrink-0">
-                {% if item.type == 'movie' %}
+                {% if item.type == "movie" %}
                   <div class="w-8 h-8 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
                     <svg class="w-4 h-4 text-blue-600 dark:text-blue-400"
                          fill="currentColor"
@@ -26,7 +26,7 @@
                       <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
                     </svg>
                   </div>
-                {% elif item.type == 'episode' or item.type == 'show' %}
+                {% elif item.type == "episode" or item.type == "show" %}
                   <div class="w-8 h-8 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
                     <svg class="w-4 h-4 text-green-600 dark:text-green-400"
                          fill="currentColor"
@@ -34,19 +34,19 @@
                       <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM2 14a2 2 0 012-2h6a2 2 0 012 2v2a2 2 0 01-2 2H4a2 2 0 01-2-2v-2zM14 14a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                     </svg>
                   </div>
-                {% elif item.type == 'audio' or item.type == 'track' or item.type == 'book' %}
+                {% elif item.type == "audio" or item.type == "track" or item.type == "book" %}
                   <div class="w-8 h-8 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
                     <svg class="w-4 h-4 text-purple-600 dark:text-purple-400"
                          fill="currentColor"
                          viewBox="0 0 20 20">
-                      {% if item.type == 'book' %}
+                      {% if item.type == "book" %}
                         <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z" />
                       {% else %}
                         <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
                       {% endif %}
                     </svg>
                   </div>
-                {% elif item.type == 'rom' %}
+                {% elif item.type == "rom" %}
                   <div class="w-8 h-8 bg-red-100 dark:bg-red-900 rounded-lg flex items-center justify-center">
                     <svg class="w-4 h-4 text-red-600 dark:text-red-400"
                          fill="currentColor"

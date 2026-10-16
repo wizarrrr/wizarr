@@ -4,6 +4,9 @@ Wizard widget system for embedding dynamic content in wizard steps.
 Widgets are inserted into markdown content using special syntax:
 {{ widget:recently_added_media }}
 {{ widget:recently_added_media limit=6 }}
+{{ widget:recently_added_media libraries="Movies, TV Shows" limit=12 }}
+{{ widget:collection_media collection="My Collection" }}
+{{ widget:collection_media collection="My Collection" limit=15 }}
 {{ widget:button url="https://example.com" text="Click Here" }}
 
 Cards use delimiter syntax:
@@ -130,8 +133,10 @@ class RecentlyAddedMediaWidget(WizardWidget):
             if not client:
                 return {"items": [], "limit": limit}
 
-            # Get recently added items
-            recent_items = self._get_recent_items(client, limit)
+            library_names = widget_library_names(server, _kwargs.get("libraries"))
+            recent_items = client.get_recent_items(
+                limit=limit, library_names=library_names
+            )
 
             return {"items": recent_items, "limit": limit}
 
@@ -139,33 +144,94 @@ class RecentlyAddedMediaWidget(WizardWidget):
             # Return empty data on any error to fail gracefully
             return {"items": [], "limit": limit}
 
-    def _get_recent_items(self, client, limit: int):
-        """Extract recent items from media client."""
+
+def widget_library_names(server, requested: object = None) -> set[str] | None:
+    """Return the names of the libraries that a media widget can show.
+
+    ``requested`` is the ``libraries`` argument: names with commas between
+    them. Without it, the widget uses the libraries that are enabled in
+    Wizarr for the server. ``None`` means that Wizarr has no library list for
+    the server, so the widget can show all libraries.
+    """
+    if requested is not None and str(requested).strip():
+        return {name.strip() for name in str(requested).split(",") if name.strip()}
+
+    from app.models import Library
+
+    libraries = Library.query.filter_by(server_id=server.id).all()
+    if not libraries:
+        return None
+    return {library.name for library in libraries if library.enabled}
+
+
+class CollectionMediaWidget(RecentlyAddedMediaWidget):
+    """Show posters from a named Plex collection."""
+
+    def __init__(self):
+        # Reuse Wizarr's built-in carousel so upstream styling changes continue
+        # to apply to this custom widget.
+        super().__init__()
+        self.name = "collection_media"
+
+    def get_data(self, _server_type: str, **_kwargs) -> dict[str, Any]:
+        collection_name = str(_kwargs.get("collection", "")).strip()
         try:
-            # Use the new get_recent_items method if available
-            if hasattr(client, "get_recent_items"):
-                return client.get_recent_items(limit=limit)
+            limit = max(0, int(_kwargs.get("limit", 15)))
+        except (TypeError, ValueError):
+            limit = 15
 
-            # Fallback: try to get recent content from libraries
-            libraries = client.libraries()
-            recent_items = []
+        if not collection_name:
+            return {"items": [], "limit": limit}
 
-            # For each library, try to get recent content
-            for library in libraries[:3]:  # Limit to first 3 libraries
-                try:
-                    if hasattr(client, "get_recent_items"):
-                        items = client.get_recent_items(library.get("id"), limit=2)
-                        recent_items.extend(items)
-                except Exception as exc:
-                    logging.debug(
-                        f"Failed to get recent items for library {library.get('id')}: {exc}"
-                    )
-                    continue
+        try:
+            from app.models import MediaServer
 
-            return recent_items[:limit]
+            server = MediaServer.query.filter_by(server_type=_server_type).first()
+            if server is None:
+                return {"items": [], "limit": limit}
 
-        except Exception:
-            return []
+            client = get_media_client(server.server_type, server)
+            plex = getattr(client, "server", None)
+            if plex is None or not hasattr(plex, "library"):
+                return {"items": [], "limit": limit}
+
+            wanted = collection_name.casefold()
+            for section in plex.library.sections():
+                for collection in section.collections():
+                    if str(collection.title).casefold() != wanted:
+                        continue
+
+                    media_items = collection.items()
+                    if limit:
+                        media_items = media_items[:limit]
+
+                    return {
+                        "items": [
+                            self._normalise_item(item, client) for item in media_items
+                        ],
+                        "limit": limit,
+                    }
+        except Exception as exc:
+            logging.warning(
+                "Unable to render Plex collection %r: %s", collection_name, exc
+            )
+
+        return {"items": [], "limit": limit}
+
+    @staticmethod
+    def _normalise_item(item, client) -> dict[str, str]:
+        title = str(getattr(item, "title", ""))
+        thumb_url = ""
+
+        try:
+            # PlexAPI's thumbUrl is already an absolute, authenticated URL.
+            direct_url = getattr(item, "thumbUrl", "") or ""
+            if direct_url:
+                thumb_url = client.generate_image_proxy_url(direct_url)
+        except Exception as exc:
+            logging.debug("Failed to proxy artwork for %r: %s", title, exc)
+
+        return {"title": title, "thumb": thumb_url}
 
 
 class CardWidget(WizardWidget):
@@ -268,6 +334,7 @@ class ButtonWidget(WizardWidget):
 # Widget registry
 WIDGET_REGISTRY = {
     "recently_added_media": RecentlyAddedMediaWidget(),
+    "collection_media": CollectionMediaWidget(),
     "button": ButtonWidget(),
 }
 
@@ -319,6 +386,9 @@ def process_widget_placeholders(
     Supports syntax like:
     {{ widget:recently_added_media }}
     {{ widget:recently_added_media limit=6 }}
+    {{ widget:recently_added_media libraries="Movies, TV Shows" limit=12 }}
+    {{ widget:collection_media collection="My Collection" }}
+    {{ widget:collection_media collection="My Collection" limit=15 }}
     {{ widget:button url="https://example.com" text="Click Here" }}
     """
     context = context or {}

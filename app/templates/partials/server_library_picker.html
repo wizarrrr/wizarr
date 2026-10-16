@@ -13,7 +13,7 @@
       {{ srv.name }}
     </div>
   {% endif %}
-  <ul class="h-48 px-3 py-2 overflow-y-auto text-sm text-gray-700 dark:text-gray-200">
+  <ul class="max-h-48 px-3 py-2 overflow-y-auto text-sm text-gray-700 dark:text-gray-200">
     {% for lib in server_libs[srv.id] %}
       <li>
         <div class="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer">

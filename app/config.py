@@ -12,6 +12,26 @@ from app.utils.session_cache import RobustFileSystemCache
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
 
+
+def env_bool(key: str, default: bool = False) -> bool:
+    value = os.getenv(key)
+    if value is None:
+        return default
+
+    return value.lower() in {"1", "true", "yes", "on"}
+
+
+def env_int(key: str, default: int) -> int:
+    value = os.getenv(key)
+    if value is None:
+        return default
+
+    try:
+        return int(value)
+    except ValueError:
+        return default
+
+
 # Initialize session cache at module level so Flask-Session can access it
 
 # Ensure database directory exists
@@ -74,11 +94,18 @@ def get_or_create_secret(key, generator_func):
 
 class BaseConfig:
     # Flask
-    TEMPLATES_AUTO_RELOAD = True
     SECRET_KEY = get_or_create_secret("SECRET_KEY", generate_secret_key)
     # Sessions
     SESSION_TYPE = "cachelib"  # Changed from 'filesystem' to 'cachelib'
     SESSION_CACHELIB = SESSION_CACHELIB  # Reference the module-level cache
+
+    # Reverse proxy support
+    TRUST_PROXY_HEADERS = env_bool("TRUST_PROXY_HEADERS", False)
+    PROXY_FIX_X_FOR = env_int("PROXY_FIX_X_FOR", 1)
+    PROXY_FIX_X_PROTO = env_int("PROXY_FIX_X_PROTO", 1)
+    PROXY_FIX_X_HOST = env_int("PROXY_FIX_X_HOST", 1)
+    PROXY_FIX_X_PORT = env_int("PROXY_FIX_X_PORT", 1)
+    PROXY_FIX_X_PREFIX = env_int("PROXY_FIX_X_PREFIX", 1)
 
     # Babel / i18n
     LANGUAGES: ClassVar[dict[str, str]] = {
@@ -88,6 +115,7 @@ class BaseConfig:
         "da": "Danish",
         "de": "German",
         "es": "Spanish",
+        "et": "Estonian",
         "fa": "Persian",
         "fr": "French",
         "gsw": "Swiss German",
@@ -112,8 +140,27 @@ class BaseConfig:
     BABEL_TRANSLATION_DIRECTORIES = str(BASE_DIR / "app" / "translations")
     # Allow forcing a specific language via environment variable
     FORCE_LANGUAGE = os.getenv("FORCE_LANGUAGE")
-    # Scheduler
-    SCHEDULER_API_ENABLED = True
+    # Scheduler. The REST API stays off for security. The job store is in
+    # memory: the jobs keep a reference to the app, so they cannot be saved.
+    SCHEDULER_API_ENABLED = False
+    SCHEDULER_JOB_DEFAULTS: ClassVar[dict] = {
+        "coalesce": True,
+        "max_instances": 1,
+        "misfire_grace_time": 300,
+    }
+    # Compression (Flask-Compress). app/static_assets.py applies it only to
+    # static files. Do NOT compress text/html: HTML responses contain CSRF
+    # tokens and reflected input, and compression makes them open to the
+    # BREACH attack.
+    COMPRESS_REGISTER = False
+    COMPRESS_MIMETYPES: ClassVar[list[str]] = [
+        "text/css",
+        "text/javascript",
+        "application/javascript",
+        "image/svg+xml",
+        "application/json",
+        "application/manifest+json",
+    ]
     # SQLAlchemy
     SQLALCHEMY_DATABASE_URI = f"sqlite:///{DATABASE_DIR / 'database.db'}"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -123,13 +170,16 @@ class BaseConfig:
             "timeout": 30,  # 30 second timeout for lock waits
             "check_same_thread": False,  # Allow multi-threaded access
         },
-        "pool_pre_ping": True,  # Verify connections before using
+        # No pool_pre_ping: a SQLite connection is a local file, so it does not
+        # drop. A ping only adds one "SELECT 1" to each checkout.
         "pool_recycle": 3600,  # Recycle connections after 1 hour
     }
 
 
 class DevelopmentConfig(BaseConfig):
     DEBUG = True
+    # Check the template files for changes on each render (development only).
+    TEMPLATES_AUTO_RELOAD = True
 
 
 class ProductionConfig(BaseConfig):

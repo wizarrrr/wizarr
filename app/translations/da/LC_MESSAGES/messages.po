@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-22 08:32+0000\n"
+"POT-Creation-Date: 2026-10-16 08:10+0000\n"
 "PO-Revision-Date: 2025-11-03 20:04+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/wizarr/wizarr-"
@@ -163,6 +163,9 @@ msgstr "om %(n)d m"
 msgid "soon"
 msgstr "snart"
 
+msgid "Enter a valid email address, or leave the field empty."
+msgstr ""
+
 msgid "Admin created"
 msgstr "Oprettet af admin"
 
@@ -217,6 +220,9 @@ msgstr "Tilslutningstest vellykket!"
 #, fuzzy
 msgid "LDAP authentication failed"
 msgstr "Godkendelse mislykkedes"
+
+msgid "Sign in through Cloudflare Access to reach the admin pages."
+msgstr ""
 
 msgid "Invalid username or password"
 msgstr "Ugyldigt brugernavn eller adgangskode"
@@ -353,9 +359,6 @@ msgstr ""
 msgid "Continue to Invite"
 msgstr "Ny Invitation"
 
-msgid "Please log in to continue"
-msgstr ""
-
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr ""
@@ -376,6 +379,11 @@ msgid "Unable to load wizard steps. Please try again."
 msgstr "Ikke muligt at indlæse afspilninger"
 
 msgid "This bundle has no steps to preview."
+msgstr ""
+
+msgid ""
+"Cannot save the change because it conflicts with other wizard data. Refresh "
+"the page and try again."
 msgstr ""
 
 #, python-brace-format
@@ -473,6 +481,15 @@ msgstr "Adgangskode"
 msgid "Please confirm the new password."
 msgstr "Bekræft Ny Adgangskode"
 
+#, python-format
+msgid ""
+"This LDAP filter is not valid. Enter one complete filter in parentheses, for "
+"example %(example)s."
+msgstr ""
+
+msgid "User Sync Filter"
+msgstr ""
+
 #, fuzzy
 msgid "Server Type"
 msgstr "Server"
@@ -499,7 +516,7 @@ msgstr "Tillad Downloads"
 msgid "Allow Live TV"
 msgstr "Tillad Live TV Adgang"
 
-msgid "Overseerr/Ombi URL"
+msgid "Seerr/Ombi URL"
 msgstr ""
 
 #, fuzzy
@@ -575,11 +592,8 @@ msgstr "Kavita"
 msgid "Navidrome"
 msgstr "Navidrome"
 
-msgid "Invalid API token or insufficient permissions."
-msgstr "Ugyldig API token eller utilstrækkelige tilladelser."
-
-msgid "API token lacks required permissions."
-msgstr "API token mangler nødvendige tilladelser."
+msgid "Invalid API token, or the token does not have the 'user:read' ACL."
+msgstr ""
 
 msgid "Could not connect to Drop server."
 msgstr "Kan ikke oprette forbindelse til Drop server."
@@ -620,6 +634,22 @@ msgstr "Generer en stærk tilfældig adgangskode i stedet"
 
 msgid "Continue"
 msgstr "Fortsæt"
+
+#, fuzzy
+msgid "Invitation Code"
+msgstr "Invitationskode"
+
+#, fuzzy
+msgid "Wizarr"
+msgstr "Opsætning af Wizarr"
+
+#, fuzzy
+msgid "Enter Code to Continue"
+msgstr "Invitationskode String"
+
+#, fuzzy
+msgid "Enter your code"
+msgstr "Invitationskode"
 
 msgid "Complete your account setup for local servers"
 msgstr "Gennemfør din kontoopsætning for lokale servere"
@@ -700,10 +730,6 @@ msgstr "Adgangskodestyrke: Stærk"
 
 msgid "Passwords do not match"
 msgstr "Adgangskoderne stemmer ikke overens."
-
-#, fuzzy
-msgid "Wizarr"
-msgstr "Opsætning af Wizarr"
 
 msgid "Invalid Invitation"
 msgstr "Ugyldig Invitation"
@@ -875,6 +901,36 @@ msgstr "Hvad sker der som det næste?"
 msgid "Log in to your media server with your username and new password."
 msgstr ""
 
+msgid "Signing you in"
+msgstr ""
+
+msgid "Finishing up with Plex. This only takes a moment."
+msgstr ""
+
+msgid "Back to your invitation"
+msgstr ""
+
+msgid "Nothing to finish"
+msgstr ""
+
+msgid "Open your invitation link again to sign in with Plex."
+msgstr ""
+
+msgid "All set"
+msgstr ""
+
+msgid "Taking you to the next step..."
+msgstr ""
+
+msgid "Sign-in failed"
+msgstr ""
+
+msgid "That took too long"
+msgstr ""
+
+msgid "We did not hear back from Plex. Please try signing in again."
+msgstr ""
+
 msgid "Administrator"
 msgstr "Administrator"
 
@@ -905,18 +961,6 @@ msgstr "Tilmeld"
 
 msgid "Join the ultimate media server experience."
 msgstr "Deltag i den ultimative medie serveroplevelse."
-
-#, fuzzy
-msgid "Enter Code to Continue"
-msgstr "Invitationskode String"
-
-#, fuzzy
-msgid "Invitation Code"
-msgstr "Invitationskode"
-
-#, fuzzy
-msgid "Enter your code"
-msgstr "Invitationskode"
 
 #, fuzzy
 msgid "Join Server"
@@ -1158,6 +1202,14 @@ msgstr "Ændre Server"
 msgid "Close modal"
 msgstr ""
 
+msgid "Update"
+msgstr "Opdatér"
+
+msgid ""
+"Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
+"user. Wizarr does not send it to the media server."
+msgstr ""
+
 #, fuzzy
 msgid "Tabs"
 msgstr "Status"
@@ -1206,9 +1258,6 @@ msgstr "API Nøglestyring"
 msgid "Expiry date"
 msgstr "Udløbsdato"
 
-msgid "Update"
-msgstr "Opdatér"
-
 msgid "Current expiry"
 msgstr "Nuværende udløb"
 
@@ -1224,6 +1273,12 @@ msgstr "Tilføj noter om denne bruger..."
 
 msgid "Update Notes"
 msgstr "Opdater Noter"
+
+msgid "Sync users from media servers"
+msgstr ""
+
+msgid "Sync"
+msgstr ""
 
 msgid "Link"
 msgstr "Link"
@@ -1366,26 +1421,26 @@ msgstr "Tilføj ny forbindelse"
 msgid "Edit Connection"
 msgstr "Rediger forbindelse"
 
-msgid "Overseerr/Jellyseerr Information"
-msgstr "Oplysninger om Overseerr/Jellyseerr"
-
-#, fuzzy
-msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No API "
-"connection is required for Wizarr integration."
+msgid "Seerr Information"
 msgstr ""
-"Overseerr og Jellyseerr importerer automatisk nye brugere som standard. "
-"Ingen API-forbindelse er nødvendig for Wizarr integration."
-
-msgid "To enable auto-import:"
-msgstr "For at aktivere automatisk import:"
 
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
-"users' and 'Import Jellyfin/Plex users'"
+"Seerr creates an account the first time someone signs in, so by default an "
+"invited user has no account there until they visit and log in themselves. "
+"Overseerr and Jellyseerr, which merged into Seerr, work the same way."
 msgstr ""
-"Gå til dine Overseerr/Jellyseerr-indstillinger → Brugere → Aktivér 'Auto-"
-"godkend nye brugere' og 'Importer Jellyfin/Plex-brugere'"
+
+msgid ""
+"Set the Service URL and turn on account creation below, and Wizarr signs "
+"them in during the invite so their account exists before they arrive. This "
+"uses the service's own sign-in route rather than an API key, so it needs "
+"'Enable New Plex Sign-In' under its Settings → Users."
+msgstr ""
+
+msgid ""
+"Must be https if the service has CSRF protection enabled, which sets its "
+"cookies Secure."
+msgstr ""
 
 msgid "Testing connection..."
 msgstr "Tester forbindelse…"
@@ -1438,6 +1493,12 @@ msgstr ""
 msgid "New Agent"
 msgstr "Ny Agent"
 
+msgid "User Key"
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
 msgid "Channel ID"
 msgstr "Kanal-id"
 
@@ -1473,6 +1534,9 @@ msgstr "Test & Opret Agent"
 
 msgid "Add Server"
 msgstr "Tilføj Server"
+
+msgid "Hide new users from login screens"
+msgstr ""
 
 msgid "Test & Add"
 msgstr "Test & Tilføj"
@@ -1510,6 +1574,12 @@ msgstr "Test & Opret Agent"
 msgid "Edit Server"
 msgstr "Ændre Server"
 
+msgid "Loading…"
+msgstr "Indlæser…"
+
+msgid "Please select at least one server for the invitation."
+msgstr "Vælg mindst én server for invitationen."
+
 msgid "Create Invitation"
 msgstr "Opret invitation"
 
@@ -1543,42 +1613,6 @@ msgstr ""
 msgid "Automatic"
 msgstr "Automatisk"
 
-msgid "Advanced Options"
-msgstr "Avancerede indstillinger"
-
-msgid "Invite Settings"
-msgstr "Invitations Indstillinger"
-
-msgid "Unlimited Usages"
-msgstr "Ubegrænsede anvendelser"
-
-msgid "Duration"
-msgstr "Varighed"
-
-msgid "in days"
-msgstr "i dage"
-
-msgid "Show Information"
-msgstr "Vis oplysninger"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr ""
-"Når angivet, fjernes inviterede brugere fra Plex-serveren efter et antal "
-"dage. (1-999)"
-
-#, fuzzy
-msgid "LDAP Integration"
-msgstr "Opret invitation"
-
-#, fuzzy
-msgid "Create LDAP User"
-msgstr "Opret API Nøgle"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr ""
-
 msgid "Target servers"
 msgstr "Måleservere"
 
@@ -1606,8 +1640,38 @@ msgstr ""
 msgid "Select Libraries"
 msgstr "Biblioteker"
 
-msgid "Loading…"
-msgstr "Indlæser…"
+msgid "Advanced Options"
+msgstr "Avancerede indstillinger"
+
+msgid "Invite Settings"
+msgstr "Invitations Indstillinger"
+
+msgid "Unlimited Usages"
+msgstr "Ubegrænsede anvendelser"
+
+msgid "Duration"
+msgstr "Varighed"
+
+msgid "in days"
+msgstr "i dage"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr ""
+"Når angivet, fjernes inviterede brugere fra Plex-serveren efter et antal "
+"dage. (1-999)"
+
+#, fuzzy
+msgid "LDAP Integration"
+msgstr "Opret invitation"
+
+#, fuzzy
+msgid "Create LDAP User"
+msgstr "Opret API Nøgle"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr ""
 
 msgid "Successfully generated an Invitation!"
 msgstr "Det lykkedes at oprette en invitation!"
@@ -1625,9 +1689,6 @@ msgstr "Linket er blevet kopieret til udklipsholderen!"
 #, fuzzy
 msgid "Create Another"
 msgstr "Opret en konto"
-
-msgid "Please select at least one server for the invitation."
-msgstr "Vælg mindst én server for invitationen."
 
 #, fuzzy
 msgid "Password Reset Link"
@@ -1737,8 +1798,8 @@ msgstr ""
 msgid "Your Discord server ID"
 msgstr "Din Discord server ID"
 
-msgid "URL to your Overseerr/Ombi instance"
-msgstr "URL til din Overseerr/Ombi-instans"
+msgid "URL to your Seerr/Ombi instance"
+msgstr ""
 
 #, fuzzy
 msgid "Create Step"
@@ -1758,6 +1819,12 @@ msgstr "Senest tilføjet"
 #, fuzzy
 msgid "Show recent content"
 msgstr "Ingen nylig indhold fundet"
+
+msgid "Collection Media"
+msgstr ""
+
+msgid "Show media from a Plex collection"
+msgstr ""
 
 msgid "Button"
 msgstr ""
@@ -1784,6 +1851,53 @@ msgstr "Ingen API nøgler"
 
 msgid "Get started by creating a new API key."
 msgstr "Kom i gang med at oprette en ny API-nøgle."
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
+msgstr ""
 
 #, fuzzy
 msgid "Media Servers"
@@ -1845,8 +1959,11 @@ msgstr "Tilslutningsnavn"
 msgid "Media Server"
 msgstr "Aldrig"
 
-msgid "Overseerr (Info)"
-msgstr "Overseerr (Info)"
+msgid "Seerr"
+msgstr ""
+
+msgid "Seerr (Info)"
+msgstr ""
 
 msgid "Ombi"
 msgstr "Ombi"
@@ -1890,6 +2007,11 @@ msgstr "Display"
 
 msgid "Configure how your application appears to users"
 msgstr "Konfigurer, hvordan din ansøgning vises for brugerne"
+
+msgid ""
+"Which server's posters fill the background of the public join page. 'The "
+"server the invite is for' shows nothing without a valid invite."
+msgstr ""
 
 msgid "Access Control"
 msgstr "Adgangskontrol"
@@ -2023,6 +2145,11 @@ msgstr "Serverindstillinger"
 msgid "Where to find users and groups"
 msgstr ""
 
+msgid ""
+"Optional. User sync imports only the users that match this filter and the "
+"user object class. Login does not use this filter."
+msgstr ""
+
 msgid "Optional - only needed for admin group restriction"
 msgstr ""
 
@@ -2127,17 +2254,22 @@ msgid "Which media server should trigger invitations to this external service"
 msgstr ""
 "Hvilken medieserver skal udløse invitationer til denne eksterne tjeneste"
 
-msgid "Open your Overseerr/Jellyseerr admin panel"
-msgstr "Åbn dit Overseerr/Jellyseerr administratorpanel"
+msgid "To have Wizarr create the account instead:"
+msgstr ""
 
-msgid "Navigate to Settings → Users"
-msgstr "Naviger til Indstillinger → Brugere"
+msgid "Set the Service URL below"
+msgstr ""
 
-msgid "Enable 'Auto-approve new users'"
-msgstr "Aktivér \"Auto-godkend nye brugere''"
+msgid "Turn on account creation below"
+msgstr ""
 
-msgid "Enable 'Import Jellyfin/Plex users'"
-msgstr "Aktivér 'Import Jellyfin/Plex-brugere''"
+msgid "In the service, enable Settings → Users → 'Enable New Plex Sign-In'"
+msgstr ""
+
+msgid ""
+"This uses the service's own sign-in route, so there is no API key to "
+"configure."
+msgstr ""
 
 msgid "The full URL to your external service instance"
 msgstr "Den fulde URL til din eksterne serviceinstans"
@@ -2379,6 +2511,12 @@ msgstr "Opsætning af Wizarr"
 msgid "Create an account"
 msgstr "Opret en konto"
 
+msgid "Pagination"
+msgstr ""
+
+msgid "Show more"
+msgstr ""
+
 msgid "Unlimited"
 msgstr "Ubegrænset"
 
@@ -2450,6 +2588,25 @@ msgstr "Adgangskode"
 #, fuzzy
 msgid "Remove user"
 msgstr "Hjem"
+
+msgid "Setup Guide"
+msgstr ""
+
+msgid "Select your server to open its setup guide."
+msgstr ""
+
+#, python-format
+msgid "Open the setup guide for %(name)s"
+msgstr ""
+
+msgid ""
+"This page is for invited users. Open the link from your invitation to start."
+msgstr ""
+
+msgid ""
+"If you already accepted your invitation, ask the server administrator for "
+"help."
+msgstr ""
 
 #, fuzzy
 msgid "Before Invitation"
@@ -3047,6 +3204,54 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Show Information"
+#~ msgstr "Vis oplysninger"
+
+#~ msgid "Invalid API token or insufficient permissions."
+#~ msgstr "Ugyldig API token eller utilstrækkelige tilladelser."
+
+#~ msgid "API token lacks required permissions."
+#~ msgstr "API token mangler nødvendige tilladelser."
+
+#~ msgid "Overseerr/Jellyseerr Information"
+#~ msgstr "Oplysninger om Overseerr/Jellyseerr"
+
+#~ msgid "URL to your Overseerr/Ombi instance"
+#~ msgstr "URL til din Overseerr/Ombi-instans"
+
+#~ msgid "Overseerr (Info)"
+#~ msgstr "Overseerr (Info)"
+
+#, fuzzy
+#~ msgid ""
+#~ "Overseerr and Jellyseerr automatically import new users by default. No "
+#~ "API connection is required for Wizarr integration."
+#~ msgstr ""
+#~ "Overseerr og Jellyseerr importerer automatisk nye brugere som standard. "
+#~ "Ingen API-forbindelse er nødvendig for Wizarr integration."
+
+#~ msgid "To enable auto-import:"
+#~ msgstr "For at aktivere automatisk import:"
+
+#~ msgid ""
+#~ "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
+#~ "new users' and 'Import Jellyfin/Plex users'"
+#~ msgstr ""
+#~ "Gå til dine Overseerr/Jellyseerr-indstillinger → Brugere → Aktivér 'Auto-"
+#~ "godkend nye brugere' og 'Importer Jellyfin/Plex-brugere'"
+
+#~ msgid "Open your Overseerr/Jellyseerr admin panel"
+#~ msgstr "Åbn dit Overseerr/Jellyseerr administratorpanel"
+
+#~ msgid "Navigate to Settings → Users"
+#~ msgstr "Naviger til Indstillinger → Brugere"
+
+#~ msgid "Enable 'Auto-approve new users'"
+#~ msgstr "Aktivér \"Auto-godkend nye brugere''"
+
+#~ msgid "Enable 'Import Jellyfin/Plex users'"
+#~ msgstr "Aktivér 'Import Jellyfin/Plex-brugere''"
 
 #~ msgid "No one is watching"
 #~ msgstr "Ingen ser noget"

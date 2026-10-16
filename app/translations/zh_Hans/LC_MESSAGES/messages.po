@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-09-22 08:32+0000\n"
+"POT-Creation-Date: 2026-10-16 08:10+0000\n"
 "PO-Revision-Date: 2026-09-11 08:03+0000\n"
 "Last-Translator: wolfling45 <tdwangfei@gmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -150,6 +150,9 @@ msgstr "还有%(n)d分钟"
 msgid "soon"
 msgstr "很快"
 
+msgid "Enter a valid email address, or leave the field empty."
+msgstr ""
+
 msgid "Admin created"
 msgstr "管理员创建"
 
@@ -199,6 +202,9 @@ msgstr "登录成功"
 
 msgid "LDAP authentication failed"
 msgstr "LDAP 身份验证失败"
+
+msgid "Sign in through Cloudflare Access to reach the admin pages."
+msgstr ""
 
 msgid "Invalid username or password"
 msgstr "用户名或密码无效"
@@ -329,9 +335,6 @@ msgstr "无法加载向导步骤。正在继续进行邀请接受。"
 msgid "Continue to Invite"
 msgstr "继续邀请"
 
-msgid "Please log in to continue"
-msgstr "请登录以继续操作"
-
 msgid ""
 "Unable to load wizard steps. Setup complete! Welcome to your media server."
 msgstr "无法加载向导步骤。设置已完成！欢迎使用您的媒体服务器。"
@@ -350,6 +353,11 @@ msgstr "无法加载向导步骤。请重试。"
 
 msgid "This bundle has no steps to preview."
 msgstr "此项目包没有可预览的步骤。"
+
+msgid ""
+"Cannot save the change because it conflicts with other wizard data. Refresh "
+"the page and try again."
+msgstr ""
 
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
@@ -443,6 +451,15 @@ msgstr "新密码"
 msgid "Please confirm the new password."
 msgstr "请确认新密码。"
 
+#, python-format
+msgid ""
+"This LDAP filter is not valid. Enter one complete filter in parentheses, for "
+"example %(example)s."
+msgstr ""
+
+msgid "User Sync Filter"
+msgstr ""
+
 msgid "Server Type"
 msgstr "服务器类型"
 
@@ -464,8 +481,8 @@ msgstr "允许下载"
 msgid "Allow Live TV"
 msgstr "允许访问直播电视"
 
-msgid "Overseerr/Ombi URL"
-msgstr "Overseerr/Ombi 网址"
+msgid "Seerr/Ombi URL"
+msgstr ""
 
 msgid "Ombi API Key"
 msgstr "Ombi API 密钥"
@@ -533,11 +550,8 @@ msgstr "Kavita"
 msgid "Navidrome"
 msgstr "Navidrome"
 
-msgid "Invalid API token or insufficient permissions."
-msgstr "无效的 API 令牌或权限不足。"
-
-msgid "API token lacks required permissions."
-msgstr "API 令牌缺少所需权限。"
+msgid "Invalid API token, or the token does not have the 'user:read' ACL."
+msgstr ""
 
 msgid "Could not connect to Drop server."
 msgstr "无法连接到 Drop 服务器。"
@@ -578,6 +592,18 @@ msgstr "生成一个强随机密码代替"
 
 msgid "Continue"
 msgstr "继续"
+
+msgid "Invitation Code"
+msgstr "邀请代码"
+
+msgid "Wizarr"
+msgstr "Wizarr"
+
+msgid "Enter Code to Continue"
+msgstr "输入邀请代码以继续"
+
+msgid "Enter your code"
+msgstr "输入您的邀请代码"
 
 msgid "Complete your account setup for local servers"
 msgstr "完成本地服务器的账户设置"
@@ -656,9 +682,6 @@ msgstr "密码强度：强"
 
 msgid "Passwords do not match"
 msgstr "密码不匹配"
-
-msgid "Wizarr"
-msgstr "Wizarr"
 
 msgid "Invalid Invitation"
 msgstr "无效的邀请"
@@ -811,6 +834,36 @@ msgstr "接下来做什么？"
 msgid "Log in to your media server with your username and new password."
 msgstr "请使用您的用户名和新密码登录媒体服务器。"
 
+msgid "Signing you in"
+msgstr ""
+
+msgid "Finishing up with Plex. This only takes a moment."
+msgstr ""
+
+msgid "Back to your invitation"
+msgstr ""
+
+msgid "Nothing to finish"
+msgstr ""
+
+msgid "Open your invitation link again to sign in with Plex."
+msgstr ""
+
+msgid "All set"
+msgstr ""
+
+msgid "Taking you to the next step..."
+msgstr ""
+
+msgid "Sign-in failed"
+msgstr ""
+
+msgid "That took too long"
+msgstr ""
+
+msgid "We did not hear back from Plex. Please try signing in again."
+msgstr ""
+
 msgid "Administrator"
 msgstr "管理员"
 
@@ -838,15 +891,6 @@ msgstr "加入"
 
 msgid "Join the ultimate media server experience."
 msgstr "加入终极媒体服务器体验。"
-
-msgid "Enter Code to Continue"
-msgstr "输入邀请代码以继续"
-
-msgid "Invitation Code"
-msgstr "邀请代码"
-
-msgid "Enter your code"
-msgstr "输入您的邀请代码"
 
 msgid "Join Server"
 msgstr "加入服务器"
@@ -1076,6 +1120,14 @@ msgstr "编辑用户"
 msgid "Close modal"
 msgstr "关闭弹窗"
 
+msgid "Update"
+msgstr "更新"
+
+msgid ""
+"Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
+"user. Wizarr does not send it to the media server."
+msgstr ""
+
 msgid "Tabs"
 msgstr "标签页"
 
@@ -1118,9 +1170,6 @@ msgstr "到期管理"
 msgid "Expiry date"
 msgstr "有效期日期"
 
-msgid "Update"
-msgstr "更新"
-
 msgid "Current expiry"
 msgstr "当前有效期"
 
@@ -1135,6 +1184,12 @@ msgstr "添加关于此用户的备注..."
 
 msgid "Update Notes"
 msgstr "更新备注"
+
+msgid "Sync users from media servers"
+msgstr ""
+
+msgid "Sync"
+msgstr ""
 
 msgid "Link"
 msgstr "链接"
@@ -1276,24 +1331,26 @@ msgstr "添加新连接"
 msgid "Edit Connection"
 msgstr "编辑连接"
 
-msgid "Overseerr/Jellyseerr Information"
-msgstr "Overseerr/Jellyseerr 信息"
+msgid "Seerr Information"
+msgstr ""
 
 msgid ""
-"Overseerr and Jellyseerr automatically import new users by default. No API "
-"connection is required for Wizarr integration."
+"Seerr creates an account the first time someone signs in, so by default an "
+"invited user has no account there until they visit and log in themselves. "
+"Overseerr and Jellyseerr, which merged into Seerr, work the same way."
 msgstr ""
-"Overseerr 和 Jellyseerr 默认会自动导入新用户。Wizarr 集成不需要 API 连接。"
-
-msgid "To enable auto-import:"
-msgstr "要启用自动导入："
 
 msgid ""
-"Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve new "
-"users' and 'Import Jellyfin/Plex users'"
+"Set the Service URL and turn on account creation below, and Wizarr signs "
+"them in during the invite so their account exists before they arrive. This "
+"uses the service's own sign-in route rather than an API key, so it needs "
+"'Enable New Plex Sign-In' under its Settings → Users."
 msgstr ""
-"前往您的 Overseerr/Jellyseerr 设置 → 用户 → 启用“自动批准新用户”和“导入 "
-"Jellyfin/Plex 用户”"
+
+msgid ""
+"Must be https if the service has CSRF protection enabled, which sets its "
+"cookies Secure."
+msgstr ""
 
 msgid "Testing connection..."
 msgstr "正在测试连接..."
@@ -1342,6 +1399,12 @@ msgstr "输入一个描述性的名称，以便您以后能更容易识别这个
 msgid "New Agent"
 msgstr "新代理"
 
+msgid "User Key"
+msgstr ""
+
+msgid "API Token"
+msgstr ""
+
 msgid "Channel ID"
 msgstr "频道 ID"
 
@@ -1374,6 +1437,9 @@ msgstr "测试并创建代理"
 
 msgid "Add Server"
 msgstr "添加服务器"
+
+msgid "Hide new users from login screens"
+msgstr ""
 
 msgid "Test & Add"
 msgstr "测试并创建"
@@ -1408,6 +1474,12 @@ msgstr "测试并保存更改"
 msgid "Edit Server"
 msgstr "编辑服务器"
 
+msgid "Loading…"
+msgstr "加载中……"
+
+msgid "Please select at least one server for the invitation."
+msgstr "请至少选择一个服务器进行邀请。"
+
 msgid "Create Invitation"
 msgstr "创建邀请"
 
@@ -1441,38 +1513,6 @@ msgstr "向导组合包"
 msgid "Automatic"
 msgstr "自动"
 
-msgid "Advanced Options"
-msgstr "高级选项"
-
-msgid "Invite Settings"
-msgstr "邀请设置"
-
-msgid "Unlimited Usages"
-msgstr "不限制使用次数"
-
-msgid "Duration"
-msgstr "有效期"
-
-msgid "in days"
-msgstr "以天为单位"
-
-msgid "Show Information"
-msgstr "显示信息"
-
-msgid ""
-"When set, invited user(s) will be removed from the Plex server after a "
-"number of days. (1-999)"
-msgstr "设置后，受邀用户将在若干天后从 Plex 服务器中移除。（1-999 天）"
-
-msgid "LDAP Integration"
-msgstr "LDAP 集成"
-
-msgid "Create LDAP User"
-msgstr "创建 LDAP 用户"
-
-msgid "Automatically create an LDAP user when this invitation is accepted"
-msgstr "接受邀请后自动创建 LDAP 用户"
-
 msgid "Target servers"
 msgstr "目标服务器"
 
@@ -1498,8 +1538,34 @@ msgstr "可同时进行流媒体播放的设备数量。设置为 0 表示无限
 msgid "Select Libraries"
 msgstr "选择媒体库"
 
-msgid "Loading…"
-msgstr "加载中……"
+msgid "Advanced Options"
+msgstr "高级选项"
+
+msgid "Invite Settings"
+msgstr "邀请设置"
+
+msgid "Unlimited Usages"
+msgstr "不限制使用次数"
+
+msgid "Duration"
+msgstr "有效期"
+
+msgid "in days"
+msgstr "以天为单位"
+
+msgid ""
+"When set, invited user(s) will be removed from the Plex server after a "
+"number of days. (1-999)"
+msgstr "设置后，受邀用户将在若干天后从 Plex 服务器中移除。（1-999 天）"
+
+msgid "LDAP Integration"
+msgstr "LDAP 集成"
+
+msgid "Create LDAP User"
+msgstr "创建 LDAP 用户"
+
+msgid "Automatically create an LDAP user when this invitation is accepted"
+msgstr "接受邀请后自动创建 LDAP 用户"
 
 msgid "Successfully generated an Invitation!"
 msgstr "已成功生成邀请！"
@@ -1515,9 +1581,6 @@ msgstr "链接已复制到剪贴板！"
 
 msgid "Create Another"
 msgstr "创建另一个"
-
-msgid "Please select at least one server for the invitation."
-msgstr "请至少选择一个服务器进行邀请。"
 
 msgid "Password Reset Link"
 msgstr "密码重置链接"
@@ -1615,8 +1678,8 @@ msgstr "选择此步骤应在何时显示给用户"
 msgid "Your Discord server ID"
 msgstr "您的Discord服务器ID"
 
-msgid "URL to your Overseerr/Ombi instance"
-msgstr "您的Overseerr/Ombi实例的URL链接"
+msgid "URL to your Seerr/Ombi instance"
+msgstr ""
 
 msgid "Create Step"
 msgstr "创建步骤"
@@ -1632,6 +1695,12 @@ msgstr "最近添加的媒体"
 
 msgid "Show recent content"
 msgstr "显示最近的内容"
+
+msgid "Collection Media"
+msgstr ""
+
+msgid "Show media from a Plex collection"
+msgstr ""
 
 msgid "Button"
 msgstr "按钮"
@@ -1656,6 +1725,53 @@ msgstr "没有API密钥"
 
 msgid "Get started by creating a new API key."
 msgstr "开始使用前，请创建一个新的API密钥。"
+
+msgid "Content Restrictions"
+msgstr ""
+
+msgid ""
+"Plex hides content from the invited user with these filters. Separate values "
+"with commas. Leave a field empty for no filter. Requires Plex Pass."
+msgstr ""
+
+msgid "Movies"
+msgstr ""
+
+msgid "E.g. G, PG, PG-13"
+msgstr ""
+
+msgid "E.g. R, NC-17"
+msgstr ""
+
+msgid "TV Shows"
+msgstr ""
+
+msgid "E.g. TV-Y, TV-G"
+msgstr ""
+
+msgid "E.g. TV-MA"
+msgstr ""
+
+msgid "Music"
+msgstr ""
+
+msgid "Exclude labels"
+msgstr ""
+
+msgid "E.g. private"
+msgstr ""
+
+msgid "Allow only labels"
+msgstr ""
+
+msgid "E.g. kids"
+msgstr ""
+
+msgid "Allow only ratings"
+msgstr ""
+
+msgid "Exclude ratings"
+msgstr ""
 
 msgid "Media Servers"
 msgstr "媒体服务器"
@@ -1711,8 +1827,11 @@ msgstr "连接名称"
 msgid "Media Server"
 msgstr "媒体服务器"
 
-msgid "Overseerr (Info)"
-msgstr "Overseerr (信息)"
+msgid "Seerr"
+msgstr ""
+
+msgid "Seerr (Info)"
+msgstr ""
 
 msgid "Ombi"
 msgstr "Ombi"
@@ -1751,6 +1870,11 @@ msgstr "显示设置"
 
 msgid "Configure how your application appears to users"
 msgstr "配置您的应用程序呈现给用户的外观方式"
+
+msgid ""
+"Which server's posters fill the background of the public join page. 'The "
+"server the invite is for' shows nothing without a valid invite."
+msgstr ""
 
 msgid "Access Control"
 msgstr "访问控制"
@@ -1871,6 +1995,11 @@ msgstr "用户和组设置"
 msgid "Where to find users and groups"
 msgstr "在哪里查找用户和组"
 
+msgid ""
+"Optional. User sync imports only the users that match this filter and the "
+"user object class. Login does not use this filter."
+msgstr ""
+
 msgid "Optional - only needed for admin group restriction"
 msgstr "可选——仅在需要管理员组限制时使用"
 
@@ -1966,17 +2095,22 @@ msgstr "一个友好的名称来标识此连接"
 msgid "Which media server should trigger invitations to this external service"
 msgstr "哪个媒体服务器应该触发对此外部服务的邀请"
 
-msgid "Open your Overseerr/Jellyseerr admin panel"
-msgstr "打开你的 Overseerr/Jellyseerr 管理面板"
+msgid "To have Wizarr create the account instead:"
+msgstr ""
 
-msgid "Navigate to Settings → Users"
-msgstr "导航到 设置 → 用户"
+msgid "Set the Service URL below"
+msgstr ""
 
-msgid "Enable 'Auto-approve new users'"
-msgstr "启用“自动批准新用户”"
+msgid "Turn on account creation below"
+msgstr ""
 
-msgid "Enable 'Import Jellyfin/Plex users'"
-msgstr "启用“导入 Jellyfin/Plex 用户”"
+msgid "In the service, enable Settings → Users → 'Enable New Plex Sign-In'"
+msgstr ""
+
+msgid ""
+"This uses the service's own sign-in route, so there is no API key to "
+"configure."
+msgstr ""
 
 msgid "The full URL to your external service instance"
 msgstr "您外部服务实例的完整 URL"
@@ -2210,6 +2344,12 @@ msgstr "设置Wizarr"
 msgid "Create an account"
 msgstr "创建一个账号"
 
+msgid "Pagination"
+msgstr ""
+
+msgid "Show more"
+msgstr ""
+
 msgid "Unlimited"
 msgstr "无限制"
 
@@ -2272,6 +2412,25 @@ msgstr "重置密码"
 
 msgid "Remove user"
 msgstr "移除用户"
+
+msgid "Setup Guide"
+msgstr ""
+
+msgid "Select your server to open its setup guide."
+msgstr ""
+
+#, python-format
+msgid "Open the setup guide for %(name)s"
+msgstr ""
+
+msgid ""
+"This page is for invited users. Open the link from your invitation to start."
+msgstr ""
+
+msgid ""
+"If you already accepted your invitation, ask the server administrator for "
+"help."
+msgstr ""
 
 msgid "Before Invitation"
 msgstr "邀请之前"
@@ -2867,6 +3026,58 @@ msgstr ""
 
 msgid "Open RomM"
 msgstr ""
+
+#~ msgid "Show Information"
+#~ msgstr "显示信息"
+
+#~ msgid "Please log in to continue"
+#~ msgstr "请登录以继续操作"
+
+#~ msgid "Overseerr/Ombi URL"
+#~ msgstr "Overseerr/Ombi 网址"
+
+#~ msgid "Invalid API token or insufficient permissions."
+#~ msgstr "无效的 API 令牌或权限不足。"
+
+#~ msgid "API token lacks required permissions."
+#~ msgstr "API 令牌缺少所需权限。"
+
+#~ msgid "Overseerr/Jellyseerr Information"
+#~ msgstr "Overseerr/Jellyseerr 信息"
+
+#~ msgid "URL to your Overseerr/Ombi instance"
+#~ msgstr "您的Overseerr/Ombi实例的URL链接"
+
+#~ msgid "Overseerr (Info)"
+#~ msgstr "Overseerr (信息)"
+
+#~ msgid ""
+#~ "Overseerr and Jellyseerr automatically import new users by default. No "
+#~ "API connection is required for Wizarr integration."
+#~ msgstr ""
+#~ "Overseerr 和 Jellyseerr 默认会自动导入新用户。Wizarr 集成不需要 API 连接。"
+
+#~ msgid "To enable auto-import:"
+#~ msgstr "要启用自动导入："
+
+#~ msgid ""
+#~ "Go to your Overseerr/Jellyseerr Settings → Users → Enable 'Auto-approve "
+#~ "new users' and 'Import Jellyfin/Plex users'"
+#~ msgstr ""
+#~ "前往您的 Overseerr/Jellyseerr 设置 → 用户 → 启用“自动批准新用户”和“导入 "
+#~ "Jellyfin/Plex 用户”"
+
+#~ msgid "Open your Overseerr/Jellyseerr admin panel"
+#~ msgstr "打开你的 Overseerr/Jellyseerr 管理面板"
+
+#~ msgid "Navigate to Settings → Users"
+#~ msgstr "导航到 设置 → 用户"
+
+#~ msgid "Enable 'Auto-approve new users'"
+#~ msgstr "启用“自动批准新用户”"
+
+#~ msgid "Enable 'Import Jellyfin/Plex users'"
+#~ msgstr "启用“导入 Jellyfin/Plex 用户”"
 
 #~ msgid "Username must be 3 to 15 characters."
 #~ msgstr "用户名必须为3到15个字符。"

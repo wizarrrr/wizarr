@@ -23,13 +23,7 @@ from ...extensions import db
 from ...forms.general import GeneralSettingsForm, MailingSettingsForm
 from ...forms.settings import SettingsForm
 from ...models import Library, MediaServer, Settings
-from ...services.servers import (
-    check_audiobookshelf,
-    check_emby,
-    check_jellyfin,
-    check_plex,
-    check_romm,
-)
+from ...services.media.service import check_server_connection
 
 settings_bp = Blueprint("settings", __name__, url_prefix="/settings")
 
@@ -70,23 +64,14 @@ def _save_settings(data: dict) -> None:
 
 
 def _check_server_connection(data: dict) -> tuple[bool, str]:
-    stype = data["server_type"]
-    if stype == "plex":
-        return check_plex(data["server_url"], data["api_key"])
-    if stype == "emby":
-        return check_emby(data["server_url"], data["api_key"])
-    if stype == "audiobookshelf":
-        return check_audiobookshelf(data["server_url"], data["api_key"])
-    if stype == "romm":
+    token = data.get("api_key") or ""
+    if data["server_type"] == "romm" and not token:
         # Derive token from supplied credentials if api_key missing
-        token = data.get("api_key")
-        if not token:
-            username = data.get("server_username", "").strip()
-            password = data.get("server_password", "").strip()
-            if username and password:
-                token = base64.b64encode(f"{username}:{password}".encode()).decode()
-        return check_romm(data["server_url"], token or "")
-    return check_jellyfin(data["server_url"], data["api_key"])
+        username = data.get("server_username", "").strip()
+        password = data.get("server_password", "").strip()
+        if username and password:
+            token = base64.b64encode(f"{username}:{password}".encode()).decode()
+    return check_server_connection(data["server_type"], data["server_url"], token)
 
 
 @settings_bp.get("")
@@ -123,8 +108,9 @@ def server_settings():
 
         ok, error_msg = _check_server_connection(data)
         if not ok:
-            # Add the error message to the form
-            form.server_url.errors = [error_msg]
+            # Add the error message to the form. WTForms declares errors as
+            # tuple(), but validate_on_submit() has already set a list here.
+            form.server_url.errors = [error_msg]  # ty: ignore[invalid-assignment]
             # HTMX‐render of the same form with errors
             return render_template(
                 "settings/partials/server_form.html",
@@ -425,6 +411,7 @@ def ldap_settings():
         config.user_base_dn = form.user_base_dn.data
         config.user_search_filter = form.user_search_filter.data
         config.user_object_class = form.user_object_class.data
+        config.user_sync_filter = form.user_sync_filter.data or None
         config.username_attribute = form.username_attribute.data
         config.email_attribute = form.email_attribute.data
         config.group_base_dn = form.group_base_dn.data
@@ -447,6 +434,7 @@ def ldap_settings():
         form.user_base_dn.data = config.user_base_dn
         form.user_search_filter.data = config.user_search_filter
         form.user_object_class.data = config.user_object_class
+        form.user_sync_filter.data = config.user_sync_filter
         form.username_attribute.data = config.username_attribute
         form.email_attribute.data = config.email_attribute
         form.group_base_dn.data = config.group_base_dn
@@ -566,8 +554,12 @@ def sync_all_ldap_users():
     This imports all new LDAP users that don't exist in Wizarr yet,
     then returns the updated unified user list.
     """
-    from app.models import LDAPConfiguration, User
-    from app.services.ldap.user_sync import import_ldap_user, list_ldap_users
+    from app.models import LDAPConfiguration
+    from app.services.ldap.user_sync import (
+        find_local_user,
+        import_ldap_user,
+        list_ldap_users,
+    )
 
     ldap_config = LDAPConfiguration.query.filter_by(enabled=True).first()
     if not ldap_config:
@@ -577,9 +569,9 @@ def sync_all_ldap_users():
             message=_("LDAP is not configured"),
         )
 
-    # Get all LDAP users
+    # Get all LDAP users. On failure, result is the error message.
     success, result = list_ldap_users()
-    if not success:
+    if not success or isinstance(result, str):
         return render_template(
             "_partials/ldap_alert.html",
             level="error",
@@ -597,7 +589,7 @@ def sync_all_ldap_users():
         username = ldap_user["username"]
 
         # Check if user already exists
-        existing = User.query.filter_by(username=username).first()
+        existing = find_local_user(username)
         if existing:
             skipped_count += 1
             continue

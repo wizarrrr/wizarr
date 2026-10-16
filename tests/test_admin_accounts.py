@@ -1,33 +1,16 @@
-from app.extensions import db
-from app.models import AdminAccount
-
-
-def test_admin_account_crud(app):
-    """Creating an admin account persists and password hashing works."""
-    with app.app_context():
-        acc = AdminAccount(username="alice")
-        acc.set_password("Secret123")
-        db.session.add(acc)
-        db.session.commit()
-
-        fetched = AdminAccount.query.filter_by(username="alice").first()
-        assert fetched is not None
-        assert fetched.check_password("Secret123")
-        assert not fetched.check_password("WrongPass")
-
-
-def test_admin_login(client, app):
+def test_admin_login(client, admin_user):
     """POST /login authenticates an AdminAccount and redirects home."""
-    with app.app_context():
-        acc = AdminAccount(username="bob")
-        acc.set_password("Password1")
-        db.session.add(acc)
-        db.session.commit()
-
-    resp = client.post("/login", data={"username": "bob", "password": "Password1"})
-    # Should redirect to / on success (302 Found)
-    assert resp.status_code in {302, 303}
+    resp = client.post(
+        "/login", data={"username": "testadmin", "password": "TestPass123"}
+    )
+    assert resp.status_code == 302
     assert resp.headers["Location"].endswith("/")
+
+
+def test_admin_login_rejects_a_wrong_password(client, admin_user):
+    resp = client.post("/login", data={"username": "testadmin", "password": "Wrong"})
+    assert resp.status_code == 200
+    assert "Invalid username or password" in resp.get_data(as_text=True)
 
 
 def test_head_login_does_not_log_auth_fail(client, caplog):
