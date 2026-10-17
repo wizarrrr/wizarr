@@ -248,6 +248,24 @@ def library_name_selected(name: object, library_names: Collection[str] | None) -
     return str(name).casefold() in {wanted.casefold() for wanted in library_names}
 
 
+def enabled_library_names(server_id: int) -> set[str] | None:
+    """Return the names of the libraries that are enabled in Wizarr for a server.
+
+    ``None`` means that Wizarr has no library list for the server (it has
+    never been scanned), so every library may be used. Libraries are matched
+    by name because ``external_id`` holds Plex's global section id, not the
+    key that ``library.sections()`` returns.
+    """
+    try:
+        libraries = Library.query.filter_by(server_id=server_id).all()
+    except Exception as exc:
+        logging.debug(f"Cannot read the enabled libraries of server {server_id}: {exc}")
+        return None
+    if not libraries:
+        return None
+    return {library.name for library in libraries if library.enabled and library.name}
+
+
 def newest_first(items: list[dict], limit: int) -> list[dict]:
     """Sort recent items by ``added_at``, newest first, and keep *limit* items."""
     return sorted(items, key=_added_at_sort_key, reverse=True)[:limit]
