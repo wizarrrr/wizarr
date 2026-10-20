@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import base64
 import logging
+import time
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -31,6 +32,8 @@ needs:
 
     * GET /api/platforms  –>  list of platforms (= libraries)
     * GET /api/users      –>  list all users (admin only)
+    * GET /api/activity   –>  live "currently playing" sessions (admin token
+                              required; needs the ``roms.user.read`` scope)
 
 
 """
@@ -53,6 +56,13 @@ class RommClient(RestApiMixin):
         return check_romm(url, token)
 
     API_PREFIX = "/api"
+
+    # Brief in-instance memo for now_playing() so a single dashboard render
+    # that asks for the session list twice (health card + statistics) hits
+    # ``/api/activity`` only once.  Far below RomM's own 90s activity TTL and
+    # the 30s PollingCollector interval, so it never hides real changes.
+    _NOW_PLAYING_CACHE_TTL = 5.0
+    _now_playing_cache: tuple[float, list[dict]] | None = None
 
     def __init__(self, *args, **kwargs):
         # Defaults for historical callers
@@ -369,21 +379,104 @@ class RommClient(RestApiMixin):
         return password  # no hashing for now – keep consistent with other svc
 
     def now_playing(self) -> list[dict]:
-        """Return a list of currently playing sessions from RomM.
+        """Return currently active RomM play sessions.
 
-        Note: RomM is a ROM/game collection management server that does not
-        provide session tracking or "now playing" functionality in its API.
-        This method always returns an empty list.
+        RomM exposes live "currently playing" state via ``GET /api/activity``
+        (Redis-backed, 90s TTL refreshed by client heartbeats).  Each entry is
+        mapped into Wizarr's standardized session dict so the existing
+        ``PollingCollector`` can track start/progress/end events.
 
-        Returns:
-            list: Always returns an empty list since RomM doesn't track active sessions.
+        Requires the configured token to hold the ``roms.user.read`` scope
+        (an admin token does).
         """
-        # RomM API doesn't provide session/now-playing endpoints
-        # It's focused on ROM collection management, not active gaming sessions
-        logging.debug(
-            "ROMM: No session tracking available - RomM doesn't provide now-playing functionality"
-        )
-        return []
+        now = time.monotonic()
+        if (
+            self._now_playing_cache is not None
+            and now - self._now_playing_cache[0] < self._NOW_PLAYING_CACHE_TTL
+        ):
+            return self._now_playing_cache[1]
+
+        try:
+            entries = self.get(f"{self.API_PREFIX}/activity").json()
+        except Exception as exc:
+            logging.warning("RomM: failed to fetch activity – %s", exc)
+            self._now_playing_cache = (now, [])
+            return []
+
+        sessions: list[dict] = []
+        for entry in entries:
+            try:
+                sessions.append(self._activity_to_session(entry))
+            except Exception as exc:
+                logging.warning("RomM: failed to map activity entry – %s", exc)
+        self._now_playing_cache = (now, sessions)
+        return sessions
+
+    def _activity_to_session(self, entry: dict) -> dict:
+        """Map a RomM ``ActivityEntry`` to Wizarr's standardized session dict.
+
+        Raises:
+            ValueError: if the entry lacks ``user_id`` or ``device_id``.  The
+                ``user_id:device_id`` pair keys the session (mirroring RomM's
+                own Redis key), so an entry without both is untrackable and is
+                skipped by ``now_playing()``.
+        """
+        user_id = entry.get("user_id")
+        device_id = entry.get("device_id")
+        if user_id is None or not device_id:
+            msg = f"activity entry missing user_id/device_id: {entry!r}"
+            raise ValueError(msg)
+        rom_id = entry.get("rom_id")
+
+        return {
+            # Required fields
+            "user_name": entry.get("username", "Unknown"),
+            "media_title": entry.get("rom_name", "Unknown"),
+            "session_id": f"{user_id}:{device_id}",
+            # User info
+            "user_id": user_id,
+            # Media info
+            "media_type": "game",
+            "media_id": rom_id,
+            # Playback info (RomM has no pause/progress/duration)
+            "state": "playing",
+            "progress": 0.0,
+            "transcoding_info": {
+                "is_transcoding": False,
+                "direct_play": True,
+                "video_codec": None,
+                "audio_codec": None,
+                "container": None,
+                "video_resolution": None,
+                "transcoding_speed": None,
+            },
+            # Device info (RomM has a single device_type, no separate device name)
+            "client": entry.get("device_type", ""),
+            "device_name": "",
+            "platform": entry.get("platform_name", ""),
+            "artwork_url": self._cover_url(entry),
+            # Metadata
+            "metadata": {
+                "romm_platform_slug": entry.get("platform_slug", ""),
+                "romm_device_id": device_id,
+                "romm_started_at": entry.get("started_at"),
+                "romm_screenshot_path": entry.get("screenshot_path", ""),
+            },
+        }
+
+    def _cover_url(self, entry: dict) -> str:
+        """Build the absolute cover-art URL for a RomM activity entry.
+
+        RomM returns ``rom_cover_path`` as a relative path (e.g.
+        ``roms/nes/mario/cover.jpg``) served under ``/assets/romm/resources``.
+        We reconstruct the absolute URL and return it *raw*; the now-playing
+        card route wraps it in an image-proxy token (see
+        ``admin.now_playing_cards``), so proxying here would double-wrap it.
+        """
+        cover_path = entry.get("rom_cover_path")
+        if not cover_path or not self.url:
+            return ""
+        return f"{self.url.rstrip('/')}/assets/romm/resources/{cover_path.lstrip('/')}"
 
     def statistics(self):
         """Return essential RomM server statistics for the dashboard.
@@ -410,7 +503,7 @@ class RommClient(RestApiMixin):
                 users_response = self.get(f"{self.API_PREFIX}/users").json()
                 stats["user_stats"] = {
                     "total_users": len(users_response),
-                    "active_sessions": 0,  # RomM doesn't have sessions concept
+                    "active_sessions": len(self.now_playing()),
                 }
             except Exception as e:
                 logging.error(f"Failed to get RomM user stats: {e}")
@@ -525,14 +618,25 @@ class RommClient(RestApiMixin):
             logging.error(f"Failed to get RomM user count from database: {e}")
             return 0
 
+    def _server_version(self) -> str:
+        """Return the RomM version from the unauthenticated ``/api/heartbeat``.
+
+        Never raises – callers fall back to ``"Unknown"``.
+        """
+        try:
+            data = self.get(f"{self.API_PREFIX}/heartbeat").json()
+        except Exception as exc:
+            logging.debug("RomM: failed to fetch heartbeat – %s", exc)
+            return "Unknown"
+        return data.get("SYSTEM", {}).get("VERSION", "Unknown")
+
     def get_server_info(self) -> dict:
         """Get lightweight server information without triggering user sync."""
         try:
-            # RomM doesn't have traditional sessions/transcoding
             return {
-                "version": "Unknown",  # Would need API call to get version
+                "version": self._server_version(),
                 "transcoding_sessions": 0,  # RomM doesn't transcode
-                "active_sessions": 0,  # Would need to implement session tracking
+                "active_sessions": len(self.now_playing()),
             }
         except Exception as e:
             logging.error(f"Failed to get RomM server info: {e}")
