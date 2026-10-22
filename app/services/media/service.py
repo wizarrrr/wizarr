@@ -204,7 +204,10 @@ def _mode() -> str | None:
 
 
 def get_client(
-    server_type: str | None = None, url: str | None = None, token: str | None = None
+    server_type: str | None = None,
+    url: str | None = None,
+    token: str | None = None,
+    username: str | None = None,
 ):
     """Instantiate the MediaClient for the given server_type, optionally overriding URL/token."""
     if server_type is None:
@@ -221,6 +224,12 @@ def get_client(
         client.url = url
     if token:
         client.token = token
+    if server_type == "navidrome" and (
+        username is not None or url is not None or token is not None
+    ):
+        # Explicit scan credentials must not inherit another saved Navidrome
+        # server's administrator username through MediaClient's lookup fallback.
+        client.username = (username or "").strip() or "admin"
     return client
 
 
@@ -252,7 +261,9 @@ def server_type_choices(current: str | None = None) -> list[tuple[str, str]]:
     return [(name, name.title()) for name in names]
 
 
-def check_server_connection(server_type: str, url: str, token: str) -> tuple[bool, str]:
+def check_server_connection(
+    server_type: str, url: str, token: str, username: str | None = None
+) -> tuple[bool, str]:
     """Run the registered client's connection check for ``server_type``.
 
     An unknown type is refused with a message naming it, rather than being
@@ -261,6 +272,8 @@ def check_server_connection(server_type: str, url: str, token: str) -> tuple[boo
     client_class = CLIENTS.get(server_type)
     if client_class is None:
         return False, f"Unknown server type '{server_type}'"
+    if server_type == "navidrome":
+        return client_class.check_connection(url, token, username=username)
     return client_class.check_connection(url, token)
 
 
@@ -460,14 +473,17 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
 
 
 def scan_libraries(
-    url: str | None = None, token: str | None = None, server_type: str | None = None
+    url: str | None = None,
+    token: str | None = None,
+    server_type: str | None = None,
+    username: str | None = None,
 ):
     """Fetch available libraries from the media server using optional credentials.
 
     This is used for scanning libraries before a server is saved to the database.
     For saved servers, use scan_libraries_for_server() instead.
     """
-    client = get_client(server_type, url, token)
+    client = get_client(server_type, url, token, username=username)
     return client.libraries()
 
 

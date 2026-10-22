@@ -51,7 +51,10 @@ def _check_connection(data: dict):
                 f"{username}:{password}".encode()
             ).decode()
     return check_server_connection(
-        data["server_type"], data["server_url"], data.get("api_key") or ""
+        data["server_type"],
+        data["server_url"],
+        data.get("api_key") or "",
+        username=data.get("navidrome_username"),
     )
 
 
@@ -108,6 +111,11 @@ def create_server():
         server.server_type = data["server_type"]
         server.url = data["server_url"]
         server.api_key = data.get("api_key")
+        server.server_username = (
+            data.get("navidrome_username", "").strip() or "admin"
+            if data["server_type"] == "navidrome"
+            else None
+        )
         server.external_url = data.get("external_url")
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))
@@ -212,6 +220,11 @@ def edit_server(server_id):
         server.server_type = data["server_type"]
         server.url = data["server_url"]
         server.api_key = data.get("api_key")
+        server.server_username = (
+            data.get("navidrome_username", "").strip() or "admin"
+            if data["server_type"] == "navidrome"
+            else None
+        )
         server.external_url = data.get("external_url")
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))

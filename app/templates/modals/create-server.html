@@ -68,12 +68,23 @@
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
             </div>
             <div id="api-key-div">
-              <label for="api_key"
+              <label id="api-key-label" for="api_key"
                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">API Key</label>
               <input type="text"
                      name="api_key"
                      id="api_key"
                      value="{{ typed.api_key }}"
+                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
+            </div>
+            <div id="navidrome-options" style="display:none;">
+              <label for="navidrome_username"
+                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Navidrome Administrator Username</label>
+              <input type="text"
+                     name="navidrome_username"
+                     id="navidrome_username"
+                     value="{{ typed.navidrome_username or 'admin' }}"
+                     placeholder="admin"
+                     autocomplete="username"
                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white">
             </div>
             <div id="media-server-options" style="display:none;">
@@ -226,6 +237,8 @@
 
         document.getElementById('romm-options').style.display = type === 'romm' ? 'block' : 'none';
         document.getElementById('api-key-div').style.display = type === 'romm' ? 'none' : 'block';
+        document.getElementById('navidrome-options').style.display = type === 'navidrome' ? 'block' : 'none';
+        document.getElementById('api-key-label').textContent = type === 'navidrome' ? 'Navidrome Administrator Password' : 'API Key';
     }
     document.getElementById('server_type').addEventListener('change', updateOptions);
     updateOptions();

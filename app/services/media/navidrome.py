@@ -40,9 +40,11 @@ class NavidromeClient(RestApiMixin):
 
         super().__init__(*args, **kwargs)
 
-        # Normalize URL
+        # Normalize URL and retain the per-server administrator username.
         if self.url:
             self.url = self.url.rstrip("/")
+        server_row = getattr(self, "server_row", None)
+        self.username = getattr(server_row, "server_username", None) or "admin"
 
     def _generate_auth_params(self) -> dict[str, str]:
         """Generate authentication parameters for Subsonic API calls.
@@ -59,7 +61,7 @@ class NavidromeClient(RestApiMixin):
         token_hash = hashlib.md5((self.token + salt).encode()).hexdigest()  # noqa: S324  # Required by Subsonic API specification
 
         return {
-            "u": "admin",  # Default username for API access
+            "u": self.username,
             "t": token_hash,
             "s": salt,
             "v": "1.16.1",  # Supported API version
