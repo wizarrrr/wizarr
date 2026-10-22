@@ -32,5 +32,7 @@ def downgrade():
         for column in sa.inspect(op.get_bind()).get_columns("media_server")
     }
     if "server_username" in existing:
-        with op.batch_alter_table("media_server", schema=None) as batch_op:
-            batch_op.drop_column("server_username")
+        # SQLite supports DROP COLUMN on supported runtime versions; use the
+        # native operation rather than rebuilding this parent table, which has
+        # cascading foreign-key dependents.
+        op.drop_column("media_server", "server_username")
