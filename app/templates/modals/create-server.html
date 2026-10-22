@@ -70,7 +70,7 @@
             <div id="api-key-div">
               <label id="api-key-label" for="api_key"
                      class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">API Key</label>
-              <input type="text"
+              <input type="password"
                      name="api_key"
                      id="api_key"
                      value="{{ typed.api_key }}"
@@ -239,6 +239,9 @@
         document.getElementById('api-key-div').style.display = type === 'romm' ? 'none' : 'block';
         document.getElementById('navidrome-options').style.display = type === 'navidrome' ? 'block' : 'none';
         document.getElementById('api-key-label').textContent = type === 'navidrome' ? 'Navidrome Administrator Password' : 'API Key';
+        const apiKeyInput = document.getElementById('api_key');
+        apiKeyInput.type = type === 'navidrome' ? 'password' : 'text';
+        apiKeyInput.autocomplete = type === 'navidrome' ? 'current-password' : 'off';
     }
     document.getElementById('server_type').addEventListener('change', updateOptions);
     updateOptions();

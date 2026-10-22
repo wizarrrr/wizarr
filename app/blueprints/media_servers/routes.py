@@ -66,6 +66,9 @@ def _typed_values() -> dict[str, str]:
     """
     values = request.form.to_dict()
     values.pop("server_password", None)
+    # API keys can be credentials too (Navidrome uses its admin password here).
+    # Never echo credentials back into HTML after a failed connection check.
+    values.pop("api_key", None)
     return values
 
 
@@ -92,6 +95,20 @@ def create_server():
                 data["api_key"] = base64.b64encode(
                     f"{username}:{password}".encode()
                 ).decode()
+
+        if data.get("server_type") == "navidrome":
+            # Temporary, password-safe diagnostics for the live form submission.
+            # Do not log the password or the username itself.
+            import logging
+
+            logging.warning(
+                "NAVIDROME_FORM_DIAG username_present=%s api_key_present=%s "
+                "api_key_length=%d api_key_field_count=%d",
+                bool(data.get("navidrome_username")),
+                bool(data.get("api_key")),
+                len(data.get("api_key") or ""),
+                len(request.form.getlist("api_key")),
+            )
 
         ok, error_msg = _check_connection(data)
         if not ok:
@@ -202,6 +219,16 @@ def edit_server(server_id):
                 data["api_key"] = base64.b64encode(
                     f"{username}:{password}".encode()
                 ).decode()
+
+        # Navidrome's password field is intentionally blank in the edit form.
+        # Reuse the saved credential when editing an existing Navidrome server
+        # without changing its password.
+        if (
+            data.get("server_type") == "navidrome"
+            and server.server_type == "navidrome"
+            and not data.get("api_key")
+        ):
+            data["api_key"] = server.api_key or ""
 
         ok, error_msg = _check_connection(data)
         if not ok:
