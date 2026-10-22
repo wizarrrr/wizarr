@@ -5,6 +5,8 @@ from __future__ import annotations
 import hashlib
 from unittest.mock import Mock, patch
 
+from app.extensions import db
+from app.models import MediaServer
 from app.services.media.navidrome import NavidromeClient
 from app.services.servers import check_navidrome
 
@@ -67,3 +69,39 @@ def test_navidrome_connection_check_defaults_legacy_username_to_admin():
 
     assert ok is True
     assert get.call_args.kwargs["params"]["u"] == "admin"
+
+
+def test_navidrome_client_reads_username_from_saved_server(app):
+    with app.app_context():
+        server = MediaServer(
+            name="Test Music",
+            server_type="navidrome",
+            url="https://music.example",
+            api_key="password",
+            server_username="music-admin",
+        )
+        db.session.add(server)
+        db.session.flush()
+
+        client = NavidromeClient(media_server=server)
+
+        assert client.username == "music-admin"
+        db.session.rollback()
+
+
+def test_navidrome_client_defaults_legacy_server_rows_to_admin(app):
+    with app.app_context():
+        server = MediaServer(
+            name="Legacy Music",
+            server_type="navidrome",
+            url="https://music.example",
+            api_key="password",
+            server_username=None,
+        )
+        db.session.add(server)
+        db.session.flush()
+
+        client = NavidromeClient(media_server=server)
+
+        assert client.username == "admin"
+        db.session.rollback()
