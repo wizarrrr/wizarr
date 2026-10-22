@@ -15,7 +15,12 @@ from app.extensions import db
 from app.models import Invitation, User
 from app.services.invites import is_invite_valid
 
-from .client_base import EMAIL_RE, RestApiMixin, register_media_client
+from .client_base import (
+    EMAIL_RE,
+    ClientCapabilities,
+    RestApiMixin,
+    register_media_client,
+)
 
 """Romm media‐server client.
 
@@ -45,6 +50,8 @@ needs:
 @register_media_client("romm")
 class RommClient(RestApiMixin):
     """Very small wrapper around the RomM REST API."""
+
+    capabilities = ClientCapabilities(disable=True)
 
     @classmethod
     def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
