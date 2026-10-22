@@ -21,7 +21,7 @@ def test_navidrome_client_uses_configured_admin_username_and_subsonic_hash():
 
     assert params["u"] == "music-admin"
     assert params["s"] == "a1B2c3"
-    assert params["t"] == hashlib.md5(  # noqa: S324
+    assert params["t"] == hashlib.md5(  # noqa: S324  # noqa: S324
         b"correct horse battery staplea1B2c3"
     ).hexdigest()
 
