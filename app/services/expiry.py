@@ -9,6 +9,7 @@ from pathlib import Path
 
 from app.extensions import db
 from app.models import ExpiredUser, Invitation, User, invitation_servers
+from app.services.email import send_user_lifecycle_email
 from app.services.media.service import delete_user, disable_user
 
 try:
@@ -229,14 +230,14 @@ def _release_expiry_claim(event_id: int | None) -> None:
         logging.error("Failed to remove expiry history %s – %s", event_id, exc)
 
 
-def _delete_expired_user(user_id: int) -> None:
+def _delete_expired_user(user_id: int, *, email_event: str = "deleted") -> None:
     """Delete the user remotely, then locally, and commit.
 
     ``delete_user`` does all remote calls (media server, LDAP, companion
     apps) before its only local write, so no write transaction is open
     during the remote calls. The local delete is one short transaction.
     """
-    delete_user(user_id, commit=False, require_remote=True)
+    delete_user(user_id, commit=False, require_remote=True, email_event=email_event)
     db.session.commit()
 
 
@@ -331,6 +332,18 @@ def _disable_expired_user(user: User) -> bool:
     user.is_disabled = True
     db.session.flush()
     db.session.commit()
+    # The user is disabled now. A failed email must not trigger the
+    # deletion fallback of the caller.
+    try:
+        send_user_lifecycle_email(
+            user,
+            event_type="expired",
+            server_name=user.server.name if user.server else None,
+            expires_at=user.expires,
+            action_label="disabled",
+        )
+    except Exception as exc:
+        logging.warning("Failed to send expiry email for user %s: %s", user.id, exc)
     return True
 
 
@@ -414,7 +427,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
                     continue
             else:
                 # Delete the user (either by setting or server doesn't support disable)
-                _delete_expired_user(user_id)
+                _delete_expired_user(user_id, email_event="expired")
                 processed.append(user_id)
                 action_reason = (
                     "setting" if expiry_action == "delete" else "unsupported"

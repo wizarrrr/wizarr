@@ -29,6 +29,11 @@ def migration_app(temp_db):
 
     app = create_app(config)  # type: ignore
     yield app
+    from app.extensions import db
+
+    with app.app_context():
+        db.session.remove()
+        db.engine.dispose()
 
 
 def test_migrated_schema_rejects_duplicate_bundle_position(session):
