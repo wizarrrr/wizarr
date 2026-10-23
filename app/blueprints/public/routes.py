@@ -407,7 +407,12 @@ def password_prompt(code):
         from werkzeug.datastructures import MultiDict
         from app.forms.join import JoinForm
 
-        form = JoinForm(formdata=MultiDict(request.form), meta={"csrf": False})
+        form_data = request.form.copy()
+        # Keep compatibility with existing clients/tests that post the old
+        # `confirm` field while the updated form uses `confirm_password`.
+        if "confirm_password" not in form_data and "confirm" in form_data:
+            form_data["confirm_password"] = form_data["confirm"]
+        form = JoinForm(formdata=MultiDict(form_data), meta={"csrf": False})
         if not form.validate():
             errors = [
                 message
