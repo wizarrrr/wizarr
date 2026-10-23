@@ -272,7 +272,7 @@ class NavidromeClient(RestApiMixin):
         email: str,
         *,
         is_admin: bool = False,
-        allow_downloads: bool = True,
+        allow_downloads: bool = True,  # noqa: ARG002
     ) -> str:
         """Create an account via Navidrome's native API (Subsonic lacks this)."""
         # Navidrome has no per-user download-role flag; allow_downloads cannot be enforced.
