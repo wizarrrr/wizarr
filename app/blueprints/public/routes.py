@@ -404,10 +404,13 @@ def password_prompt(code):
         # Use the same username, email, and password validation as other
         # form-based invitations. These credentials belong to the remaining
         # servers and do not have to match the invitee's Plex identity.
-        from app.forms.join import JoinForm
         from werkzeug.datastructures import MultiDict
+        from app.forms.join import JoinForm
 
         form_data = request.form.copy()
+        # The invite code is already validated by the route and may be absent
+        # from legacy clients that post directly to this endpoint.
+        form_data.setdefault("code", code)
         # Keep compatibility with existing clients/tests that post the old
         # `confirm` field while the updated form uses `confirm_password`.
         if "confirm_password" not in form_data and "confirm" in form_data:
