@@ -253,7 +253,7 @@ def check_navidrome(url: str, token: str, username: str | None = None) -> tuple[
             return False, _("Navidrome native API did not return an authentication token.")
         check = requests.get(
             f"{url.rstrip('/')}/api/user",
-            headers={"Accept": "application/json", "X-ND-Authorization": f"Bearer {native_token}", "X-ND-Client-Unique-Id": "wizarr"},
+            headers={"Accept": "application/json", "X-ND-Authorization": f"Bearer {native_token}", "X-ND-Client-Unique-Id": "f2a3c48b-3d8f-4a71-9b6e-2c5d7f8a1043"},
             timeout=10,
         )
         if check.status_code in (401, 403):
