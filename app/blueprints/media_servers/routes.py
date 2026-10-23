@@ -98,20 +98,6 @@ def create_server():
                     f"{username}:{password}".encode()
                 ).decode()
 
-        if data.get("server_type") == "navidrome":
-            # Temporary, password-safe diagnostics for the live form submission.
-            # Do not log the password or the username itself.
-            import logging
-
-            logging.warning(
-                "NAVIDROME_FORM_DIAG username_present=%s api_key_present=%s "
-                "api_key_length=%d api_key_field_count=%d",
-                bool(data.get("navidrome_username")),
-                bool(data.get("api_key")),
-                len(data.get("api_key") or ""),
-                len(request.form.getlist("api_key")),
-            )
-
         ok, error_msg = _check_connection(data)
         if not ok:
             # Re-render modal with error
