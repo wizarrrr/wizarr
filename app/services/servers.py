@@ -274,6 +274,19 @@ def check_navidrome(
             # If no token provided, try without authentication (some endpoints allow this)
             params["p"] = ""
 
+        # Temporary, credential-safe diagnostics to compare the checker with
+        # the successful form-level request. Never log passwords or hashes.
+        logging.warning(
+            "NAVIDROME_CHECKER_INPUT url=%r username_present=%s "
+            "username_length=%d token_length=%d client=%r salt_length=%d",
+            url.rstrip("/"),
+            bool(username),
+            len(username.strip()) if username else 0,
+            len(token or ""),
+            params.get("c"),
+            len(params.get("s", "")),
+        )
+
         resp = requests.get(f"{url.rstrip('/')}/rest/ping", params=params, timeout=10)
         if resp.status_code != 200:
             raise ServerResponseError(resp.status_code, resp.url)
@@ -281,8 +294,16 @@ def check_navidrome(
         # Check for Subsonic API errors in response
         data = resp.json()
         subsonic_response = data.get("subsonic-response", {})
+        error = subsonic_response.get("error", {})
+        logging.warning(
+            "NAVIDROME_CHECKER_RESPONSE http_status=%d api_status=%r "
+            "error_code=%r error_message=%r",
+            resp.status_code,
+            subsonic_response.get("status"),
+            error.get("code"),
+            error.get("message"),
+        )
         if subsonic_response.get("status") != "ok":
-            error = subsonic_response.get("error", {})
             raise ValueError(
                 f"Navidrome API error: {error.get('message', 'Unknown error')}"
             )
