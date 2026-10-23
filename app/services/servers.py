@@ -1,4 +1,7 @@
+import hashlib
 import logging
+import random
+import string
 
 import requests
 from flask_babel import _
@@ -244,10 +247,6 @@ def check_navidrome(
     When *token* (password) is provided, we authenticate using the salted hash method.
     """
     try:
-        import hashlib
-        import random
-        import string
-
         # Build Subsonic API authentication parameters
         params = {
             "u": username.strip() if username and username.strip() else "admin",
