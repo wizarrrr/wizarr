@@ -244,10 +244,39 @@ class InvitationWorkflow(ABC):
         successful: list[ServerResult],
         failed: list[ServerResult],
     ) -> InvitationResult:
-        """Create success result with wizard redirect."""
+        """Create a completion result appropriate to the invited media service."""
         invitation_code = invitation.code
-        session["wizard_access"] = invitation_code
         bundle_id = getattr(invitation, "wizard_bundle_id", None)
+
+        # Navidrome accounts are standalone music accounts: invitees should not
+        # enter Wizarr's admin wizard or be asked to log in to Wizarr afterward.
+        # Show a public onboarding page instead, and deliberately clear wizard
+        # access/session flags for this Navidrome-only path.
+        if (
+            successful
+            and not failed
+            and all(result.server.server_type == "navidrome" for result in successful)
+        ):
+            server = successful[0].server
+            return InvitationResult(
+                status=ProcessingStatus.SUCCESS,
+                message="Navidrome account created successfully",
+                successful_servers=successful,
+                failed_servers=failed,
+                template_data={
+                    "template_name": "navidrome-onboarding.html",
+                    "server_name": server.name or "Navidrome",
+                    "navidrome_url": (server.external_url or server.url or "").rstrip("/"),
+                },
+                session_data={
+                    "wizard_access": None,
+                    "wizard_bundle_id": None,
+                    "invitation_in_progress": None,
+                    "invite_code": None,
+                },
+            )
+
+        session["wizard_access"] = invitation_code
         if bundle_id:
             session["wizard_bundle_id"] = bundle_id
         else:
