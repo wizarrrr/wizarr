@@ -49,7 +49,7 @@ def test_navidrome_connection_check_uses_configured_username_and_md5():
     params = get.call_args.kwargs["params"]
     assert params["u"] == "music-admin"
     assert params["s"] == "a1B2c3"
-    assert params["t"] == hashlib.md5(
+    assert params["t"] == hashlib.md5(  # noqa: S324
         b"correct horse battery staplea1B2c3"
     ).hexdigest()
     assert get.call_args.args[0] == "https://music.example/rest/ping"
