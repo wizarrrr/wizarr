@@ -234,37 +234,62 @@ def check_kavita(url: str, token: str) -> tuple[bool, str]:
         return handle_connection_error(e, _("Kavita"))
 
 
-def check_navidrome(url: str, token: str, username: str | None = None) -> tuple[bool, str]:
-    """Validate credentials against Navidrome's native JSON API."""
+def check_navidrome(
+    url: str, token: str, username: str | None = None
+) -> tuple[bool, str]:
+    """Quick connectivity check for a Navidrome instance.
+
+    We perform a lightweight request to the ``/rest/ping`` endpoint which is
+    available to check server connectivity using the Subsonic API.
+    When *token* (password) is provided, we authenticate using the salted hash method.
+    """
     try:
-        if not url or not token:
-            return False, _("Navidrome URL and administrator password are required")
-        response = requests.post(
-            f"{url.rstrip('/')}/api/auth/login",
-            json={"username": username.strip() if username and username.strip() else "admin", "password": token},
-            headers={"Accept": "application/json", "Content-Type": "application/json"}, timeout=10,
-        )
-        if response.status_code in (401, 403):
-            return False, _("Navidrome rejected the administrator credentials.")
-        if response.status_code != 200:
-            raise ServerResponseError(response.status_code, response.url)
-        native_token = response.json().get("token")
-        if not native_token:
-            return False, _("Navidrome native API did not return an authentication token.")
-        check = requests.get(
-            f"{url.rstrip('/')}/api/user",
-            headers={"Accept": "application/json", "X-ND-Authorization": f"Bearer {native_token}", "X-ND-Client-Unique-Id": "f2a3c48b-3d8f-4a71-9b6e-2c5d7f8a1043"},
-            timeout=10,
-        )
-        if check.status_code in (401, 403):
-            return False, _("Navidrome credentials cannot access native user management.")
-        if check.status_code != 200:
-            raise ServerResponseError(check.status_code, check.url)
+        import hashlib
+        import random
+        import string
+
+        # Build Subsonic API authentication parameters
+        params = {
+            "u": username.strip() if username and username.strip() else "admin",
+            "v": "1.16.1",  # Supported API version
+            "c": "wizarr",  # Client identifier
+            "f": "json",  # Response format
+        }
+
+        if token:
+            # Generate random salt for secure authentication
+            salt = "".join(random.choices(string.ascii_letters + string.digits, k=6))
+
+            # Subsonic's salted-token authentication specifies MD5(password + salt).
+            # Keep this in sync with NavidromeClient._generate_auth_params().
+            token_hash = hashlib.md5((token + salt).encode()).hexdigest()  # noqa: S324
+
+            params.update(
+                {
+                    "t": token_hash,
+                    "s": salt,
+                }
+            )
+        else:
+            # If no token provided, try without authentication (some endpoints allow this)
+            params["p"] = ""
+
+        resp = requests.get(f"{url.rstrip('/')}/rest/ping", params=params, timeout=10)
+        if resp.status_code != 200:
+            raise ServerResponseError(resp.status_code, resp.url)
+
+        # Check for Subsonic API errors in response
+        data = resp.json()
+        subsonic_response = data.get("subsonic-response", {})
+        if subsonic_response.get("status") != "ok":
+            error = subsonic_response.get("error", {})
+            raise ValueError(
+                f"Navidrome API error: {error.get('message', 'Unknown error')}"
+            )
+
         return True, ""
     except Exception as e:
         return handle_connection_error(e, _("Navidrome"))
-
-
 def check_drop(url: str, token: str) -> tuple[bool, str]:
     """Quick connectivity check for a Drop instance.
 
