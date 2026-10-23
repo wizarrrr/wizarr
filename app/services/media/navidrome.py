@@ -25,10 +25,14 @@ class NavidromeClient(RestApiMixin):
     """Navidrome wrapper using the Subsonic API."""
 
     @classmethod
-    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+    def check_connection(
+        cls, url: str, token: str, username: str | None = None
+    ) -> tuple[bool, str]:
         from app.services.servers import check_navidrome
 
-        return check_navidrome(url, token)
+        if username is None:
+            return check_navidrome(url, token)
+        return check_navidrome(url, token, username=username)
 
     #: API prefix for Subsonic/OpenSubsonic endpoints
     API_PREFIX = "/rest"
@@ -61,7 +65,7 @@ class NavidromeClient(RestApiMixin):
         token_hash = hashlib.md5((self.token + salt).encode()).hexdigest()  # noqa: S324  # Required by Subsonic API specification
 
         return {
-            "u": self.username,
+            "u": getattr(self, "username", None) or "admin",
             "t": token_hash,
             "s": salt,
             "v": "1.16.1",  # Supported API version
