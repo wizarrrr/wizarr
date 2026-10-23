@@ -400,43 +400,40 @@ def password_prompt(code):
     if not invitation:
         return render_template("invalid-invite.html", error="Invalid invite")
 
-    # ensure Plex has been processed
-    # (a user row with this code and plex server_id should exist)
-    plex_server = next((s for s in invitation.servers if s.server_type == "plex"), None)
-
-    plex_user = None
-    if plex_server:
-        plex_user = User.query.filter_by(code=code, server_id=plex_server.id).first()
-
     if request.method == "POST":
-        pw = request.form.get("password") or ""
-        confirm = request.form.get("confirm") or ""
-        if pw != confirm or len(pw) < 8:
+        # Use the same username, email, and password validation as other
+        # form-based invitations. These credentials belong to the remaining
+        # servers and do not have to match the invitee's Plex identity.
+        from werkzeug.datastructures import MultiDict
+        from app.forms.join import JoinForm
+
+        form = JoinForm(formdata=MultiDict(request.form), meta={"csrf": False})
+        if not form.validate():
+            errors = [
+                message
+                for field_errors in form.errors.values()
+                for message in field_errors
+            ]
             return render_template(
                 "choose-password.html",
                 code=code,
-                error="Passwords do not match or too short (8 chars).",
+                username=form.username.data or "",
+                email=form.email.data or "",
+                error=" ".join(errors) or "Please check the form and try again.",
             )
 
-        # Fallback: generate strong password if checkbox ticked or blank
-        if request.form.get("generate") or pw.strip() == "":
+        username = form.username.data or ""
+        email = form.email.data or ""
+        pw = form.password.data or ""
+
+        # Fallback: generate strong password if checkbox ticked.
+        if request.form.get("generate"):
             import secrets
             import string
 
             pw = "".join(
                 secrets.choice(string.ascii_letters + string.digits) for _ in range(16)
             )
-
-        # Determine username and email for all account creations
-        if plex_user:
-            username = plex_user.username
-            email = plex_user.email
-        else:
-            # For non-Plex flows, use form data or generate a unique username
-            import uuid
-
-            username = request.form.get("username") or f"user-{uuid.uuid4().hex[:8]}"
-            email = request.form.get("email") or ""
 
         # Create LDAP user if configured
         from app.services.ldap.invitation_ldap import InvitationLDAPHandler
