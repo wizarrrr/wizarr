@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import hashlib
 import logging
+import random
+import string
 from typing import TYPE_CHECKING, Any
 
 import structlog
@@ -9,7 +12,7 @@ from sqlalchemy import or_
 from app.extensions import db
 from app.models import Invitation, User
 from app.services.invites import is_invite_valid
-from app.services.media.utils import DateHelper, StandardizedPermissions
+from app.services.media.utils import StandardizedPermissions
 
 from .client_base import RestApiMixin, register_media_client
 
@@ -19,15 +22,16 @@ if TYPE_CHECKING:
 
 @register_media_client("navidrome")
 class NavidromeClient(RestApiMixin):
-    """Navidrome wrapper using Navidrome's native JSON API."""
+    """Navidrome wrapper using the Subsonic API."""
 
     @classmethod
-    def check_connection(
-        cls, url: str, token: str, username: str | None = None
-    ) -> tuple[bool, str]:
+    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
         from app.services.servers import check_navidrome
 
-        return check_navidrome(url, token, username=username)
+        return check_navidrome(url, token)
+
+    #: API prefix for Subsonic/OpenSubsonic endpoints
+    API_PREFIX = "/rest"
 
     def __init__(self, *args, **kwargs):
         # Provide defaults for legacy compatibility
@@ -42,137 +46,265 @@ class NavidromeClient(RestApiMixin):
         server_row = getattr(self, "server_row", None)
         self.username = getattr(server_row, "server_username", None) or "admin"
 
-    def _ensure_auth(self) -> None:
-        """Authenticate to Navidrome's native JSON API and cache its JWT."""
-        if getattr(self, "_native_token", None):
-            return
+    def _generate_auth_params(self) -> dict[str, str]:
+        """Generate authentication parameters for Subsonic API calls.
+
+        Uses the recommended salted hash method for security.
+        """
+        if not self.token:
+            raise ValueError("API token (password) is required for Navidrome")
+
+        # Generate random salt
+        salt = "".join(random.choices(string.ascii_letters + string.digits, k=6))
+
+        # Create MD5 hash of password + salt
+        token_hash = hashlib.md5((self.token + salt).encode()).hexdigest()  # noqa: S324  # Required by Subsonic API specification
+
+        return {
+            "u": self.username,
+            "t": token_hash,
+            "s": salt,
+            "v": "1.16.1",  # Supported API version
+            "c": "wizarr",  # Client identifier
+            "f": "json",  # Response format
+        }
+
+    def _subsonic_request(self, endpoint: str, params: dict | None = None) -> dict:
+        """Make a request to the Subsonic API with proper authentication."""
+        auth_params = self._generate_auth_params()
+        if params:
+            auth_params.update(params)
+
+        response = self.get(f"{self.API_PREFIX}/{endpoint}", params=auth_params)
+        response.raise_for_status()
+
+        data = response.json()
+
+        # Check for Subsonic API errors
+        subsonic_response = data.get("subsonic-response", {})
+        if subsonic_response.get("status") != "ok":
+            error = subsonic_response.get("error", {})
+            raise Exception(
+                f"Subsonic API error: {error.get('message', 'Unknown error')}"
+            )
+
+        return subsonic_response
+
+
+    # Navidrome's native API is used only for user administration, which
+    # Subsonic/OpenSubsonic does not implement in Navidrome.
+    def _native_token(self) -> str:
+        token = getattr(self, "_navidrome_native_token", None)
+        if token:
+            return token
         if not self.url or not self.token:
             raise ValueError("Navidrome URL and administrator password are required")
-        response = self.post("/api/auth/login", json={"username": self.username, "password": self.token}, headers={"Content-Type": "application/json"})
-        native_token = response.json().get("token")
-        if not native_token:
-            raise ValueError("Navidrome native API login did not return a token")
-        self._native_token = native_token
+        response = self.post(
+            "/auth/login",
+            json={"username": self.username, "password": self.token},
+            headers={"Content-Type": "application/json"},
+        )
+        response.raise_for_status()
+        token = response.json().get("token")
+        if not token:
+            raise ValueError("Navidrome native login did not return a token")
+        self._navidrome_native_token = token
+        return token
 
-    def _api_request(self, method: str, endpoint: str, payload: dict | None = None):
-        """Call Navidrome's native /api JSON API using its JWT auth header."""
-        self._ensure_auth()
-        kwargs = {"headers": {"X-ND-Authorization": f"Bearer {self._native_token}", "X-ND-Client-Unique-Id": "f2a3c48b-3d8f-4a71-9b6e-2c5d7f8a1043"}}
+    def _native_request(self, method: str, endpoint: str, payload: dict | None = None):
+        headers = {
+            "X-ND-Authorization": f"Bearer {self._native_token()}",
+            "X-ND-Client-Unique-Id": "f2a3c48b-3d8f-4a71-9b6e-2c5d7f8a1043",
+            "Accept": "application/json",
+        }
+        kwargs = {"headers": headers}
         if payload is not None:
             kwargs["json"] = payload
         response = self._request(method, f"/api/{endpoint.lstrip('/')}", **kwargs)
+        response.raise_for_status()
         refreshed = response.headers.get("X-ND-Authorization")
         if refreshed:
-            self._native_token = refreshed.removeprefix("Bearer ").strip()
+            self._navidrome_native_token = refreshed.removeprefix("Bearer ").strip()
         return response
 
-    def validate_connection(self) -> tuple[bool, str]:
-        """Validate administrator access through Navidrome's native API."""
-        try:
-            self._api_request("GET", "user")
-            return True, "Connection successful"
-        except Exception as exc:
-            logging.error("Navidrome: native API connection validation failed – %s", exc)
-            return False, f"Connection failed: {exc!s}"
-
-    def libraries(self) -> dict[str, str]:
-        """Return native Navidrome library IDs and display names."""
-        data = self._api_request("GET", "library").json()
-        if isinstance(data, dict):
-            data = data.get("data", data.get("items", []))
-        if not isinstance(data, list):
-            raise ValueError("Navidrome native API returned an invalid library list")
-        return {str(x["id"]): (x.get("name") or x.get("path") or str(x["id"])) for x in data if isinstance(x, dict) and x.get("id") is not None}
-
-    def scan_libraries(self, url: str | None = None, token: str | None = None) -> dict[str, str]:
-        """Scan libraries using Navidrome's native API."""
-        if url and token:
-            temp_client = NavidromeClient()
-            temp_client.url, temp_client.token = url.rstrip("/"), token
-            temp_client.username = self.username
-            return {name: lib_id for lib_id, name in temp_client.libraries().items()}
-        return {name: lib_id for lib_id, name in self.libraries().items()}
-
-    def list_users(self) -> list[User]:
-        """Read native Navidrome users and reflect them in Wizarr."""
-        server_id = getattr(self, "server_id", None)
-        if server_id is None:
-            return []
-        try:
-            remote_users = self._api_request("GET", "user").json()
-            if isinstance(remote_users, dict):
-                remote_users = remote_users.get("data", remote_users.get("items", []))
-            if not isinstance(remote_users, list):
-                raise ValueError("Navidrome native API returned an invalid user list")
-        except Exception as exc:
-            self.remote_errors += 1
-            logging.warning("Navidrome: failed to list native API users – %s", exc)
-            return []
-        by_name = {str(u.get("userName") or u.get("username")): u for u in remote_users if isinstance(u, dict) and (u.get("userName") or u.get("username"))}
-        known = User.query.filter(User.server_id == server_id).all()
-        if self._skip_prune_on_empty_remote(not by_name, known):
-            return known
-        try:
-            result, rows = [], {}
-            for local in known:
-                if local.username in by_name:
-                    result.append(local)
-                    rows.setdefault(local.username, local)
-                else:
-                    db.session.delete(local)
-            for username, remote in by_name.items():
-                local = rows.get(username)
-                if local is None:
-                    local = User(token=str(remote.get("id") or username), username=username, email=remote.get("email") or "", code="empty", server_id=server_id)
-                    db.session.add(local)
-                    result.append(local)
-                else:
-                    local.token = str(remote.get("id") or username)
-                    local.email = remote.get("email") or local.email
-                permissions = StandardizedPermissions.for_navidrome(remote)
-                local.allow_downloads, local.allow_live_tv, local.is_admin = permissions.allow_downloads, permissions.allow_live_tv, permissions.is_admin
-            db.session.commit()
-            return result
-        except Exception as exc:
-            logging.error("Navidrome: failed to sync native API users – %s", exc)
-            db.session.rollback()
-            return []
-
-    def create_user(self, username: str, password: str, email: str, *, is_admin: bool = False, allow_downloads: bool = True) -> str:
-        """Create an account through Navidrome's native JSON API.
-
-        Navidrome does not expose a per-user download-role flag in its native
-        user model, so allow_downloads cannot be enforced by this backend.
-        """
-        response = self._api_request("POST", "user", {"userName": username, "name": username, "email": email or "", "password": password, "isAdmin": bool(is_admin)})
-        data = response.json() if response.content else {}
-        return str(data.get("id") or username)
-
-    def update_user(self, username: str, payload: dict[str, Any]):
-        """Update a user through Navidrome's native user endpoint."""
-        remote = self._find_remote_user(username)
-        user_id = remote.get("id")
-        if not user_id:
-            raise ValueError(f"Navidrome user not found: {username}")
-        changes = {}
-        if "password" in payload: changes["password"] = payload["password"]
-        if "email" in payload: changes["email"] = payload["email"]
-        if "is_admin" in payload: changes["isAdmin"] = bool(payload["is_admin"])
-        if "name" in payload: changes["name"] = payload["name"]
-        if changes:
-            self._api_request("PUT", f"user/{user_id}", changes)
-
-    def _find_remote_user(self, identifier: str) -> dict:
-        """Find a native Navidrome user by username or server-side ID."""
-        users = self._api_request("GET", "user").json()
+    def _native_find_user(self, identifier: str) -> dict:
+        response = self._native_request("GET", "user")
+        users = response.json()
         if isinstance(users, dict):
             users = users.get("data", users.get("items", []))
         if not isinstance(users, list):
             raise ValueError("Navidrome native API returned an invalid user list")
-        for user in users:
-            if isinstance(user, dict) and (str(user.get("id", "")) == str(identifier) or str(user.get("userName") or user.get("username") or "") == str(identifier)):
-                return user
+        for remote in users:
+            if isinstance(remote, dict) and (
+                str(remote.get("id", "")) == str(identifier)
+                or str(remote.get("userName") or remote.get("username") or "") == str(identifier)
+            ):
+                return remote
         raise ValueError(f"Navidrome user not found: {identifier}")
+
+    def validate_connection(self) -> tuple[bool, str]:
+        """Validate connection to Navidrome server."""
+        try:
+            # Test connection with ping endpoint
+            result = self._subsonic_request("ping")
+            if result.get("status") == "ok":
+                return True, "Connection successful"
+            return False, "Server did not respond properly"
+        except Exception as exc:
+            logging.error("Navidrome: connection validation failed – %s", exc)
+            return False, f"Connection failed: {exc!s}"
+
+    def libraries(self) -> dict[str, str]:
+        """Return mapping of library_id → display_name."""
+        try:
+            result = self._subsonic_request("getMusicFolders")
+            folders = result.get("musicFolders", {}).get("musicFolder", [])
+
+            # Handle single folder response (not in array)
+            if isinstance(folders, dict):
+                folders = [folders]
+
+            return {str(folder["id"]): folder["name"] for folder in folders}
+        except Exception as exc:
+            logging.warning("Navidrome: failed to fetch libraries – %s", exc)
+            return {}
+
+    def scan_libraries(
+        self, url: str | None = None, token: str | None = None
+    ) -> dict[str, str]:
+        """Scan available libraries on this Navidrome server."""
+        try:
+            if url and token:
+                # Create temporary client for scanning
+                temp_client = NavidromeClient()
+                temp_client.url = url.rstrip("/")
+                temp_client.token = token
+                return {
+                    name: lib_id for lib_id, name in temp_client.libraries().items()
+                }
+            # Use saved credentials
+            return {name: lib_id for lib_id, name in self.libraries().items()}
+        except Exception as exc:
+            logging.warning("Navidrome: failed to scan libraries – %s", exc)
+            return {}
+
+    def list_users(self) -> list[User]:
+        """Read users from Navidrome and reflect them locally."""
+        server_id = getattr(self, "server_id", None)
+        if server_id is None:
+            return []
+
+        try:
+            result = self._subsonic_request("getUsers")
+            users_data = result.get("users", {}).get("user", [])
+
+            # Handle single user response (not in array)
+            if isinstance(users_data, dict):
+                users_data = [users_data]
+        except Exception as exc:
+            logging.warning("Navidrome: failed to list users – %s", exc)
+            return []
+
+        users_by_name = {u["username"]: u for u in users_data}
+
+        known_users = User.query.filter(User.server_id == server_id).all()
+        if self._skip_prune_on_empty_remote(not users_by_name, known_users):
+            return known_users
+
+        try:
+            # Use the rows that are already loaded, not one query for each
+            # remote user. The first local row with a username is the match.
+            users: list[User] = []
+            rows_by_username: dict[str, User] = {}
+            for local in known_users:
+                if local.username in users_by_name:
+                    users.append(local)
+                    rows_by_username.setdefault(local.username, local)
+                else:
+                    # Remove users that no longer exist upstream
+                    db.session.delete(local)
+
+            # Add new users or update existing ones
+            for username, remote in users_by_name.items():
+                db_row = rows_by_username.get(username)
+                if db_row is None:
+                    db_row = User(
+                        token=username,  # Use username as token for Navidrome
+                        username=username,
+                        email=remote.get("email", ""),
+                        code="empty",
+                        server_id=server_id,
+                    )
+                    db.session.add(db_row)
+                    users.append(db_row)
+                else:
+                    db_row.email = remote.get("email", db_row.email)
+
+            # Enhance users with policy data from Navidrome
+            for user in users:
+                # Use standardized permissions helper for consistency
+                permissions = StandardizedPermissions.for_navidrome(
+                    users_by_name[user.username]
+                )
+
+                # Update standardized User model columns
+                user.allow_downloads = permissions.allow_downloads
+                user.allow_live_tv = permissions.allow_live_tv
+                user.is_admin = permissions.is_admin
+
+            # Single commit for all user and metadata updates
+            db.session.commit()
+
+        except Exception as exc:
+            logging.error("Navidrome: failed to sync users – %s", exc)
+            db.session.rollback()
+            return []
+        return users
+
+    def create_user(
+        self,
+        username: str,
+        password: str,
+        email: str,
+        *,
+        is_admin: bool = False,
+        allow_downloads: bool = True,
+    ) -> str:
+        """Create an account via Navidrome's native API (Subsonic lacks this)."""
+        # Navidrome has no per-user download-role flag; allow_downloads cannot be enforced.
+        response = self._native_request(
+            "POST",
+            "user",
+            {
+                "userName": username,
+                "name": username,
+                "email": email or "",
+                "password": password,
+                "isAdmin": bool(is_admin),
+            },
+        )
+        data = response.json() if response.content else {}
+        if not isinstance(data, dict):
+            raise ValueError("Navidrome native API returned an invalid created-user response")
+        return str(data.get("id") or username)
+
+    def update_user(self, username: str, payload: dict[str, Any]):
+        """Update an account via Navidrome's native API."""
+        remote = self._native_find_user(username)
+        user_id = remote.get("id")
+        if not user_id:
+            raise ValueError(f"Navidrome user not found: {username}")
+        changes = {}
+        if "password" in payload:
+            changes["password"] = payload["password"]
+        if "email" in payload:
+            changes["email"] = payload["email"]
+        if "is_admin" in payload:
+            changes["isAdmin"] = bool(payload["is_admin"])
+        if "name" in payload:
+            changes["name"] = payload["name"]
+        if changes:
+            self._native_request("PUT", f"user/{user_id}", changes)
 
     def enable_user(self, user_id: str) -> bool:  # noqa: ARG002
         """Enable a user account on Navidrome.
@@ -215,12 +347,12 @@ class NavidromeClient(RestApiMixin):
             return False
 
     def delete_user(self, username: str):
-        """Delete an account through Navidrome's native JSON API."""
-        remote = self._find_remote_user(username)
+        """Delete an account via Navidrome's native API."""
+        remote = self._native_find_user(username)
         user_id = remote.get("id")
         if not user_id:
             raise ValueError(f"Navidrome user not found: {username}")
-        self._api_request("DELETE", f"user/{user_id}")
+        self._native_request("DELETE", f"user/{user_id}")
 
     def get_user(self, username: str):
         """Get user info in legacy format for backward compatibility."""
@@ -239,29 +371,223 @@ class NavidromeClient(RestApiMixin):
         }
 
     def get_user_details(self, user_identifier: str | int) -> MediaUserDetails:
-        """Return standardized details from Navidrome's native user API."""
-        from app.services.media.utils import LibraryAccessHelper, StandardizedPermissions, create_standardized_user_details
-        raw = self._find_remote_user(str(user_identifier))
-        username = str(raw.get("userName") or raw.get("username") or user_identifier)
-        permissions = StandardizedPermissions.for_navidrome(raw)
-        created = DateHelper.parse_iso_date(raw.get("createdAt"))
-        last_active = DateHelper.parse_iso_date(raw.get("lastAccessAt") or raw.get("lastLoginAt"))
-        return create_standardized_user_details(user_id=str(raw.get("id") or username), username=username, email=raw.get("email"), permissions=permissions, library_access=LibraryAccessHelper.create_full_access(), created_at=created, last_active=last_active, is_enabled=True)
+        """Get detailed user information in standardized format."""
+        username = str(user_identifier)
+        from app.services.media.utils import (
+            LibraryAccessHelper,
+            StandardizedPermissions,
+            create_standardized_user_details,
+        )
+
+        # Get raw user data from Navidrome API
+        result = self._subsonic_request("getUser", {"username": username})
+        raw_user = result.get("user", {})
+
+        # Extract standardized permissions using shared utility
+        permissions = StandardizedPermissions.for_navidrome(raw_user)
+
+        # Navidrome gives full access to all libraries
+        library_access = LibraryAccessHelper.create_full_access()
+
+        return create_standardized_user_details(
+            user_id=username,
+            username=raw_user.get("username", username),
+            email=raw_user.get("email"),
+            permissions=permissions,
+            library_access=library_access,
+            created_at=None,  # Navidrome doesn't expose creation date
+            last_active=None,  # Navidrome doesn't expose last seen
+            is_enabled=True,  # Navidrome doesn't have disabled users concept
+        )
+
+    def _do_join(
+        self,
+        username: str,
+        password: str,
+        confirm: str,
+        email: str,
+        code: str,
+    ):
+        """Public invite flow for Navidrome users."""
+        if not 1 <= len(username) <= 50:
+            return False, "Username must be 1-50 characters."
+        if not 8 <= len(password) <= 128:
+            return False, "Password must be 8-128 characters."
+        if password != confirm:
+            return False, "Passwords do not match."
+
+        ok, msg = is_invite_valid(code)
+        if not ok:
+            return False, msg
+
+        server_id = getattr(self, "server_id", None)
+        if server_id is None:
+            return False, "Server configuration error"
+
+        existing = User.query.filter(
+            or_(User.username == username, User.email == email),
+            User.server_id == server_id,
+        ).first()
+        if existing:
+            return False, "User or e-mail already exists."
+
+        try:
+            inv = Invitation.query.filter_by(code=code).first()
+
+            # Get download permission from invitation
+            allow_downloads = getattr(inv, "allow_downloads", True)
+            if allow_downloads is None:
+                allow_downloads = True
+
+            # Create user on Navidrome
+            user_id = self.create_user(
+                username, password, email=email, allow_downloads=allow_downloads
+            )
+            if not user_id:
+                return False, "Failed to create user on server"
+
+            # Calculate expiry
+            from app.services.expiry import calculate_user_expiry
+
+            expires = (
+                calculate_user_expiry(inv, getattr(self, "server_id", None))
+                if inv
+                else None
+            )
+
+            # Store locally
+            local = User(
+                token=user_id,
+                username=username,
+                email=email,
+                code=code,
+                expires=expires,
+                server_id=server_id,
+            )
+            db.session.add(local)
+            db.session.commit()
+
+            return True, ""
+
+        except Exception as exc:
+            logging.error("Navidrome join failed: %s", exc)
+            db.session.rollback()
+            return False, "Failed to create user"
 
     def now_playing(self) -> list[dict]:
-        """Navidrome's native API has no supported active-session list."""
-        return []
+        """Return active sessions from Navidrome.
+
+        Raises when the session list cannot be fetched or read. Then a caller
+        can tell a failed poll from a server with no sessions. Returns [] only
+        when the server reports no sessions.
+        """
+        result = self._subsonic_request("getNowPlaying")
+        now_playing_data = result.get("nowPlaying") or {}
+        if not isinstance(now_playing_data, dict):
+            raise ValueError("Navidrome returned an invalid now playing list")
+        entries = now_playing_data.get("entry", [])
+
+        # Handle single entry response (not in array)
+        if isinstance(entries, dict):
+            entries = [entries]
+        if not isinstance(entries, list):
+            raise ValueError("Navidrome returned an invalid now playing list")
+
+        active = []
+        for entry in entries:
+            try:
+                session_data = self._now_playing_entry(entry)
+            except Exception as exc:
+                # One bad entry must not hide the other sessions.
+                logging.warning("Navidrome: failed to read a session – %s", exc)
+                continue
+            active.append(session_data)
+
+        return active
+
+    def _now_playing_entry(self, entry: dict) -> dict:
+        """Convert one getNowPlaying entry to a now-playing dict."""
+        session_data = {
+            "user_name": entry.get("username", "Unknown"),
+            "media_title": entry.get("title", "Unknown Track"),
+            "media_type": "track",
+            "progress": 0.0,  # Navidrome doesn't provide progress in now playing
+            "state": "playing",
+            "session_id": entry.get("id", ""),
+            "client": entry.get("playerName", "Unknown"),
+            "device_name": entry.get("playerName", "Unknown Device"),
+            "position_ms": 0,
+            "duration_ms": (entry.get("duration", 0) * 1000)
+            if entry.get("duration")
+            else 0,
+            "artwork_url": f"{self.url}{self.API_PREFIX}/getCoverArt?id={entry.get('coverArt', '')}&"
+            + "&".join(f"{k}={v}" for k, v in self._generate_auth_params().items())
+            if entry.get("coverArt")
+            else None,
+            "thumbnail_url": None,
+            "transcoding": {"is_transcoding": False, "direct_play": True},
+        }
+
+        # Add artist and album info if available
+        if entry.get("artist"):
+            session_data["artist"] = entry["artist"]
+        if entry.get("album"):
+            session_data["album"] = entry["album"]
+
+        return session_data
 
     def statistics(self):
-        """Return basic statistics using Navidrome's native API."""
+        """Return server statistics for Navidrome."""
         try:
-            users = self._api_request("GET", "user").json()
-            if isinstance(users, dict): users = users.get("data", users.get("items", []))
-            if not isinstance(users, list): users = []
-            return {"library_stats": {}, "user_stats": {"total_users": len(users), "active_sessions": 0}, "server_stats": {"version": "Unknown", "transcoding_sessions": 0}, "content_stats": {}}
-        except Exception as exc:
-            logging.error("Navidrome statistics: native API request failed – %s", exc)
-            return {"library_stats": {}, "user_stats": {"total_users": 0, "active_sessions": 0}, "server_stats": {"version": "Unknown", "transcoding_sessions": 0}, "content_stats": {}, "error": str(exc)}
+            stats = {
+                "library_stats": {},
+                "user_stats": {},
+                "server_stats": {},
+                "content_stats": {},
+            }
+
+            # Get user count
+            try:
+                result = self._subsonic_request("getUsers")
+                users_data = result.get("users", {}).get("user", [])
+                if isinstance(users_data, dict):
+                    users_data = [users_data]
+                total_users = len(users_data)
+            except Exception as exc:
+                logging.error("Navidrome statistics: failed to fetch users – %s", exc)
+                total_users = 0
+
+            # Get active sessions
+            try:
+                active_sessions = self.now_playing()
+            except Exception as exc:
+                logging.error(
+                    "Navidrome statistics: failed to calculate active sessions – %s",
+                    exc,
+                )
+                active_sessions = []
+
+            stats["user_stats"] = {
+                "total_users": total_users,
+                "active_sessions": len(active_sessions),
+            }
+
+            stats["server_stats"] = {
+                "version": "Unknown",  # Navidrome doesn't expose version in Subsonic API
+                "transcoding_sessions": 0,  # Not applicable for music streaming
+            }
+
+            return stats
+
+        except Exception as e:
+            logging.error(f"Failed to get Navidrome statistics: {e}")
+            return {
+                "library_stats": {},
+                "user_stats": {},
+                "server_stats": {},
+                "content_stats": {},
+                "error": str(e),
+            }
 
     def get_user_count(self) -> int:
         """Get lightweight user count from database without triggering sync."""
@@ -330,5 +656,8 @@ class NavidromeClient(RestApiMixin):
             }
 
     def _headers(self) -> dict[str, str]:
-        """Return headers for Navidrome's native JSON API."""
-        return {"Accept": "application/json", "Content-Type": "application/json"}
+        """Return default headers for requests."""
+        return {
+            "Accept": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
+        }
