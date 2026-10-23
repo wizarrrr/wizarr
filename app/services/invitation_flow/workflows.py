@@ -199,10 +199,16 @@ class InvitationWorkflow(ABC):
                             f"Error inviting user to connections for server {server.name}: {e}"
                         )
                 else:
+                    self.logger.warning(
+                        "Account creation failed for server %s (%s): %s",
+                        server.name,
+                        server.server_type,
+                        msg,
+                    )
                     failed.append(result)
 
             except Exception as e:
-                self.logger.error(f"Failed to process server {server.name}: {e}")
+                self.logger.exception("Failed to process server %s", server.name)
                 failed.append(
                     ServerResult(
                         server=server,
@@ -593,21 +599,28 @@ class MixedWorkflow(InvitationWorkflow):
         servers: list[MediaServer],
         form_data: dict[str, Any],
     ) -> InvitationResult:
-        """Process mixed submission."""
+        """Process mixed submission, preserving successful servers across retries."""
         plex_servers = [s for s in servers if s.server_type == "plex"]
         other_servers = [s for s in servers if s.server_type != "plex"]
 
-        # Check authentication state
-        plex_token = session.get("plex_oauth_token")
+        # Keep successful server IDs in the session so a failed local account
+        # can be retried without inviting the user to Plex a second time.
+        if session.get("mixed_completed_invite_code") != invitation.code:
+            session["mixed_completed_invite_code"] = invitation.code
+            session["mixed_completed_server_ids"] = []
+        completed_ids = {
+            int(server_id)
+            for server_id in session.get("mixed_completed_server_ids", [])
+        }
 
+        plex_token = session.get("plex_oauth_token")
         if not plex_token:
-            # Need Plex OAuth first
             return self.show_initial_form(invitation, servers)
 
         if other_servers and not form_data.get("password"):
-            # Need password for local servers
             return self.show_initial_form(invitation, servers)
 
+        form = None
         if other_servers:
             form_valid, validated_data, form = self._validate_join_form(form_data)
             if not form_valid:
@@ -619,33 +632,66 @@ class MixedWorkflow(InvitationWorkflow):
                 )
             form_data = validated_data
 
-        # Process all servers
-        all_successful = []
         all_failed = []
 
-        # Process Plex servers with OAuth token
-        if plex_servers:
+        # Process only servers that have not already succeeded on an earlier
+        # attempt. In particular, don't repeat a successful Plex invitation if
+        # Navidrome (or another local server) needs to be retried.
+        pending_plex = [s for s in plex_servers if s.id not in completed_ids]
+        if pending_plex:
             plex_data = dict(form_data)
             plex_data["oauth_token"] = plex_token
-
             plex_successful, plex_failed = self._process_servers(
-                plex_servers, plex_data, invitation.code
+                pending_plex, plex_data, invitation.code
             )
-            all_successful.extend(plex_successful)
+            completed_ids.update(result.server.id for result in plex_successful)
             all_failed.extend(plex_failed)
 
-        # Process other servers with form data
-        if other_servers:
+        pending_other = [s for s in other_servers if s.id not in completed_ids]
+        if pending_other:
             other_successful, other_failed = self._process_servers(
-                other_servers, form_data, invitation.code
+                pending_other, form_data, invitation.code
             )
-            all_successful.extend(other_successful)
+            completed_ids.update(result.server.id for result in other_successful)
             all_failed.extend(other_failed)
 
-        if all_successful:
-            return self._create_success_result(invitation, all_successful, all_failed)
+        session["mixed_completed_server_ids"] = sorted(completed_ids)
+
+        if all_failed:
+            failure_details = "; ".join(
+                f"{result.server.name}: {result.message}" for result in all_failed
+            )
+            self.logger.warning(
+                "Mixed invitation %s was only partially completed: %s",
+                invitation.code,
+                failure_details,
+            )
+            # Keep the invitee on the password form and display the actual
+            # server error. Successful servers are remembered in the session,
+            # so submitting again retries only the failed server(s).
+            return self._create_local_form_error_result(
+                invitation,
+                other_servers,
+                f"Account setup failed: {failure_details}",
+                form,
+            )
+
+        if all(server.id in completed_ids for server in servers):
+            session.pop("mixed_completed_invite_code", None)
+            session.pop("mixed_completed_server_ids", None)
+            completed_results = [
+                ServerResult(
+                    server=server,
+                    success=True,
+                    message="",
+                    user_created=True,
+                )
+                for server in servers
+            ]
+            return self._create_success_result(invitation, completed_results, [])
+
         return self._create_mixed_error_result(
-            invitation, "Failed to create accounts on any server"
+            invitation, "Account setup did not complete for every server. Please retry."
         )
 
     def _create_local_form_error_result(
