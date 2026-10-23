@@ -50,13 +50,15 @@ def _check_connection(data: dict):
             data["api_key"] = base64.b64encode(
                 f"{username}:{password}".encode()
             ).decode()
+    if data["server_type"] == "navidrome":
+        return check_server_connection(
+            data["server_type"],
+            data["server_url"],
+            data.get("api_key") or "",
+            username=data.get("navidrome_username") or data.get("server_username"),
+        )
     return check_server_connection(
-        data["server_type"],
-        data["server_url"],
-        data.get("api_key") or "",
-        username=(
-            data.get("navidrome_username") or data.get("server_username")
-        ),
+        data["server_type"], data["server_url"], data.get("api_key") or ""
     )
 
 
