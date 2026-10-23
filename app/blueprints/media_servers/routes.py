@@ -54,7 +54,9 @@ def _check_connection(data: dict):
         data["server_type"],
         data["server_url"],
         data.get("api_key") or "",
-        username=data.get("navidrome_username"),
+        username=(
+            data.get("navidrome_username") or data.get("server_username")
+        ),
     )
 
 
@@ -370,6 +372,8 @@ def ping_server(server_id):
             "server_type": server.server_type,
             "server_url": server.url,
             "api_key": server.api_key,
+            # Reuse the saved Navidrome administrator username for health checks.
+            "server_username": server.server_username,
         }
     )
 
