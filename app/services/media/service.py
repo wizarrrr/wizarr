@@ -272,7 +272,7 @@ def check_server_connection(
     client_class = CLIENTS.get(server_type)
     if client_class is None:
         return False, f"Unknown server type '{server_type}'"
-    if server_type == "navidrome":
+    if server_type == "navidrome" and username is not None:
         return client_class.check_connection(url, token, username=username)
     return client_class.check_connection(url, token)
 
