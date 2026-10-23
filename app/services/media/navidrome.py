@@ -57,7 +57,7 @@ class NavidromeClient(RestApiMixin):
     def _api_request(self, method: str, endpoint: str, payload: dict | None = None):
         """Call Navidrome's native /api JSON API using its JWT auth header."""
         self._ensure_auth()
-        kwargs = {"headers": {"X-ND-Authorization": f"Bearer {self._native_token}", "X-ND-Client-Unique-Id": "wizarr"}}
+        kwargs = {"headers": {"X-ND-Authorization": f"Bearer {self._native_token}", "X-ND-Client-Unique-Id": "f2a3c48b-3d8f-4a71-9b6e-2c5d7f8a1043"}}
         if payload is not None:
             kwargs["json"] = payload
         response = self._request(method, f"/api/{endpoint.lstrip('/')}", **kwargs)
