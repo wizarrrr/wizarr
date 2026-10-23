@@ -372,7 +372,11 @@ def ping_server(server_id):
             "server_type": server.server_type,
             "server_url": server.url,
             "api_key": server.api_key,
-            # Reuse the saved Navidrome administrator username for health checks.
+            # Pass the Navidrome credential under the exact field consumed by
+            # _check_connection, with a safe legacy default for older records.
+            "navidrome_username": (server.server_username or "admin")
+            if server.server_type == "navidrome"
+            else None,
             "server_username": server.server_username,
         }
     )
