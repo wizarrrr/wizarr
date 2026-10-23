@@ -404,8 +404,8 @@ def password_prompt(code):
         # Use the same username, email, and password validation as other
         # form-based invitations. These credentials belong to the remaining
         # servers and do not have to match the invitee's Plex identity.
-        from werkzeug.datastructures import MultiDict
         from app.forms.join import JoinForm
+        from werkzeug.datastructures import MultiDict
 
         form_data = request.form.copy()
         # Keep compatibility with existing clients/tests that post the old
