@@ -58,12 +58,16 @@ class StandardizedPermissions:
 
     @classmethod
     def for_navidrome(cls, raw_user: dict) -> "StandardizedPermissions":
-        """Extract standardized permissions from Navidrome user."""
+        """Map native Navidrome permissions into Wizarr's common permission model.
+
+        Navidrome has no per-user download-role flag, so downloads cannot be
+        restricted individually through this integration.
+        """
         perms = cls("navidrome")
-        perms.is_admin = raw_user.get("adminRole", False)
-        perms.allow_downloads = raw_user.get("downloadRole", True)
-        perms.allow_live_tv = False  # Not supported
-        perms.allow_camera_upload = False  # Not supported
+        perms.is_admin = raw_user.get("isAdmin", raw_user.get("adminRole", False))
+        perms.allow_downloads = True
+        perms.allow_live_tv = False
+        perms.allow_camera_upload = False
         return perms
 
     @classmethod

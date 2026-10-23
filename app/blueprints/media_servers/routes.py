@@ -50,6 +50,13 @@ def _check_connection(data: dict):
             data["api_key"] = base64.b64encode(
                 f"{username}:{password}".encode()
             ).decode()
+    if data["server_type"] == "navidrome":
+        return check_server_connection(
+            data["server_type"],
+            data["server_url"],
+            data.get("api_key") or "",
+            username=data.get("navidrome_username") or data.get("server_username"),
+        )
     return check_server_connection(
         data["server_type"], data["server_url"], data.get("api_key") or ""
     )
@@ -63,6 +70,9 @@ def _typed_values() -> dict[str, str]:
     """
     values = request.form.to_dict()
     values.pop("server_password", None)
+    # API keys can be credentials too (Navidrome uses its admin password here).
+    # Never echo credentials back into HTML after a failed connection check.
+    values.pop("api_key", None)
     return values
 
 
@@ -108,6 +118,11 @@ def create_server():
         server.server_type = data["server_type"]
         server.url = data["server_url"]
         server.api_key = data.get("api_key")
+        server.server_username = (
+            data.get("navidrome_username", "").strip() or "admin"
+            if data["server_type"] == "navidrome"
+            else None
+        )
         server.external_url = data.get("external_url")
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))
@@ -195,6 +210,16 @@ def edit_server(server_id):
                     f"{username}:{password}".encode()
                 ).decode()
 
+        # Navidrome's password field is intentionally blank in the edit form.
+        # Reuse the saved credential when editing an existing Navidrome server
+        # without changing its password.
+        if (
+            data.get("server_type") == "navidrome"
+            and server.server_type == "navidrome"
+            and not data.get("api_key")
+        ):
+            data["api_key"] = server.api_key or ""
+
         ok, error_msg = _check_connection(data)
         if not ok:
             resp = make_response(
@@ -212,6 +237,11 @@ def edit_server(server_id):
         server.server_type = data["server_type"]
         server.url = data["server_url"]
         server.api_key = data.get("api_key")
+        server.server_username = (
+            data.get("navidrome_username", "").strip() or "admin"
+            if data["server_type"] == "navidrome"
+            else None
+        )
         server.external_url = data.get("external_url")
         # Universal options (work for all server types)
         server.allow_downloads = bool(data.get("allow_downloads"))
@@ -330,6 +360,12 @@ def ping_server(server_id):
             "server_type": server.server_type,
             "server_url": server.url,
             "api_key": server.api_key,
+            # Pass the Navidrome credential under the exact field consumed by
+            # _check_connection, with a safe legacy default for older records.
+            "navidrome_username": (server.server_username or "admin")
+            if server.server_type == "navidrome"
+            else None,
+            "server_username": server.server_username,
         }
     )
 

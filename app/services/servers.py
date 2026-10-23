@@ -1,4 +1,7 @@
+import hashlib
 import logging
+import random
+import string
 
 import requests
 from flask_babel import _
@@ -234,7 +237,9 @@ def check_kavita(url: str, token: str) -> tuple[bool, str]:
         return handle_connection_error(e, _("Kavita"))
 
 
-def check_navidrome(url: str, token: str) -> tuple[bool, str]:
+def check_navidrome(
+    url: str, token: str, username: str | None = None
+) -> tuple[bool, str]:
     """Quick connectivity check for a Navidrome instance.
 
     We perform a lightweight request to the ``/rest/ping`` endpoint which is
@@ -242,13 +247,9 @@ def check_navidrome(url: str, token: str) -> tuple[bool, str]:
     When *token* (password) is provided, we authenticate using the salted hash method.
     """
     try:
-        import hashlib
-        import random
-        import string
-
         # Build Subsonic API authentication parameters
         params = {
-            "u": "admin",  # Default username for API access
+            "u": username.strip() if username and username.strip() else "admin",
             "v": "1.16.1",  # Supported API version
             "c": "wizarr",  # Client identifier
             "f": "json",  # Response format
@@ -258,8 +259,9 @@ def check_navidrome(url: str, token: str) -> tuple[bool, str]:
             # Generate random salt for secure authentication
             salt = "".join(random.choices(string.ascii_letters + string.digits, k=6))
 
-            # Create SHA-256 hash of password + salt (prefer strong hash if supported by Navidrome/Subsonic API)
-            token_hash = hashlib.sha256((token + salt).encode()).hexdigest()
+            # Subsonic's salted-token authentication specifies MD5(password + salt).
+            # Keep this in sync with NavidromeClient._generate_auth_params().
+            token_hash = hashlib.md5((token + salt).encode()).hexdigest()  # noqa: S324
 
             params.update(
                 {
@@ -287,8 +289,6 @@ def check_navidrome(url: str, token: str) -> tuple[bool, str]:
         return True, ""
     except Exception as e:
         return handle_connection_error(e, _("Navidrome"))
-
-
 def check_drop(url: str, token: str) -> tuple[bool, str]:
     """Quick connectivity check for a Drop instance.
 
