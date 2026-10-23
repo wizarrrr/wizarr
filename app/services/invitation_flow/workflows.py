@@ -266,7 +266,9 @@ class InvitationWorkflow(ABC):
                 template_data={
                     "template_name": "navidrome-onboarding.html",
                     "server_name": server.name or "Navidrome",
-                    "navidrome_url": (server.external_url or server.url or "").rstrip("/"),
+                    "navidrome_url": (
+                        server.external_url or server.url or ""
+                    ).rstrip("/"),
                 },
                 session_data={
                     "wizard_access": None,
