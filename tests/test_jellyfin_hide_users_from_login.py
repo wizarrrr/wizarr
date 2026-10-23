@@ -123,8 +123,8 @@ def test_password_prompt_sends_the_option(client, session):
             "/j/HIDEPROMPT/password",
             data={
                 "username": "viewer",
-                "password": "password123",
-                "confirm": "password123",
+                "password": "Password123",
+                "confirm": "Password123",
             },
         )
 
