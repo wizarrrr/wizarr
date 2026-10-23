@@ -405,6 +405,7 @@ def password_prompt(code):
         # form-based invitations. These credentials belong to the remaining
         # servers and do not have to match the invitee's Plex identity.
         from werkzeug.datastructures import MultiDict
+
         from app.forms.join import JoinForm
 
         form_data = request.form.copy()
