@@ -481,7 +481,7 @@ def password_prompt(code):
                     permissions = _apply_safe_media_user_policy(
                         client, uid, invitation, srv
                     )
-                elif srv.server_type in ("audiobookshelf", "romm"):
+                elif srv.server_type in ("audiobookshelf", "romm", "navidrome"):
                     uid = client.create_user(username, pw, email=email)
                 else:
                     continue  # unknown server type
