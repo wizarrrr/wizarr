@@ -170,7 +170,7 @@ class NavidromeClient(RestApiMixin):
         if not isinstance(users, list):
             raise ValueError("Navidrome native API returned an invalid user list")
         for user in users:
-            if isinstance(user, dict) and (str(user.get("id", "")) == str(identifier) or str(user.get("userName") or user.get("username") or "") == str(identifier):
+            if isinstance(user, dict) and (str(user.get("id", "")) == str(identifier) or str(user.get("userName") or user.get("username") or "") == str(identifier)):
                 return user
         raise ValueError(f"Navidrome user not found: {identifier}")
 
