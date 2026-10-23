@@ -426,15 +426,6 @@ def password_prompt(code):
         email = form.email.data or ""
         pw = form.password.data or ""
 
-        # Fallback: generate strong password if checkbox ticked.
-        if request.form.get("generate"):
-            import secrets
-            import string
-
-            pw = "".join(
-                secrets.choice(string.ascii_letters + string.digits) for _ in range(16)
-            )
-
         # Create LDAP user if configured
         from app.services.ldap.invitation_ldap import InvitationLDAPHandler
 
