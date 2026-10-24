@@ -403,12 +403,19 @@ def disable_user(db_id: int, *, commit: bool = True) -> bool:
     return _set_user_enabled_state(db_id, enabled=False, commit=commit)
 
 
-def remove_user_from_server(user_id: int, server_id: int) -> bool:
+def remove_user_from_server(
+    user_id: int, server_id: int, *, require_remote: bool = False
+) -> bool:
     """Remove a user from a specific server only, preserving other server accounts.
+
+    With ``require_remote`` a failed delete on the media server raises and
+    nothing is deleted, as in ``delete_user``; a user the server no longer has
+    (404) counts as deleted.
 
     Args:
         user_id: The ID of the user record to remove
         server_id: The ID of the server to remove the user from
+        require_remote: Raise instead of deleting the row when the server fails
 
     Returns:
         bool: True if removal was successful, False if user/server not found
@@ -425,6 +432,8 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
         user_identifier = _get_user_identifier(user, server)
         client.delete_user(user_identifier)
     except Exception as exc:
+        if require_remote and not _is_not_found(exc):
+            raise
         logging.error(
             f"Remote deletion failed for user {user.username} from {server.name}: {exc}"
         )
