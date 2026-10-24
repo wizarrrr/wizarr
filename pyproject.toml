@@ -6,6 +6,13 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "apprise>=2.0.1",
+    # Security floor: CVE-2026-111497 / GHSA-9v8h-qqgm-4m35 (out-of-bounds
+    # write in the Brotli decoder, "Node2Shell"/"HTTP2Shell") is fixed in
+    # brotli 1.2.1 / brotlicffi 1.2.1.0. flask-compress pulls these in
+    # transitively; explicit floors keep the lockfile from resolving a
+    # vulnerable decoder again. Markers mirror flask-compress.
+    "brotli>=1.2.1; platform_python_implementation != 'PyPy'",
+    "brotlicffi>=1.2.1.0; platform_python_implementation == 'PyPy'",
     "cachetools>=7.2.1",
     "cryptography>=50.0.2",
     "email-validator>=2.3.0",
