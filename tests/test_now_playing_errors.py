@@ -22,7 +22,6 @@ from app.services.media.jellyfin import JellyfinClient
 from app.services.media.kavita import KavitaClient
 from app.services.media.komga import KomgaClient
 from app.services.media.navidrome import NavidromeClient
-from app.services.media.romm import RommClient
 
 
 class _Response:
@@ -311,7 +310,9 @@ def test_navidrome_statistics_still_works_when_sessions_fail(fake_http):
 # ─── Servers without a session API ──────────────────────────────────────────
 
 
-@pytest.mark.parametrize("cls", [KavitaClient, KomgaClient, RommClient, DropClient])
+# RomM gained a session API (GET /api/activity), so it is deliberately not in
+# this list – its now_playing() does make a request.
+@pytest.mark.parametrize("cls", [KavitaClient, KomgaClient, DropClient])
 def test_servers_without_sessions_make_no_request(cls, fake_http):
     session = fake_http()
 
