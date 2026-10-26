@@ -1207,3 +1207,53 @@ class LDAPGroup(db.Model):
         onupdate=lambda: datetime.now(UTC),
         nullable=False,
     )
+
+
+# ────────────────────────────────────────────────────────────────────────────
+# OIDC Integration Model (2026-09) - admin panel SSO
+# ────────────────────────────────────────────────────────────────────────────
+
+
+class OIDCConfiguration(db.Model):
+    """OIDC provider configuration for admin-panel single sign-on.
+
+    Scope: authenticating *administrators* into the Wizarr admin panel via
+    an external OpenID Connect provider (Authentik, Keycloak, Authelia,
+    Okta, Auth0, etc.). This does not affect how invited end users join a
+    media server -- that flow is unchanged.
+    """
+
+    __tablename__ = "oidc_configuration"
+
+    id = db.Column(db.Integer, primary_key=True)
+    enabled = db.Column(db.Boolean, default=False, nullable=False)
+
+    # Display
+    display_name = db.Column(db.String, nullable=False, default="SSO")
+
+    # Provider / client
+    discovery_url = db.Column(db.String, nullable=False)
+    client_id = db.Column(db.String, nullable=False)
+    client_secret_encrypted = db.Column(db.String, nullable=True)
+    scopes = db.Column(db.String, nullable=False, default="openid profile email")
+
+    # Claim mapping
+    username_claim = db.Column(db.String, nullable=False, default="preferred_username")
+
+    # Admin authorization gate. If admin_claim is blank, ANY successfully
+    # authenticated OIDC user is granted admin access -- the settings UI
+    # warns loudly about this. When set, the claim's value (or, for a list
+    # claim such as a "groups" claim, any element of it) must match one of
+    # the comma-separated values in admin_claim_values.
+    admin_claim = db.Column(db.String, nullable=True)
+    admin_claim_values = db.Column(db.String, nullable=True)
+
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+    updated_at = db.Column(
+        db.DateTime,
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
+        nullable=False,
+    )
