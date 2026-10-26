@@ -106,6 +106,7 @@ def _delete_test_data():
     )
 
     db.session.rollback()
+    db.session.execute(db.text("DELETE FROM signup_request"))
     db.session.execute(db.text("DELETE FROM activity_snapshot"))
     db.session.execute(db.text("DELETE FROM password_reset_token"))
     db.session.execute(db.text("DELETE FROM historical_import_job"))

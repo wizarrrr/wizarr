@@ -93,6 +93,14 @@ def get_or_create_secret(key, generator_func):
 
 
 class BaseConfig:
+    SIGNUP_PUBLIC_URL = os.getenv("SIGNUP_PUBLIC_URL", "")
+    SIGNUP_ADMIN_EMAIL = os.getenv("SIGNUP_ADMIN_EMAIL", "")
+    SIGNUP_SMTP_HOST = os.getenv("SIGNUP_SMTP_HOST", "")
+    SIGNUP_SMTP_PORT = env_int("SIGNUP_SMTP_PORT", 587)
+    SIGNUP_SMTP_SSL = env_bool("SIGNUP_SMTP_SSL", False)
+    SIGNUP_SMTP_FROM = os.getenv("SIGNUP_SMTP_FROM", "")
+    SIGNUP_SMTP_USERNAME = os.getenv("SIGNUP_SMTP_USERNAME", "")
+    SIGNUP_SMTP_PASSWORD = os.getenv("SIGNUP_SMTP_PASSWORD", "")
     # Flask
     SECRET_KEY = get_or_create_secret("SECRET_KEY", generate_secret_key)
     # Sessions
