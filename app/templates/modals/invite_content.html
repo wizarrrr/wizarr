@@ -68,6 +68,22 @@
                class="{{ field_class }}"
                placeholder="{{ _('E.g. XMFGEJIKNQ') }}">
       </div>
+      <!-- Email invite link -->
+      <div>
+        <label for="recipient_email" class="{{ label_class }}">
+          {{ _("Email invite to") }}
+          <span class="text-gray-500 ml-1">({{ _("optional") }})</span>
+        </label>
+        <input type="email"
+               name="recipient_email"
+               id="recipient_email"
+               autocomplete="off"
+               class="{{ field_class }}"
+               placeholder="{{ _('user@example.com') }}">
+        <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+          {{ _("If provided, the invite link is emailed to this address once, right after creation.") }}
+        </p>
+      </div>
       <div class="grid gap-5 {% if bundles %}sm:grid-cols-2{% endif %}">
         <!-- Expiration Dropdown -->
         <div>
@@ -269,6 +285,10 @@
         </div>
         <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("Successfully generated an Invitation!") }}</h3>
       </div>
+      {% if email_warning %}
+        <div class="p-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 dark:text-yellow-200"
+             role="alert">{{ email_warning }}</div>
+      {% endif %}
       <div>
         <label for="link" class="{{ label_class }}">{{ _("Invitation Link") }}</label>
         <div class="flex gap-2">

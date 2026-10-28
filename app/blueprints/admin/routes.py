@@ -201,10 +201,25 @@ def invite():
         host_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
         link = f"{host_url}/j/{invite.code}"
 
+        email_warning = None
+        recipient_email = request.form.get("recipient_email", "").strip()
+        if recipient_email:
+            from app.services.email import EmailSendError, send_invite_email
+
+            try:
+                send_invite_email(recipient_email, link, invite.code)
+            except EmailSendError as exc:
+                email_warning = _(
+                    "Invitation created, but the email could not be sent: %(error)s",
+                    error=str(exc),
+                )
+                logging.warning("Invite email to %s failed: %s", recipient_email, exc)
+
         invitations = Invitation.query.order_by(Invitation.created.desc()).all()
         return render_template(
             "modals/invite.html",
             link=link,
+            email_warning=email_warning,
             invitations=invitations,
             server_type=server_type,
             allow_downloads=allow_downloads,
@@ -681,6 +696,7 @@ def user_detail(db_id: int):
                 )
             else:
                 user.expires = None
+            user.expiry_reminder_sent_at = None
 
         # Update notes only if present in form
         if "notes" in request.form:
