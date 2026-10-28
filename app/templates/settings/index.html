@@ -127,6 +127,23 @@
           </li>
           <li class="md:me-2">
             <button class="tab-btn w-full inline-flex items-center justify-center px-4 py-3 rounded-lg md:rounded-t-lg md:rounded-b-none bg-gray-700 md:bg-transparent border-0 md:border-b-2 border-transparent text-gray-300 hover:bg-gray-600 md:hover:bg-transparent hover:text-gray-100 md:hover:text-gray-600 md:hover:border-gray-300 md:dark:hover:text-gray-300 dark:bg-gray-800 md:dark:bg-transparent dark:hover:bg-gray-700 md:dark:hover:bg-transparent group transition-colors"
+                    hx-get="{{ url_for('settings.smtp_settings') }}"
+                    hx-target="#tab-body"
+                    hx-swap="innerHTML"
+                    hx-trigger="click"
+                    preload="mouseover">
+              <svg class="w-4 h-4 me-2 text-gray-400 transition-colors"
+                   fill="none"
+                   stroke="currentColor"
+                   viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z">
+                </path>
+              </svg>
+              {{ _("Email (SMTP)") }}
+            </button>
+          </li>
+          <li class="md:me-2">
+            <button class="tab-btn w-full inline-flex items-center justify-center px-4 py-3 rounded-lg md:rounded-t-lg md:rounded-b-none bg-gray-700 md:bg-transparent border-0 md:border-b-2 border-transparent text-gray-300 hover:bg-gray-600 md:hover:bg-transparent hover:text-gray-100 md:hover:text-gray-600 md:hover:border-gray-300 md:dark:hover:text-gray-300 dark:bg-gray-800 md:dark:bg-transparent dark:hover:bg-gray-700 md:dark:hover:bg-transparent group transition-colors"
                     hx-get="{{ url_for('wizard_admin.list_steps') }}"
                     hx-target="#tab-body"
                     hx-swap="innerHTML"
