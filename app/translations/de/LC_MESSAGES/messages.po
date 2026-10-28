@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-10-27 08:59+0000\n"
-"PO-Revision-Date: 2026-09-16 08:35+0000\n"
-"Last-Translator: Fabio Scheer <fabio@yreefboi.de>\n"
+"PO-Revision-Date: 2026-10-28 09:40+0000\n"
+"Last-Translator: Growlgrowl <growl@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/wizarr/wizarr-"
 "universal/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.10.dev0\n"
+"X-Generator: Weblate 2026.11.dev0\n"
 "Generated-By: Babel 2.17.0\n"
 
 msgid "Failed to load settings"
@@ -158,6 +158,7 @@ msgstr "bald"
 
 msgid "Enter a valid email address, or leave the field empty."
 msgstr ""
+"Geben Sie eine gültige E-Mail-Adresse ein oder lassen Sie das Feld leer."
 
 msgid "Admin created"
 msgstr "Admin erstellt"
@@ -216,6 +217,8 @@ msgstr "LDAP-Authentifizierung fehlgeschlagen"
 
 msgid "Sign in through Cloudflare Access to reach the admin pages."
 msgstr ""
+"Melden Sie sich über Cloudflare Access an, um auf die Admin-Seiten "
+"zuzugreifen."
 
 msgid "Invalid username or password"
 msgstr "Ungültiger Benutzername oder Passwort"
@@ -386,6 +389,9 @@ msgid ""
 "Cannot save the change because it conflicts with other wizard data. Refresh "
 "the page and try again."
 msgstr ""
+"Die Änderung kann nicht gespeichert werden, da sie mit anderen Daten des "
+"Assistenten in Konflikt steht. Aktualisieren Sie die Seite und versuchen Sie "
+"es erneut."
 
 #, python-brace-format
 msgid "Cleaned up {} orphaned step(s)"
@@ -486,6 +492,8 @@ msgid ""
 "This LDAP filter is not valid. Enter one complete filter in parentheses, for "
 "example %(example)s."
 msgstr ""
+"Dieser LDAP-Filter ist ungültig. Geben Sie einen vollständigen Filter in "
+"Klammern ein, zum Beispiel %(Beispiel)."
 
 msgid "User Sync Filter"
 msgstr ""
@@ -512,7 +520,7 @@ msgid "Allow Live TV"
 msgstr "Live-TV zulassen"
 
 msgid "Seerr/Ombi URL"
-msgstr ""
+msgstr "Seerr/Ombi URL"
 
 msgid "Ombi API Key"
 msgstr "Ombi-API-Schlüssel"
@@ -587,7 +595,7 @@ msgid "Navidrome"
 msgstr "Navidrome"
 
 msgid "Invalid API token, or the token does not have the 'user:read' ACL."
-msgstr ""
+msgstr "Das API-Token ist ungültig oder verfügt nicht über die ACL „user:read“."
 
 msgid "Could not connect to Drop server."
 msgstr "Verbindung zum Drop-Server konnte nicht hergestellt werden."
@@ -857,7 +865,6 @@ msgstr "Das Passwort muss:"
 msgid "Between 8 and 128 characters"
 msgstr "Zwischen 8 und 128 Zeichen"
 
-#, fuzzy
 msgid "Match the confirmation"
 msgstr "Bestätigung abgleichen"
 
@@ -886,34 +893,36 @@ msgstr ""
 "Medienserver an."
 
 msgid "Signing you in"
-msgstr ""
+msgstr "Anmeldung"
 
 msgid "Finishing up with Plex. This only takes a moment."
 msgstr ""
 
 msgid "Back to your invitation"
-msgstr ""
+msgstr "Zurück zu Ihrer Einladung"
 
 msgid "Nothing to finish"
-msgstr ""
+msgstr "Nichts zu erledigen"
 
 msgid "Open your invitation link again to sign in with Plex."
-msgstr ""
+msgstr "Öffne deinen Einladungslink erneut um dich mit Plex anzumelden."
 
 msgid "All set"
-msgstr ""
+msgstr "Alle Sets"
 
 msgid "Taking you to the next step..."
-msgstr ""
+msgstr "Wir begleiten Sie zum nächsten Schritt..."
 
 msgid "Sign-in failed"
-msgstr ""
+msgstr "Anmeldung fehlgeschlagen"
 
 msgid "That took too long"
-msgstr ""
+msgstr "Das hat zu lange gedauert"
 
 msgid "We did not hear back from Plex. Please try signing in again."
 msgstr ""
+"Wir haben keine Rückmeldung von Plex erhalten. Bitte versuchen Sie, sich "
+"erneut anzumelden."
 
 msgid "Administrator"
 msgstr "Administrator"
@@ -954,7 +963,6 @@ msgstr ""
 "Pop-up blockiert. Bitte lassen Sie Pop-ups für diese Website zu und "
 "versuchen Sie es erneut."
 
-#, fuzzy
 msgid "Sign-in cancelled. Hit Join Server to try again."
 msgstr ""
 "Die Anmeldung wurde abgebrochen. Klicken Sie auf „Dem Server beitreten“, um "
@@ -1007,7 +1015,6 @@ msgstr "Neuste akzeptierte Einladungen"
 msgid "Recently joined"
 msgstr "Kürzlich beigetreten"
 
-#, fuzzy
 msgid "Showing"
 msgstr "zeigt"
 
@@ -1187,6 +1194,8 @@ msgid ""
 "Wizarr keeps this address for the Jellyfin, Emby and local accounts of this "
 "user. Wizarr does not send it to the media server."
 msgstr ""
+"Wizarr speichert diese Adresse für die Jellyfin-, Emby- und lokalen Konten "
+"dieses Benutzers. Wizarr übermittelt sie nicht an den Medienserver."
 
 msgid "Tabs"
 msgstr "Tabs"
@@ -1200,35 +1209,29 @@ msgstr "Notizen"
 msgid "Permission Management"
 msgstr "Berechtigungsverwaltung"
 
-#, fuzzy
 msgid "Toggle downloads permission"
 msgstr "Berechtigung für Downloads umschalten"
 
-#, fuzzy
 msgid "Toggle live TV permission"
 msgstr "Berechtigung für Live-TV umschalten"
 
 msgid "Allow Camera Upload"
 msgstr "Kamera-Upload zulassen"
 
-#, fuzzy
 msgid "Toggle camera upload permission"
 msgstr "Berechtigung zum Hochladen von Kameraaufnahmen umschalten"
 
-#, fuzzy
 msgid "Library Access"
 msgstr "Zugang zur Bibliothek"
 
 msgid "No libraries available"
 msgstr "Keine Bibliotheken verfügbar"
 
-#, fuzzy
 msgid "Scan libraries from the invitation page to enable library restrictions"
 msgstr ""
 "Scannen Sie Bibliotheken von der Einladungsseite ein, um "
 "Bibliothekseinschränkungen zu aktivieren"
 
-#, fuzzy
 msgid "Click to toggle library access. Updates save automatically."
 msgstr ""
 "Klicken Sie hier, um den Zugriff auf die Bibliothek zu aktivieren bzw. zu "
@@ -1257,10 +1260,10 @@ msgid "Update Notes"
 msgstr "Notizen aktualisieren"
 
 msgid "Sync users from media servers"
-msgstr ""
+msgstr "Benutzer von Medienservern synchronisieren"
 
 msgid "Sync"
-msgstr ""
+msgstr "Synchronisieren"
 
 msgid "Link"
 msgstr "Verlinken"
@@ -1407,13 +1410,17 @@ msgid "Edit Connection"
 msgstr "Verbindung bearbeiten"
 
 msgid "Seerr Information"
-msgstr ""
+msgstr "Seerr Informationen"
 
 msgid ""
 "Seerr creates an account the first time someone signs in, so by default an "
 "invited user has no account there until they visit and log in themselves. "
 "Overseerr and Jellyseerr, which merged into Seerr, work the same way."
 msgstr ""
+"Seerr legt bei der ersten Anmeldung ein Konto an. Daher verfügt ein "
+"eingeladener Nutzer standardmäßig noch über kein Konto, bis er die Seite "
+"besucht und sich selbst anmeldet. Overseerr und Jellyseerr, die zu Seerr "
+"fusioniert wurden, funktionieren auf dieselbe Weise."
 
 msgid ""
 "Set the Service URL and turn on account creation below, and Wizarr signs "
@@ -1421,11 +1428,19 @@ msgid ""
 "uses the service's own sign-in route rather than an API key, so it needs "
 "'Enable New Plex Sign-In' under its Settings → Users."
 msgstr ""
+"Legen Sie unten die Service-URL fest und aktivieren Sie die Kontoerstellung. "
+"Wizarr meldet die Nutzer dann während der Einladung an, sodass ihr Konto "
+"bereits vor ihrer Ankunft existiert. Dabei wird die dienstinterne "
+"Anmelderoute anstelle eines API-Schlüssels verwendet, daher muss unter „"
+"Einstellungen“ → „Benutzer“ die Option „Neue Plex-Anmeldung aktivieren“ "
+"aktiviert sein."
 
 msgid ""
 "Must be https if the service has CSRF protection enabled, which sets its "
 "cookies Secure."
 msgstr ""
+"Es muss https sein, wenn der Dienst den CSRF-Schutz aktiviert hat, wodurch "
+"seine Cookies als „Secure“ gekennzeichnet werden."
 
 msgid "Testing connection..."
 msgstr "Verbindung wird getestet..."
@@ -1479,10 +1494,11 @@ msgid "New Agent"
 msgstr "Neuer Dienst"
 
 msgid "User Key"
-msgstr ""
+msgstr "Benutzer Schlüssel"
 
+#, fuzzy
 msgid "API Token"
-msgstr ""
+msgstr "API Token"
 
 msgid "Channel ID"
 msgstr "Kanal-ID"
@@ -1518,7 +1534,7 @@ msgid "Add Server"
 msgstr "Server hinzufügen"
 
 msgid "Hide new users from login screens"
-msgstr ""
+msgstr "Neue Benutzer auf Anmeldeseiten ausblenden"
 
 msgid "Test & Add"
 msgstr "Testen & Hinzufügen"
@@ -1607,7 +1623,6 @@ msgstr "Mobile Uploads zulassen"
 msgid "Max Active Sessions"
 msgstr "Max. Anzahl aktiver Sitzungen"
 
-#, fuzzy
 msgid "simultaneous devices"
 msgstr "gleichzeitig verwendete Geräte"
 
@@ -1770,12 +1785,11 @@ msgid "Your Discord server ID"
 msgstr "Deine Discord-Server-ID"
 
 msgid "URL to your Seerr/Ombi instance"
-msgstr ""
+msgstr "URL zu Ihrer Seerr/Ombi-Instanz"
 
 msgid "Create Step"
 msgstr "Schritt erstellen"
 
-#, fuzzy
 msgid "Add..."
 msgstr "Hinzufügen..."
 
@@ -1792,9 +1806,8 @@ msgid "Collection Media"
 msgstr ""
 
 msgid "Show media from a Plex collection"
-msgstr ""
+msgstr "Medien aus einer Plex-Sammlung anzeigen"
 
-#, fuzzy
 msgid "Button"
 msgstr "Schaltfläche"
 
@@ -1821,51 +1834,54 @@ msgid "Get started by creating a new API key."
 msgstr "Beginne damit, einen neuen API-Schlüssel zu erstellen."
 
 msgid "Content Restrictions"
-msgstr ""
+msgstr "Inhaltsbeschränkungen"
 
 msgid ""
 "Plex hides content from the invited user with these filters. Separate values "
 "with commas. Leave a field empty for no filter. Requires Plex Pass."
 msgstr ""
+"Plex blendet mit diesen Filtern Inhalte für den eingeladenen Nutzer aus. "
+"Trennen Sie die Werte durch Kommas. Lassen Sie ein Feld leer, wenn kein "
+"Filter angewendet werden soll. Plex Pass erforderlich."
 
 msgid "Movies"
-msgstr ""
+msgstr "Filme"
 
 msgid "E.g. G, PG, PG-13"
-msgstr ""
+msgstr "z.B. G, PG, PG-13"
 
 msgid "E.g. R, NC-17"
-msgstr ""
+msgstr "z.B. R, NC-17"
 
 msgid "TV Shows"
-msgstr ""
+msgstr "Fernsehserien"
 
 msgid "E.g. TV-Y, TV-G"
-msgstr ""
+msgstr "z. B. TV-Y, TV-G"
 
 msgid "E.g. TV-MA"
-msgstr ""
+msgstr "z. B. TV-MA"
 
 msgid "Music"
-msgstr ""
+msgstr "Musik"
 
 msgid "Exclude labels"
-msgstr ""
+msgstr "Labels ausschließen"
 
 msgid "E.g. private"
-msgstr ""
+msgstr "z. B. privat"
 
 msgid "Allow only labels"
-msgstr ""
+msgstr "Nur Labels zulassen"
 
 msgid "E.g. kids"
-msgstr ""
+msgstr "z. B. Kinder"
 
 msgid "Allow only ratings"
-msgstr ""
+msgstr "Nur Bewertungen zulassen"
 
 msgid "Exclude ratings"
-msgstr ""
+msgstr "Bewertungen ausschließen"
 
 msgid "Media Servers"
 msgstr "Medienserver"
@@ -1923,10 +1939,10 @@ msgid "Media Server"
 msgstr "Medienserver"
 
 msgid "Seerr"
-msgstr ""
+msgstr "Seerr"
 
 msgid "Seerr (Info)"
-msgstr ""
+msgstr "Seerr (Info)"
 
 msgid "Ombi"
 msgstr "Ombi"
@@ -1968,10 +1984,14 @@ msgstr "Anzeige"
 msgid "Configure how your application appears to users"
 msgstr "Konfiguriere, wie deine Anwendung für die Benutzer angezeigt wird"
 
+#, fuzzy
 msgid ""
 "Which server's posters fill the background of the public join page. 'The "
 "server the invite is for' shows nothing without a valid invite."
 msgstr ""
+"Die Poster welches Server füllen den Hintergrund der öffentlichen "
+"Beitrittsseite aus. „Der Server, für den die Einladung gilt“ zeigt ohne "
+"gültige Einladung nichts an."
 
 msgid "Access Control"
 msgstr "Zugangskontrolle"
@@ -2009,9 +2029,10 @@ msgid "Choose what happens to users when their invitation expires"
 msgstr ""
 "Legen Sie fest, was mit Benutzern geschieht, wenn ihre Einladung abläuft"
 
-#, fuzzy
 msgid "Immediately process all expired users based on the expiry action above"
-msgstr "bearbeite alle abgelaufenen Benutzer gemäß der obigen Ablauf-Maßnahme"
+msgstr ""
+"Alle abgelaufenen Benutzer sofort gemäß der oben genannten Maßnahme bei "
+"Ablauf bearbeiten"
 
 msgid "API Key Management"
 msgstr "API-Schlüsselverwaltung"
@@ -2055,7 +2076,6 @@ msgstr "Admins"
 msgid "Wizard"
 msgstr "Wizard"
 
-#, fuzzy
 msgid "Audit"
 msgstr "Prüfe"
 
@@ -2102,11 +2122,12 @@ msgid ""
 "Optional. User sync imports only the users that match this filter and the "
 "user object class. Login does not use this filter."
 msgstr ""
+"Optional. Bei der Benutzersynchronisierung werden nur die Benutzer "
+"importiert, die diesem Filter und der Benutzerobjektklasse entsprechen. Bei "
+"der Anmeldung wird dieser Filter nicht verwendet."
 
-#, fuzzy
 msgid "Optional - only needed for admin group restriction"
-msgstr ""
-"Optional – wird nur für die Einschränkung auf die Admin-Gruppe benötigt"
+msgstr "Optional – wird nur für die Einschränkung auf die Admin-Gruppe benötigt"
 
 msgid "Sync Groups"
 msgstr "Gruppen synchronisieren"
@@ -2214,21 +2235,25 @@ msgstr ""
 "Welcher Medienserver soll Einladungen zu diesem externen Dienst auslösen"
 
 msgid "To have Wizarr create the account instead:"
-msgstr ""
+msgstr "Damit Wizarr das Konto stattdessen erstellt:"
 
 msgid "Set the Service URL below"
-msgstr ""
+msgstr "Geben Sie unten die Service-URL ein"
 
 msgid "Turn on account creation below"
-msgstr ""
+msgstr "Aktivieren Sie unten die Kontoerstellung"
 
 msgid "In the service, enable Settings → Users → 'Enable New Plex Sign-In'"
 msgstr ""
+"Aktivieren Sie im Dienst unter „Einstellungen“ → „Benutzer“ die Option „Neue "
+"Plex-Anmeldung aktivieren“"
 
 msgid ""
 "This uses the service's own sign-in route, so there is no API key to "
 "configure."
 msgstr ""
+"Hierbei wird die dienstinterne Anmelderoute verwendet, sodass kein API-"
+"Schlüssel konfiguriert werden muss."
 
 msgid "The full URL to your external service instance"
 msgstr "Die komplette URL zu deiner externen Serviceinstanz"
@@ -2484,11 +2509,12 @@ msgstr "Wizarr einrichten"
 msgid "Create an account"
 msgstr "Ein Konto erstellen"
 
+#, fuzzy
 msgid "Pagination"
-msgstr ""
+msgstr "Paginierung"
 
 msgid "Show more"
-msgstr ""
+msgstr "Zeige mehr"
 
 msgid "Unlimited"
 msgstr "Unbegrenzt"
@@ -2555,7 +2581,7 @@ msgid "Remove user"
 msgstr "Benutzer entfernen"
 
 msgid "Setup Guide"
-msgstr ""
+msgstr "Einrichtungsanleitung"
 
 msgid "Select your server to open its setup guide."
 msgstr ""
@@ -2567,11 +2593,15 @@ msgstr ""
 msgid ""
 "This page is for invited users. Open the link from your invitation to start."
 msgstr ""
+"Diese Seite ist für eingeladene Nutzer bestimmt. Öffnen Sie den Link aus "
+"Ihrer Einladung, um loszulegen."
 
 msgid ""
 "If you already accepted your invitation, ask the server administrator for "
 "help."
 msgstr ""
+"Falls Sie Ihre Einladung bereits angenommen haben, bitten Sie den "
+"Serveradministrator um Hilfe."
 
 msgid "Before Invitation"
 msgstr "Vor der Einladung"
@@ -2598,7 +2628,6 @@ msgstr ""
 "Tolle Neuigkeiten – ab sofort haben Sie über Audiobookshelf Zugriff auf "
 "unsere **Hörbuch- und Podcast-Bibliothek**!"
 
-#, fuzzy
 msgid ""
 "Audiobookshelf is a self-hosted audiobook and podcast server that lets "
 "people share their audio collections with friends and family. If you're "
@@ -2630,7 +2659,6 @@ msgstr ""
 "Audiobookshelf bietet zahlreiche Wiedergabeprogramme, mit denen Sie unsere "
 "Hörbücher anhören können!"
 
-#, fuzzy
 msgid "Listen Anywhere"
 msgstr "Überall anhören"
 
@@ -2644,7 +2672,6 @@ msgstr ""
 msgid "Web App"
 msgstr "Web-App"
 
-#, fuzzy
 msgid "Tips for the best experience"
 msgstr "Tipps für ein optimales Erlebnis"
 
@@ -2658,9 +2685,8 @@ msgstr ""
 "Audiobookshelf bietet tolle Funktionen, aber so stellen Sie sicher, dass Sie "
 "das beste Erlebnis genießen:"
 
-#, fuzzy
 msgid "Download for offline listening"
-msgstr "Zum Herunterladen für die Offline-Wiedergabe"
+msgstr "Herunterladen für die Offline-Wiedergabe"
 
 msgid "Tap any audiobook → Download to enjoy without internet"
 msgstr ""
@@ -2680,7 +2706,6 @@ msgid "Perfect for bedtime listening — auto-stops playback"
 msgstr ""
 "Perfekt zum Zuhören vor dem Schlafengehen – die Wiedergabe stoppt automatisch"
 
-#, fuzzy
 msgid "Happy listening!"
 msgstr "Viel Spaß beim hören!"
 
@@ -2698,7 +2723,6 @@ msgstr ""
 "Tolle Neuigkeiten – du hast jetzt über Emby Zugriff auf unsere "
 "**Medienbibliothek**!"
 
-#, fuzzy
 msgid ""
 "Emby is a powerful media server that lets people share their film and TV "
 "libraries with friends and family. If you're here, it means you've been "
@@ -2724,7 +2748,6 @@ msgstr "Emby-Clients herunterladen"
 msgid "Emby has many clients from which you can view our media!"
 msgstr "Emby hat viele Clients, über die Sie unsere Medien ansehen können!"
 
-#, fuzzy
 msgid "Watch Anywhere"
 msgstr "Überall anschauen"
 
@@ -2767,7 +2790,6 @@ msgstr "⬇️ Emby-Clients herunterladen"
 msgid "Get the best quality"
 msgstr "Holen Sie sich die beste Qualität"
 
-#, fuzzy
 msgid ""
 "Emby offers great quality, but here's how to make sure you get the best "
 "experience:"
@@ -2797,9 +2819,8 @@ msgstr "Einstellungen → Wiedergabe → Aktiviere für flüssigere 4K-Wiedergab
 msgid "Use a wired connection"
 msgstr "Verwenden Sie eine kabelgebundene Verbindung"
 
-#, fuzzy
 msgid "if you're on a smart-TV for stutter-free 4K."
-msgstr "Wenn du einen Smart-TV nutzt, um ruckelfreies 4K zu genießen."
+msgstr "wenn du einen Smart-TV nutzt, um ruckelfreies 4K zu genießen."
 
 msgid "Happy viewing!"
 msgstr "Viel Spaß beim Fernsehen!"
@@ -3019,7 +3040,6 @@ msgstr ""
 "Komga bietet zahlreiche kompatible Lesegeräte, mit denen Sie Ihre Comics und "
 "Mangas genießen können!"
 
-#, fuzzy
 msgid "Read Anywhere"
 msgstr "Überall lesen"
 
