@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}{{ _("Request access") }}{% endblock title %}
+{% block main %}
+  <section class="min-h-screen bg-gray-50 dark:bg-gray-900 px-6 py-12">
+    <div class="max-w-md mx-auto space-y-6">
+      <p class="text-2xl font-semibold text-gray-900 dark:text-white">{{ server_name or _("Wizarr") }}</p>
+      <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 space-y-5">
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("Request access") }}</h1>
+        <p class="text-sm text-gray-600 dark:text-gray-300">{{ _("Friends and family are welcome. Tell the server owner who you are. Once approved, you will receive an email to create your account.") }}</p>
+        {% if busy %}<p role="alert"
+   class="text-red-600 dark:text-red-400">{{ _("We cannot accept another request right now. Please try again later.") }}</p>{% endif %}
+        <form method="post" class="space-y-5">
+          {{ form.hidden_tag() }}
+          {% for field in [form.name, form.email, form.message] %}
+            <div>
+              {{ field.label(class="block mb-2 text-sm font-medium text-gray-900 dark:text-white") }}
+              {{ field(class="w-full p-2.5 rounded-lg border border-gray-300 bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-white", autocomplete="email" if field.name == "email" else "name" if field.name == "name" else "off") }}
+              {% for error in field.errors %}<p role="alert"
+   class="text-sm text-red-600 dark:text-red-400">{{ error }}</p>{% endfor %}
+            </div>
+          {% endfor %}
+          <div class="hidden" aria-hidden="true">{{ form.website(tabindex="-1", autocomplete="off") }}</div>
+          {% if form.csrf_token is defined %}{% for error in form.csrf_token.errors %}<p role="alert" class="text-sm text-red-600">{{ error }}</p>{% endfor %}{% endif %}
+          <button type="submit"
+                  class="w-full text-white bg-primary hover:bg-primary_hover focus:ring-4 focus:outline-none focus:ring-primary/30 font-medium rounded-lg text-sm px-5 py-2.5">{{ _("Send access request") }}</button>
+        </form>
+        <p class="text-xs text-gray-500 dark:text-gray-400">{{ _("You will choose your username and password after approval. Submitting this form does not grant access.") }}</p>
+      </div>
+      <p class="text-sm text-gray-600 dark:text-gray-400"><a href="{{ url_for('public.enter_invite_code') }}"
+   class="text-primary hover:underline">{{ _("Already have an invitation code?") }}</a></p>
+    </div>
+  </section>
+{% endblock main %}

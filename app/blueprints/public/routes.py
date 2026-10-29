@@ -14,6 +14,7 @@ from flask import (
     url_for,
 )
 from flask_babel import gettext as _
+from flask_login import current_user
 
 from app.extensions import db, limiter
 from app.models import Invitation, MediaServer, Settings, User
@@ -72,6 +73,10 @@ def root():
     admin_setting = Settings.query.filter_by(key="admin_username").first()
     if not admin_setting:
         return redirect("/setup/")  # installation wizard
+    from app.services.signup import signup_enabled
+
+    if signup_enabled() and not current_user.is_authenticated:
+        return redirect(url_for("signup.signup"))
     return redirect("/admin")
 
 
