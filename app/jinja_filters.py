@@ -210,6 +210,8 @@ def local_date(date_value, format_str="%m/%d %H:%M") -> str:
 
     # Format datetime object
     if hasattr(date_value, "strftime"):
+        if os.name == "nt":
+            format_str = format_str.replace("%-", "%#")
         return to_local(date_value).strftime(format_str)
 
     return str(date_value)
