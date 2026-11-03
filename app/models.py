@@ -161,6 +161,42 @@ class Invitation(db.Model):
         return list(self.users)  # type: ignore
 
 
+class InvitationAccess(db.Model):
+    """Durable provenance; deliberately independent of invitation/user deletion."""
+
+    __tablename__ = "invitation_access"
+    id = db.Column(db.String(32), primary_key=True)
+    code = db.Column(db.String, unique=True, nullable=False)
+    invitation_id = db.Column(db.Integer, nullable=False)
+    barrier = db.Column(db.Boolean, nullable=False, default=False)
+    deleted = db.Column(db.Boolean, nullable=False, default=False)
+    baseline_complete = db.Column(db.Boolean, nullable=False)
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
+class InvitationJoinAttempt(db.Model):
+    __tablename__ = "invitation_join_attempt"
+    id = db.Column(db.String(32), primary_key=True)
+    access_id = db.Column(
+        db.String(32), db.ForeignKey("invitation_access.id"), nullable=False, index=True
+    )
+    server_id = db.Column(db.Integer, nullable=False)
+    server_ref_id = db.Column(
+        db.Integer, db.ForeignKey("media_server.id", ondelete="SET NULL"), nullable=True
+    )
+    server_url = db.Column(db.String, nullable=False)
+    remote_user_id = db.Column(db.String, nullable=True)
+    user_id = db.Column(db.Integer, nullable=True)
+    create_started = db.Column(db.Boolean, nullable=False, default=False)
+    finished = db.Column(db.Boolean, nullable=False, default=False)
+    remote_state = db.Column(db.String, nullable=False, default="unconfirmed")
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+
 class Settings(db.Model):
     __tablename__ = "settings"
     id = db.Column(db.Integer, primary_key=True)

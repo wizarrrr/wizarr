@@ -3,7 +3,6 @@ from typing import TYPE_CHECKING
 
 import requests
 import structlog
-from sqlalchemy import or_
 
 from app.extensions import db
 from app.models import Invitation, MediaServer, User
@@ -286,7 +285,42 @@ class EmbyClient(JellyfinClient):
         current.update(policy_patch)
         self.set_policy(user_id, current)
 
+    def post(self, path: str, **kwargs):
+        from app.services.invitation_revocation import guarded_post
+
+        attempt_id = getattr(self, "_join_attempt_id", None)
+        if attempt_id:
+            return guarded_post(
+                attempt_id, path, lambda: super(EmbyClient, self).post(path, **kwargs)
+            )
+        return super().post(path, **kwargs)
+
     def join(
+        self, username: str, password: str, confirm: str, email: str, code: str
+    ) -> tuple[bool, str]:
+        from app.services.invitation_revocation import (
+            JoinClosed,
+            finish_join,
+            register_join,
+        )
+
+        try:
+            attempt_id = register_join(code, self.server_id)
+        except JoinClosed as exc:
+            return False, str(exc)
+        self._join_attempt_id = attempt_id
+        try:
+            result = self._join_with_permissions(
+                username, password, confirm, email, code
+            )
+        finally:
+            del self._join_attempt_id
+            closed = finish_join(attempt_id)
+        if closed:
+            return False, "Invitation closed during join"
+        return result
+
+    def _join_with_permissions(
         self, username: str, password: str, confirm: str, email: str, code: str
     ) -> tuple[bool, str]:
         """Override join method to handle universal download and live TV settings."""
@@ -309,10 +343,14 @@ class EmbyClient(JellyfinClient):
         if not current_server:
             return success, message
 
-        # Get the user that was just created
-        user = User.query.filter(
-            or_(User.username == username, User.email == email),
-            User.server_id == server_id,
+        # Resolve this join's actual response identity, not a name/email guess.
+        from app.models import InvitationJoinAttempt
+
+        attempt = db.session.get(InvitationJoinAttempt, self._join_attempt_id)
+        if attempt is None:
+            return False, "Join provenance is missing"
+        user = User.query.filter_by(
+            token=attempt.remote_user_id, server_id=server_id
         ).first()
 
         if not user:

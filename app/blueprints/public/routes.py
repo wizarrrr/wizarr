@@ -399,6 +399,13 @@ def password_prompt(code):
 
     if not invitation:
         return render_template("invalid-invite.html", error="Invalid invite")
+    from app.models import InvitationAccess
+
+    access = InvitationAccess.query.filter_by(code=code.upper()).first()
+    if access and (access.barrier or access.deleted):
+        return render_template(
+            "invalid-invite.html", error="Invitation has been closed."
+        )
 
     # ensure Plex has been processed
     # (a user row with this code and plex server_id should exist)
@@ -473,8 +480,14 @@ def password_prompt(code):
                 continue  # already done
 
             client = get_client_for_media_server(srv)
+            attempt_id = None
 
             try:
+                if srv.server_type == "emby":
+                    from app.services.invitation_revocation import register_join
+
+                    attempt_id = register_join(code, srv.id)
+                    client._join_attempt_id = attempt_id
                 permissions = _media_permission_flags(invitation, srv)
                 if srv.server_type in ("jellyfin", "emby"):
                     uid = client.create_user(username, pw)
@@ -514,6 +527,12 @@ def password_prompt(code):
                 import logging
 
                 logging.error("Failed to provision user on %s: %s", srv.name, exc)
+            finally:
+                if attempt_id:
+                    from app.services.invitation_revocation import finish_join
+
+                    del client._join_attempt_id
+                    finish_join(attempt_id)
 
         session["wizard_access"] = code
         return redirect(url_for("wizard.start"))

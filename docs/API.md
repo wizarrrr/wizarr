@@ -71,6 +71,60 @@ if response.status_code == 201:
     print(f"Invitation URL: {invitation['invitation']['url']}")
 ```
 
+### Invitation revocation (Emby)
+
+`DELETE /api/invitations/{id}` still deletes the invitation **without revoking existing
+accounts**. Its response also contains `operation_id`; durable join provenance and
+retired codes survive deletion. Retired codes cannot be reused.
+
+To explicitly revoke access:
+
+- `POST /api/invitations/{id}/revoke`: commit an irreversible join cutoff, then try
+  to disable all known Emby identities.
+- `GET /api/invitations/revocations/{operation_id}`: read persisted status only.
+- `POST /api/invitations/revocations/{operation_id}`: explicitly commit/retry the
+  same cutoff, including after invitation deletion or a lost response/restart.
+
+All require `X-API-Key`. No request body or implicit account deletion is involved.
+POST returns `200` only for `state: "revoked"`; otherwise `202` with `state: "pending"`.
+Status includes `operation_id`, `barrier_committed`, `in_flight_joins`,
+`account_ids_complete`, and `accounts` (join-attempt ID, server ID, local user ID if
+available, actual `remote_user_id`, and `remote_state: "disabled" | "unconfirmed"`).
+No credentials, passwords, API keys, or generic user `token` fields are exported.
+
+The cutoff is serialized through SQLite against **each** Emby join write, including
+the legacy password route, not a process-local lock. A remote request already holding
+the writer lock finishes before the cutoff can commit; its returned identity is
+committed under that same lock. Requests may therefore wait for an ongoing remote
+write or fail with a database/network error; such errors do not confirm a barrier.
+Admitted joins remain counted until they finish. After cutoff, later create/policy
+writes are rejected and known accounts are reconciled. Disable requires an exact-ID
+remote policy readback showing `IsDisabled: true`; failure never falls back to DELETE.
+A local missing user, an Emby 404 (documented as not found **or unavailable**), a changed
+server endpoint, or a removed server does not prove revocation.
+
+**Limits:** This is an Emby invitation-join contract, not protection against deliberate
+external/admin re-enabling or a guarantee for LDAP, Plex, companion services, or other
+backends. Unsupported configurations remain incomplete. All invitations present at
+migration time remain identity-incomplete, even if marked unused: old workers did not
+register attempts. No name/email/legacy-token guessing or automatic legacy recovery
+is performed. Run only upgraded workers; mixed-version operation is not supported.
+
+[Emby's documented create request](https://dev.emby.media/reference/RestAPI/UserService/postUsersNew.html)
+exposes `Name`, `CopyFromUserId`, and `UserCopyOptions`, not a documented idempotency key
+or direct disabled-creation contract. This implementation **does not claim atomic
+disabled creation**. A crash/lost response after remote creation but before identity
+commit can leave an active unidentified account. The committed uncertain attempt stays
+pending across restarts, prevents blind create retries on that invitation/server, and
+never reports complete identities or terminal revocation. Operator investigation is
+required; there is no automatic recovery/lease expiry that pretends the attempt finished.
+Known-ID failures can be retried with POST; GET does not perform remote reconciliation.
+
+The schema migration is additive and leaves existing invitation/user/credential rows
+unchanged. Downgrade removes the new safety state; quiesce joins and resolve operations
+before rolling back. The migration targets current main. A schema-only probe against
+`v2026.10.1` is **not** a tested application backport or a production rollout approval.
+
 ### Activity Statistics
 
 Three endpoints give the playback statistics of the **Activity** tab:

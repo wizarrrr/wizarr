@@ -41,6 +41,11 @@ def is_invite_valid(code: str) -> tuple[bool, str]:
     ).first()
     if not invitation:
         return False, "Invalid code"
+    from app.models import InvitationAccess
+
+    access = InvitationAccess.query.filter_by(code=code.upper()).first()
+    if access and (access.barrier or access.deleted):
+        return False, "Invitation has been closed."
     now = datetime.datetime.now(datetime.UTC)
     # Make database datetime timezone-aware (assumes UTC) for comparison
     if invitation.expires:
@@ -71,9 +76,12 @@ def create_invite(form: Any) -> Invitation:
     # generate or validate provided code
     code = (form.get("code") or _generate_code()).strip().upper()
 
+    from app.models import InvitationAccess
+
     if (
         not (MIN_CODESIZE <= len(code) <= MAX_CODESIZE)
         or Invitation.query.filter_by(code=code).first()
+        or InvitationAccess.query.filter_by(code=code).first()
     ):
         raise ValueError("Invalid or duplicate code")
 

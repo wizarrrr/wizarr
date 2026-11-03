@@ -126,6 +126,10 @@ def _delete_test_data():
     db.session.query(ApiKey).delete()
     db.session.query(AdminAccount).delete()
     db.session.query(Settings).delete()
+    # DELETE's tombstone trigger also runs for fixture cleanup. Remove only
+    # test provenance after all invitation deletes have fired.
+    db.session.execute(db.text("DELETE FROM invitation_join_attempt"))
+    db.session.execute(db.text("DELETE FROM invitation_access"))
     db.session.commit()
 
 

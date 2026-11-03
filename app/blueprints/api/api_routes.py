@@ -865,12 +865,60 @@ class InvitationResource(Resource):
             db.session.delete(invitation)
             db.session.commit()
 
-            return {"message": f"Invitation {code} deleted successfully"}
+            from app.models import InvitationAccess
+
+            access = InvitationAccess.query.filter_by(code=code.upper()).one()
+            return {
+                "message": f"Invitation {code} deleted successfully",
+                "operation_id": access.id,
+            }
 
         except Exception as e:
             logger.error("Error deleting invitation %s: %s", invitation_id, str(e))
             logger.error(traceback.format_exc())
             return {"error": "Internal server error"}, 500
+
+
+@invitations_ns.route("/<int:invitation_id>/revoke")
+class InvitationRevokeResource(Resource):
+    @require_api_key
+    def post(self, invitation_id):
+        """Commit a cutoff, retry known Emby identities, return truthful status."""
+        from app.services.invitation_revocation import JoinClosed, commit_barrier
+
+        try:
+            result = commit_barrier(invitation_id)
+        except JoinClosed as exc:
+            abort(404, error=str(exc))
+        return result, 200 if result["state"] == "revoked" else 202
+
+
+@invitations_ns.route("/revocations/<string:operation_id>")
+class InvitationRevocationStatusResource(Resource):
+    @require_api_key
+    def get(self, operation_id):
+        from app.services.invitation_revocation import status
+
+        result = status(operation_id)
+        if result is None:
+            abort(404, error="Revocation not found")
+        return result
+
+    @require_api_key
+    def post(self, operation_id):
+        """Retry after restart or invitation deletion without creating accounts."""
+        from app.models import InvitationAccess
+        from app.services.invitation_revocation import reconcile, status
+
+        changed = InvitationAccess.query.filter_by(id=operation_id).update(
+            {InvitationAccess.barrier: True}
+        )
+        db.session.commit()
+        if not changed:
+            abort(404, error="Revocation not found")
+        reconcile(operation_id)
+        result = status(operation_id)
+        return result, 200 if result["state"] == "revoked" else 202
 
 
 @libraries_ns.route("")
