@@ -238,7 +238,8 @@
                     <h3 class="text-sm font-medium text-gray-900 dark:text-white">{{ _("Your API Keys") }}</h3>
                     <p class="text-xs text-gray-600 dark:text-gray-400">{{ _("Create and manage API keys for external applications") }}</p>
                   </div>
-                  <button hx-get="{{ url_for('api_keys.create_api_key') }}"
+                  <button type="button"
+                          hx-get="{{ url_for('api_keys.create_api_key') }}"
                           hx-target="#create-api-key-modal"
                           hx-trigger="click"
                           _="on htmx:afterOnLoad wait 10ms then remove .hidden to #modal"
