@@ -4,8 +4,11 @@ import hashlib
 import logging
 import random
 import string
+from datetime import datetime
 from typing import TYPE_CHECKING, Any
+from urllib.parse import quote
 
+import requests
 import structlog
 from sqlalchemy import or_
 
@@ -22,7 +25,14 @@ if TYPE_CHECKING:
 
 @register_media_client("navidrome")
 class NavidromeClient(RestApiMixin):
-    """Navidrome wrapper using the Subsonic API."""
+    """Navidrome wrapper.
+
+    Read-only data (ping, libraries, now playing, cover art) uses the
+    Subsonic API. User management uses Navidrome's native REST API, because
+    the Subsonic ``createUser``/``updateUser``/``deleteUser`` endpoints
+    answer 501 Not Implemented and ``getUsers`` only returns the logged-in
+    user.
+    """
 
     @classmethod
     def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
@@ -33,12 +43,23 @@ class NavidromeClient(RestApiMixin):
     #: API prefix for Subsonic/OpenSubsonic endpoints
     API_PREFIX = "/rest"
 
+    #: API prefix for Navidrome's native REST endpoints
+    NATIVE_API_PREFIX = "/api"
+
+    #: Username used for admin API access. The Subsonic layer has always
+    #: hardcoded ``u=admin`` with the configured API key as its password, so
+    #: the native login keeps the same semantics.
+    ADMIN_USERNAME = "admin"
+
     def __init__(self, *args, **kwargs):
         # Provide defaults for legacy compatibility
         kwargs.setdefault("url_key", "server_url")
         kwargs.setdefault("token_key", "api_key")
 
         super().__init__(*args, **kwargs)
+
+        # Cached native-API bearer token (JWT from /auth/login)
+        self._native_token: str | None = None
 
         # Normalize URL
         if self.url:
@@ -88,6 +109,137 @@ class NavidromeClient(RestApiMixin):
 
         return subsonic_response
 
+    # ------------------------------------------------------------------
+    # Native API (user management)
+    # ------------------------------------------------------------------
+
+    def _native_login(self) -> str:
+        """Log in to the native API and return a bearer token (JWT)."""
+        if not self.token:
+            raise ValueError("API token (password) is required for Navidrome")
+
+        response = self.post(
+            "/auth/login",
+            json={"username": self.ADMIN_USERNAME, "password": self.token},
+            headers={"Content-Type": "application/json"},
+        )
+        token = response.json().get("token")
+        if not isinstance(token, str) or not token:
+            raise ValueError("Navidrome login did not return a token")
+        self._native_token = token
+        return token
+
+    def _native_request(
+        self,
+        method: str,
+        path: str,
+        *,
+        json: dict | None = None,
+    ) -> Any:
+        """Call a native API endpoint, re-authenticating once on 401."""
+        for attempt in range(2):
+            token = getattr(self, "_native_token", None) or self._native_login()
+            headers = {
+                "x-nd-authorization": f"Bearer {token}",
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+            }
+            try:
+                response = self._request(
+                    method,
+                    f"{self.NATIVE_API_PREFIX}{path}",
+                    json=json,
+                    headers=headers,
+                )
+            except requests.HTTPError as exc:
+                status = getattr(exc.response, "status_code", None)
+                if status == 401 and attempt == 0:
+                    # Cached JWT expired – log in again, retry exactly once.
+                    self._native_token = None
+                    continue
+                raise
+            try:
+                return response.json()
+            except ValueError:
+                return None
+        raise RuntimeError(
+            "Navidrome native API retry loop exhausted"
+        )  # pragma: no cover
+
+    def _native_users(self) -> list[dict]:
+        """Return all users from the native API.
+
+        Every entry must be a dict with a nonempty string ``id`` and
+        ``userName``. A snapshot containing malformed entries raises instead
+        of being silently filtered, so a broken remote response can never
+        partially prune local rows.
+        """
+        users = self._native_request("GET", "/user")
+        if not isinstance(users, list):
+            raise ValueError("Navidrome returned an invalid user list")
+        for user in users:
+            if not (
+                isinstance(user, dict)
+                and isinstance(user.get("id"), str)
+                and user["id"]
+                and isinstance(user.get("userName"), str)
+                and user["userName"]
+            ):
+                raise ValueError("Navidrome returned an invalid user list")
+        return users
+
+    @staticmethod
+    def _path_segment(identifier: Any) -> str:
+        """Quote a user id/username as exactly one URL path segment."""
+        return quote(str(identifier), safe="")
+
+    def _resolve_native_user(self, identifier: str) -> dict:
+        """Fetch a user by native id, falling back to a username lookup.
+
+        Older Wizarr versions stored the Navidrome username in ``User.token``,
+        so identifiers may be either a native id or a username. Raises the
+        original 404 ``HTTPError`` when neither matches, so callers can treat
+        the user as already gone.
+        """
+        try:
+            user = self._native_request(
+                "GET", f"/user/{self._path_segment(identifier)}"
+            )
+            if isinstance(user, dict) and user.get("id"):
+                return user
+            raise ValueError(f"Navidrome returned an invalid user for {identifier!r}")
+        except requests.HTTPError as exc:
+            if getattr(exc.response, "status_code", None) != 404:
+                raise
+            for user in self._native_users():
+                if user.get("userName") == identifier:
+                    return user
+            raise
+
+    @staticmethod
+    def _reject_download_restriction() -> None:
+        """Navidrome has no per-user download role – reject, don't pretend.
+
+        Raised before any network mutation: provisioning a user while
+        silently ignoring an explicitly configured download restriction
+        would weaken the configured policy.
+        """
+        raise ValueError(
+            "Navidrome cannot enforce a per-user download restriction "
+            "(downloads follow the server-wide EnableDownloads setting); "
+            "refusing to provision the user with downloads disabled."
+        )
+
+    @staticmethod
+    def _parse_native_dt(value: Any) -> datetime | None:
+        """Parse an RFC 3339 timestamp from the native API, or return None."""
+        if not value or not isinstance(value, str):
+            return None
+        try:
+            return datetime.fromisoformat(value.replace("Z", "+00:00"))
+        except ValueError:
+            return None
+
     def validate_connection(self) -> tuple[bool, str]:
         """Validate connection to Navidrome server."""
         try:
@@ -135,23 +287,18 @@ class NavidromeClient(RestApiMixin):
             return {}
 
     def list_users(self) -> list[User]:
-        """Read users from Navidrome and reflect them locally."""
+        """Read users from Navidrome's native API and reflect them locally."""
         server_id = getattr(self, "server_id", None)
         if server_id is None:
             return []
 
         try:
-            result = self._subsonic_request("getUsers")
-            users_data = result.get("users", {}).get("user", [])
-
-            # Handle single user response (not in array)
-            if isinstance(users_data, dict):
-                users_data = [users_data]
+            users_data = self._native_users()
         except Exception as exc:
             logging.warning("Navidrome: failed to list users – %s", exc)
             return []
 
-        users_by_name = {u["username"]: u for u in users_data}
+        users_by_name = {u["userName"]: u for u in users_data}
 
         known_users = User.query.filter(User.server_id == server_id).all()
         if self._skip_prune_on_empty_remote(not users_by_name, known_users):
@@ -175,7 +322,7 @@ class NavidromeClient(RestApiMixin):
                 db_row = rows_by_username.get(username)
                 if db_row is None:
                     db_row = User(
-                        token=username,  # Use username as token for Navidrome
+                        token=remote.get("id", username),
                         username=username,
                         email=remote.get("email", ""),
                         code="empty",
@@ -185,6 +332,9 @@ class NavidromeClient(RestApiMixin):
                     users.append(db_row)
                 else:
                     db_row.email = remote.get("email", db_row.email)
+                    # Migrate legacy rows that stored the username as token
+                    if remote.get("id"):
+                        db_row.token = remote["id"]
 
             # Enhance users with policy data from Navidrome
             for user in users:
@@ -216,50 +366,59 @@ class NavidromeClient(RestApiMixin):
         is_admin: bool = False,
         allow_downloads: bool = True,
     ) -> str:
-        """Create a user and return the username (Navidrome uses username as identifier)."""
+        """Create a user via the native API and return the native user id."""
+        if not allow_downloads:
+            self._reject_download_restriction()
         try:
-            params = {
-                "username": username,
-                "password": password,
+            payload = {
+                "userName": username,
+                "name": username,
                 "email": email,
-                "adminRole": "true" if is_admin else "false",
-                "downloadRole": "true" if allow_downloads else "false",
-                "uploadRole": "false",  # Don't allow uploads by default
-                "playlistRole": "true",  # Allow playlist creation
-                "coverArtRole": "false",  # Don't allow cover art changes
-                "commentRole": "false",  # Don't allow comments
-                "podcastRole": "false",  # Don't allow podcast management
-                "streamRole": "true",  # Allow streaming
-                "jukeboxRole": "false",  # Don't allow jukebox mode
-                "shareRole": "false",  # Don't allow sharing
+                "password": password,
+                "isAdmin": is_admin,
             }
-
-            self._subsonic_request("createUser", params)
-            return username
+            created = self._native_request("POST", "/user", json=payload)
+            user_id = created.get("id") if isinstance(created, dict) else None
+            if not user_id:
+                # Older/newer builds may answer with a different body shape;
+                # confirm the user really exists before claiming success.
+                user_id = self._resolve_native_user(username)["id"]
+            return user_id
         except Exception as exc:
             logging.error("Navidrome: failed to create user – %s", exc)
             raise
 
-    def update_user(self, username: str, payload: dict[str, Any]):
-        """Update user with given parameters."""
+    def update_user(self, user_identifier: str, payload: dict[str, Any]):
+        """Update a user via the native API.
+
+        ``user_identifier`` may be the native id or (legacy) the username.
+        Navidrome's PUT replaces the record, so the current user is fetched
+        and merged first.
+        """
+        if "allow_downloads" in payload and not payload["allow_downloads"]:
+            self._reject_download_restriction()
         try:
-            params = {"username": username}
-
-            # Map common payload fields to Subsonic parameters
-            if "password" in payload:
-                params["password"] = payload["password"]
+            current = self._resolve_native_user(user_identifier)
+            # Shallow copy preserves every fetched field (scrobbleFilter,
+            # libraries, timestamps, future additions) since PUT replaces
+            # the record. Never replay secrets from the fetched object.
+            body = dict(current)
+            body.pop("password", None)
+            body.pop("currentPassword", None)
             if "email" in payload:
-                params["email"] = payload["email"]
+                body["email"] = payload["email"]
             if "is_admin" in payload:
-                params["adminRole"] = "true" if payload["is_admin"] else "false"
-            if "allow_downloads" in payload:
-                params["downloadRole"] = (
-                    "true" if payload["allow_downloads"] else "false"
-                )
+                body["isAdmin"] = bool(payload["is_admin"])
+            if payload.get("password"):
+                body["password"] = payload["password"]
 
-            self._subsonic_request("updateUser", params)
+            self._native_request(
+                "PUT", f"/user/{self._path_segment(current['id'])}", json=body
+            )
         except Exception as exc:
-            logging.error("Navidrome: failed to update user %s – %s", username, exc)
+            logging.error(
+                "Navidrome: failed to update user %s – %s", user_identifier, exc
+            )
             raise
 
     def enable_user(self, user_id: str) -> bool:  # noqa: ARG002
@@ -302,12 +461,20 @@ class NavidromeClient(RestApiMixin):
             structlog.get_logger().error(f"Failed to disable Navidrome user: {e}")
             return False
 
-    def delete_user(self, username: str):
-        """Delete a user permanently from Navidrome."""
+    def delete_user(self, user_identifier: str):
+        """Delete a user via the native API.
+
+        ``user_identifier`` may be the native id or (legacy) the username.
+        A user the server no longer knows raises the underlying 404 so the
+        caller can treat it as already deleted.
+        """
         try:
-            self._subsonic_request("deleteUser", {"username": username})
+            user = self._resolve_native_user(user_identifier)
+            self._native_request("DELETE", f"/user/{self._path_segment(user['id'])}")
         except Exception as exc:
-            logging.error("Navidrome: failed to delete user %s – %s", username, exc)
+            logging.error(
+                "Navidrome: failed to delete user %s – %s", user_identifier, exc
+            )
             raise
 
     def get_user(self, username: str):
@@ -328,16 +495,14 @@ class NavidromeClient(RestApiMixin):
 
     def get_user_details(self, user_identifier: str | int) -> MediaUserDetails:
         """Get detailed user information in standardized format."""
-        username = str(user_identifier)
         from app.services.media.utils import (
             LibraryAccessHelper,
             StandardizedPermissions,
             create_standardized_user_details,
         )
 
-        # Get raw user data from Navidrome API
-        result = self._subsonic_request("getUser", {"username": username})
-        raw_user = result.get("user", {})
+        # Accepts a native id or (legacy) a username
+        raw_user = self._resolve_native_user(str(user_identifier))
 
         # Extract standardized permissions using shared utility
         permissions = StandardizedPermissions.for_navidrome(raw_user)
@@ -345,14 +510,18 @@ class NavidromeClient(RestApiMixin):
         # Navidrome gives full access to all libraries
         library_access = LibraryAccessHelper.create_full_access()
 
+        last_active = self._parse_native_dt(
+            raw_user.get("lastAccessAt") or raw_user.get("lastLoginAt")
+        )
+
         return create_standardized_user_details(
-            user_id=username,
-            username=raw_user.get("username", username),
+            user_id=raw_user["id"],
+            username=raw_user.get("userName", str(user_identifier)),
             email=raw_user.get("email"),
             permissions=permissions,
             library_access=library_access,
-            created_at=None,  # Navidrome doesn't expose creation date
-            last_active=None,  # Navidrome doesn't expose last seen
+            created_at=self._parse_native_dt(raw_user.get("createdAt")),
+            last_active=last_active,
             is_enabled=True,  # Navidrome doesn't have disabled users concept
         )
 
@@ -425,6 +594,11 @@ class NavidromeClient(RestApiMixin):
 
             return True, ""
 
+        except ValueError as exc:
+            # e.g. an invite requesting an unenforceable download restriction
+            logging.error("Navidrome join rejected: %s", exc)
+            db.session.rollback()
+            return False, str(exc)
         except Exception as exc:
             logging.error("Navidrome join failed: %s", exc)
             db.session.rollback()
@@ -504,11 +678,7 @@ class NavidromeClient(RestApiMixin):
 
             # Get user count
             try:
-                result = self._subsonic_request("getUsers")
-                users_data = result.get("users", {}).get("user", [])
-                if isinstance(users_data, dict):
-                    users_data = [users_data]
-                total_users = len(users_data)
+                total_users = len(self._native_users())
             except Exception as exc:
                 logging.error("Navidrome statistics: failed to fetch users – %s", exc)
                 total_users = 0
