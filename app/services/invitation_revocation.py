@@ -181,11 +181,15 @@ def commit_barrier(invitation_id):
         db.session.rollback()
         raise
     reconcile(aid)
-    return status(aid)
+    result = status(aid)
+    if result is None:
+        raise JoinClosed("Invitation provenance is missing")
+    return result
 
 
 def reconcile(access_id):
     """Retry known identities only; no delete fallback, no implicit create retry."""
+    from app.services.media.emby import EmbyClient
     from app.services.media.service import get_client_for_media_server
 
     access = db.session.get(InvitationAccess, access_id)
@@ -203,7 +207,7 @@ def reconcile(access_id):
             and attempt.server_ref_id == server.id
             and attempt.server_url == server.url
         ):
-            client = get_client_for_media_server(server)
+            client = cast(EmbyClient, get_client_for_media_server(server))
             try:
                 # get_user_details() is local-only; use the authoritative endpoint.
                 data = client.get(f"/Users/{attempt.remote_user_id}").json()

@@ -889,7 +889,7 @@ class InvitationRevokeResource(Resource):
         try:
             result = commit_barrier(invitation_id)
         except JoinClosed as exc:
-            abort(404, error=str(exc))
+            return {"error": str(exc)}, 404
         return result, 200 if result["state"] == "revoked" else 202
 
 
@@ -901,23 +901,31 @@ class InvitationRevocationStatusResource(Resource):
 
         result = status(operation_id)
         if result is None:
-            abort(404, error="Revocation not found")
+            return {"error": "Revocation not found"}, 404
         return result
 
     @require_api_key
     def post(self, operation_id):
         """Retry after restart or invitation deletion without creating accounts."""
         from app.models import InvitationAccess
-        from app.services.invitation_revocation import reconcile, status
+        from app.services.invitation_revocation import commit_barrier, reconcile, status
 
+        access = db.session.get(InvitationAccess, operation_id)
+        if access is None:
+            return {"error": "Revocation not found"}, 404
+        if not access.deleted:
+            result = commit_barrier(access.invitation_id)
+            return result, 200 if result["state"] == "revoked" else 202
         changed = InvitationAccess.query.filter_by(id=operation_id).update(
             {InvitationAccess.barrier: True}
         )
         db.session.commit()
         if not changed:
-            abort(404, error="Revocation not found")
+            return {"error": "Revocation not found"}, 404
         reconcile(operation_id)
         result = status(operation_id)
+        if result is None:
+            return {"error": "Revocation not found"}, 404
         return result, 200 if result["state"] == "revoked" else 202
 
 

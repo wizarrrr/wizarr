@@ -65,12 +65,54 @@ def upgrade():
             INSERT OR IGNORE INTO invitation_access
                 (id, code, invitation_id, barrier, deleted, baseline_complete)
                 VALUES (lower(hex(randomblob(16))), upper(OLD.code), OLD.id, 0, 1, 0);
-            UPDATE invitation_access SET deleted = 1 WHERE code = upper(OLD.code);
+            UPDATE invitation_access SET deleted = 1,
+                baseline_complete = CASE WHEN OLD.create_ldap_user = 1 OR EXISTS (
+                    SELECT 1 FROM invitation_server link
+                    JOIN media_server server ON server.id = link.server_id
+                    WHERE link.invite_id = OLD.id AND server.server_type != 'emby'
+                ) OR EXISTS (
+                    SELECT 1 FROM media_server server
+                    WHERE server.id = OLD.server_id AND server.server_type != 'emby'
+                ) THEN 0 ELSE baseline_complete END
+                WHERE code = upper(OLD.code);
+        END
+    """)
+    # Remember unsupported provenance even if configuration is later reverted.
+    op.execute("""
+        CREATE TRIGGER invitation_access_config AFTER UPDATE OF create_ldap_user, server_id ON invitation
+        WHEN NEW.create_ldap_user = 1 OR EXISTS (
+            SELECT 1 FROM media_server WHERE id = NEW.server_id AND server_type != 'emby'
+        ) BEGIN
+            UPDATE invitation_access SET baseline_complete = 0
+                WHERE code = upper(NEW.code);
+        END
+    """)
+    op.execute("""
+        CREATE TRIGGER invitation_access_link AFTER INSERT ON invitation_server
+        WHEN EXISTS (SELECT 1 FROM media_server WHERE id = NEW.server_id AND server_type != 'emby')
+        BEGIN
+            UPDATE invitation_access SET baseline_complete = 0
+                WHERE invitation_id = NEW.invite_id AND deleted = 0;
+        END
+    """)
+    op.execute("""
+        CREATE TRIGGER invitation_access_server AFTER UPDATE OF server_type ON media_server
+        WHEN NEW.server_type != 'emby'
+        BEGIN
+            UPDATE invitation_access SET baseline_complete = 0 WHERE id IN (
+                SELECT access_id FROM invitation_join_attempt WHERE server_ref_id = NEW.id
+            ) OR invitation_id IN (
+                SELECT id FROM invitation WHERE server_id = NEW.id
+                UNION SELECT invite_id FROM invitation_server WHERE server_id = NEW.id
+            );
         END
     """)
 
 
 def downgrade():
+    op.execute("DROP TRIGGER invitation_access_server")
+    op.execute("DROP TRIGGER invitation_access_link")
+    op.execute("DROP TRIGGER invitation_access_config")
     op.execute("DROP TRIGGER invitation_access_delete")
     op.drop_index(
         "ix_invitation_join_attempt_access_id", table_name="invitation_join_attempt"

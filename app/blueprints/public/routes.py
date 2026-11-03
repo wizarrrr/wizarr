@@ -1,4 +1,5 @@
 from pathlib import Path
+from typing import cast
 
 import structlog
 from flask import (
@@ -18,6 +19,7 @@ from flask_babel import gettext as _
 from app.extensions import db, limiter
 from app.models import Invitation, MediaServer, Settings, User
 from app.services.invites import is_invite_valid
+from app.services.media.emby import EmbyClient
 from app.services.media.jellyfin import login_screen_policy
 from app.services.media.plex import PlexInvitationError, handle_oauth_token
 
@@ -487,7 +489,7 @@ def password_prompt(code):
                     from app.services.invitation_revocation import register_join
 
                     attempt_id = register_join(code, srv.id)
-                    client._join_attempt_id = attempt_id
+                    cast(EmbyClient, client)._join_attempt_id = attempt_id
                 permissions = _media_permission_flags(invitation, srv)
                 if srv.server_type in ("jellyfin", "emby"):
                     uid = client.create_user(username, pw)
@@ -531,7 +533,7 @@ def password_prompt(code):
                 if attempt_id:
                     from app.services.invitation_revocation import finish_join
 
-                    del client._join_attempt_id
+                    del cast(EmbyClient, client)._join_attempt_id
                     finish_join(attempt_id)
 
         session["wizard_access"] = code

@@ -6,6 +6,7 @@ import subprocess
 import sys
 import threading
 from concurrent.futures import ThreadPoolExecutor
+from contextlib import contextmanager
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 import pytest
@@ -15,8 +16,8 @@ from app.models import ApiKey, Invitation, MediaServer, invitation_users
 from app.services.invitation_flow.workflows import FormBasedWorkflow
 
 
-@pytest.fixture
-def emby_sink():
+@contextmanager
+def emby_sink_server():
     class Sink:
         def __init__(self):
             self.users = {}
@@ -97,11 +98,19 @@ def emby_sink():
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     sink.url = f"http://127.0.0.1:{server.server_port}"
-    yield sink
-    sink.release.set()
-    server.shutdown()
-    server.server_close()
-    thread.join()
+    try:
+        yield sink
+    finally:
+        sink.release.set()
+        server.shutdown()
+        server.server_close()
+        thread.join()
+
+
+@pytest.fixture
+def emby_sink():
+    with emby_sink_server() as sink:
+        yield sink
 
 
 @pytest.fixture
@@ -131,6 +140,7 @@ def access_fixture(session, admin_user, emby_sink):
 def join(app, server_id, username="joiner"):
     with app.test_request_context("/join"):
         server = db.session.get(MediaServer, server_id)
+        assert server is not None
         return FormBasedWorkflow()._process_servers(
             [server],
             {
@@ -144,25 +154,31 @@ def join(app, server_id, username="joiner"):
 
 
 def test_delete_during_remote_creation_preserves_provenance(
-    app, client, access_fixture, emby_sink
+    app, client, access_fixture, emby_sink, monkeypatch
 ):
-    """Base RED: DELETE can erase the only invitation/account association."""
+    """Create -> committed DELETE -> workflow lookup, ordered without sleeps."""
+    from app.services.media.emby import EmbyClient
+
     iid, sid, headers = access_fixture
-    emby_sink.pause_create = True
-    with ThreadPoolExecutor(max_workers=2) as pool:
+    created, resume = threading.Event(), threading.Event()
+    original = EmbyClient.create_user
+
+    def create(self, username, password):
+        uid = original(self, username, password)
+        created.set()
+        assert resume.wait(10)
+        return uid
+
+    monkeypatch.setattr(EmbyClient, "create_user", create)
+    with ThreadPoolExecutor(max_workers=1) as pool:
         joining = pool.submit(join, app, sid)
-        assert emby_sink.created.wait(10)
-
-        # DELETE must serialize with remote creation, not wait on this test thread.
-        def delete():
-            with app.test_client() as other:
-                return other.delete(f"/api/invitations/{iid}", headers=headers)
-
-        deleting = pool.submit(delete)
-        emby_sink.release.set()
+        assert created.wait(10)
+        try:
+            response = client.delete(f"/api/invitations/{iid}", headers=headers)
+            assert response.status_code == 200
+        finally:
+            resume.set()
         joining.result(timeout=15)
-        response = deleting.result(timeout=15)
-    assert response.status_code == 200
     assert len(emby_sink.users) == 1
     assert db.session.get(Invitation, iid) is None
     assert db.session.execute(db.select(invitation_users)).all() == []
@@ -304,7 +320,9 @@ def test_multiple_accounts_are_all_confirmed_and_duplicate_revoke_does_not_write
 
 def test_legacy_used_invitation_is_never_complete(client, access_fixture, session):
     iid, _, headers = access_fixture
-    db.session.get(Invitation, iid).used = True
+    inv = db.session.get(Invitation, iid)
+    assert inv is not None
+    inv.used = True
     session.commit()
     response = client.post(f"/api/invitations/{iid}/revoke", headers=headers)
     assert response.status_code == 202
@@ -314,6 +332,29 @@ def test_legacy_used_invitation_is_never_complete(client, access_fixture, sessio
 def test_revocation_requires_api_key(client, access_fixture):
     iid, _, _ = access_fixture
     assert client.post(f"/api/invitations/{iid}/revoke").status_code == 401
+
+
+@pytest.mark.parametrize(
+    ("method", "path"),
+    [
+        ("post", "/api/invitations/999999/revoke"),
+        ("get", "/api/invitations/revocations/missing"),
+        ("post", "/api/invitations/revocations/missing"),
+    ],
+)
+def test_revocation_targets_require_auth_and_unknown_targets_have_no_effect(
+    client, access_fixture, emby_sink, method, path
+):
+    _, _, headers = access_fixture
+    assert getattr(client, method)(path).status_code == 401
+    assert (
+        getattr(client, method)(path, headers={"X-API-Key": "invalid"}).status_code
+        == 401
+    )
+    response = getattr(client, method)(path, headers=headers)
+    assert response.status_code == 404
+    assert "error" in response.get_json()
+    assert emby_sink.calls == []
 
 
 def test_legacy_password_route_cannot_bypass_cutoff(client, access_fixture, emby_sink):
@@ -571,6 +612,7 @@ def test_multiserver_partial_create_tracks_all_known_ids_and_unknowns(
     )
     session.add(other)
     inv = db.session.get(Invitation, iid)
+    assert inv is not None
     inv.servers.append(other)
     session.commit()
     assert join(app, other.id)[0] == []
@@ -587,7 +629,9 @@ def test_changed_server_endpoint_is_not_used_to_revoke_old_identity(
 ):
     iid, sid, headers = access_fixture
     assert join(app, sid)[0]
-    db.session.get(MediaServer, sid).url += "/different-server"
+    server = db.session.get(MediaServer, sid)
+    assert server is not None
+    server.url += "/different-server"
     session.commit()
     before = len(emby_sink.calls)
     response = client.post(f"/api/invitations/{iid}/revoke", headers=headers)
@@ -595,13 +639,140 @@ def test_changed_server_endpoint_is_not_used_to_revoke_old_identity(
     assert emby_sink.calls[before:] == []
 
 
-def test_unsupported_config_cannot_inherit_complete_emby_provenance(
-    app, client, access_fixture, session
+@pytest.mark.parametrize("cutoff_between_servers", [False, True])
+def test_two_http_backends_in_one_workflow(
+    app, client, access_fixture, session, emby_sink, monkeypatch, cutoff_between_servers
+):
+    from app.services.media.emby import EmbyClient
+
+    iid, sid, headers = access_fixture
+    with emby_sink_server() as second_sink:
+        other = MediaServer(
+            name="Second Emby",
+            server_type="emby",
+            url=second_sink.url,
+            api_key="synthetic",
+        )
+        inv = db.session.get(Invitation, iid)
+        assert inv is not None
+        inv.servers.append(other)
+        session.commit()
+        ids = [sid, other.id]
+        session.commit()
+        first_done, resume = threading.Event(), threading.Event()
+        original = EmbyClient.join
+
+        def guarded_join(self, *args, **kwargs):
+            result = original(self, *args, **kwargs)
+            if cutoff_between_servers and self.server_id == sid:
+                first_done.set()
+                assert resume.wait(10)
+            return result
+
+        monkeypatch.setattr(EmbyClient, "join", guarded_join)
+
+        def run():
+            with app.test_request_context("/join"):
+                servers = []
+                for server_id in ids:
+                    server = db.session.get(MediaServer, server_id)
+                    assert server is not None
+                    servers.append(server)
+                return FormBasedWorkflow()._process_servers(
+                    servers,
+                    {
+                        "username": "multi",
+                        "email": "multi@example.test",
+                        "password": "Testpass123!",
+                        "confirm_password": "Testpass123!",
+                    },
+                    "REVOKE1",
+                )
+
+        with ThreadPoolExecutor(max_workers=1) as pool:
+            joining = pool.submit(run)
+            try:
+                if cutoff_between_servers:
+                    assert first_done.wait(10)
+                    assert (
+                        client.post(
+                            f"/api/invitations/{iid}/revoke", headers=headers
+                        ).status_code
+                        == 200
+                    )
+            finally:
+                resume.set()
+            successful, failed = joining.result(timeout=20)
+        assert len(successful) == (1 if cutoff_between_servers else 2)
+        assert len(failed) == (1 if cutoff_between_servers else 0)
+        result = client.post(f"/api/invitations/{iid}/revoke", headers=headers)
+        assert result.status_code == 200
+        accounts = {
+            (a["server_id"], a["remote_user_id"]) for a in result.get_json()["accounts"]
+        }
+        expected = (
+            {(sid, "remote-1")}
+            if cutoff_between_servers
+            else {(sid, "remote-1"), (ids[1], "remote-1")}
+        )
+        assert accounts == expected
+        assert emby_sink.users["remote-1"]["Policy"]["IsDisabled"] is True
+        if cutoff_between_servers:
+            assert second_sink.users == {}
+        else:
+            assert second_sink.users["remote-1"]["Policy"]["IsDisabled"] is True
+
+
+@pytest.mark.parametrize("unsupported", ["ldap", "mixed", "server_type"])
+def test_removed_unsupported_config_never_restores_identity_completeness(
+    app, client, access_fixture, session, unsupported
 ):
     iid, sid, headers = access_fixture
     assert join(app, sid)[0]
-    db.session.get(Invitation, iid).create_ldap_user = True
+    inv = db.session.get(Invitation, iid)
+    assert inv is not None
+    if unsupported == "ldap":
+        inv.create_ldap_user = True
+        session.commit()
+        inv.create_ldap_user = False
+    elif unsupported == "server_type":
+        server = db.session.get(MediaServer, sid)
+        assert server is not None
+        server.server_type = "jellyfin"
+        session.commit()
+        server.server_type = "emby"
+    else:
+        other = MediaServer(
+            name="Unsupported",
+            server_type="jellyfin",
+            url="http://unused.invalid",
+            api_key="synthetic",
+        )
+        inv.servers.append(other)
+        session.commit()
+        inv.servers.remove(other)
     session.commit()
-    response = client.post(f"/api/invitations/{iid}/revoke", headers=headers)
+    result = client.post(f"/api/invitations/{iid}/revoke", headers=headers)
+    assert result.status_code == 202
+    assert result.get_json()["account_ids_complete"] is False
+
+
+@pytest.mark.parametrize("after_delete", [False, True])
+def test_unsupported_config_cannot_inherit_complete_emby_provenance(
+    app, client, access_fixture, session, after_delete
+):
+    iid, sid, headers = access_fixture
+    assert join(app, sid)[0]
+    inv = db.session.get(Invitation, iid)
+    assert inv is not None
+    inv.create_ldap_user = True
+    session.commit()
+    path = f"/api/invitations/{iid}/revoke"
+    if after_delete:
+        operation = client.delete(
+            f"/api/invitations/{iid}", headers=headers
+        ).get_json()["operation_id"]
+        path = f"/api/invitations/revocations/{operation}"
+    response = client.post(path, headers=headers)
     assert response.status_code == 202
     assert response.get_json()["account_ids_complete"] is False
