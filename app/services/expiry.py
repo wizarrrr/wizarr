@@ -526,3 +526,27 @@ def get_expiring_this_week_users() -> list[dict]:
         )
 
     return result
+
+
+def get_users_needing_reminder(days_before: int) -> list[User]:
+    """Active users whose expiry falls within `days_before` days and who have
+    not yet been reminded for their current expiry date.
+    """
+    if days_before <= 0:
+        return []
+
+    now = datetime.datetime.now(datetime.UTC)
+    threshold = now + datetime.timedelta(days=days_before)
+
+    return (
+        User.query.filter(
+            User.expires.is_not(None),
+            User.expires > now,
+            User.expires <= threshold,
+            User.email.is_not(None),
+            User.email != "",
+            User.expiry_reminder_sent_at.is_(None),
+        )
+        .order_by(User.expires.asc())
+        .all()
+    )

@@ -1,3 +1,4 @@
+import datetime
 import logging
 import os
 
@@ -138,3 +139,65 @@ def check_expiring(app=None):
         # Only log in development mode to avoid spam in production logs
         elif os.getenv("WIZARR_ENABLE_SCHEDULER") == "true":
             logging.info("🕒 Expiry cleanup: No expired users found.")
+
+
+def send_expiry_reminders(app=None):
+    """Email users whose access expires within the configured reminder window.
+
+    Each user is isolated: a failure for one user is logged and does not
+    stop the remaining users, mirroring check_expiring()'s use of
+    disable_or_delete_user_if_expired().
+
+    Args:
+        app: Flask application instance. If None, will try to get from current context.
+    """
+    if app is None:
+        from flask import current_app
+
+        try:
+            app = current_app._get_current_object()  # type: ignore
+        except RuntimeError:
+            logging.error(
+                "send_expiry_reminders called outside application context and no app provided"
+            )
+            return
+
+    with app.app_context():
+        from app.extensions import db
+        from app.models import SMTPConfiguration
+        from app.services.email import EmailSendError, send_expiry_reminder_email
+        from app.services.expiry import get_users_needing_reminder
+
+        config = SMTPConfiguration.query.first()
+        if not config or not config.enabled or not config.reminder_days_before:
+            return
+
+        users = get_users_needing_reminder(config.reminder_days_before)
+        sent = 0
+        for user in users:
+            try:
+                # Database stores naive UTC datetimes.
+                user_expires = user.expires
+                if user_expires.tzinfo is None:
+                    user_expires = user_expires.replace(tzinfo=datetime.UTC)
+                now = datetime.datetime.now(datetime.UTC)
+                days_left = max(1, round((user_expires - now).total_seconds() / 86400))
+                send_expiry_reminder_email(user, days_left)
+                user.expiry_reminder_sent_at = datetime.datetime.now(datetime.UTC)
+                db.session.commit()
+                sent += 1
+            except EmailSendError as exc:
+                db.session.rollback()
+                logging.warning(
+                    "Failed to send expiry reminder to user %s: %s", user.id, exc
+                )
+            except Exception as exc:
+                db.session.rollback()
+                logging.error(
+                    "Unexpected error sending expiry reminder to user %s: %s",
+                    user.id,
+                    exc,
+                )
+
+        if sent:
+            logging.info("📧 Sent %s expiry reminder email(s).", sent)

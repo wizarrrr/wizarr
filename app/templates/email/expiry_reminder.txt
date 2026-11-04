@@ -1,0 +1,8 @@
+Hi {{ user.username }},
+
+{% if days_left == 1 -%}
+Your access expires in 1 day.
+{%- else -%}
+Your access expires in {{ days_left }} days.
+{%- endif %}
+Please contact your administrator if you'd like to keep your access active.
