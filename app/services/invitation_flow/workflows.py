@@ -61,6 +61,25 @@ def _get_server_colors(server_type: str | None) -> dict[str, str]:
     )
 
 
+def _join_fields(servers: list[MediaServer] | None) -> list[str]:
+    from app.services.media.client_base import JOIN_FIELD_ORDER, join_fields_for
+
+    if servers is None:
+        return list(JOIN_FIELD_ORDER)
+    return join_fields_for(server.server_type for server in servers)
+
+
+def _trim_join_form(form, join_fields: list[str]):
+    """Drop the fields these servers don't ask for, so they're neither shown
+    nor validated."""
+    for field in ("username", "email", "password"):
+        if field not in join_fields and field in form:
+            del form[field]
+    if "password" not in join_fields and "confirm_password" in form:
+        del form["confirm_password"]
+    return form
+
+
 def _create_join_form_template_data(
     invitation: Invitation,
     servers: list[MediaServer],
@@ -72,8 +91,10 @@ def _create_join_form_template_data(
     from app.forms.join import JoinForm
     from app.services.server_name_resolver import resolve_invitation_server_name
 
+    join_fields = _join_fields(servers)
     if form is None:
         form = JoinForm()
+    _trim_join_form(form, join_fields)
     form.code.data = invitation.code
 
     primary_server = servers[0] if servers else None
@@ -84,6 +105,7 @@ def _create_join_form_template_data(
     context = {
         "template_name": "welcome-jellyfin.html",
         "form": form,
+        "join_fields": join_fields,
         "server_type": server_type,
         "server_name": server_name,
         "servers": servers,
@@ -215,25 +237,34 @@ class InvitationWorkflow(ABC):
         return successful, failed
 
     def _validate_join_form(
-        self, form_data: dict[str, Any]
+        self, form_data: dict[str, Any], servers: list[MediaServer] | None = None
     ) -> tuple[bool, dict[str, Any], Any]:
-        """Validate submitted account data using the public join form rules."""
+        """Validate submitted account data using the public join form rules.
+
+        Only the fields the servers' clients declare are validated; the rest
+        come back as empty strings.
+        """
         from werkzeug.datastructures import MultiDict
 
         from app.forms.join import JoinForm
 
-        form = JoinForm(formdata=MultiDict(form_data))
+        form = _trim_join_form(
+            JoinForm(formdata=MultiDict(form_data)), _join_fields(servers)
+        )
         if not form.validate():
             return False, form_data, form
 
         validated_data = dict(form_data)
         validated_data.update(
             {
-                "username": form.username.data or "",
-                "email": form.email.data or "",
-                "password": form.password.data or "",
-                "confirm_password": form.confirm_password.data or "",
-                "code": form.code.data or "",
+                name: (form[name].data or "") if name in form else ""
+                for name in (
+                    "username",
+                    "email",
+                    "password",
+                    "confirm_password",
+                    "code",
+                )
             }
         )
         return True, validated_data, form
@@ -301,7 +332,7 @@ class FormBasedWorkflow(InvitationWorkflow):
         form_data: dict[str, Any],
     ) -> InvitationResult:
         """Process form submission."""
-        form_valid, validated_data, form = self._validate_join_form(form_data)
+        form_valid, validated_data, form = self._validate_join_form(form_data, servers)
         if not form_valid:
             return self._create_auth_error_result(
                 invitation,

@@ -299,23 +299,14 @@ def delete_user_if_expired() -> list[int]:
     return deleted
 
 
-def get_server_disable_capabilities() -> dict[str, bool]:
-    """Returns a mapping of server types to whether they support user disabling.
+def server_supports_disable(server_type: str) -> bool:
+    """Whether expiry can disable a user on this server type instead of deleting.
 
-    Returns:
-        dict: Server type -> supports disable (True/False)
+    Declared by each client in ``ClientCapabilities.disable``.
     """
-    return {
-        "jellyfin": True,
-        "emby": True,  # Inherits from Jellyfin
-        "plex": False,  # Only supports deletion via removeFriend()
-        "audiobookshelf": True,
-        "kavita": True,  # Removes library access
-        "komga": True,  # Removes library access
-        "romm": True,
-        "navidrome": False,  # Not supported
-        "drop": False,  # Not supported
-    }
+    from app.services.media.client_base import capabilities_for
+
+    return capabilities_for(server_type).disable
 
 
 def _disable_expired_user(user: User) -> bool:
@@ -364,7 +355,6 @@ def disable_or_delete_user_if_expired() -> list[int]:
     # End the read before the loop. Each step below commits on its own.
     db.session.commit()
 
-    capabilities = get_server_disable_capabilities()
     processed: list[int] = []
     for user in expired_rows:
         try:
@@ -384,7 +374,7 @@ def disable_or_delete_user_if_expired() -> list[int]:
         should_disable = (
             expiry_action == "disable"
             and server_type is not None
-            and capabilities.get(server_type, False)
+            and server_supports_disable(server_type)
         )
 
         try:

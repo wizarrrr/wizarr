@@ -38,18 +38,20 @@ class FormBasedStrategy(AuthenticationStrategy):
 
     def authenticate(
         self,
-        servers: list[MediaServer],  # noqa: ARG002
+        servers: list[MediaServer],
         form_data: dict[str, Any],
     ) -> tuple[bool, str, dict[str, Any]]:
         """Authenticate using form data."""
-        # Validate required fields
-        required_fields = self.get_required_fields()
+        # Validate required fields: the ones the invite's servers declare
+        required_fields = self.get_required_fields(servers)
         for field in required_fields:
             if not form_data.get(field):
                 return False, f"Missing required field: {field}", {}
 
         # Validate password confirmation
-        if form_data.get("password") != form_data.get("confirm_password"):
+        if "password" in required_fields and form_data.get("password") != form_data.get(
+            "confirm_password"
+        ):
             return False, "Passwords do not match", {}
 
         # Extract user data
@@ -61,9 +63,19 @@ class FormBasedStrategy(AuthenticationStrategy):
 
         return True, "Form authentication successful", user_data
 
-    def get_required_fields(self) -> list[str]:
-        """Get required form fields."""
-        return ["username", "email", "password", "confirm_password"]
+    def get_required_fields(
+        self, servers: list[MediaServer] | None = None
+    ) -> list[str]:
+        """Get required form fields, as declared by the servers' clients."""
+        from app.services.media.client_base import join_fields_for
+
+        if servers is None:
+            fields = ["username", "email", "password"]
+        else:
+            fields = join_fields_for(server.server_type for server in servers)
+        if "password" in fields:
+            fields.append("confirm_password")
+        return fields
 
 
 class PlexOAuthStrategy(AuthenticationStrategy):

@@ -11,7 +11,12 @@ from app.models import Invitation, Library, MediaServer, User
 from app.services.invites import is_invite_valid
 
 from .auth_headers import media_browser_auth_headers
-from .client_base import EMAIL_RE, RestApiMixin, register_media_client
+from .client_base import (
+    EMAIL_RE,
+    ClientCapabilities,
+    RestApiMixin,
+    register_media_client,
+)
 from .utils import library_name_selected, newest_first
 
 if TYPE_CHECKING:
@@ -44,6 +49,8 @@ def login_screen_policy(server: MediaServer | None) -> dict[str, bool]:
 @register_media_client("jellyfin")
 class JellyfinClient(RestApiMixin):
     """Wrapper around the Jellyfin REST API using credentials from Settings."""
+
+    capabilities = ClientCapabilities(disable=True)
 
     @classmethod
     def check_connection(cls, url: str, token: str) -> tuple[bool, str]:

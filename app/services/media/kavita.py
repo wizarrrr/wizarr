@@ -13,6 +13,7 @@ from app.services.invites import is_invite_valid
 
 from .client_base import (
     EMAIL_RE,
+    ClientCapabilities,
     RestApiMixin,
     get_http_session,
     register_media_client,
@@ -76,6 +77,8 @@ class KavitaClient(RestApiMixin):
         - JWT tokens are cached for 1 hour to reduce authentication calls
         - Series listing requires POST with FilterDto (even for basic queries)
     """
+
+    capabilities = ClientCapabilities(disable=True)
 
     @classmethod
     def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
