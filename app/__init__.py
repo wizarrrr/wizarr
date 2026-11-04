@@ -33,6 +33,11 @@ def create_app(config_object=DevelopmentConfig):
     app = Flask(__name__)
     app.config.from_object(config_object)
 
+    # Audit trail of changes to people's accounts (the wizarr.audit logger)
+    from app.services import audit
+
+    audit.register()
+
     # Apply ProxyFix if configured
     if app.config.get("TRUST_PROXY_HEADERS"):
         app.wsgi_app = ProxyFix(

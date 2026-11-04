@@ -19,6 +19,7 @@ from flask import current_app
 
 from app.extensions import db
 from app.models import Identity, MediaServer, Settings, User
+from app.services.audit import audit_remote
 
 from .client_base import CLIENTS, EMAIL_RE
 
@@ -172,6 +173,7 @@ def _set_user_enabled_state(db_id: int, enabled: bool, *, commit: bool = True) -
         user_identifier = _get_user_identifier(user, user.server)  # type: ignore
         method = client.enable_user if enabled else client.disable_user
         result = method(user_identifier)
+        audit_remote("enable" if enabled else "disable", user, bool(result))
 
         action = "enabled" if enabled else "disabled"
         if result:
@@ -336,7 +338,9 @@ def delete_user(
             client = get_client_for_media_server(user.server)  # type: ignore
             user_identifier = _get_user_identifier(user, user.server)  # type: ignore
             client.delete_user(user_identifier)
+            audit_remote("delete", user, True)
         except Exception as exc:
+            audit_remote("delete", user, False, exc)
             if require_remote and not _is_not_found(exc):
                 raise
             logging.error("Remote deletion failed: %s", exc)
@@ -424,7 +428,9 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
         client = get_client_for_media_server(server)
         user_identifier = _get_user_identifier(user, server)
         client.delete_user(user_identifier)
+        audit_remote("delete", user, True)
     except Exception as exc:
+        audit_remote("delete", user, False, exc)
         logging.error(
             f"Remote deletion failed for user {user.username} from {server.name}: {exc}"
         )
