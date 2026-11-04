@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ _("Request received") }}{% endblock title %}
+{% block main %}
+  <section class="min-h-screen bg-gray-50 dark:bg-gray-900 px-6 py-12">
+    <div class="max-w-md mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 space-y-5">
+      <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{{ _("Request received") }}</h1>
+      <p class="text-gray-600 dark:text-gray-300">{{ _("If this is a new request, it is now waiting for the server owner to review it. You will receive an account setup link by email if approved.") }}</p>
+      <p class="text-sm text-gray-500 dark:text-gray-400">{{ _("You do not need to submit the form again. No account has been created yet.") }}</p>
+    </div>
+  </section>
+{% endblock main %}

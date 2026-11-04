@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}{{ _("Access requests") }}{% endblock title %}
+{% block main %}
+  <main class="max-w-4xl mx-auto p-6 space-y-6 text-gray-900 dark:text-white">
+    <a href="{{ url_for('admin.dashboard') }}"
+       class="text-primary hover:underline">{{ _("Back to Wizarr") }}</a>
+    <h1 class="text-2xl font-bold">{{ _("Access requests") }}</h1>
+    {% for category, message in get_flashed_messages(with_categories=true) %}<p role="status"
+   class="p-3 rounded-lg border border-gray-300 dark:border-gray-700">{{ message }}</p>{% endfor %}
+    <form method="post"
+          class="space-y-3 border-b border-gray-200 dark:border-gray-700 pb-6">
+      {{ settings_form.hidden_tag() }}
+      <label class="flex items-center gap-3">{{ settings_form.enabled() }} {{ settings_form.enabled.label.text }}</label>
+      <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Share this page with friends and family:") }} <a class="text-primary hover:underline"
+    href="{{ url_for('signup.signup') }}">{{ url_for('signup.signup', _external=True) }}</a></p>
+      <button class="text-white bg-primary hover:bg-primary_hover rounded-lg px-4 py-2"
+              type="submit">{{ _("Save settings") }}</button>
+    </form>
+    <p class="text-sm text-gray-600 dark:text-gray-400">{{ _("Approval emails a personal, single-use invitation valid for seven days. Library access and download permissions follow the selected server defaults. No account exists until the recipient finishes setup.") }}</p>
+    {% for item in requests_page.items %}
+      <article class="border border-gray-200 dark:border-gray-700 rounded-lg p-5 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <h2 class="font-semibold text-lg">{{ item.name }}</h2>
+          <span class="text-sm font-medium">{{ _(item.status|capitalize) }}</span>
+        </div>
+        <p class="text-sm">{{ item.email }} · {{ item.created_at.strftime("%Y-%m-%d %H:%M") }} UTC</p>
+        <p class="whitespace-pre-wrap text-sm text-gray-600 dark:text-gray-300">{{ item.message }}</p>
+        {% if item.status == "pending" %}
+          <form method="post"
+                action="{{ url_for('signup.review', item_id=item.id, action='approve') }}"
+                class="flex flex-wrap items-end gap-3">
+            {{ review_form.hidden_tag() }}
+            <div>
+              <label for="server-{{ item.id }}" class="block text-sm mb-1">{{ _("Media server") }}</label>
+              {{ review_form.server_id(id="server-" ~ item.id, class="rounded-lg border border-gray-300 dark:bg-gray-800 dark:border-gray-600 p-2") }}
+            </div>
+            <button type="submit"
+                    class="text-white bg-primary hover:bg-primary_hover rounded-lg px-4 py-2"
+                    {% if not review_form.server_id.choices %}disabled{% endif %}>{{ _("Approve and email setup link") }}</button>
+          </form>
+          <form method="post"
+                action="{{ url_for('signup.review', item_id=item.id, action='reject') }}">
+            {{ action_form.hidden_tag() }}
+            <button type="submit"
+                    class="text-red-600 dark:text-red-400 underline text-sm">{{ _("Reject request") }}</button>
+          </form>
+        {% elif item.status == "approved" %}
+          <p class="text-sm">{{ _("Setup email sent") if item.email_sent_at else _("Email not sent. Check email settings, then retry.") }}{% if item.reviewed_by %} · {{ _("Reviewed by") }} {{ item.reviewed_by }}{% endif %}</p>
+          <form method="post"
+                action="{{ url_for('signup.review', item_id=item.id, action='resend') }}">
+            {{ action_form.hidden_tag() }}
+            <button type="submit" class="text-primary underline text-sm">{{ _("Resend setup email") }}</button>
+          </form>
+        {% endif %}
+      </article>
+    {% else %}
+      <p class="py-8 text-gray-500">{{ _("No requests yet. Share the public signup page to get started.") }}</p>
+    {% endfor %}
+    <nav class="flex justify-between text-primary">
+      {% if requests_page.has_prev %}<a href="{{ url_for('signup.admin', page=requests_page.prev_num) }}">{{ _("Previous") }}</a>{% endif %}
+      {% if requests_page.has_next %}<a href="{{ url_for('signup.admin', page=requests_page.next_num) }}">{{ _("Next") }}</a>{% endif %}
+    </nav>
+  </main>
+{% endblock main %}
