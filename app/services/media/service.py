@@ -13,12 +13,14 @@ from collections.abc import Callable
 from concurrent.futures import ThreadPoolExecutor
 from concurrent.futures import wait as wait_for_futures
 from time import monotonic
+from types import SimpleNamespace
 from typing import Any
 
 from flask import current_app
 
 from app.extensions import db
 from app.models import Identity, MediaServer, Settings, User
+from app.services.email import send_user_lifecycle_email
 
 from .client_base import CLIENTS, EMAIL_RE
 
@@ -310,7 +312,11 @@ def list_users_for_server(server: MediaServer):
 
 
 def delete_user(
-    db_id: int, *, commit: bool = True, require_remote: bool = False
+    db_id: int,
+    *,
+    commit: bool = True,
+    require_remote: bool = False,
+    email_event: str = "deleted",
 ) -> None:
     """Delete a user from its associated MediaServer and local DB.
 
@@ -328,6 +334,12 @@ def delete_user(
     """
     if not (user := db.session.get(User, db_id)):
         return
+
+    # Cache values early to avoid detached-instance access after delete/commit.
+    user_username = user.username
+    user_email = user.email
+    user_expires = user.expires
+    server_name = user.server.name if user.server else None
 
     # Delete from the media server first, so a required delete that fails
     # leaves everything else in place.
@@ -386,6 +398,25 @@ def delete_user(
     else:
         db.session.flush()
 
+    server_for_email = SimpleNamespace(name=server_name) if server_name else None
+    email_user = SimpleNamespace(
+        id=db_id,
+        username=user_username,
+        email=user_email,
+        expires=user_expires,
+        server=server_for_email,
+    )
+
+    try:
+        send_user_lifecycle_email(
+            email_user,
+            event_type=email_event,
+            server_name=server_name,
+            expires_at=user_expires,
+        )
+    except Exception as exc:
+        logging.warning("Failed to send deletion email for user %s: %s", db_id, exc)
+
 
 def _is_not_found(exc: Exception) -> bool:
     """True when a media server answered 404, i.e. the user is already gone."""
@@ -419,14 +450,25 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
     if not user or not server or user.server_id != server_id:
         return False
 
+    # Cache values early to avoid detached-instance access after delete/commit.
+    user_username = user.username
+    user_email = user.email
+    user_expires = user.expires
+    server_name = server.name
+
     # Remove from remote media server
+    remote_deleted = False
     try:
         client = get_client_for_media_server(server)
         user_identifier = _get_user_identifier(user, server)
         client.delete_user(user_identifier)
+        remote_deleted = True
     except Exception as exc:
         logging.error(
-            f"Remote deletion failed for user {user.username} from {server.name}: {exc}"
+            "Remote deletion failed for user %s from %s: %s",
+            user.username,
+            server.name,
+            exc,
         )
 
     # Check if user has other accounts
@@ -447,13 +489,38 @@ def remove_user_from_server(user_id: int, server_id: int) -> bool:
     db.session.delete(user)
     db.session.commit()
 
+    server_for_email = SimpleNamespace(name=server_name)
+    email_user = SimpleNamespace(
+        id=user_id,
+        username=user_username,
+        email=user_email,
+        expires=user_expires,
+        server=server_for_email,
+    )
+
+    if remote_deleted:
+        try:
+            send_user_lifecycle_email(
+                email_user,
+                event_type="deleted",
+                server_name=server_name,
+                expires_at=user_expires,
+            )
+        except Exception as exc:
+            logging.warning(
+                "Failed to send server-removal email for user %s on %s: %s",
+                user_id,
+                server_id,
+                exc,
+            )
+
     if has_other_accounts:
         logging.info(
-            f"Removed user {user.username} from server {server.name}, preserving other accounts"
+            f"Removed user {user_username} from server {server_name}, preserving other accounts"
         )
     else:
         logging.info(
-            f"Removed user {user.username}'s only account from server {server.name}"
+            f"Removed user {user_username}'s only account from server {server_name}"
         )
 
     return True
