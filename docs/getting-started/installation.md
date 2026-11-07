@@ -84,6 +84,28 @@ docker run -d ...
 {% endtab %}
 {% endtabs %}
 
+#### Environment variables
+
+All of these are optional.
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `PUID`, `PGID` | `1000` | The user and group the container runs Wizarr as. |
+| `TZ` | | Your [time zone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones), e.g. `Europe/London`. |
+| `DISABLE_BUILTIN_AUTH` | `false` | Set to `true` only when another auth provider (Authelia, Authentik, etc.) protects Wizarr. |
+| `PORT` | `5690` | The port Wizarr listens on inside the container. |
+| `LOG_LEVEL` | `WARNING` | Log level of the app: `DEBUG`, `INFO`, `WARNING` or `ERROR`. |
+| `GUNICORN_LOG_LEVEL` | `warning` | Log level of the Gunicorn server. |
+| `GUNICORN_WORKERS` | `1` | Number of worker processes. Wizarr uses SQLite, so keep one and raise `GUNICORN_THREADS` for more concurrency. |
+| `GUNICORN_THREADS` | `4` | Threads per worker. |
+| `GUNICORN_TIMEOUT` | `120` | Seconds before an unresponsive worker is restarted. |
+| `WEBAUTHN_RP_ID`, `WEBAUTHN_ORIGIN` | | The domain (e.g. `wizarr.example.com`) and full HTTPS origin (e.g. `https://wizarr.example.com`) used for passkeys. Set both when Wizarr can't detect them from the request, for example behind a reverse proxy that doesn't forward the scheme. |
+| `WEBAUTHN_RP_NAME` | `Wizarr` | The name shown in the passkey prompt. |
+| `LDAP_SYNC_INTERVAL_MINUTES` | `60` | How often users are synced from LDAP. See [LDAP Authentication](../using-wizarr/ldap-authentication.md). |
+| `WIZARR_DISABLE_SCHEDULER` | `false` | Set to `true` to turn off background jobs. |
+| `CF_ACCESS_TEAM_DOMAIN`, `CF_ACCESS_AUD` | | Cloudflare Access settings. See [Single Sign-On](../using-wizarr/single-sign-on-sso.md). |
+| `FORCE_LANGUAGE` | | Force the interface language, e.g. `fr`. |
+
 ### Unraid
 
 1. Ensure you have the **Community Applications** plugin installed.
