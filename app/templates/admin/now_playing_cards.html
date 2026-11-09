@@ -92,8 +92,8 @@
             </div>
             <!-- Meta line -->
             <p class="text-xs text-gray-500 dark:text-gray-400 truncate min-w-0"
-               title="{{ session.user_name }} • {{ session.client }} ({{ session.device_name }})">
-              {{ session.user_name }} • {{ session.client }} ({{ session.device_name }})
+               title="{{ session.user_name }} • {{ session.client }}{% if session.device_name and session.device_name != session.client %} ({{ session.device_name }}){% endif %}">
+              {{ session.user_name }} • {{ session.client }}{% if session.device_name and session.device_name != session.client %} ({{ session.device_name }}){% endif %}
             </p>
           </div>
           <!-- Stream type badge -->

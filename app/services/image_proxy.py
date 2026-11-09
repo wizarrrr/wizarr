@@ -454,6 +454,8 @@ class ImageProxyService:
                 headers["X-Plex-Token"] = server.api_key
             elif server.server_type == "komga":
                 headers["X-API-Key"] = server.api_key
+            elif server.server_type == "romm":
+                headers["Authorization"] = f"Basic {server.api_key}"
 
         # Requests normally converts URL userinfo into Basic authentication.
         # Because generate_token() removes that userinfo from the upstream URL,
