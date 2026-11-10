@@ -3,7 +3,6 @@ import logging
 import math
 import os
 from collections import defaultdict
-from urllib.parse import urlparse
 
 from flask import (
     Blueprint,
@@ -35,6 +34,7 @@ from app.models import (
 )
 from app.services.expiry import get_expiring_this_week_users
 from app.services.identity_linking import link_user_accounts, primary_account
+from app.services.instance_url_resolver import resolve_base_url
 from app.services.invites import create_invite
 from app.services.media.service import (
     EMAIL_RE,
@@ -196,9 +196,7 @@ def invite():
                 ldap_enabled=ldap_enabled,
             ), 400
 
-        current_url = request.headers.get("HX-Current-URL")
-        parsed_url = urlparse(current_url)
-        host_url = f"{parsed_url.scheme}://{parsed_url.netloc}"
+        host_url = resolve_base_url()
         link = f"{host_url}/j/{invite.code}"
 
         invitations = Invitation.query.order_by(Invitation.created.desc()).all()
@@ -1130,7 +1128,7 @@ def reset_password_modal(user_id: int):
     if existing_token and existing_token.is_valid():
         # Token exists and is valid - show it
         reset_path = f"/reset/{existing_token.code}"
-        reset_url = request.url_root.rstrip("/") + reset_path
+        reset_url = resolve_base_url() + reset_path
         expires_at = existing_token.expires_at.strftime("%Y-%m-%d %H:%M UTC")
 
         return render_template(
@@ -1173,7 +1171,7 @@ def generate_reset_link(user_id: int):
 
         # Generate the full reset URL
         reset_path = f"/reset/{token.code}"
-        reset_url = request.url_root.rstrip("/") + reset_path
+        reset_url = resolve_base_url() + reset_path
 
         # Format expiry time
         expires_at = token.expires_at.strftime("%Y-%m-%d %H:%M UTC")
