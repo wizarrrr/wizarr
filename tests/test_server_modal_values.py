@@ -52,7 +52,8 @@ def test_create_modal_keeps_typed_values(admin_client):
     assert not _selected(html, "plex")
     assert 'value="http://jf.local:8096"' in html
     assert 'value="https://jf.example.com"' in html
-    assert 'value="typed-key"' in html
+    assert "typed-key" not in html
+    assert re.search(r'<input[^>]*name="api_key"[^>]*value=""', html)
     assert _checked(html, "allow_downloads")
     assert not _checked(html, "allow_live_tv")
     assert MediaServer.query.count() == 0
@@ -114,7 +115,8 @@ def test_edit_modal_keeps_typed_values(admin_client, session):
     assert _selected(html, "emby")
     assert not _selected(html, "jellyfin")
     assert 'value="http://new.local"' in html
-    assert 'value="new-key"' in html
+    assert "new-key" not in html
+    assert re.search(r'<input[^>]*name="api_key"[^>]*value=""', html)
     assert not _checked(html, "allow_downloads")
     db.session.expire_all()
     unchanged = db.session.get(MediaServer, server.id)

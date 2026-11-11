@@ -82,8 +82,8 @@ def test_password_prompt_applies_safe_emby_policy(client, session):
             data={
                 "username": "viewer",
                 "email": "viewer@example.com",
-                "password": "password123",
-                "confirm": "password123",
+                "password": "Password123",
+                "confirm": "Password123",
             },
         )
 

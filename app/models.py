@@ -455,6 +455,9 @@ class MediaServer(db.Model):
     server_type = db.Column(db.String, nullable=False)  # plex, jellyfin, emby, etc.
     url = db.Column(db.String, nullable=False)
     api_key = db.Column(db.String, nullable=True)
+    # Navidrome Subsonic API administrator username. NULL preserves the
+    # historical default of "admin" for existing server rows.
+    server_username = db.Column(db.String, nullable=True)
     external_url = db.Column(db.String, nullable=True)  # Optional public address
 
     # Universal media server toggles (work for all server types)
