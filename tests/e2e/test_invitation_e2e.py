@@ -16,7 +16,8 @@ import pytest
 from playwright.sync_api import Page, expect  # type: ignore
 
 # The live_server fixture cannot pickle its server function with "spawn".
-with contextlib.suppress(RuntimeError):
+# ValueError is raised where "fork" is not available (e.g. Windows).
+with contextlib.suppress(RuntimeError, ValueError):
     multiprocessing.set_start_method("fork", force=True)
 
 from app import create_app
