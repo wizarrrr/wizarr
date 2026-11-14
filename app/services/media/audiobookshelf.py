@@ -447,6 +447,8 @@ class AudiobookshelfClient(RestApiMixin):
             "update": False,
             "delete": False,
             "upload": False,
+            # Sending a book to an e-reader is a form of download.
+            "createEreader": is_admin or std_permissions.allow_downloads,
             "accessAllLibraries": False,
             "accessAllTags": True,
             "accessExplicitContent": True,
