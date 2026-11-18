@@ -180,6 +180,10 @@ class User(db.Model, UserMixin):
     code = db.Column(db.String, nullable=False)
     photo = db.Column(db.String, nullable=True)
     expires = db.Column(db.DateTime, nullable=True)
+    # Timestamp of the last expiry-reminder email sent for the *current*
+    # `expires` value. Reset to None whenever `expires` is reassigned so a
+    # renewed user becomes eligible for a fresh reminder.
+    expiry_reminder_sent_at = db.Column(db.DateTime, nullable=True)
     server_id = db.Column(
         db.Integer, db.ForeignKey("media_server.id", ondelete="CASCADE"), nullable=True
     )
@@ -1175,6 +1179,43 @@ class LDAPConfiguration(db.Model):
     # Admin authentication settings
     admin_group_dn = db.Column(db.String, nullable=True)
     allow_admin_bind = db.Column(db.Boolean, default=False, nullable=False)
+
+    created_at = db.Column(
+        db.DateTime, default=lambda: datetime.now(UTC), nullable=False
+    )
+    updated_at = db.Column(
+        db.DateTime,
+        default=lambda: datetime.now(UTC),
+        onupdate=lambda: datetime.now(UTC),
+        nullable=False,
+    )
+
+
+class SMTPConfiguration(db.Model):
+    """SMTP configuration for transactional emails (invite links, expiry reminders)."""
+
+    __tablename__ = "smtp_configuration"
+
+    id = db.Column(db.Integer, primary_key=True)
+    enabled = db.Column(db.Boolean, default=False, nullable=False)
+
+    # Connection settings
+    host = db.Column(db.String, nullable=False)
+    port = db.Column(db.Integer, nullable=False, default=587)
+    # encryption values: "none" | "starttls" | "ssl"
+    encryption = db.Column(db.String, nullable=False, default="starttls")
+
+    # Authentication (optional - some relay servers need no auth)
+    username = db.Column(db.String, nullable=True)
+    password_encrypted = db.Column(db.String, nullable=True)
+
+    # From address
+    from_email = db.Column(db.String, nullable=False)
+    from_name = db.Column(db.String, nullable=True, default="Wizarr")
+
+    # Days before a user's access expires to send them a reminder email.
+    # 0 disables the reminder job without a separate toggle.
+    reminder_days_before = db.Column(db.Integer, nullable=False, default=3)
 
     created_at = db.Column(
         db.DateTime, default=lambda: datetime.now(UTC), nullable=False
