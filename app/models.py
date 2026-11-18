@@ -465,6 +465,9 @@ class MediaServer(db.Model):
     # Jellyfin only: hide the users that Wizarr creates from the login screens.
     # Jellyfin hides new users by default, so True keeps that behaviour.
     hide_users_from_login = db.Column(db.Boolean, default=True, nullable=False)
+    # Jellyfin: default MaxActiveSessions applied to new invitations for this
+    # server unless the invitation overrides it (0 = unlimited).
+    max_active_sessions = db.Column(db.Integer, nullable=True)
 
     # Whether the connection credentials were validated successfully
     verified = db.Column(db.Boolean, default=False, nullable=False)
