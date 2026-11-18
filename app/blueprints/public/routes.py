@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 import structlog
@@ -391,6 +392,30 @@ def manifest():
 # ─── Password prompt for multi-server invites ───────────────────────────────
 
 
+def _username_taken(client, server_type: str, username: str) -> bool:
+    """True when the server already has a user with this name.
+
+    Only the name is compared, case-insensitively: both Jellyfin and Emby accept
+    whatever spelling, but a second account with the same name is refused by the
+    server. A server that cannot be asked must not block the invite - the create
+    call reports the real error in that case.
+    """
+    if server_type not in ("jellyfin", "emby"):
+        return False
+    try:
+        users = client.get("/Users").json()
+    except Exception as exc:
+        structlog.get_logger().warning("Could not list %s users: %s", server_type, exc)
+        return False
+    wanted = username.casefold()
+    for entry in users:
+        # Jellyfin and Emby answer with objects; tolerate a plain list of names.
+        name = entry.get("Name") if isinstance(entry, dict) else entry
+        if isinstance(name, str) and name.casefold() == wanted:
+            return True
+    return False
+
+
 @public_bp.route("/j/<code>/password", methods=["GET", "POST"])
 def password_prompt(code):
     invitation = Invitation.query.filter(
@@ -408,13 +433,37 @@ def password_prompt(code):
     if plex_server:
         plex_user = User.query.filter_by(code=code, server_id=plex_server.id).first()
 
+    # Plex assigned this name at signup; the invitee never chose it and usually does
+    # not know it. It is only the default - the form lets them pick their own.
+    default_username = plex_user.username if plex_user else None
+
     if request.method == "POST":
+        from app.forms.validators import (
+            USERNAME_ALLOWED_CHARS_MESSAGE,
+            USERNAME_LENGTH_MESSAGE,
+            USERNAME_MAX_LENGTH,
+            USERNAME_MIN_LENGTH,
+            USERNAME_PATTERN,
+        )
+
+        chosen_username = (request.form.get("username") or "").strip()
+        if chosen_username and not (
+            USERNAME_MIN_LENGTH <= len(chosen_username) <= USERNAME_MAX_LENGTH
+            and re.fullmatch(USERNAME_PATTERN, chosen_username)
+        ):
+            return render_template(
+                "choose-password.html",
+                code=code,
+                username=chosen_username,
+                error=f"{USERNAME_LENGTH_MESSAGE} {USERNAME_ALLOWED_CHARS_MESSAGE}",
+            )
         pw = request.form.get("password") or ""
         confirm = request.form.get("confirm") or ""
         if pw != confirm or len(pw) < 8:
             return render_template(
                 "choose-password.html",
                 code=code,
+                username=chosen_username or default_username,
                 error="Passwords do not match or too short (8 chars).",
             )
 
@@ -429,7 +478,7 @@ def password_prompt(code):
 
         # Determine username and email for all account creations
         if plex_user:
-            username = plex_user.username
+            username = chosen_username or plex_user.username
             email = plex_user.email
         else:
             # For non-Plex flows, use form data or generate a unique username
@@ -437,6 +486,28 @@ def password_prompt(code):
 
             username = request.form.get("username") or f"user-{uuid.uuid4().hex[:8]}"
             email = request.form.get("email") or ""
+
+        # Refuse a name that is already taken before anything is created: a rejected
+        # create_user is only logged, which leaves the invitee half-provisioned and
+        # without a message.
+        from app.services.media.service import get_client_for_media_server
+
+        for srv in invitation.servers:
+            if srv.server_type == "plex":
+                continue
+            if _username_taken(
+                get_client_for_media_server(srv), srv.server_type, username
+            ):
+                return render_template(
+                    "choose-password.html",
+                    code=code,
+                    username=username,
+                    error=_(
+                        "The username %(name)s is already taken on %(server)s. Please choose another one.",
+                        name=username,
+                        server=srv.name,
+                    ),
+                )
 
         # Create LDAP user if configured
         from app.services.ldap.invitation_ldap import InvitationLDAPHandler
@@ -455,6 +526,7 @@ def password_prompt(code):
                 return render_template(
                     "choose-password.html",
                     code=code,
+                    username=username,
                     error=f"Failed to create LDAP user: {ldap_result}",
                 )
 
@@ -464,7 +536,6 @@ def password_prompt(code):
         # Provision accounts on remaining servers
         from app.services.expiry import calculate_user_expiry
         from app.services.invites import mark_server_used
-        from app.services.media.service import get_client_for_media_server
 
         # Calculate expiry will be done per-server to allow server-specific expiry
 
@@ -519,7 +590,7 @@ def password_prompt(code):
         return redirect(url_for("wizard.start"))
 
     # GET request – show form
-    return render_template("choose-password.html", code=code)
+    return render_template("choose-password.html", code=code, username=default_username)
 
 
 # Proxied images are posters and artwork, which seldom change. A long browser
