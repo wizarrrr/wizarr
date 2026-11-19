@@ -74,3 +74,26 @@ The AUD tag is in Zero Trust under Access > Applications > your Wizarr app > Add
 With both set, every admin request must carry a valid `Cf-Access-Jwt-Assertion` header: signed by your team's key, for this application, issued by your team domain and not expired. A session cookie on its own grants nothing. This takes precedence over `DISABLE_BUILTIN_AUTH` and the built-in login. The invitation paths above stay public, `/health` needs no token, and API keys work as before.
 
 If the signing keys can't be fetched from `https://<team>/cdn-cgi/access/certs`, admin access is refused rather than allowed. To get back in, unset the two variables and restart.
+
+---
+
+## Native OIDC Sign-In (Admin Panel)
+
+As of this release, Wizarr can also authenticate administrators directly against an OpenID Connect provider (Authentik, Keycloak, Authelia, Okta, Auth0, Azure AD, ...) without putting Wizarr behind a reverse proxy. This is separate from the proxy-based approach above:
+
+- The proxy approach (`DISABLE_BUILTIN_AUTH=True`) authenticates *every* request before it reaches Wizarr, including the public invite pages, and grants admin access to anyone who passes the proxy.
+- Native OIDC only replaces the *admin login page*. Invited users still join a media server exactly as before.
+
+### Setup
+
+1. In your identity provider, create an OIDC application/client for Wizarr (confidential client, Authorization Code flow with PKCE).
+2. In Wizarr, go to **Settings → OIDC**, enable it, and fill in:
+   - **Discovery URL** — your provider's `.well-known/openid-configuration` URL.
+   - **Client ID** / **Client Secret** — from the application you created.
+   - **Admin Claim** / **Admin Claim Allowed Values** (strongly recommended) — restricts admin access to identities carrying a specific claim value (e.g. a `groups` claim containing `wizarr-admins`). **If left blank, anyone who can authenticate with your identity provider becomes a Wizarr admin.**
+3. Register Wizarr's callback URL with your identity provider: `https://<your-wizarr-address>/oidc/callback`. If Wizarr is reachable at more than one address (a LAN IP and a public domain, for example), register one callback URL per address — most providers (Authentik, Keycloak, Auth0, Okta, Azure AD) accept a list of valid redirect URIs per application. The exact URL to register is shown on the Settings → OIDC page.
+
+### Limitations
+
+- Admin-panel login only — end users accepting an invite don't go through OIDC.
+- SAML is not yet supported (see the project's SSO feasibility notes for why OIDC was prioritized).
