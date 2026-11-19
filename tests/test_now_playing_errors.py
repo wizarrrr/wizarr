@@ -292,14 +292,10 @@ def test_navidrome_single_entry_is_a_list(fake_http):
 
 def test_navidrome_statistics_still_works_when_sessions_fail(fake_http):
     fake_http(
+        _Response({"token": "jwt-1"}),  # /auth/login
         _Response(
-            {
-                "subsonic-response": {
-                    "status": "ok",
-                    "users": {"user": [{"username": "a"}, {"username": "b"}]},
-                }
-            }
-        ),
+            [{"id": "u1", "userName": "a"}, {"id": "u2", "userName": "b"}]
+        ),  # /api/user
         requests.ConnectionError("refused"),  # now_playing
     )
 
