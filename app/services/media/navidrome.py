@@ -25,10 +25,14 @@ class NavidromeClient(RestApiMixin):
     """Navidrome wrapper using the Subsonic API."""
 
     @classmethod
-    def check_connection(cls, url: str, token: str) -> tuple[bool, str]:
+    def check_connection(
+        cls, url: str, token: str, username: str | None = None
+    ) -> tuple[bool, str]:
         from app.services.servers import check_navidrome
 
-        return check_navidrome(url, token)
+        if username is None:
+            return check_navidrome(url, token)
+        return check_navidrome(url, token, username=username)
 
     #: API prefix for Subsonic/OpenSubsonic endpoints
     API_PREFIX = "/rest"
@@ -40,9 +44,11 @@ class NavidromeClient(RestApiMixin):
 
         super().__init__(*args, **kwargs)
 
-        # Normalize URL
+        # Normalize URL and retain the per-server administrator username.
         if self.url:
             self.url = self.url.rstrip("/")
+        server_row = getattr(self, "server_row", None)
+        self.username = getattr(server_row, "server_username", None) or "admin"
 
     def _generate_auth_params(self) -> dict[str, str]:
         """Generate authentication parameters for Subsonic API calls.
@@ -59,7 +65,7 @@ class NavidromeClient(RestApiMixin):
         token_hash = hashlib.md5((self.token + salt).encode()).hexdigest()  # noqa: S324  # Required by Subsonic API specification
 
         return {
-            "u": "admin",  # Default username for API access
+            "u": getattr(self, "username", None) or "admin",
             "t": token_hash,
             "s": salt,
             "v": "1.16.1",  # Supported API version
@@ -87,6 +93,58 @@ class NavidromeClient(RestApiMixin):
             )
 
         return subsonic_response
+
+
+    # Navidrome's native API is used only for user administration, which
+    # Subsonic/OpenSubsonic does not implement in Navidrome.
+    def _native_token(self) -> str:
+        token = getattr(self, "_navidrome_native_token", None)
+        if token:
+            return token
+        if not self.url or not self.token:
+            raise ValueError("Navidrome URL and administrator password are required")
+        response = self.post(
+            "/auth/login",
+            json={"username": self.username, "password": self.token},
+            headers={"Content-Type": "application/json"},
+        )
+        response.raise_for_status()
+        token = response.json().get("token")
+        if not token:
+            raise ValueError("Navidrome native login did not return a token")
+        self._navidrome_native_token = token
+        return token
+
+    def _native_request(self, method: str, endpoint: str, payload: dict | None = None):
+        headers = {
+            "X-ND-Authorization": f"Bearer {self._native_token()}",
+            "X-ND-Client-Unique-Id": "f2a3c48b-3d8f-4a71-9b6e-2c5d7f8a1043",
+            "Accept": "application/json",
+        }
+        kwargs = {"headers": headers}
+        if payload is not None:
+            kwargs["json"] = payload
+        response = self._request(method, f"/api/{endpoint.lstrip('/')}", **kwargs)
+        response.raise_for_status()
+        refreshed = response.headers.get("X-ND-Authorization")
+        if refreshed:
+            self._navidrome_native_token = refreshed.removeprefix("Bearer ").strip()
+        return response
+
+    def _native_find_user(self, identifier: str) -> dict:
+        response = self._native_request("GET", "user")
+        users = response.json()
+        if isinstance(users, dict):
+            users = users.get("data", users.get("items", []))
+        if not isinstance(users, list):
+            raise ValueError("Navidrome native API returned an invalid user list")
+        for remote in users:
+            if isinstance(remote, dict) and (
+                str(remote.get("id", "")) == str(identifier)
+                or str(remote.get("userName") or remote.get("username") or "") == str(identifier)
+            ):
+                return remote
+        raise ValueError(f"Navidrome user not found: {identifier}")
 
     def validate_connection(self) -> tuple[bool, str]:
         """Validate connection to Navidrome server."""
@@ -214,53 +272,43 @@ class NavidromeClient(RestApiMixin):
         email: str,
         *,
         is_admin: bool = False,
-        allow_downloads: bool = True,
+        allow_downloads: bool = True,  # noqa: ARG002
     ) -> str:
-        """Create a user and return the username (Navidrome uses username as identifier)."""
-        try:
-            params = {
-                "username": username,
+        """Create an account via Navidrome's native API (Subsonic lacks this)."""
+        # Navidrome has no per-user download-role flag; allow_downloads cannot be enforced.
+        response = self._native_request(
+            "POST",
+            "user",
+            {
+                "userName": username,
+                "name": username,
+                "email": email or "",
                 "password": password,
-                "email": email,
-                "adminRole": "true" if is_admin else "false",
-                "downloadRole": "true" if allow_downloads else "false",
-                "uploadRole": "false",  # Don't allow uploads by default
-                "playlistRole": "true",  # Allow playlist creation
-                "coverArtRole": "false",  # Don't allow cover art changes
-                "commentRole": "false",  # Don't allow comments
-                "podcastRole": "false",  # Don't allow podcast management
-                "streamRole": "true",  # Allow streaming
-                "jukeboxRole": "false",  # Don't allow jukebox mode
-                "shareRole": "false",  # Don't allow sharing
-            }
-
-            self._subsonic_request("createUser", params)
-            return username
-        except Exception as exc:
-            logging.error("Navidrome: failed to create user – %s", exc)
-            raise
+                "isAdmin": bool(is_admin),
+            },
+        )
+        data = response.json() if response.content else {}
+        if not isinstance(data, dict):
+            raise ValueError("Navidrome native API returned an invalid created-user response")
+        return str(data.get("id") or username)
 
     def update_user(self, username: str, payload: dict[str, Any]):
-        """Update user with given parameters."""
-        try:
-            params = {"username": username}
-
-            # Map common payload fields to Subsonic parameters
-            if "password" in payload:
-                params["password"] = payload["password"]
-            if "email" in payload:
-                params["email"] = payload["email"]
-            if "is_admin" in payload:
-                params["adminRole"] = "true" if payload["is_admin"] else "false"
-            if "allow_downloads" in payload:
-                params["downloadRole"] = (
-                    "true" if payload["allow_downloads"] else "false"
-                )
-
-            self._subsonic_request("updateUser", params)
-        except Exception as exc:
-            logging.error("Navidrome: failed to update user %s – %s", username, exc)
-            raise
+        """Update an account via Navidrome's native API."""
+        remote = self._native_find_user(username)
+        user_id = remote.get("id")
+        if not user_id:
+            raise ValueError(f"Navidrome user not found: {username}")
+        changes = {}
+        if "password" in payload:
+            changes["password"] = payload["password"]
+        if "email" in payload:
+            changes["email"] = payload["email"]
+        if "is_admin" in payload:
+            changes["isAdmin"] = bool(payload["is_admin"])
+        if "name" in payload:
+            changes["name"] = payload["name"]
+        if changes:
+            self._native_request("PUT", f"user/{user_id}", changes)
 
     def enable_user(self, user_id: str) -> bool:  # noqa: ARG002
         """Enable a user account on Navidrome.
@@ -303,12 +351,12 @@ class NavidromeClient(RestApiMixin):
             return False
 
     def delete_user(self, username: str):
-        """Delete a user permanently from Navidrome."""
-        try:
-            self._subsonic_request("deleteUser", {"username": username})
-        except Exception as exc:
-            logging.error("Navidrome: failed to delete user %s – %s", username, exc)
-            raise
+        """Delete an account via Navidrome's native API."""
+        remote = self._native_find_user(username)
+        user_id = remote.get("id")
+        if not user_id:
+            raise ValueError(f"Navidrome user not found: {username}")
+        self._native_request("DELETE", f"user/{user_id}")
 
     def get_user(self, username: str):
         """Get user info in legacy format for backward compatibility."""
