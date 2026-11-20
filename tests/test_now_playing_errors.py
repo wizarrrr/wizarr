@@ -1,10 +1,11 @@
 """now_playing() raises when the session list cannot be fetched.
 
 The activity monitor ends all active sessions when now_playing() returns [].
-So [] must mean only that the server reported no sessions. A failed fetch
-(HTTP error, connection error, timeout or invalid JSON) must raise, so that
-the monitor skips the cycle. One malformed session is skipped, and the other
-sessions are still returned.
+So [] must mean only that the server reported no sessions, or that it has no
+session API at all (RomM before 5.0 answers 404 for its activity route). A
+failed fetch (HTTP error, connection error, timeout or invalid JSON) must
+raise, so that the monitor skips the cycle. One malformed session is skipped,
+and the other sessions are still returned.
 
 All HTTP calls go to a fake session. No test uses the network.
 """
@@ -308,10 +309,116 @@ def test_navidrome_statistics_still_works_when_sessions_fail(fake_http):
     assert stats["user_stats"] == {"total_users": 2, "active_sessions": 0}
 
 
+# ─── RomM ───────────────────────────────────────────────────────────────────
+
+
+def _romm_entry(**overrides):
+    entry = {
+        "user_id": 7,
+        "username": "sam",
+        "rom_id": 42,
+        "rom_name": "Tetris",
+        "device_id": "handheld",
+        "device_type": "muOS",
+    }
+    entry.update(overrides)
+    return entry
+
+
+@pytest.mark.parametrize("failure", TRANSPORT_FAILURES)
+def test_romm_raises_when_the_activity_request_fails(failure, fake_http):
+    fake_http(failure)
+
+    with pytest.raises(Exception):  # noqa: B017 - any failure must raise
+        _client(RommClient).now_playing()
+
+
+def test_romm_raises_when_the_list_is_not_a_list(fake_http):
+    fake_http(_Response({"detail": "unexpected"}))
+
+    with pytest.raises(ValueError, match="invalid session list"):
+        _client(RommClient).now_playing()
+
+
+def test_romm_returns_empty_list_for_no_sessions(fake_http):
+    session = fake_http(_Response([]))
+
+    assert _client(RommClient).now_playing() == []
+    assert session.urls == ["http://media.local/api/activity"]
+
+
+def test_romm_without_an_activity_api_has_no_sessions(fake_http):
+    """RomM before 5.0 has no /api/activity, and FastAPI answers 404."""
+    fake_http(_Response({"detail": "Not Found"}, status_code=404))
+
+    assert _client(RommClient).now_playing() == []
+
+
+def test_romm_raises_on_a_404_from_a_proxy(fake_http):
+    """A reverse proxy answers 404 with its own page while RomM restarts."""
+    fake_http(_Response(status_code=404, invalid_json=True))
+
+    with pytest.raises(requests.HTTPError):
+        _client(RommClient).now_playing()
+
+
+def test_romm_skips_one_broken_session(fake_http, caplog):
+    fake_http(_Response([_romm_entry(device_id=""), "not-a-dict", _romm_entry()]))
+
+    sessions = _client(RommClient).now_playing()
+
+    assert [s["session_id"] for s in sessions] == ["7:handheld:42"]
+    assert "failed to read a session" in caplog.text
+
+
+def test_romm_statistics_still_works_when_sessions_fail(fake_http):
+    session = fake_http(
+        _Response([{"id": 1}, {"id": 2}]),  # /users
+        requests.ConnectionError("refused"),  # /activity
+        _Response({"SYSTEM": {"VERSION": "5.4.1"}}),  # /heartbeat
+    )
+
+    stats = _client(RommClient).statistics()
+
+    assert stats["user_stats"] == {"total_users": 2, "active_sessions": 0}
+    assert stats["server_stats"]["version"] == "5.4.1"
+    assert session.urls == [
+        f"http://media.local/api/{path}" for path in ("users", "activity", "heartbeat")
+    ]
+
+
+def test_romm_server_info_counts_sessions(fake_http):
+    session = fake_http(
+        _Response({"SYSTEM": {"VERSION": "5.4.1"}}),  # /heartbeat
+        _Response([_romm_entry(), _romm_entry(device_id="tv")]),  # /activity
+    )
+
+    info = _client(RommClient).get_server_info()
+
+    assert info["version"] == "5.4.1"
+    assert info["active_sessions"] == 2
+    assert session.urls == [
+        f"http://media.local/api/{path}" for path in ("heartbeat", "activity")
+    ]
+
+
+def test_romm_server_info_still_works_when_sessions_fail(fake_http):
+    session = fake_http(
+        _Response({"SYSTEM": {"VERSION": "5.4.1"}}),  # /heartbeat
+        requests.ConnectionError("refused"),  # /activity
+    )
+
+    info = _client(RommClient).get_server_info()
+
+    assert info["version"] == "5.4.1"
+    assert info["active_sessions"] == 0
+    assert session.urls[-1] == "http://media.local/api/activity"
+
+
 # ─── Servers without a session API ──────────────────────────────────────────
 
 
-@pytest.mark.parametrize("cls", [KavitaClient, KomgaClient, RommClient, DropClient])
+@pytest.mark.parametrize("cls", [KavitaClient, KomgaClient, DropClient])
 def test_servers_without_sessions_make_no_request(cls, fake_http):
     session = fake_http()
 
