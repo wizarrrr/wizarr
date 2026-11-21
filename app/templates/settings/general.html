@@ -103,7 +103,7 @@
                   <div>
                     <h2 class="text-lg font-semibold text-gray-900 dark:text-white">{{ _("User Management") }}</h2>
                     <p class="text-sm text-gray-600 dark:text-gray-400">
-                      {{ _("Configure how users are managed when invitations expire") }}
+                      {{ _("Configure what happens to users when their access expires") }}
                     </p>
                   </div>
                 </div>
@@ -164,7 +164,7 @@
                     </div>
                     {{ form.expiry_action(class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white") }}
                     <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">
-                      {{ _("Choose what happens to users when their invitation expires") }}
+                      {{ _("Choose what happens to users when their expiry date passes. Users only have an expiry date if they joined with an invitation that has a Duration, or if you set one for them. An invitation's Expiration only limits how long its link works.") }}
                     </p>
                     {% for err in form.expiry_action.errors %}<p class="text-red-500 text-sm mt-1">{{ err }}</p>{% endfor %}
                   </div>
