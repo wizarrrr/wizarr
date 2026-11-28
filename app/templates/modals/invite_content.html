@@ -78,6 +78,9 @@
             <option value="month">{{ _("1 month") }}</option>
             <option value="never">{{ _("Never") }}</option>
           </select>
+          <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+            {{ _("How long this link can be used to join. To limit how long people keep access, set a Duration under Advanced Options.") }}
+          </p>
         </div>
         {# Wizard bundle selection #}
         {% if bundles %}
@@ -230,7 +233,7 @@
                      max="999"
                      class="{{ field_class }}">
               <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                {{ _("When set, invited user(s) will be removed from the Plex server after a number of days. (1-999)") }}
+                {{ _("Each person who joins keeps access for this many days. Then their account is deleted or disabled, depending on the Expiry Action in Settings. Leave empty for no limit. (1-999)") }}
               </p>
             </div>
           </div>
