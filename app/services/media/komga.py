@@ -89,12 +89,14 @@ class KomgaClient(RestApiMixin):
             _username: Username for the new user (unused - Komga uses email as username)
             password: Password for the new user
             email: Email address for the new user
-            allow_downloads: Whether to grant FILE_DOWNLOAD role
+            allow_downloads: Whether to grant the FILE_DOWNLOAD role.
+                PAGE_STREAMING is always granted. Komga's web reader requires
+                it, and the roles sent here replace Komga's default set.
 
         Returns:
             str: The new user's ID
         """
-        roles = ["USER"]
+        roles = ["USER", "PAGE_STREAMING"]
         if allow_downloads:
             roles.append("FILE_DOWNLOAD")
 
