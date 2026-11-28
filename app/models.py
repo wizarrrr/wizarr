@@ -161,6 +161,26 @@ class Invitation(db.Model):
         return list(self.users)  # type: ignore
 
 
+class SignupRequest(db.Model):
+    __tablename__ = "signup_request"
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(254), nullable=False, unique=True)
+    message = db.Column(db.Text, nullable=False, default="")
+    source_hash = db.Column(db.String(64), nullable=False, index=True)
+    status = db.Column(db.String(20), nullable=False, default="pending", index=True)
+    created_at = db.Column(
+        db.DateTime, nullable=False, default=lambda: datetime.now(UTC)
+    )
+    reviewed_at = db.Column(db.DateTime, nullable=True)
+    reviewed_by = db.Column(db.String(255), nullable=True)
+    invitation_id = db.Column(
+        db.Integer, db.ForeignKey("invitation.id", ondelete="SET NULL"), nullable=True
+    )
+    invitation = db.relationship("Invitation", passive_deletes=True)
+    email_sent_at = db.Column(db.DateTime, nullable=True)
+
+
 class Settings(db.Model):
     __tablename__ = "settings"
     id = db.Column(db.Integer, primary_key=True)
