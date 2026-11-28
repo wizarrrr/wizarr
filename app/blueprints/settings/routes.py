@@ -213,7 +213,12 @@ def scan_libraries():
 
     # 2) fetch upstream libraries
     try:
-        raw = scan_media(url=url, token=key, server_type=stype)
+        raw = scan_media(
+            url=url,
+            token=key,
+            server_type=stype,
+            username=request.form.get("navidrome_username"),
+        )
         # unify into list of (external_id, display_name)
         items = raw.items() if isinstance(raw, dict) else [(name, name) for name in raw]
     except Exception as exc:
