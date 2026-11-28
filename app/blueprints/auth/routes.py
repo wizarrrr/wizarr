@@ -1,7 +1,14 @@
 import logging
 import os
 
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import (
+    Blueprint,
+    current_app,
+    redirect,
+    render_template,
+    request,
+    url_for,
+)
 from flask_babel import _
 from flask_login import login_required, login_user, logout_user
 from werkzeug.security import check_password_hash
@@ -37,13 +44,16 @@ def login():
         return redirect("/")
 
     # Pre-compute shared template context
-    from app.models import LDAPConfiguration, WebAuthnCredential
+    from app.models import LDAPConfiguration, OIDCConfiguration, WebAuthnCredential
 
     has_passkeys = WebAuthnCredential.query.first() is not None
     ldap_config = LDAPConfiguration.query.first()
     ldap_enabled = bool(
         ldap_config and ldap_config.enabled and ldap_config.allow_admin_bind
     )
+    oidc_config = OIDCConfiguration.query.first()
+    oidc_enabled = bool(oidc_config and oidc_config.enabled)
+    oidc_provider_name = oidc_config.display_name if oidc_config else None
     media_server_url = request.cookies.get("wizarr_media_server_url")
 
     if request.method in ("GET", "HEAD"):
@@ -51,6 +61,8 @@ def login():
             "login.html",
             has_passkeys=has_passkeys,
             ldap_enabled=ldap_enabled,
+            oidc_enabled=oidc_enabled,
+            oidc_provider_name=oidc_provider_name,
             media_server_url=media_server_url,
             error=request.args.get("error"),
         )
@@ -72,6 +84,8 @@ def login():
             error=message,
             has_passkeys=has_passkeys,
             ldap_enabled=ldap_enabled,
+            oidc_enabled=oidc_enabled,
+            oidc_provider_name=oidc_provider_name,
             media_server_url=media_server_url,
             selected_auth_method=auth_method,
         )
@@ -129,6 +143,8 @@ def login():
         error=_("Invalid username or password"),
         has_passkeys=has_passkeys,
         ldap_enabled=ldap_enabled,
+        oidc_enabled=oidc_enabled,
+        oidc_provider_name=oidc_provider_name,
         media_server_url=media_server_url,
         selected_auth_method=auth_method,
     )
@@ -174,6 +190,89 @@ def complete_2fa():
 
     login_user(account, remember=remember)
     return redirect("/")
+
+
+# ── OIDC (admin panel SSO) ───────────────────────────────────────────────
+# These two routes must remain reachable without an existing Wizarr session
+# -- same requirement as /login itself. If Wizarr is run behind a
+# forward-auth reverse proxy with DISABLE_BUILTIN_AUTH set, these routes are
+# unused (the proxy handles auth before requests reach Wizarr at all).
+
+
+@auth_bp.route("/oidc/login", methods=["GET"])
+@limiter.limit("10 per minute")
+def oidc_login():
+    """Kick off the OIDC Authorization Code (+ PKCE) flow."""
+    from app.services.oidc.client import get_oidc_client
+
+    client = get_oidc_client()
+    if not client:
+        return redirect(
+            url_for("auth.login", error=_("OIDC sign-in is not configured"))
+        )
+
+    # Deliberately built from the *current* request (url_for(..., _external=True)
+    # uses request.url_root when SERVER_NAME isn't set), not a single fixed
+    # instance URL. This lets Wizarr be reached at more than one hostname
+    # (LAN address, public domain, ...) as long as each callback URL is
+    # registered as a valid redirect URI on the IdP -- Authentik, Keycloak,
+    # Auth0, Okta and Azure AD all support registering more than one.
+    redirect_uri = url_for("auth.oidc_callback", _external=True)
+    return client.authorize_redirect(redirect_uri)
+
+
+@auth_bp.route("/oidc/callback", methods=["GET"])
+@limiter.limit("10 per minute")
+def oidc_callback():
+    """OIDC callback: exchange the code, verify the ID token, log in."""
+    from app.services.oidc.client import get_oidc_client, get_oidc_config
+
+    from .oidc_auth import handle_oidc_login
+
+    config = get_oidc_config()
+    client = get_oidc_client(config)
+    if not client:
+        return redirect(
+            url_for("auth.login", error=_("OIDC sign-in is not configured"))
+        )
+
+    try:
+        # Validates `state` (CSRF), exchanges the code, and -- because the
+        # client was registered with server_metadata_url and an "openid"
+        # scope -- verifies the ID token (issuer, audience, expiry, nonce)
+        # and returns the verified claims as token["userinfo"].
+        token = client.authorize_access_token()
+    except Exception:
+        current_app.logger.warning(
+            "OIDC callback: token exchange/verification failed", exc_info=True
+        )
+        return redirect(url_for("auth.login", error=_("OIDC sign-in failed")))
+
+    userinfo = token.get("userinfo")
+    if not userinfo:
+        # Uncommon for a spec-compliant provider, but fall back to the
+        # userinfo endpoint if the token response didn't include claims.
+        try:
+            userinfo = client.userinfo(token=token)
+        except Exception:
+            current_app.logger.warning(
+                "OIDC callback: no userinfo in token and userinfo endpoint failed",
+                exc_info=True,
+            )
+            userinfo = None
+
+    if not userinfo:
+        return redirect(
+            url_for(
+                "auth.login", error=_("OIDC sign-in failed: no identity returned")
+            )
+        )
+
+    success, message = handle_oidc_login(config, userinfo)
+    if success:
+        return redirect("/")
+
+    return redirect(url_for("auth.login", error=message))
 
 
 # ── Logout ────────────────────────────────────────────────────────────

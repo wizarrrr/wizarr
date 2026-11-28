@@ -580,3 +580,110 @@ def sync_all_ldap_users():
         skipped_count=skipped_count,
         errors=errors,
     )
+
+
+# ────────────────────────────────────────────────────────────────────────────
+# OIDC Settings Routes (2026-09) - admin panel SSO
+# ────────────────────────────────────────────────────────────────────────────
+
+
+@settings_bp.route("/oidc", methods=["GET", "POST"])
+@login_required
+def oidc_settings():
+    """OIDC (admin-panel SSO) configuration page."""
+    from app.forms.oidc import OIDCSettingsForm
+    from app.models import OIDCConfiguration
+    from app.services.ldap.encryption import encrypt_credential
+
+    config = OIDCConfiguration.query.first()
+    form = OIDCSettingsForm()
+
+    if form.validate_on_submit():
+        if not config:
+            config = OIDCConfiguration()
+            db.session.add(config)
+
+        config.enabled = form.enabled.data
+        config.display_name = form.display_name.data or "SSO"
+        config.discovery_url = form.discovery_url.data
+        config.client_id = form.client_id.data
+
+        # Only update the secret if a new value was provided -- an empty
+        # field on an edit means "keep the existing secret", matching the
+        # LDAP service-account-password pattern.
+        if form.client_secret.data:
+            config.client_secret_encrypted = encrypt_credential(
+                form.client_secret.data
+            )
+
+        config.scopes = form.scopes.data
+        config.username_claim = form.username_claim.data
+        config.admin_claim = form.admin_claim.data or None
+        config.admin_claim_values = form.admin_claim_values.data or None
+
+        db.session.commit()
+        flash(_("OIDC configuration saved successfully"), "success")
+        return render_template("settings/oidc.html", form=form, config=config)
+
+    # Populate form with existing config
+    if config and request.method == "GET":
+        form.enabled.data = config.enabled
+        form.display_name.data = config.display_name
+        form.discovery_url.data = config.discovery_url
+        form.client_id.data = config.client_id
+        form.scopes.data = config.scopes
+        form.username_claim.data = config.username_claim
+        form.admin_claim.data = config.admin_claim
+        form.admin_claim_values.data = config.admin_claim_values
+        # client_secret is intentionally left blank -- it's write-only
+
+    return render_template("settings/oidc.html", form=form, config=config)
+
+
+@settings_bp.route("/oidc/test", methods=["POST"])
+@login_required
+def test_oidc_connection():
+    """Verify the discovery URL is reachable and looks like an OIDC
+    provider (HTMX endpoint). Does not exercise the full login flow."""
+    from app.forms.oidc import OIDCSettingsForm
+
+    form = OIDCSettingsForm()
+    discovery_url = form.discovery_url.data
+
+    if not discovery_url:
+        return render_template(
+            "_partials/ldap_alert.html",
+            level="error",
+            message=_("Enter a Discovery URL first"),
+        )
+
+    try:
+        import requests
+
+        resp = requests.get(discovery_url, timeout=10)
+        resp.raise_for_status()
+        metadata = resp.json()
+    except Exception as exc:
+        return render_template(
+            "_partials/ldap_alert.html",
+            level="error",
+            message=_("Could not fetch discovery document: %(error)s", error=str(exc)),
+        )
+
+    required_keys = ("authorization_endpoint", "token_endpoint", "issuer")
+    missing = [k for k in required_keys if k not in metadata]
+    if missing:
+        return render_template(
+            "_partials/ldap_alert.html",
+            level="error",
+            message=_(
+                "Discovery document is missing required field(s): %(fields)s",
+                fields=", ".join(missing),
+            ),
+        )
+
+    return render_template(
+        "_partials/ldap_alert.html",
+        level="success",
+        message=_("Found OIDC provider: %(issuer)s", issuer=metadata["issuer"]),
+    )
