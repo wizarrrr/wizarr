@@ -142,6 +142,7 @@ def register_scheduled_jobs(app, target_scheduler, now: datetime | None = None):
         _get_expiry_check_interval,
         check_expiring,
         optimize_sqlite_database,
+        send_expiry_reminders,
     )
     from app.tasks.update_check import fetch_and_cache_manifest
 
@@ -178,6 +179,19 @@ def register_scheduled_jobs(app, target_scheduler, now: datetime | None = None):
         trigger="interval",
         minutes=_get_ldap_sync_interval(),
         next_run_time=now + timedelta(minutes=2),
+        **JOB_OPTIONS,
+    )
+
+    # Always register the expiry reminder job. The job returns early when
+    # SMTP/reminders are not enabled, so turning them on at runtime takes
+    # effect without a restart.
+    target_scheduler.add_job(
+        id="send_expiry_reminders",
+        func=send_expiry_reminders,
+        args=[app],
+        trigger="interval",
+        hours=1,
+        next_run_time=now + timedelta(minutes=3),
         **JOB_OPTIONS,
     )
 

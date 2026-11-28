@@ -36,6 +36,7 @@ def test_all_maintenance_jobs_are_registered(app, session):
         "fetch_manifest",
         "sync_ldap_users",
         "sqlite_optimize",
+        "send_expiry_reminders",
     }
     for job in jobs.values():
         assert job["max_instances"] == 1
@@ -54,6 +55,8 @@ def test_jobs_have_sensible_first_run_times(app):
     assert jobs["fetch_manifest"]["hours"] == 24
     assert jobs["check_expiring"]["next_run_time"] == now + timedelta(minutes=1)
     assert jobs["sync_ldap_users"]["next_run_time"] == now + timedelta(minutes=2)
+    assert jobs["send_expiry_reminders"]["next_run_time"] == now + timedelta(minutes=3)
+    assert jobs["send_expiry_reminders"]["hours"] == 1
     # The startup thread runs the first optimize, so the job waits one day.
     assert "next_run_time" not in jobs["sqlite_optimize"]
     assert jobs["sqlite_optimize"]["hours"] == 24

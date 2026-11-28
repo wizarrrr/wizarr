@@ -457,6 +457,106 @@ def test_ldap_connection():
     return render_template("_partials/ldap_alert.html", level=level, message=message)
 
 
+@settings_bp.route("/smtp", methods=["GET", "POST"])
+@login_required
+def smtp_settings():
+    """SMTP configuration page."""
+    from app.forms.smtp import SMTPSettingsForm, SMTPTestEmailForm
+    from app.models import SMTPConfiguration
+    from app.services.ldap.encryption import encrypt_credential
+
+    config = SMTPConfiguration.query.first()
+    form = SMTPSettingsForm()
+    test_form = SMTPTestEmailForm()
+
+    if form.validate_on_submit():
+        if not config:
+            config = SMTPConfiguration()
+            db.session.add(config)
+
+        config.enabled = form.enabled.data
+        config.host = form.host.data
+        config.port = form.port.data
+        config.encryption = form.encryption.data
+        config.username = form.username.data or None
+
+        # Only update password if provided; blank keeps the existing one.
+        if form.password.data:
+            config.password_encrypted = encrypt_credential(form.password.data)
+
+        config.from_email = form.from_email.data
+        config.from_name = form.from_name.data or None
+        config.reminder_days_before = form.reminder_days_before.data
+
+        db.session.commit()
+        flash(_("SMTP configuration saved successfully"), "success")
+        return render_template(
+            "settings/smtp.html", form=form, test_form=test_form, config=config
+        )
+
+    if config and request.method == "GET":
+        form.enabled.data = config.enabled
+        form.host.data = config.host
+        form.port.data = config.port
+        form.encryption.data = config.encryption
+        form.username.data = config.username
+        form.from_email.data = config.from_email
+        form.from_name.data = config.from_name
+        form.reminder_days_before.data = config.reminder_days_before
+        # password field intentionally left blank on GET
+
+    return render_template(
+        "settings/smtp.html", form=form, test_form=test_form, config=config
+    )
+
+
+@settings_bp.route("/smtp/test", methods=["POST"])
+@login_required
+def test_smtp_connection():
+    """Send a test email using the posted (not-yet-saved) SMTP settings."""
+    from app.forms.smtp import SMTPSettingsForm, SMTPTestEmailForm
+    from app.models import SMTPConfiguration
+    from app.services.email import EmailSendError, send_test_email
+    from app.services.ldap.encryption import encrypt_credential
+
+    existing_config = SMTPConfiguration.query.first()
+    form = SMTPSettingsForm()
+    test_form = SMTPTestEmailForm()
+
+    if not test_form.test_recipient_email.data:
+        return render_template(
+            "_partials/ldap_alert.html",
+            level="error",
+            message=_("Enter a recipient address for the test email."),
+        )
+
+    config = SMTPConfiguration()
+    config.host = form.host.data
+    config.port = form.port.data
+    config.encryption = form.encryption.data
+    config.username = form.username.data or None
+    config.from_email = form.from_email.data
+    config.from_name = form.from_name.data or None
+
+    # Use the new password if provided, otherwise fall back to the stored one.
+    if form.password.data:
+        config.password_encrypted = encrypt_credential(form.password.data)
+    elif existing_config:
+        config.password_encrypted = existing_config.password_encrypted
+
+    try:
+        send_test_email(test_form.test_recipient_email.data, config)
+        level = "success"
+        message = _(
+            "Test email sent to %(email)s", email=test_form.test_recipient_email.data
+        )
+    except EmailSendError as exc:
+        level = "error"
+        message = _("Failed to send test email: %(error)s", error=str(exc))
+
+    return render_template("_partials/ldap_alert.html", level=level, message=message)
+
+
 @settings_bp.route("/ldap/groups/sync", methods=["POST"])
 @login_required
 def sync_ldap_groups():
