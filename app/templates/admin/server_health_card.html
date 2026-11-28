@@ -51,7 +51,7 @@
               </div>
               {% if server.online %}
                 {# --- Server Statistics --- #}
-                {%- set show_active = server.type in ['plex', 'emby', 'jellyfin', 'audiobookshelf'] -%}
+                {%- set show_active = server.type in ['plex', 'emby', 'jellyfin', 'audiobookshelf', 'romm'] -%}
                 {%- set show_transcoding = server.type in ['plex', 'emby', 'jellyfin'] -%}
                 <div class="flex justify-center gap-6 text-center">
                   {% if show_active %}

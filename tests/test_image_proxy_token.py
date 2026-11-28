@@ -551,6 +551,7 @@ def test_token_cache_is_bounded(app):
         ("emby", {"X-Emby-Token": "THE-KEY"}),
         ("komga", {"X-API-Key": "THE-KEY"}),
         ("audiobookshelf", {"Authorization": "Bearer THE-KEY"}),
+        ("romm", {"Authorization": "Basic THE-KEY"}),  # key is base64(user:pass)
         ("navidrome", {}),  # no known auth header for this type
     ],
 )
